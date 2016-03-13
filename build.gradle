@@ -1,0 +1,16 @@
+group 'org.textfiledatatools'
+version '0.1'
+
+apply plugin: 'java'
+apply plugin: 'java-library-distribution'
+apply plugin: 'project-report'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
