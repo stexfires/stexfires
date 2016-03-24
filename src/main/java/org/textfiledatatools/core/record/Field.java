@@ -9,6 +9,8 @@ import java.util.Objects;
  */
 public final class Field implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private final int index;
     private final boolean last;
     private final String value;
