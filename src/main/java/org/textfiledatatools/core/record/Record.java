@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.record;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface Record {
+public interface Record extends Serializable {
 
     Field[] toNewArray();
 
@@ -20,13 +20,13 @@ public interface Record {
 
     Stream<Field> toNewStream();
 
-    Optional<String> getCategory();
+    String getCategory();
 
     default String getCategoryOrElse(String other) {
-        return getCategory().orElse(other);
+        return getCategory() != null ? getCategory() : other;
     }
 
-    Optional<Long> getRecordId();
+    Long getRecordId();
 
     int size();
 
@@ -53,7 +53,7 @@ public interface Record {
     }
 
     default String getValueAtOrElse(int index, String other) {
-        return (getValueAt(index) != null) ? getValueAt(index) : other;
+        return getValueAt(index) != null ? getValueAt(index) : other;
     }
 
     default String getFirstValue() {
