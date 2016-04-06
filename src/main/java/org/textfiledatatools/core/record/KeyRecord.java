@@ -10,12 +10,8 @@ public interface KeyRecord extends Record {
 
     Field getKeyField();
 
-    default String getKey() {
+    default String getValueOfKeyField() {
         return getKeyField().getValue();
-    }
-
-    default boolean isEmptyKey() {
-        return getKey().isEmpty();
     }
 
 }

@@ -10,24 +10,8 @@ public interface ValueRecord extends Record {
 
     Field getValueField();
 
-    default String getValue() {
+    default String getValueOfValueField() {
         return getValueField().getValue();
-    }
-
-    default String getValueOrElse(String other) {
-        return !isNullValue() ? getValue() : other;
-    }
-
-    default boolean isNullValue() {
-        return getValue() == null;
-    }
-
-    default boolean isEmptyValue() {
-        return !isNullValue() && getValue().isEmpty();
-    }
-
-    default boolean isNullOrEmptyValue() {
-        return isNullValue() || isEmptyValue();
     }
 
 }

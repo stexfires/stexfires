@@ -2,6 +2,7 @@ package org.textfiledatatools.core.record;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -24,6 +25,10 @@ public interface Record extends Serializable {
 
     default String getCategoryOrElse(String other) {
         return getCategory() != null ? getCategory() : other;
+    }
+
+    default Optional<String> getCategoryAsOptional() {
+        return Optional.ofNullable(getCategory());
     }
 
     Long getRecordId();
@@ -56,11 +61,11 @@ public interface Record extends Serializable {
         return getValueAt(index) != null ? getValueAt(index) : other;
     }
 
-    default String getFirstValue() {
+    default String getValueOfFirstField() {
         return !isEmpty() ? getFirstField().getValue() : null;
     }
 
-    default String getLastValue() {
+    default String getValueOfLastField() {
         return !isEmpty() ? getLastField().getValue() : null;
     }
 

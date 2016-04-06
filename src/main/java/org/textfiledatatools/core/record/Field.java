@@ -2,6 +2,7 @@ package org.textfiledatatools.core.record;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Mathias Kalb
@@ -42,6 +43,10 @@ public final class Field implements Serializable {
 
     public String getValueOrElse(String other) {
         return value != null ? value : other;
+    }
+
+    public Optional<String> getValueAsOptional() {
+        return Optional.ofNullable(value);
     }
 
     public boolean isValueEquals(String other) {
