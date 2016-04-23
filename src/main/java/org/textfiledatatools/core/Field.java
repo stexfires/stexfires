@@ -1,4 +1,4 @@
-package org.textfiledatatools.core.record;
+package org.textfiledatatools.core;
 
 import java.io.Serializable;
 import java.util.Objects;

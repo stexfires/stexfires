@@ -1,4 +1,4 @@
-package org.textfiledatatools.core.record;
+package org.textfiledatatools.core;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 /**
  * A record contains fields with values.
+ * <p>
  * It must be immutable and thread-safe.
  * The field index must start with 0.
  *

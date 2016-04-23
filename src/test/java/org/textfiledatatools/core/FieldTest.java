@@ -1,7 +1,8 @@
-package org.textfiledatatools.core.record;
+package org.textfiledatatools.core;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.textfiledatatools.core.Field;
 
 import static org.junit.Assert.*;
 

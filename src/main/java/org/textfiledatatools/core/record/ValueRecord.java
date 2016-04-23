@@ -1,5 +1,8 @@
 package org.textfiledatatools.core.record;
 
+import org.textfiledatatools.core.Field;
+import org.textfiledatatools.core.Record;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
