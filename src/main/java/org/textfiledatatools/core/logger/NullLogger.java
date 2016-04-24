@@ -10,6 +10,7 @@ public class NullLogger implements RecordLogger<Record> {
 
     @Override
     public void log(Record record) {
+        // Do nothing.
     }
 
 }
