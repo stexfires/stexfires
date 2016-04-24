@@ -8,11 +8,10 @@ import java.util.function.Function;
 /**
  * A RecordMapper maps a {@link Record} to another record.
  * <p>
- * It should not throw a RuntimeException (like NullPointerException).
  * It must be immutable and thread-safe.
  * It must be <code>non-interfering</code> and <code>stateless</code>.
  * <p>
- * <p>This is a <a href="package-summary.html">functional interface</a>
+ * <p>This is a functional interface
  * whose functional method is {@link #map(T)}.
  *
  * @author Mathias Kalb

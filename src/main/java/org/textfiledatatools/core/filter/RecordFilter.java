@@ -8,11 +8,10 @@ import java.util.function.Predicate;
 /**
  * A RecordFilter is a filter for {@link Record}.
  * <p>
- * It should not throw a RuntimeException (like NullPointerException).
  * It must be immutable and thread-safe.
  * It must be <code>non-interfering</code> and <code>stateless</code>.
  * <p>
- * <p>This is a <a href="package-summary.html">functional interface</a>
+ * <p>This is a functional interface
  * whose functional method is {@link #isValid(T)}.
  *
  * @author Mathias Kalb

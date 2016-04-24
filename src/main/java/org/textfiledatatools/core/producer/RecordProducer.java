@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 /**
  * A RecordProducer produces a {@link Stream} of {@link Record}s.
  * <p>
- * <p>This is a <a href="package-summary.html">functional interface</a>
+ * <p>This is a functional interface
  * whose functional method is {@link #produceStream()}.
  *
  * @author Mathias Kalb

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * It must be thread-safe and null-safe.
  * It must be <code>non-interfering</code>.
  * <p>
- * <p>This is a <a href="package-summary.html">functional interface</a>
+ * <p>This is a functional interface
  * whose functional method is {@link #log(T)}.
  *
  * @author Mathias Kalb
@@ -30,6 +30,19 @@ public interface RecordLogger<T extends Record> {
         return (T record) -> {
             firstRecordLogger.log(record);
             secondRecordLogger.log(record);
+        };
+    }
+
+    static <T extends Record> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
+                                                     RecordLogger<? super T> secondRecordLogger,
+                                                     RecordLogger<? super T> thirdRecordLogger) {
+        Objects.requireNonNull(firstRecordLogger);
+        Objects.requireNonNull(secondRecordLogger);
+        Objects.requireNonNull(thirdRecordLogger);
+        return (T record) -> {
+            firstRecordLogger.log(record);
+            secondRecordLogger.log(record);
+            thirdRecordLogger.log(record);
         };
     }
 

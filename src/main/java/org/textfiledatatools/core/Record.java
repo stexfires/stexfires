@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * A record contains fields with values.
+ * A Record contains {@link Field}s with values.
  * <p>
  * It must be immutable and thread-safe.
  * The field index must start with 0.
