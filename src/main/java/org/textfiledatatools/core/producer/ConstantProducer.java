@@ -1,6 +1,7 @@
 package org.textfiledatatools.core.producer;
 
 import org.textfiledatatools.core.Record;
+import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.record.EmptyRecord;
 import org.textfiledatatools.core.record.PairRecord;
 import org.textfiledatatools.core.record.SingleRecord;
