@@ -1,11 +1,13 @@
 package org.textfiledatatools.core.producer;
 
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.producer.RecordProducer;
+import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.StandardRecord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -17,10 +19,15 @@ public class SplittedProducer implements RecordProducer<Record> {
     private final List<Record> records;
 
     public SplittedProducer(int recordSize, String... values) {
-        this(recordSize, null, null, values);
+        this(null, Records.createRecordIdSequence(), recordSize, values);
     }
 
-    public SplittedProducer(int recordSize, String category, Long recordId, String... values) {
+    public SplittedProducer(String category, int recordSize, String... values) {
+        this(category, Records.createRecordIdSequence(), recordSize, values);
+    }
+
+    public SplittedProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {
+        Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal record size! " + recordSize);
         }
@@ -38,7 +45,7 @@ public class SplittedProducer implements RecordProducer<Record> {
                     recordValues.add(null);
                 }
             }
-            records.add(i, new StandardRecord(category, recordId, recordValues));
+            records.add(i, new StandardRecord(category, recordIdSupplier.get(), recordValues));
         }
     }
 

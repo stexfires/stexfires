@@ -2,12 +2,12 @@ package org.textfiledatatools.core.record;
 
 import org.textfiledatatools.core.Field;
 import org.textfiledatatools.core.Record;
+import org.textfiledatatools.core.Records;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -107,16 +107,12 @@ public class StandardRecord implements Record {
         return Objects.hash(category, fields);
     }
 
-    protected final String getConcatenatedValues() {
-        return Arrays.stream(fields).map(Field::getValue).collect(Collectors.joining(", "));
-    }
-
     @Override
     public String toString() {
         return "StandardRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
-                ", values=[" + getConcatenatedValues() +
+                ", values=[" + Records.joinFieldValues(fields) +
                 "]}";
     }
 }

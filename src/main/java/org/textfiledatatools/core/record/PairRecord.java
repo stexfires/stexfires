@@ -2,6 +2,7 @@ package org.textfiledatatools.core.record;
 
 import org.textfiledatatools.core.Field;
 import org.textfiledatatools.core.Record;
+import org.textfiledatatools.core.Records;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,8 @@ public class PairRecord implements Record {
     public PairRecord(String category, Long recordId, String firstValue, String secondValue) {
         this.category = category;
         this.recordId = recordId;
-        this.firstField = new Field(0, false, firstValue);
-        this.secondField = new Field(1, true, secondValue);
+        this.firstField = new Field(Records.FIRST_FIELD_INDEX, false, firstValue);
+        this.secondField = new Field(Records.FIRST_FIELD_INDEX + 1, true, secondValue);
     }
 
     public PairRecord newRecordSwapped() {

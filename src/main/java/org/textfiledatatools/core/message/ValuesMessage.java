@@ -1,9 +1,7 @@
 package org.textfiledatatools.core.message;
 
-import org.textfiledatatools.core.Field;
 import org.textfiledatatools.core.Record;
-
-import java.util.stream.Collectors;
+import org.textfiledatatools.core.Records;
 
 /**
  * @author Mathias Kalb
@@ -11,12 +9,10 @@ import java.util.stream.Collectors;
  */
 public class ValuesMessage implements RecordMessage<Record> {
 
-    private static final String DEFAULT_DELIMITER = ";";
-
     private final CharSequence delimiter;
 
     public ValuesMessage() {
-        this(DEFAULT_DELIMITER);
+        this(Records.DEFAULT_FIELD_VALUE_DELIMITER);
     }
 
     public ValuesMessage(CharSequence delimiter) {
@@ -25,7 +21,7 @@ public class ValuesMessage implements RecordMessage<Record> {
 
     @Override
     public String createMessage(Record record) {
-        return record.toNewStream().map(Field::getValue).collect(Collectors.joining(delimiter));
+        return Records.joinFieldValues(record, delimiter);
     }
 
 }

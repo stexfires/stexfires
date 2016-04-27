@@ -1,6 +1,7 @@
 package org.textfiledatatools.core.record;
 
 import org.textfiledatatools.core.Field;
+import org.textfiledatatools.core.Records;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class SingleRecord implements ValueRecord {
     public SingleRecord(String category, Long recordId, String value) {
         this.category = category;
         this.recordId = recordId;
-        this.singleField = new Field(0, true, value);
+        this.singleField = new Field(Records.FIRST_FIELD_INDEX, true, value);
     }
 
     @Override
