@@ -10,17 +10,18 @@ import org.textfiledatatools.core.record.PairRecord;
  */
 public class ToPairMapper implements RecordMapper<Record, PairRecord> {
 
-    private final int firstValueIndex;
-    private final int secondValueIndex;
+    private final int firstIndex;
+    private final int secondIndex;
 
-    public ToPairMapper(int firstValueIndex, int secondValueIndex) {
-        this.firstValueIndex = firstValueIndex;
-        this.secondValueIndex = secondValueIndex;
+    public ToPairMapper(int firstIndex, int secondIndex) {
+        this.firstIndex = firstIndex;
+        this.secondIndex = secondIndex;
     }
 
     @Override
     public PairRecord map(Record record) {
-        return new PairRecord(record.getCategory(), record.getRecordId(), record.getValueAt(firstValueIndex), record.getValueAt(secondValueIndex));
+        return new PairRecord(record.getCategory(), record.getRecordId(),
+                record.getValueAt(firstIndex), record.getValueAt(secondIndex));
     }
 
 }

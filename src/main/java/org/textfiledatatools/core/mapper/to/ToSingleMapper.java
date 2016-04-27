@@ -18,7 +18,8 @@ public class ToSingleMapper implements RecordMapper<Record, SingleRecord> {
 
     @Override
     public SingleRecord map(Record record) {
-        return new SingleRecord(record.getCategory(), record.getRecordId(), record.getValueAt(valueIndex));
+        return new SingleRecord(record.getCategory(), record.getRecordId(),
+                record.getValueAt(valueIndex));
     }
 
 }
