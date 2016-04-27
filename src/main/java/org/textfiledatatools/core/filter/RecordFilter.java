@@ -36,7 +36,7 @@ public interface RecordFilter<T extends Record> {
         return (T record) -> firstRecordFilter.isValid(record) || secondRecordFilter.isValid(record);
     }
 
-    boolean isValid(T t);
+    boolean isValid(T record);
 
     default RecordFilter<T> and(RecordFilter<? super T> other) {
         Objects.requireNonNull(other);
