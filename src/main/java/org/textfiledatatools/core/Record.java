@@ -16,11 +16,11 @@ import java.util.stream.Stream;
  */
 public interface Record extends Serializable {
 
-    Field[] toNewArray();
+    Field[] arrayOfFields();
 
-    List<Field> toNewList();
+    List<Field> listOfFields();
 
-    Stream<Field> toNewStream();
+    Stream<Field> streamOfFields();
 
     String getCategory();
 

@@ -38,12 +38,12 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final Field[] toNewArray() {
+    public final Field[] arrayOfFields() {
         return new Field[]{firstField, secondField};
     }
 
     @Override
-    public final List<Field> toNewList() {
+    public final List<Field> listOfFields() {
         List<Field> list = new ArrayList<>(2);
         list.add(firstField);
         list.add(secondField);
@@ -51,7 +51,7 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final Stream<Field> toNewStream() {
+    public final Stream<Field> streamOfFields() {
         return Stream.of(firstField, secondField);
     }
 

@@ -49,23 +49,23 @@ public final class Field implements Serializable {
         return Optional.ofNullable(value);
     }
 
-    public boolean isValueEquals(String other) {
+    public boolean valueEquals(String other) {
         return Objects.equals(value, other);
     }
 
-    public boolean isNullValue() {
+    public boolean valueIsNull() {
         return value == null;
     }
 
-    public boolean isEmptyValue() {
+    public boolean valueIsEmpty() {
         return value != null && value.isEmpty();
     }
 
-    public boolean isNullOrEmptyValue() {
+    public boolean valueIsNullOrEmpty() {
         return value == null || value.isEmpty();
     }
 
-    public int getLength() {
+    public int length() {
         return value != null ? value.length() : 0;
     }
 

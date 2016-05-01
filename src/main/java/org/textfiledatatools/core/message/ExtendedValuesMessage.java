@@ -29,13 +29,13 @@ public class ExtendedValuesMessage implements RecordMessage<Record> {
     public String createMessage(Record record) {
         StringBuilder b = new StringBuilder();
 
-        for (Field field : record.toNewList()) {
+        for (Field field : record.listOfFields()) {
             if (prefixFirstValue != null && field.isFirst()) {
                 b.append(prefixFirstValue);
             } else if (prefix != null && !field.isFirst()) {
                 b.append(prefix);
             }
-            if (!field.isNullValue()) {
+            if (!field.valueIsNull()) {
                 b.append(field.getValue());
             }
             if (postfixLastValue != null && field.isLast()) {

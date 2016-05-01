@@ -4,6 +4,7 @@ import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -17,20 +18,24 @@ public final class RecordStreams {
     private RecordStreams() {
     }
 
-    public static Stream<Record> emptyStream() {
+    public static Stream<Record> empty() {
         return Stream.empty();
     }
 
-    public static <T extends Record> Stream<T> newStream(T record) {
+    public static <T extends Record> Stream<T> of(T record) {
         return Stream.of(record);
     }
 
-    public static <T extends Record> Stream<T> newStream(T... records) {
+    public static <T extends Record> Stream<T> of(T... records) {
         return Stream.of(records);
     }
 
-    public static <T extends Record> Stream<T> newStream(RecordProducer<T> recordProducer) throws UncheckedProducerException {
+    public static <T extends Record> Stream<T> produceStream(RecordProducer<T> recordProducer) throws UncheckedProducerException {
         return recordProducer.produceStream();
+    }
+
+    public static <T extends Record> Stream<T> generate(Supplier<T> recordSupplier) {
+        return Stream.generate(recordSupplier);
     }
 
     public static <T extends Record> Stream<T> concat(Stream<T> firstRecordStream, Stream<T> secondRecordStream) {

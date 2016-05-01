@@ -36,19 +36,19 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public final Field[] toNewArray() {
+    public final Field[] arrayOfFields() {
         return new Field[]{singleField};
     }
 
     @Override
-    public final List<Field> toNewList() {
+    public final List<Field> listOfFields() {
         List<Field> list = new ArrayList<>(1);
         list.add(singleField);
         return list;
     }
 
     @Override
-    public final Stream<Field> toNewStream() {
+    public final Stream<Field> streamOfFields() {
         return Stream.of(singleField);
     }
 

@@ -21,17 +21,17 @@ public final class EmptyRecord implements Record {
     }
 
     @Override
-    public Field[] toNewArray() {
+    public Field[] arrayOfFields() {
         return new Field[0];
     }
 
     @Override
-    public List<Field> toNewList() {
+    public List<Field> listOfFields() {
         return new ArrayList<>(0);
     }
 
     @Override
-    public Stream<Field> toNewStream() {
+    public Stream<Field> streamOfFields() {
         return Stream.empty();
     }
 

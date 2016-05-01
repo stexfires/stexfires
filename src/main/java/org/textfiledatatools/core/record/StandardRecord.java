@@ -57,20 +57,20 @@ public class StandardRecord implements Record {
     }
 
     @Override
-    public final Field[] toNewArray() {
+    public final Field[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public final List<Field> toNewList() {
-        return Arrays.asList(toNewArray());
+    public final List<Field> listOfFields() {
+        return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public final Stream<Field> toNewStream() {
-        return Arrays.stream(toNewArray());
+    public final Stream<Field> streamOfFields() {
+        return Arrays.stream(arrayOfFields());
     }
 
     @Override

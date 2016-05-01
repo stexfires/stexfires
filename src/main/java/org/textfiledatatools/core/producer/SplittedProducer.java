@@ -19,11 +19,11 @@ public class SplittedProducer implements RecordProducer<Record> {
     private final List<Record> records;
 
     public SplittedProducer(int recordSize, String... values) {
-        this(null, Records.createRecordIdSequence(), recordSize, values);
+        this(null, Records.recordIdSequence(), recordSize, values);
     }
 
     public SplittedProducer(String category, int recordSize, String... values) {
-        this(category, Records.createRecordIdSequence(), recordSize, values);
+        this(category, Records.recordIdSequence(), recordSize, values);
     }
 
     public SplittedProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {

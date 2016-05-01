@@ -9,11 +9,9 @@ import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.record.EmptyRecord;
 import org.textfiledatatools.core.record.SingleRecord;
 import org.textfiledatatools.core.record.StandardRecord;
+import org.textfiledatatools.core.record.ValueRecord;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -36,44 +34,48 @@ public final class Records {
     private Records() {
     }
 
-    public static Record emptyRecord() {
+    public static Record empty() {
         return EMPTY_RECORD;
     }
 
-    public static Record newRecord(String value) {
+    public static ValueRecord ofValue(String value) {
         return new SingleRecord(value);
     }
 
-    public static Record newRecord(String... values) {
+    public static Record ofValues(String... values) {
         return new StandardRecord(values);
     }
 
-    public static Record[] array(Record record) {
+    public static Record ofValues(Collection<String> values) {
+        return new StandardRecord(values);
+    }
+
+    public static Record[] singletonArray(Record record) {
         return new Record[]{record};
     }
 
-    public static List<Record> list(Record record) {
+    public static List<Record> singletonList(Record record) {
         return Collections.singletonList(record);
     }
 
-    public static Set<Record> set(Record record) {
+    public static Set<Record> singletonSet(Record record) {
         return Collections.singleton(record);
     }
 
-    public static Stream<Record> stream(Record record) {
+    public static Stream<Record> singletonStream(Record record) {
         return Stream.of(record);
     }
 
-    public static Supplier<Long> createRecordIdSequence() {
-        return createRecordIdSequence(DEFAULT_INITIAL_RECORD_ID);
+    public static Supplier<Long> recordIdSequence() {
+        return recordIdSequence(DEFAULT_INITIAL_RECORD_ID);
     }
 
-    public static Supplier<Long> createRecordIdSequence(long initialValue) {
+    public static Supplier<Long> recordIdSequence(long initialValue) {
         return new AtomicLong(initialValue)::getAndIncrement;
     }
 
     public static List<String> collectFieldValuesToList(Record record) {
-        return record.toNewStream().map(Field::getValue).collect(Collectors.toList());
+        return record.streamOfFields().map(Field::getValue).collect(Collectors.toList());
     }
 
     public static String joinFieldValues(Record record) {
@@ -81,7 +83,7 @@ public final class Records {
     }
 
     public static String joinFieldValues(Record record, CharSequence delimiter) {
-        return record.toNewStream().map(Field::getValue).collect(Collectors.joining(delimiter));
+        return record.streamOfFields().map(Field::getValue).collect(Collectors.joining(delimiter));
     }
 
     public static String joinFieldValues(Field[] fields) {

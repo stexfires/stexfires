@@ -2,7 +2,6 @@ package org.textfiledatatools.core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.textfiledatatools.core.Field;
 
 import static org.junit.Assert.*;
 
@@ -69,60 +68,60 @@ public class FieldTest {
     }
 
     @Test
-    public void testIsValueEquals() throws Exception {
-        assertTrue(fieldNullValue.isValueEquals(null));
-        assertFalse(fieldEmptyValue.isValueEquals(null));
-        assertFalse(fieldValueFirst.isValueEquals(null));
-        assertFalse(fieldValueFirstLast.isValueEquals(null));
-        assertFalse(fieldValueLast.isValueEquals(null));
+    public void testValueEquals() throws Exception {
+        assertTrue(fieldNullValue.valueEquals(null));
+        assertFalse(fieldEmptyValue.valueEquals(null));
+        assertFalse(fieldValueFirst.valueEquals(null));
+        assertFalse(fieldValueFirstLast.valueEquals(null));
+        assertFalse(fieldValueLast.valueEquals(null));
 
-        assertFalse(fieldNullValue.isValueEquals(""));
-        assertTrue(fieldEmptyValue.isValueEquals(""));
-        assertFalse(fieldValueFirst.isValueEquals(""));
-        assertFalse(fieldValueFirstLast.isValueEquals(""));
-        assertFalse(fieldValueLast.isValueEquals(""));
+        assertFalse(fieldNullValue.valueEquals(""));
+        assertTrue(fieldEmptyValue.valueEquals(""));
+        assertFalse(fieldValueFirst.valueEquals(""));
+        assertFalse(fieldValueFirstLast.valueEquals(""));
+        assertFalse(fieldValueLast.valueEquals(""));
 
-        assertFalse(fieldNullValue.isValueEquals("test"));
-        assertFalse(fieldEmptyValue.isValueEquals("test"));
-        assertTrue(fieldValueFirst.isValueEquals("test"));
-        assertTrue(fieldValueFirstLast.isValueEquals("test"));
-        assertTrue(fieldValueLast.isValueEquals("test"));
+        assertFalse(fieldNullValue.valueEquals("test"));
+        assertFalse(fieldEmptyValue.valueEquals("test"));
+        assertTrue(fieldValueFirst.valueEquals("test"));
+        assertTrue(fieldValueFirstLast.valueEquals("test"));
+        assertTrue(fieldValueLast.valueEquals("test"));
     }
 
     @Test
-    public void testIsNullValue() throws Exception {
-        assertTrue(fieldNullValue.isNullValue());
-        assertFalse(fieldEmptyValue.isNullValue());
-        assertFalse(fieldValueFirst.isNullValue());
-        assertFalse(fieldValueFirstLast.isNullValue());
-        assertFalse(fieldValueLast.isNullValue());
+    public void testValueIsNull() throws Exception {
+        assertTrue(fieldNullValue.valueIsNull());
+        assertFalse(fieldEmptyValue.valueIsNull());
+        assertFalse(fieldValueFirst.valueIsNull());
+        assertFalse(fieldValueFirstLast.valueIsNull());
+        assertFalse(fieldValueLast.valueIsNull());
     }
 
     @Test
-    public void testIsEmptyValue() throws Exception {
-        assertFalse(fieldNullValue.isEmptyValue());
-        assertTrue(fieldEmptyValue.isEmptyValue());
-        assertFalse(fieldValueFirst.isEmptyValue());
-        assertFalse(fieldValueFirstLast.isEmptyValue());
-        assertFalse(fieldValueLast.isEmptyValue());
+    public void testValueIsEmpty() throws Exception {
+        assertFalse(fieldNullValue.valueIsEmpty());
+        assertTrue(fieldEmptyValue.valueIsEmpty());
+        assertFalse(fieldValueFirst.valueIsEmpty());
+        assertFalse(fieldValueFirstLast.valueIsEmpty());
+        assertFalse(fieldValueLast.valueIsEmpty());
     }
 
     @Test
-    public void testIsNullOrEmptyValue() throws Exception {
-        assertTrue(fieldNullValue.isNullOrEmptyValue());
-        assertTrue(fieldEmptyValue.isNullOrEmptyValue());
-        assertFalse(fieldValueFirst.isNullOrEmptyValue());
-        assertFalse(fieldValueFirstLast.isNullOrEmptyValue());
-        assertFalse(fieldValueLast.isNullOrEmptyValue());
+    public void testValueIsNullOrEmpty() throws Exception {
+        assertTrue(fieldNullValue.valueIsNullOrEmpty());
+        assertTrue(fieldEmptyValue.valueIsNullOrEmpty());
+        assertFalse(fieldValueFirst.valueIsNullOrEmpty());
+        assertFalse(fieldValueFirstLast.valueIsNullOrEmpty());
+        assertFalse(fieldValueLast.valueIsNullOrEmpty());
     }
 
     @Test
-    public void testGetLength() throws Exception {
-        assertEquals(0, fieldNullValue.getLength());
-        assertEquals(0, fieldEmptyValue.getLength());
-        assertEquals(4, fieldValueFirst.getLength());
-        assertEquals(4, fieldValueFirstLast.getLength());
-        assertEquals(4, fieldValueLast.getLength());
+    public void testLength() throws Exception {
+        assertEquals(0, fieldNullValue.length());
+        assertEquals(0, fieldEmptyValue.length());
+        assertEquals(4, fieldValueFirst.length());
+        assertEquals(4, fieldValueFirstLast.length());
+        assertEquals(4, fieldValueLast.length());
     }
 
     @Test
