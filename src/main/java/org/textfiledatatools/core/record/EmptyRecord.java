@@ -3,7 +3,7 @@ package org.textfiledatatools.core.record;
 import org.textfiledatatools.core.Field;
 import org.textfiledatatools.core.Record;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,7 +27,7 @@ public final class EmptyRecord implements Record {
 
     @Override
     public List<Field> listOfFields() {
-        return new ArrayList<>(0);
+        return Collections.emptyList();
     }
 
     @Override

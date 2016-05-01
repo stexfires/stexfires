@@ -3,7 +3,7 @@ package org.textfiledatatools.core.record;
 import org.textfiledatatools.core.Field;
 import org.textfiledatatools.core.Records;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -42,9 +42,7 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public final List<Field> listOfFields() {
-        List<Field> list = new ArrayList<>(1);
-        list.add(singleField);
-        return list;
+        return Collections.singletonList(singleField);
     }
 
     @Override
