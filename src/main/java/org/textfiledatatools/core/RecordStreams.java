@@ -21,11 +21,11 @@ public final class RecordStreams {
         return Stream.empty();
     }
 
-    public static Stream<Record> newStream(Record record) {
+    public static <T extends Record> Stream<T> newStream(T record) {
         return Stream.of(record);
     }
 
-    public static Stream<Record> newStream(Record... records) {
+    public static <T extends Record> Stream<T> newStream(T... records) {
         return Stream.of(records);
     }
 
