@@ -6,7 +6,8 @@ import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.record.StandardRecord;
 
 /**
- * Created by Mathias Kalb on 20.01.2016.
+ * @author Mathias Kalb
+ * @since 0.1
  */
 public class ToStandardMapper implements RecordMapper<Record, StandardRecord> {
 
