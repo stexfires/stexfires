@@ -12,13 +12,15 @@ import java.util.Objects;
  */
 public class PrintStreamLogger<T extends Record> implements RecordLogger<T> {
 
-    private final PrintStream printStream;
-    private final RecordMessage<? super T> recordMessage;
-    private final boolean terminateLine;
+    public static final boolean DEFAULT_TERMINATE_LINE = true;
+
+    protected final PrintStream printStream;
+    protected final RecordMessage<? super T> recordMessage;
+    protected final boolean terminateLine;
 
     public PrintStreamLogger(PrintStream printStream,
                              RecordMessage<? super T> recordMessage) {
-        this(printStream, recordMessage, true);
+        this(printStream, recordMessage, DEFAULT_TERMINATE_LINE);
     }
 
     public PrintStreamLogger(PrintStream printStream,

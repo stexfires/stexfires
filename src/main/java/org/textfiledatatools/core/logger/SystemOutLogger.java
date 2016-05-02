@@ -11,19 +11,19 @@ import org.textfiledatatools.core.message.ToStringMessage;
 public class SystemOutLogger extends PrintStreamLogger<Record> {
 
     public SystemOutLogger() {
-        this(null, new ToStringMessage(), null, true);
+        this(null, new ToStringMessage(), null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemOutLogger(String prefix) {
-        this(prefix, new ToStringMessage(), null, true);
+        this(prefix, new ToStringMessage(), null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemOutLogger(RecordMessage<Record> recordMessage) {
-        this(null, recordMessage, null, true);
+        this(null, recordMessage, null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemOutLogger(String prefix, RecordMessage<Record> recordMessage) {
-        this(prefix, recordMessage, null, true);
+        this(prefix, recordMessage, null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemOutLogger(String prefix, RecordMessage<Record> recordMessage, String postfix, boolean terminateLine) {
