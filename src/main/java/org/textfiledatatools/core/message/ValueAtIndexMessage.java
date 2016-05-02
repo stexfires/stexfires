@@ -12,7 +12,7 @@ public class ValueAtIndexMessage implements RecordMessage<Record> {
 
     public ValueAtIndexMessage(int index) {
         if (index < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Illegal index! index=" + index);
         }
         this.index = index;
     }

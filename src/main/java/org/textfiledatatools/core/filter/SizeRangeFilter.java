@@ -12,6 +12,9 @@ public class SizeRangeFilter implements RecordFilter<Record> {
     private final int maxSize;
 
     public SizeRangeFilter(int minSize, int maxSize) {
+        if ((minSize > maxSize) || (minSize < 0)) {
+            throw new IllegalArgumentException("Illegal size! minSize=" + minSize + ", maxSize=" + maxSize);
+        }
         this.minSize = minSize;
         this.maxSize = maxSize;
     }
