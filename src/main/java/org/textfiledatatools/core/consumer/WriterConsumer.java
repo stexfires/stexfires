@@ -17,7 +17,8 @@ public class WriterConsumer<T extends Record, R extends Writer> implements Closa
     protected final RecordMessage<? super T> recordMessage;
     protected final String recordPrefix;
     protected final String recordPostfix;
-    protected final Object lock;
+
+    protected final Object lock = new Object();
 
     public WriterConsumer(R writer, RecordMessage<? super T> recordMessage, String recordSeparator) {
         this(writer, recordMessage, null, recordSeparator);
@@ -30,7 +31,6 @@ public class WriterConsumer<T extends Record, R extends Writer> implements Closa
         this.recordMessage = recordMessage;
         this.recordPrefix = recordPrefix;
         this.recordPostfix = recordPostfix;
-        lock = this;
     }
 
     @Override

@@ -16,7 +16,8 @@ public class AppendableConsumer<T extends Record, R extends Appendable> implemen
     protected final RecordMessage<? super T> recordMessage;
     protected final String recordPrefix;
     protected final String recordPostfix;
-    protected final Object lock;
+
+    protected final Object lock = new Object();
 
     public AppendableConsumer(R appendable, RecordMessage<? super T> recordMessage, String recordSeparator) {
         this(appendable, recordMessage, null, recordSeparator);
@@ -29,7 +30,6 @@ public class AppendableConsumer<T extends Record, R extends Appendable> implemen
         this.recordMessage = recordMessage;
         this.recordPrefix = recordPrefix;
         this.recordPostfix = recordPostfix;
-        lock = this;
     }
 
     @Override
