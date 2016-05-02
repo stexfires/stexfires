@@ -8,19 +8,19 @@ import org.textfiledatatools.core.Record;
  */
 public class CategoryMessage implements RecordMessage<Record> {
 
-    private final String other;
+    private final String nullCategoryValue;
 
     public CategoryMessage() {
         this(null);
     }
 
-    public CategoryMessage(String other) {
-        this.other = other;
+    public CategoryMessage(String nullCategoryValue) {
+        this.nullCategoryValue = nullCategoryValue;
     }
 
     @Override
     public String createMessage(Record record) {
-        return record.getCategoryOrElse(other);
+        return record.getCategoryOrElse(nullCategoryValue);
     }
 
 }
