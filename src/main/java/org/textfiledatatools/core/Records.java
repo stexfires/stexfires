@@ -11,10 +11,7 @@ import org.textfiledatatools.core.record.SingleRecord;
 import org.textfiledatatools.core.record.StandardRecord;
 import org.textfiledatatools.core.record.ValueRecord;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -50,18 +47,22 @@ public final class Records {
     }
 
     public static Record[] singletonArray(Record record) {
+        Objects.requireNonNull(record);
         return new Record[]{record};
     }
 
     public static List<Record> singletonList(Record record) {
+        Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
 
     public static Set<Record> singletonSet(Record record) {
+        Objects.requireNonNull(record);
         return Collections.singleton(record);
     }
 
     public static Stream<Record> singletonStream(Record record) {
+        Objects.requireNonNull(record);
         return Stream.of(record);
     }
 

@@ -3,6 +3,8 @@ package org.textfiledatatools.core.message;
 import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
 
+import java.util.Objects;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -16,6 +18,7 @@ public class ValuesMessage implements RecordMessage<Record> {
     }
 
     public ValuesMessage(CharSequence delimiter) {
+        Objects.requireNonNull(delimiter);
         this.delimiter = delimiter;
     }
 
