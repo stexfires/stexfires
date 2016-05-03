@@ -5,6 +5,7 @@ import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.StandardRecord;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
  */
 public class SplittedProducer implements RecordProducer<Record> {
 
-    private final List<Record> records;
+    private final Record[] records;
 
     public SplittedProducer(int recordSize, String... values) {
         this(null, Records.recordIdSequence(), recordSize, values);
@@ -29,11 +30,11 @@ public class SplittedProducer implements RecordProducer<Record> {
     public SplittedProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
-            throw new IllegalArgumentException("Illegal record size! " + recordSize);
+            throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
         }
 
         int capacity = (values.length + recordSize - 1) / recordSize;
-        records = new ArrayList<>(capacity);
+        records = new Record[capacity];
 
         for (int i = 0; i < capacity; i++) {
             List<String> recordValues = new ArrayList<>(recordSize);
@@ -45,13 +46,15 @@ public class SplittedProducer implements RecordProducer<Record> {
                     recordValues.add(null);
                 }
             }
-            records.add(i, new StandardRecord(category, recordIdSupplier.get(), recordValues));
+
+            records[i] = new StandardRecord(category, recordIdSupplier.get(), recordValues);
         }
     }
 
     @Override
     public Stream<Record> produceStream() {
-        return records.stream();
+        // TODO Validate: thread-safety
+        return Arrays.stream(records);
     }
 
 }

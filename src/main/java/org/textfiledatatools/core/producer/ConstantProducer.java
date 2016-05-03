@@ -1,14 +1,12 @@
 package org.textfiledatatools.core.producer;
 
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.record.EmptyRecord;
+import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.PairRecord;
 import org.textfiledatatools.core.record.SingleRecord;
 import org.textfiledatatools.core.record.StandardRecord;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -18,10 +16,11 @@ import java.util.stream.Stream;
  */
 public class ConstantProducer implements RecordProducer<Record> {
 
-    private final List<Record> records;
+    private final int streamSize;
+    private final Record record;
 
     public ConstantProducer(int streamSize) {
-        this(streamSize, new EmptyRecord());
+        this(streamSize, Records.EMPTY_RECORD);
     }
 
     public ConstantProducer(int streamSize, String value) {
@@ -57,14 +56,17 @@ public class ConstantProducer implements RecordProducer<Record> {
     }
 
     public ConstantProducer(int streamSize, Record record) {
+        if (streamSize < 0) {
+            throw new IllegalArgumentException("Illegal streamSize! streamSize=" + streamSize);
+        }
         Objects.requireNonNull(record);
-        // throws an IllegalArgumentException if streamSize < 0
-        records = Collections.nCopies(streamSize, record);
+        this.streamSize = streamSize;
+        this.record = record;
     }
 
     @Override
     public Stream<Record> produceStream() {
-        return records.stream();
+        return Stream.generate(() -> record).limit(streamSize);
     }
 
 }
