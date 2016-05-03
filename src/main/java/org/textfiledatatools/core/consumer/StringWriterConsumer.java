@@ -11,16 +11,12 @@ import java.io.StringWriter;
  */
 public class StringWriterConsumer<T extends Record> extends WriterConsumer<T, StringWriter> {
 
-    public StringWriterConsumer(RecordMessage<? super T> recordMessage, String recordSeparator) {
-        super(new StringWriter(), recordMessage, recordSeparator);
-    }
-
-    public StringWriterConsumer(RecordMessage<? super T> recordMessage, String recordPrefix, String recordPostfix) {
-        super(new StringWriter(), recordMessage, recordPrefix, recordPostfix);
+    public StringWriterConsumer(RecordMessage<? super T> recordMessage) {
+        super(new StringWriter(), recordMessage);
     }
 
     public String getString() {
-        return writer.toString();
+        return getWriter().toString();
     }
 
     @Override

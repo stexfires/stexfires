@@ -13,39 +13,23 @@ import java.util.Objects;
  */
 public class WriterConsumer<T extends Record, R extends Writer> implements ClosableRecordConsumer<T> {
 
-    protected final R writer;
-    protected final RecordMessage<? super T> recordMessage;
-    protected final String recordPrefix;
-    protected final String recordPostfix;
-
     protected final Object lock = new Object();
 
-    public WriterConsumer(R writer, RecordMessage<? super T> recordMessage, String recordSeparator) {
-        this(writer, recordMessage, null, recordSeparator);
-    }
+    private final R writer;
+    private final RecordMessage<? super T> recordMessage;
 
-    public WriterConsumer(R writer, RecordMessage<? super T> recordMessage, String recordPrefix, String recordPostfix) {
+    public WriterConsumer(R writer, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(writer);
         Objects.requireNonNull(recordMessage);
         this.writer = writer;
         this.recordMessage = recordMessage;
-        this.recordPrefix = recordPrefix;
-        this.recordPostfix = recordPostfix;
     }
 
     @Override
-    public void consume(T record) throws UncheckedConsumerException {
+    public final void consume(T record) throws UncheckedConsumerException {
         synchronized (lock) {
             try {
-                if (recordPrefix != null) {
-                    writer.write(recordPrefix);
-                }
-
                 writer.write(recordMessage.createMessage(record));
-
-                if (recordPostfix != null) {
-                    writer.write(recordPostfix);
-                }
             } catch (IOException e) {
                 throw new UncheckedConsumerException(record, e);
             }
@@ -59,7 +43,7 @@ public class WriterConsumer<T extends Record, R extends Writer> implements Closa
         }
     }
 
-    public R getWriter() {
+    public final R getWriter() {
         return writer;
     }
 
