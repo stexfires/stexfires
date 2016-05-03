@@ -1,5 +1,6 @@
 package org.textfiledatatools.core.mapper.to;
 
+import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.EmptyRecord;
 
 /**
@@ -9,7 +10,7 @@ import org.textfiledatatools.core.record.EmptyRecord;
 public class ToEmptyMapper extends ToConstantMapper<EmptyRecord> {
 
     public ToEmptyMapper() {
-        super(new EmptyRecord());
+        super(Records.EMPTY_RECORD);
     }
 
 }

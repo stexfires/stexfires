@@ -29,7 +29,7 @@ public final class Records {
     public static final long DEFAULT_INITIAL_RECORD_ID = 1L;
     public static final String DEFAULT_FIELD_VALUE_DELIMITER = ", ";
 
-    private static final Record EMPTY_RECORD = new EmptyRecord();
+    public static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
 
     private Records() {
     }
