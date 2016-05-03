@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on records and fields.
+ * This class consists of {@code static} utility methods for operating on records.
  *
  * @author Mathias Kalb
  * @since 0.1

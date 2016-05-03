@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * This class consists of {@code static} utility methods for operating on fields.
+ *
  * @author Mathias Kalb
  * @since 0.1
  */

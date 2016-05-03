@@ -7,10 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
- * An RecordMessage creates a text message from a {@link Record}.
+ * A RecordMessage creates a text message from a {@link Record}.
  * <p>
  * It must be immutable and thread-safe.
- * It must be <code>non-interfering</code>.
+ * It must be <code>non-interfering</code> and <code>stateless</code>.
  * <p>
  * <p>This is a functional interface
  * whose functional method is {@link #createMessage(T)}.

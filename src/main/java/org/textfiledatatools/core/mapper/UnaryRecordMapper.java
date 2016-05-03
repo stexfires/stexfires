@@ -5,7 +5,7 @@ import org.textfiledatatools.core.Record;
 import java.util.function.Function;
 
 /**
- * A UnaryRecordMapper maps a {@link Record} to another record of the same type.
+ * An UnaryRecordMapper maps a {@link Record} to another record of the same type.
  * <p>
  * It must be immutable and thread-safe.
  * It must be <code>non-interfering</code> and <code>stateless</code>.
