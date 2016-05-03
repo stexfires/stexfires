@@ -26,6 +26,7 @@ public final class RecordStreams {
         return Stream.of(record);
     }
 
+    @SafeVarargs
     public static <T extends Record> Stream<T> of(T... records) {
         return Stream.of(records);
     }
