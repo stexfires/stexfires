@@ -13,13 +13,11 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     private static final long serialVersionUID = 1L;
 
     public KeyValueRecord(String key, String value) {
-        super(key, value);
-        Objects.requireNonNull(key);
+        super(Objects.requireNonNull(key), value);
     }
 
     public KeyValueRecord(String category, Long recordId, String key, String value) {
-        super(category, recordId, key, value);
-        Objects.requireNonNull(key);
+        super(category, recordId, Objects.requireNonNull(key), value);
     }
 
     @Override
