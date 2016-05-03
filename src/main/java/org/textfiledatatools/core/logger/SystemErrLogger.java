@@ -4,6 +4,8 @@ import org.textfiledatatools.core.Record;
 import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.message.ToStringMessage;
 
+import java.util.Objects;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -11,23 +13,19 @@ import org.textfiledatatools.core.message.ToStringMessage;
 public class SystemErrLogger extends PrintStreamLogger<Record> {
 
     public SystemErrLogger() {
-        this(null, new ToStringMessage(), null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
+        this(new ToStringMessage(), PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemErrLogger(String prefix) {
-        this(prefix, new ToStringMessage(), null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
+        this(new ToStringMessage().prepend(prefix), PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
     public SystemErrLogger(RecordMessage<Record> recordMessage) {
-        this(null, recordMessage, null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
+        this(recordMessage, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
     }
 
-    public SystemErrLogger(String prefix, RecordMessage<Record> recordMessage) {
-        this(prefix, recordMessage, null, PrintStreamLogger.DEFAULT_TERMINATE_LINE);
-    }
-
-    public SystemErrLogger(String prefix, RecordMessage<Record> recordMessage, String postfix, boolean terminateLine) {
-        super(System.err, RecordMessage.addPrefixAndPostfix(prefix, recordMessage, postfix), terminateLine);
+    public SystemErrLogger(RecordMessage<Record> recordMessage, boolean terminateLine) {
+        super(System.err, Objects.requireNonNull(recordMessage), terminateLine);
     }
 
 }
