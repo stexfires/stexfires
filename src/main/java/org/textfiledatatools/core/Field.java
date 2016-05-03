@@ -17,8 +17,8 @@ public final class Field implements Serializable {
     private final String value;
 
     public Field(int index, boolean last, String value) {
-        if (index < Records.FIRST_FIELD_INDEX) {
-            throw new IllegalArgumentException("Negative index not allowed!");
+        if (index < Fields.FIRST_FIELD_INDEX) {
+            throw new IllegalArgumentException("Illegal index! index=" + index);
         }
         this.index = index;
         this.last = last;
@@ -30,7 +30,7 @@ public final class Field implements Serializable {
     }
 
     public boolean isFirst() {
-        return index == Records.FIRST_FIELD_INDEX;
+        return index == Fields.FIRST_FIELD_INDEX;
     }
 
     public boolean isLast() {

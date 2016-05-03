@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.mapper.to;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.record.StandardRecord;
 
@@ -17,7 +17,7 @@ public class ToStandardMapper implements RecordMapper<Record, StandardRecord> {
             return (StandardRecord) record;
         }
         return new StandardRecord(record.getCategory(), record.getRecordId(),
-                Records.collectFieldValuesToList(record));
+                Fields.collectValues(record));
     }
 
 }

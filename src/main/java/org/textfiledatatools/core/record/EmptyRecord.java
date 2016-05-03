@@ -1,6 +1,7 @@
 package org.textfiledatatools.core.record;
 
 import org.textfiledatatools.core.Field;
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
 
 import java.util.Collections;
@@ -22,7 +23,7 @@ public final class EmptyRecord implements Record {
 
     @Override
     public Field[] arrayOfFields() {
-        return new Field[0];
+        return Fields.emptyArray();
     }
 
     @Override

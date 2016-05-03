@@ -1,8 +1,8 @@
 package org.textfiledatatools.core.record;
 
 import org.textfiledatatools.core.Field;
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.Records;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,37 +23,29 @@ public class StandardRecord implements Record {
     private final Field[] fields;
 
     public StandardRecord() {
-        this(null, null, 0);
+        this(null, null, Fields.emptyArray());
     }
 
     public StandardRecord(Collection<String> values) {
-        this(null, null, values);
+        this(null, null, Fields.newArray(values));
     }
 
     public StandardRecord(String category, Long recordId, Collection<String> values) {
-        this(category, recordId, values.size());
-        int index = 0;
-        for (String value : values) {
-            fields[index] = new Field(index, index + 1 == values.size(), value);
-            index++;
-        }
+        this(category, recordId, Fields.newArray(values));
     }
 
     public StandardRecord(String... values) {
-        this(null, null, values);
+        this(null, null, Fields.newArray(values));
     }
 
     public StandardRecord(String category, Long recordId, String... values) {
-        this(category, recordId, values.length);
-        for (int index = 0; index < values.length; index++) {
-            fields[index] = new Field(index, index + 1 == values.length, values[index]);
-        }
+        this(category, recordId, Fields.newArray(values));
     }
 
-    private StandardRecord(String category, Long recordId, int size) {
+    private StandardRecord(String category, Long recordId, Field[] fields) {
         this.category = category;
         this.recordId = recordId;
-        fields = new Field[size];
+        this.fields = fields;
     }
 
     @Override
@@ -112,7 +104,7 @@ public class StandardRecord implements Record {
         return "StandardRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
-                ", values=[" + Records.joinFieldValues(fields) +
+                ", values=[" + Fields.joinValues(fields) +
                 "]}";
     }
 }

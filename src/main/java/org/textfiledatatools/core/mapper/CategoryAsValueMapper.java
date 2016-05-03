@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.mapper;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.StandardRecord;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class CategoryAsValueMapper implements RecordMapper<Record, Record> {
     public Record map(Record record) {
         List<String> newValues = new ArrayList<>(record.size() + 1);
         newValues.add(record.getCategoryOrElse(nullCategoryValue));
-        newValues.addAll(Records.collectFieldValuesToList(record));
+        newValues.addAll(Fields.collectValues(record));
         return new StandardRecord(null, record.getRecordId(), newValues);
     }
 

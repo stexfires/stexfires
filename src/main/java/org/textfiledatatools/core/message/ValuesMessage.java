@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.message;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.Records;
 
 /**
  * @author Mathias Kalb
@@ -12,7 +12,7 @@ public class ValuesMessage implements RecordMessage<Record> {
     private final CharSequence delimiter;
 
     public ValuesMessage() {
-        this(Records.DEFAULT_FIELD_VALUE_DELIMITER);
+        this(Fields.DEFAULT_FIELD_VALUE_DELIMITER);
     }
 
     public ValuesMessage(CharSequence delimiter) {
@@ -21,7 +21,7 @@ public class ValuesMessage implements RecordMessage<Record> {
 
     @Override
     public String createMessage(Record record) {
-        return Records.joinFieldValues(record, delimiter);
+        return Fields.joinValues(record, delimiter);
     }
 
 }

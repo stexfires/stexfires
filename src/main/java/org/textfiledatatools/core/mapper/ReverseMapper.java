@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.mapper;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.Records;
 import org.textfiledatatools.core.record.StandardRecord;
 
 import java.util.Collections;
@@ -19,7 +19,7 @@ public class ReverseMapper implements RecordMapper<Record, Record> {
             return record;
         }
 
-        List<String> values = Records.collectFieldValuesToList(record);
+        List<String> values = Fields.collectValues(record);
         Collections.reverse(values);
 
         return new StandardRecord(record.getCategory(), record.getRecordId(), values);

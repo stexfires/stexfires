@@ -11,10 +11,12 @@ import org.textfiledatatools.core.record.SingleRecord;
 import org.textfiledatatools.core.record.StandardRecord;
 import org.textfiledatatools.core.record.ValueRecord;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -25,10 +27,7 @@ import java.util.stream.Stream;
  */
 public final class Records {
 
-    public static final int FIRST_FIELD_INDEX = 0;
     public static final long DEFAULT_INITIAL_RECORD_ID = 1L;
-    public static final String DEFAULT_FIELD_VALUE_DELIMITER = ", ";
-
     public static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
 
     private Records() {
@@ -72,26 +71,6 @@ public final class Records {
 
     public static Supplier<Long> recordIdSequence(long initialValue) {
         return new AtomicLong(initialValue)::getAndIncrement;
-    }
-
-    public static List<String> collectFieldValuesToList(Record record) {
-        return record.streamOfFields().map(Field::getValue).collect(Collectors.toList());
-    }
-
-    public static String joinFieldValues(Record record) {
-        return joinFieldValues(record, DEFAULT_FIELD_VALUE_DELIMITER);
-    }
-
-    public static String joinFieldValues(Record record, CharSequence delimiter) {
-        return record.streamOfFields().map(Field::getValue).collect(Collectors.joining(delimiter));
-    }
-
-    public static String joinFieldValues(Field[] fields) {
-        return joinFieldValues(fields, DEFAULT_FIELD_VALUE_DELIMITER);
-    }
-
-    public static String joinFieldValues(Field[] fields, CharSequence delimiter) {
-        return Arrays.stream(fields).map(Field::getValue).collect(Collectors.joining(delimiter));
     }
 
     public static <T extends Record> void consume(T record, RecordConsumer<? super T> recordConsumer) throws UncheckedConsumerException {
