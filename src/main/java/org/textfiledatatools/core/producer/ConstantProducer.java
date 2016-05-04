@@ -20,7 +20,7 @@ public class ConstantProducer implements RecordProducer<Record> {
     private final Record record;
 
     public ConstantProducer(int streamSize) {
-        this(streamSize, Records.EMPTY_RECORD);
+        this(streamSize, Records.empty());
     }
 
     public ConstantProducer(int streamSize, String value) {

@@ -10,7 +10,7 @@ import org.textfiledatatools.core.record.EmptyRecord;
 public class ToEmptyMapper extends ToConstantMapper<EmptyRecord> {
 
     public ToEmptyMapper() {
-        super(Records.EMPTY_RECORD);
+        super(Records.empty());
     }
 
 }

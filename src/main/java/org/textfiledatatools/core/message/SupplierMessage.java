@@ -21,11 +21,11 @@ public class SupplierMessage implements RecordMessage<Record> {
         this.messageSupplier = messageSupplier;
     }
 
-    public static final SupplierMessage getLocalTimeSupplier() {
+    public static SupplierMessage getLocalTimeSupplier() {
         return new SupplierMessage(new LocalTimeSupplier());
     }
 
-    public static final SupplierMessage getThreadNameSupplier() {
+    public static SupplierMessage getThreadNameSupplier() {
         return new SupplierMessage(new ThreadNameSupplier());
     }
 

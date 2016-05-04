@@ -25,12 +25,12 @@ import java.util.stream.Stream;
 public final class Records {
 
     public static final long DEFAULT_INITIAL_RECORD_ID = 1L;
-    public static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
+    private static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
 
     private Records() {
     }
 
-    public static Record empty() {
+    public static EmptyRecord empty() {
         return EMPTY_RECORD;
     }
 

@@ -64,7 +64,8 @@ public final class RecordStreams {
                                                         Function<? super T, String> recordEqualsString) {
         Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
         Objects.requireNonNull(recordEqualsString, "Parameter 'recordEqualsString' must not be null");
-        return stream.map((record) -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
+        //noinspection RedundantTypeArguments
+        return stream.map(record -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
                 .distinct()
                 .map(DistinctRecordWrapper<T>::getRecord);
     }
