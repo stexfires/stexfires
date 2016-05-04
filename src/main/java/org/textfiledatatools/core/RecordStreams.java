@@ -3,6 +3,7 @@ package org.textfiledatatools.core;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -57,6 +58,51 @@ public final class RecordStreams {
     @SafeVarargs
     static <T extends Record> Stream<T> concatWithReduce(Stream<T>... recordStreams) {
         return Stream.of(recordStreams).reduce(Stream.empty(), Stream::concat);
+    }
+
+    public static <T extends Record> Stream<T> distinct(Stream<T> stream,
+                                                        Function<? super T, String> recordEqualsString) {
+        Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+        Objects.requireNonNull(recordEqualsString, "Parameter 'recordEqualsString' must not be null");
+        return stream.map((record) -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
+                .distinct()
+                .map(DistinctRecordWrapper<T>::getRecord);
+    }
+
+    private static final class DistinctRecordWrapper<T extends Record> {
+
+        private final T record;
+        private final String equalsString;
+
+        public DistinctRecordWrapper(T record, String equalsString) {
+            this.record = record;
+            this.equalsString = equalsString;
+        }
+
+        public T getRecord() {
+            return record;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            DistinctRecordWrapper<?> that = (DistinctRecordWrapper<?>) o;
+            return Objects.equals(equalsString, that.equalsString);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(equalsString);
+        }
+
+        @Override
+        public String toString() {
+            return "DistinctRecordWrapper{" +
+                    "record=" + record +
+                    ", equalsString='" + equalsString + '\'' +
+                    '}';
+        }
     }
 
 }
