@@ -6,13 +6,11 @@ import org.textfiledatatools.core.filter.RecordFilter;
 import org.textfiledatatools.core.logger.RecordLogger;
 import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.message.RecordMessage;
-import org.textfiledatatools.core.record.EmptyRecord;
-import org.textfiledatatools.core.record.SingleRecord;
-import org.textfiledatatools.core.record.StandardRecord;
-import org.textfiledatatools.core.record.ValueRecord;
+import org.textfiledatatools.core.record.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -92,6 +90,79 @@ public final class Records {
 
     public static <T extends Record> String createMessage(T record, RecordMessage<? super T> recordMessage) {
         return recordMessage.createMessage(record);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder implements Consumer<String> {
+        private String category;
+        private Long recordId;
+        private List<String> valueList;
+
+        private Builder() {
+            valueList = new ArrayList<>();
+        }
+
+        public synchronized Builder category(String category) {
+            if (valueList == null) {
+                throw new IllegalStateException();
+            }
+            this.category = category;
+            return this;
+        }
+
+        public synchronized Builder recordId(Long recordId) {
+            if (valueList == null) {
+                throw new IllegalStateException();
+            }
+            this.recordId = recordId;
+            return this;
+        }
+
+        @Override
+        public synchronized void accept(String value) {
+            if (valueList == null) {
+                throw new IllegalStateException();
+            }
+            valueList.add(value);
+        }
+
+        public synchronized Builder add(String value) {
+            if (valueList == null) {
+                throw new IllegalStateException();
+            }
+            valueList.add(value);
+            return this;
+        }
+
+        public synchronized Builder addAll(Collection<String> values) {
+            if (values == null) {
+                throw new IllegalStateException();
+            }
+            values.addAll(valueList);
+            return this;
+        }
+
+        public synchronized Record build() {
+            if (valueList == null) {
+                throw new IllegalStateException();
+            }
+            Record record;
+            if (valueList.size() == 1) {
+                record = new SingleRecord(category, recordId, valueList.get(0));
+            } else if (valueList.size() == 2) {
+                record = new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
+            } else {
+                record = new StandardRecord(category, recordId, valueList);
+            }
+            category = null;
+            recordId = null;
+            valueList = null;
+            return record;
+        }
+
     }
 
 }
