@@ -1,11 +1,15 @@
 group 'org.textfiledatatools'
 version '0.1'
 
-apply plugin: 'java'
 apply plugin: 'java-library-distribution'
 apply plugin: 'project-report'
 
+// Test for right version of Java in use for running this script
+assert org.gradle.api.JavaVersion.current().isJava8Compatible()
+
+// Set the expected module Java level (can use a higher Java to run, but should not use features from a higher Java)
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -14,3 +18,50 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+artifacts {
+    archives sourcesJar, javadocJar
+}
+
+distTar.dependsOn sourcesJar
+distZip.dependsOn sourcesJar
+distTar.dependsOn javadocJar
+distZip.dependsOn javadocJar
+
+distributions {
+    main {
+        contents {
+            from(sourceSets.main.allSource) {
+                into 'src'
+            }
+            from { 'LICENSE' }
+            from { 'README.md' }
+            from('LICENSE') {
+                rename('LICENSE', 'LICENSE.txt')
+            }
+            from('README.md') {
+                rename('README.md', 'README.txt')
+            }
+            from { sourcesJar.archivePath }
+            from { javadocJar.archivePath }
+        }
+    }
+}
+
+/*
+tasks.withType(AbstractArchiveTask) { task ->
+    task.doLast {
+        ant.checksum file: it.archivePath
+    }
+}
+*/
