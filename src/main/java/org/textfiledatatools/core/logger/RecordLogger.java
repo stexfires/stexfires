@@ -12,8 +12,7 @@ import java.util.function.Consumer;
  * It must be thread-safe and null-safe.
  * It must be <code>non-interfering</code>.
  * <p>
- * <p>This is a functional interface
- * whose functional method is {@link #log(T)}.
+ * This is a functional interface whose functional method is {@link #log(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer

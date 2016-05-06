@@ -13,8 +13,7 @@ import java.util.function.Function;
  * <p>
  * It must be <code>non-interfering</code> and thread-safe.
  * <p>
- * <p>This is a functional interface
- * whose functional method is {@link #consume(T)}.
+ * This is a functional interface whose functional method is {@link #consume(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer

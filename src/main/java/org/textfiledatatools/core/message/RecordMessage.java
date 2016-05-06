@@ -11,8 +11,7 @@ import java.util.function.Supplier;
  * It must be immutable and thread-safe.
  * It must be <code>non-interfering</code> and <code>stateless</code>.
  * <p>
- * <p>This is a functional interface
- * whose functional method is {@link #createMessage(T)}.
+ * This is a functional interface whose functional method is {@link #createMessage(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function

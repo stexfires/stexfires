@@ -11,8 +11,7 @@ import java.util.function.Predicate;
  * It must be immutable and thread-safe.
  * It must be <code>non-interfering</code> and <code>stateless</code>.
  * <p>
- * <p>This is a functional interface
- * whose functional method is {@link #isValid(T)}.
+ * This is a functional interface whose functional method is {@link #isValid(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Predicate
