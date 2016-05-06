@@ -11,7 +11,7 @@ import java.util.List;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryAsValueMapper implements RecordMapper<Record, Record> {
+public class CategoryAsValueMapper implements UnaryRecordMapper<Record> {
 
     private final String nullCategoryValue;
 

@@ -7,7 +7,7 @@ import org.textfiledatatools.core.filter.RecordFilter;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class UnaryConditionalMapper<T extends Record> extends ConditionalMapper<T, T> {
+public class UnaryConditionalMapper<T extends Record> extends ConditionalMapper<T, T> implements UnaryRecordMapper<T> {
 
     public UnaryConditionalMapper(RecordFilter<? super T> condition,
                                   UnaryRecordMapper<T> trueMapper) {

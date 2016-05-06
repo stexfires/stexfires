@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValuesMapper implements RecordMapper<Record, Record> {
+public class ValuesMapper implements UnaryRecordMapper<Record> {
 
     private final FieldValueMapper fieldValueMapper;
 
