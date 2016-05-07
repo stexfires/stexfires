@@ -91,12 +91,13 @@ public class StandardRecord implements Record {
         if (o == null || getClass() != o.getClass()) return false;
         StandardRecord that = (StandardRecord) o;
         return Objects.equals(category, that.category) &&
+                Objects.equals(recordId, that.recordId) &&
                 Arrays.equals(fields, that.fields);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, fields);
+        return Objects.hash(category, recordId, fields);
     }
 
     @Override
@@ -107,4 +108,5 @@ public class StandardRecord implements Record {
                 ", values=[" + Fields.joinValues(fields) +
                 "]}";
     }
+
 }

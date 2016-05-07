@@ -121,12 +121,13 @@ public class SingleRecord implements ValueRecord {
         if (o == null || getClass() != o.getClass()) return false;
         SingleRecord that = (SingleRecord) o;
         return Objects.equals(category, that.category) &&
+                Objects.equals(recordId, that.recordId) &&
                 Objects.equals(singleField, that.singleField);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, singleField);
+        return Objects.hash(category, recordId, singleField);
     }
 
     @Override

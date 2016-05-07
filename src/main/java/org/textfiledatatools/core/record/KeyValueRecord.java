@@ -44,4 +44,5 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
                 ", value=" + getSecondField().getValue() +
                 '}';
     }
+
 }

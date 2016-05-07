@@ -127,13 +127,14 @@ public class PairRecord implements Record {
         if (o == null || getClass() != o.getClass()) return false;
         PairRecord that = (PairRecord) o;
         return Objects.equals(category, that.category) &&
+                Objects.equals(recordId, that.recordId) &&
                 Objects.equals(firstField, that.firstField) &&
                 Objects.equals(secondField, that.secondField);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, firstField, secondField);
+        return Objects.hash(category, recordId, firstField, secondField);
     }
 
     @Override

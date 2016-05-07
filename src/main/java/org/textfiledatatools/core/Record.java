@@ -70,6 +70,9 @@ public interface Record extends Serializable {
         return !isEmpty() ? getLastField().getValue() : null;
     }
 
+    /**
+     * Compare class, category, recordId and all fields.
+     */
     boolean equals(Object other);
 
     int hashCode();
