@@ -2,7 +2,9 @@ package org.textfiledatatools.core.mapper.fieldvalue;
 
 import org.textfiledatatools.core.Field;
 
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 
 /**
@@ -22,5 +24,48 @@ import java.util.function.Function;
 public interface FieldValueMapper {
 
     String mapToValue(Field field);
+
+    default FieldValueMapper prepend(String value) {
+        Objects.requireNonNull(value);
+        return (Field field) -> value + mapToValue(field);
+    }
+
+    default FieldValueMapper prepend(Supplier<String> valueSupplier) {
+        Objects.requireNonNull(valueSupplier);
+        return (Field field) -> valueSupplier.get() + mapToValue(field);
+    }
+
+    default FieldValueMapper prepend(Supplier<String> valueSupplier, String delimiter) {
+        Objects.requireNonNull(valueSupplier);
+        Objects.requireNonNull(delimiter);
+        return (Field field) -> valueSupplier.get() + delimiter + mapToValue(field);
+    }
+
+    default FieldValueMapper append(String value) {
+        Objects.requireNonNull(value);
+        return (Field field) -> mapToValue(field) + value;
+    }
+
+    default FieldValueMapper append(Supplier<String> valueSupplier) {
+        Objects.requireNonNull(valueSupplier);
+        return (Field field) -> mapToValue(field) + valueSupplier.get();
+    }
+
+    default FieldValueMapper append(String delimiter, Supplier<String> valueSupplier) {
+        Objects.requireNonNull(delimiter);
+        Objects.requireNonNull(valueSupplier);
+        return (Field field) -> mapToValue(field) + delimiter + valueSupplier.get();
+    }
+
+    default FieldValueMapper append(FieldValueMapper fieldValueMapper) {
+        Objects.requireNonNull(fieldValueMapper);
+        return (Field field) -> mapToValue(field) + fieldValueMapper.mapToValue(field);
+    }
+
+    default FieldValueMapper append(String delimiter, FieldValueMapper fieldValueMapper) {
+        Objects.requireNonNull(delimiter);
+        Objects.requireNonNull(fieldValueMapper);
+        return (Field field) -> mapToValue(field) + delimiter + fieldValueMapper.mapToValue(field);
+    }
 
 }
