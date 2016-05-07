@@ -3,6 +3,7 @@ package org.textfiledatatools.core;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -68,6 +69,12 @@ public final class RecordStreams {
         return stream.map(record -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
                 .distinct()
                 .map(DistinctRecordWrapper<T>::getRecord);
+    }
+
+    public static <T extends Record> Stream<T> sorted(Stream<T> stream, Comparator<? super T> recordComparator) {
+        Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+        Objects.requireNonNull(recordComparator, "Parameter 'recordComparator' must not be null");
+        return stream.sorted(recordComparator);
     }
 
     private static final class DistinctRecordWrapper<T extends Record> {
