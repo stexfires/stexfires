@@ -10,7 +10,7 @@ import org.textfiledatatools.core.record.SingleRecord;
  */
 public class ToSingleMapper implements RecordMapper<Record, SingleRecord> {
 
-    private final int valueIndex;
+    protected final int valueIndex;
 
     public ToSingleMapper(int valueIndex) {
         this.valueIndex = valueIndex;

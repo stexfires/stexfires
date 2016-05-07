@@ -8,7 +8,7 @@ import org.textfiledatatools.core.Record;
  */
 public class ConstantFilter implements RecordFilter<Record> {
 
-    private final boolean isValid;
+    protected final boolean isValid;
 
     public ConstantFilter(boolean isValid) {
         this.isValid = isValid;

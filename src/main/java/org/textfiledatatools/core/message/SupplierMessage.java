@@ -13,7 +13,7 @@ import java.util.function.Supplier;
  */
 public class SupplierMessage implements RecordMessage<Record> {
 
-    private final Supplier<String> messageSupplier;
+    protected final Supplier<String> messageSupplier;
 
     // Supplier must be thread-safe
     public SupplierMessage(Supplier<String> messageSupplier) {

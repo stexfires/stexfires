@@ -12,9 +12,9 @@ import java.util.Objects;
  */
 public class ToKeyValueMapper implements RecordMapper<Record, KeyValueRecord> {
 
-    private final int keyIndex;
-    private final int valueIndex;
-    private final String nullKeyValue;
+    protected final int keyIndex;
+    protected final int valueIndex;
+    protected final String nullKeyValue;
 
     public ToKeyValueMapper(int keyIndex, int valueIndex, String nullKeyValue) {
         Objects.requireNonNull(nullKeyValue);

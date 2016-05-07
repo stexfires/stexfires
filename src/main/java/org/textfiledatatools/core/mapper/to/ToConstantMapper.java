@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class ToConstantMapper<R extends Record> implements RecordMapper<Record, R> {
 
-    private final R constantRecord;
+    protected final R constantRecord;
 
     public ToConstantMapper(R constantRecord) {
         Objects.requireNonNull(constantRecord);

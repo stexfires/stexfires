@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class CategoryFilter implements RecordFilter<Record> {
 
-    private final String category;
+    protected final String category;
 
     public CategoryFilter(String category) {
         this.category = category;

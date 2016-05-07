@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class ValuesMessage implements RecordMessage<Record> {
 
-    private final CharSequence delimiter;
+    protected final CharSequence delimiter;
 
     public ValuesMessage() {
         this(Fields.DEFAULT_FIELD_VALUE_DELIMITER);

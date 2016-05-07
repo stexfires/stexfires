@@ -8,7 +8,7 @@ import org.textfiledatatools.core.Record;
  */
 public class ValueAtIndexMessage implements RecordMessage<Record> {
 
-    private final int index;
+    protected final int index;
 
     public ValueAtIndexMessage(int index) {
         if (index < 0) {

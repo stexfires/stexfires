@@ -9,10 +9,10 @@ import org.textfiledatatools.core.Record;
  */
 public class ExtendedValuesMessage implements RecordMessage<Record> {
 
-    private final String prefix;
-    private final String postfix;
-    private final String prefixFirstValue;
-    private final String postfixLastValue;
+    protected final String prefix;
+    protected final String postfix;
+    protected final String prefixFirstValue;
+    protected final String postfixLastValue;
 
     public ExtendedValuesMessage(String prefix, String postfix) {
         this(prefix, postfix, prefix, postfix);

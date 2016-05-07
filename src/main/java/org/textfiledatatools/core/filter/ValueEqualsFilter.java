@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class ValueEqualsFilter implements RecordFilter<ValueRecord> {
 
-    private final String value;
+    protected final String value;
 
     public ValueEqualsFilter(String value) {
         this.value = value;

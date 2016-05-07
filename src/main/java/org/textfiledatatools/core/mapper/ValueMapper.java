@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class ValueMapper implements UnaryRecordMapper<ValueRecord> {
 
-    private final FieldValueMapper fieldValueMapper;
+    protected final FieldValueMapper fieldValueMapper;
 
     public ValueMapper(String constantValue) {
         this(new ConstantFieldValueMapper(constantValue));

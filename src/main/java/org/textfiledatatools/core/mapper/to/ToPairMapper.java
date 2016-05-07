@@ -10,8 +10,8 @@ import org.textfiledatatools.core.record.PairRecord;
  */
 public class ToPairMapper implements RecordMapper<Record, PairRecord> {
 
-    private final int firstIndex;
-    private final int secondIndex;
+    protected final int firstIndex;
+    protected final int secondIndex;
 
     public ToPairMapper(int firstIndex, int secondIndex) {
         this.firstIndex = firstIndex;

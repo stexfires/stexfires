@@ -16,8 +16,8 @@ import java.util.stream.Stream;
  */
 public class ConstantProducer implements RecordProducer<Record> {
 
-    private final int streamSize;
-    private final Record record;
+    protected final int streamSize;
+    protected final Record record;
 
     public ConstantProducer(int streamSize) {
         this(streamSize, Records.empty());

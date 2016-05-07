@@ -8,7 +8,7 @@ import org.textfiledatatools.core.Record;
  */
 public class CategoryMessage implements RecordMessage<Record> {
 
-    private final String nullCategoryValue;
+    protected final String nullCategoryValue;
 
     public CategoryMessage() {
         this(null);

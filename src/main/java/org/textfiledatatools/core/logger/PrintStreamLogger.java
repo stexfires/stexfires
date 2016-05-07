@@ -14,9 +14,9 @@ public class PrintStreamLogger<T extends Record> implements RecordLogger<T> {
 
     public static final boolean DEFAULT_TERMINATE_LINE = true;
 
-    private final PrintStream printStream;
-    private final RecordMessage<? super T> recordMessage;
-    private final boolean terminateLine;
+    protected final PrintStream printStream;
+    protected final RecordMessage<? super T> recordMessage;
+    protected final boolean terminateLine;
 
     public PrintStreamLogger(PrintStream printStream,
                              RecordMessage<? super T> recordMessage) {

@@ -8,7 +8,7 @@ import org.textfiledatatools.core.Field;
  */
 public class ConstantFieldValueMapper implements FieldValueMapper {
 
-    private final String constantValue;
+    protected final String constantValue;
 
     public ConstantFieldValueMapper(String constantValue) {
         this.constantValue = constantValue;

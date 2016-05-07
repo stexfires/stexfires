@@ -8,10 +8,9 @@ import org.textfiledatatools.core.Record;
  */
 public class ConsumerException extends Exception {
 
+    protected static final String DEFAULT_MESSAGE = "Could not consume this record:";
+    protected static final String MESSAGE_SEPARATOR = " ";
     private static final long serialVersionUID = 1L;
-
-    private static final String DEFAULT_MESSAGE = "Could not consume this record:";
-    private static final String MESSAGE_SEPARATOR = " ";
 
     public ConsumerException(String message, Record record) {
         super(createMessage(message, record));

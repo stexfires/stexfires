@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class ValuesMapper implements UnaryRecordMapper<Record> {
 
-    private final FieldValueMapper fieldValueMapper;
+    protected final FieldValueMapper fieldValueMapper;
 
     public ValuesMapper(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);

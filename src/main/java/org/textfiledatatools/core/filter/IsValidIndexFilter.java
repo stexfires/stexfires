@@ -8,7 +8,7 @@ import org.textfiledatatools.core.Record;
  */
 public class IsValidIndexFilter implements RecordFilter<Record> {
 
-    private final int index;
+    protected final int index;
 
     public IsValidIndexFilter(int index) {
         this.index = index;

@@ -8,8 +8,8 @@ import org.textfiledatatools.core.Record;
  */
 public class SizeRangeFilter implements RecordFilter<Record> {
 
-    private final int minSize;
-    private final int maxSize;
+    protected final int minSize;
+    protected final int maxSize;
 
     public SizeRangeFilter(int minSize, int maxSize) {
         if ((minSize > maxSize) || (minSize < 0)) {

@@ -13,8 +13,8 @@ public class RecordIdMessage implements RecordMessage<Record> {
     public static final String DEFAULT_PREFIX = "#";
     public static final String DEFAULT_MISSING_RECORD_ID_MESSAGE = "";
 
-    private final String prefix;
-    private final String missingRecordIdMessage;
+    protected final String prefix;
+    protected final String missingRecordIdMessage;
 
     public RecordIdMessage() {
         this(DEFAULT_PREFIX, DEFAULT_MISSING_RECORD_ID_MESSAGE);

@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class ClassFilter implements RecordFilter<Record> {
 
-    private final Class<? extends Record> recordClass;
+    protected final Class<? extends Record> recordClass;
 
     public ClassFilter(Class<? extends Record> recordClass) {
         Objects.requireNonNull(recordClass);

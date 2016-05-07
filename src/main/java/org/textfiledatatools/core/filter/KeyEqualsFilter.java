@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class KeyEqualsFilter implements RecordFilter<KeyRecord> {
 
-    private final String key;
+    protected final String key;
 
     public KeyEqualsFilter(String key) {
         Objects.requireNonNull(key);

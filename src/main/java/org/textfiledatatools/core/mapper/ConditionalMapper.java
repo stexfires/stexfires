@@ -11,9 +11,9 @@ import java.util.Objects;
  */
 public class ConditionalMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
 
-    private final RecordFilter<? super T> condition;
-    private final RecordMapper<? super T, ? extends R> trueMapper;
-    private final RecordMapper<? super T, ? extends R> falseMapper;
+    protected final RecordFilter<? super T> condition;
+    protected final RecordMapper<? super T, ? extends R> trueMapper;
+    protected final RecordMapper<? super T, ? extends R> falseMapper;
 
     public ConditionalMapper(RecordFilter<? super T> condition,
                              RecordMapper<? super T, ? extends R> trueMapper,

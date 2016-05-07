@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class CategoryAsValueMapper implements UnaryRecordMapper<Record> {
 
-    private final String nullCategoryValue;
+    protected final String nullCategoryValue;
 
     public CategoryAsValueMapper() {
         this(null);
