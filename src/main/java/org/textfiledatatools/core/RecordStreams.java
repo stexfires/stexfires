@@ -1,5 +1,9 @@
 package org.textfiledatatools.core;
 
+import org.textfiledatatools.core.consumer.LoggerConsumer;
+import org.textfiledatatools.core.consumer.RecordConsumer;
+import org.textfiledatatools.core.consumer.UncheckedConsumerException;
+import org.textfiledatatools.core.logger.SystemOutLogger;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
@@ -61,20 +65,30 @@ public final class RecordStreams {
         return Stream.of(recordStreams).reduce(Stream.empty(), Stream::concat);
     }
 
-    public static <T extends Record> Stream<T> distinct(Stream<T> stream,
+    public static <R extends Record, T extends R> RecordConsumer<R> consume(Stream<T> recordStream,
+                                                                            RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
+        recordStream.forEachOrdered(recordConsumer::consume);
+        return recordConsumer;
+    }
+
+    public static void println(Stream<Record> recordStream) {
+        consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
+    }
+
+    public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
                                                         Function<? super T, String> recordEqualsString) {
-        Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+        Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
         Objects.requireNonNull(recordEqualsString, "Parameter 'recordEqualsString' must not be null");
         //noinspection RedundantTypeArguments
-        return stream.map(record -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
+        return recordStream.map(record -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
                 .distinct()
                 .map(DistinctRecordWrapper<T>::getRecord);
     }
 
-    public static <T extends Record> Stream<T> sorted(Stream<T> stream, Comparator<? super T> recordComparator) {
-        Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+    public static <T extends Record> Stream<T> sorted(Stream<T> recordStream, Comparator<? super T> recordComparator) {
+        Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
         Objects.requireNonNull(recordComparator, "Parameter 'recordComparator' must not be null");
-        return stream.sorted(recordComparator);
+        return recordStream.sorted(recordComparator);
     }
 
     private static final class DistinctRecordWrapper<T extends Record> {
