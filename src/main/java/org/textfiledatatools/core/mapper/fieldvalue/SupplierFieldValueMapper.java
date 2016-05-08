@@ -13,7 +13,9 @@ public class SupplierFieldValueMapper implements FieldValueMapper {
 
     protected final Supplier<String> valueSupplier;
 
-    // Supplier must be thread-safe
+    /**
+     * @param valueSupplier must be thread-safe
+     */
     public SupplierFieldValueMapper(Supplier<String> valueSupplier) {
         Objects.requireNonNull(valueSupplier);
         this.valueSupplier = valueSupplier;

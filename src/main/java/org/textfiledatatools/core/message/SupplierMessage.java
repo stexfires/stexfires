@@ -15,7 +15,9 @@ public class SupplierMessage implements RecordMessage<Record> {
 
     protected final Supplier<String> messageSupplier;
 
-    // Supplier must be thread-safe
+    /**
+     * @param messageSupplier must be thread-safe
+     */
     public SupplierMessage(Supplier<String> messageSupplier) {
         Objects.requireNonNull(messageSupplier);
         this.messageSupplier = messageSupplier;
