@@ -27,9 +27,10 @@ public class WriterConsumer<T extends Record, R extends Writer> implements Closa
 
     @Override
     public void consume(T record) throws UncheckedConsumerException {
+        String message = recordMessage.createMessage(record);
         synchronized (lock) {
             try {
-                writer.write(recordMessage.createMessage(record));
+                writer.write(message);
             } catch (IOException e) {
                 throw new UncheckedConsumerException(record, e);
             }
