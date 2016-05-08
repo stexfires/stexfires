@@ -33,6 +33,7 @@ public interface RecordMapper<T extends Record, R extends Record> {
                                                                                             RecordMapper<? super V, ? extends R> thirdRecordMapper) {
         Objects.requireNonNull(firstRecordMapper);
         Objects.requireNonNull(secondRecordMapper);
+        Objects.requireNonNull(thirdRecordMapper);
         return (T record) -> thirdRecordMapper.map(secondRecordMapper.map(firstRecordMapper.map(record)));
     }
 
