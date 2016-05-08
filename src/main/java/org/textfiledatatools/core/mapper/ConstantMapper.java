@@ -1,7 +1,6 @@
-package org.textfiledatatools.core.mapper.to;
+package org.textfiledatatools.core.mapper;
 
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.mapper.RecordMapper;
 
 import java.util.Objects;
 
@@ -9,11 +8,11 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToConstantMapper<R extends Record> implements RecordMapper<Record, R> {
+public class ConstantMapper<R extends Record> implements RecordMapper<Record, R> {
 
     protected final R constantRecord;
 
-    public ToConstantMapper(R constantRecord) {
+    public ConstantMapper(R constantRecord) {
         Objects.requireNonNull(constantRecord);
         this.constantRecord = constantRecord;
     }

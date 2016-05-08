@@ -10,6 +10,13 @@ public class ConstantFieldValueMapper implements FieldValueMapper {
 
     protected final String constantValue;
 
+    public ConstantFieldValueMapper() {
+        this(null);
+    }
+
+    /**
+     * @param constantValue can be <code>null</code>
+     */
     public ConstantFieldValueMapper(String constantValue) {
         this.constantValue = constantValue;
     }

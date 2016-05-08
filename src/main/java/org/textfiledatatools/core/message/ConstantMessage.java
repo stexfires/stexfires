@@ -10,16 +10,16 @@ import java.util.Objects;
  */
 public class ConstantMessage implements RecordMessage<Record> {
 
-    protected final String message;
+    protected final String constantMessage;
 
-    public ConstantMessage(String message) {
-        Objects.requireNonNull(message);
-        this.message = message;
+    public ConstantMessage(String constantMessage) {
+        Objects.requireNonNull(constantMessage);
+        this.constantMessage = constantMessage;
     }
 
     @Override
     public String createMessage(Record record) {
-        return message;
+        return constantMessage;
     }
 
 }

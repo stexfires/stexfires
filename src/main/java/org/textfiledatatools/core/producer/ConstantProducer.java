@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class ConstantProducer implements RecordProducer<Record> {
 
     protected final int streamSize;
-    protected final Record record;
+    protected final Record constantRecord;
 
     public ConstantProducer(int streamSize) {
         this(streamSize, Records.empty());
@@ -55,18 +55,18 @@ public class ConstantProducer implements RecordProducer<Record> {
         this(streamSize, new StandardRecord(category, null, values));
     }
 
-    public ConstantProducer(int streamSize, Record record) {
+    public ConstantProducer(int streamSize, Record constantRecord) {
         if (streamSize < 0) {
             throw new IllegalArgumentException("Illegal streamSize! streamSize=" + streamSize);
         }
-        Objects.requireNonNull(record);
+        Objects.requireNonNull(constantRecord);
         this.streamSize = streamSize;
-        this.record = record;
+        this.constantRecord = constantRecord;
     }
 
     @Override
     public Stream<Record> produceStream() {
-        return Stream.generate(() -> record).limit(streamSize);
+        return Stream.generate(() -> constantRecord).limit(streamSize);
     }
 
 }
