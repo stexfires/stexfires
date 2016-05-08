@@ -1,9 +1,12 @@
 package org.textfiledatatools.core.logger;
 
 import org.textfiledatatools.core.Record;
+import org.textfiledatatools.core.filter.RecordFilter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * A RecordLogger logs a {@link Record}.
@@ -43,6 +46,44 @@ public interface RecordLogger<T extends Record> {
             secondRecordLogger.log(record);
             thirdRecordLogger.log(record);
         };
+    }
+
+    static <T extends Record> RecordLogger<T> conditionalLogger(List<RecordFilter<? super T>> loggerConditions,
+                                                                List<RecordLogger<? super T>> recordLoggers) {
+        Objects.requireNonNull(loggerConditions);
+        Objects.requireNonNull(recordLoggers);
+        if (loggerConditions.size() != recordLoggers.size()) {
+            throw new IllegalArgumentException();
+        }
+        return (T record) -> {
+            for (int i = 0; i < loggerConditions.size(); i++) {
+                if (loggerConditions.get(i).isValid(record)) {
+                    recordLoggers.get(i).log(record);
+                }
+            }
+        };
+    }
+
+    static <T extends Record> RecordLogger<T> splitter(RecordFilter<? super T> splitCondition,
+                                                       RecordLogger<? super T> trueRecordLogger,
+                                                       RecordLogger<? super T> falseRecordLogger) {
+        Objects.requireNonNull(splitCondition);
+        Objects.requireNonNull(trueRecordLogger);
+        Objects.requireNonNull(falseRecordLogger);
+        return (T record) -> {
+            if (splitCondition.isValid(record)) {
+                trueRecordLogger.log(record);
+            } else {
+                falseRecordLogger.log(record);
+            }
+        };
+    }
+
+    static <T extends Record> RecordLogger<T> splitter(Function<? super T, Integer> splitFunction,
+                                                       List<RecordLogger<? super T>> recordLoggers) {
+        Objects.requireNonNull(splitFunction);
+        Objects.requireNonNull(recordLoggers);
+        return (T record) -> recordLoggers.get(splitFunction.apply(record)).log(record);
     }
 
     void log(T record);
