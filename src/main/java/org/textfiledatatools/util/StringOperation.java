@@ -2,6 +2,7 @@ package org.textfiledatatools.util;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * @author Mathias Kalb
@@ -15,50 +16,86 @@ public enum StringOperation {
 
     private static final String EMPTY = "";
 
-    public static String operate(String s, StringOperation stringOperation) {
-        return operate(s, stringOperation, null);
+    public static Function<String, String> lowerCaseFunction() {
+        return (String value) -> operate(LOWER_CASE, value);
     }
 
-    public static String operate(String s, StringOperation stringOperation, Locale locale) {
-        Objects.requireNonNull(s);
+    public static Function<String, String> upperCaseFunction() {
+        return (String value) -> operate(UPPER_CASE, value);
+    }
+
+    public static Function<String, String> trimToNullFunction() {
+        return (String value) -> operate(TRIM_TO_NULL, value);
+    }
+
+    public static Function<String, String> trimToEmptyFunction() {
+        return (String value) -> operate(TRIM_TO_EMPTY, value);
+    }
+
+    public static Function<String, String> lowerCaseFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return (String value) -> operate(LOWER_CASE, value, locale);
+    }
+
+    public static Function<String, String> upperCaseFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return (String value) -> operate(UPPER_CASE, value, locale);
+    }
+
+    public static Function<String, String> trimToNullFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return (String value) -> operate(TRIM_TO_NULL, value, locale);
+    }
+
+    public static Function<String, String> trimToEmptyFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return (String value) -> operate(TRIM_TO_EMPTY, value, locale);
+    }
+
+    public static String operate(StringOperation stringOperation, String value) {
+        return operate(stringOperation, value, null);
+    }
+
+    public static String operate(StringOperation stringOperation, String value, Locale locale) {
+        Objects.requireNonNull(value);
         Objects.requireNonNull(stringOperation);
         String result = null;
         switch (stringOperation) {
             case LOWER_CASE:
-                if (s != null) {
+                if (value != null) {
                     if (locale != null) {
-                        result = s.toLowerCase(locale);
+                        result = value.toLowerCase(locale);
                     } else {
-                        result = s.toLowerCase();
+                        result = value.toLowerCase();
                     }
                 }
                 break;
             case UPPER_CASE:
-                if (s != null) {
+                if (value != null) {
                     if (locale != null) {
-                        result = s.toUpperCase(locale);
+                        result = value.toUpperCase(locale);
                     } else {
-                        result = s.toUpperCase();
+                        result = value.toUpperCase();
                     }
                 }
                 break;
             case TRIM_TO_EMPTY:
-                if (s != null) {
-                    result = s.trim();
+                if (value != null) {
+                    result = value.trim();
                 } else {
                     result = EMPTY;
                 }
                 break;
             case TRIM_TO_NULL:
-                if (s != null) {
-                    result = s.trim();
+                if (value != null) {
+                    result = value.trim();
                     if (result.isEmpty()) {
                         result = null;
                     }
                 }
                 break;
             default:
-                result = null;
+                result = value;
         }
         return result;
     }
