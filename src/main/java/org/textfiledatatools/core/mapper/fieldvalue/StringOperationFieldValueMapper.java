@@ -1,7 +1,7 @@
 package org.textfiledatatools.core.mapper.fieldvalue;
 
 import org.textfiledatatools.core.Field;
-import org.textfiledatatools.util.StringOperation;
+import org.textfiledatatools.util.StringUnaryOperator;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -12,22 +12,22 @@ import java.util.Objects;
  */
 public class StringOperationFieldValueMapper implements FieldValueMapper {
 
-    protected final StringOperation stringOperation;
+    protected final StringUnaryOperator stringUnaryOperator;
     protected final Locale locale;
 
-    public StringOperationFieldValueMapper(StringOperation stringOperation) {
-        this(stringOperation, null);
+    public StringOperationFieldValueMapper(StringUnaryOperator stringUnaryOperator) {
+        this(stringUnaryOperator, null);
     }
 
-    public StringOperationFieldValueMapper(StringOperation stringOperation, Locale locale) {
-        Objects.requireNonNull(stringOperation);
-        this.stringOperation = stringOperation;
+    public StringOperationFieldValueMapper(StringUnaryOperator stringUnaryOperator, Locale locale) {
+        Objects.requireNonNull(stringUnaryOperator);
+        this.stringUnaryOperator = stringUnaryOperator;
         this.locale = locale;
     }
 
     @Override
     public String mapToValue(Field field) {
-        return StringOperation.operate(stringOperation, field.getValue(), locale);
+        return StringUnaryOperator.operate(stringUnaryOperator, field.getValue(), locale);
     }
 
 }

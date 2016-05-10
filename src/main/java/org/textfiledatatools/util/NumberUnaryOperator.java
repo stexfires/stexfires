@@ -8,7 +8,7 @@ import java.util.function.LongFunction;
  * @author Mathias Kalb
  * @since 0.1
  */
-public enum NumberOperation {
+public enum NumberUnaryOperator {
     INCREMENT,
     DECREMENT,
     TO_ZERO,
@@ -64,21 +64,21 @@ public enum NumberOperation {
         return (long value) -> operateLong(NEGATE, value);
     }
 
-    public static IntFunction<Integer> generateIntFunction(NumberOperation numberOperation) {
-        Objects.requireNonNull(numberOperation);
-        return (int value) -> operateInt(numberOperation, value);
+    public static IntFunction<Integer> generateIntFunction(NumberUnaryOperator numberUnaryOperator) {
+        Objects.requireNonNull(numberUnaryOperator);
+        return (int value) -> operateInt(numberUnaryOperator, value);
     }
 
-    public static LongFunction<Long> generateLongFunction(NumberOperation numberOperation) {
-        Objects.requireNonNull(numberOperation);
-        return (long value) -> operateLong(numberOperation, value);
+    public static LongFunction<Long> generateLongFunction(NumberUnaryOperator numberUnaryOperator) {
+        Objects.requireNonNull(numberUnaryOperator);
+        return (long value) -> operateLong(numberUnaryOperator, value);
     }
 
-    public static Integer operateInt(NumberOperation numberOperation, int value) {
+    public static Integer operateInt(NumberUnaryOperator numberUnaryOperator, int value) {
         Objects.requireNonNull(value);
-        Objects.requireNonNull(numberOperation);
+        Objects.requireNonNull(numberUnaryOperator);
         Integer result;
-        switch (numberOperation) {
+        switch (numberUnaryOperator) {
             case INCREMENT:
                 result = Math.incrementExact(value);
                 break;
@@ -103,11 +103,11 @@ public enum NumberOperation {
         return result;
     }
 
-    public static Long operateLong(NumberOperation numberOperation, long value) {
+    public static Long operateLong(NumberUnaryOperator numberUnaryOperator, long value) {
         Objects.requireNonNull(value);
-        Objects.requireNonNull(numberOperation);
+        Objects.requireNonNull(numberUnaryOperator);
         Long result;
-        switch (numberOperation) {
+        switch (numberUnaryOperator) {
             case INCREMENT:
                 result = Math.incrementExact(value);
                 break;
