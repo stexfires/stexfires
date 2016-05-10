@@ -64,6 +64,16 @@ public enum NumberOperation {
         return (long value) -> operateLong(NEGATE, value);
     }
 
+    public static IntFunction<Integer> generateIntFunction(NumberOperation numberOperation) {
+        Objects.requireNonNull(numberOperation);
+        return (int value) -> operateInt(numberOperation, value);
+    }
+
+    public static LongFunction<Long> generateLongFunction(NumberOperation numberOperation) {
+        Objects.requireNonNull(numberOperation);
+        return (long value) -> operateLong(numberOperation, value);
+    }
+
     public static Integer operateInt(NumberOperation numberOperation, int value) {
         Objects.requireNonNull(value);
         Objects.requireNonNull(numberOperation);

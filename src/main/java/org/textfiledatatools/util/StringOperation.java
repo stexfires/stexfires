@@ -52,6 +52,17 @@ public enum StringOperation {
         return (String value) -> operate(TRIM_TO_EMPTY, value, locale);
     }
 
+    public static Function<String, String> generateFunction(StringOperation stringOperation) {
+        Objects.requireNonNull(stringOperation);
+        return (String value) -> operate(stringOperation, value);
+    }
+
+    public static Function<String, String> generateFunction(StringOperation stringOperation, Locale locale) {
+        Objects.requireNonNull(stringOperation);
+        Objects.requireNonNull(locale);
+        return (String value) -> operate(stringOperation, value, locale);
+    }
+
     public static String operate(StringOperation stringOperation, String value) {
         return operate(stringOperation, value, null);
     }
