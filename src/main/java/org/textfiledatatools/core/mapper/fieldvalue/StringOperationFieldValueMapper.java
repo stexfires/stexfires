@@ -27,7 +27,7 @@ public class StringOperationFieldValueMapper implements FieldValueMapper {
 
     @Override
     public String mapToValue(Field field) {
-        return StringOperation.operate(field.getValue(), stringOperation, locale);
+        return StringOperation.operate(stringOperation, field.getValue(), locale);
     }
 
 }
