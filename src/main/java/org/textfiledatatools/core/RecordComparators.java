@@ -1,7 +1,11 @@
 package org.textfiledatatools.core;
 
+import org.textfiledatatools.core.record.KeyRecord;
+import org.textfiledatatools.core.record.ValueRecord;
+
 import java.text.Collator;
 import java.util.Comparator;
+import java.util.Objects;
 
 import static java.util.Comparator.*;
 
@@ -38,6 +42,7 @@ public final class RecordComparators {
     }
 
     public static Comparator<Record> category(Comparator<String> comparator, NULLS nulls) {
+        Objects.requireNonNull(comparator);
         if (nulls == NULLS.FIRST) {
             return comparing(Record::getCategory, nullsFirst(comparator));
         }
@@ -53,11 +58,37 @@ public final class RecordComparators {
     }
 
     public static Comparator<Record> category(Collator collator) {
+        Objects.requireNonNull(collator);
         return category(collator::compare, NULLS.FIRST);
     }
 
     public static Comparator<Record> category(Collator collator, NULLS nulls) {
+        Objects.requireNonNull(collator);
         return category(collator::compare, nulls);
+    }
+
+    public static Comparator<Record> valueAt(int index, Comparator<String> comparator, NULLS nulls) {
+        Objects.requireNonNull(comparator);
+        if (nulls == NULLS.FIRST) {
+            return comparing((record) -> record.getValueAt(index), nullsFirst(comparator));
+        }
+        return comparing((record) -> record.getValueAt(index), nullsLast(comparator));
+    }
+
+    public static Comparator<KeyRecord> key(Comparator<String> comparator, NULLS nulls) {
+        Objects.requireNonNull(comparator);
+        if (nulls == NULLS.FIRST) {
+            return comparing(KeyRecord::getValueOfKeyField, nullsFirst(comparator));
+        }
+        return comparing(KeyRecord::getValueOfKeyField, nullsLast(comparator));
+    }
+
+    public static Comparator<ValueRecord> value(Comparator<String> comparator, NULLS nulls) {
+        Objects.requireNonNull(comparator);
+        if (nulls == NULLS.FIRST) {
+            return comparing(ValueRecord::getValueOfValueField, nullsFirst(comparator));
+        }
+        return comparing(ValueRecord::getValueOfValueField, nullsLast(comparator));
     }
 
 }
