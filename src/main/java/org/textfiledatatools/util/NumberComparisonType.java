@@ -1,5 +1,6 @@
 package org.textfiledatatools.util;
 
+import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 
@@ -63,7 +64,20 @@ public enum NumberComparisonType {
         return (long value) -> compareLong(value, GREATER_THAN, compareValue);
     }
 
+    public static IntPredicate generateIntPredicate(NumberComparisonType numberComparisonType, int compareValue) {
+        Objects.requireNonNull(numberComparisonType);
+        Objects.requireNonNull(compareValue);
+        return (int value) -> compareInt(value, numberComparisonType, compareValue);
+    }
+
+    public static LongPredicate generateLongPredicate(NumberComparisonType numberComparisonType, long compareValue) {
+        Objects.requireNonNull(numberComparisonType);
+        Objects.requireNonNull(compareValue);
+        return (long value) -> compareLong(value, numberComparisonType, compareValue);
+    }
+
     public static boolean compareInt(int a, NumberComparisonType numberComparisonType, int b) {
+        Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
                 return a == b;
@@ -83,6 +97,7 @@ public enum NumberComparisonType {
     }
 
     public static boolean compareLong(long a, NumberComparisonType numberComparisonType, long b) {
+        Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
                 return a == b;

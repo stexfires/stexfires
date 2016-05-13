@@ -54,7 +54,7 @@ public enum StringUnaryOperator {
 
     public static Function<String, String> generateFunction(StringUnaryOperator stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
-        return (String value) -> operate(stringUnaryOperator, value);
+        return (String value) -> operate(stringUnaryOperator, value, null);
     }
 
     public static Function<String, String> generateFunction(StringUnaryOperator stringUnaryOperator, Locale locale) {
