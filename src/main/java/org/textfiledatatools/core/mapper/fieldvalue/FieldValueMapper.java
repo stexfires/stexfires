@@ -23,6 +23,11 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface FieldValueMapper {
 
+    static FieldValueMapper of(Function<Field, String> function) {
+        Objects.requireNonNull(function);
+        return function::apply;
+    }
+
     String mapToValue(Field field);
 
     default FieldValueMapper prepend(String value) {

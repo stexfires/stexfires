@@ -3,6 +3,7 @@ package org.textfiledatatools.core.message;
 import org.textfiledatatools.core.Record;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -20,6 +21,11 @@ import java.util.function.Supplier;
  */
 @FunctionalInterface
 public interface RecordMessage<T extends Record> {
+
+    static <T extends Record> RecordMessage<T> of(Function<T, String> function) {
+        Objects.requireNonNull(function);
+        return function::apply;
+    }
 
     String createMessage(T record);
 

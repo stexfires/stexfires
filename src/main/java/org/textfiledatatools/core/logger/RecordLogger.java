@@ -25,6 +25,11 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface RecordLogger<T extends Record> {
 
+    static <T extends Record> RecordLogger<T> of(Consumer<T> consumer) {
+        Objects.requireNonNull(consumer);
+        return consumer::accept;
+    }
+
     static <T extends Record> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
                                                      RecordLogger<? super T> secondRecordLogger) {
         Objects.requireNonNull(firstRecordLogger);

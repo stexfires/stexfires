@@ -2,7 +2,9 @@ package org.textfiledatatools.core.mapper;
 
 import org.textfiledatatools.core.Record;
 
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * An UnaryRecordMapper maps a {@link Record} to another record of the same type.
@@ -19,4 +21,10 @@ import java.util.function.Function;
  */
 @FunctionalInterface
 public interface UnaryRecordMapper<T extends Record> extends RecordMapper<T, T> {
+
+    static <T extends Record> UnaryRecordMapper<T> of(UnaryOperator<T> unaryOperator) {
+        Objects.requireNonNull(unaryOperator);
+        return unaryOperator::apply;
+    }
+
 }

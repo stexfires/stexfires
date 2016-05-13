@@ -21,6 +21,11 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface RecordMapper<T extends Record, R extends Record> {
 
+    static <T extends Record, R extends Record> RecordMapper<T, R> of(Function<T, R> function) {
+        Objects.requireNonNull(function);
+        return function::apply;
+    }
+
     static <T extends Record, V extends Record, R extends Record> RecordMapper<T, R> concat(RecordMapper<? super T, ? extends V> firstRecordMapper,
                                                                                             RecordMapper<? super V, ? extends R> secondRecordMapper) {
         Objects.requireNonNull(firstRecordMapper);

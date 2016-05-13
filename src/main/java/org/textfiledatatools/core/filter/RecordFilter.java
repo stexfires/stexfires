@@ -21,6 +21,11 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface RecordFilter<T extends Record> {
 
+    static <T extends Record> RecordFilter<T> of(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate);
+        return predicate::test;
+    }
+
     static <T extends Record> RecordFilter<T> concatAnd(RecordFilter<? super T> firstRecordFilter,
                                                         RecordFilter<? super T> secondRecordFilter) {
         Objects.requireNonNull(firstRecordFilter);
