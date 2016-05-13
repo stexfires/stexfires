@@ -75,6 +75,14 @@ public final class RecordComparators {
         return comparing((record) -> record.getValueAt(index), nullsLast(comparator));
     }
 
+    public static Comparator<Record> valueAtOrElse(int index, String other, Comparator<String> comparator, NULLS nulls) {
+        Objects.requireNonNull(comparator);
+        if (nulls == NULLS.FIRST) {
+            return comparing((record) -> record.getValueAtOrElse(index, other), nullsFirst(comparator));
+        }
+        return comparing((record) -> record.getValueAtOrElse(index, other), nullsLast(comparator));
+    }
+
     public static Comparator<KeyRecord> key(Comparator<String> comparator, NULLS nulls) {
         Objects.requireNonNull(comparator);
         if (nulls == NULLS.FIRST) {
