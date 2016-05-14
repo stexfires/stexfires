@@ -10,6 +10,8 @@ import java.util.Objects;
 import static java.util.Comparator.*;
 
 /**
+ * This class consists of {@code static} utility methods for constructing comparators for {@link Record}s.
+ *
  * @author Mathias Kalb
  * @since 0.1
  */
