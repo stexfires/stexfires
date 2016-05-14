@@ -2,6 +2,7 @@ package org.textfiledatatools.core.filter;
 
 import org.textfiledatatools.core.Record;
 import org.textfiledatatools.core.message.RecordMessage;
+import org.textfiledatatools.util.StringCheckType;
 import org.textfiledatatools.util.StringComparisonType;
 
 import java.util.Objects;
@@ -16,11 +17,18 @@ public class MessageFilter<T extends Record> implements RecordFilter<T> {
     protected final RecordMessage<? super T> recordMessage;
     protected final Predicate<String> stringPredicate;
 
-    public MessageFilter(RecordMessage<? super T> recordMessage, StringComparisonType stringComparisonType, String compareMessage) {
+    public MessageFilter(RecordMessage<? super T> recordMessage,
+                         StringComparisonType stringComparisonType, String compareMessage) {
         this(recordMessage, stringComparisonType.stringPredicate(compareMessage));
     }
 
-    public MessageFilter(RecordMessage<? super T> recordMessage, Predicate<String> stringPredicate) {
+    public MessageFilter(RecordMessage<? super T> recordMessage,
+                         StringCheckType stringCheckType) {
+        this(recordMessage, stringCheckType.stringPredicate());
+    }
+
+    public MessageFilter(RecordMessage<? super T> recordMessage,
+                         Predicate<String> stringPredicate) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(stringPredicate);
         this.recordMessage = recordMessage;

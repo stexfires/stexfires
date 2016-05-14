@@ -1,6 +1,7 @@
 package org.textfiledatatools.core.filter;
 
 import org.textfiledatatools.core.Record;
+import org.textfiledatatools.util.NumberCheckType;
 import org.textfiledatatools.util.NumberComparisonType;
 
 import java.util.Objects;
@@ -14,8 +15,16 @@ public class RecordIdFilter implements RecordFilter<Record> {
 
     protected final LongPredicate longPredicate;
 
+    public RecordIdFilter(long equalRecordId) {
+        this(NumberComparisonType.longPredicate(NumberComparisonType.EQUAL_TO, equalRecordId));
+    }
+
     public RecordIdFilter(NumberComparisonType numberComparisonType, long compareRecordId) {
         this(numberComparisonType.longPredicate(compareRecordId));
+    }
+
+    public RecordIdFilter(NumberCheckType numberCheckType) {
+        this(numberCheckType.longPredicate());
     }
 
     public RecordIdFilter(LongPredicate longPredicate) {
@@ -23,28 +32,12 @@ public class RecordIdFilter implements RecordFilter<Record> {
         this.longPredicate = longPredicate;
     }
 
-    public static RecordIdFilter equalTo(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.EQUAL_TO, recordId);
+    public static RecordFilter<Record> getRecordIdIsPresentFilter() {
+        return new RecordIdFilter((long value) -> true);
     }
 
-    public static RecordIdFilter notEqualTo(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.NOT_EQUAL_TO, recordId);
-    }
-
-    public static RecordIdFilter lessThan(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.LESS_THAN, recordId);
-    }
-
-    public static RecordIdFilter lessThanOrEqualTo(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.LESS_THAN_OR_EQUAL_TO, recordId);
-    }
-
-    public static RecordIdFilter greaterThanOrEqualTo(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, recordId);
-    }
-
-    public static RecordIdFilter greaterThan(long recordId) {
-        return new RecordIdFilter(NumberComparisonType.GREATER_THAN, recordId);
+    public static RecordFilter<Record> getRecordIdBetweenFilter(int from, int to) {
+        return new RecordIdFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new RecordIdFilter(NumberComparisonType.LESS_THAN, to));
     }
 
     @Override
