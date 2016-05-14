@@ -3,7 +3,7 @@ package org.textfiledatatools.core.filter;
 import org.textfiledatatools.core.Record;
 import org.textfiledatatools.util.NumberComparisonType;
 
-import java.util.Objects;
+import java.util.function.IntPredicate;
 
 /**
  * @author Mathias Kalb
@@ -11,17 +11,18 @@ import java.util.Objects;
  */
 public class SizeFilter implements RecordFilter<Record> {
 
-    protected final NumberComparisonType numberComparisonType;
-    protected final int compareSize;
+    protected final IntPredicate intPredicate;
 
     public SizeFilter(int compareSize) {
-        this(NumberComparisonType.EQUAL_TO, compareSize);
+        this(NumberComparisonType.intPredicate(NumberComparisonType.EQUAL_TO, compareSize));
     }
 
     public SizeFilter(NumberComparisonType numberComparisonType, int compareSize) {
-        Objects.requireNonNull(numberComparisonType);
-        this.numberComparisonType = numberComparisonType;
-        this.compareSize = compareSize;
+        this(numberComparisonType.intPredicate(compareSize));
+    }
+
+    public SizeFilter(IntPredicate intPredicate) {
+        this.intPredicate = intPredicate;
     }
 
     public static SizeFilter equalTo(int size) {
@@ -50,7 +51,7 @@ public class SizeFilter implements RecordFilter<Record> {
 
     @Override
     public boolean isValid(Record record) {
-        return NumberComparisonType.compareInt(record.size(), numberComparisonType, compareSize);
+        return intPredicate.test(record.size());
     }
 
 }

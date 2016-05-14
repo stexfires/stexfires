@@ -5,6 +5,7 @@ import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.util.StringComparisonType;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author Mathias Kalb
@@ -13,21 +14,22 @@ import java.util.Objects;
 public class MessageFilter<T extends Record> implements RecordFilter<T> {
 
     protected final RecordMessage<? super T> recordMessage;
-    protected final StringComparisonType stringComparisonType;
-    protected final String compareMessage;
+    protected final Predicate<String> stringPredicate;
 
     public MessageFilter(RecordMessage<? super T> recordMessage, StringComparisonType stringComparisonType, String compareMessage) {
+        this(recordMessage, stringComparisonType.stringPredicate(compareMessage));
+    }
+
+    public MessageFilter(RecordMessage<? super T> recordMessage, Predicate<String> stringPredicate) {
         Objects.requireNonNull(recordMessage);
-        Objects.requireNonNull(stringComparisonType);
-        Objects.requireNonNull(compareMessage);
+        Objects.requireNonNull(stringPredicate);
         this.recordMessage = recordMessage;
-        this.stringComparisonType = stringComparisonType;
-        this.compareMessage = compareMessage;
+        this.stringPredicate = stringPredicate;
     }
 
     @Override
     public boolean isValid(T record) {
-        return StringComparisonType.compare(recordMessage.createMessage(record), stringComparisonType, compareMessage);
+        return stringPredicate.test(recordMessage.createMessage(record));
     }
 
 }

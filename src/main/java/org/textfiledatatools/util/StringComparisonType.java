@@ -16,68 +16,46 @@ public enum StringComparisonType {
     ENDS_WITH,
     MATCHES;
 
-    public static Predicate<String> equalsPredicate(String compareValue) {
-        Objects.requireNonNull(compareValue);
-        return (String value) -> compare(value, EQUALS, compareValue);
-    }
-
-    public static Predicate<String> equalsIgnoreCasePredicate(String compareValue) {
-        Objects.requireNonNull(compareValue);
-        return (String value) -> compare(value, EQUALS_IGNORE_CASE, compareValue);
-    }
-
-    public static Predicate<String> contentEqualsPredicate(String compareValue) {
-        Objects.requireNonNull(compareValue);
-        return (String value) -> compare(value, CONTENT_EQUALS, compareValue);
-    }
-
-    public static Predicate<String> containsPredicate(String substring) {
-        Objects.requireNonNull(substring);
-        return (String value) -> compare(value, CONTAINS, substring);
-    }
-
-    public static Predicate<String> startsWithPredicate(String prefix) {
-        Objects.requireNonNull(prefix);
-        return (String value) -> compare(value, STARTS_WITH, prefix);
-    }
-
-    public static Predicate<String> endsWithPredicate(String suffix) {
-        Objects.requireNonNull(suffix);
-        return (String value) -> compare(value, ENDS_WITH, suffix);
-    }
-
-    public static Predicate<String> matchesPredicate(String regex) {
-        Objects.requireNonNull(regex);
-        return (String value) -> compare(value, MATCHES, regex);
-    }
-
-    public static Predicate<String> generatePredicate(StringComparisonType stringComparisonType, String compareValue) {
+    public static Predicate<String> stringPredicate(StringComparisonType stringComparisonType, String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
-        return (String value) -> compare(value, stringComparisonType, compareValue);
+        return value -> compare(value, stringComparisonType, compareValue);
     }
 
-    public static boolean compare(String a, StringComparisonType stringComparisonType, String b) {
-        Objects.requireNonNull(a);
-        Objects.requireNonNull(b);
-        switch (stringComparisonType) {
-            case EQUALS:
-                return a.equals(b);
-            case EQUALS_IGNORE_CASE:
-                return a.equalsIgnoreCase(b);
-            case CONTENT_EQUALS:
-                return a.contentEquals(b);
-            case CONTAINS:
-                return a.contains(b);
-            case STARTS_WITH:
-                return a.startsWith(b);
-            case ENDS_WITH:
-                return a.endsWith(b);
-            case MATCHES:
-                return a.matches(b);
-            default:
-                return false;
+    private static boolean compare(String value, StringComparisonType stringComparisonType, String compareValue) {
+        Objects.requireNonNull(stringComparisonType);
+        Objects.requireNonNull(compareValue);
+        if (value != null) {
+            switch (stringComparisonType) {
+                case EQUALS:
+                    return value.equals(compareValue);
+                case EQUALS_IGNORE_CASE:
+                    return value.equalsIgnoreCase(compareValue);
+                case CONTENT_EQUALS:
+                    return value.contentEquals(compareValue);
+                case CONTAINS:
+                    return value.contains(compareValue);
+                case STARTS_WITH:
+                    return value.startsWith(compareValue);
+                case ENDS_WITH:
+                    return value.endsWith(compareValue);
+                case MATCHES:
+                    return value.matches(compareValue);
+                default:
+                    return false;
+            }
         }
+        return false;
+    }
+
+    public Predicate<String> stringPredicate(String compareValue) {
+        Objects.requireNonNull(compareValue);
+        return value -> compare(value, this, compareValue);
+    }
+
+    public boolean compare(String value, String compareValue) {
+        Objects.requireNonNull(compareValue);
+        return compare(value, this, compareValue);
     }
 
 }

@@ -16,104 +16,70 @@ public enum NumberComparisonType {
     GREATER_THAN_OR_EQUAL_TO,
     GREATER_THAN;
 
-    public static IntPredicate equalToIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, EQUAL_TO, compareValue);
-    }
-
-    public static IntPredicate notEqualToIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, NOT_EQUAL_TO, compareValue);
-    }
-
-    public static IntPredicate lessThanIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, LESS_THAN, compareValue);
-    }
-
-    public static IntPredicate lessThanOrEqualToIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, LESS_THAN_OR_EQUAL_TO, compareValue);
-    }
-
-    public static IntPredicate greaterThanOrEqualToIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, GREATER_THAN_OR_EQUAL_TO, compareValue);
-    }
-
-    public static IntPredicate greaterThanIntPredicate(int compareValue) {
-        return (int value) -> compareInt(value, GREATER_THAN, compareValue);
-    }
-
-    public static LongPredicate equalToLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, EQUAL_TO, compareValue);
-    }
-
-    public static LongPredicate notEqualToLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, NOT_EQUAL_TO, compareValue);
-    }
-
-    public static LongPredicate lessThanLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, LESS_THAN, compareValue);
-    }
-
-    public static LongPredicate lessThanOrEqualToLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, LESS_THAN_OR_EQUAL_TO, compareValue);
-    }
-
-    public static LongPredicate greaterThanOrEqualToLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, GREATER_THAN_OR_EQUAL_TO, compareValue);
-    }
-
-    public static LongPredicate greaterThanLongPredicate(long compareValue) {
-        return (long value) -> compareLong(value, GREATER_THAN, compareValue);
-    }
-
-    public static IntPredicate generateIntPredicate(NumberComparisonType numberComparisonType, int compareValue) {
+    public static IntPredicate intPredicate(NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        Objects.requireNonNull(compareValue);
-        return (int value) -> compareInt(value, numberComparisonType, compareValue);
+        return value -> compareInt(value, numberComparisonType, compareValue);
     }
 
-    public static LongPredicate generateLongPredicate(NumberComparisonType numberComparisonType, long compareValue) {
+    public static LongPredicate longPredicate(NumberComparisonType numberComparisonType, long compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        Objects.requireNonNull(compareValue);
-        return (long value) -> compareLong(value, numberComparisonType, compareValue);
+        return value -> compareLong(value, numberComparisonType, compareValue);
     }
 
-    public static boolean compareInt(int a, NumberComparisonType numberComparisonType, int b) {
+    private static boolean compareInt(int value, NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
-                return a == b;
+                return value == compareValue;
             case NOT_EQUAL_TO:
-                return a != b;
+                return value != compareValue;
             case LESS_THAN:
-                return a < b;
+                return value < compareValue;
             case LESS_THAN_OR_EQUAL_TO:
-                return a <= b;
+                return value <= compareValue;
             case GREATER_THAN_OR_EQUAL_TO:
-                return a >= b;
+                return value >= compareValue;
             case GREATER_THAN:
-                return a > b;
+                return value > compareValue;
             default:
                 return false;
         }
     }
 
-    public static boolean compareLong(long a, NumberComparisonType numberComparisonType, long b) {
+    private static boolean compareLong(long value, NumberComparisonType numberComparisonType, long compareValue) {
         Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
-                return a == b;
+                return value == compareValue;
             case NOT_EQUAL_TO:
-                return a != b;
+                return value != compareValue;
             case LESS_THAN:
-                return a < b;
+                return value < compareValue;
             case LESS_THAN_OR_EQUAL_TO:
-                return a <= b;
+                return value <= compareValue;
             case GREATER_THAN_OR_EQUAL_TO:
-                return a >= b;
+                return value >= compareValue;
             case GREATER_THAN:
-                return a > b;
+                return value > compareValue;
             default:
                 return false;
         }
+    }
+
+    public IntPredicate intPredicate(int compareValue) {
+        return value -> compareInt(value, this, compareValue);
+    }
+
+    public LongPredicate longPredicate(long compareValue) {
+        return value -> compareLong(value, this, compareValue);
+    }
+
+    public boolean compare(int value, int compareValue) {
+        return compareInt(value, this, compareValue);
+    }
+
+    public boolean compare(long value, long compareValue) {
+        return compareLong(value, this, compareValue);
     }
 
 }

@@ -1,10 +1,10 @@
 package org.textfiledatatools.core.mapper.fieldvalue;
 
 import org.textfiledatatools.core.Field;
-import org.textfiledatatools.util.StringUnaryOperator;
+import org.textfiledatatools.util.StringUnaryOperatorType;
 
 import java.util.Locale;
-import java.util.Objects;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
@@ -12,22 +12,23 @@ import java.util.Objects;
  */
 public class StringOperationFieldValueMapper implements FieldValueMapper {
 
-    protected final StringUnaryOperator stringUnaryOperator;
-    protected final Locale locale;
+    protected final UnaryOperator<String> stringUnaryOperator;
 
-    public StringOperationFieldValueMapper(StringUnaryOperator stringUnaryOperator) {
-        this(stringUnaryOperator, null);
+    public StringOperationFieldValueMapper(StringUnaryOperatorType stringUnaryOperatorType) {
+        this(stringUnaryOperatorType.stringUnaryOperator());
     }
 
-    public StringOperationFieldValueMapper(StringUnaryOperator stringUnaryOperator, Locale locale) {
-        Objects.requireNonNull(stringUnaryOperator);
+    public StringOperationFieldValueMapper(StringUnaryOperatorType stringUnaryOperatorType, Locale locale) {
+        this(stringUnaryOperatorType.stringUnaryOperator(locale));
+    }
+
+    public StringOperationFieldValueMapper(UnaryOperator<String> stringUnaryOperator) {
         this.stringUnaryOperator = stringUnaryOperator;
-        this.locale = locale;
     }
 
     @Override
     public String mapToValue(Field field) {
-        return StringUnaryOperator.operate(stringUnaryOperator, field.getValue(), locale);
+        return stringUnaryOperator.apply(field.getValue());
     }
 
 }
