@@ -15,10 +15,6 @@ import static java.util.Comparator.*;
  */
 public final class RecordComparators {
 
-    public enum NULLS {
-        FIRST, LAST
-    }
-
     private RecordComparators() {
     }
 
@@ -97,6 +93,10 @@ public final class RecordComparators {
             return comparing(ValueRecord::getValueOfValueField, nullsFirst(comparator));
         }
         return comparing(ValueRecord::getValueOfValueField, nullsLast(comparator));
+    }
+
+    public enum NULLS {
+        FIRST, LAST
     }
 
 }

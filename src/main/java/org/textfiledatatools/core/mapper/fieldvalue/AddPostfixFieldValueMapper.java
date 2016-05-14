@@ -23,7 +23,7 @@ public class AddPostfixFieldValueMapper implements FieldValueMapper {
         if (value == null) {
             value = postfix;
         } else {
-            value = value + postfix;
+            value += postfix;
         }
         return value;
     }
