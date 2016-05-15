@@ -40,9 +40,9 @@ public enum NumberCheckType {
             case NOT_ZERO:
                 return value != 0;
             case ODD:
-                return (value & 1) == 0;
-            case EVEN:
                 return (value & 1) == 1;
+            case EVEN:
+                return (value & 1) == 0;
             case MAX_VALUE:
                 return value == Integer.MAX_VALUE;
             case MIN_VALUE:
@@ -64,9 +64,9 @@ public enum NumberCheckType {
             case NOT_ZERO:
                 return value != 0;
             case ODD:
-                return (value & 1) == 0;
-            case EVEN:
                 return (value & 1) == 1;
+            case EVEN:
+                return (value & 1) == 0;
             case MAX_VALUE:
                 return value == Long.MAX_VALUE;
             case MIN_VALUE:
