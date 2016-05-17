@@ -1,5 +1,6 @@
 package org.textfiledatatools.core.mapper.to;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
 import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.record.SingleRecord;
@@ -11,6 +12,10 @@ import org.textfiledatatools.core.record.SingleRecord;
 public class ToSingleMapper implements RecordMapper<Record, SingleRecord> {
 
     protected final int valueIndex;
+
+    public ToSingleMapper() {
+        this(Fields.FIRST_FIELD_INDEX);
+    }
 
     public ToSingleMapper(int valueIndex) {
         this.valueIndex = valueIndex;

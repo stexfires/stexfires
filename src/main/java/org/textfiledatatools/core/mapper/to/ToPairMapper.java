@@ -1,5 +1,6 @@
 package org.textfiledatatools.core.mapper.to;
 
+import org.textfiledatatools.core.Fields;
 import org.textfiledatatools.core.Record;
 import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.record.PairRecord;
@@ -12,6 +13,10 @@ public class ToPairMapper implements RecordMapper<Record, PairRecord> {
 
     protected final int firstIndex;
     protected final int secondIndex;
+
+    public ToPairMapper() {
+        this(Fields.FIRST_FIELD_INDEX, Fields.FIRST_FIELD_INDEX + 1);
+    }
 
     public ToPairMapper(int firstIndex, int secondIndex) {
         this.firstIndex = firstIndex;
