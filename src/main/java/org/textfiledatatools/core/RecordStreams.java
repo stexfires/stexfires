@@ -4,6 +4,7 @@ import org.textfiledatatools.core.consumer.LoggerConsumer;
 import org.textfiledatatools.core.consumer.RecordConsumer;
 import org.textfiledatatools.core.consumer.UncheckedConsumerException;
 import org.textfiledatatools.core.logger.SystemOutLogger;
+import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
@@ -77,18 +78,32 @@ public final class RecordStreams {
         return recordStream.collect(Collectors.toList());
     }
 
+    public static <T extends Record> List<String> collectMessages(Stream<T> recordStream,
+                                                                  RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordMessage);
+        return recordStream.map(recordMessage::createMessage).collect(Collectors.toList());
+    }
+
+    public static <T extends Record> String joinMessages(Stream<T> recordStream,
+                                                         RecordMessage<? super T> recordMessage,
+                                                         String delimiter) {
+        Objects.requireNonNull(recordMessage);
+        Objects.requireNonNull(delimiter);
+        return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
+    }
+
     public static void printLines(Stream<Record> recordStream) {
         consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
     }
 
     public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
-                                                        Function<? super T, String> recordEqualsString) {
+                                                        RecordMessage<? super T> recordCompareMessage) {
         Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
-        Objects.requireNonNull(recordEqualsString, "Parameter 'recordEqualsString' must not be null");
-        //noinspection RedundantTypeArguments
-        return recordStream.map(record -> new DistinctRecordWrapper<>(record, recordEqualsString.apply(record)))
+        Objects.requireNonNull(recordCompareMessage, "Parameter 'recordCompareMessage' must not be null");
+        return recordStream
+                .map(record -> new DistinctRecordWrapper<>(record, recordCompareMessage.createMessage(record)))
                 .distinct()
-                .map(DistinctRecordWrapper<T>::getRecord);
+                .map(DistinctRecordWrapper::getRecord);
     }
 
     public static <T extends Record> Stream<T> sorted(Stream<T> recordStream, Comparator<? super T> recordComparator) {
@@ -103,6 +118,8 @@ public final class RecordStreams {
         private final String equalsString;
 
         public DistinctRecordWrapper(T record, String equalsString) {
+            Objects.requireNonNull(record);
+            Objects.requireNonNull(equalsString);
             this.record = record;
             this.equalsString = equalsString;
         }
@@ -116,21 +133,14 @@ public final class RecordStreams {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             DistinctRecordWrapper<?> that = (DistinctRecordWrapper<?>) o;
-            return Objects.equals(equalsString, that.equalsString);
+            return equalsString.equals(that.equalsString);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(equalsString);
+            return equalsString.hashCode();
         }
 
-        @Override
-        public String toString() {
-            return "DistinctRecordWrapper{" +
-                    "record=" + record +
-                    ", equalsString='" + equalsString + '\'' +
-                    '}';
-        }
     }
 
 }
