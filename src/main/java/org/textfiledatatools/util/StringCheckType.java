@@ -22,6 +22,8 @@ public enum StringCheckType {
     UPPER_CASE,
     WHITESPACE;
 
+    private static final int FIRST_NON_ASCII_CHAR = 128;
+
     public static Predicate<String> stringPredicate(StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
         return value -> check(value, stringCheckType);
@@ -39,7 +41,7 @@ public enum StringCheckType {
             case ALPHABETIC:
                 return checkAllChars(value, Character::isAlphabetic);
             case ASCII:
-                return checkAllChars(value, c -> c < 128);
+                return checkAllChars(value, c -> c < FIRST_NON_ASCII_CHAR);
             case DIGIT:
                 return checkAllChars(value, Character::isDigit);
             case LETTER:
