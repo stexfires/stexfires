@@ -25,7 +25,7 @@ public enum LineSeparator {
     public Supplier<String> supplier() {
         return () -> separator;
     }
-    
+
     @Override
     public String toString() {
         return separator;
