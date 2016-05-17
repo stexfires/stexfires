@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -44,24 +45,24 @@ public final class Records {
         return new StandardRecord(values);
     }
 
-    public static Record[] singletonArray(Record record) {
-        Objects.requireNonNull(record);
-        return new Record[]{record};
-    }
-
-    public static List<Record> singletonList(Record record) {
+    public static List<Record> list(Record record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
 
-    public static Set<Record> singletonSet(Record record) {
-        Objects.requireNonNull(record);
-        return Collections.singleton(record);
+    public static List<Record> list(Record... records) {
+        Objects.requireNonNull(records);
+        return Arrays.stream(records).collect(Collectors.toList());
     }
 
-    public static Stream<Record> singletonStream(Record record) {
+    public static Stream<Record> stream(Record record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
+    }
+
+    public static Stream<Record> stream(Record... records) {
+        Objects.requireNonNull(records);
+        return Stream.of(records);
     }
 
     public static Supplier<Long> recordIdSequence() {
