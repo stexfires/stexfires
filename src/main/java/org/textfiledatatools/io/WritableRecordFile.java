@@ -1,7 +1,6 @@
 package org.textfiledatatools.io;
 
 import org.textfiledatatools.core.Record;
-import org.textfiledatatools.core.consumer.ClosableRecordConsumer;
 
 import java.io.IOException;
 
@@ -11,6 +10,6 @@ import java.io.IOException;
  */
 public interface WritableRecordFile<T extends Record> extends RecordFile {
 
-    ClosableRecordConsumer<T> newConsumer() throws IOException;
+    WritableRecordConsumer<T> openConsumer() throws IOException;
 
 }
