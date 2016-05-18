@@ -3,7 +3,7 @@ package org.textfiledatatools.core.filter;
 import org.textfiledatatools.core.Record;
 
 import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 /**
  * @author Mathias Kalb
@@ -11,19 +11,19 @@ import java.util.function.Supplier;
  */
 public class SupplierFilter implements RecordFilter<Record> {
 
-    protected final Supplier<Boolean> validitySupplier;
+    protected final BooleanSupplier validitySupplier;
 
     /**
      * @param validitySupplier must be thread-safe
      */
-    public SupplierFilter(Supplier<Boolean> validitySupplier) {
+    public SupplierFilter(BooleanSupplier validitySupplier) {
         Objects.requireNonNull(validitySupplier);
         this.validitySupplier = validitySupplier;
     }
 
     @Override
     public boolean isValid(Record record) {
-        return validitySupplier.get();
+        return validitySupplier.getAsBoolean();
     }
 
 }
