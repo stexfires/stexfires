@@ -4,6 +4,7 @@ import org.textfiledatatools.core.consumer.LoggerConsumer;
 import org.textfiledatatools.core.consumer.RecordConsumer;
 import org.textfiledatatools.core.consumer.UncheckedConsumerException;
 import org.textfiledatatools.core.logger.SystemOutLogger;
+import org.textfiledatatools.core.message.CompareMessageBuilder;
 import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
@@ -96,6 +97,20 @@ public final class RecordStreams {
         consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
     }
 
+    /**
+     * Returns a stream consisting of the distinct records (according to <code>compareMessageBuilder</code>)
+     * of the record stream.
+     */
+    public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
+                                                        CompareMessageBuilder compareMessageBuilder) {
+        Objects.requireNonNull(compareMessageBuilder, "Parameter 'compareMessageBuilder' must not be null");
+        return distinct(recordStream, compareMessageBuilder.build());
+    }
+
+    /**
+     * Returns a stream consisting of the distinct records (according to <code>recordCompareMessage</code>)
+     * of the record stream.
+     */
     public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
                                                         RecordMessage<? super T> recordCompareMessage) {
         Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
