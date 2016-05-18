@@ -1,6 +1,7 @@
 Text file data tools
 ====================
-A Java library to work with data from text files (CSV, JSON, properties, ...).
+A stream-based Java 8 library to work with data from text files (CSV, Fixed Width, INI, Java-Properties, JSON, XML...).
+
 
 License
 -------
