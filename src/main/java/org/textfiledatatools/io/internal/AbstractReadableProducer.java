@@ -8,6 +8,7 @@ import org.textfiledatatools.io.ReadableRecordProducer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Stream;
@@ -22,6 +23,7 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
     protected final BufferedReader reader;
 
     protected AbstractReadableProducer(BufferedReader reader) {
+        Objects.requireNonNull(reader);
         this.reader = reader;
     }
 

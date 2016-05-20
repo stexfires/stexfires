@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -31,6 +32,13 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
     }
 
     protected AbstractRecordRawDataIterator(BufferedReader reader, int ignoreFirst, int ignoreLast) {
+        Objects.requireNonNull(reader);
+        if (ignoreFirst < 0) {
+            throw new IllegalArgumentException("ignoreFirst < 0");
+        }
+        if (ignoreLast < 0) {
+            throw new IllegalArgumentException("ignoreLast < 0");
+        }
         this.reader = reader;
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;

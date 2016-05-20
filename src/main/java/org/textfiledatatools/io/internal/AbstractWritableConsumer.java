@@ -6,6 +6,7 @@ import org.textfiledatatools.io.WritableRecordConsumer;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Mathias Kalb
@@ -16,6 +17,7 @@ public abstract class AbstractWritableConsumer<T extends Record> implements Writ
     protected final BufferedWriter writer;
 
     protected AbstractWritableConsumer(BufferedWriter writer) {
+        Objects.requireNonNull(writer);
         this.writer = writer;
     }
 
