@@ -16,6 +16,16 @@ public enum StringUnaryOperatorType {
 
     private static final String EMPTY = "";
 
+    public static UnaryOperator<String> prefix(String prefix) {
+        Objects.requireNonNull(prefix);
+        return value -> value == null ? prefix : prefix + value;
+    }
+
+    public static UnaryOperator<String> postfix(String postfix) {
+        Objects.requireNonNull(postfix);
+        return value -> value == null ? postfix : value + postfix;
+    }
+
     public static UnaryOperator<String> stringUnaryOperator(StringUnaryOperatorType stringUnaryOperatorType) {
         Objects.requireNonNull(stringUnaryOperatorType);
         return value -> operate(stringUnaryOperatorType, value, null);
