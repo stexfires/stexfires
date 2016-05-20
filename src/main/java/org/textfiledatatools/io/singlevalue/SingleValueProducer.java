@@ -3,7 +3,6 @@ package org.textfiledatatools.io.singlevalue;
 import org.textfiledatatools.core.producer.ProducerException;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 import org.textfiledatatools.core.record.SingleRecord;
-import org.textfiledatatools.core.record.ValueRecord;
 import org.textfiledatatools.io.internal.AbstractReadableProducer;
 import org.textfiledatatools.io.internal.AbstractRecordRawDataIterator;
 import org.textfiledatatools.io.internal.RecordRawData;
@@ -17,7 +16,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
+public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> {
 
     private final SingleValueFileSpec fileSpec;
 
@@ -33,7 +32,7 @@ public class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
     }
 
     @Override
-    protected ValueRecord createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected SingleRecord createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         String value = recordRawData.getRawData();
         // TODO Change value (substitute, DataType)
         return new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(), value);

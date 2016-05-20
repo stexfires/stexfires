@@ -1,5 +1,6 @@
 package org.textfiledatatools.io.singlevalue;
 
+import org.textfiledatatools.core.record.SingleRecord;
 import org.textfiledatatools.core.record.ValueRecord;
 import org.textfiledatatools.io.BaseRecordFile;
 import org.textfiledatatools.io.ReadableRecordProducer;
@@ -13,7 +14,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueFile extends BaseRecordFile<ValueRecord> {
+public class SingleValueFile extends BaseRecordFile<ValueRecord, SingleRecord> {
 
     private final SingleValueFileSpec fileSpec;
 
@@ -24,7 +25,7 @@ public class SingleValueFile extends BaseRecordFile<ValueRecord> {
     }
 
     @Override
-    public ReadableRecordProducer<ValueRecord> openProducer() throws IOException {
+    public ReadableRecordProducer<SingleRecord> openProducer() throws IOException {
         return new SingleValueProducer(newBufferedReader(fileSpec.getCharset()), fileSpec);
     }
 

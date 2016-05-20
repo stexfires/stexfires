@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class BaseRecordFile<T extends Record> implements ReadableRecordFile<T>, WritableRecordFile<T> {
+public class BaseRecordFile<W extends Record, R extends W> implements ReadableRecordFile<R>, WritableRecordFile<W> {
 
     protected final Path path;
 
@@ -30,12 +30,12 @@ public class BaseRecordFile<T extends Record> implements ReadableRecordFile<T>, 
     }
 
     @Override
-    public ReadableRecordProducer<T> openProducer() throws IOException {
+    public ReadableRecordProducer<R> openProducer() throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public WritableRecordConsumer<T> openConsumer() throws IOException {
+    public WritableRecordConsumer<W> openConsumer() throws IOException {
         throw new UnsupportedOperationException();
     }
 
