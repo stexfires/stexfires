@@ -1,5 +1,6 @@
-package org.textfiledatatools.core;
+package org.textfiledatatools.core.comparator;
 
+import org.textfiledatatools.core.Record;
 import org.textfiledatatools.core.record.KeyRecord;
 import org.textfiledatatools.core.record.ValueRecord;
 
