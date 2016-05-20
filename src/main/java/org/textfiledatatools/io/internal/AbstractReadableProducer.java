@@ -14,6 +14,8 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static org.textfiledatatools.io.internal.ReadableProducerState.*;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -22,13 +24,17 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
 
     protected final BufferedReader reader;
 
+    protected ReadableProducerState state;
+
     protected AbstractReadableProducer(BufferedReader reader) {
         Objects.requireNonNull(reader);
         this.reader = reader;
+        state = OPEN;
     }
 
     @Override
     public void readBefore() throws IOException {
+        state = READ_BEFORE.validate(state);
     }
 
     protected abstract Iterator<RecordRawData> createIterator() throws UncheckedProducerException;
@@ -37,6 +43,7 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
 
     @Override
     public Stream<T> readRecords() throws IOException, ProducerException {
+        state = READ_RECORDS.validate(state);
         Stream<T> recordStream;
         Iterator<RecordRawData> iterator = createIterator();
         if (iterator.hasNext()) {
@@ -51,10 +58,12 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
 
     @Override
     public void readAfter() throws IOException {
+        state = READ_AFTER.validate(state);
     }
 
     @Override
     public void close() throws IOException {
+        state = CLOSE.validate(state);
         reader.close();
     }
 

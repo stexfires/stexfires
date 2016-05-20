@@ -25,6 +25,7 @@ public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
 
     @Override
     public void writeRecord(ValueRecord record) throws IOException, ConsumerException {
+        super.writeRecord(record);
         Field field = record.getValueField();
         // TODO Change value (substitute)
         String value = field.getValue();
