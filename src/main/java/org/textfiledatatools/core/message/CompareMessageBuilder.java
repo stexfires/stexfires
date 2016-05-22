@@ -9,7 +9,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
- * Created by Mathias Kalb on 18.05.2016.
+ * @author Mathias Kalb
+ * @since 0.1
  */
 public class CompareMessageBuilder {
 
@@ -19,7 +20,7 @@ public class CompareMessageBuilder {
     private boolean recordId;
     private boolean size;
     private boolean values;
-    private SortedSet<Integer> valueIndex;
+    private final SortedSet<Integer> valueIndex;
 
     public CompareMessageBuilder() {
         valueIndex = new TreeSet<>();
