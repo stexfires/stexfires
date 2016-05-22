@@ -7,6 +7,7 @@ import org.textfiledatatools.util.Strings;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,11 +29,15 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
     }
 
     public KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<?, ?> keyValueMap) {
+        this(category, recordIdSupplier, keyValueMap, Strings::asString);
+    }
+
+    public KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<?, ?> keyValueMap, Function<Object, String> toStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(keyValueMap);
         records = keyValueMap.entrySet()
                 .stream()
-                .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(), entry.getKey().toString(), Strings.asString(entry.getValue())))
+                .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(), toStringFunction.apply(entry.getKey()), toStringFunction.apply(entry.getValue())))
                 .collect(Collectors.toList());
     }
 
