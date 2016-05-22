@@ -20,6 +20,10 @@ public final class Strings {
     private Strings() {
     }
 
+    public static String asString(Object o) {
+        return o == null ? null : o.toString();
+    }
+
     public static String empty() {
         return EMPTY;
     }
