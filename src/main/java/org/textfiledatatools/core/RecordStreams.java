@@ -3,6 +3,8 @@ package org.textfiledatatools.core;
 import org.textfiledatatools.core.consumer.LoggerConsumer;
 import org.textfiledatatools.core.consumer.RecordConsumer;
 import org.textfiledatatools.core.consumer.UncheckedConsumerException;
+import org.textfiledatatools.core.filter.RecordFilter;
+import org.textfiledatatools.core.logger.RecordLogger;
 import org.textfiledatatools.core.logger.SystemOutLogger;
 import org.textfiledatatools.core.message.CompareMessageBuilder;
 import org.textfiledatatools.core.message.RecordMessage;
@@ -95,6 +97,19 @@ public final class RecordStreams {
 
     public static void printLines(Stream<Record> recordStream) {
         consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
+    }
+
+    public static <T extends Record> Stream<T> filterAndLog(Stream<T> recordStream,
+                                                            RecordFilter<T> recordFilter,
+                                                            RecordLogger<T> validLogger,
+                                                            RecordLogger<T> invalidLogger) {
+        return recordStream.peek(r -> {
+            if (recordFilter.isValid(r)) {
+                validLogger.log(r);
+            } else {
+                invalidLogger.log(r);
+            }
+        }).filter(recordFilter::isValid);
     }
 
     /**
