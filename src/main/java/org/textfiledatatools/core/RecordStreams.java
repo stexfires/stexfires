@@ -41,8 +41,14 @@ public final class RecordStreams {
         return Stream.of(records);
     }
 
-    public static <T extends Record> Stream<T> produceStream(RecordProducer<T> recordProducer) throws UncheckedProducerException {
+    public static <T extends Record> Stream<T> produce(RecordProducer<T> recordProducer) throws UncheckedProducerException {
         return recordProducer.produceStream();
+    }
+
+    public static <T extends Record> Stream<T> produceAndRestrict(RecordProducer<T> recordProducer,
+                                                                  long skipFirst,
+                                                                  long limitMaxSize) throws UncheckedProducerException {
+        return recordProducer.produceStream().skip(skipFirst).limit(limitMaxSize);
     }
 
     public static <T extends Record> Stream<T> generate(Supplier<T> recordSupplier) {
@@ -102,7 +108,7 @@ public final class RecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
-    public static void printLines(Stream<Record> recordStream) {
+    public static <T extends Record> void printLines(Stream<T> recordStream) {
         consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
     }
 
