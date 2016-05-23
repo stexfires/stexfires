@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
  */
 public class CompareMessageBuilder {
 
+    private final SortedSet<Integer> valueIndex;
     private boolean className;
     private boolean category;
     private String categoryOther;
     private boolean recordId;
     private boolean size;
     private boolean values;
-    private final SortedSet<Integer> valueIndex;
 
     public CompareMessageBuilder() {
         valueIndex = new TreeSet<>();
