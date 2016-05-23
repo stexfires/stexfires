@@ -11,9 +11,7 @@ import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.producer.RecordProducer;
 import org.textfiledatatools.core.producer.UncheckedProducerException;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -85,6 +83,15 @@ public final class RecordStreams {
                                                                   RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage).collect(Collectors.toList());
+    }
+
+    public static <T extends Record> Map<String, List<String>> collectMessages(Stream<T> recordStream,
+                                                                               RecordMessage<? super T> keyMessage,
+                                                                               RecordMessage<? super T> valueMessage) {
+        Objects.requireNonNull(keyMessage);
+        Objects.requireNonNull(valueMessage);
+        return recordStream.collect(Collectors.groupingBy(keyMessage::createMessage, HashMap::new,
+                Collectors.mapping(valueMessage::createMessage, Collectors.toList())));
     }
 
     public static <T extends Record> String joinMessages(Stream<T> recordStream,
