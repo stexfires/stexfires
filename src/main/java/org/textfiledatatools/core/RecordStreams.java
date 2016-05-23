@@ -106,10 +106,18 @@ public final class RecordStreams {
         consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
     }
 
+    public static <T extends Record> Stream<T> log(Stream<T> recordStream, RecordLogger<? super T> recordLogger) {
+        return recordStream.peek(recordLogger::log);
+    }
+
+    public static <T extends Record> Stream<T> filter(Stream<T> recordStream, RecordFilter<? super T> recordFilter) {
+        return recordStream.filter(recordFilter::isValid);
+    }
+
     public static <T extends Record> Stream<T> filterAndLog(Stream<T> recordStream,
-                                                            RecordFilter<T> recordFilter,
-                                                            RecordLogger<T> validLogger,
-                                                            RecordLogger<T> invalidLogger) {
+                                                            RecordFilter<? super T> recordFilter,
+                                                            RecordLogger<? super T> validLogger,
+                                                            RecordLogger<? super T> invalidLogger) {
         return recordStream.peek(r -> {
             if (recordFilter.isValid(r)) {
                 validLogger.log(r);
