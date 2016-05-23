@@ -6,6 +6,7 @@ import org.textfiledatatools.core.consumer.UncheckedConsumerException;
 import org.textfiledatatools.core.filter.RecordFilter;
 import org.textfiledatatools.core.logger.RecordLogger;
 import org.textfiledatatools.core.logger.SystemOutLogger;
+import org.textfiledatatools.core.mapper.RecordMapper;
 import org.textfiledatatools.core.message.CompareMessageBuilder;
 import org.textfiledatatools.core.message.RecordMessage;
 import org.textfiledatatools.core.producer.RecordProducer;
@@ -78,6 +79,20 @@ public final class RecordStreams {
     public static <R extends Record, T extends R> RecordConsumer<R> consume(Stream<T> recordStream,
                                                                             RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
         recordStream.forEachOrdered(recordConsumer::consume);
+        return recordConsumer;
+    }
+
+    public static <R extends Record, T extends R> RecordConsumer<R> consume(Stream<T> recordStream,
+                                                                            RecordLogger<? super T> recordLogger,
+                                                                            RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
+        recordStream.peek(recordLogger::log).forEachOrdered(recordConsumer::consume);
+        return recordConsumer;
+    }
+
+    public static <R extends Record, T extends Record> RecordConsumer<R> consume(Stream<T> recordStream,
+                                                                                 RecordMapper<? super T, ? extends R> recordMapper,
+                                                                                 RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
+        recordStream.map(recordMapper::map).forEachOrdered(recordConsumer::consume);
         return recordConsumer;
     }
 
