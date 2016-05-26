@@ -1,5 +1,5 @@
-group 'org.textfiledatatools'
-version '0.1'
+group 'stextfires'
+version '0.1.0'
 
 apply plugin: 'java-library-distribution'
 apply plugin: 'project-report'
