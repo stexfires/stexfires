@@ -45,22 +45,22 @@ public final class Records {
         return new StandardRecord(values);
     }
 
-    public static List<Record> list(Record record) {
+    public static <T extends Record> List<T> list(T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
 
-    public static List<Record> list(Record... records) {
+    public static <T extends Record> List<T> list(T... records) {
         Objects.requireNonNull(records);
         return Arrays.stream(records).collect(Collectors.toList());
     }
 
-    public static Stream<Record> stream(Record record) {
+    public static <T extends Record> Stream<T> stream(T record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
     }
 
-    public static Stream<Record> stream(Record... records) {
+    public static <T extends Record> Stream<T> stream(T... records) {
         Objects.requireNonNull(records);
         return Stream.of(records);
     }

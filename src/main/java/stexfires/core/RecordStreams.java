@@ -29,7 +29,7 @@ public final class RecordStreams {
     private RecordStreams() {
     }
 
-    public static Stream<Record> empty() {
+    public static <T extends Record> Stream<T> empty() {
         return Stream.empty();
     }
 
