@@ -93,6 +93,10 @@ public interface RecordLogger<T extends Record> {
 
     void log(T record);
 
+    default Consumer<T> asConsumer() {
+        return this::log;
+    }
+
     default RecordLogger<T> andThen(RecordLogger<? super T> afterRecordLogger) {
         Objects.requireNonNull(afterRecordLogger);
         return (T record) -> {

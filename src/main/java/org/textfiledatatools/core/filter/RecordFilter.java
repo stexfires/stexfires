@@ -42,6 +42,10 @@ public interface RecordFilter<T extends Record> {
 
     boolean isValid(T record);
 
+    default Predicate<T> asPredicate() {
+        return this::isValid;
+    }
+
     default RecordFilter<T> and(RecordFilter<? super T> other) {
         Objects.requireNonNull(other);
         return (T record) -> isValid(record) && other.isValid(record);

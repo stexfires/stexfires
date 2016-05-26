@@ -44,6 +44,10 @@ public interface RecordMapper<T extends Record, R extends Record> {
 
     R map(T record);
 
+    default Function<T, R> asFunction() {
+        return this::map;
+    }
+
     default <V extends Record> RecordMapper<V, R> compose(RecordMapper<? super V, ? extends T> before) {
         Objects.requireNonNull(before);
         return (V record) -> map(before.map(record));

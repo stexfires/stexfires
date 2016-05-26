@@ -30,6 +30,10 @@ public interface FieldValueMapper {
 
     String mapToValue(Field field);
 
+    default Function<Field, String> asFunction() {
+        return this::mapToValue;
+    }
+
     default FieldValueMapper prepend(String value) {
         Objects.requireNonNull(value);
         return (Field field) -> value + mapToValue(field);

@@ -29,6 +29,10 @@ public interface RecordMessage<T extends Record> {
 
     String createMessage(T record);
 
+    default Function<T, String> asFunction() {
+        return this::createMessage;
+    }
+
     default RecordMessage<T> prepend(String message) {
         Objects.requireNonNull(message);
         return (T record) -> message + createMessage(record);
