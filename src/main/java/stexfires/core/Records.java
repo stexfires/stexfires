@@ -50,6 +50,7 @@ public final class Records {
         return Collections.singletonList(record);
     }
 
+    @SafeVarargs
     public static <T extends Record> List<T> list(T... records) {
         Objects.requireNonNull(records);
         return Arrays.stream(records).collect(Collectors.toList());
@@ -60,6 +61,7 @@ public final class Records {
         return Stream.of(record);
     }
 
+    @SafeVarargs
     public static <T extends Record> Stream<T> stream(T... records) {
         Objects.requireNonNull(records);
         return Stream.of(records);
