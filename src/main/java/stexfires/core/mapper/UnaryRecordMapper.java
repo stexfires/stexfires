@@ -27,4 +27,8 @@ public interface UnaryRecordMapper<T extends Record> extends RecordMapper<T, T> 
         return unaryOperator::apply;
     }
 
+    default UnaryOperator<T> asUnaryOperator() {
+        return this::map;
+    }
+
 }
