@@ -14,6 +14,9 @@ import java.util.stream.Stream;
  */
 public class SingleRecord implements ValueRecord {
 
+    public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
+    public static final int FIELD_SIZE = 1;
+
     private static final long serialVersionUID = 1L;
 
     private final String category;
@@ -27,7 +30,7 @@ public class SingleRecord implements ValueRecord {
     public SingleRecord(String category, Long recordId, String value) {
         this.category = category;
         this.recordId = recordId;
-        this.singleField = Fields.newArray(value)[0];
+        this.singleField = Fields.newArray(value)[VALUE_INDEX];
     }
 
     @Override
@@ -62,7 +65,7 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public final int size() {
-        return 1;
+        return FIELD_SIZE;
     }
 
     @Override
@@ -72,12 +75,12 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public final boolean isValidIndex(int index) {
-        return index == 0;
+        return index == VALUE_INDEX;
     }
 
     @Override
     public final Field getFieldAt(int index) {
-        return (index == 0) ? singleField : null;
+        return (index == VALUE_INDEX) ? singleField : null;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public final String getValueAt(int index) {
-        return (index == 0) ? singleField.getValue() : null;
+        return (index == VALUE_INDEX) ? singleField.getValue() : null;
     }
 
     @Override

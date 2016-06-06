@@ -15,6 +15,10 @@ import java.util.stream.Stream;
  */
 public class PairRecord implements Record {
 
+    public static final int FIRST_VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
+    public static final int SECOND_VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
+    public static final int FIELD_SIZE = 2;
+
     private static final long serialVersionUID = 1L;
 
     private final String category;
@@ -30,8 +34,8 @@ public class PairRecord implements Record {
         this.category = category;
         this.recordId = recordId;
         Field[] fields = Fields.newArray(firstValue, secondValue);
-        firstField = fields[0];
-        secondField = fields[1];
+        firstField = fields[FIRST_VALUE_INDEX];
+        secondField = fields[SECOND_VALUE_INDEX];
     }
 
     public PairRecord newRecordSwapped() {
@@ -45,7 +49,7 @@ public class PairRecord implements Record {
 
     @Override
     public final List<Field> listOfFields() {
-        List<Field> list = new ArrayList<>(2);
+        List<Field> list = new ArrayList<>(FIELD_SIZE);
         list.add(firstField);
         list.add(secondField);
         return list;
@@ -68,7 +72,7 @@ public class PairRecord implements Record {
 
     @Override
     public final int size() {
-        return 2;
+        return FIELD_SIZE;
     }
 
     @Override
@@ -78,7 +82,7 @@ public class PairRecord implements Record {
 
     @Override
     public final boolean isValidIndex(int index) {
-        return index == 0 || index == 1;
+        return index == FIRST_VALUE_INDEX || index == SECOND_VALUE_INDEX;
     }
 
     @Override

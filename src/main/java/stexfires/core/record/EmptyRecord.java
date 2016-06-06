@@ -14,6 +14,8 @@ import java.util.stream.Stream;
  */
 public final class EmptyRecord implements Record {
 
+    public static final int FIELD_SIZE = 0;
+
     private static final long serialVersionUID = 1L;
 
     private static final int HASH_CODE = 0;
@@ -48,7 +50,7 @@ public final class EmptyRecord implements Record {
 
     @Override
     public int size() {
-        return 0;
+        return FIELD_SIZE;
     }
 
     @Override
