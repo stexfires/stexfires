@@ -7,8 +7,8 @@ import stexfires.core.filter.RecordFilter;
 import stexfires.core.logger.RecordLogger;
 import stexfires.core.logger.SystemOutLogger;
 import stexfires.core.mapper.RecordMapper;
-import stexfires.core.message.CompareMessageBuilder;
 import stexfires.core.message.RecordMessage;
+import stexfires.core.modifier.RecordStreamModifier;
 import stexfires.core.producer.RecordProducer;
 import stexfires.core.producer.UncheckedProducerException;
 
@@ -82,6 +82,13 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
+    public static <R extends Record, T extends Record> RecordConsumer<R> consume(Stream<T> recordStream,
+                                                                                 RecordStreamModifier<T, ? extends R> recordStreamModifier,
+                                                                                 RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
+        recordStreamModifier.modify(recordStream).forEachOrdered(recordConsumer::consume);
+        return recordConsumer;
+    }
+
     public static <R extends Record, T extends R> RecordConsumer<R> consume(Stream<T> recordStream,
                                                                             RecordLogger<? super T> recordLogger,
                                                                             RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
@@ -135,78 +142,16 @@ public final class RecordStreams {
         return recordStream.filter(recordFilter::isValid);
     }
 
-    public static <T extends Record> Stream<T> filterAndLog(Stream<T> recordStream,
-                                                            RecordFilter<? super T> recordFilter,
-                                                            RecordLogger<? super T> validLogger,
-                                                            RecordLogger<? super T> invalidLogger) {
-        return recordStream.peek(r -> {
-            if (recordFilter.isValid(r)) {
-                validLogger.log(r);
-            } else {
-                invalidLogger.log(r);
-            }
-        }).filter(recordFilter::isValid);
+    public static <T extends Record, R extends Record> Stream<R> map(Stream<T> recordStream, RecordMapper<? super T, ? extends R> recordMapper) {
+        return recordStream.map(recordMapper::map);
     }
 
-    /**
-     * Returns a stream consisting of the distinct records (according to <code>compareMessageBuilder</code>)
-     * of the record stream.
-     */
-    public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
-                                                        CompareMessageBuilder compareMessageBuilder) {
-        Objects.requireNonNull(compareMessageBuilder, "Parameter 'compareMessageBuilder' must not be null");
-        return distinct(recordStream, compareMessageBuilder.build());
-    }
-
-    /**
-     * Returns a stream consisting of the distinct records (according to <code>recordCompareMessage</code>)
-     * of the record stream.
-     */
-    public static <T extends Record> Stream<T> distinct(Stream<T> recordStream,
-                                                        RecordMessage<? super T> recordCompareMessage) {
-        Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
-        Objects.requireNonNull(recordCompareMessage, "Parameter 'recordCompareMessage' must not be null");
-        return recordStream
-                .map(record -> new DistinctRecordWrapper<>(record, recordCompareMessage.createMessage(record)))
-                .distinct()
-                .map(DistinctRecordWrapper::getRecord);
-    }
-
-    public static <T extends Record> Stream<T> sorted(Stream<T> recordStream, Comparator<? super T> recordComparator) {
-        Objects.requireNonNull(recordStream, "Parameter 'recordStream' must not be null");
-        Objects.requireNonNull(recordComparator, "Parameter 'recordComparator' must not be null");
+    public static <T extends Record> Stream<T> sort(Stream<T> recordStream, Comparator<? super T> recordComparator) {
         return recordStream.sorted(recordComparator);
     }
 
-    private static final class DistinctRecordWrapper<T extends Record> {
-
-        private final T record;
-        private final String equalsString;
-
-        public DistinctRecordWrapper(T record, String equalsString) {
-            Objects.requireNonNull(record);
-            Objects.requireNonNull(equalsString);
-            this.record = record;
-            this.equalsString = equalsString;
-        }
-
-        public T getRecord() {
-            return record;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            DistinctRecordWrapper<?> that = (DistinctRecordWrapper<?>) o;
-            return equalsString.equals(that.equalsString);
-        }
-
-        @Override
-        public int hashCode() {
-            return equalsString.hashCode();
-        }
-
+    public static <T extends Record, R extends Record> Stream<R> modify(Stream<T> recordStream, RecordStreamModifier<T, R> recordStreamModifier) {
+        return recordStreamModifier.modify(recordStream);
     }
 
 }
