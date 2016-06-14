@@ -15,13 +15,13 @@ import java.util.function.Predicate;
 public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> implements UnaryRecordStreamModifier<T> {
 
     public UnaryGroupModifier(Function<? super T, ?> groupByClassifier,
-                              Function<List<T>, T> aggregateFunction) {
+                              Function<List<T>, ? extends T> aggregateFunction) {
         super(groupByClassifier, aggregateFunction);
     }
 
     public UnaryGroupModifier(Function<? super T, ?> groupByClassifier,
                               Predicate<List<? super T>> havingPredicate,
-                              Function<List<T>, T> aggregateFunction) {
+                              Function<List<T>, ? extends T> aggregateFunction) {
         super(groupByClassifier, havingPredicate, aggregateFunction);
     }
 
@@ -38,7 +38,7 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> im
     }
 
     public static <T extends Record> UnaryGroupModifier max(Function<? super T, ?> groupByClassifier,
-                                                            Comparator<T> comparator) {
+                                                            Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
         @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -46,9 +46,8 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> im
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
 
-
     public static <T extends Record> UnaryGroupModifier min(Function<? super T, ?> groupByClassifier,
-                                                            Comparator<T> comparator) {
+                                                            Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
         @SuppressWarnings("OptionalGetWithoutIsPresent")
