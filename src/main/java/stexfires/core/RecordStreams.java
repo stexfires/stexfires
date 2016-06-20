@@ -42,6 +42,10 @@ public final class RecordStreams {
         return Stream.of(records);
     }
 
+    public static <T extends Record> Stream<T> ofNullable(T record) {
+        return record == null ? Stream.empty() : Stream.of(record);
+    }
+
     public static <T extends Record> Stream<T> produce(RecordProducer<T> recordProducer) throws UncheckedProducerException {
         return recordProducer.produceStream();
     }

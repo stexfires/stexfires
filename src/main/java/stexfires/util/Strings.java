@@ -44,6 +44,10 @@ public final class Strings {
         return Stream.of(strings);
     }
 
+    public static Stream<String> streamOfNullable(String string) {
+        return string == null ? Stream.empty() : Stream.of(string);
+    }
+
     public static List<String> collect(Stream<String> stream) {
         return stream.collect(Collectors.toList());
     }
