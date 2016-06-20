@@ -25,20 +25,20 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> im
         super(groupByClassifier, havingPredicate, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier first(Function<? super T, ?> groupByClassifier) {
+    public static <T extends Record> UnaryGroupModifier<T> first(Function<? super T, ?> groupByClassifier) {
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.get(0);
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier last(Function<? super T, ?> groupByClassifier) {
+    public static <T extends Record> UnaryGroupModifier<T> last(Function<? super T, ?> groupByClassifier) {
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.get(list.size() - 1);
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier max(Function<? super T, ?> groupByClassifier,
-                                                            Comparator<? super T> comparator) {
+    public static <T extends Record> UnaryGroupModifier<T> max(Function<? super T, ?> groupByClassifier,
+                                                               Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
         @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -46,8 +46,8 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> im
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier min(Function<? super T, ?> groupByClassifier,
-                                                            Comparator<? super T> comparator) {
+    public static <T extends Record> UnaryGroupModifier<T> min(Function<? super T, ?> groupByClassifier,
+                                                               Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
         @SuppressWarnings("OptionalGetWithoutIsPresent")
