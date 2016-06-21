@@ -17,6 +17,12 @@ enum ReadableProducerState {
         }
     }
 
+    public void validateNotClosed() throws IllegalStateException {
+        if (this == CLOSE) {
+            throw new IllegalStateException("CLOSE");
+        }
+    }
+
     public ReadableProducerState validate(ReadableProducerState currentState) throws IllegalStateException {
         validateStates(currentState, this);
         return this;

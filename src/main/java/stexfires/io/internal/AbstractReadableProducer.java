@@ -63,7 +63,7 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
 
     @Override
     public void close() throws IOException {
-        state = CLOSE.validate(state);
+        state.validateNotClosed();
         reader.close();
     }
 

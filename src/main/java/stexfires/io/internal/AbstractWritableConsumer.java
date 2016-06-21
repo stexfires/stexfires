@@ -48,7 +48,7 @@ public abstract class AbstractWritableConsumer<T extends Record> implements Writ
 
     @Override
     public void close() throws IOException {
-        state = CLOSE.validate(state);
+        state.validateNotClosed();
         writer.close();
     }
 
