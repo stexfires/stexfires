@@ -14,7 +14,10 @@ public enum NumberComparisonType {
     LESS_THAN,
     LESS_THAN_OR_EQUAL_TO,
     GREATER_THAN_OR_EQUAL_TO,
-    GREATER_THAN;
+    GREATER_THAN,
+    MULTIPLE_OF,
+    SAME_SIGN,
+    SAME_ABSOLUTE_VALUE;
 
     public static IntPredicate intPredicate(NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
@@ -41,6 +44,12 @@ public enum NumberComparisonType {
                 return value >= compareValue;
             case GREATER_THAN:
                 return value > compareValue;
+            case MULTIPLE_OF:
+                return value % compareValue == 0;
+            case SAME_SIGN:
+                return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
+            case SAME_ABSOLUTE_VALUE:
+                return Math.abs(value) == Math.abs(compareValue);
             default:
                 return false;
         }
@@ -61,6 +70,12 @@ public enum NumberComparisonType {
                 return value >= compareValue;
             case GREATER_THAN:
                 return value > compareValue;
+            case MULTIPLE_OF:
+                return value % compareValue == 0;
+            case SAME_SIGN:
+                return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
+            case SAME_ABSOLUTE_VALUE:
+                return Math.abs(value) == Math.abs(compareValue);
             default:
                 return false;
         }
