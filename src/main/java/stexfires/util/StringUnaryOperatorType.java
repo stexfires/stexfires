@@ -12,7 +12,9 @@ public enum StringUnaryOperatorType {
     LOWER_CASE,
     UPPER_CASE,
     TRIM_TO_NULL,
-    TRIM_TO_EMPTY;
+    TRIM_TO_EMPTY,
+    REMOVE_SPACE,
+    REVERSE;
 
     private static final String EMPTY = "";
 
@@ -76,6 +78,16 @@ public enum StringUnaryOperatorType {
                     if (result.isEmpty()) {
                         result = null;
                     }
+                }
+                break;
+            case REMOVE_SPACE:
+                if (value != null) {
+                    result = result.replaceAll("\\s", "");
+                }
+                break;
+            case REVERSE:
+                if (value != null) {
+                    result = new StringBuilder(value).reverse().toString();
                 }
                 break;
             default:
