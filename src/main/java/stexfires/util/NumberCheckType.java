@@ -1,8 +1,10 @@
 package stexfires.util;
 
+import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 /**
  * @author Mathias Kalb
@@ -26,6 +28,11 @@ public enum NumberCheckType {
     public static LongPredicate longPredicate(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         return value -> checkLong(value, numberCheckType);
+    }
+
+    public static Predicate<BigInteger> bigIntegerPredicate(NumberCheckType numberCheckType) {
+        Objects.requireNonNull(numberCheckType);
+        return value -> checkBigInteger(value, numberCheckType);
     }
 
     private static boolean checkInt(int value, NumberCheckType numberCheckType) {
@@ -76,6 +83,37 @@ public enum NumberCheckType {
         }
     }
 
+    private static boolean checkBigInteger(BigInteger value, NumberCheckType numberCheckType) {
+        Objects.requireNonNull(numberCheckType);
+        if (value != null) {
+            switch (numberCheckType) {
+                case NEGATIVE:
+                    return value.signum() == -1;
+                case POSITIVE:
+                    return value.signum() == 1;
+                case ZERO:
+                    return value.signum() == 0;
+                case NOT_ZERO:
+                    return value.signum() != 0;
+                case ODD:
+                    return value.and(BigInteger.ONE).equals(BigInteger.ONE);
+                case EVEN:
+                    return value.and(BigInteger.ONE).equals(BigInteger.ZERO);
+                case MAX_VALUE:
+                    return false;
+                case MIN_VALUE:
+                    return false;
+                default:
+                    return false;
+            }
+        } else {
+            if (numberCheckType == NOT_ZERO) {
+                return true;
+            }
+            return false;
+        }
+    }
+
     public IntPredicate intPredicate() {
         return value -> checkInt(value, this);
     }
@@ -84,12 +122,20 @@ public enum NumberCheckType {
         return value -> checkLong(value, this);
     }
 
+    public Predicate<BigInteger> bigIntegerPredicate() {
+        return value -> checkBigInteger(value, this);
+    }
+
     public boolean check(int value) {
         return checkInt(value, this);
     }
 
     public boolean check(long value) {
         return checkLong(value, this);
+    }
+
+    public boolean check(BigInteger value) {
+        return checkBigInteger(value, this);
     }
 
 }

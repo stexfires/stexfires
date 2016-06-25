@@ -1,8 +1,10 @@
 package stexfires.util;
 
+import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongUnaryOperator;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
@@ -71,6 +73,56 @@ public enum NumberUnaryOperatorType {
         return value -> Math.floorMod(value, secondValue);
     }
 
+    public static UnaryOperator<BigInteger> add(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.add(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> subtract(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.subtract(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> multiply(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.multiply(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> min(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.min(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> max(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.max(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> divide(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.divide(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> mod(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.mod(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> modInverse(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.modInverse(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> remainder(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.remainder(secondValue);
+    }
+
+    public static UnaryOperator<BigInteger> gcd(BigInteger secondValue) {
+        Objects.requireNonNull(secondValue);
+        return value -> value.gcd(secondValue);
+    }
+
     public static IntUnaryOperator intUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
         Objects.requireNonNull(numberUnaryOperatorType);
         return value -> operateInt(numberUnaryOperatorType, value);
@@ -79,6 +131,11 @@ public enum NumberUnaryOperatorType {
     public static LongUnaryOperator longUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
         Objects.requireNonNull(numberUnaryOperatorType);
         return value -> operateLong(numberUnaryOperatorType, value);
+    }
+
+    public static UnaryOperator<BigInteger> bigIntegerUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
+        Objects.requireNonNull(numberUnaryOperatorType);
+        return value -> operateBigInteger(numberUnaryOperatorType, value);
     }
 
     private static int operateInt(NumberUnaryOperatorType numberUnaryOperatorType, int value) {
@@ -117,6 +174,39 @@ public enum NumberUnaryOperatorType {
         }
     }
 
+    private static BigInteger operateBigInteger(NumberUnaryOperatorType numberUnaryOperatorType, BigInteger value) {
+        Objects.requireNonNull(numberUnaryOperatorType);
+        BigInteger result = null;
+        switch (numberUnaryOperatorType) {
+            case INCREMENT:
+                if (value != null) {
+                    result = value.add(BigInteger.ONE);
+                }
+                break;
+            case DECREMENT:
+                if (value != null) {
+                    result = value.subtract(BigInteger.ONE);
+                }
+                break;
+            case TO_ZERO:
+                result = BigInteger.ZERO;
+                break;
+            case ABS:
+                if (value != null) {
+                    result = value.abs();
+                }
+                break;
+            case NEGATE:
+                if (value != null) {
+                    result = value.negate();
+                }
+                break;
+            default:
+                result = value;
+        }
+        return result;
+    }
+
     public IntUnaryOperator intUnaryOperator() {
         return value -> operateInt(this, value);
     }
@@ -125,12 +215,20 @@ public enum NumberUnaryOperatorType {
         return value -> operateLong(this, value);
     }
 
+    public UnaryOperator<BigInteger> bigIntegerUnaryOperator() {
+        return value -> operateBigInteger(this, value);
+    }
+
     public int operate(int value) {
         return operateInt(this, value);
     }
 
     public long operate(long value) {
         return operateLong(this, value);
+    }
+
+    public BigInteger operate(BigInteger value) {
+        return operateBigInteger(this, value);
     }
 
 }
