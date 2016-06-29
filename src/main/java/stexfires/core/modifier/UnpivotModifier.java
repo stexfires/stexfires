@@ -49,6 +49,48 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         return getInstance(keyIndex, nameMap::get);
     }
 
+    public static <T extends Record> UnpivotModifier<T, Record> getInstance(List<Integer> keyIndexes,
+                                                                            List<List<Integer>> pivotIndexes,
+                                                                            IntFunction<String> pivotIndexFunction) {
+        Objects.requireNonNull(keyIndexes);
+        Objects.requireNonNull(pivotIndexes);
+        return new UnpivotModifier<>(record -> {
+            int maxSize = pivotIndexes.stream().mapToInt(list -> list.size()).max().orElse(0);
+            int valuesSize = keyIndexes.size() + pivotIndexes.size();
+            if (pivotIndexFunction != null) {
+                valuesSize++;
+            }
+            List<StandardRecord> records = new ArrayList<>(maxSize);
+            for (int pivotIndex = 0; pivotIndex < maxSize; pivotIndex++) {
+                List<String> newValues = new ArrayList<>(valuesSize);
+
+                for (int j = 0; j < keyIndexes.size(); j++) {
+                    newValues.add(record.getValueAt(keyIndexes.get(j)));
+                }
+                for (int j = 0; j < pivotIndexes.size(); j++) {
+                    if (pivotIndexes.get(j).size() > pivotIndex) {
+                        newValues.add(record.getValueAt(pivotIndexes.get(j).get(pivotIndex)));
+                    } else {
+                        newValues.add(null);
+                    }
+                }
+                if (pivotIndexFunction != null) {
+                    newValues.add(pivotIndexFunction.apply(pivotIndex));
+                }
+
+                records.add(new StandardRecord(record.getCategory(), record.getRecordId(), newValues));
+            }
+            return records.stream();
+        });
+    }
+
+    public static <T extends Record> UnpivotModifier<T, Record> getInstance(List<Integer> keyValues, List<List<Integer>> p, boolean addPivotIndex) {
+        if (addPivotIndex) {
+            return getInstance(keyValues, p, String::valueOf);
+        }
+        return getInstance(keyValues, p, null);
+    }
+
     @Override
     public Stream<R> modify(Stream<T> recordStream) {
         return recordStream.map(unpivotFunction).flatMap(Function.identity());
