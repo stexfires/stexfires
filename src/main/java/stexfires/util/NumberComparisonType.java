@@ -97,7 +97,7 @@ public enum NumberComparisonType {
                 case EQUAL_TO:
                     return value.equals(compareValue);
                 case NOT_EQUAL_TO:
-                    return value != compareValue;
+                    return !value.equals(compareValue);
                 case LESS_THAN:
                     return value.compareTo(compareValue) == -1;
                 case LESS_THAN_OR_EQUAL_TO:
