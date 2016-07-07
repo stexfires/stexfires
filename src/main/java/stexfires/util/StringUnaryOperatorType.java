@@ -82,7 +82,7 @@ public enum StringUnaryOperatorType {
                 break;
             case REMOVE_SPACE:
                 if (value != null) {
-                    result = result.replaceAll("\\s", "");
+                    result = value.replaceAll("\\s", "");
                 }
                 break;
             case REVERSE:
