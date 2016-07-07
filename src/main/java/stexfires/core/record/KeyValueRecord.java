@@ -13,7 +13,7 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     public static final int KEY_INDEX = PairRecord.FIRST_VALUE_INDEX;
     public static final int VALUE_INDEX = PairRecord.SECOND_VALUE_INDEX;
     public static final int FIELD_SIZE = PairRecord.FIELD_SIZE;
-    
+
     private static final long serialVersionUID = 1L;
 
     public KeyValueRecord(String key, String value) {
