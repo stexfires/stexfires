@@ -6,6 +6,7 @@ import stexfires.core.record.StandardRecord;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -55,7 +56,7 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(pivotIndexes);
         return new UnpivotModifier<>(record -> {
-            int maxSize = pivotIndexes.stream().mapToInt(list -> list.size()).max().orElse(0);
+            int maxSize = pivotIndexes.stream().mapToInt(List::size).max().orElse(0);
             int valuesSize = keyIndexes.size() + pivotIndexes.size();
             if (pivotIndexFunction != null) {
                 valuesSize++;
@@ -64,16 +65,19 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
             for (int pivotIndex = 0; pivotIndex < maxSize; pivotIndex++) {
                 List<String> newValues = new ArrayList<>(valuesSize);
 
-                for (int j = 0; j < keyIndexes.size(); j++) {
-                    newValues.add(record.getValueAt(keyIndexes.get(j)));
-                }
-                for (int j = 0; j < pivotIndexes.size(); j++) {
-                    if (pivotIndexes.get(j).size() > pivotIndex) {
-                        newValues.add(record.getValueAt(pivotIndexes.get(j).get(pivotIndex)));
+                // add key values
+                newValues.addAll(keyIndexes.stream().map(record::getValueAt).collect(Collectors.toList()));
+
+                // add pivot values
+                for (int i = 0; i < pivotIndexes.size(); i++) {
+                    if (pivotIndexes.get(i).size() > pivotIndex) {
+                        newValues.add(record.getValueAt(pivotIndexes.get(i).get(pivotIndex)));
                     } else {
                         newValues.add(null);
                     }
                 }
+
+                // add pivot index
                 if (pivotIndexFunction != null) {
                     newValues.add(pivotIndexFunction.apply(pivotIndex));
                 }
