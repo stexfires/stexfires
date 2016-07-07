@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 /**
  * Returns a stream consisting of the distinct records of the record stream.
+ * It removes the duplicates based on the compare message.
  *
  * @author Mathias Kalb
  * @since 0.1
