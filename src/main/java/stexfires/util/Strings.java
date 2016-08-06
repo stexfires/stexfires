@@ -24,6 +24,7 @@ public final class Strings {
         return o == null ? null : o.toString();
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static String empty() {
         return EMPTY;
     }
