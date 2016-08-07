@@ -102,13 +102,15 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
 
     public static <T extends Record> Function<List<T>, List<String>> maxValuesFunction(String nullValue) {
         return list -> list.stream()
-                .map(Record::streamOfFields)
-                .flatMap(Function.identity())
-                .collect(Collectors.collectingAndThen(
-                        Collectors.groupingBy(Field::getIndex, TreeMap::new,
-                                Collectors.mapping(Field::getValue,
-                                        Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())))),
-                        map -> map.values().stream().map(o -> o.orElse(nullValue)).collect(Collectors.toList())));
+                           .map(Record::streamOfFields)
+                           .flatMap(Function.identity())
+                           .collect(Collectors.collectingAndThen(
+                                   Collectors.groupingBy(Field::getIndex, TreeMap::new,
+                                           Collectors.mapping(Field::getValue,
+                                                   Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())))),
+                                   map -> map.values().stream()
+                                             .map(o -> o.orElse(nullValue))
+                                             .collect(Collectors.toList())));
     }
 
     public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
@@ -145,14 +147,16 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
             throw new IllegalArgumentException("newRecordSize=" + newRecordSize);
         }
         Objects.requireNonNull(valueIndexes);
-        return list -> Stream.concat(Stream.concat(
-                newValuesOfFirstRecord.apply(list.get(0)),
-                list.stream()
-                        .map(r -> valueIndexes.stream().map(i -> r.getValueAtOrElse(i, nullValue)))
-                        .flatMap(Function.identity())),
-                Stream.generate(() -> nullValue))
-                .limit(newRecordSize)
-                .collect(Collectors.toList());
+        return list ->
+                Stream.concat(
+                        Stream.concat(
+                                newValuesOfFirstRecord.apply(list.get(0)),
+                                list.stream()
+                                    .map(r -> valueIndexes.stream().map(i -> r.getValueAtOrElse(i, nullValue)))
+                                    .flatMap(Function.identity())),
+                        Stream.generate(() -> nullValue))
+                      .limit(newRecordSize)
+                      .collect(Collectors.toList());
     }
 
     public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
@@ -192,8 +196,7 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                         newValue,
                         nullValue,
                         valueClass,
-                        valueClasses
-                )));
+                        valueClasses)));
     }
 
     public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunction(
@@ -206,22 +209,24 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         Objects.requireNonNull(newValueOfEveryRecord);
         Objects.requireNonNull(valueClass);
         Objects.requireNonNull(valueClasses);
-        return list -> Stream.concat(
-                newValuesOfFirstRecord.apply(list.get(0)),
-                valueClasses.stream().map(vc -> list.stream()
-                        .filter(r -> vc.equals(valueClass.apply(r)))
-                        .map(newValueOfEveryRecord)
-                        .map(v -> v == null ? nullValue : v)
-                        .findFirst()
-                        .orElse(nullValue)))
-                .collect(Collectors.toList());
+        return list ->
+                Stream.concat(
+                        newValuesOfFirstRecord.apply(list.get(0)),
+                        valueClasses.stream()
+                                    .map(vc ->
+                                            list.stream()
+                                                .filter(r -> vc.equals(valueClass.apply(r)))
+                                                .map(newValueOfEveryRecord)
+                                                .map(v -> v == null ? nullValue : v)
+                                                .findFirst()
+                                                .orElse(nullValue)))
+                      .collect(Collectors.toList());
     }
 
     @Override
     public Stream<R> modify(Stream<T> recordStream) {
         return recordStream
-                .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByClassifier),
-                        r -> r.values().stream()))
+                .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByClassifier), r -> r.values().stream()))
                 .filter(havingPredicate)
                 .map(aggregateFunction);
     }

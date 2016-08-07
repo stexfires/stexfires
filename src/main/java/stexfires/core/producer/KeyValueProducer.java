@@ -36,9 +36,10 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(keyValueMap);
         records = keyValueMap.entrySet()
-                .stream()
-                .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(), toStringFunction.apply(entry.getKey()), toStringFunction.apply(entry.getValue())))
-                .collect(Collectors.toList());
+                             .stream()
+                             .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(),
+                                     toStringFunction.apply(entry.getKey()), toStringFunction.apply(entry.getValue())))
+                             .collect(Collectors.toList());
     }
 
     @Override

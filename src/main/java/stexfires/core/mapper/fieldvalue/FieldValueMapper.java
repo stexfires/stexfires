@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-
 /**
  * A FieldValueMapper maps a {@link Field} to a new field value.
  * <p>

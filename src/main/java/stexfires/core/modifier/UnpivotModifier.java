@@ -31,7 +31,8 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         return new UnpivotModifier<>(record -> unpivotFunction.apply(record).stream());
     }
 
-    public static <T extends Record> UnpivotModifier<T, Record> getInstance(int keyIndex, IntFunction<String> nameFunction) {
+    public static <T extends Record> UnpivotModifier<T, Record> getInstance(int keyIndex,
+                                                                            IntFunction<String> nameFunction) {
         Objects.requireNonNull(nameFunction);
         return new UnpivotModifier<>(record -> {
             List<StandardRecord> list = new ArrayList<>(record.size() - 1);
@@ -39,7 +40,8 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
                 if (i == keyIndex) {
                     continue;
                 }
-                list.add(new StandardRecord(record.getCategory(), record.getRecordId(), record.getValueAt(keyIndex), nameFunction.apply(i), record.getValueAt(i)));
+                list.add(new StandardRecord(record.getCategory(), record.getRecordId(),
+                        record.getValueAt(keyIndex), nameFunction.apply(i), record.getValueAt(i)));
             }
             return list.stream();
         });
@@ -49,7 +51,8 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         return getInstance(keyIndex, String::valueOf);
     }
 
-    public static <T extends Record> UnpivotModifier<T, Record> getInstance(int keyIndex, Map<Integer, String> nameMap) {
+    public static <T extends Record> UnpivotModifier<T, Record> getInstance(int keyIndex,
+                                                                            Map<Integer, String> nameMap) {
         Objects.requireNonNull(nameMap);
         return getInstance(keyIndex, nameMap::get);
     }
@@ -60,7 +63,10 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(pivotIndexes);
         return new UnpivotModifier<>(record -> {
-            int maxSize = pivotIndexes.stream().mapToInt(List::size).max().orElse(0);
+            int maxSize = pivotIndexes.stream()
+                                      .mapToInt(List::size)
+                                      .max()
+                                      .orElse(0);
             int valuesSize = keyIndexes.size() + pivotIndexes.size();
             if (pivotIndexFunction != null) {
                 valuesSize++;
@@ -70,7 +76,9 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
                 List<String> newValues = new ArrayList<>(valuesSize);
 
                 // add key values
-                newValues.addAll(keyIndexes.stream().map(record::getValueAt).collect(Collectors.toList()));
+                newValues.addAll(keyIndexes.stream()
+                                           .map(record::getValueAt)
+                                           .collect(Collectors.toList()));
 
                 // add pivot values
                 for (int i = 0; i < pivotIndexes.size(); i++) {
@@ -92,7 +100,9 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         });
     }
 
-    public static <T extends Record> UnpivotModifier<T, Record> getInstance(List<Integer> keyValues, List<List<Integer>> p, boolean addPivotIndex) {
+    public static <T extends Record> UnpivotModifier<T, Record> getInstance(List<Integer> keyValues,
+                                                                            List<List<Integer>> p,
+                                                                            boolean addPivotIndex) {
         if (addPivotIndex) {
             return getInstance(keyValues, p, String::valueOf);
         }
