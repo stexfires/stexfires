@@ -8,7 +8,11 @@ import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
 import stexfires.core.record.ValueRecord;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
