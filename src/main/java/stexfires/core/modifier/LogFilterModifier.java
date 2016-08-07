@@ -5,6 +5,7 @@ import stexfires.core.filter.RecordFilter;
 import stexfires.core.logger.RecordLogger;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -30,13 +31,19 @@ public class LogFilterModifier<T extends Record> implements UnaryRecordStreamMod
 
     @Override
     public Stream<T> modify(Stream<T> recordStream) {
-        return recordStream.peek(r -> {
-            if (recordFilter.isValid(r)) {
-                validLogger.log(r);
+        return recordStream
+                .peek(logRecord())
+                .filter(recordFilter::isValid);
+    }
+
+    protected Consumer<T> logRecord() {
+        return (T record) -> {
+            if (recordFilter.isValid(record)) {
+                validLogger.log(record);
             } else {
-                invalidLogger.log(r);
+                invalidLogger.log(record);
             }
-        }).filter(recordFilter::isValid);
+        };
     }
 
 }
