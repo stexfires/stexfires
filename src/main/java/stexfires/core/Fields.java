@@ -67,6 +67,7 @@ public final class Fields {
         return collectValues(record.streamOfFields(), fieldValueMapper);
     }
 
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static List<String> collectValues(Field[] fields) {
         Objects.requireNonNull(fields);
         return collectValues(Arrays.stream(fields), new IdentityFieldValueMapper());
@@ -96,6 +97,7 @@ public final class Fields {
         return joinValues(record.streamOfFields(), delimiter);
     }
 
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static String joinValues(Field[] fields) {
         Objects.requireNonNull(fields);
         return joinValues(Arrays.stream(fields), DEFAULT_FIELD_VALUE_DELIMITER);
