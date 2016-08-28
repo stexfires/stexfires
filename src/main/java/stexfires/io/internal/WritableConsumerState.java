@@ -13,7 +13,8 @@ enum WritableConsumerState {
 
     public static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
         if (currentState.ordinal() + 1 != newState.ordinal()) {
-            if (currentState != WRITE_RECORDS || newState != WRITE_RECORDS) {
+            if (!(currentState == WRITE_BEFORE && newState == WRITE_AFTER)
+                    && !(currentState == WRITE_RECORDS && newState == WRITE_RECORDS)) {
                 throw new IllegalStateException("currentState = " + currentState);
             }
         }
