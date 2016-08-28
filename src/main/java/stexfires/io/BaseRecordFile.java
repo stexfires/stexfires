@@ -5,7 +5,9 @@ import stexfires.core.Record;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -41,6 +43,10 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
 
     protected BufferedWriter newBufferedWriter(Charset charset, OpenOption... options) throws IOException {
         return Files.newBufferedWriter(path, charset, options);
+    }
+
+    protected BufferedWriter newBufferedWriter(CharsetEncoder charsetEncoder, OpenOption... options) throws IOException {
+        return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path, options), charsetEncoder));
     }
 
     protected BufferedReader newBufferedReader(Charset charset) throws IOException {
