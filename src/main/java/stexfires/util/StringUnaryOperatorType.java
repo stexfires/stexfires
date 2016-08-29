@@ -13,7 +13,9 @@ public enum StringUnaryOperatorType {
     UPPER_CASE,
     TRIM_TO_NULL,
     TRIM_TO_EMPTY,
-    REMOVE_SPACE,
+    REMOVE_HORIZONTAL_WHITESPACE,
+    REMOVE_WHITESPACE,
+    REMOVE_VERTICAL_WHITESPACE,
     REVERSE;
 
     private static final String EMPTY = "";
@@ -80,9 +82,19 @@ public enum StringUnaryOperatorType {
                     }
                 }
                 break;
-            case REMOVE_SPACE:
+            case REMOVE_HORIZONTAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceAll("\\h", "");
+                }
+                break;
+            case REMOVE_WHITESPACE:
                 if (value != null) {
                     result = value.replaceAll("\\s", "");
+                }
+                break;
+            case REMOVE_VERTICAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceAll("\\v", "");
                 }
                 break;
             case REVERSE:
