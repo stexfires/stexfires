@@ -1,16 +1,77 @@
 stexfires - structured text file record stream
 ===============================================
-A stream-based Java 8 library to work with data from text files (CSV, Fixed Width, INI, Java-Properties, JSON, XML...).
+A stream-based Java 8 library to work with data from structured text files (CSV, Fixed width, INI, Properties, JSON, XML, ...).
+
+The library is still under development.
+
+
+Goals
+-----
+- expandable, adaptable, flexible
+- stable and ready for production
+- well tested
+- elegant, short and fluent
+- easy and simple to use
+
+
+Motivation
+----------
+- Learning and using new "Java 8" techniques and functionalities
+  - Functional Interfaces
+  - Lambda Expressions
+  - Streams
+  - New classes and packages (Optional, Objects, java.time, ...)
+- Building a useful, free and open Java library (JAR)
+
+
+Functionalities
+---------------
+- convert / transform (ETL)
+  - **Input**: One or more files and their associated file specifications
+  - **Output**: One or more files with other file specifications
+  - split, merge, sort, filter, convert, pivot, ...
+- generate
+  - **Input**: File specification
+  - File with random or rule-based values
+  - Code
+  - Documentation
+- analyse
+  - **Input**: File and associated file specification
+  - Search a record or a field value
+  - Statistical evaluations and calculations
+  - Validate the content according the specification
+- compare
+  - **Input**: Two or more files and their associated file specifications
+  - *It is unclear whether this is feasible and meaningful.*
+
+
+File types
+----------
+- Delimiter-separated values (CSV, TSV, ...)
+- Fixed width
+- Configuration files (INI, INF, CFG, URL, ...)
+- Java properties (java.util.Properties and java.util.PropertyResourceBundle)
+- JSON
+- XML
+- Optional
+  - YAML
+  - TOML
+  - HTML DOM
+  - Log files
+  - Literature
+- Ouput only
+  - HTML
+  - Markdown
 
 
 License
 -------
-*stexfires* is **licensed** under the **[MIT License]**.
+*stexfires* is licensed under the [MIT License].
 
 
 Usage
 -----
-*stexfires* requires [Java 8][Java 8].
+*stexfires* requires only [Java 8][Java 8].
 
 
 Building/Developing
