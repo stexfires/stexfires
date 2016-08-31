@@ -21,6 +21,7 @@ Motivation
   - Lambda Expressions
   - Streams
   - New classes and packages (Optional, Objects, java.time, ...)
+  - Default methods
 - Building a useful, free and open Java library (JAR)
 
 
@@ -45,8 +46,8 @@ Functionalities
   - *It is unclear whether this is feasible and meaningful.*
 
 
-File types
-----------
+File formats
+------------
 - Delimiter-separated values (CSV, TSV, ...)
 - Fixed width
 - Configuration files (INI, INF, CFG, URL, ...)
