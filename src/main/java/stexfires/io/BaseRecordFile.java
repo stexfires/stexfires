@@ -44,12 +44,6 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
         throw new UnsupportedOperationException();
     }
 
-    @Deprecated
-    protected BufferedWriter newBufferedWriter(Charset charset,
-                                               OpenOption... options) throws IOException {
-        return Files.newBufferedWriter(path, charset, options);
-    }
-
     protected BufferedWriter newBufferedWriter(CharsetEncoder charsetEncoder,
                                                OpenOption... options) throws IOException {
         return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path, options), charsetEncoder));
@@ -58,6 +52,10 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
     protected BufferedReader newBufferedReader(CharsetDecoder charsetDecoder,
                                                OpenOption... options) throws IOException {
         return new BufferedReader(new InputStreamReader(Files.newInputStream(path, options), charsetDecoder));
+    }
+
+    protected CharsetDecoder newCharsetDecoder(Charset charset) {
+        return newCharsetDecoder(charset, CodingErrorAction.REPORT, null);
     }
 
     protected CharsetDecoder newCharsetDecoder(Charset charset,
@@ -73,6 +71,10 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
             charsetDecoder = charsetDecoder.replaceWith(replacement);
         }
         return charsetDecoder;
+    }
+
+    protected CharsetEncoder newCharsetEncoder(Charset charset) {
+        return newCharsetEncoder(charset, CodingErrorAction.REPORT, null);
     }
 
     protected CharsetEncoder newCharsetEncoder(Charset charset,
