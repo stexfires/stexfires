@@ -24,7 +24,8 @@ public class HtmlTableFile extends BaseRecordFile<Record, Record> {
 
     @Override
     public WritableRecordConsumer<Record> openConsumer() throws IOException {
-        return new HtmlTableConsumer(newBufferedWriter(fileSpec.getCharset()), fileSpec);
+        return new HtmlTableConsumer(newBufferedWriter(
+                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
 }
