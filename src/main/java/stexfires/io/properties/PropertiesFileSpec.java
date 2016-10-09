@@ -23,13 +23,11 @@ public final class PropertiesFileSpec {
     private final boolean dateComment;
     private final CodingErrorAction codingErrorAction;
 
-    public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode) {
-        this(charset, lineSeparator, escapeUnicode, false, CodingErrorAction.REPLACE);
-    }
-
-    public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode, boolean dateComment, CodingErrorAction codingErrorAction) {
+    public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode, boolean dateComment,
+                              CodingErrorAction codingErrorAction) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(codingErrorAction);
         this.charset = charset;
         this.lineSeparator = lineSeparator;
         this.escapeUnicode = escapeUnicode;
