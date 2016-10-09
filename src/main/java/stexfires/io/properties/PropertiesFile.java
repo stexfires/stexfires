@@ -24,7 +24,8 @@ public class PropertiesFile extends BaseRecordFile<KeyValueRecord, KeyValueRecor
 
     @Override
     public WritableRecordConsumer<KeyValueRecord> openConsumer() throws IOException {
-        return new PropertiesConsumer(newBufferedWriter(fileSpec.getCharset().newEncoder().onUnmappableCharacter(fileSpec.getUnmappableCharacterAction())), fileSpec);
+        return new PropertiesConsumer(newBufferedWriter(
+                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
 }

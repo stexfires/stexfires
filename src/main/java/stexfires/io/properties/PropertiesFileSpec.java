@@ -12,25 +12,29 @@ import java.util.Objects;
  */
 public final class PropertiesFileSpec {
 
+    public static final String DELIMITER = "=";
+    public static final String COMMENT_PREFIX = "#";
+    public static final String NULL_VALUE = "";
+
     private final Charset charset;
 
     private final LineSeparator lineSeparator;
     private final boolean escapeUnicode;
     private final boolean dateComment;
-    private final CodingErrorAction unmappableCharacterAction;
+    private final CodingErrorAction codingErrorAction;
 
     public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode) {
         this(charset, lineSeparator, escapeUnicode, false, CodingErrorAction.REPLACE);
     }
 
-    public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode, boolean dateComment, CodingErrorAction unmappableCharacterAction) {
+    public PropertiesFileSpec(Charset charset, LineSeparator lineSeparator, boolean escapeUnicode, boolean dateComment, CodingErrorAction codingErrorAction) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(lineSeparator);
         this.charset = charset;
         this.lineSeparator = lineSeparator;
         this.escapeUnicode = escapeUnicode;
         this.dateComment = dateComment;
-        this.unmappableCharacterAction = unmappableCharacterAction;
+        this.codingErrorAction = codingErrorAction;
     }
 
     public Charset getCharset() {
@@ -49,8 +53,8 @@ public final class PropertiesFileSpec {
         return dateComment;
     }
 
-    public CodingErrorAction getUnmappableCharacterAction() {
-        return unmappableCharacterAction;
+    public CodingErrorAction getCodingErrorAction() {
+        return codingErrorAction;
     }
 
 }

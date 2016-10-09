@@ -11,14 +11,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static stexfires.io.properties.PropertiesFileSpec.*;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
-
-    private static final String DELIMITER = "=";
-    private static final String COMMENT_PREFIX = "#";
 
     private final PropertiesFileSpec fileSpec;
 
@@ -73,7 +72,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         super.writeRecord(record);
         write(convertKey(record.getValueOfKeyField()));
         write(DELIMITER);
-        write(convertValue(record.getValueOfValueField()));
+        write(convertValue(record.getValueField().getValueOrElse(NULL_VALUE)));
         write(fileSpec.getLineSeparator().getSeparator());
     }
 
