@@ -21,8 +21,6 @@ import java.util.stream.Stream;
  */
 public class ConfigModifier<T extends Record> implements RecordStreamModifier<T, KeyValueRecord> {
 
-    protected static final String DEFAULT_KEY = "";
-
     protected final RecordStreamModifier<T, KeyValueRecord> modifier;
 
     public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates) {
@@ -37,7 +35,7 @@ public class ConfigModifier<T extends Record> implements RecordStreamModifier<T,
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueRecord(
                 categoryOperator.apply(r.getCategory()),
                 r.getRecordId(),
-                r.getValueAtOrElse(keyIndex, DEFAULT_KEY),
+                r.getValueAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
                 r.getValueAt(valueIndex));
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 

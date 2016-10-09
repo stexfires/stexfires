@@ -24,7 +24,8 @@ public class ConfigFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
 
     @Override
     public WritableRecordConsumer<KeyValueRecord> openConsumer() throws IOException {
-        return new ConfigConsumer(newBufferedWriter(fileSpec.getCharset()), fileSpec);
+        return new ConfigConsumer(newBufferedWriter(
+                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
 }
