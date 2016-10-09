@@ -164,7 +164,13 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                                                                             String nullValue,
                                                                             int valueClassIndex,
                                                                             String... valueClasses) {
-        return pivotModifier(keyIndex, valueIndex, nullValue, valueClassIndex, Arrays.asList(valueClasses));
+        return pivotModifier(
+                keyIndex,
+                valueIndex,
+                nullValue,
+                valueClassIndex,
+                Arrays.asList(valueClasses)
+        );
     }
 
     public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
@@ -178,49 +184,79 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                 r -> r.getValueAt(valueIndex),
                 nullValue,
                 r -> r.getValueAt(valueClassIndex),
-                valueClasses);
+                valueClasses
+        );
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(Function<T, String> newKey,
+    public static <T extends Record> GroupModifier<T, Record> pivotModifier(Function<T, String> key,
                                                                             Function<T, String> newValue,
                                                                             String nullValue,
                                                                             Function<T, String> valueClass,
                                                                             List<String> valueClasses) {
-        Objects.requireNonNull(newKey);
+        Objects.requireNonNull(key);
         Objects.requireNonNull(newValue);
         Objects.requireNonNull(valueClass);
         Objects.requireNonNull(valueClasses);
-        return new GroupModifier<>(newKey,
-                GroupModifier.aggregateToValues(GroupModifier.pivotValuesFunction(
-                        r -> Stream.of(newKey.apply(r)),
-                        newValue,
-                        nullValue,
-                        valueClass,
-                        valueClasses)));
+        return pivotModifier(
+                key,
+                r -> null,
+                r -> Stream.of(key.apply(r)),
+                newValue,
+                nullValue,
+                valueClass,
+                valueClasses
+        );
+    }
+
+    public static <T extends Record> GroupModifier<T, Record> pivotModifier(Function<T, String> groupByClassifier,
+                                                                            Function<T, String> newCategoryOfFirstRecord,
+                                                                            Function<T, Stream<String>> newValuesOfFirstRecord,
+                                                                            Function<T, String> newValue,
+                                                                            String nullValue,
+                                                                            Function<T, String> valueClass,
+                                                                            List<String> valueClasses) {
+        Objects.requireNonNull(groupByClassifier);
+        Objects.requireNonNull(newCategoryOfFirstRecord);
+        Objects.requireNonNull(newValuesOfFirstRecord);
+        Objects.requireNonNull(newValue);
+        Objects.requireNonNull(valueClass);
+        Objects.requireNonNull(valueClasses);
+        return new GroupModifier<>(
+                groupByClassifier,
+                GroupModifier.aggregateToValues(
+                        list -> newCategoryOfFirstRecord.apply(list.get(0)),
+                        GroupModifier.pivotValuesFunction(
+                                newValuesOfFirstRecord,
+                                newValue,
+                                nullValue,
+                                valueClass,
+                                valueClasses
+                        )));
     }
 
     public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunction(
             Function<T, Stream<String>> newValuesOfFirstRecord,
-            Function<T, String> newValueOfEveryRecord,
+            Function<T, String> newValue,
             String nullValue,
             Function<T, String> valueClass,
             List<String> valueClasses) {
         Objects.requireNonNull(newValuesOfFirstRecord);
-        Objects.requireNonNull(newValueOfEveryRecord);
+        Objects.requireNonNull(newValue);
         Objects.requireNonNull(valueClass);
         Objects.requireNonNull(valueClasses);
-        return list ->
-                Stream.concat(
-                        newValuesOfFirstRecord.apply(list.get(0)),
-                        valueClasses.stream()
-                                    .map(vc ->
-                                            list.stream()
-                                                .filter(r -> vc.equals(valueClass.apply(r)))
-                                                .map(newValueOfEveryRecord)
-                                                .map(v -> v == null ? nullValue : v)
-                                                .findFirst()
-                                                .orElse(nullValue)))
-                      .collect(Collectors.toList());
+        Function<List<T>, Stream<String>> newKeys = list ->
+                newValuesOfFirstRecord.apply(list.get(0));
+        Function<List<T>, Stream<String>> newValues = list ->
+                valueClasses.stream()
+                            .map(vc ->
+                                    list.stream()
+                                        .filter(r -> vc.equals(valueClass.apply(r)))
+                                        .map(newValue)
+                                        .map(v -> v == null ? nullValue : v)
+                                        .findFirst()
+                                        .orElse(nullValue));
+        return list -> Stream.concat(newKeys.apply(list), newValues.apply(list))
+                             .collect(Collectors.toList());
     }
 
     @Override
