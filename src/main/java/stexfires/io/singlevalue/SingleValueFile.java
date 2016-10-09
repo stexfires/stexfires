@@ -26,12 +26,14 @@ public class SingleValueFile extends BaseRecordFile<ValueRecord, SingleRecord> {
 
     @Override
     public ReadableRecordProducer<SingleRecord> openProducer() throws IOException {
-        return new SingleValueProducer(newBufferedReader(fileSpec.getCharset()), fileSpec);
+        return new SingleValueProducer(newBufferedReader(
+                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
     @Override
     public WritableRecordConsumer<ValueRecord> openConsumer() throws IOException {
-        return new SingleValueConsumer(newBufferedWriter(fileSpec.getCharset()), fileSpec);
+        return new SingleValueConsumer(newBufferedWriter(
+                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
 }

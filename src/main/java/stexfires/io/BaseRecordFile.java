@@ -5,9 +5,12 @@ import stexfires.core.Record;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -41,16 +44,50 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
         throw new UnsupportedOperationException();
     }
 
-    protected BufferedWriter newBufferedWriter(Charset charset, OpenOption... options) throws IOException {
+    @Deprecated
+    protected BufferedWriter newBufferedWriter(Charset charset,
+                                               OpenOption... options) throws IOException {
         return Files.newBufferedWriter(path, charset, options);
     }
 
-    protected BufferedWriter newBufferedWriter(CharsetEncoder charsetEncoder, OpenOption... options) throws IOException {
+    protected BufferedWriter newBufferedWriter(CharsetEncoder charsetEncoder,
+                                               OpenOption... options) throws IOException {
         return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path, options), charsetEncoder));
     }
 
-    protected BufferedReader newBufferedReader(Charset charset) throws IOException {
-        return Files.newBufferedReader(path, charset);
+    protected BufferedReader newBufferedReader(CharsetDecoder charsetDecoder,
+                                               OpenOption... options) throws IOException {
+        return new BufferedReader(new InputStreamReader(Files.newInputStream(path, options), charsetDecoder));
+    }
+
+    protected CharsetDecoder newCharsetDecoder(Charset charset,
+                                               CodingErrorAction malformedInputAction) {
+        return newCharsetDecoder(charset, malformedInputAction, null);
+    }
+
+    protected CharsetDecoder newCharsetDecoder(Charset charset,
+                                               CodingErrorAction malformedInputAction,
+                                               String replacement) {
+        CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(malformedInputAction);
+        if (malformedInputAction == CodingErrorAction.REPLACE && replacement != null) {
+            charsetDecoder = charsetDecoder.replaceWith(replacement);
+        }
+        return charsetDecoder;
+    }
+
+    protected CharsetEncoder newCharsetEncoder(Charset charset,
+                                               CodingErrorAction unmappableCharacterAction) {
+        return newCharsetEncoder(charset, unmappableCharacterAction, null);
+    }
+
+    protected CharsetEncoder newCharsetEncoder(Charset charset,
+                                               CodingErrorAction unmappableCharacterAction,
+                                               byte[] replacement) {
+        CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(unmappableCharacterAction);
+        if (unmappableCharacterAction == CodingErrorAction.REPLACE && replacement != null) {
+            charsetEncoder = charsetEncoder.replaceWith(replacement);
+        }
+        return charsetEncoder;
     }
 
 }

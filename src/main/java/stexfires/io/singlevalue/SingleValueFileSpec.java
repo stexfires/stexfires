@@ -3,6 +3,7 @@ package stexfires.io.singlevalue;
 import stexfires.util.LineSeparator;
 
 import java.nio.charset.Charset;
+import java.nio.charset.CodingErrorAction;
 import java.util.Objects;
 
 /**
@@ -18,7 +19,10 @@ public final class SingleValueFileSpec {
     private final int ignoreFirstLines;
     private final int ignoreLastLines;
 
-    public SingleValueFileSpec(Charset charset, LineSeparator lineSeparator, int ignoreFirstLines, int ignoreLastLines) {
+    private final boolean skipNullValue;
+    private final CodingErrorAction codingErrorAction;
+
+    public SingleValueFileSpec(Charset charset, LineSeparator lineSeparator, int ignoreFirstLines, int ignoreLastLines, boolean skipNullValue, CodingErrorAction codingErrorAction) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(lineSeparator);
         if (ignoreFirstLines < 0) {
@@ -31,6 +35,8 @@ public final class SingleValueFileSpec {
         this.lineSeparator = lineSeparator;
         this.ignoreFirstLines = ignoreFirstLines;
         this.ignoreLastLines = ignoreLastLines;
+        this.skipNullValue = skipNullValue;
+        this.codingErrorAction = codingErrorAction;
     }
 
     public Charset getCharset() {
@@ -47,6 +53,14 @@ public final class SingleValueFileSpec {
 
     public int getIgnoreLastLines() {
         return ignoreLastLines;
+    }
+
+    public boolean isSkipNullValue() {
+        return skipNullValue;
+    }
+
+    public CodingErrorAction getCodingErrorAction() {
+        return codingErrorAction;
     }
 
 }

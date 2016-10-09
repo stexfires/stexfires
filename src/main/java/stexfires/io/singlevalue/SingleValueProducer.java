@@ -33,9 +33,7 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
 
     @Override
     protected SingleRecord createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
-        String value = recordRawData.getRawData();
-        // TODO Change value (substitute, DataType)
-        return new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(), value);
+        return new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(), recordRawData.getRawData());
     }
 
     private static class SingleValueIterator extends AbstractRecordRawDataIterator {
