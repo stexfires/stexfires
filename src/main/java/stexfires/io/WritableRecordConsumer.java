@@ -20,6 +20,9 @@ public interface WritableRecordConsumer<T extends Record> extends RecordConsumer
 
     void writeAfter() throws IOException;
 
+    /**
+     * Not synchronized. Use it only with forEachOrdered().
+     */
     @Override
     default void consume(T record) throws UncheckedConsumerException {
         try {
