@@ -13,6 +13,8 @@ public enum StringUnaryOperatorType {
     UPPER_CASE,
     TRIM_TO_NULL,
     TRIM_TO_EMPTY,
+    EMPTY_TO_NULL,
+    NULL_TO_EMPTY,
     REMOVE_HORIZONTAL_WHITESPACE,
     REMOVE_WHITESPACE,
     REMOVE_VERTICAL_WHITESPACE,
@@ -67,6 +69,14 @@ public enum StringUnaryOperatorType {
                     }
                 }
                 break;
+            case TRIM_TO_NULL:
+                if (value != null) {
+                    result = value.trim();
+                    if (result.isEmpty()) {
+                        result = null;
+                    }
+                }
+                break;
             case TRIM_TO_EMPTY:
                 if (value != null) {
                     result = value.trim();
@@ -74,12 +84,16 @@ public enum StringUnaryOperatorType {
                     result = EMPTY;
                 }
                 break;
-            case TRIM_TO_NULL:
+            case EMPTY_TO_NULL:
+                if (value != null && !value.isEmpty()) {
+                    result = value;
+                }
+                break;
+            case NULL_TO_EMPTY:
                 if (value != null) {
-                    result = value.trim();
-                    if (result.isEmpty()) {
-                        result = null;
-                    }
+                    result = value;
+                } else {
+                    result = EMPTY;
                 }
                 break;
             case REMOVE_HORIZONTAL_WHITESPACE:
