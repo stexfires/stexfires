@@ -32,11 +32,11 @@ public class RecordIdFilter implements RecordFilter<Record> {
         this.longPredicate = longPredicate;
     }
 
-    public static RecordFilter<Record> getRecordIdIsPresentFilter() {
+    public static RecordFilter<Record> notNull() {
         return new RecordIdFilter((long value) -> true);
     }
 
-    public static RecordFilter<Record> getRecordIdBetweenFilter(int from, int to) {
+    public static RecordFilter<Record> between(int from, int to) {
         return new RecordIdFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new RecordIdFilter(NumberComparisonType.LESS_THAN, to));
     }
 

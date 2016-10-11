@@ -32,7 +32,7 @@ public class SizeFilter implements RecordFilter<Record> {
         this.intPredicate = intPredicate;
     }
 
-    public static RecordFilter<Record> getSizeBetweenFilter(int from, int to) {
+    public static RecordFilter<Record> between(int from, int to) {
         return new SizeFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new SizeFilter(NumberComparisonType.LESS_THAN, to));
     }
 
