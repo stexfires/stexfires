@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CompareMessageBuilder {
+public final class CompareMessageBuilder {
 
     private final SortedSet<Integer> valueIndex;
     private boolean className;
