@@ -113,17 +113,17 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                                              .collect(Collectors.toList())));
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
-                                                                            int maxRecordsPerGroup,
-                                                                            String nullValue,
-                                                                            Integer... valueIndexes) {
-        return pivotModifier(keyIndex, maxRecordsPerGroup, nullValue, Arrays.asList(valueIndexes));
+    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
+                                                                    int maxRecordsPerGroup,
+                                                                    String nullValue,
+                                                                    Integer... valueIndexes) {
+        return pivot(keyIndex, maxRecordsPerGroup, nullValue, Arrays.asList(valueIndexes));
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
-                                                                            int maxRecordsPerGroup,
-                                                                            String nullValue,
-                                                                            List<Integer> valueIndexes) {
+    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
+                                                                    int maxRecordsPerGroup,
+                                                                    String nullValue,
+                                                                    List<Integer> valueIndexes) {
         if (maxRecordsPerGroup < 0) {
             throw new IllegalArgumentException("maxRecordsPerGroup=" + maxRecordsPerGroup);
         }
@@ -159,12 +159,12 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                       .collect(Collectors.toList());
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
-                                                                            int valueIndex,
-                                                                            String nullValue,
-                                                                            int valueClassIndex,
-                                                                            String... valueClasses) {
-        return pivotModifier(
+    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
+                                                                    int valueIndex,
+                                                                    String nullValue,
+                                                                    int valueClassIndex,
+                                                                    String... valueClasses) {
+        return pivot(
                 keyIndex,
                 valueIndex,
                 nullValue,
@@ -173,13 +173,13 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         );
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(int keyIndex,
-                                                                            int valueIndex,
-                                                                            String nullValue,
-                                                                            int valueClassIndex,
-                                                                            List<String> valueClasses) {
+    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
+                                                                    int valueIndex,
+                                                                    String nullValue,
+                                                                    int valueClassIndex,
+                                                                    List<String> valueClasses) {
         Objects.requireNonNull(valueClasses);
-        return pivotModifier(
+        return pivot(
                 r -> r.getValueAt(keyIndex),
                 r -> r.getValueAt(valueIndex),
                 nullValue,
@@ -188,16 +188,16 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         );
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(Function<T, String> key,
-                                                                            Function<T, String> newValue,
-                                                                            String nullValue,
-                                                                            Function<T, String> valueClass,
-                                                                            List<String> valueClasses) {
+    public static <T extends Record> GroupModifier<T, Record> pivot(Function<T, String> key,
+                                                                    Function<T, String> newValue,
+                                                                    String nullValue,
+                                                                    Function<T, String> valueClass,
+                                                                    List<String> valueClasses) {
         Objects.requireNonNull(key);
         Objects.requireNonNull(newValue);
         Objects.requireNonNull(valueClass);
         Objects.requireNonNull(valueClasses);
-        return pivotModifier(
+        return pivot(
                 key,
                 r -> null,
                 r -> Stream.of(key.apply(r)),
@@ -208,13 +208,13 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         );
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivotModifier(Function<T, String> groupByClassifier,
-                                                                            Function<T, String> newCategoryOfFirstRecord,
-                                                                            Function<T, Stream<String>> newValuesOfFirstRecord,
-                                                                            Function<T, String> newValue,
-                                                                            String nullValue,
-                                                                            Function<T, String> valueClass,
-                                                                            List<String> valueClasses) {
+    public static <T extends Record> GroupModifier<T, Record> pivot(Function<T, String> groupByClassifier,
+                                                                    Function<T, String> newCategoryOfFirstRecord,
+                                                                    Function<T, Stream<String>> newValuesOfFirstRecord,
+                                                                    Function<T, String> newValue,
+                                                                    String nullValue,
+                                                                    Function<T, String> valueClass,
+                                                                    List<String> valueClasses) {
         Objects.requireNonNull(groupByClassifier);
         Objects.requireNonNull(newCategoryOfFirstRecord);
         Objects.requireNonNull(newValuesOfFirstRecord);
