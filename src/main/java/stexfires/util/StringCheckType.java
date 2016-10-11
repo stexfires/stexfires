@@ -12,6 +12,7 @@ public enum StringCheckType {
     NULL,
     NOT_NULL,
     EMPTY,
+    NULL_OR_EMPTY,
     ALPHABETIC,
     ASCII,
     DIGIT,
@@ -38,6 +39,8 @@ public enum StringCheckType {
                 return value != null;
             case EMPTY:
                 return (value != null) && value.isEmpty();
+            case NULL_OR_EMPTY:
+                return (value == null) || value.isEmpty();
             case ALPHABETIC:
                 return checkAllChars(value, Character::isAlphabetic);
             case ASCII:
