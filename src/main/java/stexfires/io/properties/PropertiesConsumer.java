@@ -19,7 +19,7 @@ import static stexfires.io.properties.PropertiesFileSpec.*;
  */
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
-    private final PropertiesFileSpec fileSpec;
+    protected final PropertiesFileSpec fileSpec;
 
     public PropertiesConsumer(BufferedWriter writer, PropertiesFileSpec fileSpec) {
         super(writer);
@@ -57,6 +57,18 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         }
     }
 
+    protected static String convertKey(String key, boolean escapeUnicode) {
+        return IntStream.range(0, key.length())
+                        .mapToObj(i -> mapCharacter(key.charAt(i), true, escapeUnicode))
+                        .collect(Collectors.joining());
+    }
+
+    protected static String convertValue(String value, boolean escapeUnicode) {
+        return IntStream.range(0, value.length())
+                        .mapToObj(i -> mapCharacter(value.charAt(i), i == 0, escapeUnicode))
+                        .collect(Collectors.joining());
+    }
+
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
@@ -70,22 +82,10 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
     @Override
     public void writeRecord(KeyValueRecord record) throws IOException, ConsumerException {
         super.writeRecord(record);
-        write(convertKey(record.getValueOfKeyField()));
+        write(convertKey(record.getValueOfKeyField(), fileSpec.isEscapeUnicode()));
         write(DELIMITER);
-        write(convertValue(record.getValueField().getValueOrElse(NULL_VALUE)));
+        write(convertValue(record.getValueField().getValueOrElse(NULL_VALUE), fileSpec.isEscapeUnicode()));
         write(fileSpec.getLineSeparator().getSeparator());
-    }
-
-    private String convertKey(String key) {
-        return IntStream.range(0, key.length())
-                        .mapToObj(i -> mapCharacter(key.charAt(i), true, fileSpec.isEscapeUnicode()))
-                        .collect(Collectors.joining());
-    }
-
-    private String convertValue(String value) {
-        return IntStream.range(0, value.length())
-                        .mapToObj(i -> mapCharacter(value.charAt(i), i == 0, fileSpec.isEscapeUnicode()))
-                        .collect(Collectors.joining());
     }
 
 }
