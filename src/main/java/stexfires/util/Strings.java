@@ -3,6 +3,7 @@ package stexfires.util;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +16,8 @@ import java.util.stream.Stream;
 public final class Strings {
 
     public static final String DEFAULT_DELIMITER = ", ";
-    public static final String EMPTY = "";
+
+    private static final String EMPTY = "";
 
     private Strings() {
     }
@@ -24,7 +26,6 @@ public final class Strings {
         return o == null ? null : o.toString();
     }
 
-    @SuppressWarnings("SameReturnValue")
     public static String empty() {
         return EMPTY;
     }
@@ -47,6 +48,15 @@ public final class Strings {
 
     public static Stream<String> streamOfNullable(String string) {
         return string == null ? Stream.empty() : Stream.of(string);
+    }
+
+    public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
+        return Stream.concat(firstStream, secondStream);
+    }
+
+    @SafeVarargs
+    public static Stream<String> concat(Stream<String>... streams) {
+        return Stream.of(streams).flatMap(Function.identity());
     }
 
     public static List<String> collect(Stream<String> stream) {
