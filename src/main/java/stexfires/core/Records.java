@@ -33,6 +33,7 @@ import java.util.stream.Stream;
 public final class Records {
 
     public static final long DEFAULT_INITIAL_RECORD_ID = 1L;
+
     private static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
 
     private Records() {
