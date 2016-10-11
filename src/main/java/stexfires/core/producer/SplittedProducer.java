@@ -5,7 +5,6 @@ import stexfires.core.Records;
 import stexfires.core.record.StandardRecord;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class SplittedProducer implements RecordProducer<Record> {
 
-    private final Record[] records;
+    protected final List<Record> records;
 
     public SplittedProducer(int recordSize, String... values) {
         this(null, Records.recordIdSequence(), recordSize, values);
@@ -29,12 +28,13 @@ public class SplittedProducer implements RecordProducer<Record> {
 
     public SplittedProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {
         Objects.requireNonNull(recordIdSupplier);
+        Objects.requireNonNull(values);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
         }
 
         int capacity = (values.length + recordSize - 1) / recordSize;
-        records = new Record[capacity];
+        records = new ArrayList<>(capacity);
 
         for (int i = 0; i < capacity; i++) {
             List<String> recordValues = new ArrayList<>(recordSize);
@@ -47,14 +47,13 @@ public class SplittedProducer implements RecordProducer<Record> {
                 }
             }
 
-            records[i] = new StandardRecord(category, recordIdSupplier.get(), recordValues);
+            records.add(new StandardRecord(category, recordIdSupplier.get(), recordValues));
         }
     }
 
     @Override
     public Stream<Record> produceStream() {
-        // TODO Validate: thread-safety
-        return Arrays.stream(records);
+        return records.stream();
     }
 
 }
