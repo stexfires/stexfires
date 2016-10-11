@@ -39,6 +39,10 @@ public final class Fields {
         return fields;
     }
 
+    public static Field[] newArray(Stream<String> values) {
+        return newArray(values.collect(Collectors.toList()));
+    }
+
     public static Field[] newArray(String... values) {
         Field[] fields = new Field[values.length];
         for (int index = FIRST_FIELD_INDEX; index < values.length; index++) {
