@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class SingleValueFile extends BaseRecordFile<ValueRecord, SingleRecord> {
 
-    private final SingleValueFileSpec fileSpec;
+    protected final SingleValueFileSpec fileSpec;
 
     public SingleValueFile(final Path path, SingleValueFileSpec fileSpec) {
         super(path);

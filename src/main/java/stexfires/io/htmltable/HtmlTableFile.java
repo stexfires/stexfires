@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class HtmlTableFile extends BaseRecordFile<Record, Record> {
 
-    private final HtmlTableFileSpec fileSpec;
+    protected final HtmlTableFileSpec fileSpec;
 
     public HtmlTableFile(final Path path, HtmlTableFileSpec fileSpec) {
         super(path);

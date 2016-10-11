@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class ConfigFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
 
-    private final ConfigFileSpec fileSpec;
+    protected final ConfigFileSpec fileSpec;
 
     public ConfigFile(final Path path, ConfigFileSpec fileSpec) {
         super(path);

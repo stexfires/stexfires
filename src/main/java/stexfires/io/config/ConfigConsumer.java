@@ -16,7 +16,7 @@ import static stexfires.io.config.ConfigFileSpec.*;
  */
 public class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
-    private final ConfigFileSpec fileSpec;
+    protected final ConfigFileSpec fileSpec;
 
     private String currentCategory;
 

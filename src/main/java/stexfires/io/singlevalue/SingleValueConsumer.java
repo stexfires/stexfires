@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
 
-    private final SingleValueFileSpec fileSpec;
+    protected final SingleValueFileSpec fileSpec;
 
     public SingleValueConsumer(BufferedWriter writer, SingleValueFileSpec fileSpec) {
         super(writer);

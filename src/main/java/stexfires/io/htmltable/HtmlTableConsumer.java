@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
 
-    private final HtmlTableFileSpec fileSpec;
+    protected final HtmlTableFileSpec fileSpec;
 
     public HtmlTableConsumer(BufferedWriter writer, HtmlTableFileSpec fileSpec) {
         super(writer);
@@ -54,6 +54,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
                           return "<td>" + m + "</td>";
                       })
                       .collect(Collectors.joining(separator)));
+        // TODO Escape singleQuote and doubleQuote ?
         write(separator);
         write("</tr>");
         write(separator);

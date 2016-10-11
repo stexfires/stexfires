@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> {
 
-    private final SingleValueFileSpec fileSpec;
+    protected final SingleValueFileSpec fileSpec;
 
     public SingleValueProducer(BufferedReader reader, SingleValueFileSpec fileSpec) {
         super(reader);
@@ -36,9 +36,9 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
         return new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(), recordRawData.getRawData());
     }
 
-    private static class SingleValueIterator extends AbstractRecordRawDataIterator {
+    protected static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
-        SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
+        protected SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirstLines(), fileSpec.getIgnoreLastLines());
         }
 
