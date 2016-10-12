@@ -4,8 +4,8 @@ package stexfires.util;
  * @author Mathias Kalb
  * @since 0.1
  */
-public enum HorizontalAlignment {
+public enum Alignment {
 
-    LEFT, CENTER, RIGHT
+    START, CENTER, END
 
 }
