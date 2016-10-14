@@ -18,11 +18,12 @@ public final class SingleValueFileSpec {
 
     private final int ignoreFirstLines;
     private final int ignoreLastLines;
+    private final boolean skipEmptyLines; // read
 
-    private final boolean skipNullValue;
+    private final boolean skipNullValue; // write
     private final CodingErrorAction codingErrorAction;
 
-    public SingleValueFileSpec(Charset charset, LineSeparator lineSeparator, int ignoreFirstLines, int ignoreLastLines, boolean skipNullValue, CodingErrorAction codingErrorAction) {
+    public SingleValueFileSpec(Charset charset, LineSeparator lineSeparator, int ignoreFirstLines, int ignoreLastLines, boolean skipEmptyLines, boolean skipNullValue, CodingErrorAction codingErrorAction) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(lineSeparator);
         if (ignoreFirstLines < 0) {
@@ -35,6 +36,7 @@ public final class SingleValueFileSpec {
         this.lineSeparator = lineSeparator;
         this.ignoreFirstLines = ignoreFirstLines;
         this.ignoreLastLines = ignoreLastLines;
+        this.skipEmptyLines = skipEmptyLines;
         this.skipNullValue = skipNullValue;
         this.codingErrorAction = codingErrorAction;
     }
@@ -63,4 +65,7 @@ public final class SingleValueFileSpec {
         return codingErrorAction;
     }
 
+    public boolean isSkipEmptyLines() {
+        return skipEmptyLines;
+    }
 }

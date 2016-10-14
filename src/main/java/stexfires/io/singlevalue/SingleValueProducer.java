@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Mathias Kalb
@@ -32,8 +33,16 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
     }
 
     @Override
-    protected SingleRecord createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
-        return new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(), recordRawData.getRawData());
+    protected Optional<SingleRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+        boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty();
+
+        SingleRecord record = null;
+        if (!skipEmptyLine) {
+            record = new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
+                    recordRawData.getRawData());
+        }
+
+        return Optional.ofNullable(record);
     }
 
     protected static final class SingleValueIterator extends AbstractRecordRawDataIterator {

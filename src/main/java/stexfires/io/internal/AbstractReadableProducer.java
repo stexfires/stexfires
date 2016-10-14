@@ -9,8 +9,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -23,12 +25,19 @@ import static stexfires.io.internal.ReadableProducerState.*;
 public abstract class AbstractReadableProducer<T extends Record> implements ReadableRecordProducer<T> {
 
     protected final BufferedReader reader;
+    protected final Consumer<RecordRawData> recordRawDataLogger;
 
     protected ReadableProducerState state;
 
     protected AbstractReadableProducer(BufferedReader reader) {
+        this(reader, null);
+    }
+
+    protected AbstractReadableProducer(BufferedReader reader,
+                                       Consumer<RecordRawData> recordRawDataLogger) {
         Objects.requireNonNull(reader);
         this.reader = reader;
+        this.recordRawDataLogger = recordRawDataLogger;
         state = OPEN;
     }
 
@@ -39,7 +48,7 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
 
     protected abstract Iterator<RecordRawData> createIterator() throws UncheckedProducerException;
 
-    protected abstract T createRecord(RecordRawData recordRawData) throws UncheckedProducerException;
+    protected abstract Optional<T> createRecord(RecordRawData recordRawData) throws UncheckedProducerException;
 
     @Override
     public Stream<T> readRecords() throws IOException, ProducerException {
@@ -47,9 +56,15 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
         Stream<T> recordStream;
         Iterator<RecordRawData> iterator = createIterator();
         if (iterator.hasNext()) {
-            recordStream = StreamSupport
-                    .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED | Spliterator.NONNULL), false)
-                    .map(this::createRecord);
+            Stream<RecordRawData> rawStream = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE), false);
+            if (recordRawDataLogger != null) {
+                rawStream = rawStream.peek(recordRawDataLogger);
+            }
+            // TODO Java 9: .flatMap(Optional::stream)
+            recordStream = rawStream.map(this::createRecord)
+                                    .filter(Optional::isPresent)
+                                    .map(Optional::get);
         } else {
             recordStream = Stream.empty();
         }
