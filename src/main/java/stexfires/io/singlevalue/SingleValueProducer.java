@@ -9,7 +9,6 @@ import stexfires.io.internal.RecordRawData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
     }
 
     @Override
-    protected Iterator<RecordRawData> createIterator() throws UncheckedProducerException {
+    protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
         return new SingleValueIterator(reader, fileSpec);
     }
 

@@ -5,7 +5,9 @@ import stexfires.core.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -16,13 +18,15 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRawData> {
 
-    private static final long FIRST_RECORD_INDEX = 0L;
+    protected static final long FIRST_RECORD_INDEX = 0L;
 
-    private final BufferedReader reader;
-    private final int ignoreFirst;
-    private final int ignoreLast;
+    protected final BufferedReader reader;
+    protected final int ignoreFirst;
+    protected final int ignoreLast;
 
     private final ArrayBlockingQueue<RecordRawData> queue;
+    private final List<RecordRawData> first;
+    private final List<RecordRawData> last;
 
     private long recordIndex;
     private boolean endIsReached;
@@ -44,22 +48,28 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         this.ignoreLast = ignoreLast;
 
         queue = new ArrayBlockingQueue<>(ignoreLast + 1);
+        first = new ArrayList<>(ignoreFirst);
+        last = new ArrayList<>(ignoreLast);
         recordIndex = FIRST_RECORD_INDEX;
     }
 
     protected abstract RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException;
 
-    protected void fillQueue() throws UncheckedProducerException {
+    protected void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
-            while (!endIsReached && (queue.remainingCapacity() > 0)) {
+            while (!endIsReached && (queue.remainingCapacity() > 0)
+                    && (!onlyFirst || first.size() < ignoreFirst)) {
                 RecordRawData recordRawData = readNext(reader, recordIndex);
                 if (recordRawData != null) {
                     if ((recordIndex - FIRST_RECORD_INDEX) >= ignoreFirst) {
                         queue.add(recordRawData); // Can throw an IllegalStateException
+                    } else {
+                        first.add(recordRawData);
                     }
                     recordIndex++;
                 } else {
                     endIsReached = true;
+                    queue.drainTo(last);
                 }
             }
         } catch (ProducerException e) {
@@ -71,7 +81,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
 
     @Override
     public boolean hasNext() {
-        fillQueue();
+        fillQueue(false);
         return queue.size() > ignoreLast;
     }
 
@@ -81,6 +91,18 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
             throw new NoSuchElementException();
         }
         return queue.poll();
+    }
+
+    public long getRecordIndex() {
+        return recordIndex;
+    }
+
+    public List<RecordRawData> getFirst() {
+        return first;
+    }
+
+    public List<RecordRawData> getLast() {
+        return last;
     }
 
 }

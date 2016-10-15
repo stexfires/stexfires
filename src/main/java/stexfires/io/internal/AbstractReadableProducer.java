@@ -7,7 +7,6 @@ import stexfires.io.ReadableRecordProducer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Spliterator;
@@ -27,6 +26,7 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
     protected final BufferedReader reader;
     protected final Consumer<RecordRawData> recordRawDataLogger;
 
+    protected AbstractRecordRawDataIterator iterator;
     protected ReadableProducerState state;
 
     protected AbstractReadableProducer(BufferedReader reader) {
@@ -44,9 +44,11 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
     @Override
     public void readBefore() throws IOException {
         state = READ_BEFORE.validate(state);
+        iterator = createIterator();
+        iterator.fillQueue(true);
     }
 
-    protected abstract Iterator<RecordRawData> createIterator() throws UncheckedProducerException;
+    protected abstract AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException;
 
     protected abstract Optional<T> createRecord(RecordRawData recordRawData) throws UncheckedProducerException;
 
@@ -54,7 +56,6 @@ public abstract class AbstractReadableProducer<T extends Record> implements Read
     public Stream<T> readRecords() throws IOException, ProducerException {
         state = READ_RECORDS.validate(state);
         Stream<T> recordStream;
-        Iterator<RecordRawData> iterator = createIterator();
         if (iterator.hasNext()) {
             Stream<RecordRawData> rawStream = StreamSupport.stream(
                     Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE), false);
