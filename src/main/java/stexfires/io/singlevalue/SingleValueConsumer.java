@@ -28,9 +28,9 @@ public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
         String value = record.getValueOfValueField();
         if (value != null) {
             write(value);
-            write(fileSpec.getLineSeparator().getSeparator());
+            write(fileSpec.getLineSeparator().string());
         } else if (!fileSpec.isSkipNullValue()) {
-            write(fileSpec.getLineSeparator().getSeparator());
+            write(fileSpec.getLineSeparator().string());
         }
     }
 

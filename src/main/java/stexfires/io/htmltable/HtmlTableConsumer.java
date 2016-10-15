@@ -28,16 +28,16 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
         super.writeBefore();
         if (fileSpec.getBeforeTable() != null) {
             write(fileSpec.getBeforeTable());
-            write(fileSpec.getLineSeparator().getSeparator());
+            write(fileSpec.getLineSeparator().string());
         }
         write("<table>");
-        write(fileSpec.getLineSeparator().getSeparator());
+        write(fileSpec.getLineSeparator().string());
     }
 
     @Override
     public void writeRecord(Record record) throws IOException, ConsumerException {
         super.writeRecord(record);
-        String separator = fileSpec.getLineSeparator().getSeparator();
+        String separator = fileSpec.getLineSeparator().string();
 
         write("<tr>");
         write(separator);
@@ -65,7 +65,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
         super.writeAfter();
         write("</table>");
         if (fileSpec.getAfterTable() != null) {
-            write(fileSpec.getLineSeparator().getSeparator());
+            write(fileSpec.getLineSeparator().string());
             write(fileSpec.getAfterTable());
         }
     }

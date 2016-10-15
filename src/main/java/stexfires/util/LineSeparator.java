@@ -1,6 +1,8 @@
 package stexfires.util;
 
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
@@ -8,8 +10,19 @@ import java.util.function.Supplier;
  */
 public enum LineSeparator {
 
+    /**
+     * Line feed: '\n'
+     */
     LF("\n"),
+
+    /**
+     * Carriage return: '\r'
+     */
     CR("\r"),
+
+    /**
+     * CR and LF: '\r\n'
+     */
     CR_LF("\r\n");
 
     private final String separator;
@@ -18,12 +31,20 @@ public enum LineSeparator {
         this.separator = separator;
     }
 
-    public String getSeparator() {
+    public String string() {
         return separator;
     }
 
     public Supplier<String> supplier() {
         return () -> separator;
+    }
+
+    public Stream<String> stream() {
+        return Stream.of(separator);
+    }
+
+    public IntStream chars() {
+        return separator.chars();
     }
 
     @Override
