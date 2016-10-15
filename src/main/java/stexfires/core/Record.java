@@ -3,6 +3,7 @@ package stexfires.core;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
@@ -32,7 +33,25 @@ public interface Record extends Serializable {
         return Optional.ofNullable(getCategory());
     }
 
+    default Stream<String> streamOfCategory() {
+        if (getCategory() == null) {
+            return Stream.empty();
+        }
+        return Stream.of(getCategory());
+    }
+
     Long getRecordId();
+
+    default Optional<Long> getRecordIdAsOptional() {
+        return Optional.ofNullable(getRecordId());
+    }
+
+    default LongStream streamOfRecordId() {
+        if (getRecordId() == null) {
+            return LongStream.empty();
+        }
+        return LongStream.of(getRecordId());
+    }
 
     int size();
 

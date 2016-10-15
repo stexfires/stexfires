@@ -3,6 +3,7 @@ package stexfires.core;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
@@ -67,6 +68,13 @@ public final class Field implements Serializable {
 
     public int length() {
         return value != null ? value.length() : 0;
+    }
+
+    public Stream<String> stream() {
+        if (value == null) {
+            return Stream.empty();
+        }
+        return Stream.of(value);
     }
 
     @Override
