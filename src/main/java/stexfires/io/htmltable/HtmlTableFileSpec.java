@@ -6,6 +6,7 @@ import stexfires.util.LineSeparator;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -18,32 +19,63 @@ import java.util.stream.Stream;
  */
 public final class HtmlTableFileSpec {
 
+    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
+
     private final Charset charset;
+    private final CodingErrorAction codingErrorAction;
 
     private final LineSeparator lineSeparator;
     private final String beforeTable;
     private final String afterTable;
     private final List<RecordMessage<Record>> recordMessages;
-    private final CodingErrorAction codingErrorAction;
 
     @SafeVarargs
-    public HtmlTableFileSpec(Charset charset, LineSeparator lineSeparator,
+    public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                             LineSeparator lineSeparator,
                              String beforeTable, String afterTable,
-                             CodingErrorAction codingErrorAction,
                              RecordMessage<Record>... recordMessages) {
         Objects.requireNonNull(charset);
-        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(codingErrorAction);
+        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(recordMessages);
         this.charset = charset;
+        this.codingErrorAction = codingErrorAction;
         this.lineSeparator = lineSeparator;
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
         this.recordMessages = Collections.unmodifiableList(Arrays.asList(recordMessages));
-        this.codingErrorAction = codingErrorAction;
+    }
+
+    public static HtmlTableFileSpec write(Charset charset,
+                                          LineSeparator lineSeparator,
+                                          String beforeTable, String afterTable,
+                                          RecordMessage<Record>... recordMessages) {
+        return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                lineSeparator,
+                beforeTable, afterTable,
+                recordMessages);
+    }
+
+    public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                          LineSeparator lineSeparator,
+                                          String beforeTable, String afterTable,
+                                          RecordMessage<Record>... recordMessages) {
+        return new HtmlTableFileSpec(charset, codingErrorAction,
+                lineSeparator,
+                beforeTable, afterTable,
+                recordMessages);
+    }
+
+    public HtmlTableFile file(Path path) {
+        return new HtmlTableFile(path, this);
     }
 
     public Charset getCharset() {
         return charset;
+    }
+
+    public CodingErrorAction getCodingErrorAction() {
+        return codingErrorAction;
     }
 
     public LineSeparator getLineSeparator() {
@@ -64,10 +96,6 @@ public final class HtmlTableFileSpec {
 
     public Stream<RecordMessage<Record>> streamOfRecordMessages() {
         return recordMessages.stream();
-    }
-
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
     }
 
 }
