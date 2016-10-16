@@ -2,6 +2,7 @@ package stexfires.io.fixedwidth;
 
 import stexfires.core.Record;
 import stexfires.io.BaseRecordFile;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
@@ -20,6 +21,12 @@ public class FixedWidthFile extends BaseRecordFile<Record, Record> {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+    }
+
+    @Override
+    public ReadableRecordProducer<Record> openProducer() throws IOException {
+        return new FixedWidthProducer(newBufferedReader(
+                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
     @Override
