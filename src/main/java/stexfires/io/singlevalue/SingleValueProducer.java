@@ -47,7 +47,7 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
     protected static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
         protected SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
-            super(reader, fileSpec.getIgnoreFirstLines(), fileSpec.getIgnoreLastLines());
+            super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
         }
 
         @Override
