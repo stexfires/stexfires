@@ -18,6 +18,7 @@ public final class FixedWidthFileSpec {
     public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
 
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
@@ -34,6 +35,7 @@ public final class FixedWidthFileSpec {
     private final int ignoreFirst;
     private final int ignoreLast;
     private final boolean skipEmptyLines;
+    private final boolean skipAllNullOrEmpty;
 
     private final LineSeparator lineSeparator;
 
@@ -41,7 +43,7 @@ public final class FixedWidthFileSpec {
                               int recordWidth, boolean separateRecordsByLineSeparator,
                               Alignment alignment, Character fillCharacter,
                               List<FixedWidthFieldSpec> fieldSpecs,
-                              int ignoreFirst, int ignoreLast, boolean skipEmptyLines,
+                              int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty,
                               LineSeparator lineSeparator) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(codingErrorAction);
@@ -70,6 +72,7 @@ public final class FixedWidthFileSpec {
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
         this.skipEmptyLines = skipEmptyLines;
+        this.skipAllNullOrEmpty = skipAllNullOrEmpty;
 
         this.lineSeparator = lineSeparator;
     }
@@ -78,12 +81,12 @@ public final class FixedWidthFileSpec {
                                           int recordWidth, boolean separateRecordsByLineSeparator,
                                           Alignment alignment, Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines) {
+                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines,
+                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNullOrEmpty,
                 DEFAULT_LINE_SEPARATOR);
     }
 
@@ -91,12 +94,12 @@ public final class FixedWidthFileSpec {
                                           int recordWidth, boolean separateRecordsByLineSeparator,
                                           Alignment alignment, Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines) {
+                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, codingErrorAction,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines,
+                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNullOrEmpty,
                 DEFAULT_LINE_SEPARATOR);
     }
 
@@ -109,7 +112,7 @@ public final class FixedWidthFileSpec {
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST, DEFAULT_SKIP_EMPTY_LINES,
+                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
                 lineSeparator);
     }
 
@@ -155,6 +158,10 @@ public final class FixedWidthFileSpec {
 
     public boolean isSkipEmptyLines() {
         return skipEmptyLines;
+    }
+
+    public boolean isSkipAllNullOrEmpty() {
+        return skipAllNullOrEmpty;
     }
 
     public LineSeparator getLineSeparator() {
