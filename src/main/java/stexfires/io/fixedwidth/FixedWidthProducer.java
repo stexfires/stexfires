@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static stexfires.util.Alignment.*;
@@ -30,6 +31,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
 
     public FixedWidthProducer(BufferedReader reader, FixedWidthFileSpec fileSpec) {
         super(reader);
+        Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
 
