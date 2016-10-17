@@ -2,6 +2,7 @@ package stexfires.io.config;
 
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.BaseRecordFile;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
@@ -20,6 +21,12 @@ public class ConfigFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+    }
+
+    @Override
+    public ReadableRecordProducer<KeyValueRecord> openProducer() throws IOException {
+        return new ConfigProducer(newBufferedReader(
+                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
     }
 
     @Override
