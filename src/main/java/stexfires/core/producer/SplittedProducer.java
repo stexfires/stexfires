@@ -7,6 +7,7 @@ import stexfires.core.record.StandardRecord;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -24,6 +25,11 @@ public class SplittedProducer implements RecordProducer<Record> {
 
     public SplittedProducer(String category, int recordSize, String... values) {
         this(category, Records.recordIdSequence(), recordSize, values);
+    }
+
+    public SplittedProducer(String category, LongSupplier recordIdSupplier, int recordSize, String... values) {
+        //noinspection UnnecessaryBoxing
+        this(category, () -> Long.valueOf(recordIdSupplier.getAsLong()), recordSize, values);
     }
 
     public SplittedProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {

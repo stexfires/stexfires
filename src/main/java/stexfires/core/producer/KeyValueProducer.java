@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,6 +27,10 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
 
     public KeyValueProducer(String category, Map<?, ?> keyValueMap) {
         this(category, Records.recordIdSequence(), keyValueMap);
+    }
+
+    public KeyValueProducer(String category, LongSupplier recordIdSupplier, Map<?, ?> keyValueMap) {
+        this(category, recordIdSupplier::getAsLong, keyValueMap, Strings::asString);
     }
 
     public KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<?, ?> keyValueMap) {

@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,6 +27,10 @@ public class SingleProducer implements RecordProducer<SingleRecord> {
 
     public SingleProducer(String category, Collection<?> values) {
         this(category, Records.recordIdSequence(), values);
+    }
+
+    public SingleProducer(String category, LongSupplier recordIdSupplier, Collection<?> values) {
+        this(category, recordIdSupplier::getAsLong, values, Strings::asString);
     }
 
     public SingleProducer(String category, Supplier<Long> recordIdSupplier, Collection<?> values) {
