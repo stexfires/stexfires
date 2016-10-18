@@ -9,7 +9,7 @@ import stexfires.core.record.SingleRecord;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToSingleMapper implements RecordMapper<Record, SingleRecord> {
+public class ToSingleMapper<T extends Record> implements RecordMapper<T, SingleRecord> {
 
     protected final int valueIndex;
 
@@ -22,7 +22,7 @@ public class ToSingleMapper implements RecordMapper<Record, SingleRecord> {
     }
 
     @Override
-    public SingleRecord map(Record record) {
+    public SingleRecord map(T record) {
         return new SingleRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(valueIndex));
     }

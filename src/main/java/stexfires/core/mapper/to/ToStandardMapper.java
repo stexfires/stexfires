@@ -9,10 +9,10 @@ import stexfires.core.record.StandardRecord;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToStandardMapper implements RecordMapper<Record, StandardRecord> {
+public class ToStandardMapper<T extends Record> implements RecordMapper<T, StandardRecord> {
 
     @Override
-    public StandardRecord map(Record record) {
+    public StandardRecord map(T record) {
         if (record instanceof StandardRecord) {
             return (StandardRecord) record;
         }

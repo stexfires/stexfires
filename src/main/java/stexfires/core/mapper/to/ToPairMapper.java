@@ -9,7 +9,7 @@ import stexfires.core.record.PairRecord;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToPairMapper implements RecordMapper<Record, PairRecord> {
+public class ToPairMapper<T extends Record> implements RecordMapper<T, PairRecord> {
 
     protected final int firstIndex;
     protected final int secondIndex;
@@ -24,7 +24,7 @@ public class ToPairMapper implements RecordMapper<Record, PairRecord> {
     }
 
     @Override
-    public PairRecord map(Record record) {
+    public PairRecord map(T record) {
         return new PairRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(firstIndex), record.getValueAt(secondIndex));
     }

@@ -9,10 +9,10 @@ import stexfires.core.record.EmptyRecord;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToEmptyMapper implements RecordMapper<Record, EmptyRecord> {
+public class ToEmptyMapper<T extends Record> implements RecordMapper<T, EmptyRecord> {
 
     @Override
-    public EmptyRecord map(Record record) {
+    public EmptyRecord map(T record) {
         return Records.empty();
     }
 

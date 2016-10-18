@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToKeyValueMapper implements RecordMapper<Record, KeyValueRecord> {
+public class ToKeyValueMapper<T extends Record> implements RecordMapper<T, KeyValueRecord> {
 
     protected final int keyIndex;
     protected final int valueIndex;
@@ -24,7 +24,7 @@ public class ToKeyValueMapper implements RecordMapper<Record, KeyValueRecord> {
     }
 
     @Override
-    public KeyValueRecord map(Record record) {
+    public KeyValueRecord map(T record) {
         return new KeyValueRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAtOrElse(keyIndex, nullKeyValue), record.getValueAt(valueIndex));
     }
