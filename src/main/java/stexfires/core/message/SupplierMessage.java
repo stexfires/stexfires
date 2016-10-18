@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SupplierMessage implements RecordMessage<Record> {
+public class SupplierMessage<T extends Record> implements RecordMessage<T> {
 
     protected final Supplier<String> messageSupplier;
 
@@ -23,16 +23,16 @@ public class SupplierMessage implements RecordMessage<Record> {
         this.messageSupplier = messageSupplier;
     }
 
-    public static SupplierMessage localTime() {
-        return new SupplierMessage(new LocalTimeSupplier());
+    public static <T extends Record> SupplierMessage<T> localTime() {
+        return new SupplierMessage<>(new LocalTimeSupplier());
     }
 
-    public static SupplierMessage threadName() {
-        return new SupplierMessage(new ThreadNameSupplier());
+    public static <T extends Record> SupplierMessage<T> threadName() {
+        return new SupplierMessage<>(new ThreadNameSupplier());
     }
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         return messageSupplier.get();
     }
 

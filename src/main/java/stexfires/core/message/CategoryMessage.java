@@ -6,7 +6,7 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryMessage implements RecordMessage<Record> {
+public class CategoryMessage<T extends Record> implements RecordMessage<T> {
 
     protected final String nullCategoryValue;
 
@@ -19,7 +19,7 @@ public class CategoryMessage implements RecordMessage<Record> {
     }
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         return record.getCategoryOrElse(nullCategoryValue);
     }
 

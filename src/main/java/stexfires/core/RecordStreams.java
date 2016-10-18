@@ -139,7 +139,7 @@ public final class RecordStreams {
     }
 
     public static <T extends Record> void printLines(Stream<T> recordStream) {
-        consume(recordStream, new LoggerConsumer<>(new SystemOutLogger()));
+        consume(recordStream, new LoggerConsumer<>(new SystemOutLogger<>()));
     }
 
     public static <T extends Record> Stream<T> log(Stream<T> recordStream, RecordLogger<? super T> recordLogger) {

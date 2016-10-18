@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConstantMessage implements RecordMessage<Record> {
+public class ConstantMessage<T extends Record> implements RecordMessage<T> {
 
     protected final String constantMessage;
 
@@ -18,7 +18,7 @@ public class ConstantMessage implements RecordMessage<Record> {
     }
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         return constantMessage;
     }
 

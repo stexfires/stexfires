@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class RecordIdMessage implements RecordMessage<Record> {
+public class RecordIdMessage<T extends Record> implements RecordMessage<T> {
 
     public static final String DEFAULT_PREFIX = "#";
     public static final String DEFAULT_MISSING_RECORD_ID_MESSAGE = "";
@@ -28,7 +28,7 @@ public class RecordIdMessage implements RecordMessage<Record> {
     }
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         return record.getRecordId() != null ? prefix + String.valueOf(record.getRecordId()) : missingRecordIdMessage;
     }
 

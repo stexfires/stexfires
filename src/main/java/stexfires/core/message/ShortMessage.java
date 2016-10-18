@@ -6,10 +6,10 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ShortMessage implements RecordMessage<Record> {
+public class ShortMessage<T extends Record> implements RecordMessage<T> {
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         return record.getClass().getSimpleName()
                 + "[" + record.size()
                 + (record.getCategory() != null ? ", '" + record.getCategory() + "'" : "")

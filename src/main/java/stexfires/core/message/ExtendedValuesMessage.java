@@ -7,7 +7,7 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ExtendedValuesMessage implements RecordMessage<Record> {
+public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T> {
 
     protected final String prefix;
     protected final String postfix;
@@ -26,7 +26,7 @@ public class ExtendedValuesMessage implements RecordMessage<Record> {
     }
 
     @Override
-    public String createMessage(Record record) {
+    public String createMessage(T record) {
         StringBuilder b = new StringBuilder();
 
         for (Field field : record.listOfFields()) {
