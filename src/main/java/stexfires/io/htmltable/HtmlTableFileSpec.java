@@ -46,6 +46,7 @@ public final class HtmlTableFileSpec {
         this.recordMessages = Collections.unmodifiableList(Arrays.asList(recordMessages));
     }
 
+    @SafeVarargs
     public static HtmlTableFileSpec write(Charset charset,
                                           LineSeparator lineSeparator,
                                           String beforeTable, String afterTable,
@@ -56,6 +57,7 @@ public final class HtmlTableFileSpec {
                 recordMessages);
     }
 
+    @SafeVarargs
     public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                           LineSeparator lineSeparator,
                                           String beforeTable, String afterTable,
