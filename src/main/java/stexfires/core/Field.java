@@ -85,6 +85,7 @@ public final class Field implements Serializable {
         Field that = (Field) o;
 
         if (index != that.index) return false;
+        //noinspection SimplifiableIfStatement
         if (last != that.last) return false;
         return value != null ? value.equals(that.value) : that.value == null;
 
