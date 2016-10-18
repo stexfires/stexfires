@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -82,6 +83,14 @@ public final class Records {
     }
 
     public static Supplier<Long> recordIdSequence(long initialValue) {
+        return new AtomicLong(initialValue)::getAndIncrement;
+    }
+
+    public static LongSupplier recordIdPrimitiveSequence() {
+        return recordIdPrimitiveSequence(DEFAULT_INITIAL_RECORD_ID);
+    }
+
+    public static LongSupplier recordIdPrimitiveSequence(long initialValue) {
         return new AtomicLong(initialValue)::getAndIncrement;
     }
 
