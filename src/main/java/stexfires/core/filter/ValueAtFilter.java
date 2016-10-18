@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueAtFilter implements RecordFilter<Record> {
+public class ValueAtFilter<T extends Record> implements RecordFilter<T> {
 
     protected final int index;
     protected final Predicate<String> stringPredicate;
@@ -31,7 +31,7 @@ public class ValueAtFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return stringPredicate.test(record.getValueAt(index));
     }
 

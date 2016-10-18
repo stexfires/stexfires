@@ -6,7 +6,7 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConstantFilter implements RecordFilter<Record> {
+public class ConstantFilter<T extends Record> implements RecordFilter<T> {
 
     protected final boolean constantValidity;
 
@@ -15,7 +15,7 @@ public class ConstantFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return constantValidity;
     }
 

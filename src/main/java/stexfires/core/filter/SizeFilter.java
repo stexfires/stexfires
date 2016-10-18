@@ -11,7 +11,7 @@ import java.util.function.IntPredicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SizeFilter implements RecordFilter<Record> {
+public class SizeFilter<T extends Record> implements RecordFilter<T> {
 
     protected final IntPredicate intPredicate;
 
@@ -32,12 +32,12 @@ public class SizeFilter implements RecordFilter<Record> {
         this.intPredicate = intPredicate;
     }
 
-    public static RecordFilter<Record> between(int from, int to) {
-        return new SizeFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new SizeFilter(NumberComparisonType.LESS_THAN, to));
+    public static <T extends Record> RecordFilter<T> between(int from, int to) {
+        return new SizeFilter<T>(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new SizeFilter<>(NumberComparisonType.LESS_THAN, to));
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return intPredicate.test(record.size());
     }
 

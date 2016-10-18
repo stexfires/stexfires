@@ -6,7 +6,7 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueNotNullFilter implements RecordFilter<Record> {
+public class ValueNotNullFilter<T extends Record> implements RecordFilter<T> {
 
     protected final int index;
 
@@ -15,7 +15,7 @@ public class ValueNotNullFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return record.getValueAt(index) != null;
     }
 

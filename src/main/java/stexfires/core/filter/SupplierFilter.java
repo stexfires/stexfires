@@ -9,7 +9,7 @@ import java.util.function.BooleanSupplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SupplierFilter implements RecordFilter<Record> {
+public class SupplierFilter<T extends Record> implements RecordFilter<T> {
 
     protected final BooleanSupplier validitySupplier;
 
@@ -22,7 +22,7 @@ public class SupplierFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return validitySupplier.getAsBoolean();
     }
 

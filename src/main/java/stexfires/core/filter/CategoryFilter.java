@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryFilter implements RecordFilter<Record> {
+public class CategoryFilter<T extends Record> implements RecordFilter<T> {
 
     protected final Predicate<String> stringPredicate;
 
@@ -32,12 +32,12 @@ public class CategoryFilter implements RecordFilter<Record> {
         this.stringPredicate = stringPredicate;
     }
 
-    public static RecordFilter<Record> notNull() {
-        return new CategoryFilter(StringCheckType.NOT_NULL);
+    public static <T extends Record> RecordFilter<T> notNull() {
+        return new CategoryFilter<>(StringCheckType.NOT_NULL);
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return stringPredicate.test(record.getCategory());
     }
 

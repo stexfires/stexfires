@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ClassFilter implements RecordFilter<Record> {
+public class ClassFilter<T extends Record> implements RecordFilter<T> {
 
     protected final Class<? extends Record> recordClass;
 
@@ -18,7 +18,7 @@ public class ClassFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return recordClass.equals(record.getClass());
     }
 

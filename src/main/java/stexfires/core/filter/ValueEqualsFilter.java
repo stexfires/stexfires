@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueEqualsFilter implements RecordFilter<ValueRecord> {
+public class ValueEqualsFilter<T extends ValueRecord> implements RecordFilter<T> {
 
     protected final String value;
 
@@ -17,7 +17,7 @@ public class ValueEqualsFilter implements RecordFilter<ValueRecord> {
     }
 
     @Override
-    public boolean isValid(ValueRecord record) {
+    public boolean isValid(T record) {
         return Objects.equals(record.getValueOfValueField(), value);
     }
 

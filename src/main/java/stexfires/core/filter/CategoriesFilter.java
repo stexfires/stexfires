@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoriesFilter implements RecordFilter<Record> {
+public class CategoriesFilter<T extends Record> implements RecordFilter<T> {
 
     protected final Collection<String> categories;
     protected final String orElseCategory;
@@ -23,7 +23,7 @@ public class CategoriesFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return categories.contains(record.getCategoryOrElse(orElseCategory));
     }
 

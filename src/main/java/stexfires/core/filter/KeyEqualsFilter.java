@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class KeyEqualsFilter implements RecordFilter<KeyRecord> {
+public class KeyEqualsFilter<T extends KeyRecord> implements RecordFilter<T> {
 
     protected final String key;
 
@@ -18,7 +18,7 @@ public class KeyEqualsFilter implements RecordFilter<KeyRecord> {
     }
 
     @Override
-    public boolean isValid(KeyRecord record) {
+    public boolean isValid(T record) {
         return key.equals(record.getValueOfKeyField());
     }
 

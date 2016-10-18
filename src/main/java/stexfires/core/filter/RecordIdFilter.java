@@ -11,7 +11,7 @@ import java.util.function.LongPredicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class RecordIdFilter implements RecordFilter<Record> {
+public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
 
     protected final LongPredicate longPredicate;
 
@@ -32,16 +32,16 @@ public class RecordIdFilter implements RecordFilter<Record> {
         this.longPredicate = longPredicate;
     }
 
-    public static RecordFilter<Record> notNull() {
-        return new RecordIdFilter((long value) -> true);
+    public static <T extends Record> RecordFilter<T> notNull() {
+        return new RecordIdFilter<>((long value) -> true);
     }
 
-    public static RecordFilter<Record> between(int from, int to) {
-        return new RecordIdFilter(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new RecordIdFilter(NumberComparisonType.LESS_THAN, to));
+    public static <T extends Record> RecordFilter<T> between(int from, int to) {
+        return new RecordIdFilter<T>(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new RecordIdFilter<>(NumberComparisonType.LESS_THAN, to));
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return (record.getRecordId() != null) && longPredicate.test(record.getRecordId());
     }
 

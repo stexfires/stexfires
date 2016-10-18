@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueAtEqualsFilter implements RecordFilter<Record> {
+public class ValueAtEqualsFilter<T extends Record> implements RecordFilter<T> {
 
     protected final int index;
     protected final String compareValue;
@@ -28,7 +28,7 @@ public class ValueAtEqualsFilter implements RecordFilter<Record> {
     }
 
     @Override
-    public boolean isValid(Record record) {
+    public boolean isValid(T record) {
         return Objects.equals(record.isValidIndex(index) ? record.getValueAt(index) : defaultValue, compareValue);
     }
 
