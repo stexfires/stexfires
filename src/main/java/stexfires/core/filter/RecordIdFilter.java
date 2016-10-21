@@ -32,7 +32,7 @@ public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
         this.longPredicate = longPredicate;
     }
 
-    public static <T extends Record> RecordFilter<T> notNull() {
+    public static <T extends Record> RecordIdFilter<T> notNull() {
         return new RecordIdFilter<>((long value) -> true);
     }
 

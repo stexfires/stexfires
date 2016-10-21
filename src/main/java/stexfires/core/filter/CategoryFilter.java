@@ -32,7 +32,7 @@ public class CategoryFilter<T extends Record> implements RecordFilter<T> {
         this.stringPredicate = stringPredicate;
     }
 
-    public static <T extends Record> RecordFilter<T> notNull() {
+    public static <T extends Record> CategoryFilter<T> notNull() {
         return new CategoryFilter<>(StringCheckType.NOT_NULL);
     }
 
