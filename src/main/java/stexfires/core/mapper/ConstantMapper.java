@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConstantMapper<R extends Record> implements RecordMapper<Record, R> {
+public class ConstantMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
 
     protected final R constantRecord;
 
@@ -18,7 +18,7 @@ public class ConstantMapper<R extends Record> implements RecordMapper<Record, R>
     }
 
     @Override
-    public R map(Record record) {
+    public R map(T record) {
         return constantRecord;
     }
 

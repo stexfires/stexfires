@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueMapper implements UnaryRecordMapper<ValueRecord> {
+public class ValueMapper<T extends ValueRecord> implements RecordMapper<T, ValueRecord> {
 
     protected final FieldValueMapper fieldValueMapper;
 
@@ -24,7 +24,7 @@ public class ValueMapper implements UnaryRecordMapper<ValueRecord> {
     }
 
     @Override
-    public ValueRecord map(ValueRecord record) {
+    public ValueRecord map(T record) {
         return record.newValueRecord(fieldValueMapper.mapToValue(record.getValueField()));
     }
 

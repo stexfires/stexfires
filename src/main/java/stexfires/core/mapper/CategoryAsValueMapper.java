@@ -11,7 +11,7 @@ import java.util.List;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryAsValueMapper implements UnaryRecordMapper<Record> {
+public class CategoryAsValueMapper<T extends Record> implements RecordMapper<T, Record> {
 
     protected final String nullCategoryValue;
 
@@ -24,7 +24,7 @@ public class CategoryAsValueMapper implements UnaryRecordMapper<Record> {
     }
 
     @Override
-    public Record map(Record record) {
+    public Record map(T record) {
         List<String> newValues = new ArrayList<>(record.size() + 1);
         newValues.add(record.getCategoryOrElse(nullCategoryValue));
         newValues.addAll(Fields.collectValues(record));

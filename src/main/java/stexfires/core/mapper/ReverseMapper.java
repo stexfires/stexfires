@@ -11,10 +11,10 @@ import java.util.List;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ReverseMapper implements UnaryRecordMapper<Record> {
+public class ReverseMapper<T extends Record> implements RecordMapper<T, Record> {
 
     @Override
-    public Record map(Record record) {
+    public Record map(T record) {
         if (record.size() < 2) {
             return record;
         }

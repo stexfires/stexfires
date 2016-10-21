@@ -9,20 +9,20 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SupplierMapper<R extends Record> implements RecordMapper<Record, R> {
+public class SupplierMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
 
-    protected final Supplier<R> recordSupplier;
+    protected final Supplier<? extends R> recordSupplier;
 
     /**
      * @param recordSupplier must be thread-safe
      */
-    public SupplierMapper(Supplier<R> recordSupplier) {
+    public SupplierMapper(Supplier<? extends R> recordSupplier) {
         Objects.requireNonNull(recordSupplier);
         this.recordSupplier = recordSupplier;
     }
 
     @Override
-    public R map(Record record) {
+    public R map(T record) {
         return recordSupplier.get();
     }
 

@@ -18,14 +18,14 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class AddValueMapper implements UnaryRecordMapper<Record> {
+public class AddValueMapper<T extends Record> implements RecordMapper<T, Record> {
 
-    protected final RecordMessage<Record> valueMessage;
+    protected final RecordMessage<? super T> valueMessage;
 
     /**
      * @param valueMessage must be thread-safe
      */
-    public AddValueMapper(RecordMessage<Record> valueMessage) {
+    public AddValueMapper(RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(valueMessage);
         this.valueMessage = valueMessage;
     }
@@ -62,21 +62,21 @@ public class AddValueMapper implements UnaryRecordMapper<Record> {
         this.valueMessage = record -> (String) null;
     }
 
-    public static AddValueMapper category() {
-        return new AddValueMapper(Record::getCategory);
+    public static <T extends Record> AddValueMapper<T> category() {
+        return new AddValueMapper<>(Record::getCategory);
     }
 
-    public static AddValueMapper recordIdSequence() {
-        return new AddValueMapper(Records.recordIdPrimitiveSequence());
+    public static <T extends Record> AddValueMapper<T> recordIdSequence() {
+        return new AddValueMapper<>(Records.recordIdPrimitiveSequence());
     }
 
-    public static AddValueMapper fileName(Path path) {
+    public static <T extends Record> AddValueMapper<T> fileName(Path path) {
         Objects.requireNonNull(path);
-        return new AddValueMapper(record -> path.getFileName().toString());
+        return new AddValueMapper<>(record -> path.getFileName().toString());
     }
 
     @Override
-    public Record map(Record record) {
+    public Record map(T record) {
         List<String> newValues = new ArrayList<>(record.size() + 1);
         newValues.addAll(Fields.collectValues(record));
         newValues.add(valueMessage.createMessage(record));
