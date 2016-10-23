@@ -47,14 +47,13 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
                           if (m == null || m.isEmpty()) {
                               m = "&nbsp;";
                           } else {
-                              m = m.replaceAll("&", "&amp;")
-                                   .replaceAll("<", "&lt;")
-                                   .replaceAll(">", "&gt;");
+                              m = m.replace("&", "&amp;")
+                                   .replace("<", "&lt;")
+                                   .replace(">", "&gt;");
                           }
                           return "<td>" + m + "</td>";
                       })
                       .collect(Collectors.joining(separator)));
-        // TODO Escape singleQuote and doubleQuote ?
         write(separator);
         write("</tr>");
         write(separator);
