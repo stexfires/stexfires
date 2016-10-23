@@ -1,4 +1,4 @@
-package stexfires.io.htmltable;
+package stexfires.io.html.table;
 
 import stexfires.core.Record;
 import stexfires.core.consumer.ConsumerException;
