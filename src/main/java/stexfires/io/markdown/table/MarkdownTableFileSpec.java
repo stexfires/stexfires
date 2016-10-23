@@ -8,12 +8,19 @@ import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
 public final class MarkdownTableFileSpec {
+
+    public static final String ESCAPE_TARGET = "|";
+    public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
+    public static final String FILL_CHARACTER = " ";
+    public static final String FIELD_DELIMITER = "| ";
+    public static final String LAST_FIELD_DELIMITER = "|";
 
     public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;

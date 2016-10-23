@@ -10,6 +10,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
+
+import static stexfires.io.markdown.table.MarkdownTableFileSpec.*;
 
 /**
  * @author Mathias Kalb
@@ -26,6 +29,8 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
     }
 
     protected static String createRecordString(List<MarkdownTableFieldSpec> fieldSpecs, List<Field> fields) {
+        Pattern pattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
+
         StringBuilder b = new StringBuilder();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
@@ -36,31 +41,33 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             String value = (field != null) ? field.getValue() : null;
             if (value != null) {
                 // Escape pipe
-                value = value.replaceAll("\\|", "\\\\|");
+                value = pattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
             }
             int valueWidth = (value != null) ? value.length() : 0;
 
-            b.append("| ");
+            b.append(FIELD_DELIMITER);
 
             if (value != null) {
                 b.append(value);
             }
 
             for (int i = valueWidth; i < minWidth; i++) {
-                b.append(" ");
+                b.append(FILL_CHARACTER);
             }
 
-            b.append(" ");
+            b.append(FILL_CHARACTER);
         }
 
         if (b.length() > 0) {
-            b.append("|");
+            b.append(LAST_FIELD_DELIMITER);
         }
 
         return b.toString();
     }
 
     protected static String createHeaderString(List<MarkdownTableFieldSpec> fieldSpecs) {
+        Pattern pattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
+
         StringBuilder b = new StringBuilder();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
@@ -70,25 +77,25 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             String value = fieldSpec.getName();
             if (value != null) {
                 // Escape pipe
-                value = value.replaceAll("\\|", "\\\\|");
+                value = pattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
             }
             int valueWidth = (value != null) ? value.length() : 0;
 
-            b.append("| ");
+            b.append(FIELD_DELIMITER);
 
             if (value != null) {
                 b.append(value);
             }
 
             for (int i = valueWidth; i < minWidth; i++) {
-                b.append(" ");
+                b.append(FILL_CHARACTER);
             }
 
-            b.append(" ");
+            b.append(FILL_CHARACTER);
         }
 
         if (b.length() > 0) {
-            b.append("|");
+            b.append(LAST_FIELD_DELIMITER);
         }
 
         return b.toString();
@@ -118,7 +125,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
 
             int valueWidth = (value != null) ? value.length() : 0;
 
-            b.append("| ");
+            b.append(FIELD_DELIMITER);
 
             if (value != null) {
                 b.append(value);
@@ -128,11 +135,11 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
                 b.append("-");
             }
 
-            b.append(" ");
+            b.append(FILL_CHARACTER);
         }
 
         if (b.length() > 0) {
-            b.append("|");
+            b.append(LAST_FIELD_DELIMITER);
         }
 
         return b.toString();
