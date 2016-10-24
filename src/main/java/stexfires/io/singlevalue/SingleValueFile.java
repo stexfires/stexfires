@@ -7,6 +7,7 @@ import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -26,14 +27,17 @@ public class SingleValueFile extends BaseRecordFile<ValueRecord, SingleRecord> {
 
     @Override
     public ReadableRecordProducer<SingleRecord> openProducer() throws IOException {
-        return new SingleValueProducer(newBufferedReader(
-                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+        return new SingleValueProducer(
+                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
+                fileSpec);
     }
 
     @Override
-    public WritableRecordConsumer<ValueRecord> openConsumer() throws IOException {
-        return new SingleValueConsumer(newBufferedWriter(
-                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+    public WritableRecordConsumer<ValueRecord> openConsumer(OpenOption... writeOptions) throws IOException {
+        return new SingleValueConsumer(
+                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
+                        writeOptions),
+                fileSpec);
     }
 
 }

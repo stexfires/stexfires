@@ -3,6 +3,7 @@ package stexfires.io;
 import stexfires.core.Record;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 
 /**
  * @author Mathias Kalb
@@ -10,6 +11,6 @@ import java.io.IOException;
  */
 public interface WritableRecordFile<T extends Record> extends RecordFile {
 
-    WritableRecordConsumer<T> openConsumer() throws IOException;
+    WritableRecordConsumer<T> openConsumer(OpenOption... writeOptions) throws IOException;
 
 }

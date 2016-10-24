@@ -2,9 +2,11 @@ package stexfires.io.properties;
 
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.BaseRecordFile;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -14,7 +16,7 @@ import java.util.Objects;
  */
 public class PropertiesFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
 
-    private final PropertiesFileSpec fileSpec;
+    protected final PropertiesFileSpec fileSpec;
 
     public PropertiesFile(final Path path, PropertiesFileSpec fileSpec) {
         super(path);
@@ -23,9 +25,21 @@ public class PropertiesFile extends BaseRecordFile<KeyValueRecord, KeyValueRecor
     }
 
     @Override
-    public WritableRecordConsumer<KeyValueRecord> openConsumer() throws IOException {
-        return new PropertiesConsumer(newBufferedWriter(
-                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+    public ReadableRecordProducer<KeyValueRecord> openProducer() throws IOException {
+        throw new UnsupportedOperationException();
+        /*
+        return new PropertiesProducer(
+                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
+                fileSpec);
+        */
+    }
+
+    @Override
+    public WritableRecordConsumer<KeyValueRecord> openConsumer(OpenOption... writeOptions) throws IOException {
+        return new PropertiesConsumer(
+                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
+                        writeOptions),
+                fileSpec);
     }
 
 }

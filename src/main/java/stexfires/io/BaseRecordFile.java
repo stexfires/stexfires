@@ -40,18 +40,18 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
     }
 
     @Override
-    public WritableRecordConsumer<W> openConsumer() throws IOException {
+    public WritableRecordConsumer<W> openConsumer(OpenOption... writeOptions) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     protected BufferedWriter newBufferedWriter(CharsetEncoder charsetEncoder,
-                                               OpenOption... options) throws IOException {
-        return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path, options), charsetEncoder));
+                                               OpenOption... writeOptions) throws IOException {
+        return new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(path, writeOptions), charsetEncoder));
     }
 
     protected BufferedReader newBufferedReader(CharsetDecoder charsetDecoder,
-                                               OpenOption... options) throws IOException {
-        return new BufferedReader(new InputStreamReader(Files.newInputStream(path, options), charsetDecoder));
+                                               OpenOption... readOptions) throws IOException {
+        return new BufferedReader(new InputStreamReader(Files.newInputStream(path, readOptions), charsetDecoder));
     }
 
     protected CharsetDecoder newCharsetDecoder(Charset charset) {

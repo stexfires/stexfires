@@ -10,6 +10,7 @@ import stexfires.core.modifier.RecordStreamModifier;
 import stexfires.core.producer.RecordProducer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.util.stream.Stream;
 
 /**
@@ -67,8 +68,9 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> void write(Stream<T> stream,
-                                                             WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                             WritableRecordFile<R> writableFile,
+                                                             OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             stream.forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -77,8 +79,9 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends Record> void write(Stream<T> stream,
                                                                   RecordMapper<? super T, ? extends R> recordMapper,
-                                                                  WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                                  WritableRecordFile<R> writableFile,
+                                                                  OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             stream.map(recordMapper::map).forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -87,8 +90,9 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends Record> void write(Stream<T> stream,
                                                                   RecordStreamModifier<T, ? extends R> recordStreamModifier,
-                                                                  WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                                  WritableRecordFile<R> writableFile,
+                                                                  OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             recordStreamModifier.modify(stream).forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -96,8 +100,9 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> void write(RecordProducer<T> producer,
-                                                             WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                             WritableRecordFile<R> writableFile,
+                                                             OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             producer.produceStream().forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -106,8 +111,9 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends Record> void write(RecordProducer<T> producer,
                                                                   RecordMapper<? super T, ? extends R> recordMapper,
-                                                                  WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                                  WritableRecordFile<R> writableFile,
+                                                                  OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             producer.produceStream().map(recordMapper::map).forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -116,8 +122,9 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends Record> void write(RecordProducer<T> producer,
                                                                   RecordStreamModifier<T, ? extends R> recordStreamModifier,
-                                                                  WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                                  WritableRecordFile<R> writableFile,
+                                                                  OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             recordStreamModifier.modify(producer.produceStream()).forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -125,8 +132,9 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> void write(T record,
-                                                             WritableRecordFile<R> writableFile) throws IOException {
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+                                                             WritableRecordFile<R> writableFile,
+                                                             OpenOption... writeOptions) throws IOException {
+        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             consumer.writeBefore();
             RecordStreams.of(record).forEachOrdered(consumer::consume);
             consumer.writeAfter();
@@ -134,9 +142,10 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> void convert(ReadableRecordFile<T> readableFile,
-                                                               WritableRecordFile<R> writableFile) throws IOException {
+                                                               WritableRecordFile<R> writableFile,
+                                                               OpenOption... writeOptions) throws IOException {
         try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             producer.readBefore();
             consumer.writeBefore();
             producer.produceStream().forEachOrdered(consumer::consume);
@@ -147,9 +156,10 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends R> void convert(ReadableRecordFile<T> readableFile,
                                                                RecordMapper<? super T, ? extends R> recordMapper,
-                                                               WritableRecordFile<R> writableFile) throws IOException {
+                                                               WritableRecordFile<R> writableFile,
+                                                               OpenOption... writeOptions) throws IOException {
         try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             producer.readBefore();
             consumer.writeBefore();
             producer.produceStream().map(recordMapper::map).forEachOrdered(consumer::consume);
@@ -160,9 +170,10 @@ public final class RecordFiles {
 
     public static <R extends Record, T extends R> void convert(ReadableRecordFile<T> readableFile,
                                                                RecordStreamModifier<T, ? extends R> recordStreamModifier,
-                                                               WritableRecordFile<R> writableFile) throws IOException {
+                                                               WritableRecordFile<R> writableFile,
+                                                               OpenOption... writeOptions) throws IOException {
         try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer()) {
+             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
             producer.readBefore();
             consumer.writeBefore();
             recordStreamModifier.modify(producer.produceStream()).forEachOrdered(consumer::consume);

@@ -6,6 +6,7 @@ import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -25,14 +26,17 @@ public class SimpleDelimitedFile extends BaseRecordFile<Record, Record> {
 
     @Override
     public ReadableRecordProducer<Record> openProducer() throws IOException {
-        return new SimpleDelimitedProducer(newBufferedReader(
-                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+        return new SimpleDelimitedProducer(
+                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
+                fileSpec);
     }
 
     @Override
-    public WritableRecordConsumer<Record> openConsumer() throws IOException {
-        return new SimpleDelimitedConsumer(newBufferedWriter(
-                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+    public WritableRecordConsumer<Record> openConsumer(OpenOption... writeOptions) throws IOException {
+        return new SimpleDelimitedConsumer(
+                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
+                        writeOptions),
+                fileSpec);
     }
 
 }

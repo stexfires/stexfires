@@ -5,6 +5,7 @@ import stexfires.io.BaseRecordFile;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -23,9 +24,11 @@ public class MarkdownTableFile extends BaseRecordFile<Record, Record> {
     }
 
     @Override
-    public WritableRecordConsumer<Record> openConsumer() throws IOException {
-        return new MarkdownTableConsumer(newBufferedWriter(
-                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+    public WritableRecordConsumer<Record> openConsumer(OpenOption... writeOptions) throws IOException {
+        return new MarkdownTableConsumer(
+                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
+                        writeOptions),
+                fileSpec);
     }
 
 }

@@ -6,6 +6,7 @@ import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -25,14 +26,17 @@ public class ConfigFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
 
     @Override
     public ReadableRecordProducer<KeyValueRecord> openProducer() throws IOException {
-        return new ConfigProducer(newBufferedReader(
-                newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+        return new ConfigProducer(
+                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
+                fileSpec);
     }
 
     @Override
-    public WritableRecordConsumer<KeyValueRecord> openConsumer() throws IOException {
-        return new ConfigConsumer(newBufferedWriter(
-                newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())), fileSpec);
+    public WritableRecordConsumer<KeyValueRecord> openConsumer(OpenOption... writeOptions) throws IOException {
+        return new ConfigConsumer(
+                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
+                        writeOptions),
+                fileSpec);
     }
 
 }
