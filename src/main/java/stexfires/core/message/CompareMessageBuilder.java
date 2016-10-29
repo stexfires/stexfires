@@ -1,6 +1,5 @@
 package stexfires.core.message;
 
-import stexfires.core.Field;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -110,11 +109,15 @@ public final class CompareMessageBuilder {
             } else if (!buildValueIndex.isEmpty()) {
                 b.append("values[");
                 b.append(buildValueIndex.stream().map(index -> {
-                            Field field = record.getFieldAt(index);
-                            if (field == null || field.valueIsNull()) {
-                                return "[" + index + "]";
+                            if (!record.isValidIndex(index)) {
+                                return "[" + index + " i]";
                             } else {
-                                return "[" + field.getIndex() + ",'" + field.getValue() + "']";
+                                String value = record.getValueAt(index);
+                                if (value == null) {
+                                    return "[" + index + " n]";
+                                } else {
+                                    return "[" + index + ". '" + value + "']";
+                                }
                             }
                         }
                 ).collect(Collectors.joining(",")));
