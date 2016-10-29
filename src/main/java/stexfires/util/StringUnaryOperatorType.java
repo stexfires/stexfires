@@ -18,7 +18,15 @@ public enum StringUnaryOperatorType {
     REMOVE_HORIZONTAL_WHITESPACE,
     REMOVE_WHITESPACE,
     REMOVE_VERTICAL_WHITESPACE,
-    REVERSE;
+    REMOVE_LEADING_HORIZONTAL_WHITESPACE,
+    REMOVE_LEADING_WHITESPACE,
+    REMOVE_LEADING_VERTICAL_WHITESPACE,
+    REMOVE_TRAILING_HORIZONTAL_WHITESPACE,
+    REMOVE_TRAILING_WHITESPACE,
+    REMOVE_TRAILING_VERTICAL_WHITESPACE,
+    REVERSE,
+    TAB_TO_SPACES_2,
+    TAB_TO_SPACES_4;
 
     private static final String EMPTY = "";
 
@@ -111,9 +119,49 @@ public enum StringUnaryOperatorType {
                     result = value.replaceAll("\\v", "");
                 }
                 break;
+            case REMOVE_LEADING_HORIZONTAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("^\\h+", "");
+                }
+                break;
+            case REMOVE_LEADING_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("^\\s+", "");
+                }
+                break;
+            case REMOVE_LEADING_VERTICAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("^\\v+", "");
+                }
+                break;
+            case REMOVE_TRAILING_HORIZONTAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("\\h+$", "");
+                }
+                break;
+            case REMOVE_TRAILING_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("\\s+$", "");
+                }
+                break;
+            case REMOVE_TRAILING_VERTICAL_WHITESPACE:
+                if (value != null) {
+                    result = value.replaceFirst("\\v+$", "");
+                }
+                break;
             case REVERSE:
                 if (value != null) {
                     result = new StringBuilder(value).reverse().toString();
+                }
+                break;
+            case TAB_TO_SPACES_2:
+                if (value != null) {
+                    result = value.replaceAll("\\t", "  ");
+                }
+                break;
+            case TAB_TO_SPACES_4:
+                if (value != null) {
+                    result = value.replaceAll("\\t", "    ");
                 }
                 break;
             default:
