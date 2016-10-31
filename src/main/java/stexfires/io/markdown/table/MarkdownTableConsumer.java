@@ -70,10 +70,10 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
 
         StringBuilder b = new StringBuilder();
 
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int minWidth = fieldSpec.getMinWidth();
+        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
+            b.append(FIELD_DELIMITER);
 
+            // header name
             String value = fieldSpec.getName();
             if (value != null) {
                 // Escape pipe
@@ -81,13 +81,12 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             }
             int valueWidth = (value != null) ? value.length() : 0;
 
-            b.append(FIELD_DELIMITER);
-
             if (value != null) {
                 b.append(value);
             }
 
-            for (int i = valueWidth; i < minWidth; i++) {
+            // fill character
+            for (int i = valueWidth; i < fieldSpec.getMinWidth(); i++) {
                 b.append(FILL_CHARACTER);
             }
 
@@ -104,35 +103,23 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
     protected static String createSubHeaderString(Alignment alignment, List<MarkdownTableFieldSpec> fieldSpecs) {
         StringBuilder b = new StringBuilder();
 
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int minWidth = fieldSpec.getMinWidth();
-
-            Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment;
-
-            String value = null;
-            switch (fieldAlignment) {
-                case START:
-                    value = ":---";
-                    break;
-                case CENTER:
-                    value = ":---:";
-                    break;
-                case END:
-                    value = "---:";
-                    break;
-            }
-
-            int valueWidth = (value != null) ? value.length() : 0;
-
+        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
 
-            if (value != null) {
-                b.append(value);
+            // header underline
+            Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment;
+
+            if (fieldAlignment != Alignment.END) {
+                b.append(":");
             }
 
-            for (int i = valueWidth; i < minWidth; i++) {
+            int valueWidth = (fieldAlignment == Alignment.CENTER) ? 2 : 1;
+            for (int i = valueWidth; i < fieldSpec.getMinWidth(); i++) {
                 b.append("-");
+            }
+
+            if (fieldAlignment != Alignment.START) {
+                b.append(":");
             }
 
             b.append(FILL_CHARACTER);

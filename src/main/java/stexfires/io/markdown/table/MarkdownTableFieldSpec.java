@@ -17,6 +17,9 @@ public final class MarkdownTableFieldSpec {
     }
 
     public MarkdownTableFieldSpec(String name, int minWidth, Alignment alignment) {
+        if (minWidth < 5) {
+            throw new IllegalArgumentException("minWidth < 5");
+        }
         this.name = name;
         this.minWidth = minWidth;
         this.alignment = alignment;
