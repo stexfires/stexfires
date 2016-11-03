@@ -6,6 +6,8 @@ import stexfires.util.LineSeparator;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -47,7 +49,7 @@ public final class MarkdownTableFileSpec {
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
         this.alignment = alignment;
-        this.fieldSpecs = fieldSpecs;
+        this.fieldSpecs = new ArrayList(fieldSpecs);
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
         this.lineSeparator = lineSeparator;
@@ -90,7 +92,7 @@ public final class MarkdownTableFileSpec {
     }
 
     public List<MarkdownTableFieldSpec> getFieldSpecs() {
-        return fieldSpecs;
+        return Collections.unmodifiableList(fieldSpecs);
     }
 
     public String getBeforeTable() {

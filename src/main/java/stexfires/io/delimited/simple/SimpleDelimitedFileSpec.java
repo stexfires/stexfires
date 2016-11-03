@@ -5,6 +5,8 @@ import stexfires.util.LineSeparator;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +57,7 @@ public final class SimpleDelimitedFileSpec {
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
         this.fieldDelimiter = fieldDelimiter;
-        this.fieldSpecs = fieldSpecs;
+        this.fieldSpecs = new ArrayList(fieldSpecs);
 
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
@@ -115,7 +117,7 @@ public final class SimpleDelimitedFileSpec {
     }
 
     public List<SimpleDelimitedFieldSpec> getFieldSpecs() {
-        return fieldSpecs;
+        return Collections.unmodifiableList(fieldSpecs);
     }
 
     public int getIgnoreFirst() {
