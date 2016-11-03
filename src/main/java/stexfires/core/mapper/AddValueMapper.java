@@ -5,6 +5,7 @@ import stexfires.core.Record;
 import stexfires.core.Records;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.record.StandardRecord;
+import stexfires.util.Strings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -22,9 +23,6 @@ public class AddValueMapper<T extends Record> implements RecordMapper<T, Record>
 
     protected final RecordMessage<? super T> valueMessage;
 
-    /**
-     * @param valueMessage must be thread-safe
-     */
     public AddValueMapper(RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(valueMessage);
         this.valueMessage = valueMessage;
@@ -64,6 +62,10 @@ public class AddValueMapper<T extends Record> implements RecordMapper<T, Record>
 
     public static <T extends Record> AddValueMapper<T> category() {
         return new AddValueMapper<>(Record::getCategory);
+    }
+
+    public static <T extends Record> AddValueMapper<T> recordId() {
+        return new AddValueMapper<>(record -> Strings.asString(record.getRecordId()));
     }
 
     public static <T extends Record> AddValueMapper<T> recordIdSequence() {
