@@ -8,8 +8,8 @@ import java.util.function.Function;
 /**
  * A RecordMapper maps a {@link Record} to another record.
  * <p>
- * It must be immutable and thread-safe.
- * It must be <code>non-interfering</code> and <code>stateless</code>.
+ * It must be <code>immutable</code>, <code>thread-safe</code>,
+ * <code>non-interfering</code> and <code>stateless</code>.
  * <p>
  * This is a functional interface whose functional method is {@link #map(Record)}.
  *
