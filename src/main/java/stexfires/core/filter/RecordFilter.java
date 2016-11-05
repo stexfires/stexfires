@@ -6,10 +6,10 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * A RecordFilter is a filter for {@link Record}.
+ * A RecordFilter is a filter (boolean-valued function) for a {@link Record}.
  * <p>
- * It must be immutable and thread-safe.
- * It must be <code>non-interfering</code> and <code>stateless</code>.
+ * It must be <code>immutable</code>, <code>thread-safe</code>,
+ * <code>non-interfering</code> and <code>stateless</code>.
  * <p>
  * This is a functional interface whose functional method is {@link #isValid(Record)}.
  *
