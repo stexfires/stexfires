@@ -1,7 +1,6 @@
 package stexfires.core.message;
 
 import stexfires.core.Record;
-import stexfires.core.logger.RecordLogger;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -10,14 +9,14 @@ import java.util.function.Supplier;
 /**
  * A RecordMessage creates a text message from a {@link Record}.
  * <p>
- * It must be immutable and thread-safe.
- * It must be <code>non-interfering</code> and <code>stateless</code>.
+ * It must be <code>immutable</code>, <code>thread-safe</code>,
+ * <code>non-interfering</code> and <code>stateless</code>.
  * <p>
  * This is a functional interface whose functional method is {@link #createMessage(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function
- * @see RecordLogger
+ * @see stexfires.core.logger.RecordLogger
  * @since 0.1
  */
 @FunctionalInterface
