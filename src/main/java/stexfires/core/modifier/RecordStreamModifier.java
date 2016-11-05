@@ -9,12 +9,12 @@ import java.util.stream.Stream;
 /**
  * A RecordStreamModifier modifies a {@link Stream} of Records.
  * <p>
- * It must be immutable and thread-safe.
- * It must be <code>non-interfering</code> and <code>stateless</code>.
- * <p>
- * This is a functional interface whose functional method is {@link #modify(Stream)}.
+ * It must be <code>immutable</code>, <code>thread-safe</code>,
+ * <code>non-interfering</code> and <code>stateless</code>.
  * <p>
  * It uses the following intermediate operations to modify the stream: map, peek, skip, limit, distinct, filter, sorted, parallel, sequential, unordered
+ * <p>
+ * This is a functional interface whose functional method is {@link #modify(Stream)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function
