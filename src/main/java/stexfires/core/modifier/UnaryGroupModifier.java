@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> implements UnaryRecordStreamModifier<T> {
+public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
 
     public UnaryGroupModifier(Function<? super T, ?> groupByClassifier,
                               Function<List<T>, ? extends T> aggregateFunction) {
