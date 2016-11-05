@@ -2,74 +2,118 @@ package stexfires.core.mapper;
 
 import stexfires.core.Fields;
 import stexfires.core.Record;
-import stexfires.core.Records;
+import stexfires.core.mapper.fieldvalue.FieldValueMapper;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.record.StandardRecord;
+import stexfires.util.StringUnaryOperatorType;
 import stexfires.util.Strings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
 /**
  * @author Mathias Kalb
+ * @see stexfires.core.mapper.CategoryMapper
+ * @see stexfires.core.mapper.RecordIdMapper
  * @since 0.1
  */
 public class AddValueMapper<T extends Record> implements RecordMapper<T, Record> {
 
-    protected final RecordMessage<? super T> valueMessage;
+    protected final Function<? super T, String> valueFunction;
 
-    public AddValueMapper(RecordMessage<? super T> valueMessage) {
-        Objects.requireNonNull(valueMessage);
-        this.valueMessage = valueMessage;
+    public AddValueMapper(Function<? super T, String> valueFunction) {
+        Objects.requireNonNull(valueFunction);
+        this.valueFunction = valueFunction;
     }
 
     /**
      * @param valueSupplier must be thread-safe
      */
-    public AddValueMapper(Supplier<String> valueSupplier) {
+    public static <T extends Record> AddValueMapper<T> supplier(Supplier<String> valueSupplier) {
         Objects.requireNonNull(valueSupplier);
-        this.valueMessage = record -> valueSupplier.get();
+        return new AddValueMapper<>(record -> valueSupplier.get());
     }
 
     /**
      * @param valueSupplier must be thread-safe
      */
-    public AddValueMapper(IntSupplier valueSupplier) {
+    public static <T extends Record> AddValueMapper<T> intSupplier(IntSupplier valueSupplier) {
         Objects.requireNonNull(valueSupplier);
-        this.valueMessage = record -> String.valueOf(valueSupplier.getAsInt());
+        return new AddValueMapper<>(record -> String.valueOf(valueSupplier.getAsInt()));
     }
 
     /**
      * @param valueSupplier must be thread-safe
      */
-    public AddValueMapper(LongSupplier valueSupplier) {
+    public static <T extends Record> AddValueMapper<T> longSupplier(LongSupplier valueSupplier) {
         Objects.requireNonNull(valueSupplier);
-        this.valueMessage = record -> String.valueOf(valueSupplier.getAsLong());
+        return new AddValueMapper<>(record -> String.valueOf(valueSupplier.getAsLong()));
     }
 
-    public AddValueMapper(String value) {
-        this.valueMessage = record -> value;
+    public static <T extends Record> AddValueMapper<T> recordMessage(RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordMessage);
+        return new AddValueMapper<>(recordMessage.asFunction());
     }
 
-    public AddValueMapper() {
-        this.valueMessage = record -> (String) null;
+    public static <T extends Record> AddValueMapper<T> constant(String value) {
+        return new AddValueMapper<>(record -> value);
+    }
+
+    public static <T extends Record> AddValueMapper<T> constantNull() {
+        return new AddValueMapper<>(record -> null);
     }
 
     public static <T extends Record> AddValueMapper<T> category() {
         return new AddValueMapper<>(Record::getCategory);
     }
 
+    public static <T extends Record> AddValueMapper<T> categoryOrElse(String other) {
+        return new AddValueMapper<>(record -> record.getCategoryOrElse(other));
+    }
+
+    public static <T extends Record> AddValueMapper<T> category(Function<String, String> categoryFunction) {
+        Objects.requireNonNull(categoryFunction);
+        return new AddValueMapper<>(record -> categoryFunction.apply(record.getCategory()));
+    }
+
+    public static <T extends Record> AddValueMapper<T> category(StringUnaryOperatorType categoryOperator) {
+        Objects.requireNonNull(categoryOperator);
+        return new AddValueMapper<>(record -> categoryOperator.operate(record.getCategory()));
+    }
+
+    public static <T extends Record> AddValueMapper<T> category(StringUnaryOperatorType categoryOperator, Locale locale) {
+        Objects.requireNonNull(categoryOperator);
+        return new AddValueMapper<>(record -> categoryOperator.operate(record.getCategory(), locale));
+    }
+
+    public static <T extends Record> AddValueMapper<T> categoryAsOptional(Function<Optional<String>, String> categoryAsOptionalFunction) {
+        Objects.requireNonNull(categoryAsOptionalFunction);
+        return new AddValueMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
+    }
+
     public static <T extends Record> AddValueMapper<T> recordId() {
         return new AddValueMapper<>(record -> Strings.asString(record.getRecordId()));
     }
 
-    public static <T extends Record> AddValueMapper<T> recordIdSequence() {
-        return new AddValueMapper<>(Records.recordIdPrimitiveSequence());
+    public static <T extends Record> AddValueMapper<T> valueAt(int index) {
+        return new AddValueMapper<>(record -> record.getValueAt(index));
+    }
+
+    public static <T extends Record> AddValueMapper<T> valueAtOrElse(int index, String other) {
+        return new AddValueMapper<>(record -> record.getValueAtOrElse(index, other));
+    }
+
+    public static <T extends Record> AddValueMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
+        Objects.requireNonNull(fieldValueMapper);
+        return new AddValueMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);
     }
 
     public static <T extends Record> AddValueMapper<T> fileName(Path path) {
@@ -81,7 +125,7 @@ public class AddValueMapper<T extends Record> implements RecordMapper<T, Record>
     public Record map(T record) {
         List<String> newValues = new ArrayList<>(record.size() + 1);
         newValues.addAll(Fields.collectValues(record));
-        newValues.add(valueMessage.createMessage(record));
+        newValues.add(valueFunction.apply(record));
         return new StandardRecord(record.getCategory(), record.getRecordId(), newValues);
     }
 
