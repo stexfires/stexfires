@@ -57,7 +57,7 @@ public final class SimpleDelimitedFileSpec {
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
         this.fieldDelimiter = fieldDelimiter;
-        this.fieldSpecs = new ArrayList(fieldSpecs);
+        this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;

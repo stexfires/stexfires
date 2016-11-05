@@ -46,7 +46,7 @@ public final class HtmlTableFileSpec {
 
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
-        this.fieldSpecs = new ArrayList(fieldSpecs);
+        this.fieldSpecs = new ArrayList<>(fieldSpecs);
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
         this.lineSeparator = lineSeparator;

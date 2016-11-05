@@ -69,7 +69,7 @@ public final class FixedWidthFileSpec {
         this.separateRecordsByLineSeparator = separateRecordsByLineSeparator;
         this.alignment = alignment;
         this.fillCharacter = fillCharacter;
-        this.fieldSpecs = new ArrayList(fieldSpecs);
+        this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;

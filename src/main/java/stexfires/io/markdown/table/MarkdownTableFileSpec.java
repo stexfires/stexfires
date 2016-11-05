@@ -49,7 +49,7 @@ public final class MarkdownTableFileSpec {
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
         this.alignment = alignment;
-        this.fieldSpecs = new ArrayList(fieldSpecs);
+        this.fieldSpecs = new ArrayList<>(fieldSpecs);
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
         this.lineSeparator = lineSeparator;
