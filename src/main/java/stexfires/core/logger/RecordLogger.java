@@ -1,19 +1,17 @@
 package stexfires.core.logger;
 
 import stexfires.core.Record;
-import stexfires.core.filter.RecordFilter;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * A RecordLogger logs a {@link Record}.
  * <p>
+ * It must be <code>thread-safe</code> and <code>non-interfering</code>.
+ * <p>
  * It should not throw a RuntimeException (like NullPointerException).
- * It must be thread-safe and null-safe.
- * It must be <code>non-interfering</code>.
+ * It is expected to operate via side-effects.
  * <p>
  * This is a functional interface whose functional method is {@link #log(Record)}.
  *
@@ -51,44 +49,6 @@ public interface RecordLogger<T extends Record> {
             secondRecordLogger.log(record);
             thirdRecordLogger.log(record);
         };
-    }
-
-    static <T extends Record> RecordLogger<T> conditionalLogger(List<RecordFilter<? super T>> loggerConditions,
-                                                                List<RecordLogger<? super T>> recordLoggers) {
-        Objects.requireNonNull(loggerConditions);
-        Objects.requireNonNull(recordLoggers);
-        if (loggerConditions.size() != recordLoggers.size()) {
-            throw new IllegalArgumentException();
-        }
-        return (T record) -> {
-            for (int i = 0; i < loggerConditions.size(); i++) {
-                if (loggerConditions.get(i).isValid(record)) {
-                    recordLoggers.get(i).log(record);
-                }
-            }
-        };
-    }
-
-    static <T extends Record> RecordLogger<T> splitter(RecordFilter<? super T> splitCondition,
-                                                       RecordLogger<? super T> trueRecordLogger,
-                                                       RecordLogger<? super T> falseRecordLogger) {
-        Objects.requireNonNull(splitCondition);
-        Objects.requireNonNull(trueRecordLogger);
-        Objects.requireNonNull(falseRecordLogger);
-        return (T record) -> {
-            if (splitCondition.isValid(record)) {
-                trueRecordLogger.log(record);
-            } else {
-                falseRecordLogger.log(record);
-            }
-        };
-    }
-
-    static <T extends Record> RecordLogger<T> splitter(Function<? super T, Integer> splitFunction,
-                                                       List<RecordLogger<? super T>> recordLoggers) {
-        Objects.requireNonNull(splitFunction);
-        Objects.requireNonNull(recordLoggers);
-        return (T record) -> recordLoggers.get(splitFunction.apply(record)).log(record);
     }
 
     void log(T record);

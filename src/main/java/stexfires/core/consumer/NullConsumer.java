@@ -6,10 +6,10 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class NullConsumer implements RecordConsumer<Record> {
+public class NullConsumer<T extends Record> implements RecordConsumer<T> {
 
     @Override
-    public void consume(Record record) {
+    public void consume(T record) {
         // Do nothing.
     }
 
