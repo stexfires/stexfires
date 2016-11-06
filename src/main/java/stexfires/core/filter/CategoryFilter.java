@@ -13,32 +13,33 @@ import java.util.function.Predicate;
  */
 public class CategoryFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final Predicate<String> stringPredicate;
+    protected final Predicate<String> categoryPredicate;
 
-    public CategoryFilter(String equalCategory) {
-        this(StringComparisonType.stringPredicate(StringComparisonType.EQUALS, equalCategory));
+    public CategoryFilter(Predicate<String> categoryPredicate) {
+        Objects.requireNonNull(categoryPredicate);
+        this.categoryPredicate = categoryPredicate;
     }
 
-    public CategoryFilter(StringComparisonType stringComparisonType, String compareCategory) {
-        this(stringComparisonType.stringPredicate(compareCategory));
+    public static <T extends Record> CategoryFilter<T> compare(StringComparisonType stringComparisonType,
+                                                               String compareCategory) {
+        return new CategoryFilter<>(stringComparisonType.stringPredicate(compareCategory));
     }
 
-    public CategoryFilter(StringCheckType stringCheckType) {
-        this(stringCheckType.stringPredicate());
+    public static <T extends Record> CategoryFilter<T> check(StringCheckType stringCheckType) {
+        return new CategoryFilter<>(stringCheckType.stringPredicate());
     }
 
-    public CategoryFilter(Predicate<String> stringPredicate) {
-        Objects.requireNonNull(stringPredicate);
-        this.stringPredicate = stringPredicate;
+    public static <T extends Record> CategoryFilter<T> equalTo(String compareCategory) {
+        return new CategoryFilter<>(StringComparisonType.EQUALS.stringPredicate(compareCategory));
     }
 
     public static <T extends Record> CategoryFilter<T> notNull() {
-        return new CategoryFilter<>(StringCheckType.NOT_NULL);
+        return new CategoryFilter<>(StringCheckType.NOT_NULL.stringPredicate());
     }
 
     @Override
     public boolean isValid(T record) {
-        return stringPredicate.test(record.getCategory());
+        return categoryPredicate.test(record.getCategory());
     }
 
 }

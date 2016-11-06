@@ -15,7 +15,7 @@ import java.util.function.Predicate;
  */
 public class ValueFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final Function<T, Field> fieldFunction;
+    protected final Function<? super T, Field> fieldFunction;
     protected final Predicate<String> valuePredicate;
 
     public ValueFilter(int index,
@@ -23,7 +23,7 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
         this(record -> record.getFieldAt(index), valuePredicate);
     }
 
-    public ValueFilter(Function<T, Field> fieldFunction,
+    public ValueFilter(Function<? super T, Field> fieldFunction,
                        Predicate<String> valuePredicate) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(valuePredicate);
@@ -38,7 +38,7 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
                 stringComparisonType.stringPredicate(compareValue));
     }
 
-    public static <T extends Record> ValueFilter<T> compare(Function<T, Field> fieldFunction,
+    public static <T extends Record> ValueFilter<T> compare(Function<? super T, Field> fieldFunction,
                                                             StringComparisonType stringComparisonType,
                                                             String compareValue) {
         return new ValueFilter<>(fieldFunction,
@@ -51,10 +51,32 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
                 stringCheckType.stringPredicate());
     }
 
-    public static <T extends Record> ValueFilter<T> check(Function<T, Field> fieldFunction,
+    public static <T extends Record> ValueFilter<T> check(Function<? super T, Field> fieldFunction,
                                                           StringCheckType stringCheckType) {
         return new ValueFilter<>(fieldFunction,
                 stringCheckType.stringPredicate());
+    }
+
+    public static <T extends Record> ValueFilter<T> equalTo(int index,
+                                                            String compareValue) {
+        return new ValueFilter<>(index,
+                StringComparisonType.EQUALS.stringPredicate(compareValue));
+    }
+
+    public static <T extends Record> ValueFilter<T> equalTo(Function<? super T, Field> fieldFunction,
+                                                            String compareValue) {
+        return new ValueFilter<>(fieldFunction,
+                StringComparisonType.EQUALS.stringPredicate(compareValue));
+    }
+
+    public static <T extends Record> ValueFilter<T> notNull(int index) {
+        return new ValueFilter<>(index,
+                StringCheckType.NOT_NULL.stringPredicate());
+    }
+
+    public static <T extends Record> ValueFilter<T> notNull(Function<? super T, Field> fieldFunction) {
+        return new ValueFilter<>(fieldFunction,
+                StringCheckType.NOT_NULL.stringPredicate());
     }
 
     @Override

@@ -13,36 +13,41 @@ import java.util.function.LongPredicate;
  */
 public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final LongPredicate longPredicate;
+    protected final LongPredicate recordIdPredicate;
 
-    public RecordIdFilter(long equalRecordId) {
-        this(NumberComparisonType.longPredicate(NumberComparisonType.EQUAL_TO, equalRecordId));
+    public RecordIdFilter(LongPredicate recordIdPredicate) {
+        Objects.requireNonNull(recordIdPredicate);
+        this.recordIdPredicate = recordIdPredicate;
     }
 
-    public RecordIdFilter(NumberComparisonType numberComparisonType, long compareRecordId) {
-        this(numberComparisonType.longPredicate(compareRecordId));
+    public static <T extends Record> RecordIdFilter<T> compare(NumberComparisonType numberComparisonType,
+                                                               long compareRecordId) {
+        return new RecordIdFilter<>(numberComparisonType.longPredicate(compareRecordId));
     }
 
-    public RecordIdFilter(NumberCheckType numberCheckType) {
-        this(numberCheckType.longPredicate());
+    public static <T extends Record> RecordIdFilter<T> check(NumberCheckType numberCheckType) {
+        return new RecordIdFilter<>(numberCheckType.longPredicate());
     }
 
-    public RecordIdFilter(LongPredicate longPredicate) {
-        Objects.requireNonNull(longPredicate);
-        this.longPredicate = longPredicate;
+    public static <T extends Record> RecordIdFilter<T> equalTo(long compareRecordId) {
+        return new RecordIdFilter<>(NumberComparisonType.EQUAL_TO.longPredicate(compareRecordId));
     }
 
     public static <T extends Record> RecordIdFilter<T> notNull() {
         return new RecordIdFilter<>((long value) -> true);
     }
 
-    public static <T extends Record> RecordFilter<T> between(int from, int to) {
-        return new RecordIdFilter<T>(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new RecordIdFilter<>(NumberComparisonType.LESS_THAN, to));
+    public static <T extends Record> RecordIdFilter<T> between(int from, int to) {
+        return new RecordIdFilter<>(
+                NumberComparisonType.GREATER_THAN_OR_EQUAL_TO
+                        .longPredicate(from)
+                        .and(NumberComparisonType.LESS_THAN
+                                .longPredicate(to)));
     }
 
     @Override
     public boolean isValid(T record) {
-        return (record.getRecordId() != null) && longPredicate.test(record.getRecordId());
+        return (record.getRecordId() != null) && recordIdPredicate.test(record.getRecordId());
     }
 
 }

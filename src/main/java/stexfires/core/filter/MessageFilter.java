@@ -15,29 +15,32 @@ import java.util.function.Predicate;
 public class MessageFilter<T extends Record> implements RecordFilter<T> {
 
     protected final RecordMessage<? super T> recordMessage;
-    protected final Predicate<String> stringPredicate;
+    protected final Predicate<String> messagePredicate;
 
     public MessageFilter(RecordMessage<? super T> recordMessage,
-                         StringComparisonType stringComparisonType, String compareMessage) {
-        this(recordMessage, stringComparisonType.stringPredicate(compareMessage));
-    }
-
-    public MessageFilter(RecordMessage<? super T> recordMessage,
-                         StringCheckType stringCheckType) {
-        this(recordMessage, stringCheckType.stringPredicate());
-    }
-
-    public MessageFilter(RecordMessage<? super T> recordMessage,
-                         Predicate<String> stringPredicate) {
+                         Predicate<String> messagePredicate) {
         Objects.requireNonNull(recordMessage);
-        Objects.requireNonNull(stringPredicate);
+        Objects.requireNonNull(messagePredicate);
         this.recordMessage = recordMessage;
-        this.stringPredicate = stringPredicate;
+        this.messagePredicate = messagePredicate;
+    }
+
+    public static <T extends Record> MessageFilter<T> compare(RecordMessage<? super T> recordMessage,
+                                                              StringComparisonType stringComparisonType,
+                                                              String compareMessage) {
+        return new MessageFilter<>(recordMessage,
+                stringComparisonType.stringPredicate(compareMessage));
+    }
+
+    public static <T extends Record> MessageFilter<T> check(RecordMessage<? super T> recordMessage,
+                                                            StringCheckType stringCheckType) {
+        return new MessageFilter<>(recordMessage,
+                stringCheckType.stringPredicate());
     }
 
     @Override
     public boolean isValid(T record) {
-        return stringPredicate.test(recordMessage.createMessage(record));
+        return messagePredicate.test(recordMessage.createMessage(record));
     }
 
 }

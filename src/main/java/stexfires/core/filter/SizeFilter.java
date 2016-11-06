@@ -13,32 +13,37 @@ import java.util.function.IntPredicate;
  */
 public class SizeFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final IntPredicate intPredicate;
+    protected final IntPredicate sizePredicate;
 
-    public SizeFilter(int equalSize) {
-        this(NumberComparisonType.intPredicate(NumberComparisonType.EQUAL_TO, equalSize));
+    public SizeFilter(IntPredicate sizePredicate) {
+        Objects.requireNonNull(sizePredicate);
+        this.sizePredicate = sizePredicate;
     }
 
-    public SizeFilter(NumberComparisonType numberComparisonType, int compareSize) {
-        this(numberComparisonType.intPredicate(compareSize));
+    public static <T extends Record> SizeFilter<T> compare(NumberComparisonType numberComparisonType,
+                                                           int compareSize) {
+        return new SizeFilter<>(numberComparisonType.intPredicate(compareSize));
     }
 
-    public SizeFilter(NumberCheckType numberCheckType) {
-        this(numberCheckType.intPredicate());
+    public static <T extends Record> SizeFilter<T> check(NumberCheckType numberCheckType) {
+        return new SizeFilter<>(numberCheckType.intPredicate());
     }
 
-    public SizeFilter(IntPredicate intPredicate) {
-        Objects.requireNonNull(intPredicate);
-        this.intPredicate = intPredicate;
+    public static <T extends Record> SizeFilter<T> equalTo(int compareSize) {
+        return new SizeFilter<>(NumberComparisonType.EQUAL_TO.intPredicate(compareSize));
     }
 
-    public static <T extends Record> RecordFilter<T> between(int from, int to) {
-        return new SizeFilter<T>(NumberComparisonType.GREATER_THAN_OR_EQUAL_TO, from).and(new SizeFilter<>(NumberComparisonType.LESS_THAN, to));
+    public static <T extends Record> SizeFilter<T> between(int from, int to) {
+        return new SizeFilter<>(
+                NumberComparisonType.GREATER_THAN_OR_EQUAL_TO
+                        .intPredicate(from)
+                        .and(NumberComparisonType.LESS_THAN
+                                .intPredicate(to)));
     }
 
     @Override
     public boolean isValid(T record) {
-        return intPredicate.test(record.size());
+        return sizePredicate.test(record.size());
     }
 
 }
