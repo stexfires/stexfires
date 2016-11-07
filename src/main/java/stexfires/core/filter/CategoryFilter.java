@@ -4,6 +4,7 @@ import stexfires.core.Record;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -35,6 +36,10 @@ public class CategoryFilter<T extends Record> implements RecordFilter<T> {
 
     public static <T extends Record> CategoryFilter<T> notNull() {
         return new CategoryFilter<>(StringCheckType.NOT_NULL.stringPredicate());
+    }
+
+    public static <T extends Record> CategoryFilter<T> containedIn(Collection<String> categories) {
+        return new CategoryFilter<>(categories::contains);
     }
 
     @Override

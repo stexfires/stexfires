@@ -4,8 +4,11 @@ import stexfires.core.Record;
 import stexfires.util.NumberCheckType;
 import stexfires.util.NumberComparisonType;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.LongPredicate;
+
+import static stexfires.util.NumberComparisonType.*;
 
 /**
  * @author Mathias Kalb
@@ -30,19 +33,21 @@ public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
     }
 
     public static <T extends Record> RecordIdFilter<T> equalTo(long compareRecordId) {
-        return new RecordIdFilter<>(NumberComparisonType.EQUAL_TO.longPredicate(compareRecordId));
+        return new RecordIdFilter<>(EQUAL_TO.longPredicate(compareRecordId));
     }
 
     public static <T extends Record> RecordIdFilter<T> notNull() {
         return new RecordIdFilter<>((long value) -> true);
     }
 
+    public static <T extends Record> RecordIdFilter<T> containedIn(Collection<Long> recordIds) {
+        return new RecordIdFilter<>(recordIds::contains);
+    }
+
     public static <T extends Record> RecordIdFilter<T> between(int from, int to) {
         return new RecordIdFilter<>(
-                NumberComparisonType.GREATER_THAN_OR_EQUAL_TO
-                        .longPredicate(from)
-                        .and(NumberComparisonType.LESS_THAN
-                                .longPredicate(to)));
+                GREATER_THAN_OR_EQUAL_TO.longPredicate(from)
+                                        .and(LESS_THAN.longPredicate(to)));
     }
 
     @Override

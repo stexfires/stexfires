@@ -5,6 +5,7 @@ import stexfires.core.Record;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -77,6 +78,16 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
     public static <T extends Record> ValueFilter<T> notNull(Function<? super T, Field> fieldFunction) {
         return new ValueFilter<>(fieldFunction,
                 StringCheckType.NOT_NULL.stringPredicate());
+    }
+
+    public static <T extends Record> ValueFilter<T> containedIn(int index,
+                                                                Collection<String> values) {
+        return new ValueFilter<>(index, values::contains);
+    }
+
+    public static <T extends Record> ValueFilter<T> containedIn(Function<? super T, Field> fieldFunction,
+                                                                Collection<String> values) {
+        return new ValueFilter<>(fieldFunction, values::contains);
     }
 
     @Override

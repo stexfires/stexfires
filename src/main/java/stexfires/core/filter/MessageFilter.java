@@ -5,6 +5,7 @@ import stexfires.core.message.RecordMessage;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -36,6 +37,23 @@ public class MessageFilter<T extends Record> implements RecordFilter<T> {
                                                             StringCheckType stringCheckType) {
         return new MessageFilter<>(recordMessage,
                 stringCheckType.stringPredicate());
+    }
+
+    public static <T extends Record> MessageFilter<T> equalTo(RecordMessage<? super T> recordMessage,
+                                                              String compareMessage) {
+        return new MessageFilter<>(recordMessage,
+                StringComparisonType.EQUALS.stringPredicate(compareMessage));
+    }
+
+    public static <T extends Record> MessageFilter<T> notNull(RecordMessage<? super T> recordMessage) {
+        return new MessageFilter<>(recordMessage,
+                StringCheckType.NOT_NULL.stringPredicate());
+    }
+
+    public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
+                                                                  Collection<String> messages) {
+        return new MessageFilter<>(recordMessage,
+                messages::contains);
     }
 
     @Override

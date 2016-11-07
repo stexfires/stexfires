@@ -4,8 +4,11 @@ import stexfires.core.Record;
 import stexfires.util.NumberCheckType;
 import stexfires.util.NumberComparisonType;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.IntPredicate;
+
+import static stexfires.util.NumberComparisonType.*;
 
 /**
  * @author Mathias Kalb
@@ -30,15 +33,17 @@ public class SizeFilter<T extends Record> implements RecordFilter<T> {
     }
 
     public static <T extends Record> SizeFilter<T> equalTo(int compareSize) {
-        return new SizeFilter<>(NumberComparisonType.EQUAL_TO.intPredicate(compareSize));
+        return new SizeFilter<>(EQUAL_TO.intPredicate(compareSize));
+    }
+
+    public static <T extends Record> SizeFilter<T> containedIn(Collection<Integer> sizes) {
+        return new SizeFilter<>(sizes::contains);
     }
 
     public static <T extends Record> SizeFilter<T> between(int from, int to) {
         return new SizeFilter<>(
-                NumberComparisonType.GREATER_THAN_OR_EQUAL_TO
-                        .intPredicate(from)
-                        .and(NumberComparisonType.LESS_THAN
-                                .intPredicate(to)));
+                GREATER_THAN_OR_EQUAL_TO.intPredicate(from)
+                                        .and(LESS_THAN.intPredicate(to)));
     }
 
     @Override
