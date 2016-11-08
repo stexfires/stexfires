@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 /**
  * A RecordStreamModifier modifies a {@link Stream} of Records.
  * <p>
- * It must be <code>immutable</code>, <code>thread-safe</code>,
- * <code>non-interfering</code> and <code>stateless</code>.
+ * It must be <code>thread-safe</code> and <code>non-interfering</code>.
+ * It should be <code>immutable</code> and <code>stateless</code>.
  * <p>
  * It uses the following intermediate operations to modify the stream: map, peek, skip, limit, distinct, filter, sorted, parallel, sequential, unordered
  * <p>

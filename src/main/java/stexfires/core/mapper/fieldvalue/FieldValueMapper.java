@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 /**
  * A FieldValueMapper maps a {@link Field} to a new field value.
  * <p>
- * It must be <code>immutable</code>, <code>thread-safe</code>,
- * <code>non-interfering</code> and <code>stateless</code>.
+ * It must be <code>thread-safe</code> and <code>non-interfering</code>.
+ * It should be <code>immutable</code> and <code>stateless</code>.
  * <p>
  * This is a functional interface whose functional method is {@link #mapToValue(Field)}.
  *
