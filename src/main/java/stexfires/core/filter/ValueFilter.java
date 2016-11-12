@@ -16,19 +16,35 @@ import java.util.function.Predicate;
  */
 public class ValueFilter<T extends Record> implements RecordFilter<T> {
 
+    public static final boolean DEFAULT_NULL_FIELD_VALIDITY = false;
+
     protected final Function<? super T, Field> fieldFunction;
+    protected final boolean nullFieldValidity;
     protected final Predicate<String> valuePredicate;
 
     public ValueFilter(int index,
                        Predicate<String> valuePredicate) {
-        this(record -> record.getFieldAt(index), valuePredicate);
+        this(record -> record.getFieldAt(index), DEFAULT_NULL_FIELD_VALIDITY, valuePredicate);
+    }
+
+    public ValueFilter(int index,
+                       boolean nullFieldValidity,
+                       Predicate<String> valuePredicate) {
+        this(record -> record.getFieldAt(index), nullFieldValidity, valuePredicate);
     }
 
     public ValueFilter(Function<? super T, Field> fieldFunction,
                        Predicate<String> valuePredicate) {
+        this(fieldFunction, DEFAULT_NULL_FIELD_VALIDITY, valuePredicate);
+    }
+
+    public ValueFilter(Function<? super T, Field> fieldFunction,
+                       boolean nullFieldValidity,
+                       Predicate<String> valuePredicate) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(valuePredicate);
         this.fieldFunction = fieldFunction;
+        this.nullFieldValidity = nullFieldValidity;
         this.valuePredicate = valuePredicate;
     }
 
@@ -92,7 +108,11 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
 
     @Override
     public boolean isValid(T record) {
-        return valuePredicate.test(fieldFunction.apply(record).getValue());
+        Field field = fieldFunction.apply(record);
+        if (field == null) {
+            return nullFieldValidity;
+        }
+        return valuePredicate.test(field.getValue());
     }
 
 }
