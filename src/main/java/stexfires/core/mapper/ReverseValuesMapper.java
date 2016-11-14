@@ -11,7 +11,7 @@ import java.util.List;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ReverseMapper<T extends Record> implements RecordMapper<T, Record> {
+public class ReverseValuesMapper<T extends Record> implements RecordMapper<T, Record> {
 
     @Override
     public Record map(T record) {
