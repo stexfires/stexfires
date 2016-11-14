@@ -1,4 +1,4 @@
-package stexfires.core.message.supplier;
+package stexfires.util.supplier;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class LocalTimeSupplier implements Supplier<String> {
+public final class LocalTimeStringSupplier implements Supplier<String> {
 
     @Override
     public String get() {

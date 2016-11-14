@@ -11,6 +11,8 @@ import stexfires.core.record.PairRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
 import stexfires.core.record.ValueRecord;
+import stexfires.util.supplier.SequenceLongSupplier;
+import stexfires.util.supplier.SequencePrimitiveLongSupplier;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
@@ -79,19 +80,19 @@ public final class Records {
     }
 
     public static Supplier<Long> recordIdSequence() {
-        return recordIdSequence(DEFAULT_INITIAL_RECORD_ID);
+        return new SequenceLongSupplier(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static Supplier<Long> recordIdSequence(long initialValue) {
-        return new AtomicLong(initialValue)::getAndIncrement;
+        return new SequenceLongSupplier(initialValue);
     }
 
     public static LongSupplier recordIdPrimitiveSequence() {
-        return recordIdPrimitiveSequence(DEFAULT_INITIAL_RECORD_ID);
+        return new SequencePrimitiveLongSupplier(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static LongSupplier recordIdPrimitiveSequence(long initialValue) {
-        return new AtomicLong(initialValue)::getAndIncrement;
+        return new SequencePrimitiveLongSupplier(initialValue);
     }
 
     public static <T extends Record> void consume(T record, RecordConsumer<? super T> recordConsumer) throws UncheckedConsumerException {

@@ -1,8 +1,8 @@
 package stexfires.core.filter;
 
 import stexfires.core.Record;
-import stexfires.util.RandomBooleanSupplier;
-import stexfires.util.RepeatingPatternBooleanSupplier;
+import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.RepeatingPatternBooleanSupplier;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;

@@ -1,4 +1,4 @@
-package stexfires.core.message.supplier;
+package stexfires.util.supplier;
 
 import java.util.function.Supplier;
 
@@ -6,7 +6,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ThreadNameSupplier implements Supplier<String> {
+public final class ThreadNameStringSupplier implements Supplier<String> {
 
     @Override
     public String get() {

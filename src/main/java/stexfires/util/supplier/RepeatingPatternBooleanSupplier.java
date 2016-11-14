@@ -1,4 +1,4 @@
-package stexfires.util;
+package stexfires.util.supplier;
 
 import java.util.ArrayList;
 import java.util.List;
