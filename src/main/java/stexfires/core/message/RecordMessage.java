@@ -17,6 +17,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @see java.util.function.Function
  * @see stexfires.core.logger.RecordLogger
+ * @see stexfires.core.consumer.RecordConsumer
  * @since 0.1
  */
 @FunctionalInterface
