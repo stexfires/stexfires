@@ -15,14 +15,14 @@ import java.util.function.IntFunction;
 public class IndexedFieldValueMapper implements FieldValueMapper {
 
     protected final IntFunction<Optional<FieldValueMapper>> valueMappers;
-    protected final FieldValueMapper orElseValueMapper;
+    protected final FieldValueMapper orElseFieldValueMapper;
 
     public IndexedFieldValueMapper(IntFunction<Optional<FieldValueMapper>> valueMappers,
-                                   FieldValueMapper orElseValueMapper) {
+                                   FieldValueMapper orElseFieldValueMapper) {
         Objects.requireNonNull(valueMappers);
-        Objects.requireNonNull(orElseValueMapper);
+        Objects.requireNonNull(orElseFieldValueMapper);
         this.valueMappers = valueMappers;
-        this.orElseValueMapper = orElseValueMapper;
+        this.orElseFieldValueMapper = orElseFieldValueMapper;
     }
 
     public static IndexedFieldValueMapper byArray(FieldValueMapper... fieldValueMappers) {
@@ -49,7 +49,7 @@ public class IndexedFieldValueMapper implements FieldValueMapper {
     @Override
     public String mapToValue(Field field) {
         return valueMappers.apply(field.getIndex())
-                           .orElse(orElseValueMapper)
+                           .orElse(orElseFieldValueMapper)
                            .mapToValue(field);
     }
 

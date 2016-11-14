@@ -4,6 +4,7 @@ import stexfires.core.Field;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.UnaryOperator;
 
 /**
@@ -23,6 +24,7 @@ public class StringOperationFieldValueMapper implements FieldValueMapper {
     }
 
     public StringOperationFieldValueMapper(UnaryOperator<String> stringUnaryOperator) {
+        Objects.requireNonNull(stringUnaryOperator);
         this.stringUnaryOperator = stringUnaryOperator;
     }
 

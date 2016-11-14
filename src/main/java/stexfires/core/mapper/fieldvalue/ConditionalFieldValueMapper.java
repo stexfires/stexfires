@@ -12,23 +12,23 @@ import java.util.function.Predicate;
 public class ConditionalFieldValueMapper implements FieldValueMapper {
 
     protected final Predicate<Field> condition;
-    protected final FieldValueMapper trueMapper;
-    protected final FieldValueMapper falseMapper;
+    protected final FieldValueMapper trueFieldValueMapper;
+    protected final FieldValueMapper falseFieldValueMapper;
 
     public ConditionalFieldValueMapper(Predicate<Field> condition,
-                                       FieldValueMapper trueMapper,
-                                       FieldValueMapper falseMapper) {
+                                       FieldValueMapper trueFieldValueMapper,
+                                       FieldValueMapper falseFieldValueMapper) {
         Objects.requireNonNull(condition);
-        Objects.requireNonNull(trueMapper);
-        Objects.requireNonNull(falseMapper);
+        Objects.requireNonNull(trueFieldValueMapper);
+        Objects.requireNonNull(falseFieldValueMapper);
         this.condition = condition;
-        this.trueMapper = trueMapper;
-        this.falseMapper = falseMapper;
+        this.trueFieldValueMapper = trueFieldValueMapper;
+        this.falseFieldValueMapper = falseFieldValueMapper;
     }
 
     @Override
     public String mapToValue(Field field) {
-        return condition.test(field) ? trueMapper.mapToValue(field) : falseMapper.mapToValue(field);
+        return condition.test(field) ? trueFieldValueMapper.mapToValue(field) : falseFieldValueMapper.mapToValue(field);
     }
 
 }
