@@ -41,7 +41,7 @@ public class ConfigModifier<T extends Record> implements RecordStreamModifier<T,
 
         Comparator<KeyValueRecord> recordComparator = RecordComparators
                 .<KeyValueRecord>category(RecordComparators.NULLS.FIRST)
-                .thenComparing(RecordComparators.key(Comparator.naturalOrder()));
+                .thenComparing(RecordComparators.keyField(Comparator.naturalOrder()));
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
         DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(

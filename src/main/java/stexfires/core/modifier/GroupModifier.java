@@ -55,11 +55,11 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         return recordMessage.asFunction();
     }
 
-    public static <T extends KeyRecord> Function<? super T, String> groupByKey() {
+    public static <T extends KeyRecord> Function<? super T, String> groupByKeyField() {
         return KeyRecord::getValueOfKeyField;
     }
 
-    public static <T extends ValueRecord> Function<? super T, String> groupByValue() {
+    public static <T extends ValueRecord> Function<? super T, String> groupByValueField() {
         return ValueRecord::getValueOfValueField;
     }
 

@@ -82,12 +82,12 @@ public final class RecordComparators {
         return comparing((record) -> record.getValueAtOrElse(index, other), nullsLast(comparator));
     }
 
-    public static <T extends KeyRecord> Comparator<T> key(Comparator<String> comparator) {
+    public static <T extends KeyRecord> Comparator<T> keyField(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
         return comparing(KeyRecord::getValueOfKeyField, comparator);
     }
 
-    public static <T extends ValueRecord> Comparator<T> value(Comparator<String> comparator, NULLS nulls) {
+    public static <T extends ValueRecord> Comparator<T> valueField(Comparator<String> comparator, NULLS nulls) {
         Objects.requireNonNull(comparator);
         if (nulls == NULLS.FIRST) {
             return comparing(ValueRecord::getValueOfValueField, nullsFirst(comparator));
