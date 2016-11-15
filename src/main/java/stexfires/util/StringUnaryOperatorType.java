@@ -106,47 +106,47 @@ public enum StringUnaryOperatorType {
                 break;
             case REMOVE_HORIZONTAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceAll("\\h", "");
+                    result = value.replaceAll("\\h", EMPTY);
                 }
                 break;
             case REMOVE_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceAll("\\s", "");
+                    result = value.replaceAll("\\s", EMPTY);
                 }
                 break;
             case REMOVE_VERTICAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceAll("\\v", "");
+                    result = value.replaceAll("\\v", EMPTY);
                 }
                 break;
             case REMOVE_LEADING_HORIZONTAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("^\\h+", "");
+                    result = value.replaceFirst("^\\h+", EMPTY);
                 }
                 break;
             case REMOVE_LEADING_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("^\\s+", "");
+                    result = value.replaceFirst("^\\s+", EMPTY);
                 }
                 break;
             case REMOVE_LEADING_VERTICAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("^\\v+", "");
+                    result = value.replaceFirst("^\\v+", EMPTY);
                 }
                 break;
             case REMOVE_TRAILING_HORIZONTAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("\\h+$", "");
+                    result = value.replaceFirst("\\h+$", EMPTY);
                 }
                 break;
             case REMOVE_TRAILING_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("\\s+$", "");
+                    result = value.replaceFirst("\\s+$", EMPTY);
                 }
                 break;
             case REMOVE_TRAILING_VERTICAL_WHITESPACE:
                 if (value != null) {
-                    result = value.replaceFirst("\\v+$", "");
+                    result = value.replaceFirst("\\v+$", EMPTY);
                 }
                 break;
             case REVERSE:
