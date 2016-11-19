@@ -82,11 +82,11 @@ public interface Record extends Serializable {
     }
 
     default String getValueOfFirstField() {
-        return !isEmpty() ? getFirstField().getValue() : null;
+        return isEmpty() ? null : getFirstField().getValue();
     }
 
     default String getValueOfLastField() {
-        return !isEmpty() ? getLastField().getValue() : null;
+        return isEmpty() ? null : getLastField().getValue();
     }
 
     /**
