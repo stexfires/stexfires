@@ -6,6 +6,9 @@ import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Enum with common charset names.
+ * The method <code>charset()</code> returns a charset object.
+ * <p>
+ * Example: <code>Charset c = CommonCharsetNames.WINDOWS_1252.charset()</code>
  * <p>
  * Source: <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html">https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html</a>
  *
@@ -178,7 +181,7 @@ public enum CommonCharsetNames {
     /**
      * Returns the canonical name.
      *
-     * @return The canonical name
+     * @return the canonical name
      */
     public String getCanonicalName() {
         return canonicalName;
@@ -187,10 +190,11 @@ public enum CommonCharsetNames {
     /**
      * Returns a charset object.
      *
-     * @return A charset object
+     * @return a charset object
      * @throws UnsupportedCharsetException If no support for the named charset is available
      *                                     in this instance of the Java virtual machine
      * @see java.nio.charset.StandardCharsets
+     * @see java.nio.charset.Charset#forName(String)
      */
     public Charset charset() throws UnsupportedCharsetException {
         switch (this) {

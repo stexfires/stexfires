@@ -8,13 +8,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on strings and string streams.
+ * This class consists of {@code static} utility methods for operating on <code>String</code> objects.
  *
  * @author Mathias Kalb
+ * @see java.lang.String
+ * @see java.util.stream.Stream
+ * @see java.util.List
  * @since 0.1
  */
 public final class Strings {
 
+    /**
+     * A default delimiter for joining strings: <code>", "</code>
+     */
     public static final String DEFAULT_DELIMITER = ", ";
 
     private static final String EMPTY = "";
