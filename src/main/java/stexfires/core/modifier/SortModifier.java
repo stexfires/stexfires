@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
+ * @see stexfires.core.comparator.RecordComparators
  * @since 0.1
  */
 public class SortModifier<T extends Record> implements RecordStreamModifier<T, T> {
