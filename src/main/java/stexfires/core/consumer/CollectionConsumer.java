@@ -15,6 +15,7 @@ public class CollectionConsumer<T extends Collection<String>> implements RecordC
 
     protected final T collection;
 
+    @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
     public CollectionConsumer(T collection) {
         Objects.requireNonNull(collection);
         this.collection = collection;

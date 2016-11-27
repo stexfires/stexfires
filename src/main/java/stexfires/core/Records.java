@@ -119,6 +119,7 @@ public final class Records {
         return new Builder();
     }
 
+    @SuppressWarnings("ParameterHidesMemberVariable")
     public static final class Builder implements Consumer<String> {
         private String category;
         private Long recordId;

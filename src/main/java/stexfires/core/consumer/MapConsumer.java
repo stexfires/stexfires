@@ -15,6 +15,7 @@ public class MapConsumer<T extends Map<String, String>> implements RecordConsume
 
     protected final T map;
 
+    @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
     public MapConsumer(T map) {
         Objects.requireNonNull(map);
         this.map = map;

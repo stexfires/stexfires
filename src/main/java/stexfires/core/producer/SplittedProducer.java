@@ -27,8 +27,8 @@ public class SplittedProducer implements RecordProducer<Record> {
         this(category, Records.recordIdSequence(), recordSize, values);
     }
 
+    @SuppressWarnings("UnnecessaryBoxing")
     public SplittedProducer(String category, LongSupplier recordIdSupplier, int recordSize, String... values) {
-        //noinspection UnnecessaryBoxing
         this(category, () -> Long.valueOf(recordIdSupplier.getAsLong()), recordSize, values);
     }
 

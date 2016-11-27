@@ -24,6 +24,7 @@ public class SystemErrLogger<T extends Record> extends PrintStreamLogger<T> {
         this(recordMessage, DEFAULT_TERMINATE_LINE);
     }
 
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public SystemErrLogger(RecordMessage<? super T> recordMessage, boolean terminateLine) {
         super(System.err, Objects.requireNonNull(recordMessage), terminateLine);
     }
