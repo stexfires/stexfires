@@ -19,6 +19,9 @@ import static stexfires.io.properties.PropertiesFileSpec.*;
  */
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
+    public static final int FIRST_NON_ESCAPED_CHAR = 0x0020;
+    public static final int LAST_NON_ESCAPED_CHAR = 0x007e;
+
     protected final PropertiesFileSpec fileSpec;
 
     public PropertiesConsumer(BufferedWriter writer, PropertiesFileSpec fileSpec) {
@@ -50,7 +53,8 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
             case '!':
                 return "\\!";
             default:
-                if (((character < 0x0020) || (character > 0x007e)) & escapeUnicode) {
+                if (escapeUnicode
+                        && ((character < FIRST_NON_ESCAPED_CHAR) || (character > LAST_NON_ESCAPED_CHAR))) {
                     return "\\u" + String.format("%04X", (int) character);
                 }
                 return Character.toString(character);
