@@ -250,7 +250,7 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                 valueClasses.stream()
                             .map(vc ->
                                     list.stream()
-                                        .filter(r -> vc.equals(valueClass.apply(r)))
+                                        .filter(r -> Objects.equals(vc, valueClass.apply(r)))
                                         .map(newValue)
                                         .map(v -> v == null ? nullValue : v)
                                         .findFirst()
