@@ -110,16 +110,16 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment;
 
             if (fieldAlignment != Alignment.END) {
-                b.append(":");
+                b.append(ALIGNMENT_INDICATOR);
             }
 
             int valueWidth = (fieldAlignment == Alignment.CENTER) ? 2 : 1;
             for (int i = valueWidth; i < fieldSpec.getMinWidth(); i++) {
-                b.append("-");
+                b.append(HEADER_DELIMITER);
             }
 
             if (fieldAlignment != Alignment.START) {
-                b.append(":");
+                b.append(ALIGNMENT_INDICATOR);
             }
 
             b.append(FILL_CHARACTER);

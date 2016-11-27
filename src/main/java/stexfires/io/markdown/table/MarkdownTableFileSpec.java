@@ -23,6 +23,8 @@ public final class MarkdownTableFileSpec {
     public static final String FILL_CHARACTER = " ";
     public static final String FIELD_DELIMITER = "| ";
     public static final String LAST_FIELD_DELIMITER = "|";
+    public static final String ALIGNMENT_INDICATOR = ":";
+    public static final String HEADER_DELIMITER = "-";
 
     public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
