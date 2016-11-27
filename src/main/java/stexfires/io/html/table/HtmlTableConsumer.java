@@ -68,14 +68,15 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
     }
 
     protected static String convertHtml(String value) {
+        String convertedValue;
         if (value == null || value.isEmpty()) {
-            value = HtmlTableFileSpec.NON_BREAKING_SPACE;
+            convertedValue = HtmlTableFileSpec.NON_BREAKING_SPACE;
         } else {
-            value = value.replace("&", "&amp;")
-                         .replace("<", "&lt;")
-                         .replace(">", "&gt;");
+            convertedValue = value.replace("&", "&amp;")
+                                  .replace("<", "&lt;")
+                                  .replace(">", "&gt;");
         }
-        return value;
+        return convertedValue;
     }
 
     @Override
