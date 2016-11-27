@@ -17,6 +17,9 @@ public final class Field implements Serializable {
     private final boolean last;
     private final String value;
 
+    private final int hashCode;
+
+    @SuppressWarnings("MagicNumber")
     public Field(int index, boolean last, String value) {
         if (index < Fields.FIRST_FIELD_INDEX) {
             throw new IllegalArgumentException("Illegal index! index=" + index);
@@ -24,6 +27,13 @@ public final class Field implements Serializable {
         this.index = index;
         this.last = last;
         this.value = value;
+
+        // Calculate hashCode
+        int calcHashCode = 31 * index + (last ? 1 : 0);
+        if (value != null) {
+            calcHashCode = 31 * calcHashCode + value.hashCode();
+        }
+        hashCode = calcHashCode;
     }
 
     public int getIndex() {
@@ -79,24 +89,20 @@ public final class Field implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
-        Field that = (Field) o;
-
-        if (index != that.index) return false;
-        //noinspection SimplifiableIfStatement
-        if (last != that.last) return false;
-        return value != null ? value.equals(that.value) : that.value == null;
-
+        Field field = (Field) o;
+        return index == field.index &&
+                last == field.last &&
+                Objects.equals(value, field.value);
     }
 
     @Override
     public int hashCode() {
-        int result = index;
-        result = 31 * result + (last ? 1 : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 1); // Replaced 0 with 1
-        return result;
+        return hashCode;
     }
 
     @Override
