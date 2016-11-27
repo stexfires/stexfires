@@ -22,6 +22,8 @@ public class StandardRecord implements Record {
     private final Long recordId;
     private final Field[] fields;
 
+    private final int hashCode;
+
     public StandardRecord() {
         this(null, null, Fields.emptyArray());
     }
@@ -54,6 +56,8 @@ public class StandardRecord implements Record {
         this.category = category;
         this.recordId = recordId;
         this.fields = fields;
+
+        hashCode = Objects.hash(category, recordId, fields);
     }
 
     @Override
@@ -105,7 +109,7 @@ public class StandardRecord implements Record {
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, recordId, fields);
+        return hashCode;
     }
 
     @Override

@@ -26,6 +26,8 @@ public class PairRecord implements Record {
     private final Field firstField;
     private final Field secondField;
 
+    private final int hashCode;
+
     public PairRecord(String firstValue, String secondValue) {
         this(null, null, firstValue, secondValue);
     }
@@ -36,6 +38,8 @@ public class PairRecord implements Record {
         Field[] fields = Fields.newArray(firstValue, secondValue);
         firstField = fields[FIRST_VALUE_INDEX];
         secondField = fields[SECOND_VALUE_INDEX];
+
+        hashCode = Objects.hash(category, recordId, firstField, secondField);
     }
 
     public PairRecord newRecordSwapped() {
@@ -138,7 +142,7 @@ public class PairRecord implements Record {
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, recordId, firstField, secondField);
+        return hashCode;
     }
 
     @Override

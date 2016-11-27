@@ -23,6 +23,8 @@ public class SingleRecord implements ValueRecord {
     private final Long recordId;
     private final Field singleField;
 
+    private final int hashCode;
+
     public SingleRecord(String value) {
         this(null, null, value);
     }
@@ -31,6 +33,8 @@ public class SingleRecord implements ValueRecord {
         this.category = category;
         this.recordId = recordId;
         this.singleField = Fields.newArray(value)[VALUE_INDEX];
+
+        hashCode = Objects.hash(category, recordId, singleField);
     }
 
     @Override
@@ -130,7 +134,7 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, recordId, singleField);
+        return hashCode;
     }
 
     @Override
