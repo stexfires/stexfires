@@ -40,7 +40,6 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(valueIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);
-        //noinspection unchecked
         return new UnpivotModifier<>(record ->
                 valueIndexes.stream()
                             .filter(valueIndex -> !onlyExistingValues || record.isValidIndex(valueIndex))
@@ -89,7 +88,6 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(recordIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);
-        //noinspection unchecked
         return new UnpivotModifier<>(record ->
                 IntStream.range(0, valueIndexes.length)
                          .mapToObj(recordIndex ->

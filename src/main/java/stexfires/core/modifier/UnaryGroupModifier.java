@@ -41,7 +41,6 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
                                                                Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
-        @SuppressWarnings("OptionalGetWithoutIsPresent")
         Function<List<T>, T> aggregateFunction = list -> list.stream().max(comparator).get();
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
@@ -50,7 +49,6 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
                                                                Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         // The list contains always at least one record.
-        @SuppressWarnings("OptionalGetWithoutIsPresent")
         Function<List<T>, T> aggregateFunction = list -> list.stream().min(comparator).get();
         return new UnaryGroupModifier<>(groupByClassifier, aggregateFunction);
     }
