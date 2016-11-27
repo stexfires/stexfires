@@ -9,6 +9,7 @@ import stexfires.core.Record;
 public class ClassNameMessage<T extends Record> implements RecordMessage<T> {
 
     public static final boolean DEFAULT_WITH_HASH_CODE = false;
+    public static final char HASH_CODE_PREFIX = '@';
 
     protected final boolean withHashCode;
 
@@ -23,7 +24,7 @@ public class ClassNameMessage<T extends Record> implements RecordMessage<T> {
     @Override
     public String createMessage(T record) {
         return withHashCode
-                ? record.getClass().getName() + "@" + Integer.toHexString(record.hashCode())
+                ? record.getClass().getName() + HASH_CODE_PREFIX + Integer.toHexString(record.hashCode())
                 : record.getClass().getName();
     }
 
