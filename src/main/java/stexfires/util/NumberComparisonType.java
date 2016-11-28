@@ -58,9 +58,8 @@ public enum NumberComparisonType {
                 return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
             case SAME_ABSOLUTE_VALUE:
                 return Math.abs(value) == Math.abs(compareValue);
-            default:
-                return false;
         }
+        return false;
     }
 
     private static boolean compareLong(long value, NumberComparisonType numberComparisonType, long compareValue) {
@@ -84,9 +83,8 @@ public enum NumberComparisonType {
                 return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
             case SAME_ABSOLUTE_VALUE:
                 return Math.abs(value) == Math.abs(compareValue);
-            default:
-                return false;
         }
+        return false;
     }
 
     private static boolean compareBigInteger(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
@@ -95,9 +93,9 @@ public enum NumberComparisonType {
         if (value != null) {
             switch (numberComparisonType) {
                 case EQUAL_TO:
-                    return value.equals(compareValue);
+                    return value.compareTo(compareValue) == 0;
                 case NOT_EQUAL_TO:
-                    return !value.equals(compareValue);
+                    return value.compareTo(compareValue) != 0;
                 case LESS_THAN:
                     return value.compareTo(compareValue) == -1;
                 case LESS_THAN_OR_EQUAL_TO:
@@ -107,20 +105,14 @@ public enum NumberComparisonType {
                 case GREATER_THAN:
                     return value.compareTo(compareValue) == 1;
                 case MULTIPLE_OF:
-                    return value.mod(compareValue).equals(BigInteger.ZERO);
+                    return value.mod(compareValue).compareTo(BigInteger.ZERO) == 0;
                 case SAME_SIGN:
                     return value.signum() == compareValue.signum();
                 case SAME_ABSOLUTE_VALUE:
-                    return value.abs().equals(compareValue.abs());
-                default:
-                    return false;
+                    return value.abs().compareTo(compareValue.abs()) == 0;
             }
-        } else {
-            if (numberComparisonType == NOT_EQUAL_TO) {
-                return true;
-            }
-            return false;
         }
+        return false;
     }
 
     public IntPredicate intPredicate(int compareValue) {

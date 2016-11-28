@@ -56,7 +56,7 @@ public final class SwitchingBooleanSupplier implements Supplier<Boolean> {
     @Override
     public synchronized Boolean get() {
         if (switchPredicate.test(currentIndex)) {
-            currentValue = (currentValue == Boolean.TRUE) ? Boolean.FALSE : Boolean.TRUE;
+            currentValue = currentValue ? Boolean.FALSE : Boolean.TRUE;
         }
         currentIndex++;
         return currentValue;

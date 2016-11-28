@@ -41,8 +41,6 @@ public enum StringComparisonType {
                     return value.endsWith(compareValue);
                 case MATCHES:
                     return value.matches(compareValue);
-                default:
-                    return false;
             }
         }
         return false;

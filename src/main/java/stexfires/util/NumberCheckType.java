@@ -54,9 +54,8 @@ public enum NumberCheckType {
                 return value == Integer.MAX_VALUE;
             case MIN_VALUE:
                 return value == Integer.MIN_VALUE;
-            default:
-                return false;
         }
+        return false;
     }
 
     private static boolean checkLong(long value, NumberCheckType numberCheckType) {
@@ -78,9 +77,8 @@ public enum NumberCheckType {
                 return value == Long.MAX_VALUE;
             case MIN_VALUE:
                 return value == Long.MIN_VALUE;
-            default:
-                return false;
         }
+        return false;
     }
 
     private static boolean checkBigInteger(BigInteger value, NumberCheckType numberCheckType) {
@@ -96,22 +94,16 @@ public enum NumberCheckType {
                 case NOT_ZERO:
                     return value.signum() != 0;
                 case ODD:
-                    return value.and(BigInteger.ONE).equals(BigInteger.ONE);
+                    return value.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0;
                 case EVEN:
-                    return value.and(BigInteger.ONE).equals(BigInteger.ZERO);
+                    return value.and(BigInteger.ONE).compareTo(BigInteger.ZERO) == 0;
                 case MAX_VALUE:
                     return false;
                 case MIN_VALUE:
                     return false;
-                default:
-                    return false;
             }
-        } else {
-            if (numberCheckType == NOT_ZERO) {
-                return true;
-            }
-            return false;
         }
+        return false;
     }
 
     public IntPredicate intPredicate() {

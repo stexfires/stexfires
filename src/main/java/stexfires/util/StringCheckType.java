@@ -59,9 +59,8 @@ public enum StringCheckType {
                 return checkAllChars(value, Character::isUpperCase);
             case WHITESPACE:
                 return checkAllChars(value, Character::isWhitespace);
-            default:
-                return false;
         }
+        return false;
     }
 
     private static boolean checkAllChars(String value, IntPredicate predicate) {

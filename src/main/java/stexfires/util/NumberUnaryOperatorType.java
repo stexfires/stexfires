@@ -151,9 +151,8 @@ public enum NumberUnaryOperatorType {
                 return Math.abs(value);
             case NEGATE:
                 return Math.negateExact(value);
-            default:
-                return value;
         }
+        return value;
     }
 
     private static long operateLong(NumberUnaryOperatorType numberUnaryOperatorType, long value) {
@@ -169,9 +168,8 @@ public enum NumberUnaryOperatorType {
                 return Math.abs(value);
             case NEGATE:
                 return Math.negateExact(value);
-            default:
-                return value;
         }
+        return value;
     }
 
     private static BigInteger operateBigInteger(NumberUnaryOperatorType numberUnaryOperatorType, BigInteger value) {
@@ -201,8 +199,6 @@ public enum NumberUnaryOperatorType {
                     result = value.negate();
                 }
                 break;
-            default:
-                result = value;
         }
         return result;
     }

@@ -164,8 +164,6 @@ public enum StringUnaryOperatorType {
                     result = value.replaceAll("\\t", "    ");
                 }
                 break;
-            default:
-                result = value;
         }
         return result;
     }
