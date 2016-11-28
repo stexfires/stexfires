@@ -99,8 +99,11 @@ public class StandardRecord implements Record {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
         StandardRecord that = (StandardRecord) o;
         return Objects.equals(category, that.category) &&
                 Objects.equals(recordId, that.recordId) &&
