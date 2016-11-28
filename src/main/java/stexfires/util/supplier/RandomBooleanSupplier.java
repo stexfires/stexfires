@@ -1,6 +1,7 @@
 package stexfires.util.supplier;
 
 import java.util.Random;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -33,6 +34,10 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
         } else {
             constantResult = null;
         }
+    }
+
+    public BooleanSupplier asPrimitiveBooleanSupplier() {
+        return this::get;
     }
 
     @Override

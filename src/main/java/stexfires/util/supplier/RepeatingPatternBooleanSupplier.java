@@ -3,6 +3,7 @@ package stexfires.util.supplier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +31,10 @@ public final class RepeatingPatternBooleanSupplier implements Supplier<Boolean> 
             nb.add(b);
         }
         return new RepeatingPatternBooleanSupplier(nb);
+    }
+
+    public BooleanSupplier asPrimitiveBooleanSupplier() {
+        return this::get;
     }
 
     @Override
