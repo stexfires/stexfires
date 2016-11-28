@@ -39,29 +39,41 @@ public class DistinctModifier<T extends Record> implements RecordStreamModifier<
 
         private final T record;
         private final String equalsString;
+        private final int hashCode;
 
-        protected DistinctRecordWrapper(T record, String equalsString) {
+        public DistinctRecordWrapper(T record, String equalsString) {
             Objects.requireNonNull(record);
             Objects.requireNonNull(equalsString);
             this.record = record;
             this.equalsString = equalsString;
+            hashCode = equalsString.hashCode();
         }
 
-        protected T getRecord() {
+        public T getRecord() {
             return record;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            DistinctModifier.DistinctRecordWrapper<?> that = (DistinctModifier.DistinctRecordWrapper<?>) o;
-            return equalsString.equals(that.equalsString);
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+
+            DistinctRecordWrapper<?> that = (DistinctRecordWrapper<?>) o;
+            return Objects.equals(equalsString, that.equalsString);
         }
 
         @Override
         public int hashCode() {
-            return equalsString.hashCode();
+            return hashCode;
+        }
+
+        @Override
+        public String toString() {
+            return "DistinctRecordWrapper{" +
+                    "equalsString='" + equalsString + '\'' +
+                    '}';
         }
 
     }
