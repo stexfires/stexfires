@@ -33,6 +33,7 @@ public class UncheckedProducerException extends RuntimeException {
         super(Objects.requireNonNull(cause));
     }
 
+    @SuppressWarnings("CastToConcreteClass")
     @Override
     public ProducerException getCause() {
         return (ProducerException) super.getCause();

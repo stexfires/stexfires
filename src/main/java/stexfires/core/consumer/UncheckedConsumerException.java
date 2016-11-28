@@ -31,6 +31,7 @@ public class UncheckedConsumerException extends RuntimeException {
         super(Objects.requireNonNull(cause));
     }
 
+    @SuppressWarnings("CastToConcreteClass")
     @Override
     public ConsumerException getCause() {
         return (ConsumerException) super.getCause();

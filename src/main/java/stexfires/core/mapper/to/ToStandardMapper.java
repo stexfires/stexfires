@@ -11,6 +11,7 @@ import stexfires.core.record.StandardRecord;
  */
 public class ToStandardMapper<T extends Record> implements RecordMapper<T, StandardRecord> {
 
+    @SuppressWarnings("CastToConcreteClass")
     @Override
     public StandardRecord map(T record) {
         if (record instanceof StandardRecord) {
