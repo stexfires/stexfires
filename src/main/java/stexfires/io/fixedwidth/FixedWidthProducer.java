@@ -102,9 +102,9 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
 
     protected static final class FixedWidthIterator extends AbstractRecordRawDataIterator {
 
-        protected final FixedWidthFileSpec fileSpec;
+        private final FixedWidthFileSpec fileSpec;
 
-        protected FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
+        public FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
             this.fileSpec = fileSpec;
         }
@@ -118,7 +118,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
             }
         }
 
-        protected RecordRawData readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
+        RecordRawData readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
             if (rawData == null) {
                 return null;
@@ -127,7 +127,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
 
         }
 
-        protected RecordRawData readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
+        RecordRawData readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
             char[] c = new char[fileSpec.getRecordWidth()];
             int r = reader.read(c);
             if (r < 0) {

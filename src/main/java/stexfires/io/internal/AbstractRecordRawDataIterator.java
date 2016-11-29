@@ -18,55 +18,56 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRawData> {
 
-    protected static final long FIRST_RECORD_INDEX = 0L;
+    public static final long FIRST_RECORD_INDEX = 0L;
+    public static final int DEFAULT_IGNORE_FIRST = 0;
+    public static final int DEFAULT_IGNORE_LAST = 0;
 
-    protected final BufferedReader reader;
-    protected final int ignoreFirst;
-    protected final int ignoreLast;
-
+    private final BufferedReader bufferedReader;
+    private final int ignoreFirst;
+    private final int ignoreLast;
     private final ArrayBlockingQueue<RecordRawData> queue;
     private final List<RecordRawData> first;
     private final List<RecordRawData> last;
 
-    private long recordIndex;
+    private long currentRecordIndex;
     private boolean endIsReached;
 
-    protected AbstractRecordRawDataIterator(BufferedReader reader) {
-        this(reader, 0, 0);
+    protected AbstractRecordRawDataIterator(BufferedReader bufferedReader) {
+        this(bufferedReader, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST);
     }
 
-    protected AbstractRecordRawDataIterator(BufferedReader reader, int ignoreFirst, int ignoreLast) {
-        Objects.requireNonNull(reader);
+    protected AbstractRecordRawDataIterator(BufferedReader bufferedReader, int ignoreFirst, int ignoreLast) {
+        Objects.requireNonNull(bufferedReader);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }
         if (ignoreLast < 0) {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
-        this.reader = reader;
+        this.bufferedReader = bufferedReader;
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
 
         queue = new ArrayBlockingQueue<>(ignoreLast + 1);
         first = new ArrayList<>(ignoreFirst);
         last = new ArrayList<>(ignoreLast);
-        recordIndex = FIRST_RECORD_INDEX;
+        currentRecordIndex = FIRST_RECORD_INDEX;
     }
 
     protected abstract RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException;
 
-    protected void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
+    public final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
             while (!endIsReached && (queue.remainingCapacity() > 0)
                     && (!onlyFirst || first.size() < ignoreFirst)) {
-                RecordRawData recordRawData = readNext(reader, recordIndex);
+                RecordRawData recordRawData = readNext(bufferedReader, currentRecordIndex);
                 if (recordRawData != null) {
-                    if ((recordIndex - FIRST_RECORD_INDEX) >= ignoreFirst) {
+                    if ((currentRecordIndex - FIRST_RECORD_INDEX) >= ignoreFirst) {
                         queue.add(recordRawData); // Can throw an IllegalStateException
                     } else {
                         first.add(recordRawData);
                     }
-                    recordIndex++;
+                    currentRecordIndex++;
                 } else {
                     endIsReached = true;
                     queue.drainTo(last);
@@ -75,34 +76,42 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         } catch (ProducerException e) {
             throw new UncheckedProducerException(e);
         } catch (IOException e) {
-            throw new UncheckedProducerException("IOException during fillQueue! recordIndex=" + recordIndex, e);
+            throw new UncheckedProducerException("IOException during fillQueue! currentRecordIndex=" + currentRecordIndex, e);
         }
     }
 
     @Override
-    public boolean hasNext() {
+    public final boolean hasNext() {
         fillQueue(false);
         return queue.size() > ignoreLast;
     }
 
     @Override
-    public RecordRawData next() {
+    public final RecordRawData next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
         return queue.poll();
     }
 
-    public long getRecordIndex() {
-        return recordIndex;
+    public final int getIgnoreFirst() {
+        return ignoreFirst;
     }
 
-    public List<RecordRawData> getFirst() {
-        return first;
+    public final int getIgnoreLast() {
+        return ignoreLast;
     }
 
-    public List<RecordRawData> getLast() {
-        return last;
+    public final long getCurrentRecordIndex() {
+        return currentRecordIndex;
+    }
+
+    public final List<RecordRawData> getFirst() {
+        return new ArrayList<>(first);
+    }
+
+    public final List<RecordRawData> getLast() {
+        return new ArrayList<>(last);
     }
 
 }

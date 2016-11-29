@@ -49,11 +49,11 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     protected static final class ConfigIterator extends AbstractRecordRawDataIterator {
 
-        protected final ConfigFileSpec fileSpec;
+        private final ConfigFileSpec fileSpec;
 
         private String currentCategory;
 
-        protected ConfigIterator(BufferedReader reader, ConfigFileSpec fileSpec) {
+        public ConfigIterator(BufferedReader reader, ConfigFileSpec fileSpec) {
             super(reader);
             Objects.requireNonNull(fileSpec);
             this.fileSpec = fileSpec;

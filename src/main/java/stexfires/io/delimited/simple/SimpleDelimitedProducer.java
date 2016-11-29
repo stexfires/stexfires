@@ -78,7 +78,7 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<Record> {
 
     protected static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
 
-        protected SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
+        public SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
         }
 
