@@ -18,24 +18,31 @@ public final class PropertiesFileSpec {
     public static final String NULL_VALUE = "";
 
     public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
+    public static final boolean DEFAULT_CATEGORY_AS_KEY_PREFIX = false;
+    public static final String DEFAULT_KEY_PREFIX_DELIMITER = ".";
     public static final boolean DEFAULT_DATE_COMMENT = false;
 
     private final Charset charset;
     private final CodingErrorAction codingErrorAction;
-
     private final boolean escapeUnicode;
+    private final boolean categoryAsKeyPrefix;
+    private final String keyPrefixDelimiter;
+
     private final boolean dateComment;
     private final LineSeparator lineSeparator;
 
     public PropertiesFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                              boolean escapeUnicode, boolean dateComment,
-                              LineSeparator lineSeparator) {
+                              boolean escapeUnicode, boolean categoryAsKeyPrefix, String keyPrefixDelimiter,
+                              boolean dateComment, LineSeparator lineSeparator) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(codingErrorAction);
+        Objects.requireNonNull(keyPrefixDelimiter);
         Objects.requireNonNull(lineSeparator);
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
         this.escapeUnicode = escapeUnicode;
+        this.categoryAsKeyPrefix = categoryAsKeyPrefix;
+        this.keyPrefixDelimiter = keyPrefixDelimiter;
         this.dateComment = dateComment;
         this.lineSeparator = lineSeparator;
     }
@@ -44,16 +51,16 @@ public final class PropertiesFileSpec {
                                            boolean escapeUnicode,
                                            LineSeparator lineSeparator) {
         return new PropertiesFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                escapeUnicode, DEFAULT_DATE_COMMENT,
-                lineSeparator);
+                escapeUnicode, DEFAULT_CATEGORY_AS_KEY_PREFIX, DEFAULT_KEY_PREFIX_DELIMITER,
+                DEFAULT_DATE_COMMENT, lineSeparator);
     }
 
     public static PropertiesFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                           boolean escapeUnicode, boolean dateComment,
-                                           LineSeparator lineSeparator) {
+                                           boolean escapeUnicode, boolean categoryAsKeyPrefix, String keyPrefixDelimiter,
+                                           boolean dateComment, LineSeparator lineSeparator) {
         return new PropertiesFileSpec(charset, codingErrorAction,
-                escapeUnicode, dateComment,
-                lineSeparator);
+                escapeUnicode, categoryAsKeyPrefix, keyPrefixDelimiter,
+                dateComment, lineSeparator);
     }
 
     public PropertiesFile file(Path path) {
@@ -70,6 +77,14 @@ public final class PropertiesFileSpec {
 
     public boolean isEscapeUnicode() {
         return escapeUnicode;
+    }
+
+    public boolean isCategoryAsKeyPrefix() {
+        return categoryAsKeyPrefix;
+    }
+
+    public String getKeyPrefixDelimiter() {
+        return keyPrefixDelimiter;
     }
 
     public boolean isDateComment() {

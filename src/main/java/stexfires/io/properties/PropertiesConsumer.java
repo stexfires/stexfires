@@ -86,7 +86,13 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
     @Override
     public void writeRecord(KeyValueRecord record) throws IOException, ConsumerException {
         super.writeRecord(record);
-        write(convertKey(record.getValueOfKeyField(), fileSpec.isEscapeUnicode()));
+        String key;
+        if (fileSpec.isCategoryAsKeyPrefix() && record.getCategory() != null) {
+            key = record.getCategory() + fileSpec.getKeyPrefixDelimiter() + record.getValueOfKeyField();
+        } else {
+            key = record.getValueOfKeyField();
+        }
+        write(convertKey(key, fileSpec.isEscapeUnicode()));
         write(DELIMITER);
         write(convertValue(record.getValueField().getValueOrElse(NULL_VALUE), fileSpec.isEscapeUnicode()));
         write(fileSpec.getLineSeparator().string());
