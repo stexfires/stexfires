@@ -29,7 +29,7 @@ public class RecordIdMessage<T extends Record> implements RecordMessage<T> {
 
     @Override
     public String createMessage(T record) {
-        return record.getRecordId() != null ? prefix + String.valueOf(record.getRecordId()) : missingRecordIdMessage;
+        return record.hasRecordId() ? prefix + String.valueOf(record.getRecordId()) : missingRecordIdMessage;
     }
 
 }

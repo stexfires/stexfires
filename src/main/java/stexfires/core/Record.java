@@ -25,6 +25,10 @@ public interface Record extends Serializable {
 
     String getCategory();
 
+    default boolean hasCategory() {
+        return getCategory() != null;
+    }
+
     default String getCategoryOrElse(String other) {
         return getCategory() != null ? getCategory() : other;
     }
@@ -41,6 +45,10 @@ public interface Record extends Serializable {
     }
 
     Long getRecordId();
+
+    default boolean hasRecordId() {
+        return getRecordId() != null;
+    }
 
     default Optional<Long> getRecordIdAsOptional() {
         return Optional.ofNullable(getRecordId());

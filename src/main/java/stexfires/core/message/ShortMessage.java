@@ -12,8 +12,8 @@ public class ShortMessage<T extends Record> implements RecordMessage<T> {
     public String createMessage(T record) {
         return record.getClass().getSimpleName()
                 + "[" + record.size()
-                + (record.getCategory() != null ? ", '" + record.getCategory() + "'" : "")
-                + (record.getRecordId() != null ? ", #" + record.getRecordId() : "")
+                + (record.hasCategory() ? ", '" + record.getCategory() + "'" : "")
+                + (record.hasRecordId() ? ", #" + record.getRecordId() : "")
                 + "]";
     }
 
