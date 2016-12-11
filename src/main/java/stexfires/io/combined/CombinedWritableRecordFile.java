@@ -15,11 +15,11 @@ import java.util.Objects;
  */
 public class CombinedWritableRecordFile<T extends Record> implements WritableRecordFile<T> {
 
-    protected final WritableRecordFile<T> firstFile;
-    protected final WritableRecordFile<T> secondFile;
+    protected final WritableRecordFile<? super T> firstFile;
+    protected final WritableRecordFile<? super T> secondFile;
 
-    public CombinedWritableRecordFile(WritableRecordFile<T> firstFile,
-                                      WritableRecordFile<T> secondFile) {
+    public CombinedWritableRecordFile(WritableRecordFile<? super T> firstFile,
+                                      WritableRecordFile<? super T> secondFile) {
         Objects.requireNonNull(firstFile);
         Objects.requireNonNull(secondFile);
         this.firstFile = firstFile;

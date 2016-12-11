@@ -13,11 +13,11 @@ import java.util.Objects;
  */
 public class CombinedWritableRecordConsumer<T extends Record> implements WritableRecordConsumer<T> {
 
-    protected final WritableRecordConsumer<T> firstConsumer;
-    protected final WritableRecordConsumer<T> secondConsumer;
+    protected final WritableRecordConsumer<? super T> firstConsumer;
+    protected final WritableRecordConsumer<? super T> secondConsumer;
 
-    public CombinedWritableRecordConsumer(WritableRecordConsumer<T> firstConsumer,
-                                          WritableRecordConsumer<T> secondConsumer) {
+    public CombinedWritableRecordConsumer(WritableRecordConsumer<? super T> firstConsumer,
+                                          WritableRecordConsumer<? super T> secondConsumer) {
         Objects.requireNonNull(firstConsumer);
         Objects.requireNonNull(secondConsumer);
         this.firstConsumer = firstConsumer;
