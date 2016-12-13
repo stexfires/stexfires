@@ -158,8 +158,8 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
     public void writeAfter() throws IOException {
         super.writeAfter();
         if (fileSpec.getAfterTable() != null) {
-            write(fileSpec.getLineSeparator().string());
             write(fileSpec.getAfterTable());
+            write(fileSpec.getLineSeparator().string());
         }
     }
 
