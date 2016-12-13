@@ -205,7 +205,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> convert(
+    public static <R extends Record, T extends Record> WritableRecordFile<R> convert(
             ReadableRecordFile<T> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R> writableFile,
@@ -224,7 +224,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> convert(
+    public static <R extends Record, T extends Record> WritableRecordFile<R> convert(
             ReadableRecordFile<T> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R> writableFile,

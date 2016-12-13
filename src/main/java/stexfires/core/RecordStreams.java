@@ -69,30 +69,17 @@ public final class RecordStreams {
         return Stream.generate(recordSupplier);
     }
 
-    public static <T extends Record> Stream<T> concat(Stream<T> firstRecordStream,
-                                                      Stream<T> secondRecordStream) {
+    public static <R extends Record> Stream<R> concat(Stream<? extends R> firstRecordStream,
+                                                      Stream<? extends R> secondRecordStream) {
         Objects.requireNonNull(firstRecordStream);
         Objects.requireNonNull(secondRecordStream);
         return Stream.concat(firstRecordStream, secondRecordStream);
     }
 
     @SafeVarargs
-    public static <T extends Record> Stream<T> concat(Stream<T>... recordStreams) {
-        Objects.requireNonNull(recordStreams);
-        // TODO Validate: concatWithFlatMap or concatWithReduce
-        return concatWithFlatMap(recordStreams);
-    }
-
-    @SafeVarargs
-    static <T extends Record> Stream<T> concatWithFlatMap(Stream<T>... recordStreams) {
+    public static <R extends Record> Stream<R> concat(Stream<? extends R>... recordStreams) {
         Objects.requireNonNull(recordStreams);
         return Stream.of(recordStreams).flatMap(Function.identity());
-    }
-
-    @SafeVarargs
-    static <T extends Record> Stream<T> concatWithReduce(Stream<T>... recordStreams) {
-        Objects.requireNonNull(recordStreams);
-        return Stream.of(recordStreams).reduce(Stream.empty(), Stream::concat);
     }
 
     public static <R extends Record, T extends R> RecordConsumer<R> consume(
@@ -137,7 +124,7 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
-    public static <T extends Record> List<? super T> collect(Stream<T> recordStream) {
+    public static <T extends Record> List<T> collect(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
         return recordStream.collect(Collectors.toList());
     }
@@ -192,7 +179,7 @@ public final class RecordStreams {
         return recordStream.filter(recordFilter::isValid);
     }
 
-    public static <T extends Record, R extends Record> Stream<R> map(
+    public static <R extends Record, T extends Record> Stream<R> map(
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper) {
         Objects.requireNonNull(recordStream);

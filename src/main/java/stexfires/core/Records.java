@@ -98,38 +98,38 @@ public final class Records {
         return new SequencePrimitiveLongSupplier(initialValue);
     }
 
-    public static <T extends Record> RecordConsumer<? super T> consume(T record,
-                                                                       RecordConsumer<? super T> recordConsumer) throws UncheckedConsumerException {
+    public static <P extends Record, T extends P> RecordConsumer<P> consume(T record,
+                                                                            RecordConsumer<P> recordConsumer) throws UncheckedConsumerException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordConsumer);
         recordConsumer.consume(record);
         return recordConsumer;
     }
 
-    public static <T extends Record> boolean isValid(T record,
-                                                     RecordFilter<? super T> recordFilter) {
+    public static <P extends Record, T extends P> boolean isValid(T record,
+                                                                  RecordFilter<P> recordFilter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordFilter);
         return recordFilter.isValid(record);
     }
 
-    public static <T extends Record> RecordLogger<? super T> log(T record,
-                                                                 RecordLogger<? super T> recordLogger) {
+    public static <P extends Record, T extends P> RecordLogger<P> log(T record,
+                                                                      RecordLogger<P> recordLogger) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordLogger);
         recordLogger.log(record);
         return recordLogger;
     }
 
-    public static <T extends Record, R extends Record> R map(T record,
-                                                             RecordMapper<? super T, ? extends R> recordMapper) {
+    public static <R extends Record, T extends Record> R map(T record,
+                                                             RecordMapper<T, R> recordMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMapper);
         return recordMapper.map(record);
     }
 
-    public static <T extends Record> String createMessage(T record,
-                                                          RecordMessage<? super T> recordMessage) {
+    public static <P extends Record, T extends P> String createMessage(T record,
+                                                                       RecordMessage<P> recordMessage) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMessage);
         return recordMessage.createMessage(record);
