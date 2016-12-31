@@ -26,12 +26,9 @@ public class PropertiesFile extends BaseRecordFile<KeyValueRecord, KeyValueRecor
 
     @Override
     public ReadableRecordProducer<KeyValueRecord> openProducer() throws IOException {
-        throw new UnsupportedOperationException();
-        /*
         return new PropertiesProducer(
                 newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
                 fileSpec);
-        */
     }
 
     @Override

@@ -13,10 +13,6 @@ import java.util.Objects;
  */
 public final class PropertiesFileSpec {
 
-    public static final String DELIMITER = "=";
-    public static final String COMMENT_PREFIX = "#";
-    public static final String NULL_VALUE = "";
-
     public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final boolean DEFAULT_CATEGORY_AS_KEY_PREFIX = false;
     public static final String DEFAULT_KEY_PREFIX_DELIMITER = ".";
@@ -24,10 +20,10 @@ public final class PropertiesFileSpec {
 
     private final Charset charset;
     private final CodingErrorAction codingErrorAction;
+
     private final boolean escapeUnicode;
     private final boolean categoryAsKeyPrefix;
     private final String keyPrefixDelimiter;
-
     private final boolean dateComment;
     private final LineSeparator lineSeparator;
 

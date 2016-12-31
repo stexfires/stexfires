@@ -11,14 +11,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static stexfires.io.properties.PropertiesFileSpec.*;
-
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
+    public static final String DELIMITER = "=";
+    public static final String COMMENT_PREFIX = "#";
+    public static final String NULL_VALUE = "";
     public static final int FIRST_NON_ESCAPED_CHAR = 0x0020;
     public static final int LAST_NON_ESCAPED_CHAR = 0x007e;
 
