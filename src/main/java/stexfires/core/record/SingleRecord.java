@@ -17,8 +17,6 @@ public class SingleRecord implements ValueRecord {
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int FIELD_SIZE = 1;
 
-    private static final long serialVersionUID = 1L;
-
     private final String category;
     private final Long recordId;
     private final Field singleField;

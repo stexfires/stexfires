@@ -19,8 +19,6 @@ public class PairRecord implements Record {
     public static final int SECOND_VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
     public static final int FIELD_SIZE = 2;
 
-    private static final long serialVersionUID = 1L;
-
     private final String category;
     private final Long recordId;
     private final Field firstField;

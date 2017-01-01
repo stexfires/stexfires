@@ -20,8 +20,6 @@ public class DosPathRecord extends PathRecord {
 
     protected static final String EXTENSION_SEPARATOR = ".";
 
-    private static final long serialVersionUID = 1L;
-
     protected DosPathRecord(PathType pathType, String[] values) {
         super(pathType, values);
     }

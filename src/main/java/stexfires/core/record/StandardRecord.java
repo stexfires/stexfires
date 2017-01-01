@@ -16,8 +16,6 @@ import java.util.stream.Stream;
  */
 public class StandardRecord implements Record {
 
-    private static final long serialVersionUID = 1L;
-
     private final String category;
     private final Long recordId;
     private final Field[] fields;

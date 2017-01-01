@@ -1,6 +1,5 @@
 package stexfires.core;
 
-import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -9,9 +8,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class Field implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public final class Field {
 
     private final int index;
     private final boolean last;

@@ -1,6 +1,5 @@
 package stexfires.core;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.LongStream;
@@ -15,7 +14,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface Record extends Serializable {
+public interface Record {
 
     Field[] arrayOfFields();
 
