@@ -18,8 +18,6 @@ import java.util.Optional;
  */
 public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
-    public static final String NULL_VALUE = "";
-
     protected static final char ESCAPE_CHAR = '\\';
     protected static final int ILLEGAL_INDEX = -1;
     protected static final int UNICODE_ENCODE_LENGTH = 4;
@@ -43,7 +41,8 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         String[] keyValue = splitLine(recordRawData.getRawData());
 
         return createRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
-                decode(keyValue[0]), decode(keyValue[1]));
+                decode(keyValue[0]), decode(keyValue[1]),
+                fileSpec.getValueSpec().getReadNullReplacement());
     }
 
     @SuppressWarnings("BreakStatement")
@@ -168,13 +167,14 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         return b.toString();
     }
 
-    protected static Optional<KeyValueRecord> createRecord(String comment, Long recordId, String key, String value) {
+    protected static Optional<KeyValueRecord> createRecord(String comment, Long recordId,
+                                                           String key, String value, String nullValueReplacement) {
         KeyValueRecord record = null;
 
         if (key != null) {
             String recordValue;
             if (value == null) {
-                recordValue = NULL_VALUE;
+                recordValue = nullValueReplacement;
             } else {
                 recordValue = value;
             }

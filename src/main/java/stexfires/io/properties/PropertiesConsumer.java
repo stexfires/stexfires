@@ -19,7 +19,6 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";
-    public static final String NULL_VALUE = "";
     public static final int FIRST_NON_ESCAPED_CHAR = 0x0020;
     public static final int LAST_NON_ESCAPED_CHAR = 0x007e;
 
@@ -95,7 +94,8 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         }
         write(convertKey(key, fileSpec.isEscapeUnicode()));
         write(DELIMITER);
-        write(convertValue(record.getValueField().getValueOrElse(NULL_VALUE), fileSpec.isEscapeUnicode()));
+        write(convertValue(record.getValueField().getValueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
+                fileSpec.isEscapeUnicode()));
         write(fileSpec.getLineSeparator().string());
     }
 
