@@ -24,7 +24,7 @@ public class BaseRecordFile<W extends Record, R extends W> implements ReadableRe
 
     protected final Path path;
 
-    public BaseRecordFile(final Path path) {
+    public BaseRecordFile(Path path) {
         Objects.requireNonNull(path);
         this.path = path;
     }

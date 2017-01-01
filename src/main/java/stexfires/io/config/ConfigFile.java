@@ -18,7 +18,7 @@ public class ConfigFile extends BaseRecordFile<KeyValueRecord, KeyValueRecord> {
 
     protected final ConfigFileSpec fileSpec;
 
-    public ConfigFile(final Path path, ConfigFileSpec fileSpec) {
+    public ConfigFile(Path path, ConfigFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

@@ -18,7 +18,7 @@ public class FixedWidthFile extends BaseRecordFile<Record, Record> {
 
     protected final FixedWidthFileSpec fileSpec;
 
-    public FixedWidthFile(final Path path, FixedWidthFileSpec fileSpec) {
+    public FixedWidthFile(Path path, FixedWidthFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

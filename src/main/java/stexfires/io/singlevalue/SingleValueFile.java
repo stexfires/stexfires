@@ -19,7 +19,7 @@ public class SingleValueFile extends BaseRecordFile<ValueRecord, SingleRecord> {
 
     protected final SingleValueFileSpec fileSpec;
 
-    public SingleValueFile(final Path path, SingleValueFileSpec fileSpec) {
+    public SingleValueFile(Path path, SingleValueFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

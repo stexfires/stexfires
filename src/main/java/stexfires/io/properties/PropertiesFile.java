@@ -18,7 +18,7 @@ public class PropertiesFile extends BaseRecordFile<KeyValueRecord, KeyValueRecor
 
     protected final PropertiesFileSpec fileSpec;
 
-    public PropertiesFile(final Path path, PropertiesFileSpec fileSpec) {
+    public PropertiesFile(Path path, PropertiesFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

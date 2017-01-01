@@ -17,7 +17,7 @@ public class MarkdownTableFile extends BaseRecordFile<Record, Record> {
 
     protected final MarkdownTableFileSpec fileSpec;
 
-    public MarkdownTableFile(final Path path, MarkdownTableFileSpec fileSpec) {
+    public MarkdownTableFile(Path path, MarkdownTableFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

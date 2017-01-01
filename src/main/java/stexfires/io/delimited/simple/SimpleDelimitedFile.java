@@ -18,7 +18,7 @@ public class SimpleDelimitedFile extends BaseRecordFile<Record, Record> {
 
     protected final SimpleDelimitedFileSpec fileSpec;
 
-    public SimpleDelimitedFile(final Path path, SimpleDelimitedFileSpec fileSpec) {
+    public SimpleDelimitedFile(Path path, SimpleDelimitedFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

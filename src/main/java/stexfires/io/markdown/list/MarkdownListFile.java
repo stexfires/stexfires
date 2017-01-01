@@ -17,7 +17,7 @@ public class MarkdownListFile extends BaseRecordFile<ValueRecord, ValueRecord> {
 
     protected final MarkdownListFileSpec fileSpec;
 
-    public MarkdownListFile(final Path path, MarkdownListFileSpec fileSpec) {
+    public MarkdownListFile(Path path, MarkdownListFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;

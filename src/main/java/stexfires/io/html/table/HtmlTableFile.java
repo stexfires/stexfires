@@ -17,7 +17,7 @@ public class HtmlTableFile extends BaseRecordFile<Record, Record> {
 
     protected final HtmlTableFileSpec fileSpec;
 
-    public HtmlTableFile(final Path path, HtmlTableFileSpec fileSpec) {
+    public HtmlTableFile(Path path, HtmlTableFileSpec fileSpec) {
         super(path);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
