@@ -112,7 +112,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<Record> {
                 record.listOfFields()));
 
         if (fileSpec.isSeparateRecordsByLineSeparator()) {
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
     }
 

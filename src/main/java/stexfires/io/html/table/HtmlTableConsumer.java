@@ -121,7 +121,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
         super.writeAfter();
         write(HtmlTableFileSpec.TABLE_END);
         if (fileSpec.getAfterTable() != null) {
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
             write(fileSpec.getAfterTable());
         }
     }

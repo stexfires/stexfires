@@ -79,7 +79,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         if (fileSpec.isDateComment()) {
             write(COMMENT_PREFIX);
             write(new Date().toString());
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
     }
 
@@ -96,7 +96,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         write(DELIMITER);
         write(convertValue(record.getValueField().getValueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
                 fileSpec.isEscapeUnicode()));
-        write(fileSpec.getLineSeparator().string());
+        write(fileSpec.getLineSeparator());
     }
 
 }

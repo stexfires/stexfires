@@ -137,12 +137,12 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
         super.writeBefore();
         if (fileSpec.getBeforeTable() != null) {
             write(fileSpec.getBeforeTable());
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
         write(createHeaderString(fileSpec.getFieldSpecs()));
-        write(fileSpec.getLineSeparator().string());
+        write(fileSpec.getLineSeparator());
         write(createSubHeaderString(fileSpec.getAlignment(), fileSpec.getFieldSpecs()));
-        write(fileSpec.getLineSeparator().string());
+        write(fileSpec.getLineSeparator());
     }
 
     @Override
@@ -151,7 +151,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
 
         write(createRecordString(fileSpec.getFieldSpecs(), record.listOfFields()));
 
-        write(fileSpec.getLineSeparator().string());
+        write(fileSpec.getLineSeparator());
     }
 
     @Override
@@ -159,7 +159,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
         super.writeAfter();
         if (fileSpec.getAfterTable() != null) {
             write(fileSpec.getAfterTable());
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
     }
 

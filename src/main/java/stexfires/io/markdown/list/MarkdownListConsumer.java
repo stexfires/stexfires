@@ -29,7 +29,7 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
         super.writeBefore();
         if (fileSpec.getBeforeList() != null) {
             write(fileSpec.getBeforeList());
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
         currentNumber = 1;
     }
@@ -57,7 +57,7 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
             if (value != null) {
                 write(value);
             }
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
     }
 
@@ -66,7 +66,7 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
         super.writeAfter();
         if (fileSpec.getAfterList() != null) {
             write(fileSpec.getAfterList());
-            write(fileSpec.getLineSeparator().string());
+            write(fileSpec.getLineSeparator());
         }
     }
 

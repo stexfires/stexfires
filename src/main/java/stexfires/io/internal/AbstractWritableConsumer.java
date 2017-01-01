@@ -3,6 +3,7 @@ package stexfires.io.internal;
 import stexfires.core.Record;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,6 +30,11 @@ public abstract class AbstractWritableConsumer<T extends Record> implements Writ
     protected final void write(String str) throws IOException {
         state.validateNotClosed();
         writer.write(str);
+    }
+
+    protected final void write(LineSeparator lineSeparator) throws IOException {
+        state.validateNotClosed();
+        writer.write(lineSeparator.string());
     }
 
     @Override
