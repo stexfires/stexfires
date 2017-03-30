@@ -1,4 +1,4 @@
-group 'stextfires'
+group 'stexfires'
 version '0.1.0'
 
 apply plugin: 'java-library-distribution'
