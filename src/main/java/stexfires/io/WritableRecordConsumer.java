@@ -20,6 +20,8 @@ public interface WritableRecordConsumer<T extends Record> extends RecordConsumer
 
     void writeAfter() throws IOException;
 
+    void flush() throws IOException;
+
     /**
      * Not synchronized. Use it only with forEachOrdered().
      */

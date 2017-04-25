@@ -53,6 +53,12 @@ public abstract class AbstractWritableConsumer<T extends Record> implements Writ
     }
 
     @Override
+    public void flush() throws IOException {
+        state.validateNotClosed();
+        writer.flush();
+    }
+
+    @Override
     public void close() throws IOException {
         state.validateNotClosed();
         writer.close();

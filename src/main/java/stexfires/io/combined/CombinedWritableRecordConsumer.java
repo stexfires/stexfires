@@ -43,6 +43,12 @@ public class CombinedWritableRecordConsumer<T extends Record> implements Writabl
     }
 
     @Override
+    public void flush() throws IOException {
+        firstConsumer.flush();
+        secondConsumer.flush();
+    }
+
+    @Override
     public void close() throws IOException {
         IOException e1 = null;
         try {
