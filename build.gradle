@@ -14,7 +14,7 @@ javadoc.options.encoding = 'UTF-8'
 javadoc.options.addStringOption("charset", "UTF-8")
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
