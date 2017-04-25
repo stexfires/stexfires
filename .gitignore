@@ -3,37 +3,4 @@
 /build/
 
 # Ignore IntelliJ IDEA
-*.iml
-*.ipr
-*.iws
-.idea/
-/out/
-
-# Ignore Eclipse
-.project
-.metadata
-.settings/
-.checkstyle
-.classpath
-*.bak
-/bin/
-
-# Ignore Linux
-.*
-!.gitignore
-*~
-
-# Ignore OSX
-.DS_Store
-.DS_Store?
-.AppleDouble
-.LSOverride
-._*
-.Spotlight-V100
-.Trashes
-
-# Ignore Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
+/.idea/
