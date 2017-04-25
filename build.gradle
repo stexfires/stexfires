@@ -3,6 +3,8 @@ version '0.1.0'
 
 apply plugin: 'java-library-distribution'
 apply plugin: 'project-report'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -71,3 +73,15 @@ tasks.withType(AbstractArchiveTask) { task ->
     }
 }
 */
+
+findbugs {
+    toolVersion = '3.0.1'
+    ignoreFailures = true
+    effort = 'max'
+    reportLevel = 'medium'
+}
+
+checkstyle {
+    toolVersion = '7.6.1'
+    ignoreFailures = true
+}
