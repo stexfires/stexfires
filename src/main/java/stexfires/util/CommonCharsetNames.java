@@ -57,6 +57,8 @@ public enum CommonCharsetNames {
     IBM866("IBM866"),
     /**
      * ISO-8859-1 or ISO8859_1 : ISO-8859-1, Latin Alphabet No. 1
+     * <p>
+     * Aliases : iso-ir-100, csISOLatin1, latin1, l1, IBM819, CP819
      */
     ISO_8859_1("ISO-8859-1"),
     /**
