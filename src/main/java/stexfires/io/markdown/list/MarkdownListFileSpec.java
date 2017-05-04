@@ -1,7 +1,9 @@
 package stexfires.io.markdown.list;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -11,7 +13,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownListFileSpec {
+public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
 
     public enum BulletPoint {
         NUMBER, STAR, DASH
@@ -21,34 +23,25 @@ public final class MarkdownListFileSpec {
     public static final String BULLET_POINT_STAR = "*";
     public static final String BULLET_POINT_DASH = "-";
 
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final String beforeList;
     private final String afterList;
     private final BulletPoint bulletPoint;
     private final boolean skipNullValue;
-    private final LineSeparator lineSeparator;
 
     public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                 String beforeList, String afterList,
                                 BulletPoint bulletPoint, boolean skipNullValue,
                                 LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(bulletPoint);
-        Objects.requireNonNull(lineSeparator);
 
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.beforeList = beforeList;
         this.afterList = afterList;
         this.bulletPoint = bulletPoint;
         this.skipNullValue = skipNullValue;
-        this.lineSeparator = lineSeparator;
     }
 
     public static MarkdownListFileSpec write(Charset charset,
@@ -71,12 +64,8 @@ public final class MarkdownListFileSpec {
         return new MarkdownListFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
-    }
-
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public MarkdownListConsumer consumer(OutputStream outputStream) {
+        return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
     }
 
     public String getBeforeList() {
@@ -93,10 +82,6 @@ public final class MarkdownListFileSpec {
 
     public boolean isSkipNullValue() {
         return skipNullValue;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }

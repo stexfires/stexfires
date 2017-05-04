@@ -8,35 +8,25 @@ import stexfires.io.WritableRecordConsumer;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class FixedWidthFile extends BaseRecordFile<Record, Record> {
-
-    protected final FixedWidthFileSpec fileSpec;
+public class FixedWidthFile extends BaseRecordFile<Record, Record, FixedWidthFileSpec> {
 
     public FixedWidthFile(Path path, FixedWidthFileSpec fileSpec) {
-        super(path);
-        Objects.requireNonNull(fileSpec);
-        this.fileSpec = fileSpec;
+        super(path, fileSpec);
     }
 
     @Override
     public ReadableRecordProducer<Record> openProducer() throws IOException {
-        return new FixedWidthProducer(
-                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
-                fileSpec);
+        return fileSpec.producer(newInputStream());
     }
 
     @Override
     public WritableRecordConsumer<Record> openConsumer(OpenOption... writeOptions) throws IOException {
-        return new FixedWidthConsumer(
-                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
-                        writeOptions),
-                fileSpec);
+        return fileSpec.consumer(newOutputStream(writeOptions));
     }
 
 }

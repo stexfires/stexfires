@@ -1,7 +1,10 @@
 package stexfires.io.delimited.simple;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -14,19 +17,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SimpleDelimitedFileSpec {
-
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
+public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
 
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_SKIP_ALL_NULL = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
-    public static final LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
-
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final String fieldDelimiter;
     private final List<SimpleDelimitedFieldSpec> fieldSpecs;
 
@@ -35,18 +32,14 @@ public final class SimpleDelimitedFileSpec {
     private final boolean skipEmptyLines;
     private final boolean skipAllNull;
 
-    private final LineSeparator lineSeparator;
-
     public SimpleDelimitedFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                    String fieldDelimiter,
                                    List<SimpleDelimitedFieldSpec> fieldSpecs,
                                    int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNull,
                                    LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
-        Objects.requireNonNull(lineSeparator);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }
@@ -54,8 +47,6 @@ public final class SimpleDelimitedFileSpec {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
 
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.fieldDelimiter = fieldDelimiter;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
@@ -63,8 +54,6 @@ public final class SimpleDelimitedFileSpec {
         this.ignoreLast = ignoreLast;
         this.skipEmptyLines = skipEmptyLines;
         this.skipAllNull = skipAllNull;
-
-        this.lineSeparator = lineSeparator;
     }
 
     public static SimpleDelimitedFileSpec read(Charset charset,
@@ -104,12 +93,12 @@ public final class SimpleDelimitedFileSpec {
         return new SimpleDelimitedFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
+    public SimpleDelimitedProducer producer(InputStream inputStream) {
+        return new SimpleDelimitedProducer(newBufferedReader(inputStream), this);
     }
 
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public SimpleDelimitedConsumer consumer(OutputStream outputStream) {
+        return new SimpleDelimitedConsumer(newBufferedWriter(outputStream), this);
     }
 
     public String getFieldDelimiter() {
@@ -134,10 +123,6 @@ public final class SimpleDelimitedFileSpec {
 
     public boolean isSkipAllNull() {
         return skipAllNull;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }

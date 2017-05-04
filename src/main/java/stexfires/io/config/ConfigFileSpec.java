@@ -1,7 +1,10 @@
 package stexfires.io.config;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -11,12 +14,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigFileSpec {
+public final class ConfigFileSpec extends AbstractRecordFileSpec {
 
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final String DEFAULT_VALUE_DELIMITER = "=";
-
-    public static final LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
@@ -25,23 +25,13 @@ public final class ConfigFileSpec {
     public static final String CATEGORY_PREFIX = "[";
     public static final String CATEGORY_POSTFIX = "]";
 
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final String valueDelimiter;
-
-    private final LineSeparator lineSeparator;
 
     public ConfigFileSpec(Charset charset, CodingErrorAction codingErrorAction, String valueDelimiter,
                           LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(valueDelimiter);
-        Objects.requireNonNull(lineSeparator);
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.valueDelimiter = valueDelimiter;
-
-        this.lineSeparator = lineSeparator;
     }
 
     public static ConfigFileSpec read(Charset charset, String valueDelimiter) {
@@ -66,20 +56,16 @@ public final class ConfigFileSpec {
         return new ConfigFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
+    public ConfigProducer producer(InputStream inputStream) {
+        return new ConfigProducer(newBufferedReader(inputStream), this);
     }
 
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public ConfigConsumer consumer(OutputStream outputStream) {
+        return new ConfigConsumer(newBufferedWriter(outputStream), this);
     }
 
     public String getValueDelimiter() {
         return valueDelimiter;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }

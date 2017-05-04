@@ -1,8 +1,11 @@
 package stexfires.io.fixedwidth;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -15,19 +18,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthFileSpec {
-
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
+public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
 
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
-    public static final LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
-
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final int recordWidth;
     private final boolean separateRecordsByLineSeparator;
     private final Alignment alignment;
@@ -39,20 +36,16 @@ public final class FixedWidthFileSpec {
     private final boolean skipEmptyLines;
     private final boolean skipAllNullOrEmpty;
 
-    private final LineSeparator lineSeparator;
-
     public FixedWidthFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                               int recordWidth, boolean separateRecordsByLineSeparator,
                               Alignment alignment, Character fillCharacter,
                               List<FixedWidthFieldSpec> fieldSpecs,
                               int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty,
                               LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
-        Objects.requireNonNull(lineSeparator);
         if (recordWidth < 0) {
             throw new IllegalArgumentException("recordWidth < 0");
         }
@@ -63,8 +56,6 @@ public final class FixedWidthFileSpec {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
 
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.recordWidth = recordWidth;
         this.separateRecordsByLineSeparator = separateRecordsByLineSeparator;
         this.alignment = alignment;
@@ -75,8 +66,6 @@ public final class FixedWidthFileSpec {
         this.ignoreLast = ignoreLast;
         this.skipEmptyLines = skipEmptyLines;
         this.skipAllNullOrEmpty = skipAllNullOrEmpty;
-
-        this.lineSeparator = lineSeparator;
     }
 
     public static FixedWidthFileSpec read(Charset charset,
@@ -122,12 +111,12 @@ public final class FixedWidthFileSpec {
         return new FixedWidthFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
+    public FixedWidthProducer producer(InputStream inputStream) {
+        return new FixedWidthProducer(newBufferedReader(inputStream), this);
     }
 
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public FixedWidthConsumer consumer(OutputStream outputStream) {
+        return new FixedWidthConsumer(newBufferedWriter(outputStream), this);
     }
 
     public int getRecordWidth() {
@@ -164,10 +153,6 @@ public final class FixedWidthFileSpec {
 
     public boolean isSkipAllNullOrEmpty() {
         return skipAllNullOrEmpty;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }

@@ -1,7 +1,9 @@
 package stexfires.io.html.table;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -14,7 +16,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class HtmlTableFileSpec {
+public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -26,30 +28,20 @@ public final class HtmlTableFileSpec {
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
 
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
-
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final List<HtmlTableFieldSpec> fieldSpecs;
     private final String beforeTable;
     private final String afterTable;
-    private final LineSeparator lineSeparator;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                              List<HtmlTableFieldSpec> fieldSpecs,
                              String beforeTable, String afterTable,
                              LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
-        Objects.requireNonNull(lineSeparator);
 
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
-        this.lineSeparator = lineSeparator;
     }
 
     public static HtmlTableFileSpec write(Charset charset,
@@ -75,12 +67,8 @@ public final class HtmlTableFileSpec {
         return new HtmlTableFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
-    }
-
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public HtmlTableConsumer consumer(OutputStream outputStream) {
+        return new HtmlTableConsumer(newBufferedWriter(outputStream), this);
     }
 
     public List<HtmlTableFieldSpec> getFieldSpecs() {
@@ -93,10 +81,6 @@ public final class HtmlTableFileSpec {
 
     public String getAfterTable() {
         return afterTable;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }

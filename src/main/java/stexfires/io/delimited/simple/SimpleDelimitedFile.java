@@ -8,35 +8,25 @@ import stexfires.io.WritableRecordConsumer;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SimpleDelimitedFile extends BaseRecordFile<Record, Record> {
-
-    protected final SimpleDelimitedFileSpec fileSpec;
+public class SimpleDelimitedFile extends BaseRecordFile<Record, Record, SimpleDelimitedFileSpec> {
 
     public SimpleDelimitedFile(Path path, SimpleDelimitedFileSpec fileSpec) {
-        super(path);
-        Objects.requireNonNull(fileSpec);
-        this.fileSpec = fileSpec;
+        super(path, fileSpec);
     }
 
     @Override
     public ReadableRecordProducer<Record> openProducer() throws IOException {
-        return new SimpleDelimitedProducer(
-                newBufferedReader(newCharsetDecoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction())),
-                fileSpec);
+        return fileSpec.producer(newInputStream());
     }
 
     @Override
     public WritableRecordConsumer<Record> openConsumer(OpenOption... writeOptions) throws IOException {
-        return new SimpleDelimitedConsumer(
-                newBufferedWriter(newCharsetEncoder(fileSpec.getCharset(), fileSpec.getCodingErrorAction()),
-                        writeOptions),
-                fileSpec);
+        return fileSpec.consumer(newOutputStream(writeOptions));
     }
 
 }

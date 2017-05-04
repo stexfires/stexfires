@@ -1,8 +1,10 @@
 package stexfires.io.markdown.table;
 
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
 
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
@@ -16,7 +18,7 @@ import java.util.regex.Matcher;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownTableFileSpec {
+public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
 
     public static final String ESCAPE_TARGET = "|";
     public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
@@ -26,35 +28,26 @@ public final class MarkdownTableFileSpec {
     public static final String ALIGNMENT_INDICATOR = ":";
     public static final String HEADER_DELIMITER = "-";
 
-    public static final CodingErrorAction DEFAULT_CODING_ERROR_ACTION = CodingErrorAction.REPORT;
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
 
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
     private final Alignment alignment;
     private final List<MarkdownTableFieldSpec> fieldSpecs;
     private final String beforeTable;
     private final String afterTable;
-    private final LineSeparator lineSeparator;
 
     public MarkdownTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                  Alignment alignment,
                                  List<MarkdownTableFieldSpec> fieldSpecs,
                                  String beforeTable, String afterTable,
                                  LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fieldSpecs);
-        Objects.requireNonNull(lineSeparator);
 
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
         this.alignment = alignment;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
-        this.lineSeparator = lineSeparator;
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
@@ -81,12 +74,8 @@ public final class MarkdownTableFileSpec {
         return new MarkdownTableFile(path, this);
     }
 
-    public Charset getCharset() {
-        return charset;
-    }
-
-    public CodingErrorAction getCodingErrorAction() {
-        return codingErrorAction;
+    public MarkdownTableConsumer consumer(OutputStream outputStream) {
+        return new MarkdownTableConsumer(newBufferedWriter(outputStream), this);
     }
 
     public Alignment getAlignment() {
@@ -103,10 +92,6 @@ public final class MarkdownTableFileSpec {
 
     public String getAfterTable() {
         return afterTable;
-    }
-
-    public LineSeparator getLineSeparator() {
-        return lineSeparator;
     }
 
 }
