@@ -33,15 +33,18 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
-        return new PropertiesIterator(reader, fileSpec);
+        return new PropertiesIterator(reader);
     }
 
     @Override
     protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         String[] keyValue = splitLine(recordRawData.getRawData());
 
-        return createRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
-                decode(keyValue[0]), decode(keyValue[1]),
+        return createRecord(
+                fileSpec.isCommentAsCategory() ? recordRawData.getCategory() : null,
+                recordRawData.getRecordId(),
+                decode(keyValue[0]),
+                decode(keyValue[1]),
                 fileSpec.getValueSpec().getReadNullReplacement());
     }
 
@@ -167,20 +170,16 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         return b.toString();
     }
 
-    protected static Optional<KeyValueRecord> createRecord(String comment, Long recordId,
+    protected static Optional<KeyValueRecord> createRecord(String category, Long recordId,
                                                            String key, String value, String nullValueReplacement) {
         KeyValueRecord record = null;
 
         if (key != null) {
-            String recordValue;
-            if (value == null) {
-                recordValue = nullValueReplacement;
+            if (value != null) {
+                record = new KeyValueRecord(category, recordId, key, value);
             } else {
-                recordValue = value;
+                record = new KeyValueRecord(category, recordId, key, nullValueReplacement);
             }
-            String category = comment; // TODO FileSpec (comment or keyPrefix)
-
-            record = new KeyValueRecord(category, recordId, key, recordValue);
         }
 
         return Optional.ofNullable(record);
@@ -188,15 +187,8 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
 
     protected static final class PropertiesIterator extends AbstractRecordRawDataIterator {
 
-        private final PropertiesFileSpec fileSpec;
-
-        private String currentComment;
-
-        public PropertiesIterator(BufferedReader reader, PropertiesFileSpec fileSpec) {
+        public PropertiesIterator(BufferedReader reader) {
             super(reader);
-            Objects.requireNonNull(fileSpec);
-            this.fileSpec = fileSpec;
-            currentComment = null;
         }
 
         @SuppressWarnings("BreakStatement")
@@ -204,6 +196,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
             StringBuilder b = new StringBuilder();
             String currentLine;
+            String currentComment = null;
             boolean commentFound;
             boolean escapeFound;
             boolean multiLine = false;
