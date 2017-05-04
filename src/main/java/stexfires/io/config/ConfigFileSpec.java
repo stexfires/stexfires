@@ -25,12 +25,15 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     public static final String CATEGORY_PREFIX = "[";
     public static final String CATEGORY_POSTFIX = "]";
 
+    // both
     private final String valueDelimiter;
 
     public ConfigFileSpec(Charset charset, CodingErrorAction codingErrorAction, String valueDelimiter,
                           LineSeparator lineSeparator) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(valueDelimiter);
+
+        // both
         this.valueDelimiter = valueDelimiter;
     }
 

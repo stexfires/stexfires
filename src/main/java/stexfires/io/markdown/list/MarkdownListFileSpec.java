@@ -26,18 +26,20 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
     public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
+    // write
     private final String beforeList;
     private final String afterList;
     private final BulletPoint bulletPoint;
     private final boolean skipNullValue;
 
     public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                LineSeparator lineSeparator,
                                 String beforeList, String afterList,
-                                BulletPoint bulletPoint, boolean skipNullValue,
-                                LineSeparator lineSeparator) {
+                                BulletPoint bulletPoint, boolean skipNullValue) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(bulletPoint);
 
+        // write
         this.beforeList = beforeList;
         this.afterList = afterList;
         this.bulletPoint = bulletPoint;
@@ -45,19 +47,39 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
     }
 
     public static MarkdownListFileSpec write(Charset charset,
-                                             String beforeList, String afterList,
-                                             BulletPoint bulletPoint, boolean skipNullValue,
                                              LineSeparator lineSeparator) {
         return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                beforeList, afterList,
-                bulletPoint, skipNullValue, lineSeparator);
+                lineSeparator,
+                null, null,
+                DEFAULT_BULLET_POINT, DEFAULT_SKIP_NULL_VALUE);
+    }
+
+    public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                             LineSeparator lineSeparator) {
+        return new MarkdownListFileSpec(charset, codingErrorAction,
+                lineSeparator,
+                null, null,
+                DEFAULT_BULLET_POINT, DEFAULT_SKIP_NULL_VALUE);
     }
 
     public static MarkdownListFileSpec write(Charset charset,
-                                             LineSeparator lineSeparator) {
+                                             LineSeparator lineSeparator,
+                                             String beforeList, String afterList,
+                                             BulletPoint bulletPoint, boolean skipNullValue) {
         return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                DEFAULT_BULLET_POINT, DEFAULT_SKIP_NULL_VALUE, lineSeparator);
+                lineSeparator,
+                beforeList, afterList,
+                bulletPoint, skipNullValue);
+    }
+
+    public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                             LineSeparator lineSeparator,
+                                             String beforeList, String afterList,
+                                             BulletPoint bulletPoint, boolean skipNullValue) {
+        return new MarkdownListFileSpec(charset, codingErrorAction,
+                lineSeparator,
+                beforeList, afterList,
+                bulletPoint, skipNullValue);
     }
 
     public MarkdownListFile file(Path path) {

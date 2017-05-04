@@ -21,10 +21,12 @@ public final class SingleValueFileSpec extends AbstractRecordFileSpec {
 
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
+    // read
+    private final boolean skipEmptyLines;
     private final int ignoreFirst;
     private final int ignoreLast;
-    private final boolean skipEmptyLines;
 
+    // write
     private final boolean skipNullValue;
 
     public SingleValueFileSpec(Charset charset, CodingErrorAction codingErrorAction,
@@ -53,6 +55,12 @@ public final class SingleValueFileSpec extends AbstractRecordFileSpec {
                 DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
     }
 
+    public static SingleValueFileSpec read(Charset charset, CodingErrorAction codingErrorAction) {
+        return new SingleValueFileSpec(charset, codingErrorAction,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
+    }
+
     public static SingleValueFileSpec read(Charset charset,
                                            boolean skipEmptyLines, int ignoreFirstLines, int ignoreLastLines) {
         return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
@@ -70,6 +78,13 @@ public final class SingleValueFileSpec extends AbstractRecordFileSpec {
     public static SingleValueFileSpec write(Charset charset,
                                             LineSeparator lineSeparator) {
         return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                lineSeparator, DEFAULT_SKIP_NULL_VALUE);
+    }
+
+    public static SingleValueFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                            LineSeparator lineSeparator) {
+        return new SingleValueFileSpec(charset, codingErrorAction,
                 DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
                 lineSeparator, DEFAULT_SKIP_NULL_VALUE);
     }

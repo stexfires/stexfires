@@ -28,39 +28,64 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
 
+    // both
     private final List<HtmlTableFieldSpec> fieldSpecs;
+
+    // write
     private final String beforeTable;
     private final String afterTable;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                              List<HtmlTableFieldSpec> fieldSpecs,
-                             String beforeTable, String afterTable,
-                             LineSeparator lineSeparator) {
+                             LineSeparator lineSeparator,
+                             String beforeTable, String afterTable) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
 
+        // both
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
+
+        // write
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
     }
 
     public static HtmlTableFileSpec write(Charset charset,
                                           List<HtmlTableFieldSpec> fieldSpecs,
-                                          String beforeTable, String afterTable,
                                           LineSeparator lineSeparator) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldSpecs,
-                beforeTable, afterTable,
-                lineSeparator);
+                lineSeparator,
+                null, null);
+    }
+
+    public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                          List<HtmlTableFieldSpec> fieldSpecs,
+                                          LineSeparator lineSeparator) {
+        return new HtmlTableFileSpec(charset, codingErrorAction,
+                fieldSpecs,
+                lineSeparator,
+                null, null);
     }
 
     public static HtmlTableFileSpec write(Charset charset,
                                           List<HtmlTableFieldSpec> fieldSpecs,
-                                          LineSeparator lineSeparator) {
+                                          LineSeparator lineSeparator,
+                                          String beforeTable, String afterTable) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldSpecs,
-                null, null,
-                lineSeparator);
+                lineSeparator,
+                beforeTable, afterTable);
+    }
+
+    public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                          List<HtmlTableFieldSpec> fieldSpecs,
+                                          LineSeparator lineSeparator,
+                                          String beforeTable, String afterTable) {
+        return new HtmlTableFileSpec(charset, codingErrorAction,
+                fieldSpecs,
+                lineSeparator,
+                beforeTable, afterTable);
     }
 
     public HtmlTableFile file(Path path) {

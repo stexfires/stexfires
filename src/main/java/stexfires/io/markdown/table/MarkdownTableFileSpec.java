@@ -30,44 +30,75 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
 
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
 
-    private final Alignment alignment;
+    // both
     private final List<MarkdownTableFieldSpec> fieldSpecs;
+
+    // write
+    private final Alignment alignment;
     private final String beforeTable;
     private final String afterTable;
 
     public MarkdownTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                 Alignment alignment,
                                  List<MarkdownTableFieldSpec> fieldSpecs,
-                                 String beforeTable, String afterTable,
-                                 LineSeparator lineSeparator) {
+                                 LineSeparator lineSeparator,
+                                 Alignment alignment,
+                                 String beforeTable, String afterTable) {
         super(charset, codingErrorAction, lineSeparator);
-        Objects.requireNonNull(alignment);
         Objects.requireNonNull(fieldSpecs);
+        Objects.requireNonNull(alignment);
 
-        this.alignment = alignment;
+        // both
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
+
+        // write
+        this.alignment = alignment;
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
-                                              Alignment alignment,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
-                                              String beforeTable, String afterTable,
                                               LineSeparator lineSeparator) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                alignment, fieldSpecs,
-                beforeTable, afterTable,
-                lineSeparator);
+                fieldSpecs,
+                lineSeparator,
+                DEFAULT_ALIGNMENT,
+                null, null);
+    }
+
+
+    public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                              List<MarkdownTableFieldSpec> fieldSpecs,
+                                              LineSeparator lineSeparator) {
+        return new MarkdownTableFileSpec(charset, codingErrorAction,
+                fieldSpecs,
+                lineSeparator,
+                DEFAULT_ALIGNMENT,
+                null, null);
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
-                                              LineSeparator lineSeparator) {
+                                              LineSeparator lineSeparator,
+                                              Alignment alignment,
+                                              String beforeTable, String afterTable) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                DEFAULT_ALIGNMENT, fieldSpecs,
-                null, null,
-                lineSeparator);
+                fieldSpecs,
+                lineSeparator,
+                alignment,
+                beforeTable, afterTable);
+    }
+
+    public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                              List<MarkdownTableFieldSpec> fieldSpecs,
+                                              LineSeparator lineSeparator,
+                                              Alignment alignment,
+                                              String beforeTable, String afterTable) {
+        return new MarkdownTableFileSpec(charset, codingErrorAction,
+                fieldSpecs,
+                lineSeparator,
+                alignment,
+                beforeTable, afterTable);
     }
 
     public MarkdownTableFile file(Path path) {
@@ -78,12 +109,12 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
         return new MarkdownTableConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
     public List<MarkdownTableFieldSpec> getFieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     public String getBeforeTable() {

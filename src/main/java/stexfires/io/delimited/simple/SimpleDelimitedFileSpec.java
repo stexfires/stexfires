@@ -24,9 +24,11 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
+    // both
     private final String fieldDelimiter;
     private final List<SimpleDelimitedFieldSpec> fieldSpecs;
 
+    // read
     private final int ignoreFirst;
     private final int ignoreLast;
     private final boolean skipEmptyLines;
@@ -47,9 +49,11 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
 
+        // both
         this.fieldDelimiter = fieldDelimiter;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
+        // read
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
         this.skipEmptyLines = skipEmptyLines;
@@ -59,23 +63,39 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     public static SimpleDelimitedFileSpec read(Charset charset,
                                                String fieldDelimiter,
                                                List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                               int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNull) {
+                                               int ignoreFirst, int ignoreLast,
+                                               boolean skipEmptyLines, boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldDelimiter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNull,
+                ignoreFirst, ignoreLast,
+                skipEmptyLines, skipAllNull,
                 DEFAULT_LINE_SEPARATOR);
     }
 
     public static SimpleDelimitedFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
                                                String fieldDelimiter,
                                                List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                               int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNull) {
+                                               int ignoreFirst, int ignoreLast,
+                                               boolean skipEmptyLines, boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(charset, codingErrorAction,
                 fieldDelimiter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNull,
+                ignoreFirst, ignoreLast,
+                skipEmptyLines, skipAllNull,
                 DEFAULT_LINE_SEPARATOR);
+    }
+
+    public static SimpleDelimitedFileSpec write(Charset charset,
+                                                String fieldDelimiter,
+                                                List<SimpleDelimitedFieldSpec> fieldSpecs,
+                                                LineSeparator lineSeparator) {
+        return new SimpleDelimitedFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                fieldDelimiter,
+                fieldSpecs,
+                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL,
+                lineSeparator);
     }
 
     public static SimpleDelimitedFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
@@ -85,7 +105,8 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
         return new SimpleDelimitedFileSpec(charset, codingErrorAction,
                 fieldDelimiter,
                 fieldSpecs,
-                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL,
+                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL,
                 lineSeparator);
     }
 

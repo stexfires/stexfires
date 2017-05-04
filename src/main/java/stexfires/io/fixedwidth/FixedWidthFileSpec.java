@@ -25,12 +25,14 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
+    // both
     private final int recordWidth;
     private final boolean separateRecordsByLineSeparator;
     private final Alignment alignment;
     private final Character fillCharacter;
     private final List<FixedWidthFieldSpec> fieldSpecs;
 
+    // read
     private final int ignoreFirst;
     private final int ignoreLast;
     private final boolean skipEmptyLines;
@@ -40,7 +42,8 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                               int recordWidth, boolean separateRecordsByLineSeparator,
                               Alignment alignment, Character fillCharacter,
                               List<FixedWidthFieldSpec> fieldSpecs,
-                              int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty,
+                              int ignoreFirst, int ignoreLast,
+                              boolean skipEmptyLines, boolean skipAllNullOrEmpty,
                               LineSeparator lineSeparator) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(alignment);
@@ -56,12 +59,14 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
 
+        // both
         this.recordWidth = recordWidth;
         this.separateRecordsByLineSeparator = separateRecordsByLineSeparator;
         this.alignment = alignment;
         this.fillCharacter = fillCharacter;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
+        // read
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
         this.skipEmptyLines = skipEmptyLines;
@@ -72,12 +77,14 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                                           int recordWidth, boolean separateRecordsByLineSeparator,
                                           Alignment alignment, Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
+                                          int ignoreFirst, int ignoreLast,
+                                          boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNullOrEmpty,
+                ignoreFirst, ignoreLast,
+                skipEmptyLines, skipAllNullOrEmpty,
                 DEFAULT_LINE_SEPARATOR);
     }
 
@@ -85,13 +92,29 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                                           int recordWidth, boolean separateRecordsByLineSeparator,
                                           Alignment alignment, Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
+                                          int ignoreFirst, int ignoreLast,
+                                          boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, codingErrorAction,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast, skipEmptyLines, skipAllNullOrEmpty,
+                ignoreFirst, ignoreLast,
+                skipEmptyLines, skipAllNullOrEmpty,
                 DEFAULT_LINE_SEPARATOR);
+    }
+
+    public static FixedWidthFileSpec write(Charset charset,
+                                           int recordWidth, boolean separateRecordsByLineSeparator,
+                                           Alignment alignment, Character fillCharacter,
+                                           List<FixedWidthFieldSpec> fieldSpecs,
+                                           LineSeparator lineSeparator) {
+        return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                recordWidth, separateRecordsByLineSeparator,
+                alignment, fillCharacter,
+                fieldSpecs,
+                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
+                lineSeparator);
     }
 
     public static FixedWidthFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
@@ -103,7 +126,8 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
-                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
+                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
                 lineSeparator);
     }
 
