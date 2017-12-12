@@ -26,7 +26,7 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> RecordConsumer<R> read(
-            ReadableRecordFile<T> readableFile,
+            ReadableRecordFile<T, ?> readableFile,
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordConsumer);
@@ -39,7 +39,7 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends Record> RecordConsumer<R> read(
-            ReadableRecordFile<T> readableFile,
+            ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableFile);
@@ -54,7 +54,7 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends Record> RecordConsumer<R> read(
-            ReadableRecordFile<T> readableFile,
+            ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableFile);
@@ -69,7 +69,7 @@ public final class RecordFiles {
     }
 
     public static <R extends Record, T extends R> RecordLogger<R> log(
-            ReadableRecordFile<T> readableFile,
+            ReadableRecordFile<T, ?> readableFile,
             RecordLogger<R> recordLogger) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordLogger);
@@ -82,9 +82,9 @@ public final class RecordFiles {
         return recordLogger;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> write(
+    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(writableFile);
@@ -96,10 +96,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> write(
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMapper);
@@ -112,10 +112,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> write(
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordStreamModifier);
@@ -128,9 +128,9 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> write(
+    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(writableFile);
@@ -142,10 +142,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> write(
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordMapper);
@@ -158,10 +158,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> write(
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordStreamModifier);
@@ -174,9 +174,9 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> write(
+    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
             T record,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(writableFile);
@@ -188,9 +188,9 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R> convert(
-            ReadableRecordFile<T> readableFile,
-            WritableRecordFile<R> writableFile,
+    public static <R extends Record, T extends R> WritableRecordFile<R, ?> convert(
+            ReadableRecordFile<T, ?> readableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(writableFile);
@@ -205,10 +205,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> convert(
-            ReadableRecordFile<T> readableFile,
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> convert(
+            ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
@@ -224,10 +224,10 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R> convert(
-            ReadableRecordFile<T> readableFile,
+    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> convert(
+            ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            WritableRecordFile<R> writableFile,
+            WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
