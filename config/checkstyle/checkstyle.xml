@@ -73,6 +73,16 @@
             <!-- allow starred static member imports -->
             <property name="allowStaticMemberImports" value="true"/>
         </module>
+        <!-- Checks that the groups of import declarations appear in the right order -->
+        <!-- See http://checkstyle.sourceforge.net/config_imports.html#CustomImportOrder -->
+        <module name="CustomImportOrder">
+            <property name="customImportOrderRules"
+                      value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+            <property name="specialImportsRegExp" value="^javax\."/>
+            <property name="standardPackageRegExp" value="^java\."/>
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="false"/>
+        </module>
         <!-- Checks for banned packages, sun.* by default. -->
         <!-- See http://checkstyle.sourceforge.net/config_imports.html#IllegalImport -->
         <module name="IllegalImport"/>
@@ -92,5 +102,84 @@
         <!-- Checks for redundant modifiers -->
         <!-- See http://checkstyle.sourceforge.net/config_modifier.html#RedundantModifier -->
         <module name="RedundantModifier"/>
+
+        <!-- Checks for Size Violations -->
+        <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
+        <!-- ************************** -->
+        <!-- Checks for long anonymous inner classes. -->
+        <module name="AnonInnerLength">
+            <property name="max" value="50"/>
+        </module>
+        <!-- Checks for long lines. -->
+        <module name="LineLength">
+            <property name="max" value="200"/>
+        </module>
+        <!-- Checks the number of methods declared in each type. -->
+        <module name="MethodCount"/>
+        <!-- Checks for long methods. -->
+        <module name="MethodLength">
+            <property name="max" value="200"/>
+        </module>
+        <!-- Checks for the number of types declared at the outer (or root) level in a file. -->
+        <module name="OuterTypeNumber"/>
+        <!-- Checks the number of parameters that a method or constructor has. -->
+        <module name="ParameterNumber">
+            <property name="max" value="15"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+        <!-- Checks for class design -->
+        <!-- See http://checkstyle.sourceforge.net/config_design.html -->
+        <!-- *********************** -->
+        <!-- Checks that a class which has only private constructors is declared as final. -->
+        <module name="FinalClass"/>
+        <!-- Make sure that utility classes (classes that contain only static methods or fields in their API) do not have a public constructor. -->
+        <module name="HideUtilityClassConstructor"/>
+        <!-- Check nested (internal) classes/interfaces are declared at the bottom of the class after all method and field declarations. -->
+        <module name="InnerTypeLast"/>
+        <!-- Use Interfaces only to define types. -->
+        <module name="InterfaceIsType"/>
+        <!-- Ensures that exceptions are immutable. -->
+        <module name="MutableException"/>
+        <!-- Checks that each top-level class, interface or enum resides in a source file of its own. -->
+        <module name="OneTopLevelClass"/>
+        <!-- Restricts throws statements to a specified count. -->
+        <module name="ThrowsCount"/>
+        <!-- Checks visibility of class members. Only static final members may be public. -->
+        <module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!-- Miscellaneous other checks -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html -->
+        <!-- ************************** -->
+        <!-- Checks the style of array type definitions. -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#ArrayTypeStyle -->
+        <module name="ArrayTypeStyle"/>
+        <!-- Controls the indentation between comments and surrounding code. -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#CommentsIndentation -->
+        <module name="CommentsIndentation"/>
+        <!-- Checks that the outer type name and the file name match. -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#OuterTypeFilename -->
+        <module name="OuterTypeFilename"/>
+        <!-- Checks for uncommented main() methods. -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#UncommentedMain -->
+        <module name="UncommentedMain"/>
+        <!-- Checks that long constants are defined with an upper ell. That is ' L' and not 'l'. -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#UpperEll -->
+        <module name="UpperEll"/>
+
+        <!-- Checks for annotations -->
+        <!-- See http://checkstyle.sourceforge.net/config_annotation.html -->
+        <!-- ********************** -->
+        <!-- This check controls the style with the usage of annotations. -->
+        <module name="AnnotationUseStyle"/>
+        <!-- Verifies that both the java.lang.Deprecated annotation is present and the @deprecated Javadoc tag is present when either is present. -->
+        <module name="MissingDeprecated">
+            <property name="skipNoJavadoc" value="true"/>
+        </module>
+        <!-- Verifies that the java.lang.Override annotation is present when the {@inheritDoc} javadoc tag is present. -->
+        <module name="MissingOverride"/>
     </module>
 </module>
