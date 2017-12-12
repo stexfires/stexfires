@@ -20,7 +20,7 @@ public class ClassFilter<T extends Record> implements RecordFilter<T> {
     }
 
     public static <T extends Record> ClassFilter<T> equalTo(Class<? extends Record> compareClass) {
-        return new ClassFilter<>(recordClass -> Objects.equals(recordClass, compareClass));
+        return new ClassFilter<>(Predicate.isEqual(compareClass));
     }
 
     public static <T extends Record> ClassFilter<T> containedIn(Collection<Class<? extends Record>> classes) {
