@@ -1,8 +1,6 @@
 package stexfires.io;
 
 import stexfires.core.Record;
-import stexfires.core.RecordStreams;
-import stexfires.core.consumer.LoggerConsumer;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.logger.RecordLogger;
 import stexfires.core.mapper.RecordMapper;
@@ -12,6 +10,7 @@ import stexfires.core.producer.RecordProducer;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -30,11 +29,11 @@ public final class RecordFiles {
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordConsumer);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer()) {
-            producer.readBefore();
-            producer.produceStream().forEachOrdered(recordConsumer::consume);
-            producer.readAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+            RecordIOStreams.read(readableProducer, recordConsumer);
         }
+
         return recordConsumer;
     }
 
@@ -45,11 +44,11 @@ public final class RecordFiles {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(recordConsumer);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer()) {
-            producer.readBefore();
-            producer.produceStream().map(recordMapper::map).forEachOrdered(recordConsumer::consume);
-            producer.readAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+            RecordIOStreams.read(readableProducer, recordMapper, recordConsumer);
         }
+
         return recordConsumer;
     }
 
@@ -60,11 +59,11 @@ public final class RecordFiles {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(recordConsumer);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer()) {
-            producer.readBefore();
-            recordStreamModifier.modify(producer.produceStream()).forEachOrdered(recordConsumer::consume);
-            producer.readAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+            RecordIOStreams.read(readableProducer, recordStreamModifier, recordConsumer);
         }
+
         return recordConsumer;
     }
 
@@ -73,12 +72,11 @@ public final class RecordFiles {
             RecordLogger<R> recordLogger) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordLogger);
-        LoggerConsumer<R> consumer = new LoggerConsumer<>(recordLogger);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer()) {
-            producer.readBefore();
-            producer.produceStream().forEachOrdered(consumer::consume);
-            producer.readAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+            RecordIOStreams.log(readableProducer, recordLogger);
         }
+
         return recordLogger;
     }
 
@@ -88,11 +86,11 @@ public final class RecordFiles {
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordStream.forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordStream, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -104,11 +102,11 @@ public final class RecordFiles {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordStream.map(recordMapper::map).forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordStream, recordMapper, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -120,11 +118,11 @@ public final class RecordFiles {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordStreamModifier.modify(recordStream).forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordStream, recordStreamModifier, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -134,11 +132,11 @@ public final class RecordFiles {
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordProducer.produceStream().forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordProducer, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -150,11 +148,11 @@ public final class RecordFiles {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordProducer.produceStream().map(recordMapper::map).forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordProducer, recordMapper, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -166,11 +164,11 @@ public final class RecordFiles {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            recordStreamModifier.modify(recordProducer.produceStream()).forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(recordProducer, recordStreamModifier, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -180,11 +178,11 @@ public final class RecordFiles {
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(writableFile);
-        try (WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            consumer.writeBefore();
-            RecordStreams.of(record).forEachOrdered(consumer::consume);
-            consumer.writeAfter();
+
+        try (WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.write(record, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -194,13 +192,10 @@ public final class RecordFiles {
             OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(writableFile);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            producer.readBefore();
-            consumer.writeBefore();
-            producer.produceStream().forEachOrdered(consumer::consume);
-            producer.readAfter();
-            consumer.writeAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer();
+             WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.convert(readableProducer, writableConsumer);
         }
         return writableFile;
     }
@@ -213,14 +208,12 @@ public final class RecordFiles {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            producer.readBefore();
-            consumer.writeBefore();
-            producer.produceStream().map(recordMapper::map).forEachOrdered(consumer::consume);
-            producer.readAfter();
-            consumer.writeAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer();
+             WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.convert(readableProducer, recordMapper, writableConsumer);
         }
+
         return writableFile;
     }
 
@@ -232,15 +225,53 @@ public final class RecordFiles {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
-        try (ReadableRecordProducer<T> producer = readableFile.openProducer();
-             WritableRecordConsumer<R> consumer = writableFile.openConsumer(writeOptions)) {
-            producer.readBefore();
-            consumer.writeBefore();
-            recordStreamModifier.modify(producer.produceStream()).forEachOrdered(consumer::consume);
-            producer.readAfter();
-            consumer.writeAfter();
+
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer();
+             WritableRecordConsumer<R> writableConsumer = writableFile.openConsumer(writeOptions)) {
+            RecordIOStreams.convert(readableProducer, recordStreamModifier, writableConsumer);
         }
+
         return writableFile;
+    }
+
+    public static <R extends Record, T extends R> void convert(
+            Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+        Objects.requireNonNull(readableProducerSupplier);
+        Objects.requireNonNull(writableConsumerSupplier);
+
+        try (ReadableRecordProducer<T> readableProducer = readableProducerSupplier.get();
+             WritableRecordConsumer<R> writableConsumer = writableConsumerSupplier.get()) {
+            RecordIOStreams.convert(readableProducer, writableConsumer);
+        }
+    }
+
+    public static <R extends Record, T extends Record> void convert(
+            Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
+            RecordMapper<? super T, ? extends R> recordMapper,
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+        Objects.requireNonNull(readableProducerSupplier);
+        Objects.requireNonNull(recordMapper);
+        Objects.requireNonNull(writableConsumerSupplier);
+
+        try (ReadableRecordProducer<T> readableProducer = readableProducerSupplier.get();
+             WritableRecordConsumer<R> writableConsumer = writableConsumerSupplier.get()) {
+            RecordIOStreams.convert(readableProducer, recordMapper, writableConsumer);
+        }
+    }
+
+    public static <R extends Record, T extends Record> void convert(
+            Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
+            RecordStreamModifier<T, ? extends R> recordStreamModifier,
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+        Objects.requireNonNull(readableProducerSupplier);
+        Objects.requireNonNull(recordStreamModifier);
+        Objects.requireNonNull(writableConsumerSupplier);
+
+        try (ReadableRecordProducer<T> readableProducer = readableProducerSupplier.get();
+             WritableRecordConsumer<R> writableConsumer = writableConsumerSupplier.get()) {
+            RecordIOStreams.convert(readableProducer, recordStreamModifier, writableConsumer);
+        }
     }
 
 }
