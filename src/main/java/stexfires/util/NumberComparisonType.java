@@ -53,7 +53,7 @@ public enum NumberComparisonType {
             case GREATER_THAN:
                 return value > compareValue;
             case MULTIPLE_OF:
-                return value % compareValue == 0;
+                return (compareValue != 0) && (value % compareValue == 0);
             case SAME_SIGN:
                 return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
             case SAME_ABSOLUTE_VALUE:
@@ -78,7 +78,7 @@ public enum NumberComparisonType {
             case GREATER_THAN:
                 return value > compareValue;
             case MULTIPLE_OF:
-                return value % compareValue == 0;
+                return (compareValue != 0) && (value % compareValue == 0);
             case SAME_SIGN:
                 return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
             case SAME_ABSOLUTE_VALUE:
@@ -87,6 +87,7 @@ public enum NumberComparisonType {
         return false;
     }
 
+    @SuppressWarnings("ComparatorResultComparison")
     private static boolean compareBigInteger(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
@@ -105,7 +106,7 @@ public enum NumberComparisonType {
                 case GREATER_THAN:
                     return value.compareTo(compareValue) == 1;
                 case MULTIPLE_OF:
-                    return value.mod(compareValue).compareTo(BigInteger.ZERO) == 0;
+                    return (compareValue.signum() != 0) && (value.mod(compareValue).compareTo(BigInteger.ZERO) == 0);
                 case SAME_SIGN:
                     return value.signum() == compareValue.signum();
                 case SAME_ABSOLUTE_VALUE:
