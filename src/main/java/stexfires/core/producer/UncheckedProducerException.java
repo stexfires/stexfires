@@ -13,6 +13,7 @@ public class UncheckedProducerException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("NewExceptionWithoutArguments")
     public UncheckedProducerException() {
         this(new ProducerException());
     }

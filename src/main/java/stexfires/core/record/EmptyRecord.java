@@ -96,6 +96,7 @@ public final class EmptyRecord implements Record {
         return null;
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

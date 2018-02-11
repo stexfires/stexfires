@@ -9,13 +9,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 public class MapConsumer<T extends Map<String, String>> implements RecordConsumer<KeyValueRecord> {
 
     protected final Object lock = new Object();
 
     protected final T map;
 
-    @SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
     public MapConsumer(T map) {
         Objects.requireNonNull(map);
         this.map = map;
