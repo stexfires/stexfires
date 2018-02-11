@@ -55,6 +55,7 @@ public enum StringUnaryOperatorType {
         return operate(stringUnaryOperatorType, value, null);
     }
 
+    @SuppressWarnings("StringToUpperCaseOrToLowerCaseWithoutLocale")
     private static String operate(StringUnaryOperatorType stringUnaryOperatorType, String value, Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
         String result = null;

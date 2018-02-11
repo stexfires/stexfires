@@ -22,6 +22,7 @@ public enum StringComparisonType {
         return value -> compare(value, stringComparisonType, compareValue);
     }
 
+    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     private static boolean compare(String value, StringComparisonType stringComparisonType, String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
