@@ -22,11 +22,14 @@ public final class Fields {
     public static final int FIRST_FIELD_INDEX = 0;
     public static final String DEFAULT_FIELD_VALUE_DELIMITER = ", ";
 
+    @SuppressWarnings("StaticVariableOfConcreteClass")
+    private static final Field[] EMPTY_FIELD_ARRAY = new Field[0];
+
     private Fields() {
     }
 
     public static Field[] emptyArray() {
-        return new Field[0];
+        return EMPTY_FIELD_ARRAY;
     }
 
     public static Field[] newArray(Collection<String> values) {
