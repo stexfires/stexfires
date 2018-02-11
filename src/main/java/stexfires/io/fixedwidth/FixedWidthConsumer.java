@@ -89,7 +89,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<Record> {
                 startPosChars = (fieldWidth - width) + startIndex;
                 break;
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("alignment = " + alignment);
         }
 
         // fill character array with value

@@ -40,12 +40,12 @@ public class BaseRecordFile<W extends Record, R extends W, S extends RecordFileS
 
     @Override
     public ReadableRecordProducer<R> openProducer() throws IOException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("openProducer() not implemented");
     }
 
     @Override
     public WritableRecordConsumer<W> openConsumer(OpenOption... writeOptions) throws IOException {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("openConsumer() not implemented");
     }
 
     protected final InputStream newInputStream() throws IOException {

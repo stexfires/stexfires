@@ -29,12 +29,12 @@ public class CombinedWritableRecordFile<T extends Record> implements WritableRec
 
     @Override
     public Path getPath() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("getPath() not available for combined files");
     }
 
     @Override
     public final RecordFileSpec getFileSpec() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("getFileSpec() not available for combined files");
     }
 
     @Override

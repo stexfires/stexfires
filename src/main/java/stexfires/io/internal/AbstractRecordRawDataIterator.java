@@ -89,7 +89,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
     @Override
     public final RecordRawData next() {
         if (!hasNext()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("queue size = " + queue.size());
         }
         return queue.poll();
     }
