@@ -59,7 +59,7 @@ public final class PathRecords {
             DosFileAttributes fileAttributes = Files.readAttributes(path, DosFileAttributes.class);
 
             return new DosPathRecord(toPathType(fileAttributes),
-                    DosPathRecord.createDosValues(DosPathRecord.FIELD_SIZE, path, fileAttributes));
+                    DosPathRecord.createDosValues(DosPathRecord.DOS_FIELD_SIZE, path, fileAttributes));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
