@@ -151,7 +151,7 @@ public final class Records {
 
         public synchronized Builder category(String category) {
             if (valueList == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             this.category = category;
             return this;
@@ -159,7 +159,7 @@ public final class Records {
 
         public synchronized Builder recordId(Long recordId) {
             if (valueList == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             this.recordId = recordId;
             return this;
@@ -168,14 +168,14 @@ public final class Records {
         @Override
         public synchronized void accept(String value) {
             if (valueList == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             valueList.add(value);
         }
 
         public synchronized Builder add(String value) {
             if (valueList == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             valueList.add(value);
             return this;
@@ -183,7 +183,7 @@ public final class Records {
 
         public synchronized Builder addAll(Collection<String> values) {
             if (values == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             values.addAll(valueList);
             return this;
@@ -191,15 +191,19 @@ public final class Records {
 
         public synchronized Record build() {
             if (valueList == null) {
-                throw new IllegalStateException();
+                throw new IllegalStateException("build() already called");
             }
             Record record;
-            if (valueList.size() == 1) {
-                record = new SingleRecord(category, recordId, valueList.get(0));
-            } else if (valueList.size() == 2) {
-                record = new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
-            } else {
-                record = new StandardRecord(category, recordId, valueList);
+            switch (valueList.size()) {
+                case SingleRecord.FIELD_SIZE:
+                    record = new SingleRecord(category, recordId, valueList.get(0));
+                    break;
+                case PairRecord.FIELD_SIZE:
+                    record = new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
+                    break;
+                default:
+                    record = new StandardRecord(category, recordId, valueList);
+                    break;
             }
             category = null;
             recordId = null;
