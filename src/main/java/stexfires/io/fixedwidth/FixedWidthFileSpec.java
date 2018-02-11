@@ -131,6 +131,7 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                 lineSeparator);
     }
 
+    @Override
     public FixedWidthFile file(Path path) {
         return new FixedWidthFile(path, this);
     }

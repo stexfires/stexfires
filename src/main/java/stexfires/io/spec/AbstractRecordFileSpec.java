@@ -1,5 +1,6 @@
 package stexfires.io.spec;
 
+import stexfires.io.RecordFile;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -32,6 +34,8 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         this.codingErrorAction = codingErrorAction;
         this.lineSeparator = lineSeparator;
     }
+
+    public abstract RecordFile<?> file(Path path);
 
     @Override
     public final Charset getCharset() {

@@ -88,6 +88,7 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
                 beforeTable, afterTable);
     }
 
+    @Override
     public HtmlTableFile file(Path path) {
         return new HtmlTableFile(path, this);
     }

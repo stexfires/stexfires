@@ -110,6 +110,7 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
                 lineSeparator);
     }
 
+    @Override
     public SimpleDelimitedFile file(Path path) {
         return new SimpleDelimitedFile(path, this);
     }

@@ -55,6 +55,7 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
         return new ConfigFileSpec(charset, codingErrorAction, valueDelimiter, lineSeparator);
     }
 
+    @Override
     public ConfigFile file(Path path) {
         return new ConfigFile(path, this);
     }

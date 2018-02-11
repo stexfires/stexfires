@@ -101,6 +101,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                 beforeTable, afterTable);
     }
 
+    @Override
     public MarkdownTableFile file(Path path) {
         return new MarkdownTableFile(path, this);
     }

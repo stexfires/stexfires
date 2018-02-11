@@ -130,6 +130,7 @@ public final class PropertiesFileSpec extends AbstractRecordFileSpec {
                 categoryAsKeyPrefix, keyPrefixDelimiter);
     }
 
+    @Override
     public PropertiesFile file(Path path) {
         return new PropertiesFile(path, this);
     }

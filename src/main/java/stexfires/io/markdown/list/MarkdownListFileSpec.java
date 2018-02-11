@@ -82,6 +82,7 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
                 bulletPoint, skipNullValue);
     }
 
+    @Override
     public MarkdownListFile file(Path path) {
         return new MarkdownListFile(path, this);
     }

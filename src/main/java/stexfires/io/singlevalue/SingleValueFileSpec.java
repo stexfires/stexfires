@@ -103,6 +103,7 @@ public final class SingleValueFileSpec extends AbstractRecordFileSpec {
                 lineSeparator, skipNullValue);
     }
 
+    @Override
     public SingleValueFile file(Path path) {
         return new SingleValueFile(path, this);
     }
