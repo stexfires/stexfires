@@ -121,13 +121,13 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
-        SingleRecord that = (SingleRecord) o;
+        SingleRecord that = (SingleRecord) obj;
         return Objects.equals(category, that.category) &&
                 Objects.equals(recordId, that.recordId) &&
                 Objects.equals(singleField, that.singleField);

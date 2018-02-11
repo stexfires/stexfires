@@ -96,13 +96,13 @@ public class StandardRecord implements Record {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
-        StandardRecord that = (StandardRecord) o;
+        StandardRecord that = (StandardRecord) obj;
         return Objects.equals(category, that.category) &&
                 Objects.equals(recordId, that.recordId) &&
                 Arrays.equals(fields, that.fields);

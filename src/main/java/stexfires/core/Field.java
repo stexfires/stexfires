@@ -85,13 +85,13 @@ public final class Field {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
-        Field field = (Field) o;
+        Field field = (Field) obj;
         return index == field.index &&
                 last == field.last &&
                 Objects.equals(value, field.value);

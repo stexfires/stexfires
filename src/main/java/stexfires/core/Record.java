@@ -99,7 +99,7 @@ public interface Record {
     /**
      * Compare class, category, recordId and all fields.
      */
-    boolean equals(Object other);
+    boolean equals(Object obj);
 
     int hashCode();
 

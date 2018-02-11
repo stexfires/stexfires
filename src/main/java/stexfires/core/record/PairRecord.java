@@ -128,13 +128,13 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    public boolean equals(Object obj) {
+        if (this == obj)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
 
-        PairRecord that = (PairRecord) o;
+        PairRecord that = (PairRecord) obj;
         return Objects.equals(category, that.category) &&
                 Objects.equals(recordId, that.recordId) &&
                 Objects.equals(firstField, that.firstField) &&
