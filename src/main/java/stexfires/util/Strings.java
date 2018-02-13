@@ -36,24 +36,24 @@ public final class Strings {
         return EMPTY;
     }
 
-    public static List<String> list(String string) {
-        return Collections.singletonList(string);
+    public static List<String> list(String stringValue) {
+        return Collections.singletonList(stringValue);
     }
 
-    public static List<String> list(String... strings) {
-        return Arrays.stream(strings).collect(Collectors.toList());
+    public static List<String> list(String... stringValues) {
+        return Arrays.stream(stringValues).collect(Collectors.toList());
     }
 
-    public static Stream<String> stream(String string) {
-        return Stream.of(string);
+    public static Stream<String> stream(String stringValue) {
+        return Stream.of(stringValue);
     }
 
-    public static Stream<String> stream(String... strings) {
-        return Stream.of(strings);
+    public static Stream<String> stream(String... stringValues) {
+        return Stream.of(stringValues);
     }
 
-    public static Stream<String> streamOfNullable(String string) {
-        return string == null ? Stream.empty() : Stream.of(string);
+    public static Stream<String> streamOfNullable(String stringValue) {
+        return stringValue == null ? Stream.empty() : Stream.of(stringValue);
     }
 
     public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
