@@ -165,6 +165,7 @@ public final class Records {
             return this;
         }
 
+        @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
         @Override
         public synchronized void accept(String value) {
             if (valueList == null) {
