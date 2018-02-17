@@ -24,6 +24,7 @@ public class LimitedLogger<T extends Record> implements RecordLogger<T> {
 
     @Override
     public void log(T record) {
+        // get() is faster than getAndIncrement()
         if (counter.get() < limit) {
             if (counter.getAndIncrement() < limit) {
                 recordLogger.log(record);

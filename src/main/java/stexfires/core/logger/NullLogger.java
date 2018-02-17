@@ -8,6 +8,9 @@ import stexfires.core.Record;
  */
 public class NullLogger<T extends Record> implements RecordLogger<T> {
 
+    public NullLogger() {
+    }
+
     @Override
     public void log(T record) {
         // Do nothing.

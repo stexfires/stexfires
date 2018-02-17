@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 /**
  * A RecordLogger logs a {@link Record}.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
  * It should not throw a RuntimeException (like NullPointerException).
  * It is expected to operate via side-effects.
@@ -32,7 +32,7 @@ public interface RecordLogger<T extends Record> {
                                                      RecordLogger<? super T> secondRecordLogger) {
         Objects.requireNonNull(firstRecordLogger);
         Objects.requireNonNull(secondRecordLogger);
-        return (T record) -> {
+        return record -> {
             firstRecordLogger.log(record);
             secondRecordLogger.log(record);
         };
@@ -44,7 +44,7 @@ public interface RecordLogger<T extends Record> {
         Objects.requireNonNull(firstRecordLogger);
         Objects.requireNonNull(secondRecordLogger);
         Objects.requireNonNull(thirdRecordLogger);
-        return (T record) -> {
+        return record -> {
             firstRecordLogger.log(record);
             secondRecordLogger.log(record);
             thirdRecordLogger.log(record);
@@ -59,7 +59,7 @@ public interface RecordLogger<T extends Record> {
 
     default RecordLogger<T> andThen(RecordLogger<? super T> afterRecordLogger) {
         Objects.requireNonNull(afterRecordLogger);
-        return (T record) -> {
+        return record -> {
             log(record);
             afterRecordLogger.log(record);
         };
