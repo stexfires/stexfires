@@ -4,9 +4,13 @@ import stexfires.core.Record;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
+
+import static stexfires.util.StringCheckType.*;
+import static stexfires.util.StringComparisonType.EQUALS;
 
 /**
  * @author Mathias Kalb
@@ -31,15 +35,23 @@ public class CategoryFilter<T extends Record> implements RecordFilter<T> {
     }
 
     public static <T extends Record> CategoryFilter<T> equalTo(String compareCategory) {
-        return new CategoryFilter<>(StringComparisonType.EQUALS.stringPredicate(compareCategory));
+        return compare(EQUALS, compareCategory);
     }
 
-    public static <T extends Record> CategoryFilter<T> notNull() {
-        return new CategoryFilter<>(StringCheckType.NOT_NULL.stringPredicate());
+    public static <T extends Record> CategoryFilter<T> isNotNull() {
+        return check(NOT_NULL);
+    }
+
+    public static <T extends Record> CategoryFilter<T> isNull() {
+        return check(NULL);
     }
 
     public static <T extends Record> CategoryFilter<T> containedIn(Collection<String> categories) {
         return new CategoryFilter<>(categories::contains);
+    }
+
+    public static <T extends Record> CategoryFilter<T> containedIn(String... categories) {
+        return containedIn(Arrays.asList(categories));
     }
 
     @Override

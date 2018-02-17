@@ -5,10 +5,14 @@ import stexfires.core.Record;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static stexfires.util.StringCheckType.NOT_NULL;
+import static stexfires.util.StringComparisonType.EQUALS;
 
 /**
  * @author Mathias Kalb
@@ -76,24 +80,20 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
 
     public static <T extends Record> ValueFilter<T> equalTo(int index,
                                                             String compareValue) {
-        return new ValueFilter<>(index,
-                StringComparisonType.EQUALS.stringPredicate(compareValue));
+        return compare(index, EQUALS, compareValue);
     }
 
     public static <T extends Record> ValueFilter<T> equalTo(Function<? super T, Field> fieldFunction,
                                                             String compareValue) {
-        return new ValueFilter<>(fieldFunction,
-                StringComparisonType.EQUALS.stringPredicate(compareValue));
+        return compare(fieldFunction, EQUALS, compareValue);
     }
 
-    public static <T extends Record> ValueFilter<T> notNull(int index) {
-        return new ValueFilter<>(index,
-                StringCheckType.NOT_NULL.stringPredicate());
+    public static <T extends Record> ValueFilter<T> isNotNull(int index) {
+        return check(index, NOT_NULL);
     }
 
-    public static <T extends Record> ValueFilter<T> notNull(Function<? super T, Field> fieldFunction) {
-        return new ValueFilter<>(fieldFunction,
-                StringCheckType.NOT_NULL.stringPredicate());
+    public static <T extends Record> ValueFilter<T> isNotNull(Function<? super T, Field> fieldFunction) {
+        return check(fieldFunction, NOT_NULL);
     }
 
     public static <T extends Record> ValueFilter<T> containedIn(int index,
@@ -104,6 +104,16 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
     public static <T extends Record> ValueFilter<T> containedIn(Function<? super T, Field> fieldFunction,
                                                                 Collection<String> values) {
         return new ValueFilter<>(fieldFunction, values::contains);
+    }
+
+    public static <T extends Record> ValueFilter<T> containedIn(int index,
+                                                                String... values) {
+        return containedIn(index, Arrays.asList(values));
+    }
+
+    public static <T extends Record> ValueFilter<T> containedIn(Function<? super T, Field> fieldFunction,
+                                                                String... values) {
+        return containedIn(fieldFunction, Arrays.asList(values));
     }
 
     @Override

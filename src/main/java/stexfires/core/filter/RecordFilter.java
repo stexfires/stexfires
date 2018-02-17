@@ -8,8 +8,8 @@ import java.util.function.Predicate;
 /**
  * A RecordFilter is a filter (boolean-valued function) for a {@link Record}.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
- * It should be <code>immutable</code> and <code>stateless</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
+ * It should be {@code immutable} and {@code stateless}.
  * <p>
  * This is a functional interface whose functional method is {@link #isValid(Record)}.
  *
@@ -30,14 +30,14 @@ public interface RecordFilter<T extends Record> {
                                                         RecordFilter<? super T> secondRecordFilter) {
         Objects.requireNonNull(firstRecordFilter);
         Objects.requireNonNull(secondRecordFilter);
-        return (T record) -> firstRecordFilter.isValid(record) && secondRecordFilter.isValid(record);
+        return record -> firstRecordFilter.isValid(record) && secondRecordFilter.isValid(record);
     }
 
     static <T extends Record> RecordFilter<T> concatOr(RecordFilter<? super T> firstRecordFilter,
                                                        RecordFilter<? super T> secondRecordFilter) {
         Objects.requireNonNull(firstRecordFilter);
         Objects.requireNonNull(secondRecordFilter);
-        return (T record) -> firstRecordFilter.isValid(record) || secondRecordFilter.isValid(record);
+        return record -> firstRecordFilter.isValid(record) || secondRecordFilter.isValid(record);
     }
 
     boolean isValid(T record);
@@ -48,16 +48,16 @@ public interface RecordFilter<T extends Record> {
 
     default RecordFilter<T> and(RecordFilter<? super T> other) {
         Objects.requireNonNull(other);
-        return (T record) -> isValid(record) && other.isValid(record);
+        return record -> isValid(record) && other.isValid(record);
     }
 
     default RecordFilter<T> negate() {
-        return (T record) -> !isValid(record);
+        return record -> !isValid(record);
     }
 
     default RecordFilter<T> or(RecordFilter<? super T> other) {
         Objects.requireNonNull(other);
-        return (T record) -> isValid(record) || other.isValid(record);
+        return record -> isValid(record) || other.isValid(record);
     }
 
 }

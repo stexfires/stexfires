@@ -4,6 +4,7 @@ import stexfires.core.Record;
 import stexfires.util.NumberCheckType;
 import stexfires.util.NumberComparisonType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -33,11 +34,19 @@ public class SizeFilter<T extends Record> implements RecordFilter<T> {
     }
 
     public static <T extends Record> SizeFilter<T> equalTo(int compareSize) {
-        return new SizeFilter<>(EQUAL_TO.intPredicate(compareSize));
+        return compare(EQUAL_TO, compareSize);
+    }
+
+    public static <T extends Record> SizeFilter<T> isEmpty() {
+        return compare(EQUAL_TO, 0);
     }
 
     public static <T extends Record> SizeFilter<T> containedIn(Collection<Integer> sizes) {
         return new SizeFilter<>(sizes::contains);
+    }
+
+    public static <T extends Record> SizeFilter<T> containedIn(Integer... sizes) {
+        return containedIn(Arrays.asList(sizes));
     }
 
     public static <T extends Record> SizeFilter<T> between(int from, int to) {

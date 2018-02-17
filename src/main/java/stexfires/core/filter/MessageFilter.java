@@ -5,9 +5,13 @@ import stexfires.core.message.RecordMessage;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
+
+import static stexfires.util.StringCheckType.*;
+import static stexfires.util.StringComparisonType.EQUALS;
 
 /**
  * @author Mathias Kalb
@@ -41,19 +45,26 @@ public class MessageFilter<T extends Record> implements RecordFilter<T> {
 
     public static <T extends Record> MessageFilter<T> equalTo(RecordMessage<? super T> recordMessage,
                                                               String compareMessage) {
-        return new MessageFilter<>(recordMessage,
-                StringComparisonType.EQUALS.stringPredicate(compareMessage));
+        return compare(recordMessage, EQUALS, compareMessage);
     }
 
-    public static <T extends Record> MessageFilter<T> notNull(RecordMessage<? super T> recordMessage) {
-        return new MessageFilter<>(recordMessage,
-                StringCheckType.NOT_NULL.stringPredicate());
+    public static <T extends Record> MessageFilter<T> isNotNull(RecordMessage<? super T> recordMessage) {
+        return check(recordMessage, NOT_NULL);
+    }
+
+    public static <T extends Record> MessageFilter<T> isNull(RecordMessage<? super T> recordMessage) {
+        return check(recordMessage, NULL);
     }
 
     public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
                                                                   Collection<String> messages) {
         return new MessageFilter<>(recordMessage,
                 messages::contains);
+    }
+
+    public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
+                                                                  String... messages) {
+        return containedIn(recordMessage, Arrays.asList(messages));
     }
 
     @Override
