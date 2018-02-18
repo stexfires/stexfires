@@ -71,33 +71,33 @@ public final class CompareMessageBuilder {
         boolean buildValues = values;
         SortedSet<Integer> buildValueIndex = new TreeSet<>(valueIndex);
 
-        return (Record record) -> {
-            StringBuilder b = new StringBuilder();
+        return record -> {
+            StringBuilder builder = new StringBuilder();
             if (buildClassName) {
-                b.append("className[");
-                b.append(record.getClass().getName());
-                b.append("]");
+                builder.append("className[");
+                builder.append(record.getClass().getName());
+                builder.append("]");
             }
             if (buildCategory) {
-                b.append("category[");
+                builder.append("category[");
                 if (record.getCategoryOrElse(buildCategoryOther) != null) {
-                    b.append(record.getCategoryOrElse(buildCategoryOther));
+                    builder.append(record.getCategoryOrElse(buildCategoryOther));
                 }
-                b.append("]");
+                builder.append("]");
             }
             if (buildRecordId) {
-                b.append("recordId[");
-                b.append(record.getRecordId());
-                b.append("]");
+                builder.append("recordId[");
+                builder.append(record.getRecordId());
+                builder.append("]");
             }
             if (buildSize) {
-                b.append("size[");
-                b.append(record.size());
-                b.append("]");
+                builder.append("size[");
+                builder.append(record.size());
+                builder.append("]");
             }
             if (buildValues) {
-                b.append("values[");
-                b.append(record.streamOfFields().map(field -> {
+                builder.append("values[");
+                builder.append(record.streamOfFields().map(field -> {
                             if (field.valueIsNull()) {
                                 return "[" + field.getIndex() + "]";
                             } else {
@@ -105,10 +105,10 @@ public final class CompareMessageBuilder {
                             }
                         }
                 ).collect(Collectors.joining(",")));
-                b.append("]");
+                builder.append("]");
             } else if (!buildValueIndex.isEmpty()) {
-                b.append("values[");
-                b.append(buildValueIndex.stream().map(index -> {
+                builder.append("values[");
+                builder.append(buildValueIndex.stream().map(index -> {
                             if (!record.isValidIndex(index)) {
                                 return "[" + index + " i]";
                             } else {
@@ -121,9 +121,9 @@ public final class CompareMessageBuilder {
                             }
                         }
                 ).collect(Collectors.joining(",")));
-                b.append("]");
+                builder.append("]");
             }
-            return b.toString();
+            return builder.toString();
         };
     }
 

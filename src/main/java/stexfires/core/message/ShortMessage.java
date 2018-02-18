@@ -8,6 +8,9 @@ import stexfires.core.Record;
  */
 public class ShortMessage<T extends Record> implements RecordMessage<T> {
 
+    public ShortMessage() {
+    }
+
     @Override
     public String createMessage(T record) {
         return record.getClass().getSimpleName()

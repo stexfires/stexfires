@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 /**
  * A RecordMessage creates a text message from a {@link Record}.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
- * It should be <code>immutable</code> and <code>stateless</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
+ * It should be {@code immutable} and {@code stateless}.
  * <p>
  * This is a functional interface whose functional method is {@link #createMessage(Record)}.
  *
@@ -36,45 +36,45 @@ public interface RecordMessage<T extends Record> {
 
     default RecordMessage<T> prepend(String message) {
         Objects.requireNonNull(message);
-        return (T record) -> message + createMessage(record);
+        return record -> message + createMessage(record);
     }
 
     default RecordMessage<T> prepend(Supplier<String> messageSupplier) {
         Objects.requireNonNull(messageSupplier);
-        return (T record) -> messageSupplier.get() + createMessage(record);
+        return record -> messageSupplier.get() + createMessage(record);
     }
 
     default RecordMessage<T> prepend(Supplier<String> messageSupplier, String delimiter) {
         Objects.requireNonNull(messageSupplier);
         Objects.requireNonNull(delimiter);
-        return (T record) -> messageSupplier.get() + delimiter + createMessage(record);
+        return record -> messageSupplier.get() + delimiter + createMessage(record);
     }
 
     default RecordMessage<T> append(String message) {
         Objects.requireNonNull(message);
-        return (T record) -> createMessage(record) + message;
+        return record -> createMessage(record) + message;
     }
 
     default RecordMessage<T> append(Supplier<String> messageSupplier) {
         Objects.requireNonNull(messageSupplier);
-        return (T record) -> createMessage(record) + messageSupplier.get();
+        return record -> createMessage(record) + messageSupplier.get();
     }
 
     default RecordMessage<T> append(String delimiter, Supplier<String> messageSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(messageSupplier);
-        return (T record) -> createMessage(record) + delimiter + messageSupplier.get();
+        return record -> createMessage(record) + delimiter + messageSupplier.get();
     }
 
     default RecordMessage<T> append(RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordMessage);
-        return (T record) -> createMessage(record) + recordMessage.createMessage(record);
+        return record -> createMessage(record) + recordMessage.createMessage(record);
     }
 
     default RecordMessage<T> append(String delimiter, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(recordMessage);
-        return (T record) -> createMessage(record) + delimiter + recordMessage.createMessage(record);
+        return record -> createMessage(record) + delimiter + recordMessage.createMessage(record);
     }
 
 }

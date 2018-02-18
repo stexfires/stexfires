@@ -8,6 +8,9 @@ import stexfires.core.Record;
  */
 public class SizeMessage<T extends Record> implements RecordMessage<T> {
 
+    public SizeMessage() {
+    }
+
     @Override
     public String createMessage(T record) {
         return String.valueOf(record.size());

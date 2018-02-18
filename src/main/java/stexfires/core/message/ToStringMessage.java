@@ -8,6 +8,9 @@ import stexfires.core.Record;
  */
 public class ToStringMessage<T extends Record> implements RecordMessage<T> {
 
+    public ToStringMessage() {
+    }
+
     @Override
     public String createMessage(T record) {
         return record.toString();

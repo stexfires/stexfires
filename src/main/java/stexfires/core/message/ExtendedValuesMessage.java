@@ -27,25 +27,25 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
 
     @Override
     public String createMessage(T record) {
-        StringBuilder b = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
         for (Field field : record.listOfFields()) {
             if (prefixFirstValue != null && field.isFirst()) {
-                b.append(prefixFirstValue);
+                builder.append(prefixFirstValue);
             } else if (prefix != null && !field.isFirst()) {
-                b.append(prefix);
+                builder.append(prefix);
             }
             if (!field.valueIsNull()) {
-                b.append(field.getValue());
+                builder.append(field.getValue());
             }
             if (postfixLastValue != null && field.isLast()) {
-                b.append(postfixLastValue);
+                builder.append(postfixLastValue);
             } else if (postfix != null && !field.isLast()) {
-                b.append(postfix);
+                builder.append(postfix);
             }
         }
 
-        return b.toString();
+        return builder.toString();
     }
 
 }
