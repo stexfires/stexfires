@@ -20,17 +20,17 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     protected final Object lock = new Object();
 
     protected final BiPredicate<Integer, ? super T> predicate;
-    protected final List<RecordLogger<? super T>> recordLoggers;
+    protected final List<? extends RecordLogger<? super T>> recordLoggers;
 
     public DispatcherLogger(BiPredicate<Integer, ? super T> predicate,
-                            List<RecordLogger<? super T>> recordLoggers) {
+                            List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(predicate);
         Objects.requireNonNull(recordLoggers);
         this.predicate = predicate;
         this.recordLoggers = new ArrayList<>(recordLoggers);
     }
 
-    public static <T extends Record> DispatcherLogger<T> all(List<RecordLogger<? super T>> recordLoggers) {
+    public static <T extends Record> DispatcherLogger<T> all(List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
                 true;
@@ -38,7 +38,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byRecord(Function<? super T, Integer> recordIndexFunction,
-                                                                  List<RecordLogger<? super T>> recordLoggers) {
+                                                                  List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordIndexFunction);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -47,7 +47,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byCategory(Function<String, Integer> categoryIndexFunction,
-                                                                    List<RecordLogger<? super T>> recordLoggers) {
+                                                                    List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -56,7 +56,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byRecordId(Function<Long, Integer> recordIdIndexFunction,
-                                                                    List<RecordLogger<? super T>> recordLoggers) {
+                                                                    List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordIdIndexFunction);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -64,7 +64,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 
-    public static <T extends Record> DispatcherLogger<T> bySize(List<RecordLogger<? super T>> recordLoggers) {
+    public static <T extends Record> DispatcherLogger<T> bySize(List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
                 record.size() == index;
@@ -72,7 +72,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byIndexPredicate(IntPredicate indexPredicate,
-                                                                          List<RecordLogger<? super T>> recordLoggers) {
+                                                                          List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(indexPredicate);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -81,7 +81,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byIndexSupplier(Supplier<Integer> indexSupplier,
-                                                                         List<RecordLogger<? super T>> recordLoggers) {
+                                                                         List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -90,7 +90,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     public static <T extends Record> DispatcherLogger<T> byBooleanSupplier(Supplier<Boolean> booleanSupplier,
-                                                                           List<RecordLogger<? super T>> recordLoggers) {
+                                                                           List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(booleanSupplier);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -98,8 +98,8 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 
-    public static <T extends Record> DispatcherLogger<T> byFilters(List<RecordFilter<? super T>> recordFilters,
-                                                                   List<RecordLogger<? super T>> recordLoggers) {
+    public static <T extends Record> DispatcherLogger<T> byFilters(List<? extends RecordFilter<? super T>> recordFilters,
+                                                                   List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordFilters);
         Objects.requireNonNull(recordLoggers);
         List<RecordFilter<? super T>> localFilters = new ArrayList<>(recordFilters);

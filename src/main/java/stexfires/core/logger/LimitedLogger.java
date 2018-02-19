@@ -32,4 +32,8 @@ public class LimitedLogger<T extends Record> implements RecordLogger<T> {
         }
     }
 
+    public int getLimit() {
+        return limit;
+    }
+
 }

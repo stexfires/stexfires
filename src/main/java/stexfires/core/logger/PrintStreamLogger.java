@@ -44,4 +44,8 @@ public class PrintStreamLogger<T extends Record> implements RecordLogger<T> {
         }
     }
 
+    public PrintStream getPrintStream() {
+        return printStream;
+    }
+
 }
