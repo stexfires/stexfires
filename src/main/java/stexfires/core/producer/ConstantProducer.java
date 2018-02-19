@@ -2,6 +2,8 @@ package stexfires.core.producer;
 
 import stexfires.core.Record;
 import stexfires.core.Records;
+import stexfires.core.record.EmptyRecord;
+import stexfires.core.record.KeyValueRecord;
 import stexfires.core.record.PairRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
@@ -14,49 +16,13 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConstantProducer implements RecordProducer<Record> {
+public class ConstantProducer<T extends Record> implements RecordProducer<T> {
 
-    protected final int streamSize;
-    protected final Record constantRecord;
+    protected final long streamSize;
+    protected final T constantRecord;
 
-    public ConstantProducer(int streamSize) {
-        this(streamSize, Records.empty());
-    }
-
-    public ConstantProducer(int streamSize, String value) {
-        this(streamSize, new SingleRecord(value));
-    }
-
-    public ConstantProducer(String category, int streamSize, String value) {
-        this(streamSize, new SingleRecord(category, null, value));
-    }
-
-    public ConstantProducer(int streamSize, String firstValue, String secondValue) {
-        this(streamSize, new PairRecord(firstValue, secondValue));
-    }
-
-    public ConstantProducer(String category, int streamSize, String firstValue, String secondValue) {
-        this(streamSize, new PairRecord(category, null, firstValue, secondValue));
-    }
-
-    public ConstantProducer(int streamSize, Collection<String> values) {
-        this(streamSize, new StandardRecord(values));
-    }
-
-    public ConstantProducer(String category, int streamSize, Collection<String> values) {
-        this(streamSize, new StandardRecord(category, null, values));
-    }
-
-    public ConstantProducer(int streamSize, String... values) {
-        this(streamSize, new StandardRecord(values));
-    }
-
-    public ConstantProducer(String category, int streamSize, String... values) {
-        this(streamSize, new StandardRecord(category, null, values));
-    }
-
-    public ConstantProducer(int streamSize, Record constantRecord) {
-        if (streamSize < 0) {
+    public ConstantProducer(long streamSize, T constantRecord) {
+        if (streamSize < 0L) {
             throw new IllegalArgumentException("Illegal streamSize! streamSize=" + streamSize);
         }
         Objects.requireNonNull(constantRecord);
@@ -64,8 +30,32 @@ public class ConstantProducer implements RecordProducer<Record> {
         this.constantRecord = constantRecord;
     }
 
+    public static ConstantProducer<EmptyRecord> emptyRecords(long streamSize) {
+        return new ConstantProducer<>(streamSize, Records.empty());
+    }
+
+    public static ConstantProducer<SingleRecord> singleRecords(long streamSize, String value) {
+        return new ConstantProducer<>(streamSize, new SingleRecord(value));
+    }
+
+    public static ConstantProducer<PairRecord> pairRecords(long streamSize, String firstValue, String secondValue) {
+        return new ConstantProducer<>(streamSize, new PairRecord(firstValue, secondValue));
+    }
+
+    public static ConstantProducer<KeyValueRecord> keyValueRecords(long streamSize, String key, String value) {
+        return new ConstantProducer<>(streamSize, new KeyValueRecord(key, value));
+    }
+
+    public static ConstantProducer<StandardRecord> standardRecords(long streamSize, Collection<String> values) {
+        return new ConstantProducer<>(streamSize, new StandardRecord(values));
+    }
+
+    public static ConstantProducer<StandardRecord> standardRecords(long streamSize, String... values) {
+        return new ConstantProducer<>(streamSize, new StandardRecord(values));
+    }
+
     @Override
-    public Stream<Record> produceStream() {
+    public Stream<T> produceStream() {
         return Stream.generate(() -> constantRecord).limit(streamSize);
     }
 

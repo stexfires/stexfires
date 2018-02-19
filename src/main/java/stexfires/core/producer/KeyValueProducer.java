@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,29 +20,30 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
 
     protected final List<KeyValueRecord> records;
 
-    public KeyValueProducer(Map<?, ?> keyValueMap) {
-        this(null, Records.recordIdSequence(), keyValueMap);
+    public <K, V> KeyValueProducer(Map<K, V> keyValueMap) {
+        this(null, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public KeyValueProducer(String category, Map<?, ?> keyValueMap) {
-        this(category, Records.recordIdSequence(), keyValueMap);
+    public <K, V> KeyValueProducer(String category, Map<K, V> keyValueMap) {
+        this(category, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public KeyValueProducer(String category, LongSupplier recordIdSupplier, Map<?, ?> keyValueMap) {
-        this(category, recordIdSupplier::getAsLong, keyValueMap, Strings::asString);
+    public <K, V> KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap) {
+        this(category, recordIdSupplier, keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<?, ?> keyValueMap) {
-        this(category, recordIdSupplier, keyValueMap, Strings::asString);
-    }
-
-    public KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<?, ?> keyValueMap, Function<Object, String> toStringFunction) {
+    public <K, V> KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap,
+                                   Function<? super K, String> keyToStringFunction,
+                                   Function<? super V, String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(keyValueMap);
+        Objects.requireNonNull(keyToStringFunction);
+        Objects.requireNonNull(valueToStringFunction);
         records = keyValueMap.entrySet()
                              .stream()
                              .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(),
-                                     toStringFunction.apply(entry.getKey()), toStringFunction.apply(entry.getValue())))
+                                     keyToStringFunction.apply(entry.getKey()),
+                                     valueToStringFunction.apply(entry.getValue())))
                              .collect(Collectors.toList());
     }
 
