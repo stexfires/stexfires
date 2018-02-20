@@ -127,10 +127,10 @@ public class SingleRecord implements ValueRecord {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        SingleRecord that = (SingleRecord) obj;
-        return Objects.equals(category, that.category) &&
-                Objects.equals(recordId, that.recordId) &&
-                Objects.equals(singleField, that.singleField);
+        SingleRecord record = (SingleRecord) obj;
+        return Objects.equals(category, record.category) &&
+                Objects.equals(recordId, record.recordId) &&
+                Objects.equals(singleField, record.singleField);
     }
 
     @Override

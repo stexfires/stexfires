@@ -134,11 +134,11 @@ public class PairRecord implements Record {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        PairRecord that = (PairRecord) obj;
-        return Objects.equals(category, that.category) &&
-                Objects.equals(recordId, that.recordId) &&
-                Objects.equals(firstField, that.firstField) &&
-                Objects.equals(secondField, that.secondField);
+        PairRecord record = (PairRecord) obj;
+        return Objects.equals(category, record.category) &&
+                Objects.equals(recordId, record.recordId) &&
+                Objects.equals(firstField, record.firstField) &&
+                Objects.equals(secondField, record.secondField);
     }
 
     @Override

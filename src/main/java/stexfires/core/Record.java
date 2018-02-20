@@ -99,10 +99,13 @@ public interface Record {
     /**
      * Compare class, category, recordId and all fields.
      */
+    @Override
     boolean equals(Object obj);
 
+    @Override
     int hashCode();
 
+    @Override
     String toString();
 
 }

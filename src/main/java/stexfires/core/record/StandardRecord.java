@@ -102,10 +102,10 @@ public class StandardRecord implements Record {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        StandardRecord that = (StandardRecord) obj;
-        return Objects.equals(category, that.category) &&
-                Objects.equals(recordId, that.recordId) &&
-                Arrays.equals(fields, that.fields);
+        StandardRecord record = (StandardRecord) obj;
+        return Objects.equals(category, record.category) &&
+                Objects.equals(recordId, record.recordId) &&
+                Arrays.equals(fields, record.fields);
     }
 
     @Override
