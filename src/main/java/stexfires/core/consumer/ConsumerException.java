@@ -25,15 +25,15 @@ public class ConsumerException extends Exception {
     }
 
     protected static String createMessage(String message, Record record) {
-        StringBuilder b = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if (message != null) {
-            b.append(message);
+            builder.append(message);
         } else {
-            b.append(DEFAULT_MESSAGE);
+            builder.append(DEFAULT_MESSAGE);
         }
-        b.append(MESSAGE_SEPARATOR);
-        b.append(record);
-        return b.toString();
+        builder.append(MESSAGE_SEPARATOR);
+        builder.append(record);
+        return builder.toString();
     }
 
 }

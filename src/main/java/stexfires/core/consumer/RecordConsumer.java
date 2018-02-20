@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 /**
  * A RecordConsumer consumes a {@link Record}.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
  * It is expected to operate via side-effects.
  * <p>
@@ -32,7 +32,7 @@ public interface RecordConsumer<T extends Record> {
                                                        RecordConsumer<? super T> secondRecordConsumer) {
         Objects.requireNonNull(firstRecordConsumer);
         Objects.requireNonNull(secondRecordConsumer);
-        return (T record) -> {
+        return record -> {
             firstRecordConsumer.consume(record);
             secondRecordConsumer.consume(record);
         };
@@ -44,7 +44,7 @@ public interface RecordConsumer<T extends Record> {
         Objects.requireNonNull(firstRecordConsumer);
         Objects.requireNonNull(secondRecordConsumer);
         Objects.requireNonNull(thirdRecordConsumer);
-        return (T record) -> {
+        return record -> {
             firstRecordConsumer.consume(record);
             secondRecordConsumer.consume(record);
             thirdRecordConsumer.consume(record);
@@ -57,11 +57,11 @@ public interface RecordConsumer<T extends Record> {
         return this::consume;
     }
 
-    default RecordConsumer<T> andThen(RecordConsumer<? super T> after) {
-        Objects.requireNonNull(after);
-        return (T record) -> {
+    default RecordConsumer<T> andThen(RecordConsumer<? super T> afterRecordConsumer) {
+        Objects.requireNonNull(afterRecordConsumer);
+        return record -> {
             consume(record);
-            after.consume(record);
+            afterRecordConsumer.consume(record);
         };
     }
 

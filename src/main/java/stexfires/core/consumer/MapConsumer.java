@@ -10,25 +10,25 @@ import java.util.Objects;
  * @since 0.1
  */
 @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
-public class MapConsumer<T extends Map<String, String>> implements RecordConsumer<KeyValueRecord> {
+public class MapConsumer<T extends KeyValueRecord, R extends Map<String, String>> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 
-    protected final T map;
+    protected final R map;
 
-    public MapConsumer(T map) {
+    public MapConsumer(R map) {
         Objects.requireNonNull(map);
         this.map = map;
     }
 
     @Override
-    public void consume(KeyValueRecord record) throws UncheckedConsumerException {
+    public void consume(T record) throws UncheckedConsumerException {
         synchronized (lock) {
             map.put(record.getValueOfKeyField(), record.getValueOfValueField());
         }
     }
 
-    public T getMap() {
+    public R getMap() {
         return map;
     }
 
