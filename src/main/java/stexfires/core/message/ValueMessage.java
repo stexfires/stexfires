@@ -26,6 +26,11 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     public ValueMessage(int index,
+                        String nullFieldMessage) {
+        this(record -> record.getFieldAt(index), nullFieldMessage, Field::getValue);
+    }
+
+    public ValueMessage(int index,
                         String nullFieldMessage,
                         FieldValueMapper fieldValueMapper) {
         this(record -> record.getFieldAt(index), nullFieldMessage, fieldValueMapper);
@@ -33,6 +38,11 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
 
     public ValueMessage(Function<? super T, Field> fieldFunction) {
         this(fieldFunction, DEFAULT_NULL_FIELD_MESSAGE, Field::getValue);
+    }
+
+    public ValueMessage(Function<? super T, Field> fieldFunction,
+                        String nullFieldMessage) {
+        this(fieldFunction, nullFieldMessage, Field::getValue);
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction,
@@ -45,9 +55,17 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
         this.fieldValueMapper = fieldValueMapper;
     }
 
+    public static <T extends KeyRecord> ValueMessage<T> key() {
+        return new ValueMessage<>(KeyRecord::getKeyField, DEFAULT_NULL_FIELD_MESSAGE, Field::getValue);
+    }
+
     public static <T extends KeyRecord> ValueMessage<T> keyField(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);
         return new ValueMessage<>(KeyRecord::getKeyField, DEFAULT_NULL_FIELD_MESSAGE, fieldValueMapper);
+    }
+
+    public static <T extends ValueRecord> ValueMessage<T> value() {
+        return new ValueMessage<>(ValueRecord::getValueField, DEFAULT_NULL_FIELD_MESSAGE, Field::getValue);
     }
 
     public static <T extends ValueRecord> ValueMessage<T> valueField(FieldValueMapper fieldValueMapper) {
