@@ -30,12 +30,20 @@ public class StandardRecord implements Record {
         this(null, null, Fields.newArray(values));
     }
 
+    public StandardRecord(String category, Collection<String> values) {
+        this(category, null, Fields.newArray(values));
+    }
+
     public StandardRecord(String category, Long recordId, Collection<String> values) {
         this(category, recordId, Fields.newArray(values));
     }
 
     public StandardRecord(Stream<String> values) {
         this(null, null, Fields.newArray(values));
+    }
+
+    public StandardRecord(String category, Stream<String> values) {
+        this(category, null, Fields.newArray(values));
     }
 
     public StandardRecord(String category, Long recordId, Stream<String> values) {
