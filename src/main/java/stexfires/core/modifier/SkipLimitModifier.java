@@ -10,10 +10,11 @@ import java.util.stream.Stream;
  */
 public class SkipLimitModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected static final long NO_SKIP = -1;
-    protected static final long NO_LIMIT = -1;
-    protected static final long MIN_SKIP = 1;
-    protected static final long MIN_LIMIT = 0;
+    public static final long NO_SKIP = -1L;
+    public static final long NO_LIMIT = -1L;
+
+    protected static final long MIN_SKIP = 1L;
+    protected static final long MIN_LIMIT = 0L;
 
     protected final long skipFirst;
     protected final long limitMaxSize;

@@ -7,15 +7,17 @@ import stexfires.core.record.KeyRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
 import stexfires.core.record.ValueRecord;
+import stexfires.util.NumberCheckType;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,22 +29,22 @@ import java.util.stream.Stream;
  */
 public class GroupModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
 
-    protected final Function<? super T, ?> groupByClassifier;
+    protected final Function<? super T, ?> groupByFunction;
     protected final Predicate<List<? super T>> havingPredicate;
     protected final Function<List<T>, ? extends R> aggregateFunction;
 
-    public GroupModifier(Function<? super T, ?> groupByClassifier,
+    public GroupModifier(Function<? super T, ?> groupByFunction,
                          Function<List<T>, ? extends R> aggregateFunction) {
-        this(groupByClassifier, list -> true, aggregateFunction);
+        this(groupByFunction, list -> true, aggregateFunction);
     }
 
-    public GroupModifier(Function<? super T, ?> groupByClassifier,
+    public GroupModifier(Function<? super T, ?> groupByFunction,
                          Predicate<List<? super T>> havingPredicate,
                          Function<List<T>, ? extends R> aggregateFunction) {
-        Objects.requireNonNull(groupByClassifier);
+        Objects.requireNonNull(groupByFunction);
         Objects.requireNonNull(havingPredicate);
         Objects.requireNonNull(aggregateFunction);
-        this.groupByClassifier = groupByClassifier;
+        this.groupByFunction = groupByFunction;
         this.havingPredicate = havingPredicate;
         this.aggregateFunction = aggregateFunction;
     }
@@ -63,13 +65,22 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         return ValueRecord::getValueOfValueField;
     }
 
-    public static <T extends Record> Function<? super T, String> groupByValue(int index) {
+    public static <T extends Record> Function<? super T, String> groupByValueAt(int index) {
         return r -> r.getValueAt(index);
     }
 
     public static <T extends Record> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
         Objects.requireNonNull(sizePredicate);
         return list -> sizePredicate.test(list.size());
+    }
+
+    public static <T extends Record> Predicate<List<? super T>> havingSize(NumberCheckType numberCheckType) {
+        Objects.requireNonNull(numberCheckType);
+        return list -> numberCheckType.check(list.size());
+    }
+
+    public static <T extends Record> Predicate<List<? super T>> havingSizeEqualTo(int size) {
+        return list -> list.size() == size;
     }
 
     public static <T extends Record> Predicate<List<? super T>> havingSizeGreaterThan(int size) {
@@ -80,7 +91,8 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                                                                                      Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valueFunction);
-        return list -> new SingleRecord(categoryFunction.apply(list), null, valueFunction.apply(list));
+        return list -> new SingleRecord(categoryFunction.apply(list), null,
+                valueFunction.apply(list));
     }
 
     public static <T extends Record> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
@@ -92,7 +104,8 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                                                                                  Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valuesFunction);
-        return list -> new StandardRecord(categoryFunction.apply(list), null, valuesFunction.apply(list));
+        return list -> new StandardRecord(categoryFunction.apply(list), null,
+                valuesFunction.apply(list));
     }
 
     public static <T extends Record> Function<List<T>, Record> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
@@ -100,169 +113,64 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         return list -> new StandardRecord(valuesFunction.apply(list));
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> maxValuesFunction(String nullValue) {
+    public static <T extends Record> Function<List<T>, Record> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
+        Objects.requireNonNull(valuesMessage);
+        return list -> new StandardRecord(list.stream()
+                                              .map(valuesMessage.asFunction())
+                                              .collect(Collectors.toList()));
+    }
+
+    public static <T extends Record> Function<List<T>, Record> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
+                                                                                            RecordMessage<? super T> valuesMessage) {
+        Objects.requireNonNull(categoryMessage);
+        Objects.requireNonNull(valuesMessage);
+        return list -> new StandardRecord(categoryMessage.createMessage(list.get(0)), null,
+                list.stream()
+                    .map(valuesMessage.asFunction())
+                    .collect(Collectors.toList()));
+    }
+
+    public static <T extends Record> Function<List<T>, String> categoryOfFirstElement() {
+        return list -> list.get(0).getCategory();
+    }
+
+    public static <T extends Record> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordMessage);
+        return list -> recordMessage.createMessage(list.get(0));
+    }
+
+    public static <T extends Record> Function<List<T>, List<String>> collectValues(Collector<String, ?, Optional<String>> valueCollector,
+                                                                                   String nullValue) {
         return list -> list.stream()
                            .map(Record::streamOfFields)
                            .flatMap(Function.identity())
                            .collect(Collectors.collectingAndThen(
-                                   Collectors.groupingBy(Field::getIndex, TreeMap::new,
-                                           Collectors.mapping(Field::getValue,
-                                                   Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())))),
-                                   map -> map.values().stream()
+                                   Collectors.groupingBy(
+                                           Field::getIndex,
+                                           TreeMap::new,
+                                           Collectors.mapping(
+                                                   Field::getValue,
+                                                   valueCollector)),
+                                   map -> map.values()
+                                             .stream()
                                              .map(o -> o.orElse(nullValue))
                                              .collect(Collectors.toList())));
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
-                                                                    int maxRecordsPerGroup,
-                                                                    String nullValue,
-                                                                    Integer... valueIndexes) {
-        return pivot(keyIndex, maxRecordsPerGroup, nullValue, Arrays.asList(valueIndexes));
+    public static <T extends Record> Function<List<T>, List<String>> maxValuesNullsFirst(String nullValue) {
+        return collectValues(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
+                nullValue);
     }
 
-    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
-                                                                    int maxRecordsPerGroup,
-                                                                    String nullValue,
-                                                                    List<Integer> valueIndexes) {
-        if (maxRecordsPerGroup < 0) {
-            throw new IllegalArgumentException("maxRecordsPerGroup=" + maxRecordsPerGroup);
-        }
-        Objects.requireNonNull(valueIndexes);
-        int newRecordSize = 1 + maxRecordsPerGroup * valueIndexes.size();
-        return new GroupModifier<>(r -> r.getValueAt(keyIndex), GroupModifier.aggregateToValues(
-                GroupModifier.pivotValuesFunction(
-                        r -> Stream.of(r.getValueAt(keyIndex)),
-                        newRecordSize,
-                        nullValue,
-                        valueIndexes)));
-    }
-
-    public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunction(
-            Function<T, Stream<String>> newValuesOfFirstRecord,
-            int newRecordSize,
-            String nullValue,
-            List<Integer> valueIndexes) {
-        Objects.requireNonNull(newValuesOfFirstRecord);
-        if (newRecordSize < 0) {
-            throw new IllegalArgumentException("newRecordSize=" + newRecordSize);
-        }
-        Objects.requireNonNull(valueIndexes);
-        return list ->
-                Stream.concat(
-                        Stream.concat(
-                                newValuesOfFirstRecord.apply(list.get(0)),
-                                list.stream()
-                                    .map(r -> valueIndexes.stream().map(i -> r.getValueAtOrElse(i, nullValue)))
-                                    .flatMap(Function.identity())),
-                        Stream.generate(() -> nullValue))
-                      .limit(newRecordSize)
-                      .collect(Collectors.toList());
-    }
-
-    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
-                                                                    int valueIndex,
-                                                                    String nullValue,
-                                                                    int valueClassIndex,
-                                                                    String... valueClasses) {
-        return pivot(
-                keyIndex,
-                valueIndex,
-                nullValue,
-                valueClassIndex,
-                Arrays.asList(valueClasses)
-        );
-    }
-
-    public static <T extends Record> GroupModifier<T, Record> pivot(int keyIndex,
-                                                                    int valueIndex,
-                                                                    String nullValue,
-                                                                    int valueClassIndex,
-                                                                    List<String> valueClasses) {
-        Objects.requireNonNull(valueClasses);
-        return pivot(
-                r -> r.getValueAt(keyIndex),
-                r -> r.getValueAt(valueIndex),
-                nullValue,
-                r -> r.getValueAt(valueClassIndex),
-                valueClasses
-        );
-    }
-
-    public static <T extends Record> GroupModifier<T, Record> pivot(Function<T, String> key,
-                                                                    Function<T, String> newValue,
-                                                                    String nullValue,
-                                                                    Function<T, String> valueClass,
-                                                                    List<String> valueClasses) {
-        Objects.requireNonNull(key);
-        Objects.requireNonNull(newValue);
-        Objects.requireNonNull(valueClass);
-        Objects.requireNonNull(valueClasses);
-        return pivot(
-                key,
-                r -> null,
-                r -> Stream.of(key.apply(r)),
-                newValue,
-                nullValue,
-                valueClass,
-                valueClasses
-        );
-    }
-
-    public static <T extends Record> GroupModifier<T, Record> pivot(Function<T, String> groupByClassifier,
-                                                                    Function<T, String> newCategoryOfFirstRecord,
-                                                                    Function<T, Stream<String>> newValuesOfFirstRecord,
-                                                                    Function<T, String> newValue,
-                                                                    String nullValue,
-                                                                    Function<T, String> valueClass,
-                                                                    List<String> valueClasses) {
-        Objects.requireNonNull(groupByClassifier);
-        Objects.requireNonNull(newCategoryOfFirstRecord);
-        Objects.requireNonNull(newValuesOfFirstRecord);
-        Objects.requireNonNull(newValue);
-        Objects.requireNonNull(valueClass);
-        Objects.requireNonNull(valueClasses);
-        return new GroupModifier<>(
-                groupByClassifier,
-                GroupModifier.aggregateToValues(
-                        list -> newCategoryOfFirstRecord.apply(list.get(0)),
-                        GroupModifier.pivotValuesFunction(
-                                newValuesOfFirstRecord,
-                                newValue,
-                                nullValue,
-                                valueClass,
-                                valueClasses
-                        )));
-    }
-
-    public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunction(
-            Function<T, Stream<String>> newValuesOfFirstRecord,
-            Function<T, String> newValue,
-            String nullValue,
-            Function<T, String> valueClass,
-            List<String> valueClasses) {
-        Objects.requireNonNull(newValuesOfFirstRecord);
-        Objects.requireNonNull(newValue);
-        Objects.requireNonNull(valueClass);
-        Objects.requireNonNull(valueClasses);
-        Function<List<T>, Stream<String>> newKeys = list ->
-                newValuesOfFirstRecord.apply(list.get(0));
-        Function<List<T>, Stream<String>> newValues = list ->
-                valueClasses.stream()
-                            .map(vc ->
-                                    list.stream()
-                                        .filter(r -> Objects.equals(vc, valueClass.apply(r)))
-                                        .map(newValue)
-                                        .map(v -> v == null ? nullValue : v)
-                                        .findFirst()
-                                        .orElse(nullValue));
-        return list -> Stream.concat(newKeys.apply(list), newValues.apply(list))
-                             .collect(Collectors.toList());
+    public static <T extends Record> Function<List<T>, List<String>> minValuesNullsLast(String nullValue) {
+        return collectValues(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
+                nullValue);
     }
 
     @Override
     public Stream<R> modify(Stream<T> recordStream) {
         return recordStream
-                .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByClassifier), r -> r.values().stream()))
+                .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByFunction), r -> r.values().stream()))
                 .filter(havingPredicate)
                 .map(aggregateFunction);
     }

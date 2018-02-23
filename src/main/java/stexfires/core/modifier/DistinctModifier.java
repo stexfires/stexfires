@@ -60,8 +60,8 @@ public class DistinctModifier<T extends Record> implements RecordStreamModifier<
             if (obj == null || getClass() != obj.getClass())
                 return false;
 
-            DistinctRecordWrapper<?> that = (DistinctRecordWrapper<?>) obj;
-            return Objects.equals(equalsString, that.equalsString);
+            DistinctRecordWrapper<?> wrapper = (DistinctRecordWrapper<?>) obj;
+            return Objects.equals(equalsString, wrapper.equalsString);
         }
 
         @Override

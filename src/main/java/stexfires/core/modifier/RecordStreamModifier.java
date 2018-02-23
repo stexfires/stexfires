@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 /**
  * A RecordStreamModifier modifies a {@link Stream} of Records.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
- * It should be <code>immutable</code> and <code>stateless</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
+ * It should be {@code immutable} and {@code stateless}.
  * <p>
  * It uses the following intermediate operations to modify the stream: map, peek, skip, limit, distinct, filter, sorted, parallel, sequential, unordered
  * <p>
@@ -33,7 +33,7 @@ public interface RecordStreamModifier<T extends Record, R extends Record> {
                                                                                                     RecordStreamModifier<V, R> secondRecordStreamModifier) {
         Objects.requireNonNull(firstRecordStreamModifier);
         Objects.requireNonNull(secondRecordStreamModifier);
-        return (Stream<T> recordStream) -> secondRecordStreamModifier.modify(firstRecordStreamModifier.modify(recordStream));
+        return recordStream -> secondRecordStreamModifier.modify(firstRecordStreamModifier.modify(recordStream));
     }
 
     Stream<R> modify(Stream<T> recordStream);
@@ -44,7 +44,7 @@ public interface RecordStreamModifier<T extends Record, R extends Record> {
 
     default <V extends Record> RecordStreamModifier<T, V> andThen(RecordStreamModifier<R, V> after) {
         Objects.requireNonNull(after);
-        return (Stream<T> recordStream) -> after.modify(modify(recordStream));
+        return recordStream -> after.modify(modify(recordStream));
     }
 
 }

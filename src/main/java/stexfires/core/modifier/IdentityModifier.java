@@ -10,6 +10,9 @@ import java.util.stream.Stream;
  */
 public class IdentityModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
+    public IdentityModifier() {
+    }
+
     @Override
     public Stream<T> modify(Stream<T> recordStream) {
         return recordStream;

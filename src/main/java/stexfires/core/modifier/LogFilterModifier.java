@@ -37,7 +37,7 @@ public class LogFilterModifier<T extends Record> implements RecordStreamModifier
     }
 
     protected Consumer<T> logRecord() {
-        return (T record) -> {
+        return record -> {
             if (recordFilter.isValid(record)) {
                 validLogger.log(record);
             } else {
