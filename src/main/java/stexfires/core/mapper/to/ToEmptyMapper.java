@@ -11,6 +11,9 @@ import stexfires.core.record.EmptyRecord;
  */
 public class ToEmptyMapper<T extends Record> implements RecordMapper<T, EmptyRecord> {
 
+    public ToEmptyMapper() {
+    }
+
     @Override
     public EmptyRecord map(T record) {
         return Records.empty();
