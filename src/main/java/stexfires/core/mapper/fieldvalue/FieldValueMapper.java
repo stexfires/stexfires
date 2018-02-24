@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 /**
  * A FieldValueMapper maps a {@link Field} to a new field value.
  * <p>
- * It must be <code>thread-safe</code> and <code>non-interfering</code>.
- * It should be <code>immutable</code> and <code>stateless</code>.
+ * It must be {@code thread-safe} and {@code non-interfering}.
+ * It should be {@code immutable} and {@code stateless}.
  * <p>
  * This is a functional interface whose functional method is {@link #mapToValue(Field)}.
  *
@@ -35,45 +35,45 @@ public interface FieldValueMapper {
 
     default FieldValueMapper prepend(String value) {
         Objects.requireNonNull(value);
-        return (Field field) -> value + mapToValue(field);
+        return field -> value + mapToValue(field);
     }
 
     default FieldValueMapper prepend(Supplier<String> valueSupplier) {
         Objects.requireNonNull(valueSupplier);
-        return (Field field) -> valueSupplier.get() + mapToValue(field);
+        return field -> valueSupplier.get() + mapToValue(field);
     }
 
     default FieldValueMapper prepend(Supplier<String> valueSupplier, String delimiter) {
         Objects.requireNonNull(valueSupplier);
         Objects.requireNonNull(delimiter);
-        return (Field field) -> valueSupplier.get() + delimiter + mapToValue(field);
+        return field -> valueSupplier.get() + delimiter + mapToValue(field);
     }
 
     default FieldValueMapper append(String value) {
         Objects.requireNonNull(value);
-        return (Field field) -> mapToValue(field) + value;
+        return field -> mapToValue(field) + value;
     }
 
     default FieldValueMapper append(Supplier<String> valueSupplier) {
         Objects.requireNonNull(valueSupplier);
-        return (Field field) -> mapToValue(field) + valueSupplier.get();
+        return field -> mapToValue(field) + valueSupplier.get();
     }
 
     default FieldValueMapper append(String delimiter, Supplier<String> valueSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(valueSupplier);
-        return (Field field) -> mapToValue(field) + delimiter + valueSupplier.get();
+        return field -> mapToValue(field) + delimiter + valueSupplier.get();
     }
 
     default FieldValueMapper append(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);
-        return (Field field) -> mapToValue(field) + fieldValueMapper.mapToValue(field);
+        return field -> mapToValue(field) + fieldValueMapper.mapToValue(field);
     }
 
     default FieldValueMapper append(String delimiter, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(fieldValueMapper);
-        return (Field field) -> mapToValue(field) + delimiter + fieldValueMapper.mapToValue(field);
+        return field -> mapToValue(field) + delimiter + fieldValueMapper.mapToValue(field);
     }
 
 }

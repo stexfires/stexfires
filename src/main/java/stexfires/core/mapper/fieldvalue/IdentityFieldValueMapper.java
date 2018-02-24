@@ -8,6 +8,9 @@ import stexfires.core.Field;
  */
 public class IdentityFieldValueMapper implements FieldValueMapper {
 
+    public IdentityFieldValueMapper() {
+    }
+
     @Override
     public String mapToValue(Field field) {
         return field.getValue();

@@ -15,7 +15,7 @@ public class ConstantFieldValueMapper implements FieldValueMapper {
     }
 
     /**
-     * @param constantValue can be <code>null</code>
+     * @param constantValue can be {@code null}
      */
     public ConstantFieldValueMapper(String constantValue) {
         this.constantValue = constantValue;
