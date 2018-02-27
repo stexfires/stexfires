@@ -46,6 +46,7 @@ public final class Fields {
         return newArray(values.collect(Collectors.toList()));
     }
 
+    @SuppressWarnings("Convert2streamapi")
     public static Field[] newArray(String... values) {
         Field[] fields = new Field[values.length];
         for (int index = FIRST_FIELD_INDEX; index < values.length; index++) {
@@ -54,6 +55,7 @@ public final class Fields {
         return fields;
     }
 
+    @SuppressWarnings("Convert2streamapi")
     public static Field[] newArray(int length, Supplier<String> valueSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);
