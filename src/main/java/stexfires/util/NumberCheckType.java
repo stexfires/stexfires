@@ -62,17 +62,17 @@ public enum NumberCheckType {
         Objects.requireNonNull(numberCheckType);
         switch (numberCheckType) {
             case NEGATIVE:
-                return value < 0;
+                return value < 0L;
             case POSITIVE:
-                return value > 0;
+                return value > 0L;
             case ZERO:
-                return value == 0;
+                return value == 0L;
             case NOT_ZERO:
-                return value != 0;
+                return value != 0L;
             case ODD:
-                return (value & 1) == 1;
+                return (value & 1L) == 1L;
             case EVEN:
-                return (value & 1) == 0;
+                return (value & 1L) == 0L;
             case MAX_VALUE:
                 return value == Long.MAX_VALUE;
             case MIN_VALUE:

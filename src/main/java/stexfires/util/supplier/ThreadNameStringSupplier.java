@@ -8,6 +8,9 @@ import java.util.function.Supplier;
  */
 public final class ThreadNameStringSupplier implements Supplier<String> {
 
+    public ThreadNameStringSupplier() {
+    }
+
     @Override
     public String get() {
         return Thread.currentThread().getName();

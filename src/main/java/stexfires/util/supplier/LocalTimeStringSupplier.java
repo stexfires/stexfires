@@ -10,6 +10,9 @@ import java.util.function.Supplier;
  */
 public final class LocalTimeStringSupplier implements Supplier<String> {
 
+    public LocalTimeStringSupplier() {
+    }
+
     @Override
     public String get() {
         return LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);

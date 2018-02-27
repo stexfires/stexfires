@@ -26,11 +26,11 @@ public final class RepeatingPatternBooleanSupplier implements Supplier<Boolean> 
 
     public static RepeatingPatternBooleanSupplier primitiveBooleans(boolean... pattern) {
         Objects.requireNonNull(pattern);
-        List<Boolean> nb = new ArrayList<>(pattern.length);
-        for (boolean b : pattern) {
-            nb.add(b);
+        List<Boolean> newPattern = new ArrayList<>(pattern.length);
+        for (boolean booleanValue : pattern) {
+            newPattern.add(booleanValue);
         }
-        return new RepeatingPatternBooleanSupplier(nb);
+        return new RepeatingPatternBooleanSupplier(newPattern);
     }
 
     public BooleanSupplier asPrimitiveBooleanSupplier() {

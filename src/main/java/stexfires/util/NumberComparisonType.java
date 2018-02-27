@@ -78,9 +78,9 @@ public enum NumberComparisonType {
             case GREATER_THAN:
                 return value > compareValue;
             case MULTIPLE_OF:
-                return (compareValue != 0) && (value % compareValue == 0);
+                return (compareValue != 0L) && (value % compareValue == 0L);
             case SAME_SIGN:
-                return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
+                return (value > 0L && compareValue > 0L) || (value == 0L && compareValue == 0L) || (value < 0L && compareValue < 0L);
             case SAME_ABSOLUTE_VALUE:
                 return Math.abs(value) == Math.abs(compareValue);
         }

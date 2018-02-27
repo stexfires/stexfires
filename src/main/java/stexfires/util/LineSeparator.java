@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * Enum with three common line separators for text files: <code>LF, CR, CR_LF</code>.
+ * Enum with three common line separators for text files: {@code LF, CR, CR_LF}.
  *
  * @author Mathias Kalb
  * @since 0.1
@@ -13,17 +13,17 @@ import java.util.stream.Stream;
 public enum LineSeparator {
 
     /**
-     * Line feed: <code>'\n'</code> (0xA)
+     * Line feed: {@code '\n'} (0xA)
      */
     LF("\n"),
 
     /**
-     * Carriage return: <code>'\r'</code> (0xD)
+     * Carriage return: {@code '\r'} (0xD)
      */
     CR("\r"),
 
     /**
-     * CR and LF: <code>'\r\n'</code> (0xD 0xA)
+     * CR and LF: {@code '\r\n'} (0xD 0xA)
      */
     CR_LF("\r\n");
 
@@ -34,45 +34,49 @@ public enum LineSeparator {
     }
 
     /**
-     * Returns the line separator as a <code>String</code>.
+     * Returns the line separator as a {@code String}.
      *
-     * @return line separator as a <code>String</code>
+     * @return line separator as a {@code String}
      */
+    @SuppressWarnings("QuestionableName")
     public String string() {
         return separator;
     }
 
     /**
-     * Returns the line separator as a <code>Supplier</code>.
+     * Returns the line separator as a {@code Supplier}.
      *
-     * @return line separator as a <code>Supplier</code>
+     * @return line separator as a {@code Supplier}
+     * @see Supplier
      */
     public Supplier<String> supplier() {
         return () -> separator;
     }
 
     /**
-     * Returns the line separator as a <code>Stream</code> with a single element.
+     * Returns the line separator as a {@code Stream} with a single element.
      *
-     * @return line separator as a <code>Stream</code> with a single element
+     * @return line separator as a {@code Stream} with a single element
+     * @see Stream#of(Object)
      */
     public Stream<String> stream() {
         return Stream.of(separator);
     }
 
     /**
-     * Returns the line separator as an <code>IntStream</code> with a the chars.
+     * Returns the line separator as an {@code IntStream} with the chars.
      *
-     * @return line separator as an <code>IntStream</code> with a the chars
+     * @return line separator as an {@code IntStream} with the chars
+     * @see String#chars()
      */
     public IntStream chars() {
         return separator.chars();
     }
 
     /**
-     * Returns the line separator as a <code>String</code>.
+     * Returns the line separator as a {@code String}.
      *
-     * @return line separator as a <code>String</code>
+     * @return line separator as a {@code String}
      * @see stexfires.util.LineSeparator#string()
      */
     @Override

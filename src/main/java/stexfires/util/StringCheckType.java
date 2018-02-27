@@ -44,7 +44,7 @@ public enum StringCheckType {
             case ALPHABETIC:
                 return checkAllChars(value, Character::isAlphabetic);
             case ASCII:
-                return checkAllChars(value, c -> c < FIRST_NON_ASCII_CHAR);
+                return checkAllChars(value, intChar -> intChar < FIRST_NON_ASCII_CHAR);
             case DIGIT:
                 return checkAllChars(value, Character::isDigit);
             case LETTER:

@@ -1,7 +1,7 @@
 package stexfires.util;
 
 /**
- * Enum with three alignment types: <code>START, CENTER, END</code>.
+ * Enum with three alignment types: {@code START, CENTER, END}.
  *
  * @author Mathias Kalb
  * @since 0.1
