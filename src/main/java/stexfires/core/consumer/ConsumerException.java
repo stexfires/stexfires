@@ -10,7 +10,9 @@ public class ConsumerException extends Exception {
 
     protected static final String DEFAULT_MESSAGE = "Could not consume this record:";
     protected static final String MESSAGE_SEPARATOR = " ";
+
     private static final long serialVersionUID = 1L;
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
 
     public ConsumerException(String message, Record record) {
         super(createMessage(message, record));
@@ -25,7 +27,7 @@ public class ConsumerException extends Exception {
     }
 
     protected static String createMessage(String message, Record record) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
         if (message != null) {
             builder.append(message);
         } else {

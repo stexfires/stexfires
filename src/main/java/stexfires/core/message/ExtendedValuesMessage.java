@@ -9,6 +9,8 @@ import stexfires.core.Record;
  */
 public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T> {
 
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
+
     protected final String prefix;
     protected final String postfix;
     protected final String prefixFirstValue;
@@ -27,7 +29,7 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
 
     @Override
     public String createMessage(T record) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (Field field : record.listOfFields()) {
             if (prefixFirstValue != null && field.isFirst()) {

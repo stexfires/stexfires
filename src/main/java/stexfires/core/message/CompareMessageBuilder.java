@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  */
 public final class CompareMessageBuilder {
 
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
+
     private final SortedSet<Integer> valueIndex;
     private boolean className;
     private boolean category;
@@ -72,7 +74,7 @@ public final class CompareMessageBuilder {
         SortedSet<Integer> buildValueIndex = new TreeSet<>(valueIndex);
 
         return record -> {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
             if (buildClassName) {
                 builder.append("className[");
                 builder.append(record.getClass().getName());
