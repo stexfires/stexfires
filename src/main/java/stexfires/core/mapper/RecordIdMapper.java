@@ -2,7 +2,6 @@ package stexfires.core.mapper;
 
 import stexfires.core.Fields;
 import stexfires.core.Record;
-import stexfires.core.record.StandardRecord;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -15,15 +14,17 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @see stexfires.core.mapper.AddValueMapper
  * @see stexfires.core.mapper.CategoryMapper
+ * @see stexfires.core.mapper.ValuesMapper
  * @since 0.1
  */
-public class RecordIdMapper<T extends Record> implements RecordMapper<T, Record> {
-
-    protected final Function<? super T, Long> recordIdFunction;
+public class RecordIdMapper<T extends Record> extends FunctionMapper<T> {
 
     public RecordIdMapper(Function<? super T, Long> recordIdFunction) {
-        Objects.requireNonNull(recordIdFunction);
-        this.recordIdFunction = recordIdFunction;
+        super(Record::getCategory, recordIdFunction, Fields::collectValues);
+    }
+
+    public static <T extends Record> RecordIdMapper<T> identity() {
+        return new RecordIdMapper<>(Record::getRecordId);
     }
 
     /**
@@ -58,12 +59,12 @@ public class RecordIdMapper<T extends Record> implements RecordMapper<T, Record>
         return new RecordIdMapper<>(record -> null);
     }
 
-    public static <T extends Record> RecordIdMapper<T> category(Function<String, Long> categoryFunction) {
+    public static <T extends Record> RecordIdMapper<T> categoryFunction(Function<String, Long> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
         return new RecordIdMapper<>(record -> categoryFunction.apply(record.getCategory()));
     }
 
-    public static <T extends Record> RecordIdMapper<T> categoryAsOptional(Function<Optional<String>, Long> categoryAsOptionalFunction) {
+    public static <T extends Record> RecordIdMapper<T> categoryAsOptionalFunction(Function<Optional<String>, Long> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
         return new RecordIdMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
     }
@@ -75,13 +76,6 @@ public class RecordIdMapper<T extends Record> implements RecordMapper<T, Record>
     public static <T extends Record> RecordIdMapper<T> valueAt(int index, Function<String, Long> valueFunction) {
         Objects.requireNonNull(valueFunction);
         return new RecordIdMapper<>(record -> valueFunction.apply(record.getValueAt(index)));
-    }
-
-    @Override
-    public Record map(T record) {
-        return new StandardRecord(record.getCategory(),
-                recordIdFunction.apply(record),
-                Fields.collectValues(record));
     }
 
 }

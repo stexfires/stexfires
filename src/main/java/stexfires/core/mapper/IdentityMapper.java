@@ -8,6 +8,9 @@ import stexfires.core.Record;
  */
 public class IdentityMapper<T extends Record> implements RecordMapper<T, T> {
 
+    public IdentityMapper() {
+    }
+
     @Override
     public T map(T record) {
         return record;

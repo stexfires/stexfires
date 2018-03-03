@@ -4,7 +4,6 @@ import stexfires.core.Fields;
 import stexfires.core.Record;
 import stexfires.core.mapper.fieldvalue.FieldValueMapper;
 import stexfires.core.message.RecordMessage;
-import stexfires.core.record.StandardRecord;
 import stexfires.util.StringUnaryOperatorType;
 import stexfires.util.Strings;
 
@@ -21,15 +20,17 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @see stexfires.core.mapper.AddValueMapper
  * @see stexfires.core.mapper.RecordIdMapper
+ * @see stexfires.core.mapper.ValuesMapper
  * @since 0.1
  */
-public class CategoryMapper<T extends Record> implements RecordMapper<T, Record> {
-
-    protected final Function<? super T, String> categoryFunction;
+public class CategoryMapper<T extends Record> extends FunctionMapper<T> {
 
     public CategoryMapper(Function<? super T, String> categoryFunction) {
-        Objects.requireNonNull(categoryFunction);
-        this.categoryFunction = categoryFunction;
+        super(categoryFunction, Record::getRecordId, Fields::collectValues);
+    }
+
+    public static <T extends Record> CategoryMapper<T> identity() {
+        return new CategoryMapper<>(Record::getCategory);
     }
 
     /**
@@ -77,22 +78,22 @@ public class CategoryMapper<T extends Record> implements RecordMapper<T, Record>
         return new CategoryMapper<>(record -> record.getCategoryOrElse(other));
     }
 
-    public static <T extends Record> CategoryMapper<T> category(Function<String, String> categoryFunction) {
+    public static <T extends Record> CategoryMapper<T> categoryFunction(Function<String, String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
         return new CategoryMapper<>(record -> categoryFunction.apply(record.getCategory()));
     }
 
-    public static <T extends Record> CategoryMapper<T> category(StringUnaryOperatorType categoryOperator) {
+    public static <T extends Record> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
         Objects.requireNonNull(categoryOperator);
         return new CategoryMapper<>(record -> categoryOperator.operate(record.getCategory()));
     }
 
-    public static <T extends Record> CategoryMapper<T> category(StringUnaryOperatorType categoryOperator, Locale locale) {
+    public static <T extends Record> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
         Objects.requireNonNull(categoryOperator);
         return new CategoryMapper<>(record -> categoryOperator.operate(record.getCategory(), locale));
     }
 
-    public static <T extends Record> CategoryMapper<T> categoryAsOptional(Function<Optional<String>, String> categoryAsOptionalFunction) {
+    public static <T extends Record> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
         return new CategoryMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
     }
@@ -117,13 +118,6 @@ public class CategoryMapper<T extends Record> implements RecordMapper<T, Record>
     public static <T extends Record> CategoryMapper<T> fileName(Path path) {
         Objects.requireNonNull(path);
         return new CategoryMapper<>(record -> path.getFileName().toString());
-    }
-
-    @Override
-    public Record map(T record) {
-        return new StandardRecord(categoryFunction.apply(record),
-                record.getRecordId(),
-                Fields.collectValues(record));
     }
 
 }
