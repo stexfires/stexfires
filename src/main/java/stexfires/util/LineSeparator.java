@@ -47,7 +47,7 @@ public enum LineSeparator {
      * Returns the line separator as a {@code Supplier}.
      *
      * @return line separator as a {@code Supplier}
-     * @see Supplier
+     * @see java.util.function.Supplier
      */
     public Supplier<String> supplier() {
         return () -> separator;
@@ -57,7 +57,7 @@ public enum LineSeparator {
      * Returns the line separator as a {@code Stream} with a single element.
      *
      * @return line separator as a {@code Stream} with a single element
-     * @see Stream#of(Object)
+     * @see java.util.stream.Stream#of(Object)
      */
     public Stream<String> stream() {
         return Stream.of(separator);
@@ -67,7 +67,7 @@ public enum LineSeparator {
      * Returns the line separator as an {@code IntStream} with the chars.
      *
      * @return line separator as an {@code IntStream} with the chars
-     * @see String#chars()
+     * @see java.lang.String#chars()
      */
     public IntStream chars() {
         return separator.chars();

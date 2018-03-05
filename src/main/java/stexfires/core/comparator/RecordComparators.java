@@ -11,9 +11,11 @@ import java.util.Objects;
 import static java.util.Comparator.*;
 
 /**
- * This class consists of {@code static} utility methods for constructing comparators for {@link Record}s.
+ * This class consists of {@code static} utility methods
+ * for constructing comparators for {@link Record}s.
  *
  * @author Mathias Kalb
+ * @see java.util.Comparator
  * @since 0.1
  */
 public final class RecordComparators {

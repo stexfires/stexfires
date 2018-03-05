@@ -7,11 +7,15 @@ import java.util.stream.Stream;
 
 /**
  * A Record contains {@link Field}s with values.
+ * It can also contain a category and a record id.
  * <p>
- * It must be immutable and thread-safe.
- * The field index must start with 0.
+ * It must be {@code immutable} and {@code thread-safe}.
+ * The field index must start with {@code 0}.
  *
  * @author Mathias Kalb
+ * @see stexfires.core.Field
+ * @see stexfires.core.Records
+ * @see stexfires.core.Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public interface Record {

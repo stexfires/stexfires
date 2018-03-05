@@ -27,9 +27,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on records.
+ * This class consists of {@code static} utility methods
+ * for operating on {@link Record}s.
  *
  * @author Mathias Kalb
+ * @see stexfires.core.Record
+ * @see stexfires.core.RecordStreams
  * @since 0.1
  */
 public final class Records {
