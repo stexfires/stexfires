@@ -37,6 +37,7 @@ public final class Fields {
     }
 
     public static Field[] newArray(Collection<String> values) {
+        Objects.requireNonNull(values);
         Field[] fields = new Field[values.size()];
         int index = FIRST_FIELD_INDEX;
         for (String value : values) {
@@ -47,11 +48,13 @@ public final class Fields {
     }
 
     public static Field[] newArray(Stream<String> values) {
+        Objects.requireNonNull(values);
         return newArray(values.collect(Collectors.toList()));
     }
 
     @SuppressWarnings("Convert2streamapi")
     public static Field[] newArray(String... values) {
+        Objects.requireNonNull(values);
         Field[] fields = new Field[values.length];
         for (int index = FIRST_FIELD_INDEX; index < values.length; index++) {
             fields[index] = new Field(index, (index + 1) == values.length, values[index]);
@@ -73,10 +76,13 @@ public final class Fields {
     }
 
     public static List<String> collectValues(Record record) {
+        Objects.requireNonNull(record);
         return collectValues(record.streamOfFields(), new IdentityFieldValueMapper());
     }
 
     public static List<String> collectValues(Record record, FieldValueMapper fieldValueMapper) {
+        Objects.requireNonNull(record);
+        Objects.requireNonNull(fieldValueMapper);
         return collectValues(record.streamOfFields(), fieldValueMapper);
     }
 
@@ -88,10 +94,12 @@ public final class Fields {
 
     public static List<String> collectValues(Field[] fields, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fields);
+        Objects.requireNonNull(fieldValueMapper);
         return collectValues(Arrays.stream(fields), fieldValueMapper);
     }
 
     public static List<String> collectValues(Stream<Field> fields) {
+        Objects.requireNonNull(fields);
         return collectValues(fields, new IdentityFieldValueMapper());
     }
 
@@ -102,10 +110,12 @@ public final class Fields {
     }
 
     public static String joinValues(Record record) {
+        Objects.requireNonNull(record);
         return joinValues(record.streamOfFields(), DEFAULT_FIELD_VALUE_DELIMITER);
     }
 
     public static String joinValues(Record record, CharSequence delimiter) {
+        Objects.requireNonNull(record);
         Objects.requireNonNull(delimiter);
         return joinValues(record.streamOfFields(), delimiter);
     }
@@ -123,6 +133,7 @@ public final class Fields {
     }
 
     public static String joinValues(Stream<Field> fields) {
+        Objects.requireNonNull(fields);
         return joinValues(fields, DEFAULT_FIELD_VALUE_DELIMITER);
     }
 
