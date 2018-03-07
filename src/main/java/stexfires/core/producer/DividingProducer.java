@@ -50,7 +50,7 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
     }
 
     @Override
-    public Stream<StandardRecord> produceStream() {
+    public final Stream<StandardRecord> produceStream() {
         return records.stream();
     }
 

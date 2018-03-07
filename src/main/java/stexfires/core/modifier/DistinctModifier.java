@@ -28,7 +28,7 @@ public class DistinctModifier<T extends Record> implements RecordStreamModifier<
     }
 
     @Override
-    public Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         return recordStream
                 .map(record -> new DistinctRecordWrapper<>(record, recordCompareMessage.createMessage(record)))
                 .distinct()

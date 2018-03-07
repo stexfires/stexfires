@@ -168,7 +168,7 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
     }
 
     @Override
-    public Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream
                 .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByFunction), r -> r.values().stream()))
                 .filter(havingPredicate)

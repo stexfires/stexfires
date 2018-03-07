@@ -34,7 +34,7 @@ public class SkipLimitModifier<T extends Record> implements RecordStreamModifier
     }
 
     @Override
-    public Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         Stream<T> returnStream = recordStream;
         if (skipFirst >= MIN_SKIP) {
             returnStream = returnStream.skip(skipFirst);

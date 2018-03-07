@@ -109,7 +109,7 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         synchronized (lock) {
             for (int index = 0; index < recordLoggers.size(); index++) {
                 if (predicate.test(index, record)) {

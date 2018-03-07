@@ -12,7 +12,7 @@ public class ShortMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         return record.getClass().getSimpleName()
                 + "[" + record.size()
                 + (record.hasCategory() ? ", '" + record.getCategory() + "'" : "")

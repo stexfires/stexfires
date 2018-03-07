@@ -24,7 +24,7 @@ public class ToKeyValueMapper<T extends Record> implements RecordMapper<T, KeyVa
     }
 
     @Override
-    public KeyValueRecord map(T record) {
+    public final KeyValueRecord map(T record) {
         return new KeyValueRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAtOrElse(keyIndex, nullKeyValue), record.getValueAt(valueIndex));
     }

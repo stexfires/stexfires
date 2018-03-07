@@ -12,7 +12,7 @@ public class NullLogger<T extends Record> implements RecordLogger<T> {
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         // Do nothing.
     }
 

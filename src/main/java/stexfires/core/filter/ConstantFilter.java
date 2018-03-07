@@ -15,7 +15,7 @@ public class ConstantFilter<T extends Record> implements RecordFilter<T> {
     }
 
     @Override
-    public boolean isValid(T record) {
+    public final boolean isValid(T record) {
         return constantValidity;
     }
 

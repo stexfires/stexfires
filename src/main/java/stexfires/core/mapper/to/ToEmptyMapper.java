@@ -15,7 +15,7 @@ public class ToEmptyMapper<T extends Record> implements RecordMapper<T, EmptyRec
     }
 
     @Override
-    public EmptyRecord map(T record) {
+    public final EmptyRecord map(T record) {
         return Records.empty();
     }
 

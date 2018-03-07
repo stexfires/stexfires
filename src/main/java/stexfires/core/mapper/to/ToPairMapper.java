@@ -24,7 +24,7 @@ public class ToPairMapper<T extends Record> implements RecordMapper<T, PairRecor
     }
 
     @Override
-    public PairRecord map(T record) {
+    public final PairRecord map(T record) {
         return new PairRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(firstIndex), record.getValueAt(secondIndex));
     }

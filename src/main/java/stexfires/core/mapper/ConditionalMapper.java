@@ -27,7 +27,7 @@ public class ConditionalMapper<T extends Record, R extends Record> implements Re
     }
 
     @Override
-    public R map(T record) {
+    public final R map(T record) {
         return condition.isValid(record) ? trueMapper.map(record) : falseMapper.map(record);
     }
 

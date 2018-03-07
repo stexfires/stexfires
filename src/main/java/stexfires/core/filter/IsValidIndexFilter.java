@@ -15,7 +15,7 @@ public class IsValidIndexFilter<T extends Record> implements RecordFilter<T> {
     }
 
     @Override
-    public boolean isValid(T record) {
+    public final boolean isValid(T record) {
         return record.isValidIndex(index);
     }
 

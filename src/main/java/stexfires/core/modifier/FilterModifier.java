@@ -20,7 +20,7 @@ public class FilterModifier<T extends Record> implements RecordStreamModifier<T,
     }
 
     @Override
-    public Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         return recordStream.filter(recordFilter::isValid);
     }
 

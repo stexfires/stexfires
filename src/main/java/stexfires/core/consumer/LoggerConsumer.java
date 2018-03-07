@@ -19,7 +19,7 @@ public class LoggerConsumer<T extends Record> implements RecordConsumer<T> {
     }
 
     @Override
-    public void consume(T record) {
+    public final void consume(T record) {
         recordLogger.log(record);
     }
 

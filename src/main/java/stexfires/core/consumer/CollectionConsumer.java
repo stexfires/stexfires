@@ -26,14 +26,14 @@ public class CollectionConsumer<T extends Record, R extends Collection<String>> 
     }
 
     @Override
-    public void consume(T record) throws UncheckedConsumerException {
+    public final void consume(T record) throws UncheckedConsumerException {
         String message = recordMessage.createMessage(record);
         synchronized (lock) {
             collection.add(message);
         }
     }
 
-    public R getCollection() {
+    public final R getCollection() {
         return collection;
     }
 

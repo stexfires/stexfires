@@ -48,7 +48,7 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
     }
 
     @Override
-    public Stream<KeyValueRecord> produceStream() {
+    public final Stream<KeyValueRecord> produceStream() {
         return records.stream();
     }
 

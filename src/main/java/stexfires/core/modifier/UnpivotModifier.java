@@ -103,7 +103,7 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
     }
 
     @Override
-    public Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream.map(unpivotFunction).flatMap(Function.identity());
     }
 

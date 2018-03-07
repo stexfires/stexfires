@@ -36,7 +36,7 @@ public class LookupMapper<T extends Record, R extends Record, K> implements Reco
     }
 
     @Override
-    public R map(T record) {
+    public final R map(T record) {
         RecordMapper<? super T, ? extends R> recordMapper = mapperFunction.apply(keyFunction.apply(record));
         return (recordMapper == null) ? defaultMapper.map(record) : recordMapper.map(record);
     }

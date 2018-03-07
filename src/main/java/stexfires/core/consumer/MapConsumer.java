@@ -22,13 +22,13 @@ public class MapConsumer<T extends KeyValueRecord, R extends Map<String, String>
     }
 
     @Override
-    public void consume(T record) throws UncheckedConsumerException {
+    public final void consume(T record) throws UncheckedConsumerException {
         synchronized (lock) {
             map.put(record.getValueOfKeyField(), record.getValueOfValueField());
         }
     }
 
-    public R getMap() {
+    public final R getMap() {
         return map;
     }
 

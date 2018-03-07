@@ -18,7 +18,7 @@ public class ConstantMapper<T extends Record, R extends Record> implements Recor
     }
 
     @Override
-    public R map(T record) {
+    public final R map(T record) {
         return constantRecord;
     }
 

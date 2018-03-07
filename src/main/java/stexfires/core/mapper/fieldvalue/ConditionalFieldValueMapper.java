@@ -27,7 +27,7 @@ public class ConditionalFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         return condition.test(field) ? trueFieldValueMapper.mapToValue(field) : falseFieldValueMapper.mapToValue(field);
     }
 

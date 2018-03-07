@@ -55,7 +55,7 @@ public class ConstantProducer<T extends Record> implements RecordProducer<T> {
     }
 
     @Override
-    public Stream<T> produceStream() {
+    public final Stream<T> produceStream() {
         return Stream.generate(() -> constantRecord).limit(streamSize);
     }
 

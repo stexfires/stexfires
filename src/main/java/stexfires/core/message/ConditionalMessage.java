@@ -27,7 +27,7 @@ public class ConditionalMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         return condition.isValid(record) ? trueMessage.createMessage(record) : falseMessage.createMessage(record);
     }
 

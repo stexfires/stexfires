@@ -74,7 +74,7 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         Field field = fieldFunction.apply(record);
         if (field == null) {
             return nullFieldMessage;

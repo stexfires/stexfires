@@ -18,7 +18,7 @@ public class ReplaceNullFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         return field.getValueOrElse(nullValue);
     }
 

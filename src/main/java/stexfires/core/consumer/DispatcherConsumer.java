@@ -109,7 +109,7 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
     }
 
     @Override
-    public void consume(T record) {
+    public final void consume(T record) {
         synchronized (lock) {
             for (int index = 0; index < recordConsumers.size(); index++) {
                 if (predicate.test(index, record)) {

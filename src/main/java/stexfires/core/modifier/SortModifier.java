@@ -21,7 +21,7 @@ public class SortModifier<T extends Record> implements RecordStreamModifier<T, T
     }
 
     @Override
-    public Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         return recordStream.sorted(recordComparator);
     }
 

@@ -27,7 +27,7 @@ public class ConditionalLogger<T extends Record> implements RecordLogger<T> {
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         if (condition.isValid(record)) {
             trueLogger.log(record);
         } else {

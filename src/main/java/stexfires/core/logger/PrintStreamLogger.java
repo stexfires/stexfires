@@ -34,7 +34,7 @@ public class PrintStreamLogger<T extends Record> implements RecordLogger<T> {
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         String message = recordMessage.createMessage(record);
         // println() and print() are both 'synchronized'
         if (terminateLine) {
@@ -44,7 +44,7 @@ public class PrintStreamLogger<T extends Record> implements RecordLogger<T> {
         }
     }
 
-    public PrintStream getPrintStream() {
+    public final PrintStream getPrintStream() {
         return printStream;
     }
 

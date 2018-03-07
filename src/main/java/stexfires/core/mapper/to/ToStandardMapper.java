@@ -16,7 +16,7 @@ public class ToStandardMapper<T extends Record> implements RecordMapper<T, Stand
 
     @SuppressWarnings("CastToConcreteClass")
     @Override
-    public StandardRecord map(T record) {
+    public final StandardRecord map(T record) {
         if (record instanceof StandardRecord) {
             return (StandardRecord) record;
         }

@@ -12,7 +12,7 @@ public class IdentityFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         return field.getValue();
     }
 

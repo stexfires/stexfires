@@ -55,7 +55,7 @@ public class FunctionMapper<T extends Record> implements RecordMapper<T, Record>
     }
 
     @Override
-    public Record map(T record) {
+    public final Record map(T record) {
         return new StandardRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),

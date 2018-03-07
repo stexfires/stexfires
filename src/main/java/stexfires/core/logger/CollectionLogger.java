@@ -26,14 +26,14 @@ public class CollectionLogger<T extends Record, R extends Collection<String>> im
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         String message = recordMessage.createMessage(record);
         synchronized (lock) {
             collection.add(message);
         }
     }
 
-    public R getCollection() {
+    public final R getCollection() {
         return collection;
     }
 

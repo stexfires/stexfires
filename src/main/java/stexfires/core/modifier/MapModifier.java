@@ -20,7 +20,7 @@ public class MapModifier<T extends Record, R extends Record> implements RecordSt
     }
 
     @Override
-    public Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream.map(recordMapper::map);
     }
 

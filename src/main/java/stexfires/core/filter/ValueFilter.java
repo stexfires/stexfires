@@ -117,7 +117,7 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
     }
 
     @Override
-    public boolean isValid(T record) {
+    public final boolean isValid(T record) {
         Field field = fieldFunction.apply(record);
         if (field == null) {
             return nullFieldValidity;

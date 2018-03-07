@@ -27,7 +27,7 @@ public class ConditionalConsumer<T extends Record> implements RecordConsumer<T> 
     }
 
     @Override
-    public void consume(T record) {
+    public final void consume(T record) {
         if (condition.isValid(record)) {
             trueConsumer.consume(record);
         } else {

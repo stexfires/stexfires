@@ -45,7 +45,7 @@ public class SingleProducer implements RecordProducer<SingleRecord> {
     }
 
     @Override
-    public Stream<SingleRecord> produceStream() {
+    public final Stream<SingleRecord> produceStream() {
         return records.stream();
     }
 

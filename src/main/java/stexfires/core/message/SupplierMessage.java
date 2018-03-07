@@ -37,7 +37,7 @@ public class SupplierMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         return messageSupplier.get();
     }
 

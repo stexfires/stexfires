@@ -23,7 +23,7 @@ public class LimitedLogger<T extends Record> implements RecordLogger<T> {
     }
 
     @Override
-    public void log(T record) {
+    public final void log(T record) {
         // get() is faster than getAndIncrement()
         if (counter.get() < limit) {
             if (counter.getAndIncrement() < limit) {
@@ -32,7 +32,7 @@ public class LimitedLogger<T extends Record> implements RecordLogger<T> {
         }
     }
 
-    public int getLimit() {
+    public final int getLimit() {
         return limit;
     }
 

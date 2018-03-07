@@ -18,7 +18,7 @@ public class AddPrefixFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         String value = field.getValue();
         if (value == null) {
             value = prefix;

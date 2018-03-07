@@ -26,7 +26,7 @@ public class AppendableLogger<T extends Record, R extends Appendable> implements
     }
 
     @Override
-    public void log(T record) throws UncheckedIOException {
+    public final void log(T record) throws UncheckedIOException {
         String message = recordMessage.createMessage(record);
         synchronized (lock) {
             try {
@@ -37,7 +37,7 @@ public class AppendableLogger<T extends Record, R extends Appendable> implements
         }
     }
 
-    public R getAppendable() {
+    public final R getAppendable() {
         return appendable;
     }
 

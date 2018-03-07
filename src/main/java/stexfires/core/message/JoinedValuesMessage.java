@@ -23,7 +23,7 @@ public class JoinedValuesMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         return Fields.joinValues(record, delimiter);
     }
 

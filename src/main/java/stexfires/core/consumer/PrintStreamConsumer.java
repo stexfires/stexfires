@@ -34,7 +34,7 @@ public class PrintStreamConsumer<T extends Record> implements RecordConsumer<T> 
     }
 
     @Override
-    public void consume(T record) {
+    public final void consume(T record) {
         String message = recordMessage.createMessage(record);
         // println() and print() are both 'synchronized'
         if (terminateLine) {
@@ -44,7 +44,7 @@ public class PrintStreamConsumer<T extends Record> implements RecordConsumer<T> 
         }
     }
 
-    public PrintStream getPrintStream() {
+    public final PrintStream getPrintStream() {
         return printStream;
     }
 

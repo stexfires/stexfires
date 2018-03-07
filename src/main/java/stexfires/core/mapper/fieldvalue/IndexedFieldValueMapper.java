@@ -47,7 +47,7 @@ public class IndexedFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         return valueMappers.apply(field.getIndex())
                            .orElse(orElseFieldValueMapper)
                            .mapToValue(field);

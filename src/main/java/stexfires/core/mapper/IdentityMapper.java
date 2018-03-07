@@ -12,7 +12,7 @@ public class IdentityMapper<T extends Record> implements RecordMapper<T, T> {
     }
 
     @Override
-    public T map(T record) {
+    public final T map(T record) {
         return record;
     }
 

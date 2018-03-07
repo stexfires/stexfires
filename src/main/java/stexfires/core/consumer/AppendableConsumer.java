@@ -25,7 +25,7 @@ public class AppendableConsumer<T extends Record, R extends Appendable> implemen
     }
 
     @Override
-    public void consume(T record) throws UncheckedConsumerException {
+    public final void consume(T record) throws UncheckedConsumerException {
         String message = recordMessage.createMessage(record);
         synchronized (lock) {
             try {
@@ -36,7 +36,7 @@ public class AppendableConsumer<T extends Record, R extends Appendable> implemen
         }
     }
 
-    public R getAppendable() {
+    public final R getAppendable() {
         return appendable;
     }
 

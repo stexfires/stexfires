@@ -29,7 +29,7 @@ public class StringOperationFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public String mapToValue(Field field) {
+    public final String mapToValue(Field field) {
         return stringUnaryOperator.apply(field.getValue());
     }
 

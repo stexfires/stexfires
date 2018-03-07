@@ -28,7 +28,7 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
     }
 
     @Override
-    public String createMessage(T record) {
+    public final String createMessage(T record) {
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (Field field : record.listOfFields()) {

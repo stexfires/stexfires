@@ -22,7 +22,7 @@ public class ToSingleMapper<T extends Record> implements RecordMapper<T, SingleR
     }
 
     @Override
-    public SingleRecord map(T record) {
+    public final SingleRecord map(T record) {
         return new SingleRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(valueIndex));
     }
