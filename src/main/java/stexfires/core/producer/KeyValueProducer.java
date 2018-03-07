@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
 
-    protected final List<KeyValueRecord> records;
+    private final List<KeyValueRecord> records;
 
     public <K, V> KeyValueProducer(Map<K, V> keyValueMap) {
         this(null, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);

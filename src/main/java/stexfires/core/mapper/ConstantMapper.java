@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class ConstantMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
 
-    protected final R constantRecord;
+    private final R constantRecord;
 
     public ConstantMapper(R constantRecord) {
         Objects.requireNonNull(constantRecord);

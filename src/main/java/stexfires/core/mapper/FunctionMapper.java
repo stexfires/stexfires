@@ -17,9 +17,9 @@ import java.util.function.Function;
  */
 public class FunctionMapper<T extends Record> implements RecordMapper<T, Record> {
 
-    protected final Function<? super T, String> categoryFunction;
-    protected final Function<? super T, Long> recordIdFunction;
-    protected final Function<? super T, Collection<String>> valuesFunction;
+    private final Function<? super T, String> categoryFunction;
+    private final Function<? super T, Long> recordIdFunction;
+    private final Function<? super T, Collection<String>> valuesFunction;
 
     public FunctionMapper(Function<? super T, String> categoryFunction,
                           Function<? super T, Long> recordIdFunction,

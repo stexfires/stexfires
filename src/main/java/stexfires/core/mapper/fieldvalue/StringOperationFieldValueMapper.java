@@ -13,7 +13,7 @@ import java.util.function.UnaryOperator;
  */
 public class StringOperationFieldValueMapper implements FieldValueMapper {
 
-    protected final UnaryOperator<String> stringUnaryOperator;
+    private final UnaryOperator<String> stringUnaryOperator;
 
     public StringOperationFieldValueMapper(StringUnaryOperatorType stringUnaryOperatorType) {
         this(stringUnaryOperatorType.stringUnaryOperator());

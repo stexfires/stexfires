@@ -22,9 +22,9 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
 
     public static final boolean DEFAULT_NULL_FIELD_VALIDITY = false;
 
-    protected final Function<? super T, Field> fieldFunction;
-    protected final boolean nullFieldValidity;
-    protected final Predicate<String> valuePredicate;
+    private final Function<? super T, Field> fieldFunction;
+    private final boolean nullFieldValidity;
+    private final Predicate<String> valuePredicate;
 
     public ValueFilter(int index,
                        Predicate<String> valuePredicate) {

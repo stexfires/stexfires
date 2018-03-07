@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public class MapModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
 
-    protected final RecordMapper<? super T, ? extends R> recordMapper;
+    private final RecordMapper<? super T, ? extends R> recordMapper;
 
     public MapModifier(RecordMapper<? super T, ? extends R> recordMapper) {
         Objects.requireNonNull(recordMapper);

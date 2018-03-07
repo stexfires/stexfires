@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class SingleProducer implements RecordProducer<SingleRecord> {
 
-    protected final List<SingleRecord> records;
+    private final List<SingleRecord> records;
 
     public <V> SingleProducer(Collection<V> values) {
         this(null, Records.recordIdSequence(), values, Strings::asString);

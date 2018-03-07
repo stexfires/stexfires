@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class LimitedLogger<T extends Record> implements RecordLogger<T> {
 
-    protected final RecordLogger<? super T> recordLogger;
-    protected final int limit;
-    protected final AtomicInteger counter;
+    private final RecordLogger<? super T> recordLogger;
+    private final int limit;
+    private final AtomicInteger counter;
 
     public LimitedLogger(RecordLogger<? super T> recordLogger, int limit) {
         Objects.requireNonNull(recordLogger);

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class SortModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected final Comparator<? super T> recordComparator;
+    private final Comparator<? super T> recordComparator;
 
     public SortModifier(Comparator<? super T> recordComparator) {
         Objects.requireNonNull(recordComparator);

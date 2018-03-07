@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class ConstantMessage<T extends Record> implements RecordMessage<T> {
 
-    protected final String constantMessage;
+    private final String constantMessage;
 
     public ConstantMessage(String constantMessage) {
         Objects.requireNonNull(constantMessage);

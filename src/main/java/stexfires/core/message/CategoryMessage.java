@@ -8,7 +8,7 @@ import stexfires.core.Record;
  */
 public class CategoryMessage<T extends Record> implements RecordMessage<T> {
 
-    protected final String nullCategoryValue;
+    private final String nullCategoryValue;
 
     public CategoryMessage() {
         this(null);

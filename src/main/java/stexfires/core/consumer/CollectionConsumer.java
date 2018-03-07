@@ -15,8 +15,8 @@ public class CollectionConsumer<T extends Record, R extends Collection<String>> 
 
     protected final Object lock = new Object();
 
-    protected final R collection;
-    protected final RecordMessage<? super T> recordMessage;
+    private final R collection;
+    private final RecordMessage<? super T> recordMessage;
 
     public CollectionConsumer(R collection, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(collection);

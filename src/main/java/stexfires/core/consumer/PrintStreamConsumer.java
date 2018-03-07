@@ -14,9 +14,9 @@ public class PrintStreamConsumer<T extends Record> implements RecordConsumer<T> 
 
     public static final boolean DEFAULT_TERMINATE_LINE = true;
 
-    protected final PrintStream printStream;
-    protected final RecordMessage<? super T> recordMessage;
-    protected final boolean terminateLine;
+    private final PrintStream printStream;
+    private final RecordMessage<? super T> recordMessage;
+    private final boolean terminateLine;
 
     public PrintStreamConsumer(PrintStream printStream,
                                RecordMessage<? super T> recordMessage) {

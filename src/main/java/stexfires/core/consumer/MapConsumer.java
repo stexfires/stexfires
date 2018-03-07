@@ -14,7 +14,7 @@ public class MapConsumer<T extends KeyValueRecord, R extends Map<String, String>
 
     protected final Object lock = new Object();
 
-    protected final R map;
+    private final R map;
 
     public MapConsumer(R map) {
         Objects.requireNonNull(map);

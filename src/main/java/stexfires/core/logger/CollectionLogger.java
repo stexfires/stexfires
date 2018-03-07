@@ -15,8 +15,8 @@ public class CollectionLogger<T extends Record, R extends Collection<String>> im
 
     protected final Object lock = new Object();
 
-    protected final R collection;
-    protected final RecordMessage<? super T> recordMessage;
+    private final R collection;
+    private final RecordMessage<? super T> recordMessage;
 
     public CollectionLogger(R collection, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(collection);

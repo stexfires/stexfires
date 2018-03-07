@@ -19,8 +19,8 @@ import static stexfires.util.StringComparisonType.EQUALS;
  */
 public class MessageFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final RecordMessage<? super T> recordMessage;
-    protected final Predicate<String> messagePredicate;
+    private final RecordMessage<? super T> recordMessage;
+    private final Predicate<String> messagePredicate;
 
     public MessageFilter(RecordMessage<? super T> recordMessage,
                          Predicate<String> messagePredicate) {

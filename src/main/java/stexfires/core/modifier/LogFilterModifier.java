@@ -14,9 +14,9 @@ import java.util.stream.Stream;
  */
 public class LogFilterModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected final RecordFilter<? super T> recordFilter;
-    protected final RecordLogger<? super T> validLogger;
-    protected final RecordLogger<? super T> invalidLogger;
+    private final RecordFilter<? super T> recordFilter;
+    private final RecordLogger<? super T> validLogger;
+    private final RecordLogger<? super T> invalidLogger;
 
     public LogFilterModifier(RecordFilter<? super T> recordFilter,
                              RecordLogger<? super T> validLogger,

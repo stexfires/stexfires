@@ -17,9 +17,9 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
 
     public static final String DEFAULT_NULL_FIELD_MESSAGE = null;
 
-    protected final Function<? super T, Field> fieldFunction;
-    protected final String nullFieldMessage;
-    protected final FieldValueMapper fieldValueMapper;
+    private final Function<? super T, Field> fieldFunction;
+    private final String nullFieldMessage;
+    private final FieldValueMapper fieldValueMapper;
 
     public ValueMessage(int index) {
         this(record -> record.getFieldAt(index), DEFAULT_NULL_FIELD_MESSAGE, Field::getValue);

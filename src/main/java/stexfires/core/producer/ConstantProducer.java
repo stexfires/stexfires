@@ -18,8 +18,8 @@ import java.util.stream.Stream;
  */
 public class ConstantProducer<T extends Record> implements RecordProducer<T> {
 
-    protected final long streamSize;
-    protected final T constantRecord;
+    private final long streamSize;
+    private final T constantRecord;
 
     public ConstantProducer(long streamSize, T constantRecord) {
         if (streamSize < 0L) {

@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class ReplaceNullFieldValueMapper implements FieldValueMapper {
 
-    protected final String nullValue;
+    private final String nullValue;
 
     public ReplaceNullFieldValueMapper(String nullValue) {
         Objects.requireNonNull(nullValue);

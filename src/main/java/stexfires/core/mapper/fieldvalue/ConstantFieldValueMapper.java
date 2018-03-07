@@ -8,7 +8,7 @@ import stexfires.core.Field;
  */
 public class ConstantFieldValueMapper implements FieldValueMapper {
 
-    protected final String constantValue;
+    private final String constantValue;
 
     public ConstantFieldValueMapper() {
         this(null);

@@ -17,7 +17,7 @@ import static stexfires.util.NumberComparisonType.*;
  */
 public class SizeFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final IntPredicate sizePredicate;
+    private final IntPredicate sizePredicate;
 
     public SizeFilter(IntPredicate sizePredicate) {
         Objects.requireNonNull(sizePredicate);

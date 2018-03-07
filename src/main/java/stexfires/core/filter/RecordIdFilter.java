@@ -17,7 +17,7 @@ import static stexfires.util.NumberComparisonType.*;
  */
 public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final LongPredicate recordIdPredicate;
+    private final LongPredicate recordIdPredicate;
 
     public RecordIdFilter(LongPredicate recordIdPredicate) {
         Objects.requireNonNull(recordIdPredicate);

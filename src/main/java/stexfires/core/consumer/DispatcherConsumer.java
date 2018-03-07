@@ -19,8 +19,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 
-    protected final BiPredicate<Integer, ? super T> predicate;
-    protected final List<? extends RecordConsumer<? super T>> recordConsumers;
+    private final BiPredicate<Integer, ? super T> predicate;
+    private final List<? extends RecordConsumer<? super T>> recordConsumers;
 
     public DispatcherConsumer(BiPredicate<Integer, ? super T> predicate,
                               List<? extends RecordConsumer<? super T>> recordConsumers) {

@@ -8,7 +8,7 @@ import stexfires.core.Record;
  */
 public class ConstantFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final boolean constantValidity;
+    private final boolean constantValidity;
 
     public ConstantFilter(boolean constantValidity) {
         this.constantValidity = constantValidity;

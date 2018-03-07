@@ -8,7 +8,7 @@ import stexfires.core.Record;
  */
 public class IsValidIndexFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final int index;
+    private final int index;
 
     public IsValidIndexFilter(int index) {
         this.index = index;

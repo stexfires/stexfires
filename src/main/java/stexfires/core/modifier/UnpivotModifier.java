@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  */
 public class UnpivotModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
 
-    protected final Function<? super T, Stream<? extends R>> unpivotFunction;
+    private final Function<? super T, Stream<? extends R>> unpivotFunction;
 
     public UnpivotModifier(Function<? super T, Stream<? extends R>> unpivotFunction) {
         Objects.requireNonNull(unpivotFunction);

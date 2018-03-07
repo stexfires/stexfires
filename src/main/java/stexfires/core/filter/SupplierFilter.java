@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class SupplierFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final Supplier<Boolean> validitySupplier;
+    private final Supplier<Boolean> validitySupplier;
 
     /**
      * @param validitySupplier must be thread-safe

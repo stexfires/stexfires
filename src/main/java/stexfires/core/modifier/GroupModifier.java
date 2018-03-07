@@ -29,9 +29,9 @@ import java.util.stream.Stream;
  */
 public class GroupModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
 
-    protected final Function<? super T, ?> groupByFunction;
-    protected final Predicate<List<? super T>> havingPredicate;
-    protected final Function<List<T>, ? extends R> aggregateFunction;
+    private final Function<? super T, ?> groupByFunction;
+    private final Predicate<List<? super T>> havingPredicate;
+    private final Function<List<T>, ? extends R> aggregateFunction;
 
     public GroupModifier(Function<? super T, ?> groupByFunction,
                          Function<List<T>, ? extends R> aggregateFunction) {

@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public class SupplierMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
 
-    protected final Supplier<? extends R> recordSupplier;
+    private final Supplier<? extends R> recordSupplier;
 
     /**
      * @param recordSupplier must be thread-safe

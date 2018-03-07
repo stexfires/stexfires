@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 public class DividingProducer implements RecordProducer<StandardRecord> {
 
-    protected final List<StandardRecord> records;
+    private final List<StandardRecord> records;
 
     public DividingProducer(int recordSize, String... values) {
         this(null, Records.recordIdSequence(), recordSize, values);

@@ -14,8 +14,8 @@ public class AppendableConsumer<T extends Record, R extends Appendable> implemen
 
     protected final Object lock = new Object();
 
-    protected final R appendable;
-    protected final RecordMessage<? super T> recordMessage;
+    private final R appendable;
+    private final RecordMessage<? super T> recordMessage;
 
     public AppendableConsumer(R appendable, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(appendable);

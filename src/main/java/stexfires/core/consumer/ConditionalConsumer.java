@@ -11,9 +11,9 @@ import java.util.Objects;
  */
 public class ConditionalConsumer<T extends Record> implements RecordConsumer<T> {
 
-    protected final RecordFilter<? super T> condition;
-    protected final RecordConsumer<? super T> trueConsumer;
-    protected final RecordConsumer<? super T> falseConsumer;
+    private final RecordFilter<? super T> condition;
+    private final RecordConsumer<? super T> trueConsumer;
+    private final RecordConsumer<? super T> falseConsumer;
 
     public ConditionalConsumer(RecordFilter<? super T> condition,
                                RecordConsumer<? super T> trueConsumer,

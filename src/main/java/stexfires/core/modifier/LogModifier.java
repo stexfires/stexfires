@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public class LogModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected final RecordLogger<? super T> recordLogger;
+    private final RecordLogger<? super T> recordLogger;
 
     public LogModifier(RecordLogger<? super T> recordLogger) {
         Objects.requireNonNull(recordLogger);

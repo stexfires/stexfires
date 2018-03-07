@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class JoinedValuesMessage<T extends Record> implements RecordMessage<T> {
 
-    protected final CharSequence delimiter;
+    private final CharSequence delimiter;
 
     public JoinedValuesMessage() {
         this(Fields.DEFAULT_FIELD_VALUE_DELIMITER);

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  */
 public class ClassFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final Predicate<Class<? extends Record>> classPredicate;
+    private final Predicate<Class<? extends Record>> classPredicate;
 
     public ClassFilter(Predicate<Class<? extends Record>> classPredicate) {
         Objects.requireNonNull(classPredicate);

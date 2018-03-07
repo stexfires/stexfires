@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class AddPostfixFieldValueMapper implements FieldValueMapper {
 
-    protected final String postfix;
+    private final String postfix;
 
     public AddPostfixFieldValueMapper(String postfix) {
         Objects.requireNonNull(postfix);

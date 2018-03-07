@@ -13,9 +13,9 @@ import java.util.function.Function;
  */
 public class LookupMapper<T extends Record, R extends Record, K> implements RecordMapper<T, R> {
 
-    protected final Function<? super T, K> keyFunction;
-    protected final Function<K, RecordMapper<? super T, ? extends R>> mapperFunction;
-    protected final RecordMapper<? super T, ? extends R> defaultMapper;
+    private final Function<? super T, K> keyFunction;
+    private final Function<K, RecordMapper<? super T, ? extends R>> mapperFunction;
+    private final RecordMapper<? super T, ? extends R> defaultMapper;
 
     public LookupMapper(Function<? super T, K> keyFunction,
                         Function<K, RecordMapper<? super T, ? extends R>> mapperFunction,

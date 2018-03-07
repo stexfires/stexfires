@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class LoggerConsumer<T extends Record> implements RecordConsumer<T> {
 
-    protected final RecordLogger<? super T> recordLogger;
+    private final RecordLogger<? super T> recordLogger;
 
     public LoggerConsumer(RecordLogger<? super T> recordLogger) {
         Objects.requireNonNull(recordLogger);

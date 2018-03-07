@@ -11,9 +11,9 @@ import java.util.Objects;
  */
 public class ConditionalMessage<T extends Record> implements RecordMessage<T> {
 
-    protected final RecordFilter<? super T> condition;
-    protected final RecordMessage<? super Record> trueMessage;
-    protected final RecordMessage<? super Record> falseMessage;
+    private final RecordFilter<? super T> condition;
+    private final RecordMessage<? super Record> trueMessage;
+    private final RecordMessage<? super Record> falseMessage;
 
     public ConditionalMessage(RecordFilter<? super T> condition,
                               RecordMessage<? super Record> trueMessage,

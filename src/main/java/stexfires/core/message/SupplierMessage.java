@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class SupplierMessage<T extends Record> implements RecordMessage<T> {
 
-    protected final Supplier<String> messageSupplier;
+    private final Supplier<String> messageSupplier;
 
     /**
      * @param messageSupplier must be thread-safe

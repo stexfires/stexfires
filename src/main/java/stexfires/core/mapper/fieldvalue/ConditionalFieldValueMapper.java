@@ -11,9 +11,9 @@ import java.util.function.Predicate;
  */
 public class ConditionalFieldValueMapper implements FieldValueMapper {
 
-    protected final Predicate<Field> condition;
-    protected final FieldValueMapper trueFieldValueMapper;
-    protected final FieldValueMapper falseFieldValueMapper;
+    private final Predicate<Field> condition;
+    private final FieldValueMapper trueFieldValueMapper;
+    private final FieldValueMapper falseFieldValueMapper;
 
     public ConditionalFieldValueMapper(Predicate<Field> condition,
                                        FieldValueMapper trueFieldValueMapper,

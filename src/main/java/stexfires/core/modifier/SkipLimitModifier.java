@@ -16,8 +16,8 @@ public class SkipLimitModifier<T extends Record> implements RecordStreamModifier
     protected static final long MIN_SKIP = 1L;
     protected static final long MIN_LIMIT = 0L;
 
-    protected final long skipFirst;
-    protected final long limitMaxSize;
+    private final long skipFirst;
+    private final long limitMaxSize;
 
     public SkipLimitModifier(long skipFirst,
                              long limitMaxSize) {

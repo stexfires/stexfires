@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public class FilterModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected final RecordFilter<? super T> recordFilter;
+    private final RecordFilter<? super T> recordFilter;
 
     public FilterModifier(RecordFilter<? super T> recordFilter) {
         Objects.requireNonNull(recordFilter);

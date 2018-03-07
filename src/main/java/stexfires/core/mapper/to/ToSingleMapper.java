@@ -11,7 +11,7 @@ import stexfires.core.record.SingleRecord;
  */
 public class ToSingleMapper<T extends Record> implements RecordMapper<T, SingleRecord> {
 
-    protected final int valueIndex;
+    private final int valueIndex;
 
     public ToSingleMapper() {
         this(Fields.FIRST_FIELD_INDEX);

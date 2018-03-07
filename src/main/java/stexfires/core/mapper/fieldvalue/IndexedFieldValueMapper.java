@@ -14,8 +14,8 @@ import java.util.function.IntFunction;
  */
 public class IndexedFieldValueMapper implements FieldValueMapper {
 
-    protected final IntFunction<Optional<FieldValueMapper>> valueMappers;
-    protected final FieldValueMapper orElseFieldValueMapper;
+    private final IntFunction<Optional<FieldValueMapper>> valueMappers;
+    private final FieldValueMapper orElseFieldValueMapper;
 
     public IndexedFieldValueMapper(IntFunction<Optional<FieldValueMapper>> valueMappers,
                                    FieldValueMapper orElseFieldValueMapper) {

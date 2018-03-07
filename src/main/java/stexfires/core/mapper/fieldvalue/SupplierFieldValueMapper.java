@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public class SupplierFieldValueMapper implements FieldValueMapper {
 
-    protected final Supplier<String> valueSupplier;
+    private final Supplier<String> valueSupplier;
 
     /**
      * @param valueSupplier must be thread-safe

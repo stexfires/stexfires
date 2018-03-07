@@ -15,8 +15,8 @@ public class AppendableLogger<T extends Record, R extends Appendable> implements
 
     protected final Object lock = new Object();
 
-    protected final R appendable;
-    protected final RecordMessage<? super T> recordMessage;
+    private final R appendable;
+    private final RecordMessage<? super T> recordMessage;
 
     public AppendableLogger(R appendable, RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(appendable);

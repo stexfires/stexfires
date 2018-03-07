@@ -19,8 +19,8 @@ public class DispatcherLogger<T extends Record> implements RecordLogger<T> {
 
     protected final Object lock = new Object();
 
-    protected final BiPredicate<Integer, ? super T> predicate;
-    protected final List<? extends RecordLogger<? super T>> recordLoggers;
+    private final BiPredicate<Integer, ? super T> predicate;
+    private final List<? extends RecordLogger<? super T>> recordLoggers;
 
     public DispatcherLogger(BiPredicate<Integer, ? super T> predicate,
                             List<? extends RecordLogger<? super T>> recordLoggers) {

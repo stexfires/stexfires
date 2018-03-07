@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class AddPrefixFieldValueMapper implements FieldValueMapper {
 
-    protected final String prefix;
+    private final String prefix;
 
     public AddPrefixFieldValueMapper(String prefix) {
         Objects.requireNonNull(prefix);

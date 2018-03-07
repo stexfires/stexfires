@@ -11,9 +11,9 @@ import java.util.Objects;
  */
 public class ConditionalLogger<T extends Record> implements RecordLogger<T> {
 
-    protected final RecordFilter<? super T> condition;
-    protected final RecordLogger<? super T> trueLogger;
-    protected final RecordLogger<? super T> falseLogger;
+    private final RecordFilter<? super T> condition;
+    private final RecordLogger<? super T> trueLogger;
+    private final RecordLogger<? super T> falseLogger;
 
     public ConditionalLogger(RecordFilter<? super T> condition,
                              RecordLogger<? super T> trueLogger,

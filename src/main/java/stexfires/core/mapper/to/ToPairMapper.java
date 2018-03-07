@@ -11,8 +11,8 @@ import stexfires.core.record.PairRecord;
  */
 public class ToPairMapper<T extends Record> implements RecordMapper<T, PairRecord> {
 
-    protected final int firstIndex;
-    protected final int secondIndex;
+    private final int firstIndex;
+    private final int secondIndex;
 
     public ToPairMapper() {
         this(Fields.FIRST_FIELD_INDEX, Fields.FIRST_FIELD_INDEX + 1);

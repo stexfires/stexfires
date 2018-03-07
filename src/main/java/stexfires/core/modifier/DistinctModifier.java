@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class DistinctModifier<T extends Record> implements RecordStreamModifier<T, T> {
 
-    protected final RecordMessage<? super T> recordCompareMessage;
+    private final RecordMessage<? super T> recordCompareMessage;
 
     public DistinctModifier(CompareMessageBuilder compareMessageBuilder) {
         this(compareMessageBuilder.build());

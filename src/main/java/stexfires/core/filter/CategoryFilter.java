@@ -18,7 +18,7 @@ import static stexfires.util.StringComparisonType.EQUALS;
  */
 public class CategoryFilter<T extends Record> implements RecordFilter<T> {
 
-    protected final Predicate<String> categoryPredicate;
+    private final Predicate<String> categoryPredicate;
 
     public CategoryFilter(Predicate<String> categoryPredicate) {
         Objects.requireNonNull(categoryPredicate);
