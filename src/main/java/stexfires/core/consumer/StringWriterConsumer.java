@@ -9,19 +9,14 @@ import java.io.StringWriter;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class StringWriterConsumer<T extends Record> extends WriterConsumer<T, StringWriter> {
+public class StringWriterConsumer<T extends Record> extends AppendableConsumer<T, StringWriter> {
 
     public StringWriterConsumer(RecordMessage<? super T> recordMessage) {
         super(new StringWriter(), recordMessage);
     }
 
-    public String getString() {
-        return getWriter().toString();
-    }
-
-    @Override
-    public void close() {
-        // Closing a StringWriter has no effect.
+    public final String getString() {
+        return getAppendable().toString();
     }
 
 }
