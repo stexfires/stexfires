@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.
  * <p>
- * This is a functional interface whose functional method is {@link #createMessage(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #createMessage(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function

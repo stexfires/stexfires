@@ -11,7 +11,7 @@ import java.util.function.Function;
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.
  * <p>
- * This is a functional interface whose functional method is {@link #map(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #map(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function

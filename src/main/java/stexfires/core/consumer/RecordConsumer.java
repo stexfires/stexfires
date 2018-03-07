@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * <p>
  * It is expected to operate via side-effects.
  * <p>
- * This is a functional interface whose functional method is {@link #consume(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #consume(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer

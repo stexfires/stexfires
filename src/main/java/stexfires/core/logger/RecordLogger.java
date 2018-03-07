@@ -13,7 +13,7 @@ import java.util.function.Consumer;
  * It should not throw a RuntimeException (like NullPointerException).
  * It is expected to operate via side-effects.
  * <p>
- * This is a functional interface whose functional method is {@link #log(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #log(Record)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer
