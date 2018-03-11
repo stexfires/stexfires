@@ -1,6 +1,7 @@
 package stexfires.io.config;
 
 import stexfires.core.Record;
+import stexfires.core.comparator.NULLS;
 import stexfires.core.comparator.RecordComparators;
 import stexfires.core.mapper.RecordMapper;
 import stexfires.core.message.CompareMessageBuilder;
@@ -40,8 +41,8 @@ public class ConfigModifier<T extends Record> implements RecordStreamModifier<T,
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 
         Comparator<KeyValueRecord> recordComparator = RecordComparators
-                .<KeyValueRecord>category(RecordComparators.NULLS.FIRST)
-                .thenComparing(RecordComparators.keyField(Comparator.naturalOrder()));
+                .<KeyValueRecord>category(NULLS.FIRST)
+                .thenComparing(RecordComparators.valueOfKeyField(Comparator.naturalOrder()));
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
         DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
