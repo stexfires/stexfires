@@ -40,8 +40,9 @@ public class ConfigModifier<T extends Record> implements RecordStreamModifier<T,
                 r.getValueAt(valueIndex));
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 
+        // TODO special category comparator (locale)
         Comparator<KeyValueRecord> recordComparator = RecordComparators
-                .<KeyValueRecord>category(NULLS.FIRST)
+                .<KeyValueRecord>category(Comparator.naturalOrder(), NULLS.FIRST)
                 .thenComparing(RecordComparators.valueOfKeyField(Comparator.naturalOrder()));
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
