@@ -48,7 +48,7 @@ public class RecordIdMapper<T extends Record> extends FunctionMapper<T> {
      */
     public static <T extends Record> RecordIdMapper<T> longSupplier(LongSupplier recordIdSupplier) {
         Objects.requireNonNull(recordIdSupplier);
-        return new RecordIdMapper<>(record -> (Long) recordIdSupplier.getAsLong());
+        return new RecordIdMapper<>(record -> recordIdSupplier.getAsLong());
     }
 
     public static <T extends Record> RecordIdMapper<T> constant(Long recordId) {
