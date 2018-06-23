@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import java.text.Normalizer;
 import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
@@ -9,10 +10,13 @@ import java.util.function.Predicate;
  * @since 0.1
  */
 public enum StringCheckType {
+
+    // NULL and EMPTY
     NULL,
     NOT_NULL,
     EMPTY,
     NULL_OR_EMPTY,
+    // Characters
     ALPHABETIC,
     ASCII,
     DIGIT,
@@ -21,9 +25,18 @@ public enum StringCheckType {
     LOWER_CASE,
     SPACE_CHAR,
     UPPER_CASE,
-    WHITESPACE;
+    WHITESPACE,
+    // NORMALIZED
+    NORMALIZED_NFD,
+    NORMALIZED_NFC,
+    NORMALIZED_NFKD,
+    NORMALIZED_NFKC;
 
     private static final int FIRST_NON_ASCII_CHAR = 128;
+
+    private static boolean checkAllChars(String value, IntPredicate predicate) {
+        return (value != null) && !value.isEmpty() && value.chars().allMatch(predicate);
+    }
 
     public static Predicate<String> stringPredicate(StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
@@ -59,12 +72,20 @@ public enum StringCheckType {
                 return checkAllChars(value, Character::isUpperCase);
             case WHITESPACE:
                 return checkAllChars(value, Character::isWhitespace);
+            case NORMALIZED_NFD:
+                return (value == null) || value.isEmpty()
+                        || Normalizer.isNormalized(value, Normalizer.Form.NFD);
+            case NORMALIZED_NFC:
+                return (value == null) || value.isEmpty()
+                        || Normalizer.isNormalized(value, Normalizer.Form.NFC);
+            case NORMALIZED_NFKD:
+                return (value == null) || value.isEmpty()
+                        || Normalizer.isNormalized(value, Normalizer.Form.NFKD);
+            case NORMALIZED_NFKC:
+                return (value == null) || value.isEmpty()
+                        || Normalizer.isNormalized(value, Normalizer.Form.NFKC);
         }
         return false;
-    }
-
-    private static boolean checkAllChars(String value, IntPredicate predicate) {
-        return (value != null) && !value.isEmpty() && value.chars().allMatch(predicate);
     }
 
     public Predicate<String> stringPredicate() {

@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
@@ -9,12 +10,21 @@ import java.util.function.UnaryOperator;
  * @since 0.1
  */
 public enum StringUnaryOperatorType {
-    LOWER_CASE,
-    UPPER_CASE,
+
+    IDENTITY,
+    DUPLICATE,
+    REVERSE,
+    // NULL and EMPTY
+    TO_NULL,
+    TO_EMPTY,
     TRIM_TO_NULL,
     TRIM_TO_EMPTY,
     EMPTY_TO_NULL,
     NULL_TO_EMPTY,
+    // CASE
+    LOWER_CASE,
+    UPPER_CASE,
+    // WHITESPACE
     REMOVE_HORIZONTAL_WHITESPACE,
     REMOVE_WHITESPACE,
     REMOVE_VERTICAL_WHITESPACE,
@@ -24,9 +34,13 @@ public enum StringUnaryOperatorType {
     REMOVE_TRAILING_HORIZONTAL_WHITESPACE,
     REMOVE_TRAILING_WHITESPACE,
     REMOVE_TRAILING_VERTICAL_WHITESPACE,
-    REVERSE,
     TAB_TO_SPACES_2,
-    TAB_TO_SPACES_4;
+    TAB_TO_SPACES_4,
+    // NORMALIZE
+    NORMALIZE_NFD,
+    NORMALIZE_NFC,
+    NORMALIZE_NFKD,
+    NORMALIZE_NFKC;
 
     private static final String EMPTY = "";
 
@@ -45,38 +59,41 @@ public enum StringUnaryOperatorType {
         return value -> operate(stringUnaryOperatorType, value, null);
     }
 
-    public static UnaryOperator<String> stringUnaryOperator(StringUnaryOperatorType stringUnaryOperatorType, Locale locale) {
+    public static UnaryOperator<String> stringUnaryOperator(StringUnaryOperatorType stringUnaryOperatorType,
+                                                            Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
         Objects.requireNonNull(locale);
         return value -> operate(stringUnaryOperatorType, value, locale);
     }
 
-    private static String operate(StringUnaryOperatorType stringUnaryOperatorType, String value) {
+    private static String operate(StringUnaryOperatorType stringUnaryOperatorType,
+                                  String value) {
         return operate(stringUnaryOperatorType, value, null);
     }
 
     @SuppressWarnings("StringToUpperCaseOrToLowerCaseWithoutLocale")
-    private static String operate(StringUnaryOperatorType stringUnaryOperatorType, String value, Locale locale) {
+    private static String operate(StringUnaryOperatorType stringUnaryOperatorType,
+                                  String value, Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
         String result = null;
         switch (stringUnaryOperatorType) {
-            case LOWER_CASE:
+            case IDENTITY:
+                result = value;
+                break;
+            case DUPLICATE:
                 if (value != null) {
-                    if (locale != null) {
-                        result = value.toLowerCase(locale);
-                    } else {
-                        result = value.toLowerCase();
-                    }
+                    result = value + value;
                 }
                 break;
-            case UPPER_CASE:
+            case REVERSE:
                 if (value != null) {
-                    if (locale != null) {
-                        result = value.toUpperCase(locale);
-                    } else {
-                        result = value.toUpperCase();
-                    }
+                    result = new StringBuilder(value).reverse().toString();
                 }
+                break;
+            case TO_NULL:
+                break;
+            case TO_EMPTY:
+                result = EMPTY;
                 break;
             case TRIM_TO_NULL:
                 if (value != null) {
@@ -103,6 +120,24 @@ public enum StringUnaryOperatorType {
                     result = value;
                 } else {
                     result = EMPTY;
+                }
+                break;
+            case LOWER_CASE:
+                if (value != null) {
+                    if (locale != null) {
+                        result = value.toLowerCase(locale);
+                    } else {
+                        result = value.toLowerCase();
+                    }
+                }
+                break;
+            case UPPER_CASE:
+                if (value != null) {
+                    if (locale != null) {
+                        result = value.toUpperCase(locale);
+                    } else {
+                        result = value.toUpperCase();
+                    }
                 }
                 break;
             case REMOVE_HORIZONTAL_WHITESPACE:
@@ -150,11 +185,6 @@ public enum StringUnaryOperatorType {
                     result = value.replaceFirst("\\v+$", EMPTY);
                 }
                 break;
-            case REVERSE:
-                if (value != null) {
-                    result = new StringBuilder(value).reverse().toString();
-                }
-                break;
             case TAB_TO_SPACES_2:
                 if (value != null) {
                     result = value.replaceAll("\\t", "  ");
@@ -163,6 +193,26 @@ public enum StringUnaryOperatorType {
             case TAB_TO_SPACES_4:
                 if (value != null) {
                     result = value.replaceAll("\\t", "    ");
+                }
+                break;
+            case NORMALIZE_NFD:
+                if (value != null) {
+                    result = Normalizer.normalize(value, Normalizer.Form.NFD);
+                }
+                break;
+            case NORMALIZE_NFC:
+                if (value != null) {
+                    result = Normalizer.normalize(value, Normalizer.Form.NFC);
+                }
+                break;
+            case NORMALIZE_NFKD:
+                if (value != null) {
+                    result = Normalizer.normalize(value, Normalizer.Form.NFKD);
+                }
+                break;
+            case NORMALIZE_NFKC:
+                if (value != null) {
+                    result = Normalizer.normalize(value, Normalizer.Form.NFKC);
                 }
                 break;
         }

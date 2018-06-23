@@ -8,6 +8,7 @@ import java.util.function.Predicate;
  * @since 0.1
  */
 public enum StringComparisonType {
+
     EQUALS,
     EQUALS_IGNORE_CASE,
     CONTENT_EQUALS,
@@ -16,14 +17,17 @@ public enum StringComparisonType {
     ENDS_WITH,
     MATCHES;
 
-    public static Predicate<String> stringPredicate(StringComparisonType stringComparisonType, String compareValue) {
+    public static Predicate<String> stringPredicate(StringComparisonType stringComparisonType,
+                                                    String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         return value -> compare(value, stringComparisonType, compareValue);
     }
 
     @SuppressWarnings("EqualsReplaceableByObjectsCall")
-    private static boolean compare(String value, StringComparisonType stringComparisonType, String compareValue) {
+    private static boolean compare(String value,
+                                   StringComparisonType stringComparisonType,
+                                   String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
