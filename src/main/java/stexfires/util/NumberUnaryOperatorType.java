@@ -11,11 +11,14 @@ import java.util.function.UnaryOperator;
  * @since 0.1
  */
 public enum NumberUnaryOperatorType {
+
+    IDENTITY,
     INCREMENT,
     DECREMENT,
     TO_ZERO,
     ABS,
-    NEGATE;
+    NEGATE,
+    SQUARE;
 
     public static IntUnaryOperator addExact(int secondValue) {
         return value -> Math.addExact(value, secondValue);
@@ -138,9 +141,12 @@ public enum NumberUnaryOperatorType {
         return value -> operateBigInteger(numberUnaryOperatorType, value);
     }
 
-    private static int operateInt(NumberUnaryOperatorType numberUnaryOperatorType, int value) {
+    private static int operateInt(NumberUnaryOperatorType numberUnaryOperatorType,
+                                  int value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         switch (numberUnaryOperatorType) {
+            case IDENTITY:
+                return value;
             case INCREMENT:
                 return Math.incrementExact(value);
             case DECREMENT:
@@ -148,16 +154,24 @@ public enum NumberUnaryOperatorType {
             case TO_ZERO:
                 return 0;
             case ABS:
+                if (value == Integer.MIN_VALUE) {
+                    throw new ArithmeticException("integer overflow");
+                }
                 return Math.abs(value);
             case NEGATE:
                 return Math.negateExact(value);
+            case SQUARE:
+                return Math.multiplyExact(value, value);
         }
         return value;
     }
 
-    private static long operateLong(NumberUnaryOperatorType numberUnaryOperatorType, long value) {
+    private static long operateLong(NumberUnaryOperatorType numberUnaryOperatorType,
+                                    long value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         switch (numberUnaryOperatorType) {
+            case IDENTITY:
+                return value;
             case INCREMENT:
                 return Math.incrementExact(value);
             case DECREMENT:
@@ -165,17 +179,26 @@ public enum NumberUnaryOperatorType {
             case TO_ZERO:
                 return 0L;
             case ABS:
+                if (value == Long.MIN_VALUE) {
+                    throw new ArithmeticException("long overflow");
+                }
                 return Math.abs(value);
             case NEGATE:
                 return Math.negateExact(value);
+            case SQUARE:
+                return Math.multiplyExact(value, value);
         }
         return value;
     }
 
-    private static BigInteger operateBigInteger(NumberUnaryOperatorType numberUnaryOperatorType, BigInteger value) {
+    private static BigInteger operateBigInteger(NumberUnaryOperatorType numberUnaryOperatorType,
+                                                BigInteger value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         BigInteger result = null;
         switch (numberUnaryOperatorType) {
+            case IDENTITY:
+                result = value;
+                break;
             case INCREMENT:
                 if (value != null) {
                     result = value.add(BigInteger.ONE);
@@ -197,6 +220,11 @@ public enum NumberUnaryOperatorType {
             case NEGATE:
                 if (value != null) {
                     result = value.negate();
+                }
+                break;
+            case SQUARE:
+                if (value != null) {
+                    result = value.multiply(value);
                 }
                 break;
         }

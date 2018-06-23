@@ -11,6 +11,7 @@ import java.util.function.Predicate;
  * @since 0.1
  */
 public enum NumberCheckType {
+
     NEGATIVE,
     POSITIVE,
     ZERO,
