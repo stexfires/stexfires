@@ -5,9 +5,9 @@ import stexfires.core.Record;
 import stexfires.core.record.KeyRecord;
 import stexfires.core.record.ValueRecord;
 
-import java.text.Collator;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Function;
 
 import static java.util.Comparator.*;
 
@@ -17,6 +17,8 @@ import static java.util.Comparator.*;
  *
  * @author Mathias Kalb
  * @see stexfires.core.comparator.NULLS
+ * @see stexfires.core.comparator.FieldComparators
+ * @see stexfires.core.comparator.StringComparators
  * @see java.util.Comparator
  * @since 0.1
  */
@@ -25,116 +27,88 @@ public final class RecordComparators {
     private RecordComparators() {
     }
 
+    public static <T extends Record> Comparator<T> category(Comparator<String> comparator) {
+        Objects.requireNonNull(comparator);
+        return comparing(Record::getCategory, comparator);
+    }
+
     public static <T extends Record> Comparator<T> category(Comparator<String> comparator,
                                                             NULLS nulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(Record::getCategory,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+        return comparing(Record::getCategory, nulls.wrappedComparator(comparator));
     }
 
-    public static <T extends Record> Comparator<T> category(Comparator<String> comparator) {
-        return category(comparator, NULLS.FIRST);
-    }
-
-    public static <T extends Record> Comparator<T> category(NULLS nulls) {
-        return category(naturalOrder(), nulls);
-    }
-
-    public static <T extends Record> Comparator<T> category() {
-        return category(naturalOrder(), NULLS.FIRST);
-    }
-
-    public static <T extends Record> Comparator<T> category(Collator collator,
-                                                            NULLS nulls) {
-        Objects.requireNonNull(collator);
-        return category(collator::compare, nulls);
-    }
-
-    public static <T extends Record> Comparator<T> category(Collator collator) {
-        Objects.requireNonNull(collator);
-        return category(collator::compare, NULLS.FIRST);
+    public static <T extends Record> Comparator<T> recordId(Comparator<Long> comparator) {
+        Objects.requireNonNull(comparator);
+        return comparing(Record::getRecordId, comparator);
     }
 
     public static <T extends Record> Comparator<T> recordId(Comparator<Long> comparator,
                                                             NULLS nulls) {
-
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(Record::getRecordId,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
-    }
-
-    public static <T extends Record> Comparator<T> recordId(Comparator<Long> comparator) {
-        return recordId(naturalOrder(), NULLS.FIRST);
+        return comparing(Record::getRecordId, nulls.wrappedComparator(comparator));
     }
 
     public static <T extends Record> Comparator<T> recordId(NULLS nulls) {
-        return recordId(naturalOrder(), nulls);
-    }
-
-    public static <T extends Record> Comparator<T> recordId() {
-        return recordId(naturalOrder(), NULLS.FIRST);
+        Objects.requireNonNull(nulls);
+        Comparator<Long> naturalOrderComparator = naturalOrder();
+        return comparing(Record::getRecordId, nulls.wrappedComparator(naturalOrderComparator));
     }
 
     public static <T extends Record> Comparator<T> size() {
         return comparingInt(Record::size);
     }
 
-    public static <T extends Record> Comparator<T> firstField(Comparator<Field> comparator,
-                                                              NULLS nulls) {
-
+    public static <T extends Record> Comparator<T> field(Function<? super T, Field> fieldFunction,
+                                                         Comparator<Field> comparator,
+                                                         NULLS nulls) {
+        Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(Record::getFirstField,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
-    }
-
-    public static <T extends Record> Comparator<T> lastField(Comparator<Field> comparator,
-                                                             NULLS nulls) {
-
-        Objects.requireNonNull(comparator);
-        Objects.requireNonNull(nulls);
-        return comparing(Record::getLastField,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+        return comparing(fieldFunction, nulls.wrappedComparator(comparator));
     }
 
     public static <T extends Record> Comparator<T> fieldAt(int index,
                                                            Comparator<Field> comparator,
                                                            NULLS nulls) {
-
-        Objects.requireNonNull(comparator);
-        Objects.requireNonNull(nulls);
-        return comparing(record -> record.getFieldAt(index),
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+        return field(record -> record.getFieldAt(index), comparator, nulls);
     }
 
-    public static <T extends Record> Comparator<T> firstValue(Comparator<String> comparator,
+    public static <T extends Record> Comparator<T> firstField(Comparator<Field> comparator,
                                                               NULLS nulls) {
-
-        Objects.requireNonNull(comparator);
-        Objects.requireNonNull(nulls);
-        return comparing(Record::getValueOfFirstField,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+        return field(Record::getFirstField, comparator, nulls);
     }
 
-    public static <T extends Record> Comparator<T> lastValue(Comparator<String> comparator,
+    public static <T extends Record> Comparator<T> lastField(Comparator<Field> comparator,
                                                              NULLS nulls) {
+        return field(Record::getLastField, comparator, nulls);
+    }
 
+    public static <T extends Record> Comparator<T> value(Function<? super T, String> valueFunction,
+                                                         Comparator<String> comparator,
+                                                         NULLS nulls) {
+        Objects.requireNonNull(valueFunction);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(Record::getValueOfLastField,
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+        return comparing(valueFunction, nulls.wrappedComparator(comparator));
     }
 
     public static <T extends Record> Comparator<T> valueAt(int index,
                                                            Comparator<String> comparator,
                                                            NULLS nulls) {
+        return value(record -> record.getValueAt(index), comparator, nulls);
+    }
 
-        Objects.requireNonNull(comparator);
-        Objects.requireNonNull(nulls);
-        return comparing(record -> record.getValueAt(index),
-                nulls == NULLS.FIRST ? nullsFirst(comparator) : nullsLast(comparator));
+    public static <T extends Record> Comparator<T> firstValue(Comparator<String> comparator,
+                                                              NULLS nulls) {
+        return value(Record::getValueOfFirstField, comparator, nulls);
+    }
+
+    public static <T extends Record> Comparator<T> lastValue(Comparator<String> comparator,
+                                                             NULLS nulls) {
+        return value(Record::getValueOfLastField, comparator, nulls);
     }
 
     public static <T extends KeyRecord> Comparator<T> valueOfKeyField(Comparator<String> comparator) {
@@ -144,11 +118,7 @@ public final class RecordComparators {
 
     public static <T extends ValueRecord> Comparator<T> valueOfValueField(Comparator<String> comparator,
                                                                           NULLS nulls) {
-        Objects.requireNonNull(comparator);
-        if (nulls == NULLS.FIRST) {
-            return comparing(ValueRecord::getValueOfValueField, nullsFirst(comparator));
-        }
-        return comparing(ValueRecord::getValueOfValueField, nullsLast(comparator));
+        return value(ValueRecord::getValueOfValueField, comparator, nulls);
     }
 
 }

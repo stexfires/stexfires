@@ -1,6 +1,7 @@
 package stexfires.core.comparator;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Enum with two types for comparing NULLS: {@code FIRST, LAST}.
@@ -14,6 +15,13 @@ import java.util.Comparator;
  */
 public enum NULLS {
 
-    FIRST, LAST
+    FIRST, LAST;
+
+    public <T> Comparator<T> wrappedComparator(Comparator<T> comparator) {
+        Objects.requireNonNull(comparator);
+        return this == NULLS.FIRST ?
+                Comparator.nullsFirst(comparator) :
+                Comparator.nullsLast(comparator);
+    }
 
 }
