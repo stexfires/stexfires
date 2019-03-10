@@ -85,16 +85,19 @@ public class SingleRecord implements ValueRecord {
         return (index == VALUE_INDEX) ? singleField : null;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public final Field getFirstField() {
         return singleField;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public final Field getLastField() {
         return singleField;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public final Field getValueField() {
         return singleField;

@@ -15,7 +15,7 @@ import java.util.stream.Collector;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
 
     public UnaryGroupModifier(Function<? super T, ?> groupByFunction,

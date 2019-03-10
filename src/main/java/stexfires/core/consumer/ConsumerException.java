@@ -2,6 +2,8 @@ package stexfires.core.consumer;
 
 import stexfires.core.Record;
 
+import java.util.Objects;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -27,15 +29,7 @@ public class ConsumerException extends Exception {
     }
 
     protected static String createMessage(String message, Record record) {
-        StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
-        if (message != null) {
-            builder.append(message);
-        } else {
-            builder.append(DEFAULT_MESSAGE);
-        }
-        builder.append(MESSAGE_SEPARATOR);
-        builder.append(record);
-        return builder.toString();
+        return Objects.requireNonNullElse(message, DEFAULT_MESSAGE) + MESSAGE_SEPARATOR + record;
     }
 
 }

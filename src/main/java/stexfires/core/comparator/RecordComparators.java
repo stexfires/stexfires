@@ -9,7 +9,9 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.naturalOrder;
 
 /**
  * This class consists of {@code static} utility methods

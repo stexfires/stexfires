@@ -90,10 +90,7 @@ public final class Field {
     }
 
     public Stream<String> stream() {
-        if (value == null) {
-            return Stream.empty();
-        }
-        return Stream.of(value);
+        return Stream.ofNullable(value);
     }
 
     @Override

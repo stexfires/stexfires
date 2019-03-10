@@ -104,6 +104,7 @@ public class PairRecord implements Record {
         return firstField;
     }
 
+    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
     public final Field getLastField() {
         return secondField;

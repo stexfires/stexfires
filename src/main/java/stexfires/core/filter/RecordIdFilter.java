@@ -9,7 +9,9 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.LongPredicate;
 
-import static stexfires.util.NumberComparisonType.*;
+import static stexfires.util.NumberComparisonType.EQUAL_TO;
+import static stexfires.util.NumberComparisonType.GREATER_THAN_OR_EQUAL_TO;
+import static stexfires.util.NumberComparisonType.LESS_THAN;
 
 /**
  * @author Mathias Kalb

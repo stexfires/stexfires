@@ -9,7 +9,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static stexfires.util.StringCheckType.*;
+import static stexfires.util.StringCheckType.NOT_NULL;
+import static stexfires.util.StringCheckType.NULL;
 import static stexfires.util.StringComparisonType.EQUALS;
 
 /**

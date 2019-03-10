@@ -84,6 +84,7 @@ public interface Record {
         return getFieldAt(size() - 1);
     }
 
+    @SuppressWarnings("ReturnOfNull")
     default String getValueAt(int index) {
         return isValidIndex(index) ? getFieldAt(index).getValue() : null;
     }
@@ -92,10 +93,12 @@ public interface Record {
         return getValueAt(index) != null ? getValueAt(index) : other;
     }
 
+    @SuppressWarnings("ReturnOfNull")
     default String getValueOfFirstField() {
         return isEmpty() ? null : getFirstField().getValue();
     }
 
+    @SuppressWarnings("ReturnOfNull")
     default String getValueOfLastField() {
         return isEmpty() ? null : getLastField().getValue();
     }
