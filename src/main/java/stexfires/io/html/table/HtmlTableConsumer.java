@@ -46,6 +46,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
         return b.toString();
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     protected static String createHeaderString(List<HtmlTableFieldSpec> fieldSpecs) {
         StringBuilder b = new StringBuilder();
 

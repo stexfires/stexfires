@@ -62,7 +62,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
                     && (!onlyFirst || first.size() < ignoreFirst)) {
                 RecordRawData recordRawData = readNext(bufferedReader, currentRecordIndex);
                 if (recordRawData != null) {
-                    if ((currentRecordIndex - FIRST_RECORD_INDEX) >= ignoreFirst) {
+                    if ((currentRecordIndex - FIRST_RECORD_INDEX) >= (long) ignoreFirst) {
                         queue.add(recordRawData); // Can throw an IllegalStateException
                     } else {
                         first.add(recordRawData);

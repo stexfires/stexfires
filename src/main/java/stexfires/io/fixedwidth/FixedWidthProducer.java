@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static stexfires.util.Alignment.*;
+import static stexfires.util.Alignment.END;
+import static stexfires.util.Alignment.START;
 
 /**
  * @author Mathias Kalb
@@ -41,13 +42,13 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
 
         if (alignment != START) {
             while ((beginIndex < endIndex)
-                    && (value.charAt(beginIndex) == fillCharacter)) {
+                    && ((int) value.charAt(beginIndex) == fillCharacter)) {
                 beginIndex++;
             }
         }
         if (alignment != END) {
             while ((beginIndex < endIndex)
-                    && (value.charAt(endIndex - 1) == fillCharacter)) {
+                    && ((int) value.charAt(endIndex - 1) == fillCharacter)) {
                 endIndex--;
             }
         }
@@ -118,6 +119,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
             }
         }
 
+        @SuppressWarnings("MethodMayBeStatic")
         RecordRawData readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
             if (rawData == null) {

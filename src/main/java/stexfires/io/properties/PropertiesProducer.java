@@ -16,6 +16,7 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings({"ReuseOfLocalVariable", "ImplicitNumericConversion", "NumericCastThatLosesPrecision"})
 public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     protected static final char ESCAPE_CHAR = '\\';
@@ -48,7 +49,6 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
                 fileSpec.getValueSpec().getReadNullReplacement());
     }
 
-    @SuppressWarnings("BreakStatement")
     protected static String[] splitLine(String line) {
         Objects.requireNonNull(line);
 
@@ -112,7 +112,6 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         };
     }
 
-    @SuppressWarnings("NumericCastThatLosesPrecision")
     protected static String decode(String encodedStr) {
         if ((encodedStr == null) || (encodedStr.isEmpty())) {
             return encodedStr;
@@ -191,7 +190,6 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
             super(reader);
         }
 
-        @SuppressWarnings("BreakStatement")
         @Override
         protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
             StringBuilder b = new StringBuilder();

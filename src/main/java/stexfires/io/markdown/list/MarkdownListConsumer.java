@@ -31,7 +31,7 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
             write(fileSpec.getBeforeList());
             write(fileSpec.getLineSeparator());
         }
-        currentNumber = 1;
+        currentNumber = 1L;
     }
 
     @Override

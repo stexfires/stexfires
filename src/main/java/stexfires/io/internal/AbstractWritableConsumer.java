@@ -9,7 +9,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-import static stexfires.io.internal.WritableConsumerState.*;
+import static stexfires.io.internal.WritableConsumerState.OPEN;
+import static stexfires.io.internal.WritableConsumerState.WRITE_AFTER;
+import static stexfires.io.internal.WritableConsumerState.WRITE_BEFORE;
+import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
 
 /**
  * @author Mathias Kalb

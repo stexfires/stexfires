@@ -15,7 +15,10 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static stexfires.io.internal.ReadableProducerState.*;
+import static stexfires.io.internal.ReadableProducerState.OPEN;
+import static stexfires.io.internal.ReadableProducerState.READ_AFTER;
+import static stexfires.io.internal.ReadableProducerState.READ_BEFORE;
+import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
 
 /**
  * @author Mathias Kalb

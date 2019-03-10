@@ -75,7 +75,7 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
     protected final CharsetDecoder newCharsetDecoder(String decoderReplacementValue) {
         CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(codingErrorAction);
         if ((codingErrorAction == CodingErrorAction.REPLACE) && (decoderReplacementValue != null)) {
-            charsetDecoder = charsetDecoder.replaceWith(decoderReplacementValue);
+            charsetDecoder.replaceWith(decoderReplacementValue);
         }
         return charsetDecoder;
     }
@@ -87,7 +87,7 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
     protected final CharsetEncoder newCharsetEncoder(byte[] encoderReplacementValue) {
         CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
         if ((codingErrorAction == CodingErrorAction.REPLACE) && (encoderReplacementValue != null)) {
-            charsetEncoder = charsetEncoder.replaceWith(encoderReplacementValue);
+            charsetEncoder.replaceWith(encoderReplacementValue);
         }
         return charsetEncoder;
     }
