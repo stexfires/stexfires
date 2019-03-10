@@ -10,6 +10,7 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public enum NumberCheckType {
 
     NEGATIVE,

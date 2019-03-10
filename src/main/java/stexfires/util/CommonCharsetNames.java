@@ -199,7 +199,6 @@ public enum CommonCharsetNames {
      * @see java.nio.charset.StandardCharsets
      * @see java.nio.charset.Charset#forName(String)
      */
-    @SuppressWarnings("EnumSwitchStatementWhichMissesCases")
     public Charset charset() throws UnsupportedCharsetException {
         switch (this) {
             case US_ASCII:

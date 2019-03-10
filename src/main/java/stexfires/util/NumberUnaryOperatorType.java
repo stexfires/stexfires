@@ -10,6 +10,7 @@ import java.util.function.UnaryOperator;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public enum NumberUnaryOperatorType {
 
     IDENTITY,

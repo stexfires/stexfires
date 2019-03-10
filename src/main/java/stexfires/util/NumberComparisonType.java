@@ -10,6 +10,7 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public enum NumberComparisonType {
 
     EQUAL_TO,
@@ -88,7 +89,6 @@ public enum NumberComparisonType {
         return false;
     }
 
-    @SuppressWarnings("ComparatorResultComparison")
     private static boolean compareBigInteger(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
@@ -99,13 +99,13 @@ public enum NumberComparisonType {
                 case NOT_EQUAL_TO:
                     return value.compareTo(compareValue) != 0;
                 case LESS_THAN:
-                    return value.compareTo(compareValue) == -1;
+                    return value.compareTo(compareValue) < 0;
                 case LESS_THAN_OR_EQUAL_TO:
                     return value.compareTo(compareValue) <= 0;
                 case GREATER_THAN_OR_EQUAL_TO:
                     return value.compareTo(compareValue) >= 0;
                 case GREATER_THAN:
-                    return value.compareTo(compareValue) == 1;
+                    return value.compareTo(compareValue) > 0;
                 case MULTIPLE_OF:
                     return (compareValue.signum() != 0) && (value.mod(compareValue).compareTo(BigInteger.ZERO) == 0);
                 case SAME_SIGN:

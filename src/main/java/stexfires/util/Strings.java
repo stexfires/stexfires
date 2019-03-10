@@ -16,6 +16,7 @@ import java.util.stream.Stream;
  * @see java.util.List
  * @since 0.1
  */
+@SuppressWarnings("OverloadedVarargsMethod")
 public final class Strings {
 
     /**
@@ -28,6 +29,7 @@ public final class Strings {
     private Strings() {
     }
 
+    @SuppressWarnings("ReturnOfNull")
     public static String asString(Object o) {
         return o == null ? null : o.toString();
     }

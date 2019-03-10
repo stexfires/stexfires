@@ -38,7 +38,6 @@ public enum LineSeparator {
      *
      * @return line separator as a {@code String}
      */
-    @SuppressWarnings("QuestionableName")
     public String string() {
         return separator;
     }
