@@ -72,7 +72,7 @@ License
 
 Usage
 -----
-*stexfires* requires only [Java 8][Java 8].
+*stexfires* requires only Java 11.
 
 
 Building/Developing
@@ -103,7 +103,6 @@ Contributors
 
 
 [MIT License]: https://github.com/stexfires/stexfires/raw/master/LICENSE "MIT License"
-[Java 8]: https://www.java.com "Java 8"
 [Gradle]: http://gradle.org "Gradle"
 [Gradle Wrapper]: http://gradle.org/docs/current/userguide/gradle_wrapper.html "Gradle Wrapper" 
 [SemVer]: http://semver.org/ "SemVer"
