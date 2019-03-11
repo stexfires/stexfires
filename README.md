@@ -1,6 +1,6 @@
 stexfires - structured text file record stream
 ===============================================
-A stream-based Java 8 library to work with data from structured text files (CSV, Fixed width, INI, Properties, JSON, XML, ...).
+A stream-based Java library to work with data from structured text files (CSV, Fixed width, INI, Properties, JSON, XML, ...).
 
 The library is still under development.
 
