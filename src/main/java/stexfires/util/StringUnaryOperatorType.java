@@ -71,7 +71,7 @@ public enum StringUnaryOperatorType {
         return operate(stringUnaryOperatorType, value, null);
     }
 
-    @SuppressWarnings({"StringToUpperCaseOrToLowerCaseWithoutLocale", "ReplaceNullCheck"})
+    @SuppressWarnings("ReplaceNullCheck")
     private static String operate(StringUnaryOperatorType stringUnaryOperatorType,
                                   String value, Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);

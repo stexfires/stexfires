@@ -79,12 +79,10 @@ public final class Strings {
         return stream.collect(Collectors.joining(delimiter));
     }
 
-    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public static void printLine(Stream<String> stream, CharSequence delimiter) {
         System.out.println(join(stream, delimiter));
     }
 
-    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public static void printLines(Stream<String> stream) {
         stream.forEachOrdered(System.out::println);
     }

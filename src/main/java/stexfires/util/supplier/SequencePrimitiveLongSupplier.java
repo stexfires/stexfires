@@ -19,4 +19,5 @@ public final class SequencePrimitiveLongSupplier implements LongSupplier {
     public long getAsLong() {
         return atomicLong.getAndIncrement();
     }
+
 }
