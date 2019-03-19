@@ -6,11 +6,11 @@ import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Enum with common charset names.
- * The method {@code charset()} returns a charset object.
+ * The method {@code charset()} returns a charset ({@code java.nio.charset.Charset}) object.
  * <p>
- * Example: {@code Charset c = CommonCharsetNames.WINDOWS_1252.charset()}
+ * Example: {@code Charset c = CommonCharsetNames.WINDOWS_1252.charset();}
  * <p>
- * Source: <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html">https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html</a>
+ * Source: <a href="https://docs.oracle.com/en/java/javase/11/intl/supported-encodings.html">https://docs.oracle.com/en/java/javase/11/intl/supported-encodings.html</a>
  *
  * @author Mathias Kalb
  * @see java.nio.charset.StandardCharsets
@@ -63,14 +63,6 @@ public enum CommonCharsetNames {
      */
     ISO_8859_1("ISO-8859-1"),
     /**
-     * ISO-8859-13 or ISO8859_13 : Latin Alphabet No. 7
-     */
-    ISO_8859_13("ISO-8859-13"),
-    /**
-     * ISO-8859-15 or ISO8859_15 : Latin Alphabet No. 9
-     */
-    ISO_8859_15("ISO-8859-15"),
-    /**
      * ISO-8859-2 or ISO8859_2 : Latin Alphabet No. 2
      */
     ISO_8859_2("ISO-8859-2"),
@@ -91,6 +83,14 @@ public enum CommonCharsetNames {
      */
     ISO_8859_9("ISO-8859-9"),
     /**
+     * ISO-8859-13 or ISO8859_13 : Latin Alphabet No. 7
+     */
+    ISO_8859_13("ISO-8859-13"),
+    /**
+     * ISO-8859-15 or ISO8859_15 : Latin Alphabet No. 9
+     */
+    ISO_8859_15("ISO-8859-15"),
+    /**
      * KOI8-R or KOI8_R : KOI8-R, Russian
      */
     KOI8_R("KOI8-R"),
@@ -102,6 +102,10 @@ public enum CommonCharsetNames {
      * US-ASCII or ASCII : American Standard Code for Information Interchange
      */
     US_ASCII("US-ASCII"),
+    /**
+     * UTF-8 or UTF8 : Eight-bit Unicode (or UCS) Transformation Format
+     */
+    UTF_8("UTF-8"),
     /**
      * UTF-16 or UTF-16 : Sixteen-bit Unicode (or UCS) Transformation Format, byte order identified by an optional byte-order mark
      */
@@ -127,9 +131,13 @@ public enum CommonCharsetNames {
      */
     UTF_32LE("UTF-32LE"),
     /**
-     * UTF-8 or UTF8 : Eight-bit Unicode (or UCS) Transformation Format
+     * x-UTF-32BE-BOM or UTF_32BE_BOM : 32-bit Unicode (or UCS) Transformation Format, big-endian byte order, with byte-order mark
      */
-    UTF_8("UTF-8"),
+    X_UTF_32BE_BOM("x-UTF-32BE-BOM"),
+    /**
+     * x-UTF-32LE-BOM or UTF_32LE_BOM : 32-bit Unicode (or UCS) Transformation Format, little-endian byte order, with byte-order mark
+     */
+    X_UTF_32LE_BOM("x-UTF-32LE-BOM"),
     /**
      * windows-1250 or Cp1250 : Windows Eastern European
      */
@@ -165,15 +173,7 @@ public enum CommonCharsetNames {
     /**
      * x-UTF-16LE-BOM or UnicodeLittle : Sixteen-bit Unicode (or UCS) Transformation Format, little-endian byte order, with byte-order mark
      */
-    X_UTF_16LE_BOM("x-UTF-16LE-BOM"),
-    /**
-     * x-UTF-32BE-BOM or UTF_32BE_BOM : 32-bit Unicode (or UCS) Transformation Format, big-endian byte order, with byte-order mark
-     */
-    X_UTF_32BE_BOM("X-UTF-32BE-BOM"),
-    /**
-     * x-UTF-32LE-BOM or UTF_32LE_BOM : 32-bit Unicode (or UCS) Transformation Format, little-endian byte order, with byte-order mark
-     */
-    X_UTF_32LE_BOM("X-UTF-32LE-BOM");
+    X_UTF_16LE_BOM("x-UTF-16LE-BOM");
 
     private final String canonicalName;
 
