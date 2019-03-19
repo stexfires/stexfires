@@ -1,8 +1,7 @@
-package stexfires.core.mapper.to;
+package stexfires.core.mapper;
 
 import stexfires.core.Fields;
 import stexfires.core.Record;
-import stexfires.core.mapper.RecordMapper;
 import stexfires.core.record.StandardRecord;
 
 /**
