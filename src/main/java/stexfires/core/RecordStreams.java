@@ -1,11 +1,10 @@
 package stexfires.core;
 
-import stexfires.core.consumer.LoggerConsumer;
 import stexfires.core.consumer.RecordConsumer;
+import stexfires.core.consumer.SystemOutConsumer;
 import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.filter.RecordFilter;
 import stexfires.core.logger.RecordLogger;
-import stexfires.core.logger.SystemOutLogger;
 import stexfires.core.mapper.RecordMapper;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.modifier.RecordStreamModifier;
@@ -23,9 +22,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on record streams.
+ * This class consists of {@code static} utility methods
+ * for operating on {@link Record} {@link Stream}s.
  *
  * @author Mathias Kalb
+ * @see stexfires.core.Record
+ * @see stexfires.core.Records
+ * @see java.util.stream.Stream
  * @since 0.1
  */
 public final class RecordStreams {
@@ -91,7 +94,7 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> consume(
+    public static <R extends Record, T extends Record> RecordConsumer<R> modifyAndConsume(
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
@@ -102,7 +105,7 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends R> RecordConsumer<R> consume(
+    public static <R extends Record, T extends R> RecordConsumer<R> logAndConsume(
             Stream<T> recordStream,
             RecordLogger<? super T> recordLogger,
             RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
@@ -113,7 +116,7 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> consume(
+    public static <R extends Record, T extends Record> RecordConsumer<R> mapAndConsume(
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper,
             RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
@@ -137,7 +140,7 @@ public final class RecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.toList());
     }
 
-    public static <T extends Record> Map<String, List<String>> collectMessages(
+    public static <T extends Record> Map<String, List<String>> groupAndCollectMessages(
             Stream<T> recordStream,
             RecordMessage<? super T> keyMessage,
             RecordMessage<? super T> valueMessage) {
@@ -160,7 +163,7 @@ public final class RecordStreams {
 
     public static <T extends Record> void printLines(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
-        consume(recordStream, new LoggerConsumer<>(new SystemOutLogger<>()));
+        consume(recordStream, new SystemOutConsumer<>());
     }
 
     public static <T extends Record> Stream<T> log(
