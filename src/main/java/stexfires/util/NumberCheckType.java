@@ -83,6 +83,7 @@ public enum NumberCheckType {
         return false;
     }
 
+    @SuppressWarnings("DuplicateBranchesInSwitch")
     private static boolean checkBigInteger(BigInteger value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         if (value != null) {
