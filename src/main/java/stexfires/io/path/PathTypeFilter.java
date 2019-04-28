@@ -19,7 +19,7 @@ public class PathTypeFilter<T extends PathRecord> implements RecordFilter<T> {
 
     @Override
     public boolean isValid(T record) {
-        return Objects.equals(record.pathType(), pathType);
+        return record.pathType() == pathType;
     }
 
 }
