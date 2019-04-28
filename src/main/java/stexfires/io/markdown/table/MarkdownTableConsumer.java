@@ -57,9 +57,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
                 b.append(value);
             }
 
-            for (int i = valueWidth; i < minWidth; i++) {
-                b.append(FILL_CHARACTER);
-            }
+            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - valueWidth)));
 
             b.append(FILL_CHARACTER);
         }
@@ -92,9 +90,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             }
 
             // fill character
-            for (int i = valueWidth; i < fieldSpec.getMinWidth(); i++) {
-                b.append(FILL_CHARACTER);
-            }
+            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth)));
 
             b.append(FILL_CHARACTER);
         }
@@ -120,9 +116,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<Record> {
             }
 
             int valueWidth = (fieldAlignment == Alignment.CENTER) ? 2 : 1;
-            for (int i = valueWidth; i < fieldSpec.getMinWidth(); i++) {
-                b.append(HEADER_DELIMITER);
-            }
+            b.append(HEADER_DELIMITER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth)));
 
             if (fieldAlignment != Alignment.START) {
                 b.append(ALIGNMENT_INDICATOR);
