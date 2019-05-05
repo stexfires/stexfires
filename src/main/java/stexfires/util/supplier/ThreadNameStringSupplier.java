@@ -1,5 +1,7 @@
 package stexfires.util.supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.function.Supplier;
 
 /**
@@ -12,7 +14,7 @@ public final class ThreadNameStringSupplier implements Supplier<String> {
     }
 
     @Override
-    public String get() {
+    public @NotNull String get() {
         return Thread.currentThread().getName();
     }
 

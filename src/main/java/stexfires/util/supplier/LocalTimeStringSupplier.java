@@ -1,5 +1,7 @@
 package stexfires.util.supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
@@ -14,7 +16,7 @@ public final class LocalTimeStringSupplier implements Supplier<String> {
     }
 
     @Override
-    public String get() {
+    public @NotNull String get() {
         return LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);
     }
 

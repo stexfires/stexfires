@@ -1,5 +1,6 @@
 package stexfires.util.supplier;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.util.NumberCheckType;
 import stexfires.util.NumberComparisonType;
 
@@ -54,7 +55,7 @@ public final class SwitchingBooleanSupplier implements Supplier<Boolean> {
     }
 
     @Override
-    public synchronized Boolean get() {
+    public synchronized @NotNull Boolean get() {
         if (switchPredicate.test(currentIndex)) {
             currentValue = currentValue ? Boolean.FALSE : Boolean.TRUE;
         }

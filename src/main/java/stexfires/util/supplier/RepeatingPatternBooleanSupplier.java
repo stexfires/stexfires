@@ -1,5 +1,7 @@
 package stexfires.util.supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +13,8 @@ import java.util.function.Supplier;
  * @since 0.1
  */
 public final class RepeatingPatternBooleanSupplier implements Supplier<Boolean> {
+
+    private static final Boolean DEFAULT_VALUE = Boolean.FALSE;
 
     private final List<Boolean> pattern;
     private int index;
@@ -38,12 +42,12 @@ public final class RepeatingPatternBooleanSupplier implements Supplier<Boolean> 
     }
 
     @Override
-    public synchronized Boolean get() {
+    public synchronized @NotNull Boolean get() {
         index++;
         if (index == pattern.size()) {
             index = 0;
         }
-        return pattern.get(index);
+        return Objects.requireNonNullElse(pattern.get(index), DEFAULT_VALUE);
     }
 
 }

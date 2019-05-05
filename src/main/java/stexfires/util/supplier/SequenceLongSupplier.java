@@ -1,5 +1,7 @@
 package stexfires.util.supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
@@ -16,7 +18,7 @@ public final class SequenceLongSupplier implements Supplier<Long> {
     }
 
     @Override
-    public Long get() {
+    public @NotNull Long get() {
         return atomicLong.getAndIncrement();
     }
 
