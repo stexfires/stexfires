@@ -10,7 +10,6 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public enum NumberCheckType {
 
     NEGATIVE,
@@ -24,20 +23,20 @@ public enum NumberCheckType {
 
     public static IntPredicate intPredicate(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        return value -> checkInt(value, numberCheckType);
+        return value -> checkIntInternal(value, numberCheckType);
     }
 
     public static LongPredicate longPredicate(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        return value -> checkLong(value, numberCheckType);
+        return value -> checkLongInternal(value, numberCheckType);
     }
 
     public static Predicate<BigInteger> bigIntegerPredicate(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        return value -> checkBigInteger(value, numberCheckType);
+        return value -> checkBigIntegerInternal(value, numberCheckType);
     }
 
-    private static boolean checkInt(int value, NumberCheckType numberCheckType) {
+    private static boolean checkIntInternal(int value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         switch (numberCheckType) {
             case NEGATIVE:
@@ -60,7 +59,7 @@ public enum NumberCheckType {
         return false;
     }
 
-    private static boolean checkLong(long value, NumberCheckType numberCheckType) {
+    private static boolean checkLongInternal(long value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         switch (numberCheckType) {
             case NEGATIVE:
@@ -84,7 +83,7 @@ public enum NumberCheckType {
     }
 
     @SuppressWarnings("DuplicateBranchesInSwitch")
-    private static boolean checkBigInteger(BigInteger value, NumberCheckType numberCheckType) {
+    private static boolean checkBigIntegerInternal(BigInteger value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         if (value != null) {
             switch (numberCheckType) {
@@ -109,28 +108,28 @@ public enum NumberCheckType {
         return false;
     }
 
-    public IntPredicate intPredicate() {
-        return value -> checkInt(value, this);
+    public final IntPredicate intPredicate() {
+        return value -> checkIntInternal(value, this);
     }
 
-    public LongPredicate longPredicate() {
-        return value -> checkLong(value, this);
+    public final LongPredicate longPredicate() {
+        return value -> checkLongInternal(value, this);
     }
 
-    public Predicate<BigInteger> bigIntegerPredicate() {
-        return value -> checkBigInteger(value, this);
+    public final Predicate<BigInteger> bigIntegerPredicate() {
+        return value -> checkBigIntegerInternal(value, this);
     }
 
-    public boolean check(int value) {
-        return checkInt(value, this);
+    public final boolean checkInt(int value) {
+        return checkIntInternal(value, this);
     }
 
-    public boolean check(long value) {
-        return checkLong(value, this);
+    public final boolean checkLong(long value) {
+        return checkLongInternal(value, this);
     }
 
-    public boolean check(BigInteger value) {
-        return checkBigInteger(value, this);
+    public final boolean checkBigInteger(BigInteger value) {
+        return checkBigIntegerInternal(value, this);
     }
 
 }

@@ -10,7 +10,6 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
 public enum NumberComparisonType {
 
     EQUAL_TO,
@@ -25,21 +24,21 @@ public enum NumberComparisonType {
 
     public static IntPredicate intPredicate(NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        return value -> compareInt(value, numberComparisonType, compareValue);
+        return value -> compareIntInternal(value, numberComparisonType, compareValue);
     }
 
     public static LongPredicate longPredicate(NumberComparisonType numberComparisonType, long compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        return value -> compareLong(value, numberComparisonType, compareValue);
+        return value -> compareLongInternal(value, numberComparisonType, compareValue);
     }
 
     public static Predicate<BigInteger> bigIntegerPredicate(NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
-        return value -> compareBigInteger(value, numberComparisonType, compareValue);
+        return value -> compareBigIntegerInternal(value, numberComparisonType, compareValue);
     }
 
-    private static boolean compareInt(int value, NumberComparisonType numberComparisonType, int compareValue) {
+    private static boolean compareIntInternal(int value, NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
@@ -64,7 +63,7 @@ public enum NumberComparisonType {
         return false;
     }
 
-    private static boolean compareLong(long value, NumberComparisonType numberComparisonType, long compareValue) {
+    private static boolean compareLongInternal(long value, NumberComparisonType numberComparisonType, long compareValue) {
         Objects.requireNonNull(numberComparisonType);
         switch (numberComparisonType) {
             case EQUAL_TO:
@@ -89,7 +88,7 @@ public enum NumberComparisonType {
         return false;
     }
 
-    private static boolean compareBigInteger(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
+    private static boolean compareBigIntegerInternal(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
@@ -117,30 +116,30 @@ public enum NumberComparisonType {
         return false;
     }
 
-    public IntPredicate intPredicate(int compareValue) {
-        return value -> compareInt(value, this, compareValue);
+    public final IntPredicate intPredicate(int compareValue) {
+        return value -> compareIntInternal(value, this, compareValue);
     }
 
-    public LongPredicate longPredicate(long compareValue) {
-        return value -> compareLong(value, this, compareValue);
+    public final LongPredicate longPredicate(long compareValue) {
+        return value -> compareLongInternal(value, this, compareValue);
     }
 
-    public Predicate<BigInteger> bigIntegerPredicate(BigInteger compareValue) {
+    public final Predicate<BigInteger> bigIntegerPredicate(BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
-        return value -> compareBigInteger(value, this, compareValue);
+        return value -> compareBigIntegerInternal(value, this, compareValue);
     }
 
-    public boolean compare(int value, int compareValue) {
-        return compareInt(value, this, compareValue);
+    public final boolean compareInt(int value, int compareValue) {
+        return compareIntInternal(value, this, compareValue);
     }
 
-    public boolean compare(long value, long compareValue) {
-        return compareLong(value, this, compareValue);
+    public final boolean compareLong(long value, long compareValue) {
+        return compareLongInternal(value, this, compareValue);
     }
 
-    public boolean compare(BigInteger value, BigInteger compareValue) {
+    public final boolean compareBigInteger(BigInteger value, BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
-        return compareBigInteger(value, this, compareValue);
+        return compareBigIntegerInternal(value, this, compareValue);
     }
 
 }

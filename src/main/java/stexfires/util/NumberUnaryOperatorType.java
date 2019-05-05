@@ -129,21 +129,21 @@ public enum NumberUnaryOperatorType {
 
     public static IntUnaryOperator intUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
         Objects.requireNonNull(numberUnaryOperatorType);
-        return value -> operateInt(numberUnaryOperatorType, value);
+        return value -> operateIntInternal(numberUnaryOperatorType, value);
     }
 
     public static LongUnaryOperator longUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
         Objects.requireNonNull(numberUnaryOperatorType);
-        return value -> operateLong(numberUnaryOperatorType, value);
+        return value -> operateLongInternal(numberUnaryOperatorType, value);
     }
 
     public static UnaryOperator<BigInteger> bigIntegerUnaryOperator(NumberUnaryOperatorType numberUnaryOperatorType) {
         Objects.requireNonNull(numberUnaryOperatorType);
-        return value -> operateBigInteger(numberUnaryOperatorType, value);
+        return value -> operateBigIntegerInternal(numberUnaryOperatorType, value);
     }
 
-    private static int operateInt(NumberUnaryOperatorType numberUnaryOperatorType,
-                                  int value) {
+    private static int operateIntInternal(NumberUnaryOperatorType numberUnaryOperatorType,
+                                          int value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         switch (numberUnaryOperatorType) {
             case IDENTITY:
@@ -167,8 +167,8 @@ public enum NumberUnaryOperatorType {
         return value;
     }
 
-    private static long operateLong(NumberUnaryOperatorType numberUnaryOperatorType,
-                                    long value) {
+    private static long operateLongInternal(NumberUnaryOperatorType numberUnaryOperatorType,
+                                            long value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         switch (numberUnaryOperatorType) {
             case IDENTITY:
@@ -192,8 +192,8 @@ public enum NumberUnaryOperatorType {
         return value;
     }
 
-    private static BigInteger operateBigInteger(NumberUnaryOperatorType numberUnaryOperatorType,
-                                                BigInteger value) {
+    private static BigInteger operateBigIntegerInternal(NumberUnaryOperatorType numberUnaryOperatorType,
+                                                        BigInteger value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         BigInteger result = null;
         switch (numberUnaryOperatorType) {
@@ -232,28 +232,28 @@ public enum NumberUnaryOperatorType {
         return result;
     }
 
-    public IntUnaryOperator intUnaryOperator() {
-        return value -> operateInt(this, value);
+    public final IntUnaryOperator intUnaryOperator() {
+        return value -> operateIntInternal(this, value);
     }
 
-    public LongUnaryOperator longUnaryOperator() {
-        return value -> operateLong(this, value);
+    public final LongUnaryOperator longUnaryOperator() {
+        return value -> operateLongInternal(this, value);
     }
 
-    public UnaryOperator<BigInteger> bigIntegerUnaryOperator() {
-        return value -> operateBigInteger(this, value);
+    public final UnaryOperator<BigInteger> bigIntegerUnaryOperator() {
+        return value -> operateBigIntegerInternal(this, value);
     }
 
-    public int operate(int value) {
-        return operateInt(this, value);
+    public final int operateInt(int value) {
+        return operateIntInternal(this, value);
     }
 
-    public long operate(long value) {
-        return operateLong(this, value);
+    public final long operateLong(long value) {
+        return operateLongInternal(this, value);
     }
 
-    public BigInteger operate(BigInteger value) {
-        return operateBigInteger(this, value);
+    public final BigInteger operateBigInteger(BigInteger value) {
+        return operateBigIntegerInternal(this, value);
     }
 
 }
