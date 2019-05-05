@@ -3,8 +3,13 @@ package stexfires.core;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("MagicNumber")
 public class FieldTest {
 
     private Field fieldNullValue;
@@ -13,8 +18,11 @@ public class FieldTest {
     private Field fieldValueFirstLast;
     private Field fieldValueLast;
 
+    public FieldTest() {
+    }
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         fieldNullValue = new Field(0, true, null);
         fieldEmptyValue = new Field(0, true, "");
         fieldValueFirst = new Field(0, false, "test");
@@ -23,16 +31,16 @@ public class FieldTest {
     }
 
     @Test
-    public void testGetIndex() throws Exception {
-        assertEquals(0, fieldNullValue.getIndex());
-        assertEquals(0, fieldEmptyValue.getIndex());
-        assertEquals(0, fieldValueFirst.getIndex());
-        assertEquals(0, fieldValueFirstLast.getIndex());
-        assertEquals(1, fieldValueLast.getIndex());
+    public void testGetIndex() {
+        assertEquals(0L, (long) fieldNullValue.getIndex());
+        assertEquals(0L, (long) fieldEmptyValue.getIndex());
+        assertEquals(0L, (long) fieldValueFirst.getIndex());
+        assertEquals(0L, (long) fieldValueFirstLast.getIndex());
+        assertEquals(1L, (long) fieldValueLast.getIndex());
     }
 
     @Test
-    public void testIsFirst() throws Exception {
+    public void testIsFirst() {
         assertTrue(fieldNullValue.isFirst());
         assertTrue(fieldEmptyValue.isFirst());
         assertTrue(fieldValueFirst.isFirst());
@@ -41,7 +49,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testIsLast() throws Exception {
+    public void testIsLast() {
         assertTrue(fieldNullValue.isLast());
         assertTrue(fieldEmptyValue.isLast());
         assertFalse(fieldValueFirst.isLast());
@@ -50,7 +58,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testGetValue() throws Exception {
+    public void testGetValue() {
         assertNull(fieldNullValue.getValue());
         assertEquals("", fieldEmptyValue.getValue());
         assertEquals("test", fieldValueFirst.getValue());
@@ -59,7 +67,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testGetValueOrElse() throws Exception {
+    public void testGetValueOrElse() {
         assertEquals("else", fieldNullValue.getValueOrElse("else"));
         assertEquals("", fieldEmptyValue.getValueOrElse("else"));
         assertEquals("test", fieldValueFirst.getValueOrElse("else"));
@@ -68,7 +76,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testValueEquals() throws Exception {
+    public void testValueEquals() {
         assertTrue(fieldNullValue.valueEquals(null));
         assertFalse(fieldEmptyValue.valueEquals(null));
         assertFalse(fieldValueFirst.valueEquals(null));
@@ -89,7 +97,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testValueIsNull() throws Exception {
+    public void testValueIsNull() {
         assertTrue(fieldNullValue.valueIsNull());
         assertFalse(fieldEmptyValue.valueIsNull());
         assertFalse(fieldValueFirst.valueIsNull());
@@ -98,7 +106,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testValueIsEmpty() throws Exception {
+    public void testValueIsEmpty() {
         assertFalse(fieldNullValue.valueIsEmpty());
         assertTrue(fieldEmptyValue.valueIsEmpty());
         assertFalse(fieldValueFirst.valueIsEmpty());
@@ -107,7 +115,7 @@ public class FieldTest {
     }
 
     @Test
-    public void testValueIsNullOrEmpty() throws Exception {
+    public void testValueIsNullOrEmpty() {
         assertTrue(fieldNullValue.valueIsNullOrEmpty());
         assertTrue(fieldEmptyValue.valueIsNullOrEmpty());
         assertFalse(fieldValueFirst.valueIsNullOrEmpty());
@@ -116,108 +124,108 @@ public class FieldTest {
     }
 
     @Test
-    public void testLength() throws Exception {
-        assertEquals(0, fieldNullValue.length());
-        assertEquals(0, fieldEmptyValue.length());
-        assertEquals(4, fieldValueFirst.length());
-        assertEquals(4, fieldValueFirstLast.length());
-        assertEquals(4, fieldValueLast.length());
+    public void testLength() {
+        assertEquals(0L, (long) fieldNullValue.length());
+        assertEquals(0L, (long) fieldEmptyValue.length());
+        assertEquals(4L, (long) fieldValueFirst.length());
+        assertEquals(4L, (long) fieldValueFirstLast.length());
+        assertEquals(4L, (long) fieldValueLast.length());
     }
 
     @Test
-    public void testEquals() throws Exception {
-        assertTrue(fieldNullValue.equals(fieldNullValue));
-        assertFalse(fieldNullValue.equals(fieldEmptyValue));
-        assertFalse(fieldNullValue.equals(fieldValueFirst));
-        assertFalse(fieldNullValue.equals(fieldValueFirstLast));
-        assertFalse(fieldNullValue.equals(fieldValueLast));
+    public void testEquals() {
+        assertEquals(fieldNullValue, fieldNullValue);
+        assertNotEquals(fieldNullValue, fieldEmptyValue);
+        assertNotEquals(fieldNullValue, fieldValueFirst);
+        assertNotEquals(fieldNullValue, fieldValueFirstLast);
+        assertNotEquals(fieldNullValue, fieldValueLast);
 
-        assertFalse(fieldEmptyValue.equals(fieldNullValue));
-        assertTrue(fieldEmptyValue.equals(fieldEmptyValue));
-        assertFalse(fieldEmptyValue.equals(fieldValueFirst));
-        assertFalse(fieldEmptyValue.equals(fieldValueFirstLast));
-        assertFalse(fieldEmptyValue.equals(fieldValueLast));
+        assertNotEquals(fieldEmptyValue, fieldNullValue);
+        assertEquals(fieldEmptyValue, fieldEmptyValue);
+        assertNotEquals(fieldEmptyValue, fieldValueFirst);
+        assertNotEquals(fieldEmptyValue, fieldValueFirstLast);
+        assertNotEquals(fieldEmptyValue, fieldValueLast);
 
-        assertFalse(fieldValueFirst.equals(fieldNullValue));
-        assertFalse(fieldValueFirst.equals(fieldEmptyValue));
-        assertTrue(fieldValueFirst.equals(fieldValueFirst));
-        assertFalse(fieldValueFirst.equals(fieldValueFirstLast));
-        assertFalse(fieldValueFirst.equals(fieldValueLast));
+        assertNotEquals(fieldValueFirst, fieldNullValue);
+        assertNotEquals(fieldValueFirst, fieldEmptyValue);
+        assertEquals(fieldValueFirst, fieldValueFirst);
+        assertNotEquals(fieldValueFirst, fieldValueFirstLast);
+        assertNotEquals(fieldValueFirst, fieldValueLast);
 
-        assertFalse(fieldValueFirstLast.equals(fieldNullValue));
-        assertFalse(fieldValueFirstLast.equals(fieldEmptyValue));
-        assertFalse(fieldValueFirstLast.equals(fieldValueFirst));
-        assertTrue(fieldValueFirstLast.equals(fieldValueFirstLast));
-        assertFalse(fieldValueFirstLast.equals(fieldValueLast));
+        assertNotEquals(fieldValueFirstLast, fieldNullValue);
+        assertNotEquals(fieldValueFirstLast, fieldEmptyValue);
+        assertNotEquals(fieldValueFirstLast, fieldValueFirst);
+        assertEquals(fieldValueFirstLast, fieldValueFirstLast);
+        assertNotEquals(fieldValueFirstLast, fieldValueLast);
 
-        assertFalse(fieldValueLast.equals(fieldNullValue));
-        assertFalse(fieldValueLast.equals(fieldEmptyValue));
-        assertFalse(fieldValueLast.equals(fieldValueFirst));
-        assertFalse(fieldValueLast.equals(fieldValueFirstLast));
-        assertTrue(fieldValueLast.equals(fieldValueLast));
+        assertNotEquals(fieldValueLast, fieldNullValue);
+        assertNotEquals(fieldValueLast, fieldEmptyValue);
+        assertNotEquals(fieldValueLast, fieldValueFirst);
+        assertNotEquals(fieldValueLast, fieldValueFirstLast);
+        assertEquals(fieldValueLast, fieldValueLast);
 
-        assertTrue(fieldNullValue.equals(new Field(0, true, null)));
-        assertTrue(fieldEmptyValue.equals(new Field(0, true, "")));
-        assertTrue(fieldValueFirst.equals(new Field(0, false, "test")));
-        assertTrue(fieldValueFirstLast.equals(new Field(0, true, "test")));
-        assertTrue(fieldValueLast.equals(new Field(1, true, "test")));
+        assertEquals(fieldNullValue, new Field(0, true, null));
+        assertEquals(fieldEmptyValue, new Field(0, true, ""));
+        assertEquals(fieldValueFirst, new Field(0, false, "test"));
+        assertEquals(fieldValueFirstLast, new Field(0, true, "test"));
+        assertEquals(fieldValueLast, new Field(1, true, "test"));
 
-        assertFalse(fieldNullValue.equals(new Field(1, true, null)));
-        assertFalse(fieldEmptyValue.equals(new Field(1, true, "")));
-        assertFalse(fieldValueFirst.equals(new Field(1, false, "test")));
-        assertFalse(fieldValueFirstLast.equals(new Field(1, true, "test")));
-        assertFalse(fieldValueLast.equals(new Field(0, true, "test")));
+        assertNotEquals(fieldNullValue, new Field(1, true, null));
+        assertNotEquals(fieldEmptyValue, new Field(1, true, ""));
+        assertNotEquals(fieldValueFirst, new Field(1, false, "test"));
+        assertNotEquals(fieldValueFirstLast, new Field(1, true, "test"));
+        assertNotEquals(fieldValueLast, new Field(0, true, "test"));
 
-        assertFalse(fieldNullValue.equals(new Field(0, false, null)));
-        assertFalse(fieldEmptyValue.equals(new Field(0, false, "")));
-        assertFalse(fieldValueFirst.equals(new Field(0, true, "test")));
-        assertFalse(fieldValueFirstLast.equals(new Field(0, false, "test")));
-        assertFalse(fieldValueLast.equals(new Field(1, false, "test")));
+        assertNotEquals(fieldNullValue, new Field(0, false, null));
+        assertNotEquals(fieldEmptyValue, new Field(0, false, ""));
+        assertNotEquals(fieldValueFirst, new Field(0, true, "test"));
+        assertNotEquals(fieldValueFirstLast, new Field(0, false, "test"));
+        assertNotEquals(fieldValueLast, new Field(1, false, "test"));
 
-        assertTrue(fieldNullValue.equals(new Field(0, true, null)));
-        assertFalse(fieldEmptyValue.equals(new Field(0, true, null)));
-        assertFalse(fieldValueFirst.equals(new Field(0, false, null)));
-        assertFalse(fieldValueFirstLast.equals(new Field(0, true, null)));
-        assertFalse(fieldValueLast.equals(new Field(1, true, null)));
+        assertEquals(fieldNullValue, new Field(0, true, null));
+        assertNotEquals(fieldEmptyValue, new Field(0, true, null));
+        assertNotEquals(fieldValueFirst, new Field(0, false, null));
+        assertNotEquals(fieldValueFirstLast, new Field(0, true, null));
+        assertNotEquals(fieldValueLast, new Field(1, true, null));
 
-        assertFalse(fieldNullValue.equals(new Field(0, true, "")));
-        assertTrue(fieldEmptyValue.equals(new Field(0, true, "")));
-        assertFalse(fieldValueFirst.equals(new Field(0, false, "")));
-        assertFalse(fieldValueFirstLast.equals(new Field(0, true, "")));
-        assertFalse(fieldValueLast.equals(new Field(1, true, "")));
+        assertNotEquals(fieldNullValue, new Field(0, true, ""));
+        assertEquals(fieldEmptyValue, new Field(0, true, ""));
+        assertNotEquals(fieldValueFirst, new Field(0, false, ""));
+        assertNotEquals(fieldValueFirstLast, new Field(0, true, ""));
+        assertNotEquals(fieldValueLast, new Field(1, true, ""));
 
-        assertFalse(fieldNullValue.equals(new Field(0, true, "test")));
-        assertFalse(fieldEmptyValue.equals(new Field(0, true, "test")));
-        assertTrue(fieldValueFirst.equals(new Field(0, false, "test")));
-        assertTrue(fieldValueFirstLast.equals(new Field(0, true, "test")));
-        assertTrue(fieldValueLast.equals(new Field(1, true, "test")));
+        assertNotEquals(fieldNullValue, new Field(0, true, "test"));
+        assertNotEquals(fieldEmptyValue, new Field(0, true, "test"));
+        assertEquals(fieldValueFirst, new Field(0, false, "test"));
+        assertEquals(fieldValueFirstLast, new Field(0, true, "test"));
+        assertEquals(fieldValueLast, new Field(1, true, "test"));
 
-        assertFalse(fieldNullValue.equals(new Field(0, true, "test2")));
-        assertFalse(fieldEmptyValue.equals(new Field(0, true, "test2")));
-        assertFalse(fieldValueFirst.equals(new Field(0, false, "test2")));
-        assertFalse(fieldValueFirstLast.equals(new Field(0, true, "test2")));
-        assertFalse(fieldValueLast.equals(new Field(1, true, "test2")));
+        assertNotEquals(fieldNullValue, new Field(0, true, "test2"));
+        assertNotEquals(fieldEmptyValue, new Field(0, true, "test2"));
+        assertNotEquals(fieldValueFirst, new Field(0, false, "test2"));
+        assertNotEquals(fieldValueFirstLast, new Field(0, true, "test2"));
+        assertNotEquals(fieldValueLast, new Field(1, true, "test2"));
     }
 
     @Test
-    public void testHashCode() throws Exception {
-        assertNotEquals(fieldNullValue.hashCode(), fieldEmptyValue.hashCode());
-        assertNotEquals(fieldNullValue.hashCode(), fieldValueFirst.hashCode());
-        assertNotEquals(fieldNullValue.hashCode(), fieldValueFirstLast.hashCode());
-        assertNotEquals(fieldNullValue.hashCode(), fieldValueLast.hashCode());
+    public void testHashCode() {
+        assertNotEquals((long) fieldNullValue.hashCode(), (long) fieldEmptyValue.hashCode());
+        assertNotEquals((long) fieldNullValue.hashCode(), (long) fieldValueFirst.hashCode());
+        assertNotEquals((long) fieldNullValue.hashCode(), (long) fieldValueFirstLast.hashCode());
+        assertNotEquals((long) fieldNullValue.hashCode(), (long) fieldValueLast.hashCode());
 
-        assertNotEquals(fieldEmptyValue.hashCode(), fieldValueFirst.hashCode());
-        assertNotEquals(fieldEmptyValue.hashCode(), fieldValueFirstLast.hashCode());
-        assertNotEquals(fieldEmptyValue.hashCode(), fieldValueLast.hashCode());
+        assertNotEquals((long) fieldEmptyValue.hashCode(), (long) fieldValueFirst.hashCode());
+        assertNotEquals((long) fieldEmptyValue.hashCode(), (long) fieldValueFirstLast.hashCode());
+        assertNotEquals((long) fieldEmptyValue.hashCode(), (long) fieldValueLast.hashCode());
 
-        assertNotEquals(fieldValueFirst.hashCode(), fieldValueFirstLast.hashCode());
-        assertNotEquals(fieldValueFirst.hashCode(), fieldValueLast.hashCode());
+        assertNotEquals((long) fieldValueFirst.hashCode(), (long) fieldValueFirstLast.hashCode());
+        assertNotEquals((long) fieldValueFirst.hashCode(), (long) fieldValueLast.hashCode());
 
-        assertNotEquals(fieldValueFirstLast.hashCode(), fieldValueLast.hashCode());
+        assertNotEquals((long) fieldValueFirstLast.hashCode(), (long) fieldValueLast.hashCode());
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void testToString() {
         assertEquals("Field{0, true, null}", fieldNullValue.toString());
         assertEquals("Field{0, true, ''}", fieldEmptyValue.toString());
         assertEquals("Field{0, false, 'test'}", fieldValueFirst.toString());
