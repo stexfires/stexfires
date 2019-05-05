@@ -40,10 +40,10 @@ public enum StringCheckType {
 
     public static Predicate<String> stringPredicate(StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
-        return value -> check(value, stringCheckType);
+        return value -> checkInternal(value, stringCheckType);
     }
 
-    private static boolean check(String value, StringCheckType stringCheckType) {
+    private static boolean checkInternal(String value, StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
         switch (stringCheckType) {
             case NULL:
@@ -88,12 +88,12 @@ public enum StringCheckType {
         return false;
     }
 
-    public Predicate<String> stringPredicate() {
-        return value -> check(value, this);
+    public final Predicate<String> stringPredicate() {
+        return value -> checkInternal(value, this);
     }
 
-    public boolean check(String value) {
-        return check(value, this);
+    public final boolean check(String value) {
+        return checkInternal(value, this);
     }
 
 }

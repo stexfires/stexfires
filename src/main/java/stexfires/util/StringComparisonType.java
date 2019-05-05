@@ -21,12 +21,12 @@ public enum StringComparisonType {
                                                     String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
-        return value -> compare(value, stringComparisonType, compareValue);
+        return value -> compareInternal(value, stringComparisonType, compareValue);
     }
 
-    private static boolean compare(String value,
-                                   StringComparisonType stringComparisonType,
-                                   String compareValue) {
+    private static boolean compareInternal(String value,
+                                           StringComparisonType stringComparisonType,
+                                           String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
@@ -50,14 +50,14 @@ public enum StringComparisonType {
         return false;
     }
 
-    public Predicate<String> stringPredicate(String compareValue) {
+    public final Predicate<String> stringPredicate(String compareValue) {
         Objects.requireNonNull(compareValue);
-        return value -> compare(value, this, compareValue);
+        return value -> compareInternal(value, this, compareValue);
     }
 
-    public boolean compare(String value, String compareValue) {
+    public final boolean compare(String value, String compareValue) {
         Objects.requireNonNull(compareValue);
-        return compare(value, this, compareValue);
+        return compareInternal(value, this, compareValue);
     }
 
 }
