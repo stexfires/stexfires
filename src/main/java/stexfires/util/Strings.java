@@ -1,8 +1,12 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,7 +20,6 @@ import java.util.stream.Stream;
  * @see java.util.List
  * @since 0.1
  */
-@SuppressWarnings("OverloadedVarargsMethod")
 public final class Strings {
 
     /**
@@ -29,9 +32,12 @@ public final class Strings {
     private Strings() {
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    public static String asString(Object o) {
+    public static @Nullable String asString(Object o) {
         return o == null ? null : o.toString();
+    }
+
+    public static Optional<String> asOptionalString(Object o) {
+        return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
     public static String empty() {
@@ -42,6 +48,7 @@ public final class Strings {
         return Collections.singletonList(stringValue);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static List<String> list(String... stringValues) {
         return Arrays.stream(stringValues).collect(Collectors.toList());
     }
@@ -50,40 +57,52 @@ public final class Strings {
         return Stream.of(stringValue);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static Stream<String> stream(String... stringValues) {
         return Stream.of(stringValues);
     }
 
     public static Stream<String> streamOfNullable(String stringValue) {
-        return stringValue == null ? Stream.empty() : Stream.of(stringValue);
+        return Stream.ofNullable(stringValue);
     }
 
     public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
+        Objects.requireNonNull(firstStream);
+        Objects.requireNonNull(secondStream);
         return Stream.concat(firstStream, secondStream);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static Stream<String> concat(Stream<String>... streams) {
+        Objects.requireNonNull(streams);
         return Stream.of(streams).flatMap(Function.identity());
     }
 
     public static List<String> collect(Stream<String> stream) {
+        Objects.requireNonNull(stream);
         return stream.collect(Collectors.toList());
     }
 
     public static String join(Stream<String> stream) {
+        Objects.requireNonNull(stream);
         return join(stream, DEFAULT_DELIMITER);
     }
 
     public static String join(Stream<String> stream, CharSequence delimiter) {
+        Objects.requireNonNull(stream);
+        Objects.requireNonNull(delimiter);
         return stream.collect(Collectors.joining(delimiter));
     }
 
     public static void printLine(Stream<String> stream, CharSequence delimiter) {
+        Objects.requireNonNull(stream);
+        Objects.requireNonNull(delimiter);
         System.out.println(join(stream, delimiter));
     }
 
     public static void printLines(Stream<String> stream) {
+        Objects.requireNonNull(stream);
         stream.forEachOrdered(System.out::println);
     }
 
