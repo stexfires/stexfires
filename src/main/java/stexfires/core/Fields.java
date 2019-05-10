@@ -52,7 +52,7 @@ public final class Fields {
         return newArray(values.collect(Collectors.toList()));
     }
 
-    @SuppressWarnings("Convert2streamapi")
+    @SuppressWarnings({"Convert2streamapi", "OverloadedVarargsMethod"})
     public static Field[] newArray(String... values) {
         Objects.requireNonNull(values);
         Field[] fields = new Field[values.length];

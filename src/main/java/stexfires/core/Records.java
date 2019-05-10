@@ -1,5 +1,6 @@
 package stexfires.core;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.filter.RecordFilter;
@@ -49,10 +50,11 @@ public final class Records {
         return EMPTY_RECORD;
     }
 
-    public static ValueRecord ofValue(String value) {
+    public static ValueRecord ofValue(@Nullable String value) {
         return new SingleRecord(value);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static Record ofValues(String... values) {
         Objects.requireNonNull(values);
         return new StandardRecord(values);
@@ -68,6 +70,7 @@ public final class Records {
         return Collections.singletonList(record);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends Record> List<T> list(T... records) {
         Objects.requireNonNull(records);
@@ -79,6 +82,7 @@ public final class Records {
         return Stream.of(record);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends Record> Stream<T> stream(T... records) {
         Objects.requireNonNull(records);
@@ -152,7 +156,7 @@ public final class Records {
             valueList = new ArrayList<>();
         }
 
-        public synchronized Builder category(String category) {
+        public synchronized Builder category(@Nullable String category) {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -160,7 +164,7 @@ public final class Records {
             return this;
         }
 
-        public synchronized Builder recordId(Long recordId) {
+        public synchronized Builder recordId(@Nullable Long recordId) {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -170,14 +174,14 @@ public final class Records {
 
         @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
         @Override
-        public synchronized void accept(String value) {
+        public synchronized void accept(@Nullable String value) {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
             valueList.add(value);
         }
 
-        public synchronized Builder add(String value) {
+        public synchronized Builder add(@Nullable String value) {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -186,10 +190,11 @@ public final class Records {
         }
 
         public synchronized Builder addAll(Collection<String> values) {
-            if (values == null) {
+            if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            values.addAll(valueList);
+            Objects.requireNonNull(values);
+            valueList.addAll(values);
             return this;
         }
 

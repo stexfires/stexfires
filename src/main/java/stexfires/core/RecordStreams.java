@@ -1,5 +1,6 @@
 package stexfires.core;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.consumer.SystemOutConsumer;
 import stexfires.core.consumer.UncheckedConsumerException;
@@ -45,13 +46,14 @@ public final class RecordStreams {
         return Stream.of(record);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends Record> Stream<T> of(T... records) {
         Objects.requireNonNull(records);
         return Stream.of(records);
     }
 
-    public static <T extends Record> Stream<T> ofNullable(T record) {
+    public static <T extends Record> Stream<T> ofNullable(@Nullable T record) {
         return Stream.ofNullable(record);
     }
 
@@ -79,6 +81,7 @@ public final class RecordStreams {
         return Stream.concat(firstRecordStream, secondRecordStream);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <R extends Record> Stream<R> concat(Stream<? extends R>... recordStreams) {
         Objects.requireNonNull(recordStreams);
