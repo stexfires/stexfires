@@ -1,5 +1,7 @@
 package stexfires.core;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -29,9 +31,9 @@ public final class Field {
     private final int hashCode;
 
     @SuppressWarnings("MagicNumber")
-    public Field(int index, boolean last, String value) {
+    public Field(int index, boolean last, @Nullable String value) {
         if (index < Fields.FIRST_FIELD_INDEX) {
-            throw new IllegalArgumentException("Illegal index! index=" + index);
+            throw new IllegalArgumentException("Illegal field index! index=" + index);
         }
         this.index = index;
         this.last = last;
@@ -57,11 +59,11 @@ public final class Field {
         return last;
     }
 
-    public String getValue() {
+    public @Nullable String getValue() {
         return value;
     }
 
-    public String getValueOrElse(String other) {
+    public @Nullable String getValueOrElse(@Nullable String other) {
         return value != null ? value : other;
     }
 
@@ -69,7 +71,7 @@ public final class Field {
         return Optional.ofNullable(value);
     }
 
-    public boolean valueEquals(String other) {
+    public boolean valueEquals(@Nullable String other) {
         return Objects.equals(value, other);
     }
 

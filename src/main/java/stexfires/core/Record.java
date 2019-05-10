@@ -1,5 +1,7 @@
 package stexfires.core;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.LongStream;
@@ -26,13 +28,13 @@ public interface Record {
 
     Stream<Field> streamOfFields();
 
-    String getCategory();
+    @Nullable String getCategory();
 
     default boolean hasCategory() {
         return getCategory() != null;
     }
 
-    default String getCategoryOrElse(String other) {
+    default @Nullable String getCategoryOrElse(@Nullable String other) {
         return getCategory() != null ? getCategory() : other;
     }
 
@@ -41,13 +43,10 @@ public interface Record {
     }
 
     default Stream<String> streamOfCategory() {
-        if (getCategory() == null) {
-            return Stream.empty();
-        }
-        return Stream.of(getCategory());
+        return Stream.ofNullable(getCategory());
     }
 
-    Long getRecordId();
+    @Nullable Long getRecordId();
 
     default boolean hasRecordId() {
         return getRecordId() != null;
@@ -74,32 +73,32 @@ public interface Record {
         return (index >= 0) && (index < size());
     }
 
-    Field getFieldAt(int index);
+    @Nullable Field getFieldAt(int index);
 
-    default Field getFirstField() {
+    default @Nullable Field getFirstField() {
         return getFieldAt(0);
     }
 
-    default Field getLastField() {
+    default @Nullable Field getLastField() {
         return getFieldAt(size() - 1);
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String getValueAt(int index) {
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String getValueAt(int index) {
         return isValidIndex(index) ? getFieldAt(index).getValue() : null;
     }
 
-    default String getValueAtOrElse(int index, String other) {
+    default @Nullable String getValueAtOrElse(int index, @Nullable String other) {
         return getValueAt(index) != null ? getValueAt(index) : other;
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String getValueOfFirstField() {
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String getValueOfFirstField() {
         return isEmpty() ? null : getFirstField().getValue();
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String getValueOfLastField() {
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String getValueOfLastField() {
         return isEmpty() ? null : getLastField().getValue();
     }
 
