@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -83,7 +85,7 @@ public enum NumberCheckType {
     }
 
     @SuppressWarnings("DuplicateBranchesInSwitch")
-    private static boolean checkBigIntegerInternal(BigInteger value, NumberCheckType numberCheckType) {
+    private static boolean checkBigIntegerInternal(@Nullable BigInteger value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         if (value != null) {
             switch (numberCheckType) {
@@ -128,7 +130,7 @@ public enum NumberCheckType {
         return checkLongInternal(value, this);
     }
 
-    public final boolean checkBigInteger(BigInteger value) {
+    public final boolean checkBigInteger(@Nullable BigInteger value) {
         return checkBigIntegerInternal(value, this);
     }
 

@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
@@ -192,8 +194,8 @@ public enum NumberUnaryOperatorType {
         return value;
     }
 
-    private static BigInteger operateBigIntegerInternal(NumberUnaryOperatorType numberUnaryOperatorType,
-                                                        BigInteger value) {
+    private static @Nullable BigInteger operateBigIntegerInternal(NumberUnaryOperatorType numberUnaryOperatorType,
+                                                                  @Nullable BigInteger value) {
         Objects.requireNonNull(numberUnaryOperatorType);
         BigInteger result = null;
         switch (numberUnaryOperatorType) {
@@ -252,7 +254,7 @@ public enum NumberUnaryOperatorType {
         return operateLongInternal(this, value);
     }
 
-    public final BigInteger operateBigInteger(BigInteger value) {
+    public final @Nullable BigInteger operateBigInteger(@Nullable BigInteger value) {
         return operateBigIntegerInternal(this, value);
     }
 

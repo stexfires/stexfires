@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Objects;
@@ -66,14 +68,15 @@ public enum StringUnaryOperatorType {
         return value -> operateInternal(stringUnaryOperatorType, value, locale);
     }
 
-    private static String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
-                                          String value) {
+    private static @Nullable String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
+                                                    @Nullable String value) {
         return operateInternal(stringUnaryOperatorType, value, null);
     }
 
     @SuppressWarnings("ReplaceNullCheck")
-    private static String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
-                                          String value, Locale locale) {
+    private static @Nullable String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
+                                                    @Nullable String value,
+                                                    @Nullable Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
         String result = null;
         switch (stringUnaryOperatorType) {
@@ -228,11 +231,11 @@ public enum StringUnaryOperatorType {
         return value -> operateInternal(this, value, locale);
     }
 
-    public final String operate(String value) {
+    public final @Nullable String operate(@Nullable String value) {
         return operateInternal(this, value);
     }
 
-    public final String operate(String value, Locale locale) {
+    public final @Nullable String operate(@Nullable String value, Locale locale) {
         Objects.requireNonNull(locale);
         return operateInternal(this, value, locale);
     }

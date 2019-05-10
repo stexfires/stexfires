@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -88,7 +90,7 @@ public enum NumberComparisonType {
         return false;
     }
 
-    private static boolean compareBigIntegerInternal(BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
+    private static boolean compareBigIntegerInternal(@Nullable BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
@@ -124,7 +126,7 @@ public enum NumberComparisonType {
         return value -> compareLongInternal(value, this, compareValue);
     }
 
-    public final Predicate<BigInteger> bigIntegerPredicate(BigInteger compareValue) {
+    public final Predicate<BigInteger> bigIntegerPredicate(@Nullable BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
         return value -> compareBigIntegerInternal(value, this, compareValue);
     }
@@ -137,7 +139,7 @@ public enum NumberComparisonType {
         return compareLongInternal(value, this, compareValue);
     }
 
-    public final boolean compareBigInteger(BigInteger value, BigInteger compareValue) {
+    public final boolean compareBigInteger(@Nullable BigInteger value, BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
         return compareBigIntegerInternal(value, this, compareValue);
     }

@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.text.Normalizer;
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -34,7 +36,7 @@ public enum StringCheckType {
 
     private static final int FIRST_NON_ASCII_CHAR = 128;
 
-    private static boolean checkAllChars(String value, IntPredicate predicate) {
+    private static boolean checkAllChars(@Nullable String value, IntPredicate predicate) {
         return (value != null) && !value.isEmpty() && value.chars().allMatch(predicate);
     }
 
@@ -43,7 +45,7 @@ public enum StringCheckType {
         return value -> checkInternal(value, stringCheckType);
     }
 
-    private static boolean checkInternal(String value, StringCheckType stringCheckType) {
+    private static boolean checkInternal(@Nullable String value, StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
         switch (stringCheckType) {
             case NULL:
@@ -92,7 +94,7 @@ public enum StringCheckType {
         return value -> checkInternal(value, this);
     }
 
-    public final boolean check(String value) {
+    public final boolean check(@Nullable String value) {
         return checkInternal(value, this);
     }
 
