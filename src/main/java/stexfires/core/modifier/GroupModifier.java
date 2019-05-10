@@ -76,7 +76,7 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
 
     public static <T extends Record> Predicate<List<? super T>> havingSize(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        return list -> numberCheckType.check(list.size());
+        return list -> numberCheckType.checkInt(list.size());
     }
 
     public static <T extends Record> Predicate<List<? super T>> havingSizeEqualTo(int size) {
