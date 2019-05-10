@@ -1,5 +1,7 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -14,11 +16,12 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     public static final int VALUE_INDEX = PairRecord.SECOND_VALUE_INDEX;
     public static final int FIELD_SIZE = PairRecord.FIELD_SIZE;
 
-    public KeyValueRecord(String key, String value) {
+    public KeyValueRecord(@NotNull String key, @Nullable String value) {
         super(Objects.requireNonNull(key), value);
     }
 
-    public KeyValueRecord(String category, Long recordId, String key, String value) {
+    public KeyValueRecord(@Nullable String category, @Nullable Long recordId,
+                          @NotNull String key, @Nullable String value) {
         super(category, recordId, Objects.requireNonNull(key), value);
     }
 
@@ -28,12 +31,12 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     }
 
     @Override
-    public final Field getKeyField() {
+    public final @NotNull Field getKeyField() {
         return getFirstField();
     }
 
     @Override
-    public final Field getValueField() {
+    public final @NotNull Field getValueField() {
         return getSecondField();
     }
 
@@ -42,8 +45,8 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
         return "KeyValueRecord{" +
                 "category=" + getCategory() +
                 ", recordId=" + getRecordId() +
-                ", key=" + getFirstField().getValue() +
-                ", value=" + getSecondField().getValue() +
+                ", key=" + getValueOfKeyField() +
+                ", value=" + getValueOfValueField() +
                 '}';
     }
 

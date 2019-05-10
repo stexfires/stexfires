@@ -61,6 +61,7 @@ public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
                                         .and(LESS_THAN.longPredicate(to)));
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public final boolean isValid(T record) {
         return record.hasRecordId() && recordIdPredicate.test(record.getRecordId());

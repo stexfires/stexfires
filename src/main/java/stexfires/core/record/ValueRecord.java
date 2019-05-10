@@ -1,5 +1,6 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Record;
 
@@ -13,7 +14,7 @@ public interface ValueRecord extends Record {
 
     Field getValueField();
 
-    default String getValueOfValueField() {
+    default @Nullable String getValueOfValueField() {
         return getValueField().getValue();
     }
 

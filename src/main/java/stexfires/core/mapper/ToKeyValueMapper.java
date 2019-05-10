@@ -22,6 +22,7 @@ public class ToKeyValueMapper<T extends Record> implements RecordMapper<T, KeyVa
         this.nullKeyValue = nullKeyValue;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public final KeyValueRecord map(T record) {
         return new KeyValueRecord(record.getCategory(), record.getRecordId(),

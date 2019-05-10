@@ -1,5 +1,7 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
 import stexfires.core.Record;
@@ -26,11 +28,12 @@ public class PairRecord implements Record {
 
     private final int hashCode;
 
-    public PairRecord(String firstValue, String secondValue) {
+    public PairRecord(@Nullable String firstValue, @Nullable String secondValue) {
         this(null, null, firstValue, secondValue);
     }
 
-    public PairRecord(String category, Long recordId, String firstValue, String secondValue) {
+    public PairRecord(@Nullable String category, @Nullable Long recordId,
+                      @Nullable String firstValue, @Nullable String secondValue) {
         this.category = category;
         this.recordId = recordId;
         Field[] fields = Fields.newArray(firstValue, secondValue);
@@ -63,12 +66,12 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final String getCategory() {
+    public final @Nullable String getCategory() {
         return category;
     }
 
     @Override
-    public final Long getRecordId() {
+    public final @Nullable Long getRecordId() {
         return recordId;
     }
 
@@ -88,7 +91,7 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final Field getFieldAt(int index) {
+    public final @Nullable Field getFieldAt(int index) {
         switch (index) {
             case 0:
                 return firstField;
@@ -100,31 +103,31 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final Field getFirstField() {
+    public final @NotNull Field getFirstField() {
         return firstField;
     }
 
     @SuppressWarnings("SuspiciousGetterSetter")
     @Override
-    public final Field getLastField() {
+    public final @NotNull Field getLastField() {
         return secondField;
     }
 
-    public final Field getSecondField() {
+    public final @NotNull Field getSecondField() {
         return secondField;
     }
 
     @Override
-    public final String getValueOfFirstField() {
+    public final @Nullable String getValueOfFirstField() {
         return firstField.getValue();
     }
 
     @Override
-    public final String getValueOfLastField() {
+    public final @Nullable String getValueOfLastField() {
         return secondField.getValue();
     }
 
-    public final String getValueOfSecondField() {
+    public final @Nullable String getValueOfSecondField() {
         return secondField.getValue();
     }
 

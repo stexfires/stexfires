@@ -1,5 +1,6 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Field;
 import stexfires.core.Record;
 
@@ -13,7 +14,8 @@ public interface KeyRecord extends Record {
 
     Field getKeyField();
 
-    default String getValueOfKeyField() {
+    @SuppressWarnings("ConstantConditions")
+    default @NotNull String getValueOfKeyField() {
         return getKeyField().getValue();
     }
 

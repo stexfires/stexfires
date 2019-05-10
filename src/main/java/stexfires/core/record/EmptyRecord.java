@@ -1,5 +1,6 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
 import stexfires.core.Record;
@@ -37,12 +38,12 @@ public final class EmptyRecord implements Record {
     }
 
     @Override
-    public String getCategory() {
+    public @Nullable String getCategory() {
         return null;
     }
 
     @Override
-    public Long getRecordId() {
+    public @Nullable Long getRecordId() {
         return null;
     }
 
@@ -62,37 +63,37 @@ public final class EmptyRecord implements Record {
     }
 
     @Override
-    public Field getFieldAt(int index) {
+    public @Nullable Field getFieldAt(int index) {
         return null;
     }
 
     @Override
-    public Field getFirstField() {
+    public @Nullable Field getFirstField() {
         return null;
     }
 
     @Override
-    public Field getLastField() {
+    public @Nullable Field getLastField() {
         return null;
     }
 
     @Override
-    public String getValueAt(int index) {
+    public @Nullable String getValueAt(int index) {
         return null;
     }
 
     @Override
-    public String getValueAtOrElse(int index, String other) {
+    public @Nullable String getValueAtOrElse(int index, @Nullable String other) {
         return other;
     }
 
     @Override
-    public String getValueOfFirstField() {
+    public @Nullable String getValueOfFirstField() {
         return null;
     }
 
     @Override
-    public String getValueOfLastField() {
+    public @Nullable String getValueOfLastField() {
         return null;
     }
 

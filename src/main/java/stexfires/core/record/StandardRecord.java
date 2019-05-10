@@ -1,5 +1,6 @@
 package stexfires.core.record;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
 import stexfires.core.Record;
@@ -30,11 +31,11 @@ public class StandardRecord implements Record {
         this(null, null, Fields.newArray(values));
     }
 
-    public StandardRecord(String category, Collection<String> values) {
+    public StandardRecord(@Nullable String category, Collection<String> values) {
         this(category, null, Fields.newArray(values));
     }
 
-    public StandardRecord(String category, Long recordId, Collection<String> values) {
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, Collection<String> values) {
         this(category, recordId, Fields.newArray(values));
     }
 
@@ -42,23 +43,25 @@ public class StandardRecord implements Record {
         this(null, null, Fields.newArray(values));
     }
 
-    public StandardRecord(String category, Stream<String> values) {
+    public StandardRecord(@Nullable String category, Stream<String> values) {
         this(category, null, Fields.newArray(values));
     }
 
-    public StandardRecord(String category, Long recordId, Stream<String> values) {
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, Stream<String> values) {
         this(category, recordId, Fields.newArray(values));
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public StandardRecord(String... values) {
         this(null, null, Fields.newArray(values));
     }
 
-    public StandardRecord(String category, Long recordId, String... values) {
+    @SuppressWarnings("OverloadedVarargsMethod")
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, String... values) {
         this(category, recordId, Fields.newArray(values));
     }
 
-    private StandardRecord(String category, Long recordId, Field[] fields) {
+    private StandardRecord(@Nullable String category, @Nullable Long recordId, Field[] fields) {
         this.category = category;
         this.recordId = recordId;
         this.fields = fields;
@@ -84,12 +87,12 @@ public class StandardRecord implements Record {
     }
 
     @Override
-    public final String getCategory() {
+    public final @Nullable String getCategory() {
         return category;
     }
 
     @Override
-    public final Long getRecordId() {
+    public final @Nullable Long getRecordId() {
         return recordId;
     }
 
@@ -99,7 +102,7 @@ public class StandardRecord implements Record {
     }
 
     @Override
-    public final Field getFieldAt(int index) {
+    public final @Nullable Field getFieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 
