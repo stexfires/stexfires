@@ -32,11 +32,11 @@ public final class Strings {
     private Strings() {
     }
 
-    public static @Nullable String asString(Object o) {
+    public static @Nullable String asString(@Nullable Object o) {
         return o == null ? null : o.toString();
     }
 
-    public static Optional<String> asOptionalString(Object o) {
+    public static Optional<String> asOptionalString(@Nullable Object o) {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
@@ -44,7 +44,7 @@ public final class Strings {
         return EMPTY;
     }
 
-    public static List<String> list(String stringValue) {
+    public static List<String> list(@Nullable String stringValue) {
         return Collections.singletonList(stringValue);
     }
 
@@ -53,7 +53,7 @@ public final class Strings {
         return Arrays.stream(stringValues).collect(Collectors.toList());
     }
 
-    public static Stream<String> stream(String stringValue) {
+    public static Stream<String> stream(@Nullable String stringValue) {
         return Stream.of(stringValue);
     }
 
@@ -62,7 +62,7 @@ public final class Strings {
         return Stream.of(stringValues);
     }
 
-    public static Stream<String> streamOfNullable(String stringValue) {
+    public static Stream<String> streamOfNullable(@Nullable String stringValue) {
         return Stream.ofNullable(stringValue);
     }
 
