@@ -1,5 +1,6 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class RecordIdMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @NotNull String createMessage(@NotNull T record) {
         return record.hasRecordId() ? prefix + record.getRecordId() : missingRecordIdMessage;
     }
 

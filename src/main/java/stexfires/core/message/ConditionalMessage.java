@@ -1,5 +1,7 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 import stexfires.core.filter.RecordFilter;
 
@@ -27,7 +29,7 @@ public class ConditionalMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@NotNull T record) {
         return condition.isValid(record) ? trueMessage.createMessage(record) : falseMessage.createMessage(record);
     }
 

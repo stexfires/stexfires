@@ -1,5 +1,6 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class NullSafeMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@Nullable T record) {
         return record == null ? recordIsNullMessage : recordMessage.createMessage(record);
     }
 

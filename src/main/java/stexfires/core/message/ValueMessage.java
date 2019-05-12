@@ -1,5 +1,7 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Record;
 import stexfires.core.mapper.fieldvalue.FieldValueMapper;
@@ -26,12 +28,12 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     public ValueMessage(int index,
-                        String nullFieldMessage) {
+                        @Nullable String nullFieldMessage) {
         this(record -> record.getFieldAt(index), nullFieldMessage, Field::getValue);
     }
 
     public ValueMessage(int index,
-                        String nullFieldMessage,
+                        @Nullable String nullFieldMessage,
                         FieldValueMapper fieldValueMapper) {
         this(record -> record.getFieldAt(index), nullFieldMessage, fieldValueMapper);
     }
@@ -41,12 +43,12 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction,
-                        String nullFieldMessage) {
+                        @Nullable String nullFieldMessage) {
         this(fieldFunction, nullFieldMessage, Field::getValue);
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction,
-                        String nullFieldMessage,
+                        @Nullable String nullFieldMessage,
                         FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(fieldValueMapper);
@@ -74,7 +76,7 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@NotNull T record) {
         Field field = fieldFunction.apply(record);
         if (field == null) {
             return nullFieldMessage;

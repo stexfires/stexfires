@@ -1,5 +1,6 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Field;
 import stexfires.core.Record;
 
@@ -28,7 +29,7 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @NotNull String createMessage(@NotNull T record) {
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (Field field : record.listOfFields()) {

@@ -1,8 +1,8 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
-
-import java.util.Objects;
 
 /**
  * @author Mathias Kalb
@@ -12,13 +12,12 @@ public class ConstantMessage<T extends Record> implements RecordMessage<T> {
 
     private final String constantMessage;
 
-    public ConstantMessage(String constantMessage) {
-        Objects.requireNonNull(constantMessage);
+    public ConstantMessage(@Nullable String constantMessage) {
         this.constantMessage = constantMessage;
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@NotNull T record) {
         return constantMessage;
     }
 

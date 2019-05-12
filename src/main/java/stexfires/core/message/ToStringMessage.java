@@ -1,5 +1,6 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 
 /**
@@ -12,7 +13,7 @@ public class ToStringMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @NotNull String createMessage(@NotNull T record) {
         return record.toString();
     }
 

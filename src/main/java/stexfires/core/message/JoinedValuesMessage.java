@@ -1,5 +1,7 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Fields;
 import stexfires.core.Record;
 
@@ -23,7 +25,7 @@ public class JoinedValuesMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@NotNull T record) {
         return Fields.joinValues(record, delimiter);
     }
 

@@ -1,5 +1,7 @@
 package stexfires.core.message;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
 /**
@@ -14,12 +16,12 @@ public class CategoryMessage<T extends Record> implements RecordMessage<T> {
         this(null);
     }
 
-    public CategoryMessage(String nullCategoryValue) {
+    public CategoryMessage(@Nullable String nullCategoryValue) {
         this.nullCategoryValue = nullCategoryValue;
     }
 
     @Override
-    public final String createMessage(T record) {
+    public final @Nullable String createMessage(@NotNull T record) {
         return record.getCategoryOrElse(nullCategoryValue);
     }
 
