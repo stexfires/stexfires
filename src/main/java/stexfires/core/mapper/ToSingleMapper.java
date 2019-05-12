@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
 import stexfires.core.Record;
 import stexfires.core.record.SingleRecord;
@@ -21,7 +22,7 @@ public class ToSingleMapper<T extends Record> implements RecordMapper<T, SingleR
     }
 
     @Override
-    public final SingleRecord map(T record) {
+    public final @NotNull SingleRecord map(@NotNull T record) {
         return new SingleRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(valueIndex));
     }

@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
 import stexfires.core.Record;
 import stexfires.core.record.StandardRecord;
@@ -15,7 +16,7 @@ public class ToStandardMapper<T extends Record> implements RecordMapper<T, Stand
 
     @SuppressWarnings("CastToConcreteClass")
     @Override
-    public final StandardRecord map(T record) {
+    public final @NotNull StandardRecord map(@NotNull T record) {
         if (record instanceof StandardRecord) {
             return (StandardRecord) record;
         }

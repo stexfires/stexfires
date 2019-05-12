@@ -70,6 +70,7 @@ public class AddValueMapper<T extends Record> extends ValuesMapper<T> {
         return new AddValueMapper<>(record -> value);
     }
 
+    @SuppressWarnings("ReturnOfNull")
     public static <T extends Record> AddValueMapper<T> constantNull() {
         return new AddValueMapper<>(record -> null);
     }
@@ -114,6 +115,7 @@ public class AddValueMapper<T extends Record> extends ValuesMapper<T> {
         return new AddValueMapper<>(record -> record.getValueAtOrElse(index, other));
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static <T extends Record> AddValueMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
         return new AddValueMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);

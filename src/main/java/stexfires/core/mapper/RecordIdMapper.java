@@ -55,6 +55,7 @@ public class RecordIdMapper<T extends Record> extends FunctionMapper<T> {
         return new RecordIdMapper<>(record -> recordId);
     }
 
+    @SuppressWarnings("ReturnOfNull")
     public static <T extends Record> RecordIdMapper<T> constantNull() {
         return new RecordIdMapper<>(record -> null);
     }

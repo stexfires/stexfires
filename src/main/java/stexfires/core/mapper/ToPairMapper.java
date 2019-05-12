@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
 import stexfires.core.Record;
 import stexfires.core.record.PairRecord;
@@ -23,7 +24,7 @@ public class ToPairMapper<T extends Record> implements RecordMapper<T, PairRecor
     }
 
     @Override
-    public final PairRecord map(T record) {
+    public final @NotNull PairRecord map(@NotNull T record) {
         return new PairRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAt(firstIndex), record.getValueAt(secondIndex));
     }

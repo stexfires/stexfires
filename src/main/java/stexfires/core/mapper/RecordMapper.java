@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -21,8 +22,10 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface RecordMapper<T extends Record, R extends Record> {
 
+    @SuppressWarnings("NullableProblems")
     static <T extends Record, R extends Record> RecordMapper<T, R> of(Function<T, R> function) {
         Objects.requireNonNull(function);
+        // The "apply" function must not return "null"!
         return function::apply;
     }
 
@@ -42,7 +45,7 @@ public interface RecordMapper<T extends Record, R extends Record> {
         return record -> thirdRecordMapper.map(secondRecordMapper.map(firstRecordMapper.map(record)));
     }
 
-    R map(T record);
+    @NotNull R map(@NotNull T record);
 
     default Function<T, R> asFunction() {
         return this::map;

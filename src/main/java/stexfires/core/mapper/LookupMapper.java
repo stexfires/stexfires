@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 import stexfires.core.message.RecordMessage;
 
@@ -36,7 +37,7 @@ public class LookupMapper<T extends Record, R extends Record, K> implements Reco
     }
 
     @Override
-    public final R map(T record) {
+    public final @NotNull R map(@NotNull T record) {
         RecordMapper<? super T, ? extends R> recordMapper = mapperFunction.apply(keyFunction.apply(record));
         return (recordMapper == null) ? defaultMapper.map(record) : recordMapper.map(record);
     }

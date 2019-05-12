@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 import stexfires.core.record.StandardRecord;
 
@@ -55,7 +56,7 @@ public class FunctionMapper<T extends Record> implements RecordMapper<T, Record>
     }
 
     @Override
-    public final Record map(T record) {
+    public final @NotNull Record map(@NotNull T record) {
         return new StandardRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),

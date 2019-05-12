@@ -97,6 +97,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
         });
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends Record> ValuesMapper<T> createMessages(RecordMessage<? super T>... recordMessages) {
         Objects.requireNonNull(recordMessages);
@@ -112,6 +113,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
                                                      .collect(Collectors.toList()));
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends Record> ValuesMapper<T> applyFunctions(Function<? super T, String>... valueFunctions) {
         Objects.requireNonNull(valueFunctions);

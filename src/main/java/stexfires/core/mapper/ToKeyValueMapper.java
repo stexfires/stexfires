@@ -1,5 +1,6 @@
 package stexfires.core.mapper;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Record;
 import stexfires.core.record.KeyValueRecord;
 
@@ -24,7 +25,7 @@ public class ToKeyValueMapper<T extends Record> implements RecordMapper<T, KeyVa
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public final KeyValueRecord map(T record) {
+    public final @NotNull KeyValueRecord map(@NotNull T record) {
         return new KeyValueRecord(record.getCategory(), record.getRecordId(),
                 record.getValueAtOrElse(keyIndex, nullKeyValue), record.getValueAt(valueIndex));
     }

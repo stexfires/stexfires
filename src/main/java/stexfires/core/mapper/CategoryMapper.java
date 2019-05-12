@@ -66,6 +66,7 @@ public class CategoryMapper<T extends Record> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> category);
     }
 
+    @SuppressWarnings("ReturnOfNull")
     public static <T extends Record> CategoryMapper<T> constantNull() {
         return new CategoryMapper<>(record -> null);
     }
@@ -110,6 +111,7 @@ public class CategoryMapper<T extends Record> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> record.getValueAtOrElse(index, other));
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static <T extends Record> CategoryMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
         return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);
