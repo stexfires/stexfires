@@ -1,5 +1,7 @@
 package stexfires.core.mapper.fieldvalue;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.util.StringUnaryOperatorType;
 
@@ -29,7 +31,7 @@ public class StringOperationFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public final String mapToValue(Field field) {
+    public final @Nullable String mapToValue(@NotNull Field field) {
         return stringUnaryOperator.apply(field.getValue());
     }
 

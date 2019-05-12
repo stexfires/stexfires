@@ -1,5 +1,7 @@
 package stexfires.core.mapper.fieldvalue;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -27,7 +29,7 @@ public class ConditionalFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public final String mapToValue(Field field) {
+    public final @Nullable String mapToValue(@NotNull Field field) {
         return condition.test(field) ? trueFieldValueMapper.mapToValue(field) : falseFieldValueMapper.mapToValue(field);
     }
 

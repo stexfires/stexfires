@@ -1,5 +1,6 @@
 package stexfires.core.mapper.fieldvalue;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -17,8 +18,9 @@ public class ReplaceNullFieldValueMapper implements FieldValueMapper {
         this.nullValue = nullValue;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
-    public final String mapToValue(Field field) {
+    public final @NotNull String mapToValue(@NotNull Field field) {
         return field.getValueOrElse(nullValue);
     }
 

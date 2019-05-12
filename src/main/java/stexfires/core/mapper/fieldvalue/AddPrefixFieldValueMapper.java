@@ -1,5 +1,6 @@
 package stexfires.core.mapper.fieldvalue;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class AddPrefixFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public final String mapToValue(Field field) {
+    public final @NotNull String mapToValue(@NotNull Field field) {
         String value = field.getValue();
         if (value == null) {
             value = prefix;
