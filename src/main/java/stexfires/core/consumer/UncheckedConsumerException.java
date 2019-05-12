@@ -1,5 +1,7 @@
 package stexfires.core.consumer;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
 import java.io.IOException;
@@ -15,25 +17,25 @@ public class UncheckedConsumerException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public UncheckedConsumerException(String message, Record record) {
+    public UncheckedConsumerException(@Nullable String message, @Nullable Record record) {
         this(new ConsumerException(message, record));
     }
 
-    public UncheckedConsumerException(Record record, Throwable cause) {
+    public UncheckedConsumerException(@Nullable Record record, @Nullable Throwable cause) {
         this(new ConsumerException(record, cause));
     }
 
-    public UncheckedConsumerException(String message, Record record, Throwable cause) {
+    public UncheckedConsumerException(@Nullable String message, @Nullable Record record, @Nullable Throwable cause) {
         this(new ConsumerException(message, record, cause));
     }
 
-    public UncheckedConsumerException(ConsumerException cause) {
+    public UncheckedConsumerException(@NotNull ConsumerException cause) {
         super(Objects.requireNonNull(cause));
     }
 
     @SuppressWarnings("CastToConcreteClass")
     @Override
-    public ConsumerException getCause() {
+    public @NotNull ConsumerException getCause() {
         return (ConsumerException) super.getCause();
     }
 

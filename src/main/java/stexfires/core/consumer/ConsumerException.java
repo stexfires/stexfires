@@ -1,5 +1,6 @@
 package stexfires.core.consumer;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -10,26 +11,25 @@ import java.util.Objects;
  */
 public class ConsumerException extends Exception {
 
-    protected static final String DEFAULT_MESSAGE = "Could not consume this record:";
-    protected static final String MESSAGE_SEPARATOR = " ";
+    public static final String DEFAULT_MESSAGE = "Could not consume this record:";
+    public static final String MESSAGE_RECORD_SEPARATOR = " ";
 
     private static final long serialVersionUID = 1L;
-    private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
 
-    public ConsumerException(String message, Record record) {
+    public ConsumerException(@Nullable String message, @Nullable Record record) {
         super(createMessage(message, record));
     }
 
-    public ConsumerException(Record record, Throwable cause) {
+    public ConsumerException(@Nullable Record record, @Nullable Throwable cause) {
         super(createMessage(null, record), cause);
     }
 
-    public ConsumerException(String message, Record record, Throwable cause) {
+    public ConsumerException(@Nullable String message, @Nullable Record record, @Nullable Throwable cause) {
         super(createMessage(message, record), cause);
     }
 
-    protected static String createMessage(String message, Record record) {
-        return Objects.requireNonNullElse(message, DEFAULT_MESSAGE) + MESSAGE_SEPARATOR + record;
+    protected static String createMessage(@Nullable String message, @Nullable Record record) {
+        return Objects.requireNonNullElse(message, DEFAULT_MESSAGE) + MESSAGE_RECORD_SEPARATOR + record;
     }
 
 }
