@@ -1,5 +1,7 @@
 package stexfires.io.path;
 
+import org.jetbrains.annotations.Nullable;
+import stexfires.core.Record;
 import stexfires.core.record.StandardRecord;
 
 import java.nio.file.Path;
@@ -7,9 +9,16 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
+ * A PathRecord is a {@link Record} containing information about a file path.
+ * The category contains the {@link PathType}.
+ * All other information is stored in the values.
+ *
  * @author Mathias Kalb
+ * @see java.nio.file.Path
+ * @see stexfires.io.path.PathType
  * @since 0.1
  */
 public class PathRecord extends StandardRecord {
@@ -36,9 +45,9 @@ public class PathRecord extends StandardRecord {
         Path fileName = path.getFileName();
         Path parent = path.getParent();
         String[] values = new String[fieldSize];
-        values[FILE_NAME_INDEX] = fileName != null ? fileName.toString() : null;
+        values[FILE_NAME_INDEX] = (fileName != null ? fileName.toString() : null);
         values[PATH_INDEX] = path.toString();
-        values[PARENT_INDEX] = parent != null ? parent.toString() : null;
+        values[PARENT_INDEX] = (parent != null ? parent.toString() : null);
         values[PATH_NAME_COUNT_INDEX] = String.valueOf(path.getNameCount());
         values[FILE_SIZE_INDEX] = String.valueOf(fileAttributes.size());
         values[CREATION_TIME_INDEX] = fileAttributes.creationTime().toInstant().toString();
@@ -51,36 +60,45 @@ public class PathRecord extends StandardRecord {
         return PathType.valueOf(getCategory());
     }
 
-    public final String fileName() {
+    public final @Nullable String fileName() {
         return getValueAt(FILE_NAME_INDEX);
     }
 
-    public final Path path() {
-        return Paths.get(getValueAt(PATH_INDEX));
+    public final Optional<String> fileNameAsOptional() {
+        return Optional.ofNullable(fileName());
     }
 
-    public final Path parent() {
-        return getValueAt(PARENT_INDEX) != null ? Paths.get(getValueAt(PARENT_INDEX)) : null;
+    public final Path path() {
+        return Paths.get(Objects.requireNonNull(getValueAt(PATH_INDEX)));
+    }
+
+    public final @Nullable Path parent() {
+        String parent = getValueAt(PARENT_INDEX);
+        return parent != null ? Paths.get(parent) : null;
+    }
+
+    public final Optional<Path> parentAsOptional() {
+        return Optional.ofNullable(parent());
     }
 
     public final int pathNameCount() {
-        return Integer.parseInt(getValueAt(PATH_NAME_COUNT_INDEX));
+        return Integer.parseInt(Objects.requireNonNull(getValueAt(PATH_NAME_COUNT_INDEX)));
     }
 
     public final long fileSize() {
-        return Long.parseLong(getValueAt(FILE_SIZE_INDEX));
+        return Long.parseLong(Objects.requireNonNull(getValueAt(FILE_SIZE_INDEX)));
     }
 
     public final Instant creationTime() {
-        return Instant.parse(getValueAt(CREATION_TIME_INDEX));
+        return Instant.parse(Objects.requireNonNull(getValueAt(CREATION_TIME_INDEX)));
     }
 
     public final Instant lastModifiedTime() {
-        return Instant.parse(getValueAt(LAST_MODIFIED_TIME_INDEX));
+        return Instant.parse(Objects.requireNonNull(getValueAt(LAST_MODIFIED_TIME_INDEX)));
     }
 
     public final Instant lastAccessTime() {
-        return Instant.parse(getValueAt(LAST_ACCESS_TIME_INDEX));
+        return Instant.parse(Objects.requireNonNull(getValueAt(LAST_ACCESS_TIME_INDEX)));
     }
 
     @Override
