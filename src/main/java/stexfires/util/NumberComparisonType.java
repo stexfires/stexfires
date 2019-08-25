@@ -126,7 +126,7 @@ public enum NumberComparisonType {
         return value -> compareLongInternal(value, this, compareValue);
     }
 
-    public final Predicate<BigInteger> bigIntegerPredicate(@Nullable BigInteger compareValue) {
+    public final Predicate<BigInteger> bigIntegerPredicate(BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
         return value -> compareBigIntegerInternal(value, this, compareValue);
     }

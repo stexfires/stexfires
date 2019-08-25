@@ -95,12 +95,14 @@ public final class Strings {
         return stream.collect(Collectors.joining(delimiter));
     }
 
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public static void printLine(Stream<String> stream, CharSequence delimiter) {
         Objects.requireNonNull(stream);
         Objects.requireNonNull(delimiter);
         System.out.println(join(stream, delimiter));
     }
 
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
     public static void printLines(Stream<String> stream) {
         Objects.requireNonNull(stream);
         stream.forEachOrdered(System.out::println);
