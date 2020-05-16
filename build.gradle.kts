@@ -16,7 +16,7 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_14
 }
 
 val sharedManifest = the<JavaPluginConvention>().manifest {
