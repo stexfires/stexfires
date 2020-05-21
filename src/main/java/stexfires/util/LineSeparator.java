@@ -39,7 +39,7 @@ public enum LineSeparator {
      *
      * @return line separator as a {@code String}
      */
-    public String string() {
+    public final String string() {
         return separator;
     }
 
@@ -49,7 +49,7 @@ public enum LineSeparator {
      * @return line separator as a {@code Supplier}
      * @see java.util.function.Supplier
      */
-    public Supplier<String> supplier() {
+    public final Supplier<String> supplier() {
         return () -> separator;
     }
 
@@ -59,7 +59,7 @@ public enum LineSeparator {
      * @return line separator as a {@code Stream} with a single element
      * @see java.util.stream.Stream#of(Object)
      */
-    public Stream<String> stream() {
+    public final Stream<String> stream() {
         return Stream.of(separator);
     }
 
@@ -69,7 +69,7 @@ public enum LineSeparator {
      * @return line separator as an {@code IntStream} with the chars
      * @see java.lang.String#chars()
      */
-    public IntStream chars() {
+    public final IntStream chars() {
         return separator.chars();
     }
 
@@ -80,7 +80,7 @@ public enum LineSeparator {
      * @see stexfires.util.LineSeparator#string()
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return separator;
     }
 

@@ -58,25 +58,24 @@ public enum StringUnaryOperatorType {
 
     public static UnaryOperator<String> stringUnaryOperator(StringUnaryOperatorType stringUnaryOperatorType) {
         Objects.requireNonNull(stringUnaryOperatorType);
-        return value -> operateInternal(stringUnaryOperatorType, value, null);
+        return value -> operateStringInternal(stringUnaryOperatorType, value, null);
     }
 
     public static UnaryOperator<String> stringUnaryOperator(StringUnaryOperatorType stringUnaryOperatorType,
-                                                            Locale locale) {
+                                                            @Nullable Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
-        Objects.requireNonNull(locale);
-        return value -> operateInternal(stringUnaryOperatorType, value, locale);
+        return value -> operateStringInternal(stringUnaryOperatorType, value, locale);
     }
 
-    private static @Nullable String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
-                                                    @Nullable String value) {
-        return operateInternal(stringUnaryOperatorType, value, null);
+    private static @Nullable String operateStringInternal(StringUnaryOperatorType stringUnaryOperatorType,
+                                                          @Nullable String value) {
+        return operateStringInternal(stringUnaryOperatorType, value, null);
     }
 
     @SuppressWarnings("ReplaceNullCheck")
-    private static @Nullable String operateInternal(StringUnaryOperatorType stringUnaryOperatorType,
-                                                    @Nullable String value,
-                                                    @Nullable Locale locale) {
+    private static @Nullable String operateStringInternal(StringUnaryOperatorType stringUnaryOperatorType,
+                                                          @Nullable String value,
+                                                          @Nullable Locale locale) {
         Objects.requireNonNull(stringUnaryOperatorType);
         String result = null;
         switch (stringUnaryOperatorType) {
@@ -223,21 +222,20 @@ public enum StringUnaryOperatorType {
     }
 
     public final UnaryOperator<String> stringUnaryOperator() {
-        return value -> operateInternal(this, value, null);
+        return value -> operateStringInternal(this, value, null);
     }
 
     public final UnaryOperator<String> stringUnaryOperator(Locale locale) {
         Objects.requireNonNull(locale);
-        return value -> operateInternal(this, value, locale);
+        return value -> operateStringInternal(this, value, locale);
     }
 
-    public final @Nullable String operate(@Nullable String value) {
-        return operateInternal(this, value);
+    public final @Nullable String operateString(@Nullable String value) {
+        return operateStringInternal(this, value);
     }
 
-    public final @Nullable String operate(@Nullable String value, Locale locale) {
-        Objects.requireNonNull(locale);
-        return operateInternal(this, value, locale);
+    public final @Nullable String operateString(@Nullable String value, @Nullable Locale locale) {
+        return operateStringInternal(this, value, locale);
     }
 
 }

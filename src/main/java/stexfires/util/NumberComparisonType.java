@@ -42,78 +42,49 @@ public enum NumberComparisonType {
 
     private static boolean compareIntInternal(int value, NumberComparisonType numberComparisonType, int compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        switch (numberComparisonType) {
-            case EQUAL_TO:
-                return value == compareValue;
-            case NOT_EQUAL_TO:
-                return value != compareValue;
-            case LESS_THAN:
-                return value < compareValue;
-            case LESS_THAN_OR_EQUAL_TO:
-                return value <= compareValue;
-            case GREATER_THAN_OR_EQUAL_TO:
-                return value >= compareValue;
-            case GREATER_THAN:
-                return value > compareValue;
-            case MULTIPLE_OF:
-                return (compareValue != 0) && (value % compareValue == 0);
-            case SAME_SIGN:
-                return (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
-            case SAME_ABSOLUTE_VALUE:
-                return Math.abs(value) == Math.abs(compareValue);
-        }
-        return false;
+        return switch (numberComparisonType) {
+            case EQUAL_TO -> value == compareValue;
+            case NOT_EQUAL_TO -> value != compareValue;
+            case LESS_THAN -> value < compareValue;
+            case LESS_THAN_OR_EQUAL_TO -> value <= compareValue;
+            case GREATER_THAN_OR_EQUAL_TO -> value >= compareValue;
+            case GREATER_THAN -> value > compareValue;
+            case MULTIPLE_OF -> (compareValue != 0) && (value % compareValue == 0);
+            case SAME_SIGN -> (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
+            case SAME_ABSOLUTE_VALUE -> Math.abs(value) == Math.abs(compareValue);
+        };
     }
 
     private static boolean compareLongInternal(long value, NumberComparisonType numberComparisonType, long compareValue) {
         Objects.requireNonNull(numberComparisonType);
-        switch (numberComparisonType) {
-            case EQUAL_TO:
-                return value == compareValue;
-            case NOT_EQUAL_TO:
-                return value != compareValue;
-            case LESS_THAN:
-                return value < compareValue;
-            case LESS_THAN_OR_EQUAL_TO:
-                return value <= compareValue;
-            case GREATER_THAN_OR_EQUAL_TO:
-                return value >= compareValue;
-            case GREATER_THAN:
-                return value > compareValue;
-            case MULTIPLE_OF:
-                return (compareValue != 0L) && (value % compareValue == 0L);
-            case SAME_SIGN:
-                return (value > 0L && compareValue > 0L) || (value == 0L && compareValue == 0L) || (value < 0L && compareValue < 0L);
-            case SAME_ABSOLUTE_VALUE:
-                return Math.abs(value) == Math.abs(compareValue);
-        }
-        return false;
+        return switch (numberComparisonType) {
+            case EQUAL_TO -> value == compareValue;
+            case NOT_EQUAL_TO -> value != compareValue;
+            case LESS_THAN -> value < compareValue;
+            case LESS_THAN_OR_EQUAL_TO -> value <= compareValue;
+            case GREATER_THAN_OR_EQUAL_TO -> value >= compareValue;
+            case GREATER_THAN -> value > compareValue;
+            case MULTIPLE_OF -> (compareValue != 0L) && (value % compareValue == 0L);
+            case SAME_SIGN -> (value > 0L && compareValue > 0L) || (value == 0L && compareValue == 0L) || (value < 0L && compareValue < 0L);
+            case SAME_ABSOLUTE_VALUE -> Math.abs(value) == Math.abs(compareValue);
+        };
     }
 
     private static boolean compareBigIntegerInternal(@Nullable BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
-            switch (numberComparisonType) {
-                case EQUAL_TO:
-                    return value.compareTo(compareValue) == 0;
-                case NOT_EQUAL_TO:
-                    return value.compareTo(compareValue) != 0;
-                case LESS_THAN:
-                    return value.compareTo(compareValue) < 0;
-                case LESS_THAN_OR_EQUAL_TO:
-                    return value.compareTo(compareValue) <= 0;
-                case GREATER_THAN_OR_EQUAL_TO:
-                    return value.compareTo(compareValue) >= 0;
-                case GREATER_THAN:
-                    return value.compareTo(compareValue) > 0;
-                case MULTIPLE_OF:
-                    return (compareValue.signum() != 0) && (value.mod(compareValue).compareTo(BigInteger.ZERO) == 0);
-                case SAME_SIGN:
-                    return value.signum() == compareValue.signum();
-                case SAME_ABSOLUTE_VALUE:
-                    return value.abs().compareTo(compareValue.abs()) == 0;
-            }
+            return switch (numberComparisonType) {
+                case EQUAL_TO -> value.compareTo(compareValue) == 0;
+                case NOT_EQUAL_TO -> value.compareTo(compareValue) != 0;
+                case LESS_THAN -> value.compareTo(compareValue) < 0;
+                case LESS_THAN_OR_EQUAL_TO -> value.compareTo(compareValue) <= 0;
+                case GREATER_THAN_OR_EQUAL_TO -> value.compareTo(compareValue) >= 0;
+                case GREATER_THAN -> value.compareTo(compareValue) > 0;
+                case MULTIPLE_OF -> (compareValue.signum() != 0) && (value.mod(compareValue).compareTo(BigInteger.ZERO) == 0);
+                case SAME_SIGN -> value.signum() == compareValue.signum();
+                case SAME_ABSOLUTE_VALUE -> value.abs().compareTo(compareValue.abs()) == 0;
+            };
         }
         return false;
     }

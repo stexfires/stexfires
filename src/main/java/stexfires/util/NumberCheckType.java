@@ -40,72 +40,44 @@ public enum NumberCheckType {
 
     private static boolean checkIntInternal(int value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        switch (numberCheckType) {
-            case NEGATIVE:
-                return value < 0;
-            case POSITIVE:
-                return value > 0;
-            case ZERO:
-                return value == 0;
-            case NOT_ZERO:
-                return value != 0;
-            case ODD:
-                return (value & 1) == 1;
-            case EVEN:
-                return (value & 1) == 0;
-            case MAX_VALUE:
-                return value == Integer.MAX_VALUE;
-            case MIN_VALUE:
-                return value == Integer.MIN_VALUE;
-        }
-        return false;
+        return switch (numberCheckType) {
+            case NEGATIVE -> value < 0;
+            case POSITIVE -> value > 0;
+            case ZERO -> value == 0;
+            case NOT_ZERO -> value != 0;
+            case ODD -> (value & 1) == 1;
+            case EVEN -> (value & 1) == 0;
+            case MAX_VALUE -> value == Integer.MAX_VALUE;
+            case MIN_VALUE -> value == Integer.MIN_VALUE;
+        };
     }
 
     private static boolean checkLongInternal(long value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
-        switch (numberCheckType) {
-            case NEGATIVE:
-                return value < 0L;
-            case POSITIVE:
-                return value > 0L;
-            case ZERO:
-                return value == 0L;
-            case NOT_ZERO:
-                return value != 0L;
-            case ODD:
-                return (value & 1L) == 1L;
-            case EVEN:
-                return (value & 1L) == 0L;
-            case MAX_VALUE:
-                return value == Long.MAX_VALUE;
-            case MIN_VALUE:
-                return value == Long.MIN_VALUE;
-        }
-        return false;
+        return switch (numberCheckType) {
+            case NEGATIVE -> value < 0L;
+            case POSITIVE -> value > 0L;
+            case ZERO -> value == 0L;
+            case NOT_ZERO -> value != 0L;
+            case ODD -> (value & 1L) == 1L;
+            case EVEN -> (value & 1L) == 0L;
+            case MAX_VALUE -> value == Long.MAX_VALUE;
+            case MIN_VALUE -> value == Long.MIN_VALUE;
+        };
     }
 
-    @SuppressWarnings("DuplicateBranchesInSwitch")
     private static boolean checkBigIntegerInternal(@Nullable BigInteger value, NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         if (value != null) {
-            switch (numberCheckType) {
-                case NEGATIVE:
-                    return value.signum() == -1;
-                case POSITIVE:
-                    return value.signum() == 1;
-                case ZERO:
-                    return value.signum() == 0;
-                case NOT_ZERO:
-                    return value.signum() != 0;
-                case ODD:
-                    return value.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0;
-                case EVEN:
-                    return value.and(BigInteger.ONE).compareTo(BigInteger.ZERO) == 0;
-                case MAX_VALUE:
-                    return false;
-                case MIN_VALUE:
-                    return false;
-            }
+            return switch (numberCheckType) {
+                case NEGATIVE -> value.signum() == -1;
+                case POSITIVE -> value.signum() == 1;
+                case ZERO -> value.signum() == 0;
+                case NOT_ZERO -> value.signum() != 0;
+                case ODD -> value.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0;
+                case EVEN -> value.and(BigInteger.ONE).compareTo(BigInteger.ZERO) == 0;
+                case MAX_VALUE, MIN_VALUE -> false;
+            };
         }
         return false;
     }

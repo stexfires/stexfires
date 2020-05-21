@@ -23,43 +23,36 @@ public enum StringComparisonType {
                                                     String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
-        return value -> compareInternal(value, stringComparisonType, compareValue);
+        return value -> compareStringInternal(value, stringComparisonType, compareValue);
     }
 
-    private static boolean compareInternal(@Nullable String value,
-                                           StringComparisonType stringComparisonType,
-                                           String compareValue) {
+    private static boolean compareStringInternal(@Nullable String value,
+                                                 StringComparisonType stringComparisonType,
+                                                 String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
-            switch (stringComparisonType) {
-                case EQUALS:
-                    return value.equals(compareValue);
-                case EQUALS_IGNORE_CASE:
-                    return value.equalsIgnoreCase(compareValue);
-                case CONTENT_EQUALS:
-                    return value.contentEquals(compareValue);
-                case CONTAINS:
-                    return value.contains(compareValue);
-                case STARTS_WITH:
-                    return value.startsWith(compareValue);
-                case ENDS_WITH:
-                    return value.endsWith(compareValue);
-                case MATCHES:
-                    return value.matches(compareValue);
-            }
+            return switch (stringComparisonType) {
+                case EQUALS -> value.equals(compareValue);
+                case EQUALS_IGNORE_CASE -> value.equalsIgnoreCase(compareValue);
+                case CONTENT_EQUALS -> value.contentEquals(compareValue);
+                case CONTAINS -> value.contains(compareValue);
+                case STARTS_WITH -> value.startsWith(compareValue);
+                case ENDS_WITH -> value.endsWith(compareValue);
+                case MATCHES -> value.matches(compareValue);
+            };
         }
         return false;
     }
 
     public final Predicate<String> stringPredicate(String compareValue) {
         Objects.requireNonNull(compareValue);
-        return value -> compareInternal(value, this, compareValue);
+        return value -> compareStringInternal(value, this, compareValue);
     }
 
-    public final boolean compare(@Nullable String value, String compareValue) {
+    public final boolean compareString(@Nullable String value, String compareValue) {
         Objects.requireNonNull(compareValue);
-        return compareInternal(value, this, compareValue);
+        return compareStringInternal(value, this, compareValue);
     }
 
 }

@@ -17,7 +17,6 @@ import java.nio.charset.UnsupportedCharsetException;
  * @see java.nio.charset.Charset
  * @since 0.1
  */
-@SuppressWarnings("SpellCheckingInspection")
 public enum CommonCharsetNames {
 
     /**
@@ -186,7 +185,7 @@ public enum CommonCharsetNames {
      *
      * @return the canonical name
      */
-    public String getCanonicalName() {
+    public final String getCanonicalName() {
         return canonicalName;
     }
 
@@ -199,23 +198,16 @@ public enum CommonCharsetNames {
      * @see java.nio.charset.StandardCharsets
      * @see java.nio.charset.Charset#forName(String)
      */
-    public Charset charset() throws UnsupportedCharsetException {
-        switch (this) {
-            case US_ASCII:
-                return StandardCharsets.US_ASCII;
-            case ISO_8859_1:
-                return StandardCharsets.ISO_8859_1;
-            case UTF_8:
-                return StandardCharsets.UTF_8;
-            case UTF_16BE:
-                return StandardCharsets.UTF_16BE;
-            case UTF_16LE:
-                return StandardCharsets.UTF_16LE;
-            case UTF_16:
-                return StandardCharsets.UTF_16;
-            default:
-                return Charset.forName(canonicalName);
-        }
+    public final Charset charset() throws UnsupportedCharsetException {
+        return switch (this) {
+            case US_ASCII -> StandardCharsets.US_ASCII;
+            case ISO_8859_1 -> StandardCharsets.ISO_8859_1;
+            case UTF_8 -> StandardCharsets.UTF_8;
+            case UTF_16BE -> StandardCharsets.UTF_16BE;
+            case UTF_16LE -> StandardCharsets.UTF_16LE;
+            case UTF_16 -> StandardCharsets.UTF_16;
+            default -> Charset.forName(canonicalName);
+        };
     }
 
 }

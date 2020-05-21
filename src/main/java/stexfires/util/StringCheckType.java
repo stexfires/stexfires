@@ -42,60 +42,42 @@ public enum StringCheckType {
 
     public static Predicate<String> stringPredicate(StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
-        return value -> checkInternal(value, stringCheckType);
+        return value -> checkStringInternal(value, stringCheckType);
     }
 
-    private static boolean checkInternal(@Nullable String value, StringCheckType stringCheckType) {
+    private static boolean checkStringInternal(@Nullable String value, StringCheckType stringCheckType) {
         Objects.requireNonNull(stringCheckType);
-        switch (stringCheckType) {
-            case NULL:
-                return value == null;
-            case NOT_NULL:
-                return value != null;
-            case EMPTY:
-                return (value != null) && value.isEmpty();
-            case NULL_OR_EMPTY:
-                return (value == null) || value.isEmpty();
-            case ALPHABETIC:
-                return checkAllChars(value, Character::isAlphabetic);
-            case ASCII:
-                return checkAllChars(value, intChar -> intChar < FIRST_NON_ASCII_CHAR);
-            case DIGIT:
-                return checkAllChars(value, Character::isDigit);
-            case LETTER:
-                return checkAllChars(value, Character::isLetter);
-            case LETTER_OR_DIGIT:
-                return checkAllChars(value, Character::isLetterOrDigit);
-            case LOWER_CASE:
-                return checkAllChars(value, Character::isLowerCase);
-            case SPACE_CHAR:
-                return checkAllChars(value, Character::isSpaceChar);
-            case UPPER_CASE:
-                return checkAllChars(value, Character::isUpperCase);
-            case WHITESPACE:
-                return checkAllChars(value, Character::isWhitespace);
-            case NORMALIZED_NFD:
-                return (value == null) || value.isEmpty()
-                        || Normalizer.isNormalized(value, Normalizer.Form.NFD);
-            case NORMALIZED_NFC:
-                return (value == null) || value.isEmpty()
-                        || Normalizer.isNormalized(value, Normalizer.Form.NFC);
-            case NORMALIZED_NFKD:
-                return (value == null) || value.isEmpty()
-                        || Normalizer.isNormalized(value, Normalizer.Form.NFKD);
-            case NORMALIZED_NFKC:
-                return (value == null) || value.isEmpty()
-                        || Normalizer.isNormalized(value, Normalizer.Form.NFKC);
-        }
-        return false;
+        return switch (stringCheckType) {
+            case NULL -> value == null;
+            case NOT_NULL -> value != null;
+            case EMPTY -> (value != null) && value.isEmpty();
+            case NULL_OR_EMPTY -> (value == null) || value.isEmpty();
+            case ALPHABETIC -> checkAllChars(value, Character::isAlphabetic);
+            case ASCII -> checkAllChars(value, intChar -> intChar < FIRST_NON_ASCII_CHAR);
+            case DIGIT -> checkAllChars(value, Character::isDigit);
+            case LETTER -> checkAllChars(value, Character::isLetter);
+            case LETTER_OR_DIGIT -> checkAllChars(value, Character::isLetterOrDigit);
+            case LOWER_CASE -> checkAllChars(value, Character::isLowerCase);
+            case SPACE_CHAR -> checkAllChars(value, Character::isSpaceChar);
+            case UPPER_CASE -> checkAllChars(value, Character::isUpperCase);
+            case WHITESPACE -> checkAllChars(value, Character::isWhitespace);
+            case NORMALIZED_NFD -> (value == null) || value.isEmpty()
+                    || Normalizer.isNormalized(value, Normalizer.Form.NFD);
+            case NORMALIZED_NFC -> (value == null) || value.isEmpty()
+                    || Normalizer.isNormalized(value, Normalizer.Form.NFC);
+            case NORMALIZED_NFKD -> (value == null) || value.isEmpty()
+                    || Normalizer.isNormalized(value, Normalizer.Form.NFKD);
+            case NORMALIZED_NFKC -> (value == null) || value.isEmpty()
+                    || Normalizer.isNormalized(value, Normalizer.Form.NFKC);
+        };
     }
 
     public final Predicate<String> stringPredicate() {
-        return value -> checkInternal(value, this);
+        return value -> checkStringInternal(value, this);
     }
 
-    public final boolean check(@Nullable String value) {
-        return checkInternal(value, this);
+    public final boolean checkString(@Nullable String value) {
+        return checkStringInternal(value, this);
     }
 
 }

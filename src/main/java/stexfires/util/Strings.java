@@ -48,6 +48,10 @@ public final class Strings {
         return Collections.singletonList(stringValue);
     }
 
+    public static List<String> listOfNullable(@Nullable String stringValue) {
+        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
+    }
+
     @SuppressWarnings("OverloadedVarargsMethod")
     public static List<String> list(String... stringValues) {
         return Arrays.stream(stringValues).collect(Collectors.toList());
