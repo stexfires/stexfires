@@ -58,12 +58,12 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public final @Nullable String getCategory() {
+    public final String getCategory() {
         return category;
     }
 
     @Override
-    public final @Nullable Long getRecordId() {
+    public final Long getRecordId() {
         return recordId;
     }
 
@@ -82,8 +82,9 @@ public class SingleRecord implements ValueRecord {
         return index == VALUE_INDEX;
     }
 
+    @SuppressWarnings("ReturnOfNull")
     @Override
-    public final @Nullable Field getFieldAt(int index) {
+    public final Field getFieldAt(int index) {
         return (index == VALUE_INDEX) ? singleField : null;
     }
 
@@ -105,28 +106,29 @@ public class SingleRecord implements ValueRecord {
         return singleField;
     }
 
+    @SuppressWarnings("ReturnOfNull")
     @Override
-    public final @Nullable String getValueAt(int index) {
+    public final String getValueAt(int index) {
         return (index == VALUE_INDEX) ? singleField.getValue() : null;
     }
 
     @Override
-    public final @Nullable String getValueOfValueField() {
+    public final String getValueOfValueField() {
         return singleField.getValue();
     }
 
     @Override
-    public final @Nullable String getValueOfFirstField() {
+    public final String getValueOfFirstField() {
         return singleField.getValue();
     }
 
     @Override
-    public final @Nullable String getValueOfLastField() {
+    public final String getValueOfLastField() {
         return singleField.getValue();
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())

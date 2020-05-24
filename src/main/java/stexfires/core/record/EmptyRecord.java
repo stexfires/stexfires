@@ -83,7 +83,7 @@ public final class EmptyRecord implements Record {
     }
 
     @Override
-    public @Nullable String getValueAtOrElse(int index, @Nullable String other) {
+    public String getValueAtOrElse(int index, @Nullable String other) {
         return other;
     }
 
@@ -99,7 +99,7 @@ public final class EmptyRecord implements Record {
 
     @SuppressWarnings("RedundantIfStatement")
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())

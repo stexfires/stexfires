@@ -66,12 +66,12 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final @Nullable String getCategory() {
+    public final String getCategory() {
         return category;
     }
 
     @Override
-    public final @Nullable Long getRecordId() {
+    public final Long getRecordId() {
         return recordId;
     }
 
@@ -90,16 +90,14 @@ public class PairRecord implements Record {
         return index == FIRST_VALUE_INDEX || index == SECOND_VALUE_INDEX;
     }
 
+    @SuppressWarnings("ReturnOfNull")
     @Override
-    public final @Nullable Field getFieldAt(int index) {
-        switch (index) {
-            case 0:
-                return firstField;
-            case 1:
-                return secondField;
-            default:
-                return null;
-        }
+    public final Field getFieldAt(int index) {
+        return switch (index) {
+            case FIRST_VALUE_INDEX -> firstField;
+            case SECOND_VALUE_INDEX -> secondField;
+            default -> null;
+        };
     }
 
     @Override
@@ -118,21 +116,21 @@ public class PairRecord implements Record {
     }
 
     @Override
-    public final @Nullable String getValueOfFirstField() {
+    public final String getValueOfFirstField() {
         return firstField.getValue();
     }
 
     @Override
-    public final @Nullable String getValueOfLastField() {
+    public final String getValueOfLastField() {
         return secondField.getValue();
     }
 
-    public final @Nullable String getValueOfSecondField() {
+    public final String getValueOfSecondField() {
         return secondField.getValue();
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())

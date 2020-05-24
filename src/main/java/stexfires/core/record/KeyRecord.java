@@ -12,9 +12,8 @@ import stexfires.core.Record;
  */
 public interface KeyRecord extends Record {
 
-    Field getKeyField();
+    @NotNull Field getKeyField();
 
-    @SuppressWarnings("ConstantConditions")
     default @NotNull String getValueOfKeyField() {
         return getKeyField().getValue();
     }

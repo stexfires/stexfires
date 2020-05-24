@@ -87,12 +87,12 @@ public class StandardRecord implements Record {
     }
 
     @Override
-    public final @Nullable String getCategory() {
+    public final String getCategory() {
         return category;
     }
 
     @Override
-    public final @Nullable Long getRecordId() {
+    public final Long getRecordId() {
         return recordId;
     }
 
@@ -101,13 +101,14 @@ public class StandardRecord implements Record {
         return fields.length;
     }
 
+    @SuppressWarnings("ReturnOfNull")
     @Override
-    public final @Nullable Field getFieldAt(int index) {
+    public final Field getFieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())
