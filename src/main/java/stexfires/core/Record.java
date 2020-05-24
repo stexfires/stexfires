@@ -28,13 +28,13 @@ public interface Record {
 
     Stream<Field> streamOfFields();
 
-    @Nullable String getCategory();
+    String getCategory();
 
     default boolean hasCategory() {
         return getCategory() != null;
     }
 
-    default @Nullable String getCategoryOrElse(@Nullable String other) {
+    default String getCategoryOrElse(@Nullable String other) {
         return getCategory() != null ? getCategory() : other;
     }
 
@@ -46,7 +46,7 @@ public interface Record {
         return Stream.ofNullable(getCategory());
     }
 
-    @Nullable Long getRecordId();
+    Long getRecordId();
 
     default boolean hasRecordId() {
         return getRecordId() != null;
@@ -73,32 +73,32 @@ public interface Record {
         return (index >= 0) && (index < size());
     }
 
-    @Nullable Field getFieldAt(int index);
+    Field getFieldAt(int index);
 
-    default @Nullable Field getFirstField() {
+    default Field getFirstField() {
         return getFieldAt(0);
     }
 
-    default @Nullable Field getLastField() {
+    default Field getLastField() {
         return getFieldAt(size() - 1);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    default @Nullable String getValueAt(int index) {
+    @SuppressWarnings("ReturnOfNull")
+    default String getValueAt(int index) {
         return isValidIndex(index) ? getFieldAt(index).getValue() : null;
     }
 
-    default @Nullable String getValueAtOrElse(int index, @Nullable String other) {
+    default String getValueAtOrElse(int index, @Nullable String other) {
         return getValueAt(index) != null ? getValueAt(index) : other;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    default @Nullable String getValueOfFirstField() {
+    @SuppressWarnings("ReturnOfNull")
+    default String getValueOfFirstField() {
         return isEmpty() ? null : getFirstField().getValue();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    default @Nullable String getValueOfLastField() {
+    @SuppressWarnings("ReturnOfNull")
+    default String getValueOfLastField() {
         return isEmpty() ? null : getLastField().getValue();
     }
 

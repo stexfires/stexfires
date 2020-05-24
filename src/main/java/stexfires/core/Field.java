@@ -47,6 +47,10 @@ public final class Field {
         hashCode = calcHashCode;
     }
 
+    public Field(int index, boolean last) {
+        this(index, last, null);
+    }
+
     public int getIndex() {
         return index;
     }
@@ -59,11 +63,11 @@ public final class Field {
         return last;
     }
 
-    public @Nullable String getValue() {
+    public String getValue() {
         return value;
     }
 
-    public @Nullable String getValueOrElse(@Nullable String other) {
+    public String getValueOrElse(@Nullable String other) {
         return value != null ? value : other;
     }
 
@@ -87,6 +91,10 @@ public final class Field {
         return value == null || value.isEmpty();
     }
 
+    /**
+     * @return the length of value or '0' for 'null' value
+     * @see java.lang.String#length()
+     */
     public int length() {
         return value != null ? value.length() : 0;
     }
@@ -96,7 +104,7 @@ public final class Field {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())

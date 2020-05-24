@@ -202,18 +202,11 @@ public final class Records {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            Record record;
-            switch (valueList.size()) {
-                case SingleRecord.FIELD_SIZE:
-                    record = new SingleRecord(category, recordId, valueList.get(0));
-                    break;
-                case PairRecord.FIELD_SIZE:
-                    record = new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
-                    break;
-                default:
-                    record = new StandardRecord(category, recordId, valueList);
-                    break;
-            }
+            Record record = switch (valueList.size()) {
+                case SingleRecord.FIELD_SIZE -> new SingleRecord(category, recordId, valueList.get(0));
+                case PairRecord.FIELD_SIZE -> new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
+                default -> new StandardRecord(category, recordId, valueList);
+            };
             category = null;
             recordId = null;
             valueList = null;
