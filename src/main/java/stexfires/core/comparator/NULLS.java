@@ -17,7 +17,7 @@ public enum NULLS {
 
     FIRST, LAST;
 
-    public <T> Comparator<T> wrappedComparator(Comparator<T> comparator) {
+    public final <T> Comparator<T> wrappedComparator(Comparator<T> comparator) {
         Objects.requireNonNull(comparator);
         return this == NULLS.FIRST ?
                 Comparator.nullsFirst(comparator) :
