@@ -51,6 +51,7 @@ public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
         return new RecordIdFilter<>(recordIds::contains);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> RecordIdFilter<T> containedIn(Long... recordIds) {
         return containedIn(Arrays.asList(recordIds));
     }
@@ -61,7 +62,6 @@ public class RecordIdFilter<T extends Record> implements RecordFilter<T> {
                                         .and(LESS_THAN.longPredicate(to)));
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public final boolean isValid(T record) {
         return record.hasRecordId() && recordIdPredicate.test(record.getRecordId());

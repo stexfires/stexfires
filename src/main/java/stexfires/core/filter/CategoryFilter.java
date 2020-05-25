@@ -51,6 +51,7 @@ public class CategoryFilter<T extends Record> implements RecordFilter<T> {
         return new CategoryFilter<>(categories::contains);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> CategoryFilter<T> containedIn(String... categories) {
         return containedIn(Arrays.asList(categories));
     }

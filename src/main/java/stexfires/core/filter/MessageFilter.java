@@ -63,6 +63,7 @@ public class MessageFilter<T extends Record> implements RecordFilter<T> {
                 messages::contains);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
                                                                   String... messages) {
         return containedIn(recordMessage, Arrays.asList(messages));

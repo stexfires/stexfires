@@ -106,11 +106,13 @@ public class ValueFilter<T extends Record> implements RecordFilter<T> {
         return new ValueFilter<>(fieldFunction, values::contains);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> ValueFilter<T> containedIn(int index,
                                                                 String... values) {
         return containedIn(index, Arrays.asList(values));
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> ValueFilter<T> containedIn(Function<? super T, Field> fieldFunction,
                                                                 String... values) {
         return containedIn(fieldFunction, Arrays.asList(values));

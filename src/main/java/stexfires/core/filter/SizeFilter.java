@@ -47,6 +47,7 @@ public class SizeFilter<T extends Record> implements RecordFilter<T> {
         return new SizeFilter<>(sizes::contains);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> SizeFilter<T> containedIn(Integer... sizes) {
         return containedIn(Arrays.asList(sizes));
     }
