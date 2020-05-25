@@ -55,6 +55,7 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
                                     )));
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValue(int keyIndex,
                                                                                   IntFunction<String> valueIndexToIdentifier,
                                                                                   boolean onlyExistingValues,
@@ -81,6 +82,7 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         );
     }
 
+    @SuppressWarnings("ReturnOfNull")
     @SafeVarargs
     public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValues(Collection<Integer> keyIndexes,
                                                                                    IntFunction<String> recordIndexToIdentifier,
@@ -104,7 +106,7 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
 
     @Override
     public final Stream<R> modify(Stream<T> recordStream) {
-        return recordStream.map(unpivotFunction).flatMap(Function.identity());
+        return recordStream.flatMap(unpivotFunction);
     }
 
 }

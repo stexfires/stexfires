@@ -57,6 +57,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                         valueIndexes));
     }
 
+    @SuppressWarnings("ReturnOfNull")
     public static <T extends Record> Function<? super T, String> withoutCategory() {
         return r -> null;
     }
@@ -67,7 +68,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                                                                                int valueClassificationIndex,
                                                                                List<String> valueClassifications) {
         return new PivotModifier<>(
-                GroupModifier.groupByValueAt(keyIndex),
+                GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
                 r -> Stream.of(r.getValueAt(keyIndex)),
                 r -> r.getValueAt(valueIndex),
@@ -90,6 +91,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                 valueClassifications);
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends Record> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                        int recordsPerKey,
                                                                        String nullValue,
@@ -103,7 +105,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                                                                        String nullValue,
                                                                        List<Integer> valueIndexes) {
         return new PivotModifier<>(
-                GroupModifier.groupByValueAt(keyIndex),
+                GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
                 r -> Stream.of(r.getValueAt(keyIndex)),
                 1 + recordsPerKey * valueIndexes.size(),
@@ -137,7 +139,6 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                       .collect(Collectors.toList());
     }
 
-    @SuppressWarnings("ImplicitNumericConversion")
     public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunctionWithIndexes(
             Function<? super T, Stream<String>> newFirstValuesFunction,
             int newRecordSize,
@@ -150,9 +151,8 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
         Objects.requireNonNull(valueIndexes);
         Function<List<T>, Stream<String>> newValues = list ->
                 list.stream()
-                    .map(r -> valueIndexes.stream()
-                                          .map(i -> r.getValueAtOrElse(i, nullValue)))
-                    .flatMap(Function.identity());
+                    .flatMap(r -> valueIndexes.stream()
+                                              .map(i -> r.getValueAtOrElse(i, nullValue)));
         return list ->
                 Stream.concat(Stream.concat(
                         newFirstValuesFunction.apply(list.get(0)),

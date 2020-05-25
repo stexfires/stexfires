@@ -142,8 +142,7 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
     public static <T extends Record> Function<List<T>, List<String>> collectValues(Collector<String, ?, Optional<String>> valueCollector,
                                                                                    String nullValue) {
         return list -> list.stream()
-                           .map(Record::streamOfFields)
-                           .flatMap(Function.identity())
+                           .flatMap(Record::streamOfFields)
                            .collect(Collectors.collectingAndThen(
                                    Collectors.groupingBy(
                                            Field::getIndex,
