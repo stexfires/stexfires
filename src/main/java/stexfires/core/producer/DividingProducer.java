@@ -1,5 +1,6 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Records;
 import stexfires.core.record.StandardRecord;
 
@@ -17,15 +18,18 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
 
     private final List<StandardRecord> records;
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(int recordSize, String... values) {
         this(null, Records.recordIdSequence(), recordSize, values);
     }
 
-    public DividingProducer(String category, int recordSize, String... values) {
+    @SuppressWarnings("OverloadedVarargsMethod")
+    public DividingProducer(@Nullable String category, int recordSize, String... values) {
         this(category, Records.recordIdSequence(), recordSize, values);
     }
 
-    public DividingProducer(String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {
+    @SuppressWarnings("OverloadedVarargsMethod")
+    public DividingProducer(@Nullable String category, Supplier<Long> recordIdSupplier, int recordSize, String... values) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);

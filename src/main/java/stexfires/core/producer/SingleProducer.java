@@ -1,5 +1,6 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Records;
 import stexfires.core.record.SingleRecord;
 import stexfires.util.Strings;
@@ -24,15 +25,15 @@ public class SingleProducer implements RecordProducer<SingleRecord> {
         this(null, Records.recordIdSequence(), values, Strings::asString);
     }
 
-    public <V> SingleProducer(String category, Collection<V> values) {
+    public <V> SingleProducer(@Nullable String category, Collection<V> values) {
         this(category, Records.recordIdSequence(), values, Strings::asString);
     }
 
-    public <V> SingleProducer(String category, Supplier<Long> recordIdSupplier, Collection<V> values) {
+    public <V> SingleProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Collection<V> values) {
         this(category, recordIdSupplier, values, Strings::asString);
     }
 
-    public <V> SingleProducer(String category, Supplier<Long> recordIdSupplier, Collection<V> values,
+    public <V> SingleProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Collection<V> values,
                               Function<? super V, String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(values);

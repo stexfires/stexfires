@@ -1,5 +1,6 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Records;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.util.Strings;
@@ -24,15 +25,15 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
         this(null, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueProducer(String category, Map<K, V> keyValueMap) {
+    public <K, V> KeyValueProducer(@Nullable String category, Map<K, V> keyValueMap) {
         this(category, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap) {
+    public <K, V> KeyValueProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap) {
         this(category, recordIdSupplier, keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueProducer(String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap,
+    public <K, V> KeyValueProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap,
                                    Function<? super K, String> keyToStringFunction,
                                    Function<? super V, String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);

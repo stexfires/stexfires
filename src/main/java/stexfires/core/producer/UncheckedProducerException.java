@@ -1,5 +1,8 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -18,25 +21,25 @@ public class UncheckedProducerException extends RuntimeException {
         this(new ProducerException());
     }
 
-    public UncheckedProducerException(String message) {
+    public UncheckedProducerException(@Nullable String message) {
         this(new ProducerException(message));
     }
 
-    public UncheckedProducerException(Throwable cause) {
+    public UncheckedProducerException(@Nullable Throwable cause) {
         this(new ProducerException(cause));
     }
 
-    public UncheckedProducerException(String message, Throwable cause) {
+    public UncheckedProducerException(@Nullable String message, @Nullable Throwable cause) {
         this(new ProducerException(message, cause));
     }
 
-    public UncheckedProducerException(ProducerException cause) {
+    public UncheckedProducerException(@NotNull ProducerException cause) {
         super(Objects.requireNonNull(cause));
     }
 
     @SuppressWarnings("CastToConcreteClass")
     @Override
-    public ProducerException getCause() {
+    public @NotNull ProducerException getCause() {
         return (ProducerException) super.getCause();
     }
 

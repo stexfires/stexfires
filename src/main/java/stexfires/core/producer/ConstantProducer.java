@@ -1,5 +1,7 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 import stexfires.core.Records;
 import stexfires.core.record.EmptyRecord;
@@ -34,23 +36,29 @@ public class ConstantProducer<T extends Record> implements RecordProducer<T> {
         return new ConstantProducer<>(streamSize, Records.empty());
     }
 
-    public static ConstantProducer<SingleRecord> singleRecords(long streamSize, String value) {
+    public static ConstantProducer<SingleRecord> singleRecords(long streamSize,
+                                                               @Nullable String value) {
         return new ConstantProducer<>(streamSize, new SingleRecord(value));
     }
 
-    public static ConstantProducer<PairRecord> pairRecords(long streamSize, String firstValue, String secondValue) {
+    public static ConstantProducer<PairRecord> pairRecords(long streamSize,
+                                                           @Nullable String firstValue, @Nullable String secondValue) {
         return new ConstantProducer<>(streamSize, new PairRecord(firstValue, secondValue));
     }
 
-    public static ConstantProducer<KeyValueRecord> keyValueRecords(long streamSize, String key, String value) {
+    public static ConstantProducer<KeyValueRecord> keyValueRecords(long streamSize,
+                                                                   @NotNull String key, @Nullable String value) {
         return new ConstantProducer<>(streamSize, new KeyValueRecord(key, value));
     }
 
-    public static ConstantProducer<StandardRecord> standardRecords(long streamSize, Collection<String> values) {
+    public static ConstantProducer<StandardRecord> standardRecords(long streamSize,
+                                                                   @NotNull Collection<String> values) {
         return new ConstantProducer<>(streamSize, new StandardRecord(values));
     }
 
-    public static ConstantProducer<StandardRecord> standardRecords(long streamSize, String... values) {
+    @SuppressWarnings("OverloadedVarargsMethod")
+    public static ConstantProducer<StandardRecord> standardRecords(long streamSize,
+                                                                   String... values) {
         return new ConstantProducer<>(streamSize, new StandardRecord(values));
     }
 

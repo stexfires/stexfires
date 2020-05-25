@@ -1,5 +1,7 @@
 package stexfires.core.producer;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -12,15 +14,15 @@ public class ProducerException extends Exception {
         super();
     }
 
-    public ProducerException(String message) {
+    public ProducerException(@Nullable String message) {
         super(message);
     }
 
-    public ProducerException(Throwable cause) {
+    public ProducerException(@Nullable Throwable cause) {
         super(cause);
     }
 
-    public ProducerException(String message, Throwable cause) {
+    public ProducerException(@Nullable String message, @Nullable Throwable cause) {
         super(message, cause);
     }
 
