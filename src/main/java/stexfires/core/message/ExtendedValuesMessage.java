@@ -1,6 +1,7 @@
 package stexfires.core.message;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Record;
 
@@ -17,11 +18,11 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
     private final String prefixFirstValue;
     private final String postfixLastValue;
 
-    public ExtendedValuesMessage(String prefix, String postfix) {
+    public ExtendedValuesMessage(@Nullable String prefix, @Nullable String postfix) {
         this(prefix, postfix, prefix, postfix);
     }
 
-    public ExtendedValuesMessage(String prefix, String postfix, String prefixFirstValue, String postfixLastValue) {
+    public ExtendedValuesMessage(@Nullable String prefix, @Nullable String postfix, @Nullable String prefixFirstValue, @Nullable String postfixLastValue) {
         this.prefix = prefix;
         this.postfix = postfix;
         this.prefixFirstValue = prefixFirstValue;
@@ -29,7 +30,7 @@ public class ExtendedValuesMessage<T extends Record> implements RecordMessage<T>
     }
 
     @Override
-    public final @NotNull String createMessage(@NotNull T record) {
+    public final @NotNull String createMessage(T record) {
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (Field field : record.listOfFields()) {

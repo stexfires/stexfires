@@ -13,7 +13,7 @@ public class SizeMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final @NotNull String createMessage(@NotNull T record) {
+    public final @NotNull String createMessage(T record) {
         return String.valueOf(record.size());
     }
 

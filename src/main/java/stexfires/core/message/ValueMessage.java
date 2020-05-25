@@ -1,6 +1,5 @@
 package stexfires.core.message;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Record;
@@ -76,7 +75,7 @@ public class ValueMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final @Nullable String createMessage(@NotNull T record) {
+    public final @Nullable String createMessage(T record) {
         Field field = fieldFunction.apply(record);
         if (field == null) {
             return nullFieldMessage;

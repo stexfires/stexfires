@@ -23,7 +23,7 @@ public class ClassNameMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final @NotNull String createMessage(@NotNull T record) {
+    public final @NotNull String createMessage(T record) {
         return withHashCode
                 ? record.getClass().getName() + HASH_CODE_PREFIX + Integer.toHexString(record.hashCode())
                 : record.getClass().getName();

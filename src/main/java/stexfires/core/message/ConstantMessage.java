@@ -1,6 +1,5 @@
 package stexfires.core.message;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
@@ -17,7 +16,7 @@ public class ConstantMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final @Nullable String createMessage(@NotNull T record) {
+    public final @Nullable String createMessage(T record) {
         return constantMessage;
     }
 

@@ -13,7 +13,7 @@ public class ToStringMessage<T extends Record> implements RecordMessage<T> {
     }
 
     @Override
-    public final @NotNull String createMessage(@NotNull T record) {
+    public final @NotNull String createMessage(T record) {
         return record.toString();
     }
 

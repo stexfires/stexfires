@@ -1,7 +1,5 @@
 package stexfires.core.message;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 
 import java.util.Objects;
@@ -30,7 +28,7 @@ public interface RecordMessage<T extends Record> {
         return function::apply;
     }
 
-    @Nullable String createMessage(@NotNull T record);
+    String createMessage(T record);
 
     default Function<T, String> asFunction() {
         return this::createMessage;

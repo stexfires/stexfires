@@ -20,15 +20,14 @@ public class NullSafeMessage<T extends Record> implements RecordMessage<T> {
         this(recordMessage, DEFAULT_RECORD_IS_NULL_MESSAGE);
     }
 
-    public NullSafeMessage(RecordMessage<? super T> recordMessage, String recordIsNullMessage) {
+    public NullSafeMessage(RecordMessage<? super T> recordMessage, @Nullable String recordIsNullMessage) {
         Objects.requireNonNull(recordMessage);
-        Objects.requireNonNull(recordIsNullMessage);
         this.recordMessage = recordMessage;
         this.recordIsNullMessage = recordIsNullMessage;
     }
 
     @Override
-    public final @Nullable String createMessage(@Nullable T record) {
+    public final @Nullable String createMessage(T record) {
         return record == null ? recordIsNullMessage : recordMessage.createMessage(record);
     }
 
