@@ -26,7 +26,7 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     }
 
     @Override
-    public final KeyValueRecord newValueRecord(@Nullable String value) {
+    public KeyValueRecord newValueRecord(@Nullable String value) {
         return new KeyValueRecord(getCategory(), getRecordId(), getValueOfKeyField(), value);
     }
 
