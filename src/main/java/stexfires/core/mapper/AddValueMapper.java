@@ -90,12 +90,12 @@ public class AddValueMapper<T extends Record> extends ValuesMapper<T> {
 
     public static <T extends Record> AddValueMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
         Objects.requireNonNull(categoryOperator);
-        return new AddValueMapper<>(record -> categoryOperator.operate(record.getCategory()));
+        return new AddValueMapper<>(record -> categoryOperator.operateString(record.getCategory()));
     }
 
     public static <T extends Record> AddValueMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
         Objects.requireNonNull(categoryOperator);
-        return new AddValueMapper<>(record -> categoryOperator.operate(record.getCategory(), locale));
+        return new AddValueMapper<>(record -> categoryOperator.operateString(record.getCategory(), locale));
     }
 
     public static <T extends Record> AddValueMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
@@ -115,7 +115,6 @@ public class AddValueMapper<T extends Record> extends ValuesMapper<T> {
         return new AddValueMapper<>(record -> record.getValueAtOrElse(index, other));
     }
 
-    @SuppressWarnings("ConstantConditions")
     public static <T extends Record> AddValueMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
         return new AddValueMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);

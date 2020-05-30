@@ -62,7 +62,6 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
                 Strings.list(fieldValueMapper.mapToValue(fieldFunction.apply(record))));
     }
 
-    @SuppressWarnings("ImplicitNumericConversion")
     public static <T extends Record> ValuesMapper<T> size(int size, String fillingValue) {
         if (size < 0) {
             throw new IllegalArgumentException("Illegal size! size=" + size);

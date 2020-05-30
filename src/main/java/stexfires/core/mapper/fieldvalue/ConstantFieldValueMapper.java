@@ -1,5 +1,6 @@
 package stexfires.core.mapper.fieldvalue;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 
@@ -23,7 +24,7 @@ public class ConstantFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public final @Nullable String mapToValue(@Nullable Field field) {
+    public final String mapToValue(@NotNull Field field) {
         return constantValue;
     }
 

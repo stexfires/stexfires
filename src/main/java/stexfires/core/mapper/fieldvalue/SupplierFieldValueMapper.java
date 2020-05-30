@@ -1,7 +1,6 @@
 package stexfires.core.mapper.fieldvalue;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -24,7 +23,7 @@ public class SupplierFieldValueMapper implements FieldValueMapper {
     }
 
     @Override
-    public final @Nullable String mapToValue(@NotNull Field field) {
+    public final String mapToValue(@NotNull Field field) {
         return valueSupplier.get();
     }
 

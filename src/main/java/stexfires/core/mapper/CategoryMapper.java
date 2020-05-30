@@ -86,12 +86,12 @@ public class CategoryMapper<T extends Record> extends FunctionMapper<T> {
 
     public static <T extends Record> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
         Objects.requireNonNull(categoryOperator);
-        return new CategoryMapper<>(record -> categoryOperator.operate(record.getCategory()));
+        return new CategoryMapper<>(record -> categoryOperator.operateString(record.getCategory()));
     }
 
     public static <T extends Record> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
         Objects.requireNonNull(categoryOperator);
-        return new CategoryMapper<>(record -> categoryOperator.operate(record.getCategory(), locale));
+        return new CategoryMapper<>(record -> categoryOperator.operateString(record.getCategory(), locale));
     }
 
     public static <T extends Record> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
@@ -111,7 +111,6 @@ public class CategoryMapper<T extends Record> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> record.getValueAtOrElse(index, other));
     }
 
-    @SuppressWarnings("ConstantConditions")
     public static <T extends Record> CategoryMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
         return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);

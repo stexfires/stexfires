@@ -1,7 +1,6 @@
 package stexfires.core.mapper.fieldvalue;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 
 import java.util.Objects;
@@ -29,7 +28,7 @@ public interface FieldValueMapper {
         return function::apply;
     }
 
-    @Nullable String mapToValue(@NotNull Field field);
+    String mapToValue(@NotNull Field field);
 
     default Function<Field, String> asFunction() {
         return this::mapToValue;

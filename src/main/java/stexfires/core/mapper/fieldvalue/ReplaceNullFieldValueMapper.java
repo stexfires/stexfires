@@ -13,12 +13,11 @@ public class ReplaceNullFieldValueMapper implements FieldValueMapper {
 
     private final String nullValue;
 
-    public ReplaceNullFieldValueMapper(String nullValue) {
+    public ReplaceNullFieldValueMapper(@NotNull String nullValue) {
         Objects.requireNonNull(nullValue);
         this.nullValue = nullValue;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public final @NotNull String mapToValue(@NotNull Field field) {
         return field.getValueOrElse(nullValue);

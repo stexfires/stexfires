@@ -1,5 +1,6 @@
 package stexfires.core.modifier;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 import stexfires.core.message.CompareMessageBuilder;
 import stexfires.core.message.RecordMessage;
@@ -54,7 +55,7 @@ public class DistinctModifier<T extends Record> implements RecordStreamModifier<
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(@Nullable Object obj) {
             if (this == obj)
                 return true;
             if (obj == null || getClass() != obj.getClass())

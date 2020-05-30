@@ -106,7 +106,7 @@ public interface Record {
      * Compare class, category, recordId and all fields.
      */
     @Override
-    boolean equals(Object obj);
+    boolean equals(@Nullable Object obj);
 
     @Override
     int hashCode();
