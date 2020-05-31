@@ -97,6 +97,17 @@ public final class RecordStreams {
         return recordConsumer;
     }
 
+    public static <R extends Record, T extends R> RecordConsumer<R> sortAndConsume(
+            Stream<T> recordStream,
+            Comparator<? super T> recordComparator,
+            RecordConsumer<R> recordConsumer) throws UncheckedConsumerException {
+        Objects.requireNonNull(recordStream);
+        Objects.requireNonNull(recordComparator);
+        Objects.requireNonNull(recordConsumer);
+        recordStream.sorted(recordComparator).forEachOrdered(recordConsumer::consume);
+        return recordConsumer;
+    }
+
     public static <R extends Record, T extends Record> RecordConsumer<R> modifyAndConsume(
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
