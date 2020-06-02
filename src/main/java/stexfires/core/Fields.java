@@ -5,6 +5,7 @@ import stexfires.core.mapper.fieldvalue.IdentityFieldValueMapper;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -146,6 +147,18 @@ public final class Fields {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
         return fields.map(Field::getValue).collect(Collectors.joining(delimiter));
+    }
+
+    public static Stream<Field> sortFields(Stream<Field> fields, Comparator<Field> fieldComparator) {
+        Objects.requireNonNull(fields);
+        Objects.requireNonNull(fieldComparator);
+        return fields.sorted(fieldComparator);
+    }
+
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
+    public static void printLines(Stream<Field> fields) {
+        Objects.requireNonNull(fields);
+        fields.forEachOrdered(System.out::println);
     }
 
 }
