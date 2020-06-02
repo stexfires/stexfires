@@ -10,7 +10,6 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 public class CollectionConsumer<T extends Record, R extends Collection<String>> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
