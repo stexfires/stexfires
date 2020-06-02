@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -50,6 +51,10 @@ public interface Record {
 
     default boolean hasRecordId() {
         return getRecordId() != null;
+    }
+
+    default OptionalLong getRecordIdAsOptionalLong() {
+        return hasRecordId() ? OptionalLong.of(getRecordId()) : OptionalLong.empty();
     }
 
     default Optional<Long> getRecordIdAsOptional() {
