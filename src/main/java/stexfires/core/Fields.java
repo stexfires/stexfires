@@ -109,6 +109,11 @@ public final class Fields {
         return fields.map(fieldValueMapper::mapToValue).collect(Collectors.toList());
     }
 
+    public static List<Field> collectFields(Stream<Field> fields) {
+        Objects.requireNonNull(fields);
+        return fields.collect(Collectors.toList());
+    }
+
     public static String joinValues(Record record) {
         Objects.requireNonNull(record);
         return joinValues(record.streamOfFields(), DEFAULT_FIELD_VALUE_DELIMITER);
