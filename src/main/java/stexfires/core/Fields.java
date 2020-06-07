@@ -149,6 +149,12 @@ public final class Fields {
         return fields.map(Field::getValue).collect(Collectors.joining(delimiter));
     }
 
+    public static Stream<String> mapToValue(Stream<Field> fields, FieldValueMapper fieldValueMapper) {
+        Objects.requireNonNull(fields);
+        Objects.requireNonNull(fieldValueMapper);
+        return fields.map(fieldValueMapper::mapToValue);
+    }
+
     public static Stream<Field> sortFields(Stream<Field> fields, Comparator<Field> fieldComparator) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldComparator);
