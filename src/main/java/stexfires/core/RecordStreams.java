@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  *
  * @author Mathias Kalb
  * @see TextRecord
- * @see stexfires.core.Records
+ * @see TextRecords
  * @see java.util.stream.Stream
  * @since 0.1
  */

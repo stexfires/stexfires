@@ -1,8 +1,8 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Records;
 import stexfires.core.TextRecord;
+import stexfires.core.TextRecords;
 import stexfires.core.record.EmptyRecord;
 
 /**
@@ -16,7 +16,7 @@ public class ToEmptyMapper<T extends TextRecord> implements RecordMapper<T, Empt
 
     @Override
     public final @NotNull EmptyRecord map(@NotNull T record) {
-        return Records.empty();
+        return TextRecords.empty();
     }
 
 }

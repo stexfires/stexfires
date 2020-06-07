@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * A RecordStreamModifier modifies a {@link Stream} of Records.
+ * A RecordStreamModifier modifies a {@link Stream} of TextRecords.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.

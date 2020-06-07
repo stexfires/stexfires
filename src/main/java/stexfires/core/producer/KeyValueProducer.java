@@ -1,7 +1,7 @@
 package stexfires.core.producer;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Records;
+import stexfires.core.TextRecords;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.util.Strings;
 
@@ -22,11 +22,11 @@ public class KeyValueProducer implements RecordProducer<KeyValueRecord> {
     private final List<KeyValueRecord> records;
 
     public <K, V> KeyValueProducer(Map<K, V> keyValueMap) {
-        this(null, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
+        this(null, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
     public <K, V> KeyValueProducer(@Nullable String category, Map<K, V> keyValueMap) {
-        this(category, Records.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
+        this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
     public <K, V> KeyValueProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap) {

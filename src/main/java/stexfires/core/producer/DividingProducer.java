@@ -1,7 +1,7 @@
 package stexfires.core.producer;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Records;
+import stexfires.core.TextRecords;
 import stexfires.core.record.StandardRecord;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(int recordSize, String... values) {
-        this(null, Records.recordIdSequence(), recordSize, values);
+        this(null, TextRecords.recordIdSequence(), recordSize, values);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(@Nullable String category, int recordSize, String... values) {
-        this(category, Records.recordIdSequence(), recordSize, values);
+        this(category, TextRecords.recordIdSequence(), recordSize, values);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")

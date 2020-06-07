@@ -1,7 +1,7 @@
 package stexfires.core.producer;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Records;
+import stexfires.core.TextRecords;
 import stexfires.core.record.SingleRecord;
 import stexfires.util.Strings;
 
@@ -22,11 +22,11 @@ public class SingleProducer implements RecordProducer<SingleRecord> {
     private final List<SingleRecord> records;
 
     public <V> SingleProducer(Collection<V> values) {
-        this(null, Records.recordIdSequence(), values, Strings::asString);
+        this(null, TextRecords.recordIdSequence(), values, Strings::asString);
     }
 
     public <V> SingleProducer(@Nullable String category, Collection<V> values) {
-        this(category, Records.recordIdSequence(), values, Strings::asString);
+        this(category, TextRecords.recordIdSequence(), values, Strings::asString);
     }
 
     public <V> SingleProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Collection<V> values) {

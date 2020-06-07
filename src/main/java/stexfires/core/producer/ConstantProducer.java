@@ -2,8 +2,8 @@ package stexfires.core.producer;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Records;
 import stexfires.core.TextRecord;
+import stexfires.core.TextRecords;
 import stexfires.core.record.EmptyRecord;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.core.record.PairRecord;
@@ -33,7 +33,7 @@ public class ConstantProducer<T extends TextRecord> implements RecordProducer<T>
     }
 
     public static ConstantProducer<EmptyRecord> emptyRecords(long streamSize) {
-        return new ConstantProducer<>(streamSize, Records.empty());
+        return new ConstantProducer<>(streamSize, TextRecords.empty());
     }
 
     public static ConstantProducer<SingleRecord> singleRecords(long streamSize,

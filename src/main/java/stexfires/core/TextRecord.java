@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  *
  * @author Mathias Kalb
  * @see stexfires.core.Field
- * @see stexfires.core.Records
+ * @see TextRecords
  * @see stexfires.core.Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
