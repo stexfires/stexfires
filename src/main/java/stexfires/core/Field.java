@@ -18,8 +18,8 @@ import java.util.stream.Stream;
  *
  * @author Mathias Kalb
  * @see TextRecord
- * @see stexfires.core.Fields
- * @see stexfires.core.Fields#FIRST_FIELD_INDEX
+ * @see Fields
+ * @see Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public final class Field {

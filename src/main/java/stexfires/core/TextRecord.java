@@ -16,9 +16,9 @@ import java.util.stream.Stream;
  * The field index must start with {@code 0}.
  *
  * @author Mathias Kalb
- * @see stexfires.core.Field
+ * @see Field
  * @see TextRecords
- * @see stexfires.core.Fields#FIRST_FIELD_INDEX
+ * @see Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public interface TextRecord {

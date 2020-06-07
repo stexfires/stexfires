@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * for operating on {@link Field}s.
  *
  * @author Mathias Kalb
- * @see stexfires.core.Field
+ * @see Field
  * @see TextRecord
  * @see stexfires.core.mapper.fieldvalue.FieldValueMapper
  * @since 0.1
