@@ -32,9 +32,9 @@ import java.util.stream.Stream;
  * @see java.util.stream.Stream
  * @since 0.1
  */
-public final class RecordStreams {
+public final class TextRecordStreams {
 
-    private RecordStreams() {
+    private TextRecordStreams() {
     }
 
     public static <T extends TextRecord> Stream<T> empty() {

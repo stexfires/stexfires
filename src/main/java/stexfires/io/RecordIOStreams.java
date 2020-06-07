@@ -1,7 +1,7 @@
 package stexfires.io;
 
 import stexfires.core.TextRecord;
-import stexfires.core.RecordStreams;
+import stexfires.core.TextRecordStreams;
 import stexfires.core.consumer.LoggerConsumer;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.logger.RecordLogger;
@@ -182,7 +182,7 @@ public final class RecordIOStreams {
         Objects.requireNonNull(writableConsumer);
 
         writableConsumer.writeBefore();
-        RecordStreams.of(record).forEachOrdered(writableConsumer::consume);
+        TextRecordStreams.of(record).forEachOrdered(writableConsumer::consume);
         writableConsumer.writeAfter();
         writableConsumer.flush();
 

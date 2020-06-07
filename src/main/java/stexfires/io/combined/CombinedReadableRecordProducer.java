@@ -1,7 +1,7 @@
 package stexfires.io.combined;
 
 import stexfires.core.TextRecord;
-import stexfires.core.RecordStreams;
+import stexfires.core.TextRecordStreams;
 import stexfires.core.producer.ProducerException;
 import stexfires.io.ReadableRecordProducer;
 
@@ -34,7 +34,7 @@ public class CombinedReadableRecordProducer<T extends TextRecord> implements Rea
 
     @Override
     public Stream<T> readRecords() throws IOException, ProducerException {
-        return RecordStreams.concat(firstProducer.produceStream(), secondProducer.produceStream());
+        return TextRecordStreams.concat(firstProducer.produceStream(), secondProducer.produceStream());
     }
 
     @Override
