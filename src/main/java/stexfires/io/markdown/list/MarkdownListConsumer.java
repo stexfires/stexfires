@@ -41,17 +41,13 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
         String value = record.getValueOfValueField();
         if (value != null || !fileSpec.isSkipNullValue()) {
             switch (fileSpec.getBulletPoint()) {
-                case NUMBER:
+                case NUMBER -> {
                     write(String.valueOf(currentNumber));
                     write(MarkdownListFileSpec.BULLET_POINT_NUMBER);
                     currentNumber++;
-                    break;
-                case STAR:
-                    write(MarkdownListFileSpec.BULLET_POINT_STAR);
-                    break;
-                case DASH:
-                    write(MarkdownListFileSpec.BULLET_POINT_DASH);
-                    break;
+                }
+                case STAR -> write(MarkdownListFileSpec.BULLET_POINT_STAR);
+                case DASH -> write(MarkdownListFileSpec.BULLET_POINT_DASH);
             }
             write(" ");
             if (value != null) {

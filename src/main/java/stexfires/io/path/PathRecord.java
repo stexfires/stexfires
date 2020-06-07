@@ -1,6 +1,5 @@
 package stexfires.io.path;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.core.Record;
 import stexfires.core.record.StandardRecord;
 
@@ -60,7 +59,7 @@ public class PathRecord extends StandardRecord {
         return PathType.valueOf(getCategory());
     }
 
-    public final @Nullable String fileName() {
+    public final String fileName() {
         return getValueAt(FILE_NAME_INDEX);
     }
 
@@ -72,7 +71,7 @@ public class PathRecord extends StandardRecord {
         return Paths.get(Objects.requireNonNull(getValueAt(PATH_INDEX)));
     }
 
-    public final @Nullable Path parent() {
+    public final Path parent() {
         String parent = getValueAt(PARENT_INDEX);
         return parent != null ? Paths.get(parent) : null;
     }

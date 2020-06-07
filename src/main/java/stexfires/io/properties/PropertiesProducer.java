@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings({"ReuseOfLocalVariable", "ImplicitNumericConversion", "NumericCastThatLosesPrecision"})
+@SuppressWarnings("HardcodedLineSeparator")
 public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     protected static final char ESCAPE_CHAR = '\\';
@@ -135,23 +135,12 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
                 }
             } else if (escapeFound) {
                 switch (character) {
-                    case 'f':
-                        b.append('\f');
-                        break;
-                    case 'n':
-                        b.append('\n');
-                        break;
-                    case 'r':
-                        b.append('\r');
-                        break;
-                    case 't':
-                        b.append('\t');
-                        break;
-                    case 'u':
-                        unicodeStartIndex = i + 1;
-                        break;
-                    default:
-                        b.append(character);
+                    case 'f' -> b.append('\f');
+                    case 'n' -> b.append('\n');
+                    case 'r' -> b.append('\r');
+                    case 't' -> b.append('\t');
+                    case 'u' -> unicodeStartIndex = i + 1;
+                    default -> b.append(character);
                 }
                 escapeFound = false;
             } else if (character == ESCAPE_CHAR) {

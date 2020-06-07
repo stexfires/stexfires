@@ -66,7 +66,6 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                 null, null);
     }
 
-
     public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator) {

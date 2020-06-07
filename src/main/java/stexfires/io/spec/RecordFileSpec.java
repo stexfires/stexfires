@@ -15,7 +15,6 @@ public interface RecordFileSpec {
 
     LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
 
-
     Charset getCharset();
 
     CodingErrorAction getCodingErrorAction();

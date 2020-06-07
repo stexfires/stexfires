@@ -49,6 +49,7 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     protected static final class ConfigIterator extends AbstractRecordRawDataIterator {
 
+        @SuppressWarnings("FieldCanBeLocal")
         private final ConfigFileSpec fileSpec;
 
         private String currentCategory;

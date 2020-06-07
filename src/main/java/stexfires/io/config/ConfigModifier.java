@@ -27,9 +27,9 @@ public class ConfigModifier<T extends Record> implements RecordStreamModifier<T,
     public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates) {
         UnaryOperator<String> categoryOperator = c -> {
             String category = c;
-            category = StringUnaryOperatorType.REMOVE_VERTICAL_WHITESPACE.operate(category);
-            category = StringUnaryOperatorType.TRIM_TO_NULL.operate(category);
-            category = StringUnaryOperatorType.UPPER_CASE.operate(category); // TODO locale
+            category = StringUnaryOperatorType.REMOVE_VERTICAL_WHITESPACE.operateString(category);
+            category = StringUnaryOperatorType.TRIM_TO_NULL.operateString(category);
+            category = StringUnaryOperatorType.UPPER_CASE.operateString(category); // TODO locale
             return category;
         };
 

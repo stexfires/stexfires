@@ -69,35 +69,32 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<Record> {
         return String.valueOf(characters);
     }
 
-    protected static char[] fillCharacters(char[] characters, int startIndex, int fieldWidth,
-                                           int valueWidth, String value, Alignment alignment) {
+    protected static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
+                                         int valueWidth, String value, Alignment alignment) {
         // Calculate width and start positions
         int width = Math.min(valueWidth, fieldWidth);
         int startPosValue;
         int startPosChars;
         switch (alignment) {
-            case START:
+            case START -> {
                 startPosValue = 0;
                 startPosChars = startIndex;
-                break;
-            case CENTER:
+            }
+            case CENTER -> {
                 startPosValue = ((valueWidth - width) / 2);
                 startPosChars = ((fieldWidth - width) / 2) + startIndex;
-                break;
-            case END:
+            }
+            case END -> {
                 startPosValue = (valueWidth - width);
                 startPosChars = (fieldWidth - width) + startIndex;
-                break;
-            default:
-                throw new IllegalArgumentException("alignment = " + alignment);
+            }
+            default -> throw new IllegalArgumentException("alignment = " + alignment);
         }
 
         // fill character array with value
         for (int charIndex = 0; charIndex < width; charIndex++) {
             characters[startPosChars + charIndex] = value.charAt(startPosValue + charIndex);
         }
-
-        return characters;
     }
 
     @Override

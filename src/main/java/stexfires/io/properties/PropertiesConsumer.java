@@ -15,6 +15,7 @@ import java.util.stream.IntStream;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("HardcodedLineSeparator")
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
     public static final String DELIMITER = "=";
@@ -73,6 +74,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
                         .collect(Collectors.joining());
     }
 
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
