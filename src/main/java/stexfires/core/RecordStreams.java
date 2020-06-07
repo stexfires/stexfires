@@ -175,6 +175,14 @@ public final class RecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
+    public static <T extends Record> Stream<String> mapToMessage(
+            Stream<T> recordStream,
+            RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordStream);
+        Objects.requireNonNull(recordMessage);
+        return recordStream.map(recordMessage::createMessage);
+    }
+
     public static <T extends Record> void printLines(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
         consume(recordStream, new SystemOutConsumer<>());
