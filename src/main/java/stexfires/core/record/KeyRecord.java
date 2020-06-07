@@ -2,7 +2,7 @@ package stexfires.core.record;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * The value of a key field must not be null.
@@ -10,7 +10,7 @@ import stexfires.core.Record;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface KeyRecord extends Record {
+public interface KeyRecord extends TextRecord {
 
     @NotNull Field getKeyField();
 

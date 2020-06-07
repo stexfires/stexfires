@@ -1,6 +1,6 @@
 package stexfires.io.internal;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.util.LineSeparator;
@@ -18,7 +18,7 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
  * @author Mathias Kalb
  * @since 0.1
  */
-public abstract class AbstractWritableConsumer<T extends Record> implements WritableRecordConsumer<T> {
+public abstract class AbstractWritableConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
 
     protected final BufferedWriter writer;
 

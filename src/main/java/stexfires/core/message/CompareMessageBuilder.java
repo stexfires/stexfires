@@ -1,6 +1,6 @@
 package stexfires.core.message;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.SortedSet;
@@ -64,7 +64,7 @@ public final class CompareMessageBuilder {
         return this;
     }
 
-    public synchronized RecordMessage<Record> build() {
+    public synchronized RecordMessage<TextRecord> build() {
         boolean buildClassName = className;
         boolean buildCategory = category;
         String buildCategoryOther = categoryOther;

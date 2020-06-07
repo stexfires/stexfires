@@ -1,6 +1,6 @@
 package stexfires.core.filter;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -10,20 +10,20 @@ import java.util.function.Predicate;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ClassFilter<T extends Record> implements RecordFilter<T> {
+public class ClassFilter<T extends TextRecord> implements RecordFilter<T> {
 
-    private final Predicate<Class<? extends Record>> classPredicate;
+    private final Predicate<Class<? extends TextRecord>> classPredicate;
 
-    public ClassFilter(Predicate<Class<? extends Record>> classPredicate) {
+    public ClassFilter(Predicate<Class<? extends TextRecord>> classPredicate) {
         Objects.requireNonNull(classPredicate);
         this.classPredicate = classPredicate;
     }
 
-    public static <T extends Record> ClassFilter<T> equalTo(Class<? extends Record> compareClass) {
+    public static <T extends TextRecord> ClassFilter<T> equalTo(Class<? extends TextRecord> compareClass) {
         return new ClassFilter<>(Predicate.isEqual(compareClass));
     }
 
-    public static <T extends Record> ClassFilter<T> containedIn(Collection<Class<? extends Record>> classes) {
+    public static <T extends TextRecord> ClassFilter<T> containedIn(Collection<Class<? extends TextRecord>> classes) {
         return new ClassFilter<>(classes::contains);
     }
 

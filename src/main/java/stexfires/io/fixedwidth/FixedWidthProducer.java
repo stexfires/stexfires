@@ -1,6 +1,6 @@
 package stexfires.io.fixedwidth;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.producer.ProducerException;
 import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.StandardRecord;
@@ -23,7 +23,7 @@ import static stexfires.util.Alignment.START;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class FixedWidthProducer extends AbstractReadableProducer<Record> {
+public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final String NO_VALUE = null;
     private static final String ONLY_FILL_CHAR_VALUE = "";
@@ -62,7 +62,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<Record> {
     }
 
     @Override
-    protected Optional<Record> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<TextRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         StandardRecord record = null;
         String rawData = recordRawData.getRawData();
 

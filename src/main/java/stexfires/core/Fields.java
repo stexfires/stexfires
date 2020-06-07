@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  *
  * @author Mathias Kalb
  * @see stexfires.core.Field
- * @see stexfires.core.Record
+ * @see TextRecord
  * @see stexfires.core.mapper.fieldvalue.FieldValueMapper
  * @since 0.1
  */
@@ -76,12 +76,12 @@ public final class Fields {
         return fields;
     }
 
-    public static List<String> collectValues(Record record) {
+    public static List<String> collectValues(TextRecord record) {
         Objects.requireNonNull(record);
         return collectValues(record.streamOfFields(), new IdentityFieldValueMapper());
     }
 
-    public static List<String> collectValues(Record record, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectValues(TextRecord record, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(fieldValueMapper);
         return collectValues(record.streamOfFields(), fieldValueMapper);
@@ -115,12 +115,12 @@ public final class Fields {
         return fields.collect(Collectors.toList());
     }
 
-    public static String joinValues(Record record) {
+    public static String joinValues(TextRecord record) {
         Objects.requireNonNull(record);
         return joinValues(record.streamOfFields(), DEFAULT_FIELD_VALUE_DELIMITER);
     }
 
-    public static String joinValues(Record record, CharSequence delimiter) {
+    public static String joinValues(TextRecord record, CharSequence delimiter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(delimiter);
         return joinValues(record.streamOfFields(), delimiter);

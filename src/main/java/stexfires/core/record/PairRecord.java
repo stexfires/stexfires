@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class PairRecord implements Record {
+public class PairRecord implements TextRecord {
 
     public static final int FIRST_VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int SECOND_VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;

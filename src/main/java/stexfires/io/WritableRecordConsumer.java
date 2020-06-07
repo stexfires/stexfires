@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.consumer.UncheckedConsumerException;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface WritableRecordConsumer<T extends Record> extends RecordConsumer<T>, Closeable {
+public interface WritableRecordConsumer<T extends TextRecord> extends RecordConsumer<T>, Closeable {
 
     void writeBefore() throws IOException;
 

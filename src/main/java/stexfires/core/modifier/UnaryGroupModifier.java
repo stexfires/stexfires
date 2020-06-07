@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.stream.Collector;
  * @since 0.1
  */
 @SuppressWarnings("OptionalGetWithoutIsPresent")
-public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
+public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T> {
 
     public UnaryGroupModifier(Function<? super T, ?> groupByFunction,
                               Function<List<T>, ? extends T> aggregateFunction) {
@@ -29,20 +29,20 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
         super(groupByFunction, havingPredicate, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier<T> first(Function<? super T, ?> groupByFunction) {
+    public static <T extends TextRecord> UnaryGroupModifier<T> first(Function<? super T, ?> groupByFunction) {
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.get(0);
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier<T> last(Function<? super T, ?> groupByFunction) {
+    public static <T extends TextRecord> UnaryGroupModifier<T> last(Function<? super T, ?> groupByFunction) {
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.get(list.size() - 1);
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier<T> max(Function<? super T, ?> groupByFunction,
-                                                               Comparator<? super T> recordComparator) {
+    public static <T extends TextRecord> UnaryGroupModifier<T> max(Function<? super T, ?> groupByFunction,
+                                                                   Comparator<? super T> recordComparator) {
         Objects.requireNonNull(recordComparator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
@@ -50,8 +50,8 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier<T> min(Function<? super T, ?> groupByFunction,
-                                                               Comparator<? super T> recordComparator) {
+    public static <T extends TextRecord> UnaryGroupModifier<T> min(Function<? super T, ?> groupByFunction,
+                                                                   Comparator<? super T> recordComparator) {
         Objects.requireNonNull(recordComparator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
@@ -59,8 +59,8 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record> UnaryGroupModifier<T> reduce(Function<? super T, ?> groupByFunction,
-                                                                  BinaryOperator<T> accumulator) {
+    public static <T extends TextRecord> UnaryGroupModifier<T> reduce(Function<? super T, ?> groupByFunction,
+                                                                      BinaryOperator<T> accumulator) {
         Objects.requireNonNull(accumulator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
@@ -68,8 +68,8 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record, R extends T> UnaryGroupModifier<T> collect(Function<? super T, ?> groupByFunction,
-                                                                                Collector<? super T, ?, R> collector) {
+    public static <T extends TextRecord, R extends T> UnaryGroupModifier<T> collect(Function<? super T, ?> groupByFunction,
+                                                                                    Collector<? super T, ?, R> collector) {
         Objects.requireNonNull(collector);
         // The list contains always at least one record.
         Function<List<T>, R> aggregateFunction = list -> list.stream()
@@ -77,9 +77,9 @@ public class UnaryGroupModifier<T extends Record> extends GroupModifier<T, T> {
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
-    public static <T extends Record, R extends T> UnaryGroupModifier<T> collect(Function<? super T, ?> groupByFunction,
-                                                                                Collector<? super T, ?, Optional<R>> collector,
-                                                                                R nullValue) {
+    public static <T extends TextRecord, R extends T> UnaryGroupModifier<T> collect(Function<? super T, ?> groupByFunction,
+                                                                                    Collector<? super T, ?, Optional<R>> collector,
+                                                                                    R nullValue) {
         Objects.requireNonNull(collector);
         // The list contains always at least one record.
         Function<List<T>, R> aggregateFunction = list -> list.stream()

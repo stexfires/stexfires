@@ -7,17 +7,17 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * A Field is part of a {@link Record}.
+ * A {@link Field} is part of a {@link TextRecord}.
  * <p>
  * It consists of a {@link String} value, an index
- * and a {@code boolean} indicating whether it is the last field of the {@code record}.
+ * and a {@code boolean} indicating whether it is the last field of the {@link TextRecord}.
  * <p>
  * It is {@code immutable} and {@code thread-safe}.
  * The string value can be {@code null}.
  * The index of the first field is always {@code 0}.
  *
  * @author Mathias Kalb
- * @see stexfires.core.Record
+ * @see TextRecord
  * @see stexfires.core.Fields
  * @see stexfires.core.Fields#FIRST_FIELD_INDEX
  * @since 0.1

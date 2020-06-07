@@ -1,13 +1,13 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class IdentityMapper<T extends Record> implements RecordMapper<T, T> {
+public class IdentityMapper<T extends TextRecord> implements RecordMapper<T, T> {
 
     public IdentityMapper() {
     }

@@ -1,7 +1,7 @@
 package stexfires.core.modifier;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.CompareMessageBuilder;
 import stexfires.core.message.RecordMessage;
 
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class DistinctModifier<T extends Record> implements RecordStreamModifier<T, T> {
+public class DistinctModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
     private final RecordMessage<? super T> recordCompareMessage;
 
@@ -36,7 +36,7 @@ public class DistinctModifier<T extends Record> implements RecordStreamModifier<
                 .map(DistinctModifier.DistinctRecordWrapper::getRecord);
     }
 
-    protected static final class DistinctRecordWrapper<T extends Record> {
+    protected static final class DistinctRecordWrapper<T extends TextRecord> {
 
         private final T record;
         private final String equalsString;

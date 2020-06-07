@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class MapConsumer<T extends Record, R extends Map<String, String>> implements RecordConsumer<T> {
+public class MapConsumer<T extends TextRecord, R extends Map<String, String>> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 

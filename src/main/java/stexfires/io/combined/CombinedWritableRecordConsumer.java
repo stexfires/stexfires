@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.io.WritableRecordConsumer;
 
@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedWritableRecordConsumer<T extends Record> implements WritableRecordConsumer<T> {
+public class CombinedWritableRecordConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
 
     protected final WritableRecordConsumer<? super T> firstConsumer;
     protected final WritableRecordConsumer<? super T> secondConsumer;

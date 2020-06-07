@@ -1,7 +1,7 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.function.Function;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class LookupMapper<T extends Record, R extends Record, K> implements RecordMapper<T, R> {
+public class LookupMapper<T extends TextRecord, R extends TextRecord, K> implements RecordMapper<T, R> {
 
     private final Function<? super T, K> keyFunction;
     private final Function<K, RecordMapper<? super T, ? extends R>> mapperFunction;
@@ -29,8 +29,8 @@ public class LookupMapper<T extends Record, R extends Record, K> implements Reco
         this.defaultMapper = defaultMapper;
     }
 
-    public static <T extends Record> LookupMapper<T, Record, String> messageMap(RecordMessage<? super T> recordMessage,
-                                                                                Map<String, RecordMapper<? super T, Record>> recordMapperMap) {
+    public static <T extends TextRecord> LookupMapper<T, TextRecord, String> messageMap(RecordMessage<? super T> recordMessage,
+                                                                                        Map<String, RecordMapper<? super T, TextRecord>> recordMapperMap) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(recordMapperMap);
         return new LookupMapper<>(recordMessage.asFunction(), recordMapperMap::get, new IdentityMapper<>());

@@ -1,7 +1,7 @@
 package stexfires.core.message;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class RecordIdMessage<T extends Record> implements RecordMessage<T> {
+public class RecordIdMessage<T extends TextRecord> implements RecordMessage<T> {
 
     public static final String DEFAULT_PREFIX = "#";
     public static final String DEFAULT_MISSING_RECORD_ID_MESSAGE = "";

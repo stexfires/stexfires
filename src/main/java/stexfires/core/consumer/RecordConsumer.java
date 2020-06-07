@@ -1,18 +1,18 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A RecordConsumer consumes a {@link Record}.
+ * A RecordConsumer consumes a {@link stexfires.core.TextRecord}.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
  * It is expected to operate via side-effects.
  * <p>
- * This is a {@code functional interface} whose functional method is {@link #consume(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #consume(stexfires.core.TextRecord)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer
@@ -21,15 +21,15 @@ import java.util.function.Consumer;
  * @since 0.1
  */
 @FunctionalInterface
-public interface RecordConsumer<T extends Record> {
+public interface RecordConsumer<T extends TextRecord> {
 
-    static <T extends Record> RecordConsumer<T> of(Consumer<T> consumer) {
+    static <T extends TextRecord> RecordConsumer<T> of(Consumer<T> consumer) {
         Objects.requireNonNull(consumer);
         return consumer::accept;
     }
 
-    static <T extends Record> RecordConsumer<T> concat(RecordConsumer<? super T> firstRecordConsumer,
-                                                       RecordConsumer<? super T> secondRecordConsumer) {
+    static <T extends TextRecord> RecordConsumer<T> concat(RecordConsumer<? super T> firstRecordConsumer,
+                                                           RecordConsumer<? super T> secondRecordConsumer) {
         Objects.requireNonNull(firstRecordConsumer);
         Objects.requireNonNull(secondRecordConsumer);
         return record -> {
@@ -38,9 +38,9 @@ public interface RecordConsumer<T extends Record> {
         };
     }
 
-    static <T extends Record> RecordConsumer<T> concat(RecordConsumer<? super T> firstRecordConsumer,
-                                                       RecordConsumer<? super T> secondRecordConsumer,
-                                                       RecordConsumer<? super T> thirdRecordConsumer) {
+    static <T extends TextRecord> RecordConsumer<T> concat(RecordConsumer<? super T> firstRecordConsumer,
+                                                           RecordConsumer<? super T> secondRecordConsumer,
+                                                           RecordConsumer<? super T> thirdRecordConsumer) {
         Objects.requireNonNull(firstRecordConsumer);
         Objects.requireNonNull(secondRecordConsumer);
         Objects.requireNonNull(thirdRecordConsumer);

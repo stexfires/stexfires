@@ -29,10 +29,10 @@ import java.util.stream.Stream;
 
 /**
  * This class consists of {@code static} utility methods
- * for operating on {@link Record}s.
+ * for operating on {@link TextRecord}s.
  *
  * @author Mathias Kalb
- * @see stexfires.core.Record
+ * @see TextRecord
  * @see stexfires.core.RecordStreams
  * @since 0.1
  */
@@ -55,36 +55,36 @@ public final class Records {
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static Record ofValues(String... values) {
+    public static TextRecord ofValues(String... values) {
         Objects.requireNonNull(values);
         return new StandardRecord(values);
     }
 
-    public static Record ofValues(Collection<String> values) {
+    public static TextRecord ofValues(Collection<String> values) {
         Objects.requireNonNull(values);
         return new StandardRecord(values);
     }
 
-    public static <T extends Record> List<T> list(T record) {
+    public static <T extends TextRecord> List<T> list(T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <T extends Record> List<T> list(T... records) {
+    public static <T extends TextRecord> List<T> list(T... records) {
         Objects.requireNonNull(records);
         return Arrays.stream(records).collect(Collectors.toList());
     }
 
-    public static <T extends Record> Stream<T> stream(T record) {
+    public static <T extends TextRecord> Stream<T> stream(T record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <T extends Record> Stream<T> stream(T... records) {
+    public static <T extends TextRecord> Stream<T> stream(T... records) {
         Objects.requireNonNull(records);
         return Stream.of(records);
     }
@@ -105,38 +105,38 @@ public final class Records {
         return new SequencePrimitiveLongSupplier(initialValue);
     }
 
-    public static <P extends Record, T extends P> RecordConsumer<P> consume(T record,
-                                                                            RecordConsumer<P> recordConsumer) throws UncheckedConsumerException {
+    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(T record,
+                                                                                RecordConsumer<P> recordConsumer) throws UncheckedConsumerException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordConsumer);
         recordConsumer.consume(record);
         return recordConsumer;
     }
 
-    public static <P extends Record, T extends P> boolean isValid(T record,
-                                                                  RecordFilter<P> recordFilter) {
+    public static <P extends TextRecord, T extends P> boolean isValid(T record,
+                                                                      RecordFilter<P> recordFilter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordFilter);
         return recordFilter.isValid(record);
     }
 
-    public static <P extends Record, T extends P> RecordLogger<P> log(T record,
-                                                                      RecordLogger<P> recordLogger) {
+    public static <P extends TextRecord, T extends P> RecordLogger<P> log(T record,
+                                                                          RecordLogger<P> recordLogger) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordLogger);
         recordLogger.log(record);
         return recordLogger;
     }
 
-    public static <R extends Record, T extends Record> R map(T record,
-                                                             RecordMapper<T, R> recordMapper) {
+    public static <R extends TextRecord, T extends TextRecord> R map(T record,
+                                                                     RecordMapper<T, R> recordMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMapper);
         return recordMapper.map(record);
     }
 
-    public static <P extends Record, T extends P> String createMessage(T record,
-                                                                       RecordMessage<P> recordMessage) {
+    public static <P extends TextRecord, T extends P> String createMessage(T record,
+                                                                           RecordMessage<P> recordMessage) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMessage);
         return recordMessage.createMessage(record);
@@ -198,11 +198,11 @@ public final class Records {
             return this;
         }
 
-        public synchronized Record build() {
+        public synchronized TextRecord build() {
             if (valueList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            Record record = switch (valueList.size()) {
+            TextRecord record = switch (valueList.size()) {
                 case SingleRecord.FIELD_SIZE -> new SingleRecord(category, recordId, valueList.get(0));
                 case PairRecord.FIELD_SIZE -> new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
                 default -> new StandardRecord(category, recordId, valueList);

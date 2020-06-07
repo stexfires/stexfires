@@ -1,18 +1,18 @@
 package stexfires.core.message;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * A RecordMessage creates a text message from a {@link Record}.
+ * A RecordMessage creates a text message from a {@link stexfires.core.TextRecord}.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.
  * <p>
- * This is a {@code functional interface} whose functional method is {@link #createMessage(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #createMessage(stexfires.core.TextRecord)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function
@@ -21,9 +21,9 @@ import java.util.function.Supplier;
  * @since 0.1
  */
 @FunctionalInterface
-public interface RecordMessage<T extends Record> {
+public interface RecordMessage<T extends TextRecord> {
 
-    static <T extends Record> RecordMessage<T> of(Function<T, String> function) {
+    static <T extends TextRecord> RecordMessage<T> of(Function<T, String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }

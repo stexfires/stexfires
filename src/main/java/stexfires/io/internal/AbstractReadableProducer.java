@@ -1,6 +1,6 @@
 package stexfires.io.internal;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.producer.ProducerException;
 import stexfires.core.producer.UncheckedProducerException;
 import stexfires.io.ReadableRecordProducer;
@@ -24,7 +24,7 @@ import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
  * @author Mathias Kalb
  * @since 0.1
  */
-public abstract class AbstractReadableProducer<T extends Record> implements ReadableRecordProducer<T> {
+public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
     protected final BufferedReader reader;
     protected final Consumer<RecordRawData> recordRawDataLogger;

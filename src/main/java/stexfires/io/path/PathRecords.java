@@ -1,6 +1,6 @@
 package stexfires.io.path;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -71,7 +71,7 @@ public final class PathRecords {
      * promptly after the stream's operations have completed.
      */
     @SuppressWarnings("resource")
-    public static <R extends Record> Stream<R> listRecords(Path path, Function<Path, R> pathMapper) throws IOException {
+    public static <R extends TextRecord> Stream<R> listRecords(Path path, Function<Path, R> pathMapper) throws IOException {
         Objects.requireNonNull(path);
         Objects.requireNonNull(pathMapper);
         return Files.list(path).map(pathMapper);
@@ -103,7 +103,7 @@ public final class PathRecords {
      * promptly after the stream's operations have completed.
      */
     @SuppressWarnings("resource")
-    public static <R extends Record> Stream<R> walkRecords(Path path, Function<Path, R> pathMapper) throws IOException {
+    public static <R extends TextRecord> Stream<R> walkRecords(Path path, Function<Path, R> pathMapper) throws IOException {
         Objects.requireNonNull(path);
         Objects.requireNonNull(pathMapper);
         return Files.walk(path).map(pathMapper);

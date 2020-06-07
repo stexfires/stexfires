@@ -1,6 +1,6 @@
 package stexfires.core.filter;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.util.NumberCheckType;
 import stexfires.util.NumberComparisonType;
 
@@ -17,7 +17,7 @@ import static stexfires.util.NumberComparisonType.LESS_THAN;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SizeFilter<T extends Record> implements RecordFilter<T> {
+public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final IntPredicate sizePredicate;
 
@@ -26,33 +26,33 @@ public class SizeFilter<T extends Record> implements RecordFilter<T> {
         this.sizePredicate = sizePredicate;
     }
 
-    public static <T extends Record> SizeFilter<T> compare(NumberComparisonType numberComparisonType,
-                                                           int compareSize) {
+    public static <T extends TextRecord> SizeFilter<T> compare(NumberComparisonType numberComparisonType,
+                                                               int compareSize) {
         return new SizeFilter<>(numberComparisonType.intPredicate(compareSize));
     }
 
-    public static <T extends Record> SizeFilter<T> check(NumberCheckType numberCheckType) {
+    public static <T extends TextRecord> SizeFilter<T> check(NumberCheckType numberCheckType) {
         return new SizeFilter<>(numberCheckType.intPredicate());
     }
 
-    public static <T extends Record> SizeFilter<T> equalTo(int compareSize) {
+    public static <T extends TextRecord> SizeFilter<T> equalTo(int compareSize) {
         return compare(EQUAL_TO, compareSize);
     }
 
-    public static <T extends Record> SizeFilter<T> isEmpty() {
+    public static <T extends TextRecord> SizeFilter<T> isEmpty() {
         return compare(EQUAL_TO, 0);
     }
 
-    public static <T extends Record> SizeFilter<T> containedIn(Collection<Integer> sizes) {
+    public static <T extends TextRecord> SizeFilter<T> containedIn(Collection<Integer> sizes) {
         return new SizeFilter<>(sizes::contains);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends Record> SizeFilter<T> containedIn(Integer... sizes) {
+    public static <T extends TextRecord> SizeFilter<T> containedIn(Integer... sizes) {
         return containedIn(Arrays.asList(sizes));
     }
 
-    public static <T extends Record> SizeFilter<T> between(int from, int to) {
+    public static <T extends TextRecord> SizeFilter<T> between(int from, int to) {
         return new SizeFilter<>(
                 GREATER_THAN_OR_EQUAL_TO.intPredicate(from)
                                         .and(LESS_THAN.intPredicate(to)));

@@ -1,6 +1,6 @@
 package stexfires.core.logger;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class AppendableLogger<T extends Record, R extends Appendable> implements RecordLogger<T> {
+public class AppendableLogger<T extends TextRecord, R extends Appendable> implements RecordLogger<T> {
 
     protected final Object lock = new Object();
 

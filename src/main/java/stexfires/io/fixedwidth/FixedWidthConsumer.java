@@ -1,7 +1,7 @@
 package stexfires.io.fixedwidth;
 
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.util.Alignment;
@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class FixedWidthConsumer extends AbstractWritableConsumer<Record> {
+public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
 
     protected final FixedWidthFileSpec fileSpec;
 
@@ -98,7 +98,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<Record> {
     }
 
     @Override
-    public void writeRecord(Record record) throws IOException, ConsumerException {
+    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
         super.writeRecord(record);
 
         write(createRecordString(

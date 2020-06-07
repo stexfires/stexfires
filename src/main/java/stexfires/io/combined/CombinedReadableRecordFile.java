@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.io.ReadableRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.spec.RecordFileSpec;
@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedReadableRecordFile<T extends Record> implements ReadableRecordFile<T, RecordFileSpec> {
+public class CombinedReadableRecordFile<T extends TextRecord> implements ReadableRecordFile<T, RecordFileSpec> {
 
     protected final ReadableRecordFile<? extends T, ?> firstFile;
     protected final ReadableRecordFile<? extends T, ?> secondFile;

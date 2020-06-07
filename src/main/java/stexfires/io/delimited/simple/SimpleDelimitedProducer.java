@@ -1,6 +1,6 @@
 package stexfires.io.delimited.simple;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.producer.ProducerException;
 import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.StandardRecord;
@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SimpleDelimitedProducer extends AbstractReadableProducer<Record> {
+public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final String NO_VALUE = null;
 
@@ -37,7 +37,7 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<Record> {
     }
 
     @Override
-    protected Optional<Record> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<TextRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         StandardRecord record = null;
         String rawData = recordRawData.getRawData();
 

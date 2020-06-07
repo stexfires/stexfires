@@ -2,7 +2,7 @@ package stexfires.core.message;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.mapper.fieldvalue.FieldValueMapper;
 import stexfires.core.record.KeyRecord;
 import stexfires.core.record.ValueRecord;
@@ -14,7 +14,7 @@ import java.util.function.Function;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ValueMessage<T extends Record> implements RecordMessage<T> {
+public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
 
     public static final String DEFAULT_NULL_FIELD_MESSAGE = null;
 

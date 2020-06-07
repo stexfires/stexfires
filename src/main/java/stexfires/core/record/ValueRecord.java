@@ -3,13 +3,13 @@ package stexfires.core.record;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface ValueRecord extends Record {
+public interface ValueRecord extends TextRecord {
 
     ValueRecord newValueRecord(@Nullable String value);
 

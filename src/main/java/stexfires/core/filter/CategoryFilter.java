@@ -1,6 +1,6 @@
 package stexfires.core.filter;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
 
@@ -17,7 +17,7 @@ import static stexfires.util.StringComparisonType.EQUALS;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryFilter<T extends Record> implements RecordFilter<T> {
+public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final Predicate<String> categoryPredicate;
 
@@ -26,33 +26,33 @@ public class CategoryFilter<T extends Record> implements RecordFilter<T> {
         this.categoryPredicate = categoryPredicate;
     }
 
-    public static <T extends Record> CategoryFilter<T> compare(StringComparisonType stringComparisonType,
-                                                               String compareCategory) {
+    public static <T extends TextRecord> CategoryFilter<T> compare(StringComparisonType stringComparisonType,
+                                                                   String compareCategory) {
         return new CategoryFilter<>(stringComparisonType.stringPredicate(compareCategory));
     }
 
-    public static <T extends Record> CategoryFilter<T> check(StringCheckType stringCheckType) {
+    public static <T extends TextRecord> CategoryFilter<T> check(StringCheckType stringCheckType) {
         return new CategoryFilter<>(stringCheckType.stringPredicate());
     }
 
-    public static <T extends Record> CategoryFilter<T> equalTo(String compareCategory) {
+    public static <T extends TextRecord> CategoryFilter<T> equalTo(String compareCategory) {
         return compare(EQUALS, compareCategory);
     }
 
-    public static <T extends Record> CategoryFilter<T> isNotNull() {
+    public static <T extends TextRecord> CategoryFilter<T> isNotNull() {
         return check(NOT_NULL);
     }
 
-    public static <T extends Record> CategoryFilter<T> isNull() {
+    public static <T extends TextRecord> CategoryFilter<T> isNull() {
         return check(NULL);
     }
 
-    public static <T extends Record> CategoryFilter<T> containedIn(Collection<String> categories) {
+    public static <T extends TextRecord> CategoryFilter<T> containedIn(Collection<String> categories) {
         return new CategoryFilter<>(categories::contains);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends Record> CategoryFilter<T> containedIn(String... categories) {
+    public static <T extends TextRecord> CategoryFilter<T> containedIn(String... categories) {
         return containedIn(Arrays.asList(categories));
     }
 

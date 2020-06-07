@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.io.Closeable;
 
@@ -9,6 +9,6 @@ import java.io.Closeable;
  * @see java.util.function.Consumer
  * @since 0.1
  */
-public interface ClosableRecordConsumer<T extends Record> extends RecordConsumer<T>, Closeable {
+public interface ClosableRecordConsumer<T extends TextRecord> extends RecordConsumer<T>, Closeable {
 
 }

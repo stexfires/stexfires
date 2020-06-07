@@ -1,6 +1,6 @@
 package stexfires.io.config;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.comparator.NULLS;
 import stexfires.core.comparator.RecordComparators;
 import stexfires.core.mapper.RecordMapper;
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConfigModifier<T extends Record> implements RecordStreamModifier<T, KeyValueRecord> {
+public class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueRecord> {
 
     protected final RecordStreamModifier<T, KeyValueRecord> modifier;
 

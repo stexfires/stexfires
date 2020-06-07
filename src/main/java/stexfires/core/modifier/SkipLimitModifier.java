@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.stream.Stream;
 
@@ -8,7 +8,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SkipLimitModifier<T extends Record> implements RecordStreamModifier<T, T> {
+public class SkipLimitModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
     public static final long NO_SKIP = -1L;
     public static final long NO_LIMIT = -1L;
@@ -25,11 +25,11 @@ public class SkipLimitModifier<T extends Record> implements RecordStreamModifier
         this.limitMaxSize = limitMaxSize;
     }
 
-    public static <T extends Record> SkipLimitModifier<T> skip(long skipFirst) {
+    public static <T extends TextRecord> SkipLimitModifier<T> skip(long skipFirst) {
         return new SkipLimitModifier<>(skipFirst, NO_LIMIT);
     }
 
-    public static <T extends Record> SkipLimitModifier<T> limit(long limitMaxSize) {
+    public static <T extends TextRecord> SkipLimitModifier<T> limit(long limitMaxSize) {
         return new SkipLimitModifier<>(NO_SKIP, limitMaxSize);
     }
 

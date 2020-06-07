@@ -1,7 +1,7 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SupplierMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
+public class SupplierMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {
 
     private final Supplier<? extends R> recordSupplier;
 

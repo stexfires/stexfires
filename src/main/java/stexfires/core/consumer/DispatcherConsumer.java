@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.filter.RecordFilter;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
+public class DispatcherConsumer<T extends TextRecord> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 
@@ -30,15 +30,15 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         this.recordConsumers = new ArrayList<>(recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> all(List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> all(List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
                 true;
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byRecord(Function<? super T, Integer> recordIndexFunction,
-                                                                    List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byRecord(Function<? super T, Integer> recordIndexFunction,
+                                                                        List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordIndexFunction);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -46,8 +46,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byCategory(Function<String, Integer> categoryIndexFunction,
-                                                                      List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byCategory(Function<String, Integer> categoryIndexFunction,
+                                                                          List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -55,8 +55,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byRecordId(Function<Long, Integer> recordIdIndexFunction,
-                                                                      List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byRecordId(Function<Long, Integer> recordIdIndexFunction,
+                                                                          List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordIdIndexFunction);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -64,15 +64,15 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> bySize(List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> bySize(List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
                 record.size() == index;
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byIndexPredicate(IntPredicate indexPredicate,
-                                                                            List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byIndexPredicate(IntPredicate indexPredicate,
+                                                                                List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(indexPredicate);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -80,8 +80,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byIndexSupplier(Supplier<Integer> indexSupplier,
-                                                                           List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byIndexSupplier(Supplier<Integer> indexSupplier,
+                                                                               List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -89,8 +89,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byBooleanSupplier(Supplier<Boolean> booleanSupplier,
-                                                                             List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byBooleanSupplier(Supplier<Boolean> booleanSupplier,
+                                                                                 List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(booleanSupplier);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
@@ -98,8 +98,8 @@ public class DispatcherConsumer<T extends Record> implements RecordConsumer<T> {
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends Record> DispatcherConsumer<T> byFilters(List<? extends RecordFilter<? super T>> recordFilters,
-                                                                     List<? extends RecordConsumer<? super T>> recordConsumers) {
+    public static <T extends TextRecord> DispatcherConsumer<T> byFilters(List<? extends RecordFilter<? super T>> recordFilters,
+                                                                         List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordFilters);
         Objects.requireNonNull(recordConsumers);
         List<RecordFilter<? super T>> localFilters = new ArrayList<>(recordFilters);

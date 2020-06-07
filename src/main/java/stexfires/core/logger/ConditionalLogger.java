@@ -1,6 +1,6 @@
 package stexfires.core.logger;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.filter.RecordFilter;
 
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConditionalLogger<T extends Record> implements RecordLogger<T> {
+public class ConditionalLogger<T extends TextRecord> implements RecordLogger<T> {
 
     private final RecordFilter<? super T> condition;
     private final RecordLogger<? super T> trueLogger;

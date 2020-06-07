@@ -1,7 +1,7 @@
 package stexfires.core.message;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class NullSafeMessage<T extends Record> implements RecordMessage<T> {
+public class NullSafeMessage<T extends TextRecord> implements RecordMessage<T> {
 
     public static final String DEFAULT_RECORD_IS_NULL_MESSAGE = "ERROR: Record is null!";
 

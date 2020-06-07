@@ -1,6 +1,5 @@
 package stexfires.io.path;
 
-import stexfires.core.Record;
 import stexfires.core.record.StandardRecord;
 
 import java.nio.file.Path;
@@ -11,7 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A PathRecord is a {@link Record} containing information about a file path.
+ * A PathRecord is a {@link stexfires.core.TextRecord} containing information about a file path.
  * The category contains the {@link PathType}.
  * All other information is stored in the values.
  *

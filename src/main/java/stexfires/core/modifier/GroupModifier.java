@@ -1,7 +1,7 @@
 package stexfires.core.modifier;
 
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.record.KeyRecord;
 import stexfires.core.record.SingleRecord;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class GroupModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
+public class GroupModifier<T extends TextRecord, R extends TextRecord> implements RecordStreamModifier<T, R> {
 
     private final Function<? super T, ?> groupByFunction;
     private final Predicate<List<? super T>> havingPredicate;
@@ -49,11 +49,11 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         this.aggregateFunction = aggregateFunction;
     }
 
-    public static <T extends Record> Function<? super T, String> groupByCategory() {
-        return Record::getCategory;
+    public static <T extends TextRecord> Function<? super T, String> groupByCategory() {
+        return TextRecord::getCategory;
     }
 
-    public static <T extends Record> Function<? super T, String> groupByMessage(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Function<? super T, String> groupByMessage(RecordMessage<? super T> recordMessage) {
         return recordMessage.asFunction();
     }
 
@@ -65,63 +65,63 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
         return ValueRecord::getValueOfValueField;
     }
 
-    public static <T extends Record> Function<? super T, String> groupByValueAt(int index) {
+    public static <T extends TextRecord> Function<? super T, String> groupByValueAt(int index) {
         return r -> r.getValueAt(index);
     }
 
-    public static <T extends Record> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
+    public static <T extends TextRecord> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
         Objects.requireNonNull(sizePredicate);
         return list -> sizePredicate.test(list.size());
     }
 
-    public static <T extends Record> Predicate<List<? super T>> havingSize(NumberCheckType numberCheckType) {
+    public static <T extends TextRecord> Predicate<List<? super T>> havingSize(NumberCheckType numberCheckType) {
         Objects.requireNonNull(numberCheckType);
         return list -> numberCheckType.checkInt(list.size());
     }
 
-    public static <T extends Record> Predicate<List<? super T>> havingSizeEqualTo(int size) {
+    public static <T extends TextRecord> Predicate<List<? super T>> havingSizeEqualTo(int size) {
         return list -> list.size() == size;
     }
 
-    public static <T extends Record> Predicate<List<? super T>> havingSizeGreaterThan(int size) {
+    public static <T extends TextRecord> Predicate<List<? super T>> havingSizeGreaterThan(int size) {
         return list -> list.size() > size;
     }
 
-    public static <T extends Record> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> categoryFunction,
-                                                                                     Function<List<T>, String> valueFunction) {
+    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> categoryFunction,
+                                                                                         Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valueFunction);
         return list -> new SingleRecord(categoryFunction.apply(list), null,
                 valueFunction.apply(list));
     }
 
-    public static <T extends Record> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
+    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(valueFunction);
         return list -> new SingleRecord(valueFunction.apply(list));
     }
 
-    public static <T extends Record> Function<List<T>, Record> aggregateToValues(Function<List<T>, String> categoryFunction,
-                                                                                 Function<List<T>, List<String>> valuesFunction) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, String> categoryFunction,
+                                                                                         Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valuesFunction);
         return list -> new StandardRecord(categoryFunction.apply(list), null,
                 valuesFunction.apply(list));
     }
 
-    public static <T extends Record> Function<List<T>, Record> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(valuesFunction);
         return list -> new StandardRecord(valuesFunction.apply(list));
     }
 
-    public static <T extends Record> Function<List<T>, Record> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(valuesMessage);
         return list -> new StandardRecord(list.stream()
                                               .map(valuesMessage.asFunction())
                                               .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> Function<List<T>, Record> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
-                                                                                            RecordMessage<? super T> valuesMessage) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
+                                                                                                    RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(categoryMessage);
         Objects.requireNonNull(valuesMessage);
         return list -> new StandardRecord(categoryMessage.createMessage(list.get(0)), null,
@@ -130,19 +130,19 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                     .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> Function<List<T>, String> categoryOfFirstElement() {
+    public static <T extends TextRecord> Function<List<T>, String> categoryOfFirstElement() {
         return list -> list.get(0).getCategory();
     }
 
-    public static <T extends Record> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordMessage);
         return list -> recordMessage.createMessage(list.get(0));
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> collectValues(Collector<String, ?, Optional<String>> valueCollector,
-                                                                                   String nullValue) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> collectValues(Collector<String, ?, Optional<String>> valueCollector,
+                                                                                       String nullValue) {
         return list -> list.stream()
-                           .flatMap(Record::streamOfFields)
+                           .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
                                    Collectors.groupingBy(
                                            Field::getIndex,
@@ -156,12 +156,12 @@ public class GroupModifier<T extends Record, R extends Record> implements Record
                                              .collect(Collectors.toList())));
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> maxValuesNullsFirst(String nullValue) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> maxValuesNullsFirst(String nullValue) {
         return collectValues(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
                 nullValue);
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> minValuesNullsLast(String nullValue) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> minValuesNullsLast(String nullValue) {
         return collectValues(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
                 nullValue);
     }

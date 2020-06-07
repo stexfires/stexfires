@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
+public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRecord> {
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
                          Function<? super T, String> newCategoryFunction,
@@ -58,15 +58,15 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
     }
 
     @SuppressWarnings("ReturnOfNull")
-    public static <T extends Record> Function<? super T, String> withoutCategory() {
+    public static <T extends TextRecord> Function<? super T, String> withoutCategory() {
         return r -> null;
     }
 
-    public static <T extends Record> PivotModifier<T> pivotWithClassifications(int keyIndex,
-                                                                               int valueIndex,
-                                                                               String nullValue,
-                                                                               int valueClassificationIndex,
-                                                                               List<String> valueClassifications) {
+    public static <T extends TextRecord> PivotModifier<T> pivotWithClassifications(int keyIndex,
+                                                                                   int valueIndex,
+                                                                                   String nullValue,
+                                                                                   int valueClassificationIndex,
+                                                                                   List<String> valueClassifications) {
         return new PivotModifier<>(
                 GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
@@ -77,11 +77,11 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                 valueClassifications);
     }
 
-    public static <T extends Record> PivotModifier<T> pivotWithClassifications(Function<? super T, String> keyFunction,
-                                                                               Function<? super T, String> valueFunction,
-                                                                               String nullValue,
-                                                                               Function<? super T, String> valueClassificationFunction,
-                                                                               List<String> valueClassifications) {
+    public static <T extends TextRecord> PivotModifier<T> pivotWithClassifications(Function<? super T, String> keyFunction,
+                                                                                   Function<? super T, String> valueFunction,
+                                                                                   String nullValue,
+                                                                                   Function<? super T, String> valueClassificationFunction,
+                                                                                   List<String> valueClassifications) {
         return new PivotModifier<>(keyFunction,
                 withoutCategory(),
                 r -> Stream.of(keyFunction.apply(r)),
@@ -92,18 +92,18 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends Record> PivotModifier<T> pivotWithIndexes(int keyIndex,
-                                                                       int recordsPerKey,
-                                                                       String nullValue,
-                                                                       Integer... valueIndexes) {
+    public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
+                                                                           int recordsPerKey,
+                                                                           String nullValue,
+                                                                           Integer... valueIndexes) {
         return pivotWithIndexes(keyIndex, recordsPerKey, nullValue,
                 Arrays.asList(valueIndexes));
     }
 
-    public static <T extends Record> PivotModifier<T> pivotWithIndexes(int keyIndex,
-                                                                       int recordsPerKey,
-                                                                       String nullValue,
-                                                                       List<Integer> valueIndexes) {
+    public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
+                                                                           int recordsPerKey,
+                                                                           String nullValue,
+                                                                           List<Integer> valueIndexes) {
         return new PivotModifier<>(
                 GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
@@ -113,7 +113,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                 valueIndexes);
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunctionWithClassifications(
+    public static <T extends TextRecord> Function<List<T>, List<String>> pivotValuesFunctionWithClassifications(
             Function<? super T, Stream<String>> newFirstValuesFunction,
             Function<? super T, String> valueFunction,
             String nullValue,
@@ -139,7 +139,7 @@ public class PivotModifier<T extends Record> extends GroupModifier<T, Record> {
                       .collect(Collectors.toList());
     }
 
-    public static <T extends Record> Function<List<T>, List<String>> pivotValuesFunctionWithIndexes(
+    public static <T extends TextRecord> Function<List<T>, List<String>> pivotValuesFunctionWithIndexes(
             Function<? super T, Stream<String>> newFirstValuesFunction,
             int newRecordSize,
             String nullValue,

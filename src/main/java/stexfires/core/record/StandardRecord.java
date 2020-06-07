@@ -3,7 +3,7 @@ package stexfires.core.record;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class StandardRecord implements Record {
+public class StandardRecord implements TextRecord {
 
     private final String category;
     private final Long recordId;

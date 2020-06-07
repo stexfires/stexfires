@@ -1,7 +1,7 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.filter.RecordFilter;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConditionalMapper<T extends Record, R extends Record> implements RecordMapper<T, R> {
+public class ConditionalMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {
 
     private final RecordFilter<? super T> condition;
     private final RecordMapper<? super T, ? extends R> trueMapper;

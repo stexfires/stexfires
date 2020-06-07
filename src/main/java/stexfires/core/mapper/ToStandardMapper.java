@@ -2,14 +2,14 @@ package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.record.StandardRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToStandardMapper<T extends Record> implements RecordMapper<T, StandardRecord> {
+public class ToStandardMapper<T extends TextRecord> implements RecordMapper<T, StandardRecord> {
 
     public ToStandardMapper() {
     }

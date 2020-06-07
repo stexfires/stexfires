@@ -2,14 +2,14 @@ package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.record.PairRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToPairMapper<T extends Record> implements RecordMapper<T, PairRecord> {
+public class ToPairMapper<T extends TextRecord> implements RecordMapper<T, PairRecord> {
 
     private final int firstIndex;
     private final int secondIndex;

@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.RecordStreams;
 import stexfires.core.producer.ProducerException;
 import stexfires.io.ReadableRecordProducer;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedReadableRecordProducer<T extends Record> implements ReadableRecordProducer<T> {
+public class CombinedReadableRecordProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
     protected final ReadableRecordProducer<? extends T> firstProducer;
     protected final ReadableRecordProducer<? extends T> secondProducer;

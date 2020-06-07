@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.io.spec.RecordFileSpec;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class BaseRecordFile<W extends Record, R extends W, S extends RecordFileSpec>
+public class BaseRecordFile<W extends TextRecord, R extends W, S extends RecordFileSpec>
         implements ReadableRecordFile<R, S>, WritableRecordFile<W, S> {
 
     protected final Path path;

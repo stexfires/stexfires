@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -22,23 +22,23 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 @FunctionalInterface
-public interface RecordStreamModifier<T extends Record, R extends Record> {
+public interface RecordStreamModifier<T extends TextRecord, R extends TextRecord> {
 
-    static <T extends Record, R extends Record> RecordStreamModifier<T, R> of(Function<Stream<T>, Stream<R>> function) {
+    static <T extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> of(Function<Stream<T>, Stream<R>> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
 
-    static <T extends Record, V extends Record, R extends Record> RecordStreamModifier<T, R> concat(RecordStreamModifier<T, V> firstRecordStreamModifier,
-                                                                                                    RecordStreamModifier<V, R> secondRecordStreamModifier) {
+    static <T extends TextRecord, V extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> concat(RecordStreamModifier<T, V> firstRecordStreamModifier,
+                                                                                                                RecordStreamModifier<V, R> secondRecordStreamModifier) {
         Objects.requireNonNull(firstRecordStreamModifier);
         Objects.requireNonNull(secondRecordStreamModifier);
         return recordStream -> secondRecordStreamModifier.modify(firstRecordStreamModifier.modify(recordStream));
     }
 
-    static <T extends Record, V extends Record, R extends Record> RecordStreamModifier<T, R> concat(RecordStreamModifier<T, V> firstRecordStreamModifier,
-                                                                                                    RecordStreamModifier<V, V> secondRecordStreamModifier,
-                                                                                                    RecordStreamModifier<V, R> thirdRecordStreamModifier) {
+    static <T extends TextRecord, V extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> concat(RecordStreamModifier<T, V> firstRecordStreamModifier,
+                                                                                                                RecordStreamModifier<V, V> secondRecordStreamModifier,
+                                                                                                                RecordStreamModifier<V, R> thirdRecordStreamModifier) {
         Objects.requireNonNull(firstRecordStreamModifier);
         Objects.requireNonNull(secondRecordStreamModifier);
         Objects.requireNonNull(thirdRecordStreamModifier);
@@ -51,12 +51,12 @@ public interface RecordStreamModifier<T extends Record, R extends Record> {
         return this::modify;
     }
 
-    default <V extends Record> RecordStreamModifier<V, R> compose(RecordStreamModifier<V, T> before) {
+    default <V extends TextRecord> RecordStreamModifier<V, R> compose(RecordStreamModifier<V, T> before) {
         Objects.requireNonNull(before);
         return recordStream -> modify(before.modify(recordStream));
     }
 
-    default <V extends Record> RecordStreamModifier<T, V> andThen(RecordStreamModifier<R, V> after) {
+    default <V extends TextRecord> RecordStreamModifier<T, V> andThen(RecordStreamModifier<R, V> after) {
         Objects.requireNonNull(after);
         return recordStream -> after.modify(modify(recordStream));
     }

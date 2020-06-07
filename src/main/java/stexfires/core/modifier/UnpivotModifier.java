@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.record.StandardRecord;
 import stexfires.util.Strings;
 
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class UnpivotModifier<T extends Record, R extends Record> implements RecordStreamModifier<T, R> {
+public class UnpivotModifier<T extends TextRecord, R extends TextRecord> implements RecordStreamModifier<T, R> {
 
     private final Function<? super T, Stream<? extends R>> unpivotFunction;
 
@@ -28,15 +28,15 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         this.unpivotFunction = unpivotFunction;
     }
 
-    public static <T extends Record, R extends Record> UnpivotModifier<T, R> of(Function<? super T, Collection<? extends R>> unpivotFunction) {
+    public static <T extends TextRecord, R extends TextRecord> UnpivotModifier<T, R> of(Function<? super T, Collection<? extends R>> unpivotFunction) {
         Objects.requireNonNull(unpivotFunction);
         return new UnpivotModifier<>(record -> unpivotFunction.apply(record).stream());
     }
 
-    public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValue(Collection<Integer> keyIndexes,
-                                                                                  IntFunction<String> valueIndexToIdentifier,
-                                                                                  boolean onlyExistingValues,
-                                                                                  Collection<Integer> valueIndexes) {
+    public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValue(Collection<Integer> keyIndexes,
+                                                                                          IntFunction<String> valueIndexToIdentifier,
+                                                                                          boolean onlyExistingValues,
+                                                                                          Collection<Integer> valueIndexes) {
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(valueIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);
@@ -56,10 +56,10 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValue(int keyIndex,
-                                                                                  IntFunction<String> valueIndexToIdentifier,
-                                                                                  boolean onlyExistingValues,
-                                                                                  int... valueIndexes) {
+    public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValue(int keyIndex,
+                                                                                          IntFunction<String> valueIndexToIdentifier,
+                                                                                          boolean onlyExistingValues,
+                                                                                          int... valueIndexes) {
         Objects.requireNonNull(valueIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);
         return oneRecordPerValue(
@@ -70,9 +70,9 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
         );
     }
 
-    public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValue(int keyIndex,
-                                                                                  boolean onlyExistingValues,
-                                                                                  Map<Integer, String> valueIndexesAndIdentifiers) {
+    public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValue(int keyIndex,
+                                                                                          boolean onlyExistingValues,
+                                                                                          Map<Integer, String> valueIndexesAndIdentifiers) {
         Objects.requireNonNull(valueIndexesAndIdentifiers);
         return oneRecordPerValue(
                 Collections.singleton(keyIndex),
@@ -84,9 +84,9 @@ public class UnpivotModifier<T extends Record, R extends Record> implements Reco
 
     @SuppressWarnings("ReturnOfNull")
     @SafeVarargs
-    public static <T extends Record> UnpivotModifier<T, Record> oneRecordPerValues(Collection<Integer> keyIndexes,
-                                                                                   IntFunction<String> recordIndexToIdentifier,
-                                                                                   Collection<Integer>... valueIndexes) {
+    public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValues(Collection<Integer> keyIndexes,
+                                                                                           IntFunction<String> recordIndexToIdentifier,
+                                                                                           Collection<Integer>... valueIndexes) {
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(recordIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);

@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.RecordConsumer;
 import stexfires.core.logger.RecordLogger;
 import stexfires.core.mapper.RecordMapper;
@@ -24,7 +24,7 @@ public final class RecordFiles {
     private RecordFiles() {
     }
 
-    public static <R extends Record, T extends R> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends R> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableFile);
@@ -37,7 +37,7 @@ public final class RecordFiles {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
             RecordConsumer<R> recordConsumer) throws IOException {
@@ -52,7 +52,7 @@ public final class RecordFiles {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             RecordConsumer<R> recordConsumer) throws IOException {
@@ -67,7 +67,7 @@ public final class RecordFiles {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends R> RecordLogger<R> log(
+    public static <R extends TextRecord, T extends R> RecordLogger<R> log(
             ReadableRecordFile<T, ?> readableFile,
             RecordLogger<R> recordLogger) throws IOException {
         Objects.requireNonNull(readableFile);
@@ -80,7 +80,7 @@ public final class RecordFiles {
         return recordLogger;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
@@ -94,7 +94,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
@@ -110,7 +110,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
@@ -126,7 +126,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
@@ -140,7 +140,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
@@ -156,7 +156,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
@@ -172,7 +172,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R, ?> write(
+    public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             T record,
             WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
@@ -186,7 +186,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> WritableRecordFile<R, ?> convert(
+    public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> convert(
             ReadableRecordFile<T, ?> readableFile,
             WritableRecordFile<R, ?> writableFile,
             OpenOption... writeOptions) throws IOException {
@@ -200,7 +200,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> convert(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> convert(
             ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
@@ -217,7 +217,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordFile<R, ?> convert(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordFile<R, ?> convert(
             ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
@@ -234,7 +234,7 @@ public final class RecordFiles {
         return writableFile;
     }
 
-    public static <R extends Record, T extends R> void convert(
+    public static <R extends TextRecord, T extends R> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
             Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
         Objects.requireNonNull(readableProducerSupplier);
@@ -246,7 +246,7 @@ public final class RecordFiles {
         }
     }
 
-    public static <R extends Record, T extends Record> void convert(
+    public static <R extends TextRecord, T extends TextRecord> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
             RecordMapper<? super T, ? extends R> recordMapper,
             Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
@@ -260,7 +260,7 @@ public final class RecordFiles {
         }
     }
 
-    public static <R extends Record, T extends Record> void convert(
+    public static <R extends TextRecord, T extends TextRecord> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {

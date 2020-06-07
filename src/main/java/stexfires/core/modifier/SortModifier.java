@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  * @see stexfires.core.comparator.RecordComparators
  * @since 0.1
  */
-public class SortModifier<T extends Record> implements RecordStreamModifier<T, T> {
+public class SortModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
     private final Comparator<? super T> recordComparator;
 

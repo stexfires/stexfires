@@ -1,13 +1,13 @@
 package stexfires.core.message;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ClassNameMessage<T extends Record> implements RecordMessage<T> {
+public class ClassNameMessage<T extends TextRecord> implements RecordMessage<T> {
 
     public static final boolean DEFAULT_WITH_HASH_CODE = false;
     public static final char HASH_CODE_PREFIX = '@';

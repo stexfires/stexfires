@@ -2,7 +2,7 @@ package stexfires.core.mapper;
 
 import stexfires.core.Field;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.mapper.fieldvalue.FieldValueMapper;
 import stexfires.core.message.RecordMessage;
 import stexfires.util.Strings;
@@ -25,17 +25,17 @@ import java.util.stream.Collectors;
  * @see stexfires.core.mapper.RecordIdMapper
  * @since 0.1
  */
-public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
+public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public ValuesMapper(Function<? super T, Collection<String>> valuesFunction) {
-        super(Record::getCategory, Record::getRecordId, valuesFunction);
+        super(TextRecord::getCategory, TextRecord::getRecordId, valuesFunction);
     }
 
-    public static <T extends Record> ValuesMapper<T> identity() {
+    public static <T extends TextRecord> ValuesMapper<T> identity() {
         return new ValuesMapper<>(Fields::collectValues);
     }
 
-    public static <T extends Record> ValuesMapper<T> recordFieldFunction(BiFunction<Record, Field, String> recordFieldFunction) {
+    public static <T extends TextRecord> ValuesMapper<T> recordFieldFunction(BiFunction<TextRecord, Field, String> recordFieldFunction) {
         Objects.requireNonNull(recordFieldFunction);
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
@@ -46,7 +46,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
     /**
      * @see stexfires.core.mapper.fieldvalue.IndexedFieldValueMapper
      */
-    public static <T extends Record> ValuesMapper<T> mapAllFields(FieldValueMapper fieldValueMapper) {
+    public static <T extends TextRecord> ValuesMapper<T> mapAllFields(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
@@ -54,15 +54,15 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
                       .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> ValuesMapper<T> mapOneField(Function<? super T, Field> fieldFunction,
-                                                                 FieldValueMapper fieldValueMapper) {
+    public static <T extends TextRecord> ValuesMapper<T> mapOneField(Function<? super T, Field> fieldFunction,
+                                                                     FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(fieldValueMapper);
         return new ValuesMapper<>(record ->
                 Strings.list(fieldValueMapper.mapToValue(fieldFunction.apply(record))));
     }
 
-    public static <T extends Record> ValuesMapper<T> size(int size, String fillingValue) {
+    public static <T extends TextRecord> ValuesMapper<T> size(int size, String fillingValue) {
         if (size < 0) {
             throw new IllegalArgumentException("Illegal size! size=" + size);
         }
@@ -88,7 +88,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
         });
     }
 
-    public static <T extends Record> ValuesMapper<T> reverseValues() {
+    public static <T extends TextRecord> ValuesMapper<T> reverseValues() {
         return new ValuesMapper<>(record -> {
             List<String> newValues = Fields.collectValues(record);
             Collections.reverse(newValues);
@@ -98,14 +98,14 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <T extends Record> ValuesMapper<T> createMessages(RecordMessage<? super T>... recordMessages) {
+    public static <T extends TextRecord> ValuesMapper<T> createMessages(RecordMessage<? super T>... recordMessages) {
         Objects.requireNonNull(recordMessages);
         return new ValuesMapper<>(r -> Arrays.stream(recordMessages)
                                              .map(recordMessage -> recordMessage.createMessage(r))
                                              .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> ValuesMapper<T> createMessages(Collection<RecordMessage<? super T>> recordMessages) {
+    public static <T extends TextRecord> ValuesMapper<T> createMessages(Collection<RecordMessage<? super T>> recordMessages) {
         Objects.requireNonNull(recordMessages);
         return new ValuesMapper<>(r -> recordMessages.stream()
                                                      .map(recordMessage -> recordMessage.createMessage(r))
@@ -114,21 +114,21 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <T extends Record> ValuesMapper<T> applyFunctions(Function<? super T, String>... valueFunctions) {
+    public static <T extends TextRecord> ValuesMapper<T> applyFunctions(Function<? super T, String>... valueFunctions) {
         Objects.requireNonNull(valueFunctions);
         return new ValuesMapper<>(r -> Arrays.stream(valueFunctions)
                                              .map(stringFunction -> stringFunction.apply(r))
                                              .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> ValuesMapper<T> applyFunctions(Collection<Function<? super T, String>> valueFunctions) {
+    public static <T extends TextRecord> ValuesMapper<T> applyFunctions(Collection<Function<? super T, String>> valueFunctions) {
         Objects.requireNonNull(valueFunctions);
         return new ValuesMapper<>(r -> valueFunctions.stream()
                                                      .map(stringFunction -> stringFunction.apply(r))
                                                      .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> ValuesMapper<T> add(Function<? super T, String> valueFunction) {
+    public static <T extends TextRecord> ValuesMapper<T> add(Function<? super T, String> valueFunction) {
         return new ValuesMapper<>(record -> {
             List<String> newValues = new ArrayList<>(record.size() + 1);
             newValues.addAll(Fields.collectValues(record));
@@ -137,7 +137,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
         });
     }
 
-    public static <T extends Record> ValuesMapper<T> remove(int index) {
+    public static <T extends TextRecord> ValuesMapper<T> remove(int index) {
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
                       .filter(field -> field.getIndex() != index)
@@ -145,7 +145,7 @@ public class ValuesMapper<T extends Record> extends FunctionMapper<T> {
                       .collect(Collectors.toList()));
     }
 
-    public static <T extends Record> ValuesMapper<T> remove(Predicate<Field> fieldPredicate) {
+    public static <T extends TextRecord> ValuesMapper<T> remove(Predicate<Field> fieldPredicate) {
         Objects.requireNonNull(fieldPredicate);
         return new ValuesMapper<>(record ->
                 record.streamOfFields()

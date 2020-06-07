@@ -2,7 +2,7 @@ package stexfires.core.consumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -17,15 +17,15 @@ public class UncheckedConsumerException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public UncheckedConsumerException(@Nullable String message, @Nullable Record record) {
+    public UncheckedConsumerException(@Nullable String message, @Nullable TextRecord record) {
         this(new ConsumerException(message, record));
     }
 
-    public UncheckedConsumerException(@Nullable Record record, @Nullable Throwable cause) {
+    public UncheckedConsumerException(@Nullable TextRecord record, @Nullable Throwable cause) {
         this(new ConsumerException(record, cause));
     }
 
-    public UncheckedConsumerException(@Nullable String message, @Nullable Record record, @Nullable Throwable cause) {
+    public UncheckedConsumerException(@Nullable String message, @Nullable TextRecord record, @Nullable Throwable cause) {
         this(new ConsumerException(message, record, cause));
     }
 

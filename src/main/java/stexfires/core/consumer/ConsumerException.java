@@ -1,7 +1,7 @@
 package stexfires.core.consumer;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 
@@ -16,19 +16,19 @@ public class ConsumerException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public ConsumerException(@Nullable String message, @Nullable Record record) {
+    public ConsumerException(@Nullable String message, @Nullable TextRecord record) {
         super(createMessage(message, record));
     }
 
-    public ConsumerException(@Nullable Record record, @Nullable Throwable cause) {
+    public ConsumerException(@Nullable TextRecord record, @Nullable Throwable cause) {
         super(createMessage(null, record), cause);
     }
 
-    public ConsumerException(@Nullable String message, @Nullable Record record, @Nullable Throwable cause) {
+    public ConsumerException(@Nullable String message, @Nullable TextRecord record, @Nullable Throwable cause) {
         super(createMessage(message, record), cause);
     }
 
-    protected static String createMessage(@Nullable String message, @Nullable Record record) {
+    protected static String createMessage(@Nullable String message, @Nullable TextRecord record) {
         return Objects.requireNonNullElse(message, DEFAULT_MESSAGE) + MESSAGE_RECORD_SEPARATOR + record;
     }
 

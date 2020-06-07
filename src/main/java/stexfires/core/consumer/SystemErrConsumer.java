@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.message.ToStringMessage;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SystemErrConsumer<T extends Record> extends PrintStreamConsumer<T> {
+public class SystemErrConsumer<T extends TextRecord> extends PrintStreamConsumer<T> {
 
     public SystemErrConsumer() {
         this(new ToStringMessage<>(), DEFAULT_TERMINATE_LINE);

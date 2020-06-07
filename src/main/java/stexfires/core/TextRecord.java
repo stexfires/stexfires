@@ -9,7 +9,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * A Record contains {@link Field}s with values.
+ * A {@link TextRecord} contains {@link Field}s with values.
  * It can also contain a category and a record id.
  * <p>
  * It must be {@code immutable} and {@code thread-safe}.
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  * @see stexfires.core.Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
-public interface Record {
+public interface TextRecord {
 
     Field[] arrayOfFields();
 

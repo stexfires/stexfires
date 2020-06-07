@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.RecordStreams;
 import stexfires.core.consumer.LoggerConsumer;
 import stexfires.core.consumer.RecordConsumer;
@@ -25,7 +25,7 @@ public final class RecordIOStreams {
     private RecordIOStreams() {
     }
 
-    public static <R extends Record, T extends R> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends R> RecordConsumer<R> read(
             ReadableRecordProducer<T> readableProducer,
             RecordConsumer<R> recordConsumer) throws IOException {
         Objects.requireNonNull(readableProducer);
@@ -38,7 +38,7 @@ public final class RecordIOStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordProducer<T> readableProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
             RecordConsumer<R> recordConsumer) throws IOException {
@@ -53,7 +53,7 @@ public final class RecordIOStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends Record> RecordConsumer<R> read(
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordProducer<T> readableProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             RecordConsumer<R> recordConsumer) throws IOException {
@@ -68,7 +68,7 @@ public final class RecordIOStreams {
         return recordConsumer;
     }
 
-    public static <R extends Record, T extends R> RecordLogger<R> log(
+    public static <R extends TextRecord, T extends R> RecordLogger<R> log(
             ReadableRecordProducer<T> readableProducer,
             RecordLogger<R> recordLogger) throws IOException {
         Objects.requireNonNull(readableProducer);
@@ -83,7 +83,7 @@ public final class RecordIOStreams {
         return recordLogger;
     }
 
-    public static <R extends Record, T extends R> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends R> WritableRecordConsumer<R> write(
             Stream<T> recordStream,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
         Objects.requireNonNull(recordStream);
@@ -97,7 +97,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> write(
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
@@ -113,7 +113,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> write(
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
@@ -129,7 +129,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends R> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends R> WritableRecordConsumer<R> write(
             RecordProducer<T> recordProducer,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
         Objects.requireNonNull(recordProducer);
@@ -143,7 +143,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> write(
             RecordProducer<T> recordProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
@@ -159,7 +159,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> write(
             RecordProducer<T> recordProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
@@ -175,7 +175,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends R> WritableRecordConsumer<R> write(
+    public static <R extends TextRecord, T extends R> WritableRecordConsumer<R> write(
             T record,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
         Objects.requireNonNull(record);
@@ -189,7 +189,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends R> WritableRecordConsumer<R> convert(
+    public static <R extends TextRecord, T extends R> WritableRecordConsumer<R> convert(
             ReadableRecordProducer<T> readableProducer,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
         Objects.requireNonNull(readableProducer);
@@ -205,7 +205,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> convert(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> convert(
             ReadableRecordProducer<T> readableProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordConsumer<R> writableConsumer) throws IOException {
@@ -223,7 +223,7 @@ public final class RecordIOStreams {
         return writableConsumer;
     }
 
-    public static <R extends Record, T extends Record> WritableRecordConsumer<R> convert(
+    public static <R extends TextRecord, T extends TextRecord> WritableRecordConsumer<R> convert(
             ReadableRecordProducer<T> readableProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordConsumer<R> writableConsumer) throws IOException {

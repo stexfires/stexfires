@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.io.WritableRecordFile;
 import stexfires.io.spec.RecordFileSpec;
@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedWritableRecordFile<T extends Record> implements WritableRecordFile<T, RecordFileSpec> {
+public class CombinedWritableRecordFile<T extends TextRecord> implements WritableRecordFile<T, RecordFileSpec> {
 
     protected final WritableRecordFile<? super T, ?> firstFile;
     protected final WritableRecordFile<? super T, ?> secondFile;

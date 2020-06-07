@@ -1,7 +1,7 @@
 package stexfires.io.html.table;
 
 import stexfires.core.Field;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
+public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
     protected final HtmlTableFileSpec fileSpec;
 
@@ -103,7 +103,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<Record> {
     }
 
     @Override
-    public void writeRecord(Record record) throws IOException, ConsumerException {
+    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
         super.writeRecord(record);
         String separator = fileSpec.getLineSeparator().string();
 

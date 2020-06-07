@@ -1,6 +1,6 @@
 package stexfires.core.logger;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.message.ToStringMessage;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SystemOutLogger<T extends Record> extends PrintStreamLogger<T> {
+public class SystemOutLogger<T extends TextRecord> extends PrintStreamLogger<T> {
 
     public SystemOutLogger() {
         this(new ToStringMessage<>(), DEFAULT_TERMINATE_LINE);

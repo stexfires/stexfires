@@ -1,6 +1,6 @@
 package stexfires.core.filter;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
@@ -18,7 +18,7 @@ import static stexfires.util.StringComparisonType.EQUALS;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class MessageFilter<T extends Record> implements RecordFilter<T> {
+public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final RecordMessage<? super T> recordMessage;
     private final Predicate<String> messagePredicate;
@@ -31,41 +31,41 @@ public class MessageFilter<T extends Record> implements RecordFilter<T> {
         this.messagePredicate = messagePredicate;
     }
 
-    public static <T extends Record> MessageFilter<T> compare(RecordMessage<? super T> recordMessage,
-                                                              StringComparisonType stringComparisonType,
-                                                              String compareMessage) {
+    public static <T extends TextRecord> MessageFilter<T> compare(RecordMessage<? super T> recordMessage,
+                                                                  StringComparisonType stringComparisonType,
+                                                                  String compareMessage) {
         return new MessageFilter<>(recordMessage,
                 stringComparisonType.stringPredicate(compareMessage));
     }
 
-    public static <T extends Record> MessageFilter<T> check(RecordMessage<? super T> recordMessage,
-                                                            StringCheckType stringCheckType) {
+    public static <T extends TextRecord> MessageFilter<T> check(RecordMessage<? super T> recordMessage,
+                                                                StringCheckType stringCheckType) {
         return new MessageFilter<>(recordMessage,
                 stringCheckType.stringPredicate());
     }
 
-    public static <T extends Record> MessageFilter<T> equalTo(RecordMessage<? super T> recordMessage,
-                                                              String compareMessage) {
+    public static <T extends TextRecord> MessageFilter<T> equalTo(RecordMessage<? super T> recordMessage,
+                                                                  String compareMessage) {
         return compare(recordMessage, EQUALS, compareMessage);
     }
 
-    public static <T extends Record> MessageFilter<T> isNotNull(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> MessageFilter<T> isNotNull(RecordMessage<? super T> recordMessage) {
         return check(recordMessage, NOT_NULL);
     }
 
-    public static <T extends Record> MessageFilter<T> isNull(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> MessageFilter<T> isNull(RecordMessage<? super T> recordMessage) {
         return check(recordMessage, NULL);
     }
 
-    public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
-                                                                  Collection<String> messages) {
+    public static <T extends TextRecord> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
+                                                                      Collection<String> messages) {
         return new MessageFilter<>(recordMessage,
                 messages::contains);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends Record> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
-                                                                  String... messages) {
+    public static <T extends TextRecord> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
+                                                                      String... messages) {
         return containedIn(recordMessage, Arrays.asList(messages));
     }
 

@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.logger.RecordLogger;
 
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class LoggerConsumer<T extends Record> implements RecordConsumer<T> {
+public class LoggerConsumer<T extends TextRecord> implements RecordConsumer<T> {
 
     private final RecordLogger<? super T> recordLogger;
 

@@ -1,7 +1,7 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.record.KeyValueRecord;
 
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToKeyValueMapper<T extends Record> implements RecordMapper<T, KeyValueRecord> {
+public class ToKeyValueMapper<T extends TextRecord> implements RecordMapper<T, KeyValueRecord> {
 
     private final int keyIndex;
     private final int valueIndex;

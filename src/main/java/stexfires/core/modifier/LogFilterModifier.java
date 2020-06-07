@@ -1,6 +1,6 @@
 package stexfires.core.modifier;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.filter.RecordFilter;
 import stexfires.core.logger.RecordLogger;
 
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class LogFilterModifier<T extends Record> implements RecordStreamModifier<T, T> {
+public class LogFilterModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
     private final RecordFilter<? super T> recordFilter;
     private final RecordLogger<? super T> validLogger;

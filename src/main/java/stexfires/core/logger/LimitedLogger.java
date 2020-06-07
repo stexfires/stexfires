@@ -1,6 +1,6 @@
 package stexfires.core.logger;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class LimitedLogger<T extends Record> implements RecordLogger<T> {
+public class LimitedLogger<T extends TextRecord> implements RecordLogger<T> {
 
     private final RecordLogger<? super T> recordLogger;
     private final int limit;

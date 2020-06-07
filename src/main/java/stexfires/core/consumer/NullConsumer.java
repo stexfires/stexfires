@@ -1,12 +1,12 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class NullConsumer<T extends Record> implements RecordConsumer<T> {
+public class NullConsumer<T extends TextRecord> implements RecordConsumer<T> {
 
     public NullConsumer() {
     }

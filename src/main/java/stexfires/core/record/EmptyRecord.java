@@ -3,7 +3,7 @@ package stexfires.core.record;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class EmptyRecord implements Record {
+public final class EmptyRecord implements TextRecord {
 
     public static final int FIELD_SIZE = 0;
 

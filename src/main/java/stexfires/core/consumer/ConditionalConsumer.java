@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.filter.RecordFilter;
 
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConditionalConsumer<T extends Record> implements RecordConsumer<T> {
+public class ConditionalConsumer<T extends TextRecord> implements RecordConsumer<T> {
 
     private final RecordFilter<? super T> condition;
     private final RecordConsumer<? super T> trueConsumer;

@@ -1,6 +1,6 @@
 package stexfires.core.consumer;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class WriterConsumer<T extends Record, R extends Writer> implements ClosableRecordConsumer<T> {
+public class WriterConsumer<T extends TextRecord, R extends Writer> implements ClosableRecordConsumer<T> {
 
     protected final Object lock = new Object();
 

@@ -1,7 +1,7 @@
 package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 import stexfires.core.record.StandardRecord;
 
 import java.util.Collection;
@@ -16,7 +16,7 @@ import java.util.function.Function;
  * @see stexfires.core.mapper.ValuesMapper
  * @since 0.1
  */
-public class FunctionMapper<T extends Record> implements RecordMapper<T, Record> {
+public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, TextRecord> {
 
     private final Function<? super T, String> categoryFunction;
     private final Function<? super T, Long> recordIdFunction;
@@ -34,9 +34,9 @@ public class FunctionMapper<T extends Record> implements RecordMapper<T, Record>
     }
 
     @SuppressWarnings("CallToSimpleGetterFromWithinClass")
-    public static <T extends Record> FunctionMapper<T> functionMappers(FunctionMapper<? super T> categoryMapper,
-                                                                       FunctionMapper<? super T> recordIdMapper,
-                                                                       FunctionMapper<? super T> valuesMapper) {
+    public static <T extends TextRecord> FunctionMapper<T> functionMappers(FunctionMapper<? super T> categoryMapper,
+                                                                           FunctionMapper<? super T> recordIdMapper,
+                                                                           FunctionMapper<? super T> valuesMapper) {
         return new FunctionMapper<>(
                 categoryMapper.getCategoryFunction(),
                 recordIdMapper.getRecordIdFunction(),
@@ -56,7 +56,7 @@ public class FunctionMapper<T extends Record> implements RecordMapper<T, Record>
     }
 
     @Override
-    public final @NotNull Record map(@NotNull T record) {
+    public final @NotNull TextRecord map(@NotNull T record) {
         return new StandardRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),

@@ -1,13 +1,13 @@
 package stexfires.core.message;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CategoryMessage<T extends Record> implements RecordMessage<T> {
+public class CategoryMessage<T extends TextRecord> implements RecordMessage<T> {
 
     private final String nullCategoryValue;
 

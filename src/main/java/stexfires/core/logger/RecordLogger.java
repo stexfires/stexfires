@@ -1,19 +1,19 @@
 package stexfires.core.logger;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * A RecordLogger logs a {@link Record}.
+ * A RecordLogger logs a {@link stexfires.core.TextRecord}.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
  * It should not throw a RuntimeException (like NullPointerException).
  * It is expected to operate via side-effects.
  * <p>
- * This is a {@code functional interface} whose functional method is {@link #log(Record)}.
+ * This is a {@code functional interface} whose functional method is {@link #log(stexfires.core.TextRecord)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Consumer
@@ -21,15 +21,15 @@ import java.util.function.Consumer;
  * @since 0.1
  */
 @FunctionalInterface
-public interface RecordLogger<T extends Record> {
+public interface RecordLogger<T extends TextRecord> {
 
-    static <T extends Record> RecordLogger<T> of(Consumer<T> consumer) {
+    static <T extends TextRecord> RecordLogger<T> of(Consumer<T> consumer) {
         Objects.requireNonNull(consumer);
         return consumer::accept;
     }
 
-    static <T extends Record> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
-                                                     RecordLogger<? super T> secondRecordLogger) {
+    static <T extends TextRecord> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
+                                                         RecordLogger<? super T> secondRecordLogger) {
         Objects.requireNonNull(firstRecordLogger);
         Objects.requireNonNull(secondRecordLogger);
         return record -> {
@@ -38,9 +38,9 @@ public interface RecordLogger<T extends Record> {
         };
     }
 
-    static <T extends Record> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
-                                                     RecordLogger<? super T> secondRecordLogger,
-                                                     RecordLogger<? super T> thirdRecordLogger) {
+    static <T extends TextRecord> RecordLogger<T> concat(RecordLogger<? super T> firstRecordLogger,
+                                                         RecordLogger<? super T> secondRecordLogger,
+                                                         RecordLogger<? super T> thirdRecordLogger) {
         Objects.requireNonNull(firstRecordLogger);
         Objects.requireNonNull(secondRecordLogger);
         Objects.requireNonNull(thirdRecordLogger);

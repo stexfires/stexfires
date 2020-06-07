@@ -1,12 +1,12 @@
 package stexfires.core.filter;
 
-import stexfires.core.Record;
+import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class IsValidIndexFilter<T extends Record> implements RecordFilter<T> {
+public class IsValidIndexFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final int index;
 
