@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -44,6 +45,17 @@ public enum LineSeparator {
     }
 
     /**
+     * Returns the line separator as a {@code String} repeated {@code count} times.
+     *
+     * @param count number of times to repeat
+     * @return line separator as a {@code String} repeated {@code count} times
+     * @throws IllegalArgumentException if the {@code count} is negative.
+     */
+    public final String string(int count) {
+        return separator.repeat(count);
+    }
+
+    /**
      * Returns the line separator as a {@code Supplier}.
      *
      * @return line separator as a {@code Supplier}
@@ -82,6 +94,20 @@ public enum LineSeparator {
     @Override
     public final String toString() {
         return separator;
+    }
+
+    /**
+     * Returns the system line separator.
+     * Default return value is {@code LF}.
+     *
+     * @return system line separator
+     * @see System#lineSeparator()
+     */
+    public static LineSeparator systemLineSeparator() {
+        return Arrays.stream(LineSeparator.values())
+                     .filter(lineSeparator -> lineSeparator.string().equals(System.lineSeparator()))
+                     .findFirst()
+                     .orElse(LF);
     }
 
 }
