@@ -40,6 +40,11 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
         writer.write(lineSeparator.string());
     }
 
+    protected final void write(CharSequence charSequence) throws IOException {
+        state.validateNotClosed();
+        writer.append(charSequence);
+    }
+
     @Override
     public void writeBefore() throws IOException {
         state = WRITE_BEFORE.validate(state);
