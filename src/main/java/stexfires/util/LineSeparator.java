@@ -50,6 +50,7 @@ public enum LineSeparator {
      * @param count number of times to repeat
      * @return line separator as a {@code String} repeated {@code count} times
      * @throws IllegalArgumentException if the {@code count} is negative.
+     * @see String#repeat(int)
      */
     public final String string(int count) {
         return separator.repeat(count);
@@ -79,7 +80,7 @@ public enum LineSeparator {
      * Returns the line separator as an {@code IntStream} with the chars.
      *
      * @return line separator as an {@code IntStream} with the chars
-     * @see java.lang.String#chars()
+     * @see String#chars()
      */
     public final IntStream chars() {
         return separator.chars();
