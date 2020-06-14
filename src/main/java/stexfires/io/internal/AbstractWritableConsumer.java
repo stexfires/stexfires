@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
+import static stexfires.io.internal.WritableConsumerState.CLOSE;
 import static stexfires.io.internal.WritableConsumerState.OPEN;
 import static stexfires.io.internal.WritableConsumerState.WRITE_AFTER;
 import static stexfires.io.internal.WritableConsumerState.WRITE_BEFORE;
@@ -40,6 +41,7 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
         writer.write(lineSeparator.string());
     }
 
+    @SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
     protected final void write(CharSequence charSequence) throws IOException {
         state.validateNotClosed();
         writer.append(charSequence);
@@ -68,7 +70,7 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
 
     @Override
     public void close() throws IOException {
-        state.validateNotClosed();
+        state = CLOSE.validate(state);
         writer.close();
     }
 
