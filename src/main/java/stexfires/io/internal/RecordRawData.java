@@ -1,5 +1,10 @@
 package stexfires.io.internal;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -10,21 +15,26 @@ public final class RecordRawData {
     private final Long recordId;
     private final String rawData;
 
-    public RecordRawData(String category, Long recordId, String rawData) {
+    public RecordRawData(@NotNull String rawData) {
+        this(null, null, rawData);
+    }
+
+    public RecordRawData(@Nullable String category, @Nullable Long recordId, @NotNull String rawData) {
+        Objects.requireNonNull(rawData);
         this.category = category;
         this.recordId = recordId;
         this.rawData = rawData;
     }
 
-    public String getCategory() {
+    public @Nullable String getCategory() {
         return category;
     }
 
-    public Long getRecordId() {
+    public @Nullable Long getRecordId() {
         return recordId;
     }
 
-    public String getRawData() {
+    public @NotNull String getRawData() {
         return rawData;
     }
 

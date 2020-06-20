@@ -1,8 +1,6 @@
 package stexfires.io.delimited.simple;
 
 import stexfires.core.TextRecord;
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.StandardRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
@@ -32,12 +30,12 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
     }
 
     @Override
-    protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
+    protected AbstractRecordRawDataIterator createIterator() {
         return new SimpleDelimitedIterator(reader, fileSpec);
     }
 
     @Override
-    protected Optional<TextRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
         StandardRecord record = null;
         String rawData = recordRawData.getRawData();
 
@@ -83,12 +81,12 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
         }
 
         @Override
-        protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
             if (rawData == null) {
-                return null;
+                return Optional.empty();
             }
-            return new RecordRawData(null, recordIndex, rawData);
+            return Optional.of(new RecordRawData(null, recordIndex, rawData));
         }
 
     }

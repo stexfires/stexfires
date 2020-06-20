@@ -1,7 +1,5 @@
 package stexfires.io.properties;
 
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
@@ -33,12 +31,12 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
     }
 
     @Override
-    protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
+    protected AbstractRecordRawDataIterator createIterator() {
         return new PropertiesIterator(reader);
     }
 
     @Override
-    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) {
         String[] keyValue = splitLine(recordRawData.getRawData());
 
         return createRecord(
@@ -180,7 +178,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         }
 
         @Override
-        protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             StringBuilder b = new StringBuilder();
             String currentLine;
             String currentComment = null;
@@ -228,10 +226,10 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
             } while (commentFound || multiLine);
 
             if ((currentLine == null) && (b.length() == 0)) {
-                return null;
+                return Optional.empty();
             }
 
-            return new RecordRawData(currentComment, recordIndex, b.toString());
+            return Optional.of(new RecordRawData(currentComment, recordIndex, b.toString()));
         }
 
     }

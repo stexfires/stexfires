@@ -3,6 +3,7 @@ package stexfires.io.combined;
 import stexfires.core.TextRecord;
 import stexfires.core.TextRecordStreams;
 import stexfires.core.producer.ProducerException;
+import stexfires.core.producer.UncheckedProducerException;
 import stexfires.io.ReadableRecordProducer;
 
 import java.io.IOException;
@@ -27,18 +28,18 @@ public class CombinedReadableRecordProducer<T extends TextRecord> implements Rea
     }
 
     @Override
-    public void readBefore() throws IOException {
+    public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
         firstProducer.readBefore();
         secondProducer.readBefore();
     }
 
     @Override
-    public Stream<T> readRecords() throws IOException, ProducerException {
+    public Stream<T> readRecords() throws UncheckedProducerException {
         return TextRecordStreams.concat(firstProducer.produceStream(), secondProducer.produceStream());
     }
 
     @Override
-    public void readAfter() throws IOException {
+    public void readAfter() throws ProducerException, UncheckedProducerException, IOException {
         firstProducer.readAfter();
         secondProducer.readAfter();
     }

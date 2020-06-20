@@ -10,12 +10,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("RedundantThrows")
 public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRawData> {
 
     public static final long FIRST_RECORD_INDEX = 0L;
@@ -54,18 +56,18 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         currentRecordIndex = FIRST_RECORD_INDEX;
     }
 
-    protected abstract RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException;
+    protected abstract Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws ProducerException, UncheckedProducerException, IOException;
 
     public final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
             while (!endIsReached && (queue.remainingCapacity() > 0)
                     && (!onlyFirst || first.size() < ignoreFirst)) {
-                RecordRawData recordRawData = readNext(bufferedReader, currentRecordIndex);
-                if (recordRawData != null) {
+                Optional<RecordRawData> recordRawData = readNext(bufferedReader, currentRecordIndex);
+                if (recordRawData.isPresent()) {
                     if ((currentRecordIndex - FIRST_RECORD_INDEX) >= (long) ignoreFirst) {
-                        queue.add(recordRawData); // Can throw an IllegalStateException
+                        queue.add(recordRawData.get()); // Can throw an IllegalStateException
                     } else {
-                        first.add(recordRawData);
+                        first.add(recordRawData.get());
                     }
                     currentRecordIndex++;
                 } else {
@@ -81,13 +83,13 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
     }
 
     @Override
-    public final boolean hasNext() {
+    public final boolean hasNext() throws UncheckedProducerException {
         fillQueue(false);
         return queue.size() > ignoreLast;
     }
 
     @Override
-    public final RecordRawData next() {
+    public final RecordRawData next() throws UncheckedProducerException {
         if (!hasNext()) {
             throw new NoSuchElementException("queue size = " + queue.size());
         }

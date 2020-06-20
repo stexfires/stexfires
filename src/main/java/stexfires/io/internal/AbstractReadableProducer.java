@@ -1,5 +1,6 @@
 package stexfires.io.internal;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.TextRecord;
 import stexfires.core.producer.ProducerException;
 import stexfires.core.producer.UncheckedProducerException;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static stexfires.io.internal.ReadableProducerState.CLOSE;
 import static stexfires.io.internal.ReadableProducerState.OPEN;
 import static stexfires.io.internal.ReadableProducerState.READ_AFTER;
 import static stexfires.io.internal.ReadableProducerState.READ_BEFORE;
@@ -24,6 +26,7 @@ import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("RedundantThrows")
 public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
     protected final BufferedReader reader;
@@ -36,8 +39,9 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
         this(reader, null);
     }
 
+    @SuppressWarnings("SameParameterValue")
     protected AbstractReadableProducer(BufferedReader reader,
-                                       Consumer<RecordRawData> recordRawDataLogger) {
+                                       @Nullable Consumer<RecordRawData> recordRawDataLogger) {
         Objects.requireNonNull(reader);
         this.reader = reader;
         this.recordRawDataLogger = recordRawDataLogger;
@@ -45,7 +49,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     }
 
     @Override
-    public void readBefore() throws IOException {
+    public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
         state = READ_BEFORE.validate(state);
         iterator = createIterator();
         iterator.fillQueue(true);
@@ -56,7 +60,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     protected abstract Optional<T> createRecord(RecordRawData recordRawData) throws UncheckedProducerException;
 
     @Override
-    public Stream<T> readRecords() throws IOException, ProducerException {
+    public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         state = READ_RECORDS.validate(state);
         Stream<T> recordStream;
         if (iterator.hasNext()) {
@@ -65,10 +69,8 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
             if (recordRawDataLogger != null) {
                 rawStream = rawStream.peek(recordRawDataLogger);
             }
-            // TODO Java 9: .flatMap(Optional::stream)
             recordStream = rawStream.map(this::createRecord)
-                                    .filter(Optional::isPresent)
-                                    .map(Optional::get);
+                                    .flatMap(Optional::stream);
         } else {
             recordStream = Stream.empty();
         }
@@ -76,13 +78,13 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     }
 
     @Override
-    public void readAfter() throws IOException {
+    public void readAfter() throws ProducerException, UncheckedProducerException, IOException {
         state = READ_AFTER.validate(state);
     }
 
     @Override
     public void close() throws IOException {
-        state.validateNotClosed();
+        state = CLOSE.validate(state);
         reader.close();
     }
 

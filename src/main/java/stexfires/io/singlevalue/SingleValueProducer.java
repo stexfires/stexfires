@@ -1,7 +1,5 @@
 package stexfires.io.singlevalue;
 
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.SingleRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
@@ -27,12 +25,12 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
     }
 
     @Override
-    protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
+    protected AbstractRecordRawDataIterator createIterator() {
         return new SingleValueIterator(reader, fileSpec);
     }
 
     @Override
-    protected Optional<SingleRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<SingleRecord> createRecord(RecordRawData recordRawData) {
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty();
 
         SingleRecord record = null;
@@ -51,12 +49,12 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
         }
 
         @Override
-        protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
             if (rawData == null) {
-                return null;
+                return Optional.empty();
             }
-            return new RecordRawData(null, recordIndex, rawData);
+            return Optional.of(new RecordRawData(null, recordIndex, rawData));
         }
     }
 

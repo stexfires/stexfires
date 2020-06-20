@@ -1,7 +1,5 @@
 package stexfires.io.config;
 
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
@@ -27,12 +25,12 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
     }
 
     @Override
-    protected AbstractRecordRawDataIterator createIterator() throws UncheckedProducerException {
-        return new ConfigIterator(reader, fileSpec);
+    protected AbstractRecordRawDataIterator createIterator() {
+        return new ConfigIterator(reader);
     }
 
     @Override
-    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) {
         String rawData = recordRawData.getRawData();
         String key;
         String value;
@@ -49,20 +47,15 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     protected static final class ConfigIterator extends AbstractRecordRawDataIterator {
 
-        @SuppressWarnings("FieldCanBeLocal")
-        private final ConfigFileSpec fileSpec;
-
         private String currentCategory;
 
-        public ConfigIterator(BufferedReader reader, ConfigFileSpec fileSpec) {
+        public ConfigIterator(BufferedReader reader) {
             super(reader);
-            Objects.requireNonNull(fileSpec);
-            this.fileSpec = fileSpec;
             currentCategory = null;
         }
 
         @Override
-        protected RecordRawData readNext(BufferedReader reader, long recordIndex) throws ProducerException, IOException {
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             String rawData;
             boolean categoryFound;
             do {
@@ -77,10 +70,9 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
             } while (categoryFound);
 
             if (rawData == null) {
-                return null;
+                return Optional.empty();
             }
-
-            return new RecordRawData(currentCategory, recordIndex, rawData);
+            return Optional.of(new RecordRawData(currentCategory, recordIndex, rawData));
         }
     }
 
