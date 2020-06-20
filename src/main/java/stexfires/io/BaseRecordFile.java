@@ -45,7 +45,7 @@ public class BaseRecordFile<W extends TextRecord, R extends W, S extends RecordF
 
     @Override
     public WritableRecordConsumer<W> openConsumer(OpenOption... writeOptions) throws IOException {
-        throw new UnsupportedOperationException("openConsumer() not implemented");
+        throw new UnsupportedOperationException("openConsumer(OpenOption...) not implemented");
     }
 
     protected final InputStream newInputStream() throws IOException {
