@@ -2,10 +2,13 @@ package stexfires.io;
 
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.RecordConsumer;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.logger.RecordLogger;
 import stexfires.core.mapper.RecordMapper;
 import stexfires.core.modifier.RecordStreamModifier;
+import stexfires.core.producer.ProducerException;
 import stexfires.core.producer.RecordProducer;
+import stexfires.core.producer.UncheckedProducerException;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;
@@ -14,11 +17,13 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on record files.
+ * This class consists of {@code static} utility methods for operating on
+ * record files ({@code ReadableRecordFile} and {@code WritableRecordFile}).
  *
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings({"LambdaUnfriendlyMethodOverload", "OverloadedVarargsMethod"})
 public final class RecordFiles {
 
     private RecordFiles() {
@@ -26,7 +31,8 @@ public final class RecordFiles {
 
     public static <R extends TextRecord, T extends R> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
-            RecordConsumer<R> recordConsumer) throws IOException {
+            RecordConsumer<R> recordConsumer)
+            throws ProducerException, UncheckedProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordConsumer);
 
@@ -40,7 +46,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
-            RecordConsumer<R> recordConsumer) throws IOException {
+            RecordConsumer<R> recordConsumer)
+            throws ProducerException, UncheckedProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(recordConsumer);
@@ -55,7 +62,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> read(
             ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            RecordConsumer<R> recordConsumer) throws IOException {
+            RecordConsumer<R> recordConsumer)
+            throws ProducerException, UncheckedProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(recordConsumer);
@@ -69,7 +77,8 @@ public final class RecordFiles {
 
     public static <R extends TextRecord, T extends R> RecordLogger<R> log(
             ReadableRecordFile<T, ?> readableFile,
-            RecordLogger<R> recordLogger) throws IOException {
+            RecordLogger<R> recordLogger)
+            throws ProducerException, UncheckedProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordLogger);
 
@@ -83,7 +92,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             Stream<T> recordStream,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(writableFile);
 
@@ -98,7 +108,8 @@ public final class RecordFiles {
             Stream<T> recordStream,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
@@ -114,7 +125,8 @@ public final class RecordFiles {
             Stream<T> recordStream,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
@@ -129,7 +141,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             RecordProducer<T> recordProducer,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(writableFile);
 
@@ -144,7 +157,8 @@ public final class RecordFiles {
             RecordProducer<T> recordProducer,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
@@ -160,7 +174,8 @@ public final class RecordFiles {
             RecordProducer<T> recordProducer,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(recordProducer);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
@@ -175,7 +190,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> write(
             T record,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws UncheckedConsumerException, IOException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(writableFile);
 
@@ -189,7 +205,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends R> WritableRecordFile<R, ?> convert(
             ReadableRecordFile<T, ?> readableFile,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(writableFile);
 
@@ -204,7 +221,8 @@ public final class RecordFiles {
             ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableFile);
@@ -221,7 +239,8 @@ public final class RecordFiles {
             ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
             WritableRecordFile<R, ?> writableFile,
-            OpenOption... writeOptions) throws IOException {
+            OpenOption... writeOptions)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableFile);
@@ -236,7 +255,8 @@ public final class RecordFiles {
 
     public static <R extends TextRecord, T extends R> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
-            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableProducerSupplier);
         Objects.requireNonNull(writableConsumerSupplier);
 
@@ -249,7 +269,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
             RecordMapper<? super T, ? extends R> recordMapper,
-            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableProducerSupplier);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(writableConsumerSupplier);
@@ -263,7 +284,8 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> void convert(
             Supplier<? extends ReadableRecordProducer<T>> readableProducerSupplier,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier) throws IOException {
+            Supplier<? extends WritableRecordConsumer<R>> writableConsumerSupplier)
+            throws ProducerException, UncheckedProducerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(readableProducerSupplier);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(writableConsumerSupplier);
