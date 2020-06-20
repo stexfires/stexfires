@@ -1,6 +1,7 @@
 package stexfires.io.config;
 
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.internal.AbstractWritableConsumer;
 
@@ -32,25 +33,26 @@ public class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecord> {
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
+
         currentCategory = null;
     }
 
     @Override
-    public void writeRecord(KeyValueRecord record) throws IOException, ConsumerException {
+    public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
         if (!Objects.equals(currentCategory, record.getCategory())) {
             currentCategory = record.getCategory();
-            write(CATEGORY_PREFIX);
-            write(Objects.requireNonNullElse(currentCategory, NULL_CATEGORY));
-            write(CATEGORY_POSTFIX);
-            write(fileSpec.getLineSeparator());
+            writeString(CATEGORY_PREFIX);
+            writeString(Objects.requireNonNullElse(currentCategory, NULL_CATEGORY));
+            writeString(CATEGORY_POSTFIX);
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
 
-        write(record.getValueOfKeyField());
-        write(fileSpec.getValueDelimiter());
-        write(record.getValueField().getValueOrElse(NULL_VALUE));
-        write(fileSpec.getLineSeparator());
+        writeString(record.getValueOfKeyField());
+        writeString(fileSpec.getValueDelimiter());
+        writeString(record.getValueField().getValueOrElse(NULL_VALUE));
+        writeLineSeparator(fileSpec.getLineSeparator());
     }
 
 }

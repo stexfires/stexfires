@@ -1,6 +1,7 @@
 package stexfires.io.singlevalue;
 
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.record.ValueRecord;
 import stexfires.io.internal.AbstractWritableConsumer;
 
@@ -23,14 +24,15 @@ public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
     }
 
     @Override
-    public void writeRecord(ValueRecord record) throws IOException, ConsumerException {
+    public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
+
         String value = record.getValueOfValueField();
         if (value != null) {
-            write(value);
-            write(fileSpec.getLineSeparator());
+            writeString(value);
+            writeLineSeparator(fileSpec.getLineSeparator());
         } else if (!fileSpec.isSkipNullValue()) {
-            write(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 

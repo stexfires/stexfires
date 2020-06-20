@@ -3,6 +3,7 @@ package stexfires.io.markdown.table;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.util.Alignment;
 
@@ -27,89 +28,51 @@ import static stexfires.io.markdown.table.MarkdownTableFileSpec.LAST_FIELD_DELIM
 public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
     protected final MarkdownTableFileSpec fileSpec;
+    protected final Pattern escapePattern;
 
     public MarkdownTableConsumer(BufferedWriter writer, MarkdownTableFileSpec fileSpec) {
         super(writer);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+        escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
     }
 
-    protected static String createRecordString(List<MarkdownTableFieldSpec> fieldSpecs, List<Field> fields) {
-        Pattern pattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
-
+    protected StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int minWidth = fieldSpec.getMinWidth();
-
-            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.getValue() : null;
-            if (value != null) {
-                // Escape pipe
-                value = pattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
-            }
-            int valueWidth = (value != null) ? value.length() : 0;
-
-            b.append(FIELD_DELIMITER);
-
-            if (value != null) {
-                b.append(value);
-            }
-
-            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - valueWidth)));
-
-            b.append(FILL_CHARACTER);
-        }
-
-        if (b.length() > 0) {
-            b.append(LAST_FIELD_DELIMITER);
-        }
-
-        return b.toString();
-    }
-
-    protected static String createHeaderString(List<MarkdownTableFieldSpec> fieldSpecs) {
-        Pattern pattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
-
-        StringBuilder b = new StringBuilder();
-
-        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
+        for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
             b.append(FIELD_DELIMITER);
 
             // header name
-            String value = fieldSpec.getName();
-            if (value != null) {
+            int valueWidth;
+            if (fieldSpec.getName() != null) {
                 // Escape pipe
-                value = pattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
-            }
-            int valueWidth = (value != null) ? value.length() : 0;
-
-            if (value != null) {
+                String value = escapePattern.matcher(fieldSpec.getName()).replaceAll(ESCAPE_REPLACEMENT);
                 b.append(value);
+                valueWidth = value.length();
+            } else {
+                valueWidth = 0;
             }
 
             // fill character
-            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth)));
-
-            b.append(FILL_CHARACTER);
+            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth) + 1));
         }
 
         if (b.length() > 0) {
             b.append(LAST_FIELD_DELIMITER);
         }
 
-        return b.toString();
+        return b;
     }
 
-    protected static String createSubHeaderString(Alignment alignment, List<MarkdownTableFieldSpec> fieldSpecs) {
+    protected StringBuilder buildSubHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
+        for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
             b.append(FIELD_DELIMITER);
 
             // header underline
-            Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment;
+            Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : fileSpec.getAlignment();
 
             if (fieldAlignment != Alignment.END) {
                 b.append(ALIGNMENT_INDICATOR);
@@ -129,37 +92,77 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             b.append(LAST_FIELD_DELIMITER);
         }
 
-        return b.toString();
+        return b;
+    }
+
+    protected StringBuilder buildRecordRow(TextRecord record) {
+        StringBuilder b = new StringBuilder();
+
+        List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
+        List<Field> fields = record.listOfFields();
+
+        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
+            MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
+            int minWidth = fieldSpec.getMinWidth();
+
+            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
+            String value = (field != null) ? field.getValue() : null;
+            if (value != null) {
+                // Escape pipe
+                value = escapePattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
+            }
+            int valueWidth = (value != null) ? value.length() : 0;
+
+            b.append(FIELD_DELIMITER);
+
+            if (value != null) {
+                b.append(value);
+            }
+
+            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - valueWidth)));
+
+            b.append(FILL_CHARACTER);
+        }
+
+        if (b.length() > 0) {
+            b.append(LAST_FIELD_DELIMITER);
+        }
+
+        return b;
+    }
+
+    protected void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
+        writeCharSequence(tableRow);
+        writeLineSeparator(fileSpec.getLineSeparator());
     }
 
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
+
         if (fileSpec.getBeforeTable() != null) {
-            write(fileSpec.getBeforeTable());
-            write(fileSpec.getLineSeparator());
+            writeString(fileSpec.getBeforeTable());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
-        write(createHeaderString(fileSpec.getFieldSpecs()));
-        write(fileSpec.getLineSeparator());
-        write(createSubHeaderString(fileSpec.getAlignment(), fileSpec.getFieldSpecs()));
-        write(fileSpec.getLineSeparator());
+
+        writeStringBuilderRow(buildHeaderRow());
+        writeStringBuilderRow(buildSubHeaderRow());
     }
 
     @Override
-    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        write(createRecordString(fileSpec.getFieldSpecs(), record.listOfFields()));
-
-        write(fileSpec.getLineSeparator());
+        writeStringBuilderRow(buildRecordRow(record));
     }
 
     @Override
     public void writeAfter() throws IOException {
         super.writeAfter();
+
         if (fileSpec.getAfterTable() != null) {
-            write(fileSpec.getAfterTable());
-            write(fileSpec.getLineSeparator());
+            writeString(fileSpec.getAfterTable());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 

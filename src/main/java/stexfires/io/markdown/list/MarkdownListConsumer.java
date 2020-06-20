@@ -1,6 +1,7 @@
 package stexfires.io.markdown.list;
 
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.record.ValueRecord;
 import stexfires.io.internal.AbstractWritableConsumer;
 
@@ -27,42 +28,46 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
+
         if (fileSpec.getBeforeList() != null) {
-            write(fileSpec.getBeforeList());
-            write(fileSpec.getLineSeparator());
+            writeString(fileSpec.getBeforeList());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
-        currentNumber = 1L;
+
+        // Init currentNumber
+        currentNumber = MarkdownListFileSpec.START_NUMBER;
     }
 
     @Override
-    public void writeRecord(ValueRecord record) throws IOException, ConsumerException {
+    public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
         String value = record.getValueOfValueField();
         if (value != null || !fileSpec.isSkipNullValue()) {
             switch (fileSpec.getBulletPoint()) {
                 case NUMBER -> {
-                    write(String.valueOf(currentNumber));
-                    write(MarkdownListFileSpec.BULLET_POINT_NUMBER);
+                    writeString(String.valueOf(currentNumber));
+                    writeString(MarkdownListFileSpec.BULLET_POINT_NUMBER);
                     currentNumber++;
                 }
-                case STAR -> write(MarkdownListFileSpec.BULLET_POINT_STAR);
-                case DASH -> write(MarkdownListFileSpec.BULLET_POINT_DASH);
+                case STAR -> writeString(MarkdownListFileSpec.BULLET_POINT_STAR);
+                case DASH -> writeString(MarkdownListFileSpec.BULLET_POINT_DASH);
             }
-            write(" ");
+            writeString(MarkdownListFileSpec.FILL_CHARACTER);
             if (value != null) {
-                write(value);
+                writeString(value);
             }
-            write(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 
     @Override
     public void writeAfter() throws IOException {
         super.writeAfter();
+
         if (fileSpec.getAfterList() != null) {
-            write(fileSpec.getAfterList());
-            write(fileSpec.getLineSeparator());
+            writeString(fileSpec.getAfterList());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 

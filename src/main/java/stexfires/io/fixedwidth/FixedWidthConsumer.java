@@ -3,6 +3,7 @@ package stexfires.io.fixedwidth;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.util.Alignment;
 
@@ -98,10 +99,10 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
     }
 
     @Override
-    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        write(createRecordString(
+        writeString(createRecordString(
                 fileSpec.getRecordWidth(),
                 fileSpec.getFillCharacter(),
                 fileSpec.getAlignment(),
@@ -109,7 +110,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
                 record.listOfFields()));
 
         if (fileSpec.isSeparateRecordsByLineSeparator()) {
-            write(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 

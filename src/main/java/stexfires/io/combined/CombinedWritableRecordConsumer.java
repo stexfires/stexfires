@@ -2,6 +2,7 @@ package stexfires.io.combined;
 
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.WritableRecordConsumer;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class CombinedWritableRecordConsumer<T extends TextRecord> implements Wri
     }
 
     @Override
-    public void writeRecord(T record) throws IOException, ConsumerException {
+    public void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException {
         firstConsumer.writeRecord(record);
         secondConsumer.writeRecord(record);
     }

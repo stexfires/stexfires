@@ -2,6 +2,7 @@ package stexfires.io.internal;
 
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.util.LineSeparator;
 
@@ -31,18 +32,20 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
         state = OPEN;
     }
 
-    protected final void write(String str) throws IOException {
+    protected final void writeString(String str) throws IOException {
+        Objects.requireNonNull(str);
         state.validateNotClosed();
         writer.write(str);
     }
 
-    protected final void write(LineSeparator lineSeparator) throws IOException {
+    protected final void writeLineSeparator(LineSeparator lineSeparator) throws IOException {
+        Objects.requireNonNull(lineSeparator);
         state.validateNotClosed();
         writer.write(lineSeparator.string());
     }
 
-    @SuppressWarnings("OverloadedMethodsWithSameNumberOfParameters")
-    protected final void write(CharSequence charSequence) throws IOException {
+    protected final void writeCharSequence(CharSequence charSequence) throws IOException {
+        Objects.requireNonNull(charSequence);
         state.validateNotClosed();
         writer.append(charSequence);
     }
@@ -53,7 +56,7 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     }
 
     @Override
-    public void writeRecord(T record) throws IOException, ConsumerException {
+    public void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException {
         state = WRITE_RECORDS.validate(state);
     }
 
@@ -63,13 +66,13 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     }
 
     @Override
-    public void flush() throws IOException {
+    public final void flush() throws IOException {
         state.validateNotClosed();
         writer.flush();
     }
 
     @Override
-    public void close() throws IOException {
+    public final void close() throws IOException {
         state = CLOSE.validate(state);
         writer.close();
     }

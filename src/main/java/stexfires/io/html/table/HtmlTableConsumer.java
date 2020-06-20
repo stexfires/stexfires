@@ -1,8 +1,11 @@
 package stexfires.io.html.table;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 
 import java.io.BufferedWriter;
@@ -24,51 +27,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         this.fileSpec = fileSpec;
     }
 
-    protected static String createRecordString(List<HtmlTableFieldSpec> fieldSpecs, List<Field> fields) {
-        StringBuilder b = new StringBuilder();
-
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            // HtmlTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-
-            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.getValue() : null;
-            value = convertHtml(value);
-
-            b.append(HtmlTableFileSpec.TABLE_DATA_BEGIN);
-
-            if (value != null) {
-                b.append(value);
-            }
-
-            b.append(HtmlTableFileSpec.TABLE_DATA_END);
-        }
-
-        return b.toString();
-    }
-
-    @SuppressWarnings("ForLoopReplaceableByForEach")
-    protected static String createHeaderString(List<HtmlTableFieldSpec> fieldSpecs) {
-        StringBuilder b = new StringBuilder();
-
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            HtmlTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-
-            b.append(HtmlTableFileSpec.TABLE_HEADER_BEGIN);
-
-            String value = fieldSpec.getName();
-            value = convertHtml(value);
-
-            if (value != null) {
-                b.append(value);
-            }
-
-            b.append(HtmlTableFileSpec.TABLE_HEADER_END);
-        }
-
-        return b.toString();
-    }
-
-    protected static String convertHtml(String value) {
+    protected static @NotNull String convertHtml(@Nullable String value) {
         String convertedValue;
         if (value == null || value.isEmpty()) {
             convertedValue = HtmlTableFileSpec.NON_BREAKING_SPACE;
@@ -80,50 +39,84 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         return convertedValue;
     }
 
-    @Override
-    public void writeBefore() throws IOException {
-        super.writeBefore();
-        String separator = fileSpec.getLineSeparator().string();
+    protected StringBuilder buildHeaderRow() {
+        StringBuilder b = new StringBuilder();
 
-        if (fileSpec.getBeforeTable() != null) {
-            write(fileSpec.getBeforeTable());
-            write(separator);
+        for (HtmlTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
+            b.append(HtmlTableFileSpec.TABLE_HEADER_BEGIN);
+            b.append(convertHtml(fieldSpec.getName()));
+            b.append(HtmlTableFileSpec.TABLE_HEADER_END);
         }
 
-        write(HtmlTableFileSpec.TABLE_BEGIN);
-        write(separator);
-        write(HtmlTableFileSpec.TABLE_ROW_BEGIN);
-        write(separator);
+        return b;
+    }
 
-        write(createHeaderString(fileSpec.getFieldSpecs()));
+    protected StringBuilder buildRecordRow(TextRecord record) {
+        StringBuilder b = new StringBuilder();
 
-        write(separator);
-        write(HtmlTableFileSpec.TABLE_ROW_END);
-        write(separator);
+        List<HtmlTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
+        List<Field> fields = record.listOfFields();
+
+        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
+            String value = (fields.size() > fieldIndex) ? fields.get(fieldIndex).getValue() : null;
+
+            b.append(HtmlTableFileSpec.TABLE_DATA_BEGIN);
+            b.append(convertHtml(value));
+            b.append(HtmlTableFileSpec.TABLE_DATA_END);
+        }
+
+        return b;
+    }
+
+    protected void writeStringRow(String tableRow) throws IOException {
+        if (fileSpec.getIndentation() != null) {
+            writeString(fileSpec.getIndentation());
+        }
+        writeString(tableRow);
+        writeLineSeparator(fileSpec.getLineSeparator());
+    }
+
+    protected void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
+        if (fileSpec.getIndentation() != null) {
+            writeString(fileSpec.getIndentation());
+        }
+        writeCharSequence(tableRow);
+        writeLineSeparator(fileSpec.getLineSeparator());
     }
 
     @Override
-    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
+    public void writeBefore() throws IOException {
+        super.writeBefore();
+
+        if (fileSpec.getBeforeTable() != null) {
+            writeString(fileSpec.getBeforeTable());
+            writeLineSeparator(fileSpec.getLineSeparator());
+        }
+
+        writeStringRow(HtmlTableFileSpec.TABLE_BEGIN);
+        writeStringRow(HtmlTableFileSpec.TABLE_ROW_BEGIN);
+        writeStringBuilderRow(buildHeaderRow());
+        writeStringRow(HtmlTableFileSpec.TABLE_ROW_END);
+    }
+
+    @Override
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
-        String separator = fileSpec.getLineSeparator().string();
 
-        write(HtmlTableFileSpec.TABLE_ROW_BEGIN);
-        write(separator);
-
-        write(createRecordString(fileSpec.getFieldSpecs(), record.listOfFields()));
-
-        write(separator);
-        write(HtmlTableFileSpec.TABLE_ROW_END);
-        write(separator);
+        writeStringRow(HtmlTableFileSpec.TABLE_ROW_BEGIN);
+        writeStringBuilderRow(buildRecordRow(record));
+        writeStringRow(HtmlTableFileSpec.TABLE_ROW_END);
     }
 
     @Override
     public void writeAfter() throws IOException {
         super.writeAfter();
-        write(HtmlTableFileSpec.TABLE_END);
+
+        writeStringRow(HtmlTableFileSpec.TABLE_END);
+
         if (fileSpec.getAfterTable() != null) {
-            write(fileSpec.getLineSeparator());
-            write(fileSpec.getAfterTable());
+            writeString(fileSpec.getAfterTable());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 

@@ -1,6 +1,7 @@
 package stexfires.io.properties;
 
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.core.record.KeyValueRecord;
 import stexfires.io.internal.AbstractWritableConsumer;
 
@@ -15,7 +16,6 @@ import java.util.stream.IntStream;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("HardcodedLineSeparator")
 public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
     public static final String DELIMITER = "=";
@@ -31,6 +31,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         this.fileSpec = fileSpec;
     }
 
+    @SuppressWarnings("HardcodedLineSeparator")
     protected static String mapCharacter(char character, boolean escapeSpace, boolean escapeUnicode) {
         switch (character) {
             case ' ':
@@ -78,27 +79,29 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
     @Override
     public void writeBefore() throws IOException {
         super.writeBefore();
+
         if (fileSpec.isDateComment()) {
-            write(COMMENT_PREFIX);
-            write(new Date().toString());
-            write(fileSpec.getLineSeparator());
+            writeString(COMMENT_PREFIX);
+            writeString(new Date().toString());
+            writeLineSeparator(fileSpec.getLineSeparator());
         }
     }
 
     @Override
-    public void writeRecord(KeyValueRecord record) throws IOException, ConsumerException {
+    public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
+
         String key;
         if (fileSpec.isCategoryAsKeyPrefix() && record.hasCategory()) {
             key = record.getCategory() + fileSpec.getKeyPrefixDelimiter() + record.getValueOfKeyField();
         } else {
             key = record.getValueOfKeyField();
         }
-        write(convertKey(key, fileSpec.isEscapeUnicode()));
-        write(DELIMITER);
-        write(convertValue(record.getValueField().getValueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
+        writeString(convertKey(key, fileSpec.isEscapeUnicode()));
+        writeString(DELIMITER);
+        writeString(convertValue(record.getValueField().getValueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
                 fileSpec.isEscapeUnicode()));
-        write(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.getLineSeparator());
     }
 
 }

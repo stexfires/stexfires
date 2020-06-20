@@ -3,6 +3,7 @@ package stexfires.io.delimited.simple;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.consumer.ConsumerException;
+import stexfires.core.consumer.UncheckedConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 
 import java.io.BufferedWriter;
@@ -52,15 +53,14 @@ public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord
     }
 
     @Override
-    public void writeRecord(TextRecord record) throws IOException, ConsumerException {
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        write(createRecordString(
+        writeString(createRecordString(
                 fileSpec.getFieldDelimiter(),
                 fileSpec.getFieldSpecs(),
                 record.listOfFields()));
-
-        write(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.getLineSeparator());
     }
 
 }
