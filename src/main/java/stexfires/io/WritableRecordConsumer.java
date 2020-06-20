@@ -17,7 +17,7 @@ public interface WritableRecordConsumer<T extends TextRecord> extends RecordCons
 
     void writeBefore() throws IOException;
 
-    void writeRecord(T record) throws IOException, ConsumerException;
+    void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException;
 
     void writeAfter() throws IOException;
 
