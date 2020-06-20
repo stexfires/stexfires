@@ -26,7 +26,8 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
     private final CodingErrorAction codingErrorAction;
     private final LineSeparator lineSeparator;
 
-    protected AbstractRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction, LineSeparator lineSeparator) {
+    protected AbstractRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                     LineSeparator lineSeparator) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(codingErrorAction);
         Objects.requireNonNull(lineSeparator);

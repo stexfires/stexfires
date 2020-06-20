@@ -16,8 +16,6 @@ import java.util.Objects;
  */
 public final class ConfigFileSpec extends AbstractRecordFileSpec {
 
-    public static final String DEFAULT_VALUE_DELIMITER = "=";
-
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
     public static final String NULL_VALUE = "";
@@ -25,10 +23,14 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     public static final String CATEGORY_PREFIX = "[";
     public static final String CATEGORY_POSTFIX = "]";
 
-    // both
+    // DEFAULT - both
+    public static final String DEFAULT_VALUE_DELIMITER = "=";
+
+    // FIELD - both
     private final String valueDelimiter;
 
-    public ConfigFileSpec(Charset charset, CodingErrorAction codingErrorAction, String valueDelimiter,
+    public ConfigFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                          String valueDelimiter,
                           LineSeparator lineSeparator) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(valueDelimiter);

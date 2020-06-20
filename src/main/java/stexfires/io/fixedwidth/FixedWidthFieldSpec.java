@@ -1,5 +1,6 @@
 package stexfires.io.fixedwidth;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.util.Alignment;
 
 /**
@@ -20,8 +21,8 @@ public final class FixedWidthFieldSpec {
 
     public FixedWidthFieldSpec(int startIndex,
                                int width,
-                               Alignment alignment,
-                               Character fillCharacter) {
+                               @Nullable Alignment alignment,
+                               @Nullable Character fillCharacter) {
         this.startIndex = startIndex;
         this.width = width;
         this.alignment = alignment;
@@ -36,11 +37,11 @@ public final class FixedWidthFieldSpec {
         return width;
     }
 
-    public Alignment getAlignment() {
+    public @Nullable Alignment getAlignment() {
         return alignment;
     }
 
-    public Character getFillCharacter() {
+    public @Nullable Character getFillCharacter() {
         return fillCharacter;
     }
 

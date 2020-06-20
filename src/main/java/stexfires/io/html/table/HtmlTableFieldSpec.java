@@ -1,5 +1,7 @@
 package stexfires.io.html.table;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -12,11 +14,11 @@ public final class HtmlTableFieldSpec {
         this(null);
     }
 
-    public HtmlTableFieldSpec(String name) {
+    public HtmlTableFieldSpec(@Nullable String name) {
         this.name = name;
     }
 
-    public String getName() {
+    public @Nullable String getName() {
         return name;
     }
 

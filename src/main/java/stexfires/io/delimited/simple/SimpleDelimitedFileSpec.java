@@ -19,16 +19,17 @@ import java.util.Objects;
  */
 public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
 
-    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
-    public static final boolean DEFAULT_SKIP_ALL_NULL = false;
+    // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
+    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_SKIP_ALL_NULL = false;
 
-    // both
+    // FIELD - both
     private final String fieldDelimiter;
     private final List<SimpleDelimitedFieldSpec> fieldSpecs;
 
-    // read
+    // FIELD - read
     private final int ignoreFirst;
     private final int ignoreLast;
     private final boolean skipEmptyLines;

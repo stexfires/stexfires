@@ -20,19 +20,20 @@ import java.util.Objects;
  */
 public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
 
-    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
-    public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
+    // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
+    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
 
-    // both
+    // FIELD - both
     private final int recordWidth;
     private final boolean separateRecordsByLineSeparator;
     private final Alignment alignment;
     private final Character fillCharacter;
     private final List<FixedWidthFieldSpec> fieldSpecs;
 
-    // read
+    // FIELD - read
     private final int ignoreFirst;
     private final int ignoreLast;
     private final boolean skipEmptyLines;

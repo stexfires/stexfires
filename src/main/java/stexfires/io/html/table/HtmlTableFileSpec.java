@@ -1,5 +1,6 @@
 package stexfires.io.html.table;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
@@ -28,17 +29,19 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
 
-    // both
+    // FIELD - both
     private final List<HtmlTableFieldSpec> fieldSpecs;
 
-    // write
+    // FIELD - write
     private final String beforeTable;
     private final String afterTable;
+    private final String indentation;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                              List<HtmlTableFieldSpec> fieldSpecs,
                              LineSeparator lineSeparator,
-                             String beforeTable, String afterTable) {
+                             @Nullable String beforeTable, @Nullable String afterTable,
+                             @Nullable String indentation) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
 
@@ -48,6 +51,7 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
         // write
         this.beforeTable = beforeTable;
         this.afterTable = afterTable;
+        this.indentation = indentation;
     }
 
     public static HtmlTableFileSpec write(Charset charset,
@@ -56,7 +60,7 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldSpecs,
                 lineSeparator,
-                null, null);
+                null, null, null);
     }
 
     public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
@@ -65,27 +69,29 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
         return new HtmlTableFileSpec(charset, codingErrorAction,
                 fieldSpecs,
                 lineSeparator,
-                null, null);
+                null, null, null);
     }
 
     public static HtmlTableFileSpec write(Charset charset,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator,
-                                          String beforeTable, String afterTable) {
+                                          @Nullable String beforeTable, @Nullable String afterTable,
+                                          @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldSpecs,
                 lineSeparator,
-                beforeTable, afterTable);
+                beforeTable, afterTable, indentation);
     }
 
     public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator,
-                                          String beforeTable, String afterTable) {
+                                          @Nullable String beforeTable, @Nullable String afterTable,
+                                          @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, codingErrorAction,
                 fieldSpecs,
                 lineSeparator,
-                beforeTable, afterTable);
+                beforeTable, afterTable, indentation);
     }
 
     @Override
@@ -101,12 +107,16 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public String getBeforeTable() {
+    public @Nullable String getBeforeTable() {
         return beforeTable;
     }
 
-    public String getAfterTable() {
+    public @Nullable String getAfterTable() {
         return afterTable;
+    }
+
+    public @Nullable String getIndentation() {
+        return indentation;
     }
 
 }

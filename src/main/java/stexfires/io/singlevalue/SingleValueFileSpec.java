@@ -15,18 +15,20 @@ import java.nio.file.Path;
  */
 public final class SingleValueFileSpec extends AbstractRecordFileSpec {
 
+    // DEFAULT - read
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
 
+    // DEFAULT - write
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
-    // read
+    // FIELD - read
     private final boolean skipEmptyLines;
     private final int ignoreFirst;
     private final int ignoreLast;
 
-    // write
+    // FIELD - write
     private final boolean skipNullValue;
 
     public SingleValueFileSpec(Charset charset, CodingErrorAction codingErrorAction,

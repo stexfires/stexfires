@@ -1,5 +1,6 @@
 package stexfires.io.markdown.table;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.util.Alignment;
 
 /**
@@ -12,11 +13,11 @@ public final class MarkdownTableFieldSpec {
     private final int minWidth;
     private final Alignment alignment;
 
-    public MarkdownTableFieldSpec(String name, int minWidth) {
+    public MarkdownTableFieldSpec(@Nullable String name, int minWidth) {
         this(name, minWidth, null);
     }
 
-    public MarkdownTableFieldSpec(String name, int minWidth, Alignment alignment) {
+    public MarkdownTableFieldSpec(@Nullable String name, int minWidth, @Nullable Alignment alignment) {
         if (minWidth < 5) {
             throw new IllegalArgumentException("minWidth < 5");
         }
@@ -25,7 +26,7 @@ public final class MarkdownTableFieldSpec {
         this.alignment = alignment;
     }
 
-    public String getName() {
+    public @Nullable String getName() {
         return name;
     }
 
@@ -33,7 +34,7 @@ public final class MarkdownTableFieldSpec {
         return minWidth;
     }
 
-    public Alignment getAlignment() {
+    public @Nullable Alignment getAlignment() {
         return alignment;
     }
 

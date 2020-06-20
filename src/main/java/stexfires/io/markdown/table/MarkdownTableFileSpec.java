@@ -1,5 +1,6 @@
 package stexfires.io.markdown.table;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
@@ -28,12 +29,13 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
     public static final String ALIGNMENT_INDICATOR = ":";
     public static final String HEADER_DELIMITER = "-";
 
+    // DEFAULT - write
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
 
-    // both
+    // FIELD - both
     private final List<MarkdownTableFieldSpec> fieldSpecs;
 
-    // write
+    // FIELD - write
     private final Alignment alignment;
     private final String beforeTable;
     private final String afterTable;
@@ -42,7 +44,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                                  List<MarkdownTableFieldSpec> fieldSpecs,
                                  LineSeparator lineSeparator,
                                  Alignment alignment,
-                                 String beforeTable, String afterTable) {
+                                 @Nullable String beforeTable, @Nullable String afterTable) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
@@ -80,7 +82,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator,
                                               Alignment alignment,
-                                              String beforeTable, String afterTable) {
+                                              @Nullable String beforeTable, @Nullable String afterTable) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 fieldSpecs,
                 lineSeparator,
@@ -92,7 +94,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator,
                                               Alignment alignment,
-                                              String beforeTable, String afterTable) {
+                                              @Nullable String beforeTable, @Nullable String afterTable) {
         return new MarkdownTableFileSpec(charset, codingErrorAction,
                 fieldSpecs,
                 lineSeparator,
@@ -117,11 +119,11 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
         return alignment;
     }
 
-    public String getBeforeTable() {
+    public @Nullable String getBeforeTable() {
         return beforeTable;
     }
 
-    public String getAfterTable() {
+    public @Nullable String getAfterTable() {
         return afterTable;
     }
 

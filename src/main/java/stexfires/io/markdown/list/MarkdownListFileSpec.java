@@ -1,5 +1,6 @@
 package stexfires.io.markdown.list;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
@@ -23,10 +24,14 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
     public static final String BULLET_POINT_STAR = "*";
     public static final String BULLET_POINT_DASH = "-";
 
+    public static final String FILL_CHARACTER = " ";
+    public static final long START_NUMBER = 1L;
+
+    // DEFAULT - write
     public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
-    // write
+    // FIELD - write
     private final String beforeList;
     private final String afterList;
     private final BulletPoint bulletPoint;
@@ -34,7 +39,7 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
 
     public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                 LineSeparator lineSeparator,
-                                String beforeList, String afterList,
+                                @Nullable String beforeList, @Nullable String afterList,
                                 BulletPoint bulletPoint, boolean skipNullValue) {
         super(charset, codingErrorAction, lineSeparator);
         Objects.requireNonNull(bulletPoint);
@@ -64,7 +69,7 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
 
     public static MarkdownListFileSpec write(Charset charset,
                                              LineSeparator lineSeparator,
-                                             String beforeList, String afterList,
+                                             @Nullable String beforeList, @Nullable String afterList,
                                              BulletPoint bulletPoint, boolean skipNullValue) {
         return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 lineSeparator,
@@ -74,7 +79,7 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
 
     public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                              LineSeparator lineSeparator,
-                                             String beforeList, String afterList,
+                                             @Nullable String beforeList, @Nullable String afterList,
                                              BulletPoint bulletPoint, boolean skipNullValue) {
         return new MarkdownListFileSpec(charset, codingErrorAction,
                 lineSeparator,
@@ -91,11 +96,11 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
         return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public String getBeforeList() {
+    public @Nullable String getBeforeList() {
         return beforeList;
     }
 
-    public String getAfterList() {
+    public @Nullable String getAfterList() {
         return afterList;
     }
 
