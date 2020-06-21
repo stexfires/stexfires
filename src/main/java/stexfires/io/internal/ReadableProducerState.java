@@ -13,13 +13,9 @@ enum ReadableProducerState {
 
     public static void validateStates(ReadableProducerState currentState, ReadableProducerState newState) throws IllegalStateException {
         if (currentState.ordinal() + 1 != newState.ordinal()) {
-            throw new IllegalStateException("Wrong ReadableProducerState! " + currentState + " -> " + newState);
-        }
-    }
-
-    public void validateNotClosed() throws IllegalStateException {
-        if (this == CLOSE) {
-            throw new IllegalStateException("Wrong ReadableProducerState! " + this);
+            if (newState != CLOSE) {
+                throw new IllegalStateException("Wrong ReadableProducerState! " + currentState + " -> " + newState);
+            }
         }
     }
 
