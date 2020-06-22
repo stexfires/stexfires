@@ -1,5 +1,7 @@
 package stexfires.io.path;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.file.Path;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.Objects;
@@ -71,7 +73,7 @@ public class DosPathRecord extends PathRecord {
         return Boolean.parseBoolean(getValueAt(SYSTEM_INDEX));
     }
 
-    public final String fileExtension() {
+    public final @Nullable String fileExtension() {
         return getValueAt(FILE_EXTENSION_INDEX);
     }
 
