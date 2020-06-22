@@ -110,6 +110,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         };
     }
 
+    @SuppressWarnings("NumericCastThatLosesPrecision")
     protected static String decode(String encodedStr) {
         if ((encodedStr == null) || (encodedStr.isEmpty())) {
             return encodedStr;
