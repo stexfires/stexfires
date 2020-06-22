@@ -1,5 +1,6 @@
 package stexfires.core.comparator;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.text.Collator;
@@ -65,6 +66,14 @@ public final class StringComparators {
         Objects.requireNonNull(stringUnaryOperatorType);
         Objects.requireNonNull(comparator);
         return comparing(stringUnaryOperatorType.stringUnaryOperator(), comparator);
+    }
+
+    public static Comparator<String> normalizedComparator(StringUnaryOperatorType stringUnaryOperatorType,
+                                                          @Nullable Locale locale,
+                                                          Comparator<String> comparator) {
+        Objects.requireNonNull(stringUnaryOperatorType);
+        Objects.requireNonNull(comparator);
+        return comparing(stringUnaryOperatorType.stringUnaryOperator(locale), comparator);
     }
 
 }
