@@ -66,7 +66,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
@@ -78,7 +78,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
@@ -88,7 +88,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
@@ -98,7 +98,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
@@ -110,7 +110,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
@@ -120,7 +120,7 @@ public final class PathRecords {
     }
 
     /**
-     * @apiNote This method must be used within a try-with-resources statement or similar
+     * This method must be used within a try-with-resources statement or similar
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
