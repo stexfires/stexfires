@@ -1,13 +1,11 @@
-group = "stexfires"
-version = "0.1.0"
-
 plugins {
     `java-library`
     `project-report`
 }
 
 repositories {
-    jcenter()
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
 }
 
 dependencies {
@@ -16,8 +14,13 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_14
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(16))
+    }
 }
+
+group = "stexfires"
+version = "0.1.0"
 
 val sharedManifest = the<JavaPluginConvention>().manifest {
     attributes(
