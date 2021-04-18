@@ -7,6 +7,7 @@ import stexfires.core.TextRecord;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Objects;
  */
 public class UncheckedConsumerException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public UncheckedConsumerException(@Nullable String message, @Nullable TextRecord record) {
@@ -39,6 +41,7 @@ public class UncheckedConsumerException extends RuntimeException {
         return (ConsumerException) super.getCause();
     }
 
+    @Serial
     private void readObject(ObjectInputStream objectInputStream)
             throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();

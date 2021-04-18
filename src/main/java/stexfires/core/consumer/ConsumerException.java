@@ -3,6 +3,7 @@ package stexfires.core.consumer;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.TextRecord;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,7 @@ public class ConsumerException extends Exception {
     public static final String DEFAULT_MESSAGE = "Could not consume this record:";
     public static final String MESSAGE_RECORD_SEPARATOR = " ";
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ConsumerException(@Nullable String message, @Nullable TextRecord record) {

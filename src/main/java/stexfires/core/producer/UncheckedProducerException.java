@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Objects;
  */
 public class UncheckedProducerException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @SuppressWarnings("NewExceptionWithoutArguments")
@@ -43,6 +45,7 @@ public class UncheckedProducerException extends RuntimeException {
         return (ProducerException) super.getCause();
     }
 
+    @Serial
     private void readObject(ObjectInputStream objectInputStream)
             throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
