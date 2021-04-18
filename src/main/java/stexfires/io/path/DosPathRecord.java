@@ -23,6 +23,7 @@ public class DosPathRecord extends PathRecord {
 
     protected static final String EXTENSION_SEPARATOR = ".";
 
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
     protected DosPathRecord(PathType pathType, String[] values) {
         super(pathType, values);
     }

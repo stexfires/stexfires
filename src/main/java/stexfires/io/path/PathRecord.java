@@ -33,6 +33,7 @@ public class PathRecord extends StandardRecord {
 
     protected static final int FIELD_SIZE = 8;
 
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
     protected PathRecord(PathType pathType, String[] values) {
         super(pathType.name(), null, values);
     }

@@ -49,8 +49,8 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
 
         private String currentCategory;
 
-        public ConfigIterator(BufferedReader reader) {
-            super(reader);
+        public ConfigIterator(BufferedReader bufferedReader) {
+            super(bufferedReader);
             currentCategory = null;
         }
 

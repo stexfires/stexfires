@@ -61,11 +61,7 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         return new BufferedReader(new InputStreamReader(inputStream, newCharsetDecoder(decoderReplacementValue)));
     }
 
-    protected final BufferedWriter newBufferedWriter(OutputStream outputStream) {
-        return new BufferedWriter(new OutputStreamWriter(outputStream, newCharsetEncoder()));
-    }
-
-    protected final BufferedWriter newBufferedWriter(OutputStream outputStream, byte[] encoderReplacementValue) {
+    protected final BufferedWriter newBufferedWriter(OutputStream outputStream, byte... encoderReplacementValue) {
         return new BufferedWriter(new OutputStreamWriter(outputStream, newCharsetEncoder(encoderReplacementValue)));
     }
 
@@ -81,11 +77,7 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         return charsetDecoder;
     }
 
-    protected final CharsetEncoder newCharsetEncoder() {
-        return newCharsetEncoder(null);
-    }
-
-    protected final CharsetEncoder newCharsetEncoder(byte[] encoderReplacementValue) {
+    protected final CharsetEncoder newCharsetEncoder(byte... encoderReplacementValue) {
         CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
         if ((codingErrorAction == CodingErrorAction.REPLACE) && (encoderReplacementValue != null)) {
             charsetEncoder.replaceWith(encoderReplacementValue);

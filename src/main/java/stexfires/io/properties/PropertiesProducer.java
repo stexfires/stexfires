@@ -174,8 +174,8 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
 
     protected static final class PropertiesIterator extends AbstractRecordRawDataIterator {
 
-        public PropertiesIterator(BufferedReader reader) {
-            super(reader);
+        public PropertiesIterator(BufferedReader bufferedReader) {
+            super(bufferedReader);
         }
 
         @Override
