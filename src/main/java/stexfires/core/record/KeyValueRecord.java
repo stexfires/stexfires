@@ -10,6 +10,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
 public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord {
 
     public static final int KEY_INDEX = PairRecord.FIRST_VALUE_INDEX;

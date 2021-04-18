@@ -61,12 +61,13 @@ public class StandardRecord implements TextRecord {
         this(category, recordId, Fields.newArray(values));
     }
 
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
     private StandardRecord(@Nullable String category, @Nullable Long recordId, Field[] fields) {
         this.category = category;
         this.recordId = recordId;
         this.fields = fields;
 
-        hashCode = Objects.hash(category, recordId, fields);
+        hashCode = Objects.hash(category, recordId, Arrays.hashCode(fields));
     }
 
     @Override

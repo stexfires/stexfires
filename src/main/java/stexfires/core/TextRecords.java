@@ -172,7 +172,6 @@ public final class TextRecords {
             return this;
         }
 
-        @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
         @Override
         public synchronized void accept(@Nullable String value) {
             if (valueList == null) {
