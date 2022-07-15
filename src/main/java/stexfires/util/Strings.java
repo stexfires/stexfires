@@ -48,13 +48,13 @@ public final class Strings {
         return Collections.singletonList(stringValue);
     }
 
-    public static List<String> listOfNullable(@Nullable String stringValue) {
-        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
-    }
-
     @SuppressWarnings("OverloadedVarargsMethod")
     public static List<String> list(String... stringValues) {
         return Arrays.stream(stringValues).collect(Collectors.toList());
+    }
+
+    public static List<String> listOfNullable(@Nullable String stringValue) {
+        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
     public static Stream<String> stream(@Nullable String stringValue) {
@@ -86,6 +86,11 @@ public final class Strings {
     public static List<String> collect(Stream<String> stream) {
         Objects.requireNonNull(stream);
         return stream.collect(Collectors.toList());
+    }
+
+    public static List<String> toList(Stream<String> stream) {
+        Objects.requireNonNull(stream);
+        return stream.toList();
     }
 
     public static String join(Stream<String> stream) {
