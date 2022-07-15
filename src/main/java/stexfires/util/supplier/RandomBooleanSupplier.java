@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+import java.util.random.RandomGenerator;
 
 /**
  * @author Mathias Kalb
@@ -15,7 +16,7 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
 
     private static final int HUNDRED = 100;
 
-    private final Random random;
+    private final RandomGenerator random;
     private final int percent;
     private final Boolean constantResult;
 
@@ -27,7 +28,7 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
         this(percent, new Random(seed));
     }
 
-    public RandomBooleanSupplier(int percent, Random random) {
+    public RandomBooleanSupplier(int percent, RandomGenerator random) {
         Objects.requireNonNull(random);
         this.percent = percent;
         this.random = random;
