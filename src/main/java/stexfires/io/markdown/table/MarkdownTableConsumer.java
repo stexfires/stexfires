@@ -58,7 +58,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth) + 1));
         }
 
-        if (b.length() > 0) {
+        if (!b.isEmpty()) {
             b.append(LAST_FIELD_DELIMITER);
         }
 
@@ -88,7 +88,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             b.append(FILL_CHARACTER);
         }
 
-        if (b.length() > 0) {
+        if (!b.isEmpty()) {
             b.append(LAST_FIELD_DELIMITER);
         }
 
@@ -124,7 +124,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             b.append(FILL_CHARACTER);
         }
 
-        if (b.length() > 0) {
+        if (!b.isEmpty()) {
             b.append(LAST_FIELD_DELIMITER);
         }
 

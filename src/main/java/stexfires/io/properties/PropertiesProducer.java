@@ -226,7 +226,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
                 multiLine = escapeFound;
             } while (commentFound || multiLine);
 
-            if ((currentLine == null) && (b.length() == 0)) {
+            if ((currentLine == null) && (b.isEmpty())) {
                 return Optional.empty();
             }
 

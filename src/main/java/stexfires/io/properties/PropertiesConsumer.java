@@ -56,7 +56,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
                 return "\\!";
             default:
                 if (escapeUnicode
-                        && (((int) character < FIRST_NON_ESCAPED_CHAR) || ((int) character > LAST_NON_ESCAPED_CHAR))) {
+                        && ((character < FIRST_NON_ESCAPED_CHAR) || (character > LAST_NON_ESCAPED_CHAR))) {
                     return "\\u" + String.format("%04X", (int) character);
                 }
                 return Character.toString(character);

@@ -40,13 +40,13 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
         if (alignment != START) {
             while ((beginIndex < endIndex)
-                    && ((int) value.charAt(beginIndex) == fillCharacter)) {
+                    && (value.charAt(beginIndex) == fillCharacter)) {
                 beginIndex++;
             }
         }
         if (alignment != END) {
             while ((beginIndex < endIndex)
-                    && ((int) value.charAt(endIndex - 1) == fillCharacter)) {
+                    && (value.charAt(endIndex - 1) == fillCharacter)) {
                 endIndex--;
             }
         }
@@ -118,7 +118,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
         }
 
         @SuppressWarnings("MethodMayBeStatic")
-        protected Optional<RecordRawData> readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
+        private Optional<RecordRawData> readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
             if (rawData == null) {
                 return Optional.empty();
@@ -127,7 +127,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
         }
 
-        protected Optional<RecordRawData> readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
+        private Optional<RecordRawData> readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
             char[] c = new char[fileSpec.getRecordWidth()];
             int r = reader.read(c);
             if (r < 0) {
