@@ -134,8 +134,8 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                 .orElse(nullValue));
         return list ->
                 Stream.concat(
-                        newFirstValuesFunction.apply(list.get(0)),
-                        newValues.apply(list))
+                              newFirstValuesFunction.apply(list.get(0)),
+                              newValues.apply(list))
                       .collect(Collectors.toList());
     }
 
@@ -155,9 +155,9 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                               .map(i -> r.getValueAtOrElse(i, nullValue)));
         return list ->
                 Stream.concat(Stream.concat(
-                        newFirstValuesFunction.apply(list.get(0)),
-                        newValues.apply(list)),
-                        Stream.generate(() -> nullValue))
+                                      newFirstValuesFunction.apply(list.get(0)),
+                                      newValues.apply(list)),
+                              Stream.generate(() -> nullValue))
                       .limit(newRecordSize)
                       .collect(Collectors.toList());
     }

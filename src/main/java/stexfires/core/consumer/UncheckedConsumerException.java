@@ -41,6 +41,7 @@ public class UncheckedConsumerException extends RuntimeException {
         return (ConsumerException) super.getCause();
     }
 
+    @SuppressWarnings("OverlyBroadThrowsClause")
     @Serial
     private void readObject(ObjectInputStream objectInputStream)
             throws IOException, ClassNotFoundException {

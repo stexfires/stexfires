@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
- * It is expected to operate via side-effects.
+ * It is expected to operate via side effects.
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #consume(stexfires.core.TextRecord)}.
  *

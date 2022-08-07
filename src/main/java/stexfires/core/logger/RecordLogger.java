@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
  * It should not throw a RuntimeException (like NullPointerException).
- * It is expected to operate via side-effects.
+ * It is expected to operate via side effects.
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #log(stexfires.core.TextRecord)}.
  *

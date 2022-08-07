@@ -45,6 +45,7 @@ public class UncheckedProducerException extends RuntimeException {
         return (ProducerException) super.getCause();
     }
 
+    @SuppressWarnings("OverlyBroadThrowsClause")
     @Serial
     private void readObject(ObjectInputStream objectInputStream)
             throws IOException, ClassNotFoundException {

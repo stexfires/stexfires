@@ -22,7 +22,6 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface RecordMapper<T extends TextRecord, R extends TextRecord> {
 
-    @SuppressWarnings("NullableProblems")
     static <T extends TextRecord, R extends TextRecord> RecordMapper<T, R> of(Function<T, R> function) {
         Objects.requireNonNull(function);
         // The "apply" function must not return "null"!
