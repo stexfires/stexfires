@@ -17,6 +17,7 @@ import java.nio.charset.UnsupportedCharsetException;
  * @see java.nio.charset.Charset
  * @since 0.1
  */
+@SuppressWarnings("SpellCheckingInspection")
 public enum CommonCharsetNames {
 
     /**
