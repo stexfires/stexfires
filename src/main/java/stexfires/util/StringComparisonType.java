@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -20,7 +21,7 @@ public enum StringComparisonType {
     MATCHES;
 
     public static Predicate<String> stringPredicate(StringComparisonType stringComparisonType,
-                                                    String compareValue) {
+                                                    @NotNull String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         return value -> compareStringInternal(value, stringComparisonType, compareValue);
@@ -28,7 +29,7 @@ public enum StringComparisonType {
 
     private static boolean compareStringInternal(@Nullable String value,
                                                  StringComparisonType stringComparisonType,
-                                                 String compareValue) {
+                                                 @NotNull String compareValue) {
         Objects.requireNonNull(stringComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
@@ -45,12 +46,12 @@ public enum StringComparisonType {
         return false;
     }
 
-    public final Predicate<String> stringPredicate(String compareValue) {
+    public final Predicate<String> stringPredicate(@NotNull String compareValue) {
         Objects.requireNonNull(compareValue);
         return value -> compareStringInternal(value, this, compareValue);
     }
 
-    public final boolean compareString(@Nullable String value, String compareValue) {
+    public final boolean compareString(@Nullable String value, @NotNull String compareValue) {
         Objects.requireNonNull(compareValue);
         return compareStringInternal(value, this, compareValue);
     }

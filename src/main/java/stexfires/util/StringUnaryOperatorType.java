@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.Normalizer;
@@ -46,12 +47,12 @@ public enum StringUnaryOperatorType {
 
     private static final String EMPTY = "";
 
-    public static UnaryOperator<String> prefix(String prefix) {
+    public static UnaryOperator<String> prefix(@NotNull String prefix) {
         Objects.requireNonNull(prefix);
         return value -> value == null ? prefix : prefix + value;
     }
 
-    public static UnaryOperator<String> postfix(String postfix) {
+    public static UnaryOperator<String> postfix(@NotNull String postfix) {
         Objects.requireNonNull(postfix);
         return value -> value == null ? postfix : value + postfix;
     }
@@ -225,8 +226,7 @@ public enum StringUnaryOperatorType {
         return value -> operateStringInternal(this, value, null);
     }
 
-    public final UnaryOperator<String> stringUnaryOperator(Locale locale) {
-        Objects.requireNonNull(locale);
+    public final UnaryOperator<String> stringUnaryOperator(@Nullable Locale locale) {
         return value -> operateStringInternal(this, value, locale);
     }
 

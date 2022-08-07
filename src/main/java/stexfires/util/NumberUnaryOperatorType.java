@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -79,52 +80,52 @@ public enum NumberUnaryOperatorType {
         return value -> Math.floorMod(value, secondValue);
     }
 
-    public static UnaryOperator<BigInteger> add(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> add(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.add(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> subtract(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> subtract(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.subtract(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> multiply(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> multiply(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.multiply(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> min(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> min(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.min(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> max(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> max(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.max(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> divide(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> divide(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.divide(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> mod(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> mod(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.mod(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> modInverse(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> modInverse(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.modInverse(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> remainder(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> remainder(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.remainder(secondValue);
     }
 
-    public static UnaryOperator<BigInteger> gcd(BigInteger secondValue) {
+    public static UnaryOperator<BigInteger> gcd(@NotNull BigInteger secondValue) {
         Objects.requireNonNull(secondValue);
         return value -> value.gcd(secondValue);
     }

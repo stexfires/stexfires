@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -34,7 +35,7 @@ public enum NumberComparisonType {
         return value -> compareLongInternal(value, numberComparisonType, compareValue);
     }
 
-    public static Predicate<BigInteger> bigIntegerPredicate(NumberComparisonType numberComparisonType, BigInteger compareValue) {
+    public static Predicate<BigInteger> bigIntegerPredicate(NumberComparisonType numberComparisonType, @NotNull BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
         return value -> compareBigIntegerInternal(value, numberComparisonType, compareValue);
@@ -50,7 +51,8 @@ public enum NumberComparisonType {
             case GREATER_THAN_OR_EQUAL_TO -> value >= compareValue;
             case GREATER_THAN -> value > compareValue;
             case MULTIPLE_OF -> (compareValue != 0) && (value % compareValue == 0);
-            case SAME_SIGN -> (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
+            case SAME_SIGN ->
+                    (value > 0 && compareValue > 0) || (value == 0 && compareValue == 0) || (value < 0 && compareValue < 0);
             case SAME_ABSOLUTE_VALUE -> Math.abs(value) == Math.abs(compareValue);
         };
     }
@@ -65,12 +67,13 @@ public enum NumberComparisonType {
             case GREATER_THAN_OR_EQUAL_TO -> value >= compareValue;
             case GREATER_THAN -> value > compareValue;
             case MULTIPLE_OF -> (compareValue != 0L) && (value % compareValue == 0L);
-            case SAME_SIGN -> (value > 0L && compareValue > 0L) || (value == 0L && compareValue == 0L) || (value < 0L && compareValue < 0L);
+            case SAME_SIGN ->
+                    (value > 0L && compareValue > 0L) || (value == 0L && compareValue == 0L) || (value < 0L && compareValue < 0L);
             case SAME_ABSOLUTE_VALUE -> Math.abs(value) == Math.abs(compareValue);
         };
     }
 
-    private static boolean compareBigIntegerInternal(@Nullable BigInteger value, NumberComparisonType numberComparisonType, BigInteger compareValue) {
+    private static boolean compareBigIntegerInternal(@Nullable BigInteger value, NumberComparisonType numberComparisonType, @NotNull BigInteger compareValue) {
         Objects.requireNonNull(numberComparisonType);
         Objects.requireNonNull(compareValue);
         if (value != null) {
@@ -81,7 +84,8 @@ public enum NumberComparisonType {
                 case LESS_THAN_OR_EQUAL_TO -> value.compareTo(compareValue) <= 0;
                 case GREATER_THAN_OR_EQUAL_TO -> value.compareTo(compareValue) >= 0;
                 case GREATER_THAN -> value.compareTo(compareValue) > 0;
-                case MULTIPLE_OF -> (compareValue.signum() != 0) && (value.mod(compareValue).compareTo(BigInteger.ZERO) == 0);
+                case MULTIPLE_OF ->
+                        (compareValue.signum() != 0) && (value.remainder(compareValue).compareTo(BigInteger.ZERO) == 0);
                 case SAME_SIGN -> value.signum() == compareValue.signum();
                 case SAME_ABSOLUTE_VALUE -> value.abs().compareTo(compareValue.abs()) == 0;
             };
@@ -97,7 +101,7 @@ public enum NumberComparisonType {
         return value -> compareLongInternal(value, this, compareValue);
     }
 
-    public final Predicate<BigInteger> bigIntegerPredicate(BigInteger compareValue) {
+    public final Predicate<BigInteger> bigIntegerPredicate(@NotNull BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
         return value -> compareBigIntegerInternal(value, this, compareValue);
     }
@@ -110,7 +114,7 @@ public enum NumberComparisonType {
         return compareLongInternal(value, this, compareValue);
     }
 
-    public final boolean compareBigInteger(@Nullable BigInteger value, BigInteger compareValue) {
+    public final boolean compareBigInteger(@Nullable BigInteger value, @NotNull BigInteger compareValue) {
         Objects.requireNonNull(compareValue);
         return compareBigIntegerInternal(value, this, compareValue);
     }
