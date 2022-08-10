@@ -34,17 +34,17 @@ public class ExtendedValuesMessage<T extends TextRecord> implements RecordMessag
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (Field field : record.listOfFields()) {
-            if (prefixFirstValue != null && field.isFirst()) {
+            if (prefixFirstValue != null && field.isFirstField()) {
                 builder.append(prefixFirstValue);
-            } else if (prefix != null && !field.isFirst()) {
+            } else if (prefix != null && !field.isFirstField()) {
                 builder.append(prefix);
             }
             if (!field.valueIsNull()) {
-                builder.append(field.getValue());
+                builder.append(field.value());
             }
-            if (postfixLastValue != null && field.isLast()) {
+            if (postfixLastValue != null && field.isLastField()) {
                 builder.append(postfixLastValue);
-            } else if (postfix != null && !field.isLast()) {
+            } else if (postfix != null && !field.isLastField()) {
                 builder.append(postfix);
             }
         }

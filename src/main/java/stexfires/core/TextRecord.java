@@ -90,7 +90,7 @@ public interface TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     default String getValueAt(int index) {
-        return isValidIndex(index) ? getFieldAt(index).getValue() : null;
+        return isValidIndex(index) ? getFieldAt(index).value() : null;
     }
 
     default String getValueAtOrElse(int index, @Nullable String other) {
@@ -99,12 +99,12 @@ public interface TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     default String getValueOfFirstField() {
-        return isEmpty() ? null : getFirstField().getValue();
+        return isEmpty() ? null : getFirstField().value();
     }
 
     @SuppressWarnings("ReturnOfNull")
     default String getValueOfLastField() {
-        return isEmpty() ? null : getLastField().getValue();
+        return isEmpty() ? null : getLastField().value();
     }
 
     /**

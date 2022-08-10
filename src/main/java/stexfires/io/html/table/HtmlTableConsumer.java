@@ -58,7 +58,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         List<Field> fields = record.listOfFields();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            String value = (fields.size() > fieldIndex) ? fields.get(fieldIndex).getValue() : null;
+            String value = (fields.size() > fieldIndex) ? fields.get(fieldIndex).value() : null;
 
             b.append(HtmlTableFileSpec.TABLE_DATA_BEGIN);
             b.append(convertHtml(value));

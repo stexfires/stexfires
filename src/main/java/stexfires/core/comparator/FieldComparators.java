@@ -25,31 +25,35 @@ public final class FieldComparators {
     }
 
     public static Comparator<Field> index() {
-        return comparingInt(Field::getIndex);
+        return comparingInt(Field::index);
     }
 
-    public static Comparator<Field> first() {
-        return comparing(Field::isFirst);
+    public static Comparator<Field> maxIndex() {
+        return comparingInt(Field::maxIndex);
     }
 
-    public static Comparator<Field> last() {
-        return comparing(Field::isLast);
+    public static Comparator<Field> isFirstField() {
+        return comparing(Field::isFirstField);
+    }
+
+    public static Comparator<Field> isLastField() {
+        return comparing(Field::isLastField);
     }
 
     public static Comparator<Field> value(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(Field::getValue, comparator);
+        return comparing(Field::value, comparator);
     }
 
     public static Comparator<Field> value(Comparator<String> comparator,
                                           NULLS nulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(Field::getValue, nulls.wrappedComparator(comparator));
+        return comparing(Field::value, nulls.wrappedComparator(comparator));
     }
 
-    public static Comparator<Field> length() {
-        return comparingInt(Field::length);
+    public static Comparator<Field> valueLength() {
+        return comparingInt(Field::valueLength);
     }
 
 }

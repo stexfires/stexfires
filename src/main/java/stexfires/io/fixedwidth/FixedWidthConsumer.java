@@ -51,7 +51,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
             }
 
             Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.getValue() : null;
+            String value = (field != null) ? field.value() : null;
             int valueWidth = (value != null) ? value.length() : 0;
 
             // Insert field fill character

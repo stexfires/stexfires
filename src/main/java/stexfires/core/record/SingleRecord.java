@@ -109,22 +109,22 @@ public class SingleRecord implements ValueRecord {
     @SuppressWarnings("ReturnOfNull")
     @Override
     public final String getValueAt(int index) {
-        return (index == VALUE_INDEX) ? singleField.getValue() : null;
+        return (index == VALUE_INDEX) ? singleField.value() : null;
     }
 
     @Override
     public final String getValueOfValueField() {
-        return singleField.getValue();
+        return singleField.value();
     }
 
     @Override
     public final String getValueOfFirstField() {
-        return singleField.getValue();
+        return singleField.value();
     }
 
     @Override
     public final String getValueOfLastField() {
-        return singleField.getValue();
+        return singleField.value();
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SingleRecord implements ValueRecord {
         return "SingleRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
-                ", value=" + singleField.getValue() +
+                ", value=" + singleField.value() +
                 '}';
     }
 

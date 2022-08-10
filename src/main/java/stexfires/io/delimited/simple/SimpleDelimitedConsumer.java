@@ -42,7 +42,7 @@ public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord
             }
 
             Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.getValue() : null;
+            String value = (field != null) ? field.value() : null;
 
             if (value != null) {
                 b.append(value);

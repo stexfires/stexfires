@@ -20,7 +20,7 @@ public class AddPostfixFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final @NotNull String mapToValue(@NotNull Field field) {
-        String value = field.getValue();
+        String value = field.value();
         return (value == null) ? postfix : value + postfix;
     }
 

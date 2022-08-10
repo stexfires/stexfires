@@ -16,7 +16,7 @@ public interface ValueRecord extends TextRecord {
     @NotNull Field getValueField();
 
     default @Nullable String getValueOfValueField() {
-        return getValueField().getValue();
+        return getValueField().value();
     }
 
 }

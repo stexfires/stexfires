@@ -106,7 +106,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             int minWidth = fieldSpec.getMinWidth();
 
             Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.getValue() : null;
+            String value = (field != null) ? field.value() : null;
             if (value != null) {
                 // Escape pipe
                 value = escapePattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);

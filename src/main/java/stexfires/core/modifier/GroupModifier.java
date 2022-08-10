@@ -145,10 +145,10 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
                                    Collectors.groupingBy(
-                                           Field::getIndex,
+                                           Field::index,
                                            TreeMap::new,
                                            Collectors.mapping(
-                                                   Field::getValue,
+                                                   Field::value,
                                                    valueCollector)),
                                    map -> map.values()
                                              .stream()

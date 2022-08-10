@@ -101,9 +101,9 @@ public final class CompareMessageBuilder {
                 builder.append("values[");
                 builder.append(record.streamOfFields().map(field -> {
                             if (field.valueIsNull()) {
-                                return "[" + field.getIndex() + "]";
+                                return "[" + field.index() + "]";
                             } else {
-                                return "[" + field.getIndex() + ",'" + field.getValue() + "']";
+                                return "[" + field.index() + ",'" + field.value() + "']";
                             }
                         }
                 ).collect(Collectors.joining(",")));

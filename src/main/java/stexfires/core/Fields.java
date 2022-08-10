@@ -27,7 +27,6 @@ public final class Fields {
     public static final int FIRST_FIELD_INDEX = 0;
     public static final String DEFAULT_FIELD_VALUE_DELIMITER = ", ";
 
-    @SuppressWarnings("StaticVariableOfConcreteClass")
     private static final Field[] EMPTY_FIELD_ARRAY = new Field[0];
 
     private Fields() {
@@ -42,7 +41,7 @@ public final class Fields {
         Field[] fields = new Field[values.size()];
         int index = FIRST_FIELD_INDEX;
         for (String value : values) {
-            fields[index] = new Field(index, (index + 1) == values.size(), value);
+            fields[index] = new Field(index, values.size() - 1, value);
             index++;
         }
         return fields;
@@ -58,7 +57,7 @@ public final class Fields {
         Objects.requireNonNull(values);
         Field[] fields = new Field[values.length];
         for (int index = FIRST_FIELD_INDEX; index < values.length; index++) {
-            fields[index] = new Field(index, (index + 1) == values.length, values[index]);
+            fields[index] = new Field(index, values.length - 1, values[index]);
         }
         return fields;
     }
@@ -71,7 +70,7 @@ public final class Fields {
         Objects.requireNonNull(valueSupplier);
         Field[] fields = new Field[length];
         for (int index = FIRST_FIELD_INDEX; index < length; index++) {
-            fields[index] = new Field(index, (index + 1) == length, valueSupplier.get());
+            fields[index] = new Field(index, length - 1, valueSupplier.get());
         }
         return fields;
     }
@@ -146,7 +145,7 @@ public final class Fields {
     public static String joinValues(Stream<Field> fields, CharSequence delimiter) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
-        return fields.map(Field::getValue).collect(Collectors.joining(delimiter));
+        return fields.map(Field::value).collect(Collectors.joining(delimiter));
     }
 
     public static Stream<String> mapToValue(Stream<Field> fields, FieldValueMapper fieldValueMapper) {

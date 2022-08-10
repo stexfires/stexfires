@@ -44,7 +44,7 @@ public class PairRecord implements TextRecord {
     }
 
     public PairRecord newRecordSwapped() {
-        return new PairRecord(category, recordId, secondField.getValue(), firstField.getValue());
+        return new PairRecord(category, recordId, secondField.value(), firstField.value());
     }
 
     @Override
@@ -117,16 +117,16 @@ public class PairRecord implements TextRecord {
 
     @Override
     public final String getValueOfFirstField() {
-        return firstField.getValue();
+        return firstField.value();
     }
 
     @Override
     public final String getValueOfLastField() {
-        return secondField.getValue();
+        return secondField.value();
     }
 
     public final String getValueOfSecondField() {
-        return secondField.getValue();
+        return secondField.value();
     }
 
     @Override
@@ -153,8 +153,8 @@ public class PairRecord implements TextRecord {
         return "PairRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
-                ", firstValue=" + firstField.getValue() +
-                ", secondValue=" + secondField.getValue() +
+                ", firstValue=" + firstField.value() +
+                ", secondValue=" + secondField.value() +
                 '}';
     }
 

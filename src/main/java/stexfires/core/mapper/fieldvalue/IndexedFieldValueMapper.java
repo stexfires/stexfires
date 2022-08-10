@@ -49,7 +49,7 @@ public class IndexedFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final String mapToValue(@NotNull Field field) {
-        return valueMappers.apply(field.getIndex())
+        return valueMappers.apply(field.index())
                            .orElse(orElseFieldValueMapper)
                            .mapToValue(field);
     }

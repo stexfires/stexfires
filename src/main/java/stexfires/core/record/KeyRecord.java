@@ -15,7 +15,7 @@ public interface KeyRecord extends TextRecord {
     @NotNull Field getKeyField();
 
     default @NotNull String getValueOfKeyField() {
-        return getKeyField().getValue();
+        return getKeyField().value();
     }
 
 }

@@ -124,7 +124,7 @@ public class ValueFilter<T extends TextRecord> implements RecordFilter<T> {
         if (field == null) {
             return nullFieldValidity;
         }
-        return valuePredicate.test(field.getValue());
+        return valuePredicate.test(field.value());
     }
 
 }

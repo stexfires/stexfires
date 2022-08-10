@@ -70,7 +70,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
             if (size < record.size()) {
                 return
                         record.streamOfFields()
-                              .map(Field::getValue)
+                              .map(Field::value)
                               .limit(size)
                               .collect(Collectors.toList());
             } else if (size > record.size()) {
@@ -140,8 +140,8 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
     public static <T extends TextRecord> ValuesMapper<T> remove(int index) {
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
-                      .filter(field -> field.getIndex() != index)
-                      .map(Field::getValue)
+                      .filter(field -> field.index() != index)
+                      .map(Field::value)
                       .collect(Collectors.toList()));
     }
 
@@ -150,7 +150,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
                       .filter(fieldPredicate.negate())
-                      .map(Field::getValue)
+                      .map(Field::value)
                       .collect(Collectors.toList()));
     }
 
