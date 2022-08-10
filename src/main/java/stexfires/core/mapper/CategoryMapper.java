@@ -30,7 +30,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> identity() {
-        return new CategoryMapper<>(TextRecord::getCategory);
+        return new CategoryMapper<>(TextRecord::category);
     }
 
     /**
@@ -72,31 +72,31 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> category() {
-        return new CategoryMapper<>(TextRecord::getCategory);
+        return new CategoryMapper<>(TextRecord::category);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOrElse(String other) {
-        return new CategoryMapper<>(record -> record.getCategoryOrElse(other));
+        return new CategoryMapper<>(record -> record.categoryOrElse(other));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryFunction(Function<String, String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
-        return new CategoryMapper<>(record -> categoryFunction.apply(record.getCategory()));
+        return new CategoryMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
         Objects.requireNonNull(categoryOperator);
-        return new CategoryMapper<>(record -> categoryOperator.operateString(record.getCategory()));
+        return new CategoryMapper<>(record -> categoryOperator.operateString(record.category()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
         Objects.requireNonNull(categoryOperator);
-        return new CategoryMapper<>(record -> categoryOperator.operateString(record.getCategory(), locale));
+        return new CategoryMapper<>(record -> categoryOperator.operateString(record.category(), locale));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
-        return new CategoryMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
+        return new CategoryMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> recordId() {

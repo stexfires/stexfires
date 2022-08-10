@@ -88,7 +88,7 @@ public class StandardRecord implements TextRecord {
     }
 
     @Override
-    public final String getCategory() {
+    public final String category() {
         return category;
     }
 

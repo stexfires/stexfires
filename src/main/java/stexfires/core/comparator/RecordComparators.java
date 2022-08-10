@@ -31,14 +31,14 @@ public final class RecordComparators {
 
     public static <T extends TextRecord> Comparator<T> category(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(TextRecord::getCategory, comparator);
+        return comparing(TextRecord::category, comparator);
     }
 
     public static <T extends TextRecord> Comparator<T> category(Comparator<String> comparator,
                                                                 NULLS nulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(TextRecord::getCategory, nulls.wrappedComparator(comparator));
+        return comparing(TextRecord::category, nulls.wrappedComparator(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator) {

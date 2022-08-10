@@ -85,7 +85,7 @@ public class DosPathRecord extends PathRecord {
     @Override
     public String toString() {
         return "DosPathRecord{" +
-                "category(pathType)=" + getCategory() +
+                "category(pathType)=" + category() +
                 ", fileName=" + getValueAt(FILE_NAME_INDEX) +
                 ", path=" + getValueAt(PATH_INDEX) +
                 ", parent=" + getValueAt(PARENT_INDEX) +

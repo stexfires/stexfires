@@ -20,7 +20,7 @@ public class ToStandardMapper<T extends TextRecord> implements RecordMapper<T, S
         if (record instanceof StandardRecord) {
             return (StandardRecord) record;
         }
-        return new StandardRecord(record.getCategory(), record.getRecordId(),
+        return new StandardRecord(record.category(), record.getRecordId(),
                 Fields.collectValues(record));
     }
 

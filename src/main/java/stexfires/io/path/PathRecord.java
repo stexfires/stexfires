@@ -57,7 +57,7 @@ public class PathRecord extends StandardRecord {
     }
 
     public final PathType pathType() {
-        return PathType.valueOf(getCategory());
+        return PathType.valueOf(category());
     }
 
     public final @Nullable String fileName() {
@@ -104,7 +104,7 @@ public class PathRecord extends StandardRecord {
     @Override
     public String toString() {
         return "PathRecord{" +
-                "category(pathType)=" + getCategory() +
+                "category(pathType)=" + category() +
                 ", fileName=" + getValueAt(FILE_NAME_INDEX) +
                 ", path=" + getValueAt(PATH_INDEX) +
                 ", parent=" + getValueAt(PARENT_INDEX) +

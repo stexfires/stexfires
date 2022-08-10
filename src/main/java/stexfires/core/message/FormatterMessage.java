@@ -45,7 +45,7 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
 
         // add 4 standard arguments
         args.add(record.getClass().getName());
-        args.add(record.getCategory());
+        args.add(record.category());
         args.add(record.getRecordId());
         args.add(record.size());
 

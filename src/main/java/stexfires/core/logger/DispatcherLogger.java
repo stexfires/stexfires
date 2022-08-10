@@ -51,7 +51,7 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordLoggers);
         BiPredicate<Integer, T> predicate = (index, record) ->
-                Objects.equals(categoryIndexFunction.apply(record.getCategory()), index);
+                Objects.equals(categoryIndexFunction.apply(record.category()), index);
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 

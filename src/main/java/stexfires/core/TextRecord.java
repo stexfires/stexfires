@@ -29,22 +29,22 @@ public interface TextRecord {
 
     Stream<Field> streamOfFields();
 
-    String getCategory();
+    String category();
 
     default boolean hasCategory() {
-        return getCategory() != null;
+        return category() != null;
     }
 
-    default String getCategoryOrElse(@Nullable String other) {
-        return getCategory() != null ? getCategory() : other;
+    default String categoryOrElse(@Nullable String other) {
+        return category() != null ? category() : other;
     }
 
-    default Optional<String> getCategoryAsOptional() {
-        return Optional.ofNullable(getCategory());
+    default Optional<String> categoryAsOptional() {
+        return Optional.ofNullable(category());
     }
 
-    default Stream<String> streamOfCategory() {
-        return Stream.ofNullable(getCategory());
+    default Stream<String> categoryAsStream() {
+        return Stream.ofNullable(category());
     }
 
     Long getRecordId();

@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public RecordIdMapper(Function<? super T, Long> recordIdFunction) {
-        super(TextRecord::getCategory, recordIdFunction, Fields::collectValues);
+        super(TextRecord::category, recordIdFunction, Fields::collectValues);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> identity() {
@@ -62,12 +62,12 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public static <T extends TextRecord> RecordIdMapper<T> categoryFunction(Function<String, Long> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
-        return new RecordIdMapper<>(record -> categoryFunction.apply(record.getCategory()));
+        return new RecordIdMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> categoryAsOptionalFunction(Function<Optional<String>, Long> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
-        return new RecordIdMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
+        return new RecordIdMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> recordId() {

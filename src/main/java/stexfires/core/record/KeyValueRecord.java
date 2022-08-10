@@ -28,7 +28,7 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
 
     @Override
     public KeyValueRecord newValueRecord(@Nullable String value) {
-        return new KeyValueRecord(getCategory(), getRecordId(), getValueOfKeyField(), value);
+        return new KeyValueRecord(category(), getRecordId(), getValueOfKeyField(), value);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class KeyValueRecord extends PairRecord implements KeyRecord, ValueRecord
     @Override
     public String toString() {
         return "KeyValueRecord{" +
-                "category=" + getCategory() +
+                "category=" + category() +
                 ", recordId=" + getRecordId() +
                 ", key=" + getValueOfKeyField() +
                 ", value=" + getValueOfValueField() +

@@ -51,7 +51,7 @@ public class DispatcherConsumer<T extends TextRecord> implements RecordConsumer<
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordConsumers);
         BiPredicate<Integer, T> predicate = (index, record) ->
-                Objects.equals(categoryIndexFunction.apply(record.getCategory()), index);
+                Objects.equals(categoryIndexFunction.apply(record.category()), index);
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 

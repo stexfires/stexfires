@@ -21,7 +21,7 @@ public class CategoryMessage<T extends TextRecord> implements RecordMessage<T> {
 
     @Override
     public final @Nullable String createMessage(T record) {
-        return record.getCategoryOrElse(nullCategoryValue);
+        return record.categoryOrElse(nullCategoryValue);
     }
 
 }

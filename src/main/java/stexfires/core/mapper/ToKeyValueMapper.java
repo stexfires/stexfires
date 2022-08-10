@@ -25,7 +25,7 @@ public class ToKeyValueMapper<T extends TextRecord> implements RecordMapper<T, K
 
     @Override
     public final @NotNull KeyValueRecord map(@NotNull T record) {
-        return new KeyValueRecord(record.getCategory(), record.getRecordId(),
+        return new KeyValueRecord(record.category(), record.getRecordId(),
                 record.getValueAtOrElse(keyIndex, nullKeyValue), record.getValueAt(valueIndex));
     }
 

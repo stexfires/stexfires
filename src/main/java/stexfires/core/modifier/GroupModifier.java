@@ -50,7 +50,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByCategory() {
-        return TextRecord::getCategory;
+        return TextRecord::category;
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByMessage(RecordMessage<? super T> recordMessage) {
@@ -131,7 +131,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     }
 
     public static <T extends TextRecord> Function<List<T>, String> categoryOfFirstElement() {
-        return list -> list.get(0).getCategory();
+        return list -> list.get(0).category();
     }
 
     public static <T extends TextRecord> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {

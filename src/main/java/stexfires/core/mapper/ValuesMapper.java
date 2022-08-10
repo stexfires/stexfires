@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public ValuesMapper(Function<? super T, Collection<String>> valuesFunction) {
-        super(TextRecord::getCategory, TextRecord::getRecordId, valuesFunction);
+        super(TextRecord::category, TextRecord::getRecordId, valuesFunction);
     }
 
     public static <T extends TextRecord> ValuesMapper<T> identity() {

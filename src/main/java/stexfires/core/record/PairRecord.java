@@ -66,7 +66,7 @@ public class PairRecord implements TextRecord {
     }
 
     @Override
-    public final String getCategory() {
+    public final String category() {
         return category;
     }
 

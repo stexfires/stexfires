@@ -58,7 +58,7 @@ public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
 
     @Override
     public final boolean isValid(T record) {
-        return categoryPredicate.test(record.getCategory());
+        return categoryPredicate.test(record.category());
     }
 
 }

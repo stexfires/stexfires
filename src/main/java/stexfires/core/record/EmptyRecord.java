@@ -38,7 +38,7 @@ public final class EmptyRecord implements TextRecord {
     }
 
     @Override
-    public @Nullable String getCategory() {
+    public @Nullable String category() {
         return null;
     }
 

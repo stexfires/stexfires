@@ -76,31 +76,31 @@ public class AddValueMapper<T extends TextRecord> extends ValuesMapper<T> {
     }
 
     public static <T extends TextRecord> AddValueMapper<T> category() {
-        return new AddValueMapper<>(TextRecord::getCategory);
+        return new AddValueMapper<>(TextRecord::category);
     }
 
     public static <T extends TextRecord> AddValueMapper<T> categoryOrElse(String other) {
-        return new AddValueMapper<>(record -> record.getCategoryOrElse(other));
+        return new AddValueMapper<>(record -> record.categoryOrElse(other));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> categoryFunction(Function<String, String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
-        return new AddValueMapper<>(record -> categoryFunction.apply(record.getCategory()));
+        return new AddValueMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
         Objects.requireNonNull(categoryOperator);
-        return new AddValueMapper<>(record -> categoryOperator.operateString(record.getCategory()));
+        return new AddValueMapper<>(record -> categoryOperator.operateString(record.category()));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
         Objects.requireNonNull(categoryOperator);
-        return new AddValueMapper<>(record -> categoryOperator.operateString(record.getCategory(), locale));
+        return new AddValueMapper<>(record -> categoryOperator.operateString(record.category(), locale));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
-        return new AddValueMapper<>(record -> categoryAsOptionalFunction.apply(record.getCategoryAsOptional()));
+        return new AddValueMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> recordId() {

@@ -93,7 +93,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
 
         String key;
         if (fileSpec.isCategoryAsKeyPrefix() && record.hasCategory()) {
-            key = record.getCategory() + fileSpec.getKeyPrefixDelimiter() + record.getValueOfKeyField();
+            key = record.category() + fileSpec.getKeyPrefixDelimiter() + record.getValueOfKeyField();
         } else {
             key = record.getValueOfKeyField();
         }

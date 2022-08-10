@@ -41,8 +41,8 @@ public class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecord> {
     public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        if (!Objects.equals(currentCategory, record.getCategory())) {
-            currentCategory = record.getCategory();
+        if (!Objects.equals(currentCategory, record.category())) {
+            currentCategory = record.category();
             writeString(CATEGORY_PREFIX);
             writeString(Objects.requireNonNullElse(currentCategory, NULL_CATEGORY));
             writeString(CATEGORY_POSTFIX);

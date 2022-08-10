@@ -58,7 +58,7 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public final String getCategory() {
+    public final String category() {
         return category;
     }
 
