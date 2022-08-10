@@ -57,16 +57,16 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return recordMessage.asFunction();
     }
 
-    public static <T extends KeyRecord> Function<? super T, String> groupByKeyField() {
-        return KeyRecord::getValueOfKeyField;
+    public static <T extends KeyRecord> Function<? super T, String> groupByValueOfKeyField() {
+        return KeyRecord::valueOfKeyField;
     }
 
-    public static <T extends ValueRecord> Function<? super T, String> groupByValueField() {
-        return ValueRecord::getValueOfValueField;
+    public static <T extends ValueRecord> Function<? super T, String> groupByValueOfValueField() {
+        return ValueRecord::valueOfValueField;
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByValueAt(int index) {
-        return r -> r.getValueAt(index);
+        return r -> r.valueAt(index);
     }
 
     public static <T extends TextRecord> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {

@@ -108,16 +108,16 @@ public class AddValueMapper<T extends TextRecord> extends ValuesMapper<T> {
     }
 
     public static <T extends TextRecord> AddValueMapper<T> valueAt(int index) {
-        return new AddValueMapper<>(record -> record.getValueAt(index));
+        return new AddValueMapper<>(record -> record.valueAt(index));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> valueAtOrElse(int index, String other) {
-        return new AddValueMapper<>(record -> record.getValueAtOrElse(index, other));
+        return new AddValueMapper<>(record -> record.valueAtOrElse(index, other));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
-        return new AddValueMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);
+        return new AddValueMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.fieldAt(index)) : other);
     }
 
     public static <T extends TextRecord> AddValueMapper<T> fileName(Path path) {

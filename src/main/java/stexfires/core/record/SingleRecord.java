@@ -84,46 +84,43 @@ public class SingleRecord implements ValueRecord {
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field getFieldAt(int index) {
+    public final Field fieldAt(int index) {
         return (index == VALUE_INDEX) ? singleField : null;
     }
 
-    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
-    public final @NotNull Field getFirstField() {
+    public final @NotNull Field firstField() {
         return singleField;
     }
 
-    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
-    public final @NotNull Field getLastField() {
+    public final @NotNull Field lastField() {
         return singleField;
     }
 
-    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
-    public final @NotNull Field getValueField() {
+    public final @NotNull Field valueField() {
         return singleField;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final String getValueAt(int index) {
+    public final String valueAt(int index) {
         return (index == VALUE_INDEX) ? singleField.value() : null;
     }
 
     @Override
-    public final String getValueOfValueField() {
+    public final String valueOfValueField() {
         return singleField.value();
     }
 
     @Override
-    public final String getValueOfFirstField() {
+    public final String valueOfFirstField() {
         return singleField.value();
     }
 
     @Override
-    public final String getValueOfLastField() {
+    public final String valueOfLastField() {
         return singleField.value();
     }
 

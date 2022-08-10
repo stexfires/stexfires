@@ -104,7 +104,7 @@ public class StandardRecord implements TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field getFieldAt(int index) {
+    public final Field fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 

@@ -63,37 +63,37 @@ public final class EmptyRecord implements TextRecord {
     }
 
     @Override
-    public @Nullable Field getFieldAt(int index) {
+    public @Nullable Field fieldAt(int index) {
         return null;
     }
 
     @Override
-    public @Nullable Field getFirstField() {
+    public @Nullable Field firstField() {
         return null;
     }
 
     @Override
-    public @Nullable Field getLastField() {
+    public @Nullable Field lastField() {
         return null;
     }
 
     @Override
-    public @Nullable String getValueAt(int index) {
+    public @Nullable String valueAt(int index) {
         return null;
     }
 
     @Override
-    public String getValueAtOrElse(int index, @Nullable String other) {
+    public String valueAtOrElse(int index, @Nullable String other) {
         return other;
     }
 
     @Override
-    public @Nullable String getValueOfFirstField() {
+    public @Nullable String valueOfFirstField() {
         return null;
     }
 
     @Override
-    public @Nullable String getValueOfLastField() {
+    public @Nullable String valueOfLastField() {
         return null;
     }
 

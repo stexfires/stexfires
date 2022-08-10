@@ -92,7 +92,7 @@ public class PairRecord implements TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field getFieldAt(int index) {
+    public final Field fieldAt(int index) {
         return switch (index) {
             case FIRST_VALUE_INDEX -> firstField;
             case SECOND_VALUE_INDEX -> secondField;
@@ -101,31 +101,30 @@ public class PairRecord implements TextRecord {
     }
 
     @Override
-    public final @NotNull Field getFirstField() {
+    public final @NotNull Field firstField() {
         return firstField;
     }
 
-    @SuppressWarnings("SuspiciousGetterSetter")
     @Override
-    public final @NotNull Field getLastField() {
+    public final @NotNull Field lastField() {
         return secondField;
     }
 
-    public final @NotNull Field getSecondField() {
+    public final @NotNull Field secondField() {
         return secondField;
     }
 
     @Override
-    public final String getValueOfFirstField() {
+    public final String valueOfFirstField() {
         return firstField.value();
     }
 
     @Override
-    public final String getValueOfLastField() {
+    public final String valueOfLastField() {
         return secondField.value();
     }
 
-    public final String getValueOfSecondField() {
+    public final String valueOfSecondField() {
         return secondField.value();
     }
 

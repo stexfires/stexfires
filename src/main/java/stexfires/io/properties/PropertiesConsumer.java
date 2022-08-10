@@ -93,13 +93,13 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
 
         String key;
         if (fileSpec.isCategoryAsKeyPrefix() && record.hasCategory()) {
-            key = record.category() + fileSpec.getKeyPrefixDelimiter() + record.getValueOfKeyField();
+            key = record.category() + fileSpec.getKeyPrefixDelimiter() + record.valueOfKeyField();
         } else {
-            key = record.getValueOfKeyField();
+            key = record.valueOfKeyField();
         }
         writeString(convertKey(key, fileSpec.isEscapeUnicode()));
         writeString(DELIMITER);
-        writeString(convertValue(record.getValueField().valueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
+        writeString(convertValue(record.valueField().valueOrElse(fileSpec.getValueSpec().getWriteNullReplacement()),
                 fileSpec.isEscapeUnicode()));
         writeLineSeparator(fileSpec.getLineSeparator());
     }

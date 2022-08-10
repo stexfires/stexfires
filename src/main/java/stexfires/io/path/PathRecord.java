@@ -61,7 +61,7 @@ public class PathRecord extends StandardRecord {
     }
 
     public final @Nullable String fileName() {
-        return getValueAt(FILE_NAME_INDEX);
+        return valueAt(FILE_NAME_INDEX);
     }
 
     public final Optional<String> fileNameAsOptional() {
@@ -69,11 +69,11 @@ public class PathRecord extends StandardRecord {
     }
 
     public final Path path() {
-        return Paths.get(Objects.requireNonNull(getValueAt(PATH_INDEX)));
+        return Paths.get(Objects.requireNonNull(valueAt(PATH_INDEX)));
     }
 
     public final @Nullable Path parent() {
-        String parent = getValueAt(PARENT_INDEX);
+        String parent = valueAt(PARENT_INDEX);
         return parent != null ? Paths.get(parent) : null;
     }
 
@@ -82,37 +82,37 @@ public class PathRecord extends StandardRecord {
     }
 
     public final int pathNameCount() {
-        return Integer.parseInt(Objects.requireNonNull(getValueAt(PATH_NAME_COUNT_INDEX)));
+        return Integer.parseInt(Objects.requireNonNull(valueAt(PATH_NAME_COUNT_INDEX)));
     }
 
     public final long fileSize() {
-        return Long.parseLong(Objects.requireNonNull(getValueAt(FILE_SIZE_INDEX)));
+        return Long.parseLong(Objects.requireNonNull(valueAt(FILE_SIZE_INDEX)));
     }
 
     public final Instant creationTime() {
-        return Instant.parse(Objects.requireNonNull(getValueAt(CREATION_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(valueAt(CREATION_TIME_INDEX)));
     }
 
     public final Instant lastModifiedTime() {
-        return Instant.parse(Objects.requireNonNull(getValueAt(LAST_MODIFIED_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(valueAt(LAST_MODIFIED_TIME_INDEX)));
     }
 
     public final Instant lastAccessTime() {
-        return Instant.parse(Objects.requireNonNull(getValueAt(LAST_ACCESS_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(valueAt(LAST_ACCESS_TIME_INDEX)));
     }
 
     @Override
     public String toString() {
         return "PathRecord{" +
                 "category(pathType)=" + category() +
-                ", fileName=" + getValueAt(FILE_NAME_INDEX) +
-                ", path=" + getValueAt(PATH_INDEX) +
-                ", parent=" + getValueAt(PARENT_INDEX) +
-                ", pathNameCount=" + getValueAt(PATH_NAME_COUNT_INDEX) +
-                ", fileSize=" + getValueAt(FILE_SIZE_INDEX) +
-                ", creationTime=" + getValueAt(CREATION_TIME_INDEX) +
-                ", lastModifiedTime=" + getValueAt(LAST_MODIFIED_TIME_INDEX) +
-                ", lastAccessTime=" + getValueAt(LAST_ACCESS_TIME_INDEX) +
+                ", fileName=" + valueAt(FILE_NAME_INDEX) +
+                ", path=" + valueAt(PATH_INDEX) +
+                ", parent=" + valueAt(PARENT_INDEX) +
+                ", pathNameCount=" + valueAt(PATH_NAME_COUNT_INDEX) +
+                ", fileSize=" + valueAt(FILE_SIZE_INDEX) +
+                ", creationTime=" + valueAt(CREATION_TIME_INDEX) +
+                ", lastModifiedTime=" + valueAt(LAST_MODIFIED_TIME_INDEX) +
+                ", lastAccessTime=" + valueAt(LAST_ACCESS_TIME_INDEX) +
                 '}';
     }
 

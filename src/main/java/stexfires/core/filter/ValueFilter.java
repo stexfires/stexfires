@@ -28,13 +28,13 @@ public class ValueFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public ValueFilter(int index,
                        Predicate<String> valuePredicate) {
-        this(record -> record.getFieldAt(index), DEFAULT_NULL_FIELD_VALIDITY, valuePredicate);
+        this(record -> record.fieldAt(index), DEFAULT_NULL_FIELD_VALIDITY, valuePredicate);
     }
 
     public ValueFilter(int index,
                        boolean nullFieldValidity,
                        Predicate<String> valuePredicate) {
-        this(record -> record.getFieldAt(index), nullFieldValidity, valuePredicate);
+        this(record -> record.fieldAt(index), nullFieldValidity, valuePredicate);
     }
 
     public ValueFilter(Function<? super T, Field> fieldFunction,

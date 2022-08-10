@@ -26,7 +26,7 @@ public class ToPairMapper<T extends TextRecord> implements RecordMapper<T, PairR
     @Override
     public final @NotNull PairRecord map(@NotNull T record) {
         return new PairRecord(record.category(), record.recordId(),
-                record.getValueAt(firstIndex), record.getValueAt(secondIndex));
+                record.valueAt(firstIndex), record.valueAt(secondIndex));
     }
 
 }

@@ -78,33 +78,33 @@ public interface TextRecord {
         return (index >= 0) && (index < size());
     }
 
-    Field getFieldAt(int index);
+    Field fieldAt(int index);
 
-    default Field getFirstField() {
-        return getFieldAt(0);
+    default Field firstField() {
+        return fieldAt(0);
     }
 
-    default Field getLastField() {
-        return getFieldAt(size() - 1);
-    }
-
-    @SuppressWarnings("ReturnOfNull")
-    default String getValueAt(int index) {
-        return isValidIndex(index) ? getFieldAt(index).value() : null;
-    }
-
-    default String getValueAtOrElse(int index, @Nullable String other) {
-        return getValueAt(index) != null ? getValueAt(index) : other;
+    default Field lastField() {
+        return fieldAt(size() - 1);
     }
 
     @SuppressWarnings("ReturnOfNull")
-    default String getValueOfFirstField() {
-        return isEmpty() ? null : getFirstField().value();
+    default String valueAt(int index) {
+        return isValidIndex(index) ? fieldAt(index).value() : null;
+    }
+
+    default String valueAtOrElse(int index, @Nullable String other) {
+        return valueAt(index) != null ? valueAt(index) : other;
     }
 
     @SuppressWarnings("ReturnOfNull")
-    default String getValueOfLastField() {
-        return isEmpty() ? null : getLastField().value();
+    default String valueOfFirstField() {
+        return isEmpty() ? null : firstField().value();
+    }
+
+    @SuppressWarnings("ReturnOfNull")
+    default String valueOfLastField() {
+        return isEmpty() ? null : lastField().value();
     }
 
     /**

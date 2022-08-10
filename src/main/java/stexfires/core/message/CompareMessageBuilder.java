@@ -114,7 +114,7 @@ public final class CompareMessageBuilder {
                             if (!record.isValidIndex(index)) {
                                 return "[" + index + " i]";
                             } else {
-                                String value = record.getValueAt(index);
+                                String value = record.valueAt(index);
                                 if (value == null) {
                                     return "[" + index + " n]";
                                 } else {

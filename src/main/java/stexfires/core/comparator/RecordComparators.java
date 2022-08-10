@@ -75,17 +75,17 @@ public final class RecordComparators {
     public static <T extends TextRecord> Comparator<T> fieldAt(int index,
                                                                Comparator<Field> comparator,
                                                                NULLS nulls) {
-        return field(record -> record.getFieldAt(index), comparator, nulls);
+        return field(record -> record.fieldAt(index), comparator, nulls);
     }
 
     public static <T extends TextRecord> Comparator<T> firstField(Comparator<Field> comparator,
                                                                   NULLS nulls) {
-        return field(TextRecord::getFirstField, comparator, nulls);
+        return field(TextRecord::firstField, comparator, nulls);
     }
 
     public static <T extends TextRecord> Comparator<T> lastField(Comparator<Field> comparator,
                                                                  NULLS nulls) {
-        return field(TextRecord::getLastField, comparator, nulls);
+        return field(TextRecord::lastField, comparator, nulls);
     }
 
     public static <T extends TextRecord> Comparator<T> value(Function<? super T, String> valueFunction,
@@ -100,27 +100,27 @@ public final class RecordComparators {
     public static <T extends TextRecord> Comparator<T> valueAt(int index,
                                                                Comparator<String> comparator,
                                                                NULLS nulls) {
-        return value(record -> record.getValueAt(index), comparator, nulls);
+        return value(record -> record.valueAt(index), comparator, nulls);
     }
 
-    public static <T extends TextRecord> Comparator<T> firstValue(Comparator<String> comparator,
-                                                                  NULLS nulls) {
-        return value(TextRecord::getValueOfFirstField, comparator, nulls);
+    public static <T extends TextRecord> Comparator<T> valueOfFirstField(Comparator<String> comparator,
+                                                                         NULLS nulls) {
+        return value(TextRecord::valueOfFirstField, comparator, nulls);
     }
 
-    public static <T extends TextRecord> Comparator<T> lastValue(Comparator<String> comparator,
-                                                                 NULLS nulls) {
-        return value(TextRecord::getValueOfLastField, comparator, nulls);
+    public static <T extends TextRecord> Comparator<T> valueOfLastField(Comparator<String> comparator,
+                                                                        NULLS nulls) {
+        return value(TextRecord::valueOfLastField, comparator, nulls);
     }
 
     public static <T extends KeyRecord> Comparator<T> valueOfKeyField(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(KeyRecord::getValueOfKeyField, comparator);
+        return comparing(KeyRecord::valueOfKeyField, comparator);
     }
 
     public static <T extends ValueRecord> Comparator<T> valueOfValueField(Comparator<String> comparator,
                                                                           NULLS nulls) {
-        return value(ValueRecord::getValueOfValueField, comparator, nulls);
+        return value(ValueRecord::valueOfValueField, comparator, nulls);
     }
 
 }

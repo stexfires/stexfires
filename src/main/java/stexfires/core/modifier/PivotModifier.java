@@ -70,10 +70,10 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         return new PivotModifier<>(
                 GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.getValueAt(keyIndex)),
-                r -> r.getValueAt(valueIndex),
+                r -> Stream.of(r.valueAt(keyIndex)),
+                r -> r.valueAt(valueIndex),
                 nullValue,
-                r -> r.getValueAt(valueClassificationIndex),
+                r -> r.valueAt(valueClassificationIndex),
                 valueClassifications);
     }
 
@@ -107,7 +107,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         return new PivotModifier<>(
                 GroupModifier.<T>groupByValueAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.getValueAt(keyIndex)),
+                r -> Stream.of(r.valueAt(keyIndex)),
                 1 + recordsPerKey * valueIndexes.size(),
                 nullValue,
                 valueIndexes);
@@ -152,7 +152,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         Function<List<T>, Stream<String>> newValues = list ->
                 list.stream()
                     .flatMap(r -> valueIndexes.stream()
-                                              .map(i -> r.getValueAtOrElse(i, nullValue)));
+                                              .map(i -> r.valueAtOrElse(i, nullValue)));
         return list ->
                 Stream.concat(Stream.concat(
                                       newFirstValuesFunction.apply(list.get(0)),

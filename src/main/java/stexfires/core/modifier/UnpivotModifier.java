@@ -47,11 +47,11 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                                     new StandardRecord(record.category(), record.recordId(),
                                             Strings.concat(
                                                     // keys
-                                                    keyIndexes.stream().map(record::getValueAt),
+                                                    keyIndexes.stream().map(record::valueAt),
                                                     // identifier
                                                     Stream.of(valueIndexToIdentifier.apply(valueIndex)),
                                                     // one value
-                                                    Stream.of(record.getValueAt(valueIndex)))
+                                                    Stream.of(record.valueAt(valueIndex)))
                                     )));
     }
 
@@ -96,11 +96,11 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                                  new StandardRecord(record.category(), record.recordId(),
                                          Strings.concat(
                                                  // keys
-                                                 keyIndexes.stream().map(record::getValueAt),
+                                                 keyIndexes.stream().map(record::valueAt),
                                                  // identifier
                                                  Stream.of(recordIndexToIdentifier.apply(recordIndex)),
                                                  // many values
-                                                 valueIndexes[recordIndex].stream().map(valueIndex -> valueIndex != null ? record.getValueAt(valueIndex) : null))
+                                                 valueIndexes[recordIndex].stream().map(valueIndex -> valueIndex != null ? record.valueAt(valueIndex) : null))
                                  )));
     }
 

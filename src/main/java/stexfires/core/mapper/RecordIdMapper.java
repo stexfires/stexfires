@@ -76,7 +76,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public static <T extends TextRecord> RecordIdMapper<T> valueAt(int index, Function<String, Long> valueFunction) {
         Objects.requireNonNull(valueFunction);
-        return new RecordIdMapper<>(record -> valueFunction.apply(record.getValueAt(index)));
+        return new RecordIdMapper<>(record -> valueFunction.apply(record.valueAt(index)));
     }
 
 }

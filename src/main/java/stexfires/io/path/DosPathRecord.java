@@ -59,23 +59,23 @@ public class DosPathRecord extends PathRecord {
     }
 
     public final boolean isArchive() {
-        return Boolean.parseBoolean(getValueAt(ARCHIVE_INDEX));
+        return Boolean.parseBoolean(valueAt(ARCHIVE_INDEX));
     }
 
     public final boolean isReadOnly() {
-        return Boolean.parseBoolean(getValueAt(READ_ONLY_INDEX));
+        return Boolean.parseBoolean(valueAt(READ_ONLY_INDEX));
     }
 
     public final boolean isHidden() {
-        return Boolean.parseBoolean(getValueAt(HIDDEN_INDEX));
+        return Boolean.parseBoolean(valueAt(HIDDEN_INDEX));
     }
 
     public final boolean isSystem() {
-        return Boolean.parseBoolean(getValueAt(SYSTEM_INDEX));
+        return Boolean.parseBoolean(valueAt(SYSTEM_INDEX));
     }
 
     public final @Nullable String fileExtension() {
-        return getValueAt(FILE_EXTENSION_INDEX);
+        return valueAt(FILE_EXTENSION_INDEX);
     }
 
     public final Optional<String> fileExtensionAsOptional() {
@@ -86,19 +86,19 @@ public class DosPathRecord extends PathRecord {
     public String toString() {
         return "DosPathRecord{" +
                 "category(pathType)=" + category() +
-                ", fileName=" + getValueAt(FILE_NAME_INDEX) +
-                ", path=" + getValueAt(PATH_INDEX) +
-                ", parent=" + getValueAt(PARENT_INDEX) +
-                ", pathNameCount=" + getValueAt(PATH_NAME_COUNT_INDEX) +
-                ", fileSize=" + getValueAt(FILE_SIZE_INDEX) +
-                ", creationTime=" + getValueAt(CREATION_TIME_INDEX) +
-                ", lastModifiedTime=" + getValueAt(LAST_MODIFIED_TIME_INDEX) +
-                ", lastAccessTime=" + getValueAt(LAST_ACCESS_TIME_INDEX) +
-                ", archive=" + getValueAt(ARCHIVE_INDEX) +
-                ", readOnly=" + getValueAt(READ_ONLY_INDEX) +
-                ", hidden=" + getValueAt(HIDDEN_INDEX) +
-                ", system=" + getValueAt(SYSTEM_INDEX) +
-                ", fileExtension=" + getValueAt(FILE_EXTENSION_INDEX) +
+                ", fileName=" + valueAt(FILE_NAME_INDEX) +
+                ", path=" + valueAt(PATH_INDEX) +
+                ", parent=" + valueAt(PARENT_INDEX) +
+                ", pathNameCount=" + valueAt(PATH_NAME_COUNT_INDEX) +
+                ", fileSize=" + valueAt(FILE_SIZE_INDEX) +
+                ", creationTime=" + valueAt(CREATION_TIME_INDEX) +
+                ", lastModifiedTime=" + valueAt(LAST_MODIFIED_TIME_INDEX) +
+                ", lastAccessTime=" + valueAt(LAST_ACCESS_TIME_INDEX) +
+                ", archive=" + valueAt(ARCHIVE_INDEX) +
+                ", readOnly=" + valueAt(READ_ONLY_INDEX) +
+                ", hidden=" + valueAt(HIDDEN_INDEX) +
+                ", system=" + valueAt(SYSTEM_INDEX) +
+                ", fileExtension=" + valueAt(FILE_EXTENSION_INDEX) +
                 '}';
     }
 

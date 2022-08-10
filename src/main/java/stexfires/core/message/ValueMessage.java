@@ -23,18 +23,18 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     private final FieldValueMapper fieldValueMapper;
 
     public ValueMessage(int index) {
-        this(record -> record.getFieldAt(index), DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        this(record -> record.fieldAt(index), DEFAULT_NULL_FIELD_MESSAGE, Field::value);
     }
 
     public ValueMessage(int index,
                         @Nullable String nullFieldMessage) {
-        this(record -> record.getFieldAt(index), nullFieldMessage, Field::value);
+        this(record -> record.fieldAt(index), nullFieldMessage, Field::value);
     }
 
     public ValueMessage(int index,
                         @Nullable String nullFieldMessage,
                         FieldValueMapper fieldValueMapper) {
-        this(record -> record.getFieldAt(index), nullFieldMessage, fieldValueMapper);
+        this(record -> record.fieldAt(index), nullFieldMessage, fieldValueMapper);
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction) {
@@ -57,21 +57,21 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     public static <T extends KeyRecord> ValueMessage<T> key() {
-        return new ValueMessage<>(KeyRecord::getKeyField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        return new ValueMessage<>(KeyRecord::keyField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
     }
 
     public static <T extends KeyRecord> ValueMessage<T> keyField(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);
-        return new ValueMessage<>(KeyRecord::getKeyField, DEFAULT_NULL_FIELD_MESSAGE, fieldValueMapper);
+        return new ValueMessage<>(KeyRecord::keyField, DEFAULT_NULL_FIELD_MESSAGE, fieldValueMapper);
     }
 
     public static <T extends ValueRecord> ValueMessage<T> value() {
-        return new ValueMessage<>(ValueRecord::getValueField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        return new ValueMessage<>(ValueRecord::valueField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
     }
 
     public static <T extends ValueRecord> ValueMessage<T> valueField(FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fieldValueMapper);
-        return new ValueMessage<>(ValueRecord::getValueField, DEFAULT_NULL_FIELD_MESSAGE, fieldValueMapper);
+        return new ValueMessage<>(ValueRecord::valueField, DEFAULT_NULL_FIELD_MESSAGE, fieldValueMapper);
     }
 
     @Override

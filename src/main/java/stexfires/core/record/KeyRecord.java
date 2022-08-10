@@ -12,10 +12,10 @@ import stexfires.core.TextRecord;
  */
 public interface KeyRecord extends TextRecord {
 
-    @NotNull Field getKeyField();
+    @NotNull Field keyField();
 
-    default @NotNull String getValueOfKeyField() {
-        return getKeyField().value();
+    default @NotNull String valueOfKeyField() {
+        return keyField().value();
     }
 
 }

@@ -77,7 +77,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
                 List<String> newValues = new ArrayList<>(size);
                 for (int index = 0; index < size; index++) {
                     if (record.isValidIndex(index)) {
-                        newValues.add(record.getValueAt(index));
+                        newValues.add(record.valueAt(index));
                     } else {
                         newValues.add(fillingValue);
                     }

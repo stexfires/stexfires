@@ -13,10 +13,10 @@ public interface ValueRecord extends TextRecord {
 
     ValueRecord newValueRecord(@Nullable String value);
 
-    @NotNull Field getValueField();
+    @NotNull Field valueField();
 
-    default @Nullable String getValueOfValueField() {
-        return getValueField().value();
+    default @Nullable String valueOfValueField() {
+        return valueField().value();
     }
 
 }

@@ -104,16 +104,16 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> valueAt(int index) {
-        return new CategoryMapper<>(record -> record.getValueAt(index));
+        return new CategoryMapper<>(record -> record.valueAt(index));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> valueAtOrElse(int index, String other) {
-        return new CategoryMapper<>(record -> record.getValueAtOrElse(index, other));
+        return new CategoryMapper<>(record -> record.valueAtOrElse(index, other));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
         Objects.requireNonNull(fieldValueMapper);
-        return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.getFieldAt(index)) : other);
+        return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.fieldAt(index)) : other);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> fileName(Path path) {
