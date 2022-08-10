@@ -30,7 +30,7 @@ public class RecordIdMessage<T extends TextRecord> implements RecordMessage<T> {
 
     @Override
     public final @NotNull String createMessage(T record) {
-        return record.hasRecordId() ? prefix + record.getRecordId() : missingRecordIdMessage;
+        return record.hasRecordId() ? prefix + record.recordId() : missingRecordIdMessage;
     }
 
 }

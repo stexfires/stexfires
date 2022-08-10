@@ -23,7 +23,7 @@ public class ToSingleMapper<T extends TextRecord> implements RecordMapper<T, Sin
 
     @Override
     public final @NotNull SingleRecord map(@NotNull T record) {
-        return new SingleRecord(record.category(), record.getRecordId(),
+        return new SingleRecord(record.category(), record.recordId(),
                 record.getValueAt(valueIndex));
     }
 

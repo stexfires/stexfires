@@ -63,7 +63,7 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public final Long getRecordId() {
+    public final Long recordId() {
         return recordId;
     }
 

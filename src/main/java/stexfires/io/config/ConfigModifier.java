@@ -41,7 +41,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
 
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueRecord(
                 categoryOperator.apply(r.category()),
-                r.getRecordId(),
+                r.recordId(),
                 r.getValueAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
                 r.getValueAt(valueIndex));
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);

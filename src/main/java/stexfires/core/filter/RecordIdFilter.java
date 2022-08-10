@@ -64,7 +64,7 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
 
     @Override
     public final boolean isValid(T record) {
-        return record.hasRecordId() && recordIdPredicate.test(record.getRecordId());
+        return record.hasRecordId() && recordIdPredicate.test(record.recordId());
     }
 
 }

@@ -71,7 +71,7 @@ public class PairRecord implements TextRecord {
     }
 
     @Override
-    public final Long getRecordId() {
+    public final Long recordId() {
         return recordId;
     }
 

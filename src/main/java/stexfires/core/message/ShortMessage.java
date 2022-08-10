@@ -17,7 +17,7 @@ public class ShortMessage<T extends TextRecord> implements RecordMessage<T> {
         return record.getClass().getSimpleName()
                 + "[" + record.size()
                 + (record.hasCategory() ? ", '" + record.category() + "'" : "")
-                + (record.hasRecordId() ? ", #" + record.getRecordId() : "")
+                + (record.hasRecordId() ? ", #" + record.recordId() : "")
                 + "]";
     }
 

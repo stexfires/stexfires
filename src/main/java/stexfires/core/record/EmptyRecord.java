@@ -43,7 +43,7 @@ public final class EmptyRecord implements TextRecord {
     }
 
     @Override
-    public @Nullable Long getRecordId() {
+    public @Nullable Long recordId() {
         return null;
     }
 

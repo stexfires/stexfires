@@ -43,20 +43,20 @@ public final class RecordComparators {
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(TextRecord::getRecordId, comparator);
+        return comparing(TextRecord::recordId, comparator);
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator,
                                                                 NULLS nulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(nulls);
-        return comparing(TextRecord::getRecordId, nulls.wrappedComparator(comparator));
+        return comparing(TextRecord::recordId, nulls.wrappedComparator(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(NULLS nulls) {
         Objects.requireNonNull(nulls);
         Comparator<Long> naturalOrderComparator = naturalOrder();
-        return comparing(TextRecord::getRecordId, nulls.wrappedComparator(naturalOrderComparator));
+        return comparing(TextRecord::recordId, nulls.wrappedComparator(naturalOrderComparator));
     }
 
     public static <T extends TextRecord> Comparator<T> size() {

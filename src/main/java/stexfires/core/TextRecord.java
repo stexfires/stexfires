@@ -47,25 +47,25 @@ public interface TextRecord {
         return Stream.ofNullable(category());
     }
 
-    Long getRecordId();
+    Long recordId();
 
     default boolean hasRecordId() {
-        return getRecordId() != null;
+        return recordId() != null;
     }
 
-    default OptionalLong getRecordIdAsOptionalLong() {
-        return hasRecordId() ? OptionalLong.of(getRecordId()) : OptionalLong.empty();
+    default OptionalLong recordIdAsOptionalLong() {
+        return hasRecordId() ? OptionalLong.of(recordId()) : OptionalLong.empty();
     }
 
-    default Optional<Long> getRecordIdAsOptional() {
-        return Optional.ofNullable(getRecordId());
+    default Optional<Long> recordIdAsOptional() {
+        return Optional.ofNullable(recordId());
     }
 
-    default LongStream streamOfRecordId() {
-        if (getRecordId() == null) {
+    default LongStream recordIdAsStream() {
+        if (recordId() == null) {
             return LongStream.empty();
         }
-        return LongStream.of(getRecordId());
+        return LongStream.of(recordId());
     }
 
     int size();

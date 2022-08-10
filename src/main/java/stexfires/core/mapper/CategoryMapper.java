@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public CategoryMapper(Function<? super T, String> categoryFunction) {
-        super(categoryFunction, TextRecord::getRecordId, Fields::collectValues);
+        super(categoryFunction, TextRecord::recordId, Fields::collectValues);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> identity() {
@@ -100,7 +100,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> recordId() {
-        return new CategoryMapper<>(record -> Strings.asString(record.getRecordId()));
+        return new CategoryMapper<>(record -> Strings.asString(record.recordId()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> valueAt(int index) {

@@ -89,7 +89,7 @@ public final class CompareMessageBuilder {
             }
             if (buildRecordId) {
                 builder.append("recordId[");
-                builder.append(record.getRecordId());
+                builder.append(record.recordId());
                 builder.append("]");
             }
             if (buildSize) {

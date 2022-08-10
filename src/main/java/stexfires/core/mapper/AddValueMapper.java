@@ -104,7 +104,7 @@ public class AddValueMapper<T extends TextRecord> extends ValuesMapper<T> {
     }
 
     public static <T extends TextRecord> AddValueMapper<T> recordId() {
-        return new AddValueMapper<>(record -> Strings.asString(record.getRecordId()));
+        return new AddValueMapper<>(record -> Strings.asString(record.recordId()));
     }
 
     public static <T extends TextRecord> AddValueMapper<T> valueAt(int index) {

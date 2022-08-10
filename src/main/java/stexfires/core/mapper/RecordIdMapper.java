@@ -24,7 +24,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> identity() {
-        return new RecordIdMapper<>(TextRecord::getRecordId);
+        return new RecordIdMapper<>(TextRecord::recordId);
     }
 
     /**
@@ -71,7 +71,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> recordId() {
-        return new RecordIdMapper<>(TextRecord::getRecordId);
+        return new RecordIdMapper<>(TextRecord::recordId);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> valueAt(int index, Function<String, Long> valueFunction) {
