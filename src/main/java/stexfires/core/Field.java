@@ -45,6 +45,10 @@ public record Field(int index, int maxIndex, String value) {
         return index == maxIndex;
     }
 
+    public boolean hasValue() {
+        return value != null;
+    }
+
     public String valueOrElse(@Nullable String other) {
         return value != null ? value : other;
     }
