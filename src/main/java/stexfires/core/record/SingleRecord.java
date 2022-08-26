@@ -21,7 +21,7 @@ public class SingleRecord implements ValueRecord {
 
     private final String category;
     private final Long recordId;
-    private final Field singleField;
+    private final Field valueField;
 
     private final int hashCode;
 
@@ -32,9 +32,9 @@ public class SingleRecord implements ValueRecord {
     public SingleRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
         this.category = category;
         this.recordId = recordId;
-        this.singleField = Fields.newArray(value)[VALUE_INDEX];
+        this.valueField = Fields.newArray(value)[VALUE_INDEX];
 
-        hashCode = Objects.hash(category, recordId, singleField);
+        hashCode = Objects.hash(category, recordId, valueField);
     }
 
     @Override
@@ -44,17 +44,17 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public final Field[] arrayOfFields() {
-        return new Field[]{singleField};
+        return new Field[]{valueField};
     }
 
     @Override
     public final List<Field> listOfFields() {
-        return Collections.singletonList(singleField);
+        return Collections.singletonList(valueField);
     }
 
     @Override
     public final Stream<Field> streamOfFields() {
-        return Stream.of(singleField);
+        return Stream.of(valueField);
     }
 
     @Override
@@ -85,43 +85,37 @@ public class SingleRecord implements ValueRecord {
     @SuppressWarnings("ReturnOfNull")
     @Override
     public final Field fieldAt(int index) {
-        return (index == VALUE_INDEX) ? singleField : null;
+        return (index == VALUE_INDEX) ? valueField : null;
     }
 
     @Override
     public final @NotNull Field firstField() {
-        return singleField;
+        return valueField;
     }
 
     @Override
     public final @NotNull Field lastField() {
-        return singleField;
+        return valueField;
     }
 
     @Override
     public final @NotNull Field valueField() {
-        return singleField;
-    }
-
-    @SuppressWarnings("ReturnOfNull")
-    @Override
-    public final String valueAt(int index) {
-        return (index == VALUE_INDEX) ? singleField.value() : null;
+        return valueField;
     }
 
     @Override
-    public final String valueOfValueField() {
-        return singleField.value();
+    public final @Nullable String valueOfFirstField() {
+        return valueField.value();
     }
 
     @Override
-    public final String valueOfFirstField() {
-        return singleField.value();
+    public final @Nullable String valueOfLastField() {
+        return valueField.value();
     }
 
     @Override
-    public final String valueOfLastField() {
-        return singleField.value();
+    public final @Nullable String valueOfValueField() {
+        return valueField.value();
     }
 
     @Override
@@ -134,7 +128,7 @@ public class SingleRecord implements ValueRecord {
         SingleRecord record = (SingleRecord) obj;
         return Objects.equals(category, record.category) &&
                 Objects.equals(recordId, record.recordId) &&
-                Objects.equals(singleField, record.singleField);
+                Objects.equals(valueField, record.valueField);
     }
 
     @Override
@@ -147,7 +141,7 @@ public class SingleRecord implements ValueRecord {
         return "SingleRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
-                ", value=" + singleField.value() +
+                ", value=" + valueField.value() +
                 '}';
     }
 
