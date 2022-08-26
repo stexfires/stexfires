@@ -17,8 +17,8 @@ import java.util.stream.Stream;
  */
 public class PairRecord implements TextRecord {
 
-    public static final int FIRST_VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
-    public static final int SECOND_VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
+    public static final int FIRST_INDEX = Fields.FIRST_FIELD_INDEX;
+    public static final int SECOND_INDEX = Fields.FIRST_FIELD_INDEX + 1;
     public static final int FIELD_SIZE = 2;
 
     private final String category;
@@ -37,8 +37,8 @@ public class PairRecord implements TextRecord {
         this.category = category;
         this.recordId = recordId;
         Field[] fields = Fields.newArray(firstValue, secondValue);
-        firstField = fields[FIRST_VALUE_INDEX];
-        secondField = fields[SECOND_VALUE_INDEX];
+        firstField = fields[FIRST_INDEX];
+        secondField = fields[SECOND_INDEX];
 
         hashCode = Objects.hash(category, recordId, firstField, secondField);
     }
@@ -87,15 +87,15 @@ public class PairRecord implements TextRecord {
 
     @Override
     public final boolean isValidIndex(int index) {
-        return index == FIRST_VALUE_INDEX || index == SECOND_VALUE_INDEX;
+        return index == FIRST_INDEX || index == SECOND_INDEX;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
     public final Field fieldAt(int index) {
         return switch (index) {
-            case FIRST_VALUE_INDEX -> firstField;
-            case SECOND_VALUE_INDEX -> secondField;
+            case FIRST_INDEX -> firstField;
+            case SECOND_INDEX -> secondField;
             default -> null;
         };
     }
@@ -115,16 +115,16 @@ public class PairRecord implements TextRecord {
     }
 
     @Override
-    public final String valueOfFirstField() {
+    public final @Nullable String valueOfFirstField() {
         return firstField.value();
     }
 
     @Override
-    public final String valueOfLastField() {
+    public final @Nullable String valueOfLastField() {
         return secondField.value();
     }
 
-    public final String valueOfSecondField() {
+    public final @Nullable String valueOfSecondField() {
         return secondField.value();
     }
 
