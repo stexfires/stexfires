@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ManyValuesRecord implements TextRecord {
+public final class ManyValuesRecord implements TextRecord {
 
     private final String category;
     private final Long recordId;
@@ -71,40 +71,40 @@ public class ManyValuesRecord implements TextRecord {
     }
 
     @Override
-    public final Field[] arrayOfFields() {
+    public Field[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public final List<Field> listOfFields() {
+    public List<Field> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public final Stream<Field> streamOfFields() {
+    public Stream<Field> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 
     @Override
-    public final String category() {
+    public String category() {
         return category;
     }
 
     @Override
-    public final Long recordId() {
+    public Long recordId() {
         return recordId;
     }
 
     @Override
-    public final int size() {
+    public int size() {
         return fields.length;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field fieldAt(int index) {
+    public Field fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 
