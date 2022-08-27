@@ -1,6 +1,6 @@
 package stexfires.io.markdown.list;
 
-import stexfires.core.ValueRecord;
+import stexfires.record.ValueRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.WritableRecordConsumer;
 

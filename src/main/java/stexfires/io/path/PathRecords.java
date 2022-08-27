@@ -1,6 +1,6 @@
 package stexfires.io.path;
 
-import stexfires.core.TextRecord;
+import stexfires.record.TextRecord;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

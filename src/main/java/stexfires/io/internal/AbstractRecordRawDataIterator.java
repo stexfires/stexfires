@@ -1,7 +1,7 @@
 package stexfires.io.internal;
 
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

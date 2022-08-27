@@ -1,9 +1,9 @@
 package stexfires.io.combined;
 
-import stexfires.core.TextRecord;
-import stexfires.core.TextRecordStreams;
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
+import stexfires.record.TextRecord;
+import stexfires.record.TextRecordStreams;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 import stexfires.io.ReadableRecordProducer;
 
 import java.io.IOException;

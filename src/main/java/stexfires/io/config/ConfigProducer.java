@@ -1,6 +1,6 @@
 package stexfires.io.config;
 
-import stexfires.core.impl.KeyValueRecord;
+import stexfires.record.impl.KeyValueRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;

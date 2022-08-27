@@ -1,6 +1,6 @@
 package stexfires.io.delimited.simple;
 
-import stexfires.core.TextRecord;
+import stexfires.record.TextRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;

@@ -1,16 +1,16 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.TextRecord;
-import stexfires.core.comparator.NULLS;
-import stexfires.core.comparator.RecordComparators;
-import stexfires.core.mapper.RecordMapper;
-import stexfires.core.message.CompareMessageBuilder;
-import stexfires.core.modifier.DistinctModifier;
-import stexfires.core.modifier.MapModifier;
-import stexfires.core.modifier.RecordStreamModifier;
-import stexfires.core.modifier.SortModifier;
-import stexfires.core.impl.KeyValueRecord;
+import stexfires.record.TextRecord;
+import stexfires.record.comparator.NULLS;
+import stexfires.record.comparator.RecordComparators;
+import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.CompareMessageBuilder;
+import stexfires.record.modifier.DistinctModifier;
+import stexfires.record.modifier.MapModifier;
+import stexfires.record.modifier.RecordStreamModifier;
+import stexfires.record.modifier.SortModifier;
+import stexfires.record.impl.KeyValueRecord;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.util.Comparator;

@@ -1,6 +1,6 @@
 package stexfires.io.path;
 
-import stexfires.core.filter.RecordFilter;
+import stexfires.record.filter.RecordFilter;
 
 import java.util.Objects;
 

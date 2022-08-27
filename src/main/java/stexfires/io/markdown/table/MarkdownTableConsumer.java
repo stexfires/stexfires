@@ -1,9 +1,9 @@
 package stexfires.io.markdown.table;
 
-import stexfires.core.Field;
-import stexfires.core.TextRecord;
-import stexfires.core.consumer.ConsumerException;
-import stexfires.core.consumer.UncheckedConsumerException;
+import stexfires.record.Field;
+import stexfires.record.TextRecord;
+import stexfires.record.consumer.ConsumerException;
+import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.util.Alignment;
 

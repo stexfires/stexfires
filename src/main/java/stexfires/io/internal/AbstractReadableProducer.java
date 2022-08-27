@@ -1,9 +1,9 @@
 package stexfires.io.internal;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.TextRecord;
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.UncheckedProducerException;
+import stexfires.record.TextRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 import stexfires.io.ReadableRecordProducer;
 
 import java.io.BufferedReader;

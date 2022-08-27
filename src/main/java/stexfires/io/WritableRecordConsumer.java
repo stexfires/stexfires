@@ -1,9 +1,9 @@
 package stexfires.io;
 
-import stexfires.core.TextRecord;
-import stexfires.core.consumer.ConsumerException;
-import stexfires.core.consumer.RecordConsumer;
-import stexfires.core.consumer.UncheckedConsumerException;
+import stexfires.record.TextRecord;
+import stexfires.record.consumer.ConsumerException;
+import stexfires.record.consumer.RecordConsumer;
+import stexfires.record.consumer.UncheckedConsumerException;
 
 import java.io.Closeable;
 import java.io.Flushable;

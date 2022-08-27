@@ -1,17 +1,17 @@
 package stexfires.io;
 
-import stexfires.core.TextRecord;
-import stexfires.core.TextRecordStreams;
-import stexfires.core.consumer.ConsumerException;
-import stexfires.core.consumer.LoggerConsumer;
-import stexfires.core.consumer.RecordConsumer;
-import stexfires.core.consumer.UncheckedConsumerException;
-import stexfires.core.logger.RecordLogger;
-import stexfires.core.mapper.RecordMapper;
-import stexfires.core.modifier.RecordStreamModifier;
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.RecordProducer;
-import stexfires.core.producer.UncheckedProducerException;
+import stexfires.record.TextRecord;
+import stexfires.record.TextRecordStreams;
+import stexfires.record.consumer.ConsumerException;
+import stexfires.record.consumer.LoggerConsumer;
+import stexfires.record.consumer.RecordConsumer;
+import stexfires.record.consumer.UncheckedConsumerException;
+import stexfires.record.logger.RecordLogger;
+import stexfires.record.mapper.RecordMapper;
+import stexfires.record.modifier.RecordStreamModifier;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.RecordProducer;
+import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.IOException;
 import java.util.Objects;

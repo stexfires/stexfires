@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.core.TextRecord;
+import stexfires.record.TextRecord;
 import stexfires.io.ReadableRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.spec.RecordFileSpec;

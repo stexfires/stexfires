@@ -1,9 +1,9 @@
 package stexfires.io;
 
-import stexfires.core.TextRecord;
-import stexfires.core.producer.ProducerException;
-import stexfires.core.producer.RecordProducer;
-import stexfires.core.producer.UncheckedProducerException;
+import stexfires.record.TextRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.RecordProducer;
+import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.Closeable;
 import java.io.IOException;

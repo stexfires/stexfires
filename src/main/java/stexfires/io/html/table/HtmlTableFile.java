@@ -1,6 +1,6 @@
 package stexfires.io.html.table;
 
-import stexfires.core.TextRecord;
+import stexfires.record.TextRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.WritableRecordConsumer;
 

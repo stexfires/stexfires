@@ -1,0 +1,30 @@
+package stexfires.record.mapper;
+
+import org.jetbrains.annotations.NotNull;
+import stexfires.record.Fields;
+import stexfires.record.TextRecord;
+import stexfires.record.impl.SingleRecord;
+
+/**
+ * @author Mathias Kalb
+ * @since 0.1
+ */
+public class ToSingleMapper<T extends TextRecord> implements RecordMapper<T, SingleRecord> {
+
+    private final int valueIndex;
+
+    public ToSingleMapper() {
+        this(Fields.FIRST_FIELD_INDEX);
+    }
+
+    public ToSingleMapper(int valueIndex) {
+        this.valueIndex = valueIndex;
+    }
+
+    @Override
+    public final @NotNull SingleRecord map(@NotNull T record) {
+        return new SingleRecord(record.category(), record.recordId(),
+                record.valueAt(valueIndex));
+    }
+
+}
