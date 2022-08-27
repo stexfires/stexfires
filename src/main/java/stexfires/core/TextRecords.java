@@ -11,7 +11,6 @@ import stexfires.core.record.EmptyRecord;
 import stexfires.core.record.PairRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
-import stexfires.core.record.ValueRecord;
 import stexfires.util.supplier.SequenceLongSupplier;
 import stexfires.util.supplier.SequencePrimitiveLongSupplier;
 

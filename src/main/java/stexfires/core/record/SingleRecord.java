@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
+import stexfires.core.ValueRecord;
 
 import java.util.Collections;
 import java.util.List;

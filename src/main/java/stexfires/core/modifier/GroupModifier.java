@@ -6,7 +6,7 @@ import stexfires.core.message.RecordMessage;
 import stexfires.core.KeyRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
-import stexfires.core.record.ValueRecord;
+import stexfires.core.ValueRecord;
 import stexfires.util.NumberCheckType;
 
 import java.util.Comparator;

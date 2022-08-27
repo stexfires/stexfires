@@ -2,7 +2,7 @@ package stexfires.io.singlevalue;
 
 import stexfires.core.consumer.ConsumerException;
 import stexfires.core.consumer.UncheckedConsumerException;
-import stexfires.core.record.ValueRecord;
+import stexfires.core.ValueRecord;
 import stexfires.io.internal.AbstractWritableConsumer;
 
 import java.io.BufferedWriter;

@@ -1,9 +1,7 @@
-package stexfires.core.record;
+package stexfires.core;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.Field;
-import stexfires.core.TextRecord;
 
 /**
  * @author Mathias Kalb

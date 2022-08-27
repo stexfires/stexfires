@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.Fields;
 import stexfires.core.KeyRecord;
+import stexfires.core.ValueRecord;
 
 import java.util.ArrayList;
 import java.util.List;
