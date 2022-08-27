@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class KeyValueRecord implements KeyRecord, ValueRecord {
+public final class KeyValueRecord implements KeyRecord, ValueRecord {
 
     public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
@@ -57,12 +57,12 @@ public class KeyValueRecord implements KeyRecord, ValueRecord {
     }
 
     @Override
-    public final Field[] arrayOfFields() {
+    public Field[] arrayOfFields() {
         return new Field[]{keyField, valueField};
     }
 
     @Override
-    public final List<Field> listOfFields() {
+    public List<Field> listOfFields() {
         List<Field> list = new ArrayList<>(FIELD_SIZE);
         list.add(keyField);
         list.add(valueField);
@@ -70,38 +70,38 @@ public class KeyValueRecord implements KeyRecord, ValueRecord {
     }
 
     @Override
-    public final Stream<Field> streamOfFields() {
+    public Stream<Field> streamOfFields() {
         return Stream.of(keyField, valueField);
     }
 
     @Override
-    public final String category() {
+    public String category() {
         return category;
     }
 
     @Override
-    public final Long recordId() {
+    public Long recordId() {
         return recordId;
     }
 
     @Override
-    public final int size() {
+    public int size() {
         return FIELD_SIZE;
     }
 
     @Override
-    public final boolean isEmpty() {
+    public boolean isEmpty() {
         return false;
     }
 
     @Override
-    public final boolean isValidIndex(int index) {
+    public boolean isValidIndex(int index) {
         return index == KEY_INDEX || index == VALUE_INDEX;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field fieldAt(int index) {
+    public Field fieldAt(int index) {
         return switch (index) {
             case KEY_INDEX -> keyField;
             case VALUE_INDEX -> valueField;
@@ -110,42 +110,42 @@ public class KeyValueRecord implements KeyRecord, ValueRecord {
     }
 
     @Override
-    public final @NotNull Field firstField() {
+    public @NotNull Field firstField() {
         return keyField;
     }
 
     @Override
-    public final @NotNull Field lastField() {
+    public @NotNull Field lastField() {
         return valueField;
     }
 
     @Override
-    public final @NotNull Field keyField() {
+    public @NotNull Field keyField() {
         return keyField;
     }
 
     @Override
-    public final @NotNull Field valueField() {
+    public @NotNull Field valueField() {
         return valueField;
     }
 
     @Override
-    public final @NotNull String valueOfFirstField() {
+    public @NotNull String valueOfFirstField() {
         return keyField.value();
     }
 
     @Override
-    public final @Nullable String valueOfLastField() {
+    public @Nullable String valueOfLastField() {
         return valueField.value();
     }
 
     @Override
-    public final @NotNull String valueOfKeyField() {
+    public @NotNull String valueOfKeyField() {
         return keyField.value();
     }
 
     @Override
-    public final @Nullable String valueOfValueField() {
+    public @Nullable String valueOfValueField() {
         return valueField.value();
     }
 
