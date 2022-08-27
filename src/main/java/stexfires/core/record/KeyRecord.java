@@ -12,6 +12,8 @@ import stexfires.core.TextRecord;
  */
 public interface KeyRecord extends TextRecord {
 
+    KeyRecord newKeyRecord(@NotNull String key);
+
     @NotNull Field keyField();
 
     default @NotNull String valueOfKeyField() {
