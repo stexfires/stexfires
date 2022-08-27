@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class TwoValuesRecord implements TextRecord {
+public final class TwoValuesRecord implements TextRecord {
 
     public static final int FIRST_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int SECOND_INDEX = Fields.FIRST_FIELD_INDEX + 1;
@@ -48,12 +48,12 @@ public class TwoValuesRecord implements TextRecord {
     }
 
     @Override
-    public final Field[] arrayOfFields() {
+    public Field[] arrayOfFields() {
         return new Field[]{firstField, secondField};
     }
 
     @Override
-    public final List<Field> listOfFields() {
+    public List<Field> listOfFields() {
         List<Field> list = new ArrayList<>(FIELD_SIZE);
         list.add(firstField);
         list.add(secondField);
@@ -61,38 +61,38 @@ public class TwoValuesRecord implements TextRecord {
     }
 
     @Override
-    public final Stream<Field> streamOfFields() {
+    public Stream<Field> streamOfFields() {
         return Stream.of(firstField, secondField);
     }
 
     @Override
-    public final String category() {
+    public String category() {
         return category;
     }
 
     @Override
-    public final Long recordId() {
+    public Long recordId() {
         return recordId;
     }
 
     @Override
-    public final int size() {
+    public int size() {
         return FIELD_SIZE;
     }
 
     @Override
-    public final boolean isEmpty() {
+    public boolean isEmpty() {
         return false;
     }
 
     @Override
-    public final boolean isValidIndex(int index) {
+    public boolean isValidIndex(int index) {
         return index == FIRST_INDEX || index == SECOND_INDEX;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field fieldAt(int index) {
+    public Field fieldAt(int index) {
         return switch (index) {
             case FIRST_INDEX -> firstField;
             case SECOND_INDEX -> secondField;
@@ -101,30 +101,30 @@ public class TwoValuesRecord implements TextRecord {
     }
 
     @Override
-    public final @NotNull Field firstField() {
+    public @NotNull Field firstField() {
         return firstField;
     }
 
     @Override
-    public final @NotNull Field lastField() {
+    public @NotNull Field lastField() {
         return secondField;
     }
 
-    public final @NotNull Field secondField() {
+    public @NotNull Field secondField() {
         return secondField;
     }
 
     @Override
-    public final @Nullable String valueOfFirstField() {
+    public @Nullable String valueOfFirstField() {
         return firstField.value();
     }
 
     @Override
-    public final @Nullable String valueOfLastField() {
+    public @Nullable String valueOfLastField() {
         return secondField.value();
     }
 
-    public final @Nullable String valueOfSecondField() {
+    public @Nullable String valueOfSecondField() {
         return secondField.value();
     }
 

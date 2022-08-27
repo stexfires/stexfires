@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class OneValueRecord implements ValueRecord {
+public final class OneValueRecord implements ValueRecord {
 
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int FIELD_SIZE = 1;
@@ -44,78 +44,78 @@ public class OneValueRecord implements ValueRecord {
     }
 
     @Override
-    public final Field[] arrayOfFields() {
+    public Field[] arrayOfFields() {
         return new Field[]{valueField};
     }
 
     @Override
-    public final List<Field> listOfFields() {
+    public List<Field> listOfFields() {
         return Collections.singletonList(valueField);
     }
 
     @Override
-    public final Stream<Field> streamOfFields() {
+    public Stream<Field> streamOfFields() {
         return Stream.of(valueField);
     }
 
     @Override
-    public final String category() {
+    public String category() {
         return category;
     }
 
     @Override
-    public final Long recordId() {
+    public Long recordId() {
         return recordId;
     }
 
     @Override
-    public final int size() {
+    public int size() {
         return FIELD_SIZE;
     }
 
     @Override
-    public final boolean isEmpty() {
+    public boolean isEmpty() {
         return false;
     }
 
     @Override
-    public final boolean isValidIndex(int index) {
+    public boolean isValidIndex(int index) {
         return index == VALUE_INDEX;
     }
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field fieldAt(int index) {
+    public Field fieldAt(int index) {
         return (index == VALUE_INDEX) ? valueField : null;
     }
 
     @Override
-    public final @NotNull Field firstField() {
+    public @NotNull Field firstField() {
         return valueField;
     }
 
     @Override
-    public final @NotNull Field lastField() {
+    public @NotNull Field lastField() {
         return valueField;
     }
 
     @Override
-    public final @NotNull Field valueField() {
+    public @NotNull Field valueField() {
         return valueField;
     }
 
     @Override
-    public final @Nullable String valueOfFirstField() {
+    public @Nullable String valueOfFirstField() {
         return valueField.value();
     }
 
     @Override
-    public final @Nullable String valueOfLastField() {
+    public @Nullable String valueOfLastField() {
         return valueField.value();
     }
 
     @Override
-    public final @Nullable String valueOfValueField() {
+    public @Nullable String valueOfValueField() {
         return valueField.value();
     }
 
