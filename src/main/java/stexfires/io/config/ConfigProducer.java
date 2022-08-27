@@ -1,9 +1,9 @@
 package stexfires.io.config;
 
-import stexfires.record.impl.KeyValueRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
+import stexfires.record.impl.KeyValueRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;

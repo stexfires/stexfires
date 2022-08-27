@@ -4,13 +4,13 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
-import stexfires.record.logger.RecordLogger;
-import stexfires.record.mapper.RecordMapper;
-import stexfires.record.message.RecordMessage;
 import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.PairRecord;
 import stexfires.record.impl.SingleRecord;
 import stexfires.record.impl.StandardRecord;
+import stexfires.record.logger.RecordLogger;
+import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.RecordMessage;
 import stexfires.util.supplier.SequenceLongSupplier;
 import stexfires.util.supplier.SequencePrimitiveLongSupplier;
 

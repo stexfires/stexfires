@@ -1,8 +1,8 @@
 package stexfires.io.markdown.list;
 
-import stexfires.record.ValueRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.record.ValueRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;

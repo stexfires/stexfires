@@ -1,9 +1,9 @@
 package stexfires.io.properties;
 
-import stexfires.record.impl.KeyValueRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.record.impl.KeyValueRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;

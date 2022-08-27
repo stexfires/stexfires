@@ -1,10 +1,10 @@
 package stexfires.io.combined;
 
+import stexfires.io.ReadableRecordProducer;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
-import stexfires.io.ReadableRecordProducer;
 
 import java.io.IOException;
 import java.util.Objects;

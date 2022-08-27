@@ -1,7 +1,7 @@
 package stexfires.io;
 
-import stexfires.record.TextRecord;
 import stexfires.io.spec.RecordFileSpec;
+import stexfires.record.TextRecord;
 
 import java.io.IOException;
 

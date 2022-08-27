@@ -1,8 +1,8 @@
 package stexfires.record.comparator;
 
 import stexfires.record.Field;
-import stexfires.record.TextRecord;
 import stexfires.record.KeyRecord;
+import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
 
 import java.util.Comparator;

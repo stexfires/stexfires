@@ -1,9 +1,9 @@
 package stexfires.io.delimited.simple;
 
-import stexfires.record.TextRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.record.TextRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;

@@ -2,11 +2,11 @@ package stexfires.io.html.table;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.record.Field;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.io.internal.AbstractWritableConsumer;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

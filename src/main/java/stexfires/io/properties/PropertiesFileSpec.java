@@ -1,8 +1,8 @@
 package stexfires.io.properties;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.impl.KeyValueRecord;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.impl.KeyValueRecord;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;

@@ -1,9 +1,9 @@
 package stexfires.io.internal;
 
+import stexfires.io.WritableRecordConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.io.WritableRecordConsumer;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;

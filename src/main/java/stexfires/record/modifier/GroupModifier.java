@@ -1,12 +1,12 @@
 package stexfires.record.modifier;
 
 import stexfires.record.Field;
-import stexfires.record.TextRecord;
-import stexfires.record.message.RecordMessage;
 import stexfires.record.KeyRecord;
+import stexfires.record.TextRecord;
+import stexfires.record.ValueRecord;
 import stexfires.record.impl.SingleRecord;
 import stexfires.record.impl.StandardRecord;
-import stexfires.record.ValueRecord;
+import stexfires.record.message.RecordMessage;
 import stexfires.util.NumberCheckType;
 
 import java.util.Comparator;

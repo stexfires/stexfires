@@ -1,10 +1,10 @@
 package stexfires.io.delimited.simple;
 
-import stexfires.record.TextRecord;
-import stexfires.record.impl.StandardRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
+import stexfires.record.TextRecord;
+import stexfires.record.impl.StandardRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;

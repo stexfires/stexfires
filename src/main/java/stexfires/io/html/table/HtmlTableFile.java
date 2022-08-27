@@ -1,8 +1,8 @@
 package stexfires.io.html.table;
 
-import stexfires.record.TextRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.record.TextRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;

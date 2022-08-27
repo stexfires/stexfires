@@ -1,9 +1,9 @@
 package stexfires.io.singlevalue;
 
-import stexfires.record.impl.SingleRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
+import stexfires.record.impl.SingleRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;

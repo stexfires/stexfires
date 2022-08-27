@@ -1,10 +1,10 @@
 package stexfires.io.markdown.table;
 
+import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.record.Field;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.io.internal.AbstractWritableConsumer;
 import stexfires.util.Alignment;
 
 import java.io.BufferedWriter;

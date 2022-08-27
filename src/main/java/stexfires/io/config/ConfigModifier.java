@@ -4,13 +4,13 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.NULLS;
 import stexfires.record.comparator.RecordComparators;
+import stexfires.record.impl.KeyValueRecord;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.CompareMessageBuilder;
 import stexfires.record.modifier.DistinctModifier;
 import stexfires.record.modifier.MapModifier;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.modifier.SortModifier;
-import stexfires.record.impl.KeyValueRecord;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.util.Comparator;

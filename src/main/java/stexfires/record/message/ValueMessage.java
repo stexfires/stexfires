@@ -2,10 +2,10 @@ package stexfires.record.message;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.Field;
-import stexfires.record.TextRecord;
-import stexfires.record.mapper.fieldvalue.FieldValueMapper;
 import stexfires.record.KeyRecord;
+import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
+import stexfires.record.mapper.fieldvalue.FieldValueMapper;
 
 import java.util.Objects;
 import java.util.function.Function;

@@ -1,10 +1,10 @@
 package stexfires.io.singlevalue;
 
-import stexfires.record.impl.SingleRecord;
-import stexfires.record.ValueRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
+import stexfires.record.ValueRecord;
+import stexfires.record.impl.SingleRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;
