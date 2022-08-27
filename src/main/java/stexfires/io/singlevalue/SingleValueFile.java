@@ -1,6 +1,6 @@
 package stexfires.io.singlevalue;
 
-import stexfires.core.record.SingleRecord;
+import stexfires.core.impl.SingleRecord;
 import stexfires.core.ValueRecord;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;

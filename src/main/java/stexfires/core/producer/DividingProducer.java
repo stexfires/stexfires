@@ -2,7 +2,7 @@ package stexfires.core.producer;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.core.TextRecords;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.StandardRecord;
 
 import java.util.ArrayList;
 import java.util.List;

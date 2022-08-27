@@ -3,7 +3,7 @@ package stexfires.core.mapper;
 import org.jetbrains.annotations.NotNull;
 import stexfires.core.Fields;
 import stexfires.core.TextRecord;
-import stexfires.core.record.SingleRecord;
+import stexfires.core.impl.SingleRecord;
 
 /**
  * @author Mathias Kalb

@@ -1,7 +1,7 @@
 package stexfires.io.path;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.StandardRecord;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

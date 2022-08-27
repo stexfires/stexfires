@@ -1,7 +1,7 @@
 package stexfires.core.modifier;
 
 import stexfires.core.TextRecord;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.StandardRecord;
 import stexfires.util.Strings;
 
 import java.util.Arrays;

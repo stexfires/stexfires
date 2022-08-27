@@ -7,10 +7,10 @@ import stexfires.core.filter.RecordFilter;
 import stexfires.core.logger.RecordLogger;
 import stexfires.core.mapper.RecordMapper;
 import stexfires.core.message.RecordMessage;
-import stexfires.core.record.EmptyRecord;
-import stexfires.core.record.PairRecord;
-import stexfires.core.record.SingleRecord;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.EmptyRecord;
+import stexfires.core.impl.PairRecord;
+import stexfires.core.impl.SingleRecord;
+import stexfires.core.impl.StandardRecord;
 import stexfires.util.supplier.SequenceLongSupplier;
 import stexfires.util.supplier.SequencePrimitiveLongSupplier;
 

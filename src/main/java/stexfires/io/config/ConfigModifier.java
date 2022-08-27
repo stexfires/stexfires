@@ -10,7 +10,7 @@ import stexfires.core.modifier.DistinctModifier;
 import stexfires.core.modifier.MapModifier;
 import stexfires.core.modifier.RecordStreamModifier;
 import stexfires.core.modifier.SortModifier;
-import stexfires.core.record.KeyValueRecord;
+import stexfires.core.impl.KeyValueRecord;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.util.Comparator;

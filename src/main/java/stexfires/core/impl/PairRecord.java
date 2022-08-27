@@ -1,4 +1,4 @@
-package stexfires.core.record;
+package stexfires.core.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

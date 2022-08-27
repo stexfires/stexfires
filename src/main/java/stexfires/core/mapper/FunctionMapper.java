@@ -2,7 +2,7 @@ package stexfires.core.mapper;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.core.TextRecord;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.StandardRecord;
 
 import java.util.Collection;
 import java.util.Objects;

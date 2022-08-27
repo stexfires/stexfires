@@ -1,7 +1,7 @@
 package stexfires.io.delimited.simple;
 
 import stexfires.core.TextRecord;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.StandardRecord;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;

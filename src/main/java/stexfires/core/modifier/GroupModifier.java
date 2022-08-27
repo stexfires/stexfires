@@ -4,8 +4,8 @@ import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
 import stexfires.core.KeyRecord;
-import stexfires.core.record.SingleRecord;
-import stexfires.core.record.StandardRecord;
+import stexfires.core.impl.SingleRecord;
+import stexfires.core.impl.StandardRecord;
 import stexfires.core.ValueRecord;
 import stexfires.util.NumberCheckType;
 
