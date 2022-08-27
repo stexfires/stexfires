@@ -5,9 +5,9 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.PairRecord;
-import stexfires.record.impl.SingleRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
+import stexfires.record.impl.OneValueRecord;
+import stexfires.record.impl.TwoValuesRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
@@ -50,18 +50,18 @@ public final class TextRecords {
     }
 
     public static ValueRecord ofValue(@Nullable String value) {
-        return new SingleRecord(value);
+        return new OneValueRecord(value);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public static TextRecord ofValues(String... values) {
         Objects.requireNonNull(values);
-        return new StandardRecord(values);
+        return new ManyValuesRecord(values);
     }
 
     public static TextRecord ofValues(Collection<String> values) {
         Objects.requireNonNull(values);
-        return new StandardRecord(values);
+        return new ManyValuesRecord(values);
     }
 
     public static <T extends TextRecord> List<T> list(T record) {
@@ -201,9 +201,10 @@ public final class TextRecords {
                 throw new IllegalStateException("build() already called");
             }
             TextRecord record = switch (valueList.size()) {
-                case SingleRecord.FIELD_SIZE -> new SingleRecord(category, recordId, valueList.get(0));
-                case PairRecord.FIELD_SIZE -> new PairRecord(category, recordId, valueList.get(0), valueList.get(1));
-                default -> new StandardRecord(category, recordId, valueList);
+                case OneValueRecord.FIELD_SIZE -> new OneValueRecord(category, recordId, valueList.get(0));
+                case TwoValuesRecord.FIELD_SIZE ->
+                        new TwoValuesRecord(category, recordId, valueList.get(0), valueList.get(1));
+                default -> new ManyValuesRecord(category, recordId, valueList);
             };
             category = null;
             recordId = null;

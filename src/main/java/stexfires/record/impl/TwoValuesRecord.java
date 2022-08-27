@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class PairRecord implements TextRecord {
+public class TwoValuesRecord implements TextRecord {
 
     public static final int FIRST_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int SECOND_INDEX = Fields.FIRST_FIELD_INDEX + 1;
@@ -28,12 +28,12 @@ public class PairRecord implements TextRecord {
 
     private final int hashCode;
 
-    public PairRecord(@Nullable String firstValue, @Nullable String secondValue) {
+    public TwoValuesRecord(@Nullable String firstValue, @Nullable String secondValue) {
         this(null, null, firstValue, secondValue);
     }
 
-    public PairRecord(@Nullable String category, @Nullable Long recordId,
-                      @Nullable String firstValue, @Nullable String secondValue) {
+    public TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
+                           @Nullable String firstValue, @Nullable String secondValue) {
         this.category = category;
         this.recordId = recordId;
         Field[] fields = Fields.newArray(firstValue, secondValue);
@@ -43,8 +43,8 @@ public class PairRecord implements TextRecord {
         hashCode = Objects.hash(category, recordId, firstField, secondField);
     }
 
-    public PairRecord newRecordSwapped() {
-        return new PairRecord(category, recordId, secondField.value(), firstField.value());
+    public TwoValuesRecord newRecordSwapped() {
+        return new TwoValuesRecord(category, recordId, secondField.value(), firstField.value());
     }
 
     @Override
@@ -135,7 +135,7 @@ public class PairRecord implements TextRecord {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        PairRecord record = (PairRecord) obj;
+        TwoValuesRecord record = (TwoValuesRecord) obj;
         return Objects.equals(category, record.category) &&
                 Objects.equals(recordId, record.recordId) &&
                 Objects.equals(firstField, record.firstField) &&
@@ -149,7 +149,7 @@ public class PairRecord implements TextRecord {
 
     @Override
     public String toString() {
-        return "PairRecord{" +
+        return "TwoValuesRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
                 ", firstValue=" + firstField.value() +

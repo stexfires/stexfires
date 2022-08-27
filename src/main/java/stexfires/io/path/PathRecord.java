@@ -1,7 +1,7 @@
 package stexfires.io.path;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +20,7 @@ import java.util.Optional;
  * @see stexfires.io.path.PathType
  * @since 0.1
  */
-public class PathRecord extends StandardRecord {
+public class PathRecord extends ManyValuesRecord {
 
     public static final int FILE_NAME_INDEX = 0;
     public static final int PATH_INDEX = 1;

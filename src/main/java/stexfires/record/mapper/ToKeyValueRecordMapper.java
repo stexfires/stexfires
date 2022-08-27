@@ -10,13 +10,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ToKeyValueMapper<T extends TextRecord> implements RecordMapper<T, KeyValueRecord> {
+public class ToKeyValueRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueRecord> {
 
     private final int keyIndex;
     private final int valueIndex;
     private final String nullKeyValue;
 
-    public ToKeyValueMapper(int keyIndex, int valueIndex, String nullKeyValue) {
+    public ToKeyValueRecordMapper(int keyIndex, int valueIndex, String nullKeyValue) {
         Objects.requireNonNull(nullKeyValue);
         this.keyIndex = keyIndex;
         this.valueIndex = valueIndex;

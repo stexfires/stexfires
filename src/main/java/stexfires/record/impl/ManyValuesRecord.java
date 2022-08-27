@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class StandardRecord implements TextRecord {
+public class ManyValuesRecord implements TextRecord {
 
     private final String category;
     private final Long recordId;
@@ -23,46 +23,46 @@ public class StandardRecord implements TextRecord {
 
     private final int hashCode;
 
-    public StandardRecord() {
+    public ManyValuesRecord() {
         this(null, null, Fields.emptyArray());
     }
 
-    public StandardRecord(Collection<String> values) {
+    public ManyValuesRecord(Collection<String> values) {
         this(null, null, Fields.newArray(values));
     }
 
-    public StandardRecord(@Nullable String category, Collection<String> values) {
+    public ManyValuesRecord(@Nullable String category, Collection<String> values) {
         this(category, null, Fields.newArray(values));
     }
 
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, Collection<String> values) {
+    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Collection<String> values) {
         this(category, recordId, Fields.newArray(values));
     }
 
-    public StandardRecord(Stream<String> values) {
+    public ManyValuesRecord(Stream<String> values) {
         this(null, null, Fields.newArray(values));
     }
 
-    public StandardRecord(@Nullable String category, Stream<String> values) {
+    public ManyValuesRecord(@Nullable String category, Stream<String> values) {
         this(category, null, Fields.newArray(values));
     }
 
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, Stream<String> values) {
+    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Stream<String> values) {
         this(category, recordId, Fields.newArray(values));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public StandardRecord(String... values) {
+    public ManyValuesRecord(String... values) {
         this(null, null, Fields.newArray(values));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, String... values) {
+    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, String... values) {
         this(category, recordId, Fields.newArray(values));
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    private StandardRecord(@Nullable String category, @Nullable Long recordId, Field[] fields) {
+    private ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Field[] fields) {
         this.category = category;
         this.recordId = recordId;
         this.fields = fields;
@@ -115,7 +115,7 @@ public class StandardRecord implements TextRecord {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        StandardRecord record = (StandardRecord) obj;
+        ManyValuesRecord record = (ManyValuesRecord) obj;
         return Objects.equals(category, record.category) &&
                 Objects.equals(recordId, record.recordId) &&
                 Arrays.equals(fields, record.fields);
@@ -128,7 +128,7 @@ public class StandardRecord implements TextRecord {
 
     @Override
     public String toString() {
-        return "StandardRecord{" +
+        return "ManyValuesRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
                 ", values=[" + Fields.joinValues(fields) +

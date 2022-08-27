@@ -4,7 +4,7 @@ import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
-        StandardRecord record = null;
+        ManyValuesRecord record = null;
         String rawData = recordRawData.getRawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
@@ -67,7 +67,7 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
             boolean skipAllNull = fileSpec.isSkipAllNull() && !nonEmptyFound;
 
             if (!skipAllNull) {
-                record = new StandardRecord(recordRawData.getCategory(), recordRawData.getRecordId(), newValues);
+                record = new ManyValuesRecord(recordRawData.getCategory(), recordRawData.getRecordId(), newValues);
             }
         }
 

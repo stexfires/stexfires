@@ -6,9 +6,9 @@ import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.KeyValueRecord;
-import stexfires.record.impl.PairRecord;
-import stexfires.record.impl.SingleRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
+import stexfires.record.impl.OneValueRecord;
+import stexfires.record.impl.TwoValuesRecord;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -36,14 +36,14 @@ public class ConstantProducer<T extends TextRecord> implements RecordProducer<T>
         return new ConstantProducer<>(streamSize, TextRecords.empty());
     }
 
-    public static ConstantProducer<SingleRecord> singleRecords(long streamSize,
-                                                               @Nullable String value) {
-        return new ConstantProducer<>(streamSize, new SingleRecord(value));
+    public static ConstantProducer<OneValueRecord> oneValueRecords(long streamSize,
+                                                                   @Nullable String value) {
+        return new ConstantProducer<>(streamSize, new OneValueRecord(value));
     }
 
-    public static ConstantProducer<PairRecord> pairRecords(long streamSize,
-                                                           @Nullable String firstValue, @Nullable String secondValue) {
-        return new ConstantProducer<>(streamSize, new PairRecord(firstValue, secondValue));
+    public static ConstantProducer<TwoValuesRecord> twoValuesRecords(long streamSize,
+                                                                     @Nullable String firstValue, @Nullable String secondValue) {
+        return new ConstantProducer<>(streamSize, new TwoValuesRecord(firstValue, secondValue));
     }
 
     public static ConstantProducer<KeyValueRecord> keyValueRecords(long streamSize,
@@ -51,15 +51,15 @@ public class ConstantProducer<T extends TextRecord> implements RecordProducer<T>
         return new ConstantProducer<>(streamSize, new KeyValueRecord(key, value));
     }
 
-    public static ConstantProducer<StandardRecord> standardRecords(long streamSize,
-                                                                   @NotNull Collection<String> values) {
-        return new ConstantProducer<>(streamSize, new StandardRecord(values));
+    public static ConstantProducer<ManyValuesRecord> manyValuesRecords(long streamSize,
+                                                                       @NotNull Collection<String> values) {
+        return new ConstantProducer<>(streamSize, new ManyValuesRecord(values));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static ConstantProducer<StandardRecord> standardRecords(long streamSize,
-                                                                   String... values) {
-        return new ConstantProducer<>(streamSize, new StandardRecord(values));
+    public static ConstantProducer<ManyValuesRecord> manyValuesRecords(long streamSize,
+                                                                       String... values) {
+        return new ConstantProducer<>(streamSize, new ManyValuesRecord(values));
     }
 
     @Override

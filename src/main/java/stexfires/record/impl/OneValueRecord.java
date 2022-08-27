@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleRecord implements ValueRecord {
+public class OneValueRecord implements ValueRecord {
 
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int FIELD_SIZE = 1;
@@ -26,11 +26,11 @@ public class SingleRecord implements ValueRecord {
 
     private final int hashCode;
 
-    public SingleRecord(@Nullable String value) {
+    public OneValueRecord(@Nullable String value) {
         this(null, null, value);
     }
 
-    public SingleRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
+    public OneValueRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
         this.category = category;
         this.recordId = recordId;
         this.valueField = Fields.newArray(value)[VALUE_INDEX];
@@ -39,8 +39,8 @@ public class SingleRecord implements ValueRecord {
     }
 
     @Override
-    public SingleRecord newValueRecord(@Nullable String value) {
-        return new SingleRecord(category, recordId, value);
+    public OneValueRecord newValueRecord(@Nullable String value) {
+        return new OneValueRecord(category, recordId, value);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class SingleRecord implements ValueRecord {
         if (obj == null || getClass() != obj.getClass())
             return false;
 
-        SingleRecord record = (SingleRecord) obj;
+        OneValueRecord record = (OneValueRecord) obj;
         return Objects.equals(category, record.category) &&
                 Objects.equals(recordId, record.recordId) &&
                 Objects.equals(valueField, record.valueField);
@@ -139,7 +139,7 @@ public class SingleRecord implements ValueRecord {
 
     @Override
     public String toString() {
-        return "SingleRecord{" +
+        return "OneValueRecord{" +
                 "category=" + category +
                 ", recordId=" + recordId +
                 ", value=" + valueField.value() +

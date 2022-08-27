@@ -2,7 +2,7 @@ package stexfires.record.mapper;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -57,7 +57,7 @@ public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, Tex
 
     @Override
     public final @NotNull TextRecord map(@NotNull T record) {
-        return new StandardRecord(
+        return new ManyValuesRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),
                 valuesFunction.apply(record));

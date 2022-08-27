@@ -2,7 +2,7 @@ package stexfires.record.producer;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyValuesRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class DividingProducer implements RecordProducer<StandardRecord> {
+public class DividingProducer implements RecordProducer<ManyValuesRecord> {
 
-    private final List<StandardRecord> records;
+    private final List<ManyValuesRecord> records;
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(int recordSize, String... values) {
@@ -49,12 +49,12 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
                 }
             }
 
-            records.add(new StandardRecord(category, recordIdSupplier.get(), newRecordValues));
+            records.add(new ManyValuesRecord(category, recordIdSupplier.get(), newRecordValues));
         }
     }
 
     @Override
-    public final Stream<StandardRecord> produceStream() {
+    public final Stream<ManyValuesRecord> produceStream() {
         return records.stream();
     }
 

@@ -3,7 +3,7 @@ package stexfires.io.singlevalue;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
-import stexfires.record.impl.SingleRecord;
+import stexfires.record.impl.OneValueRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> {
+public class SingleValueProducer extends AbstractReadableProducer<OneValueRecord> {
 
     protected final SingleValueFileSpec fileSpec;
 
@@ -30,12 +30,12 @@ public class SingleValueProducer extends AbstractReadableProducer<SingleRecord> 
     }
 
     @Override
-    protected Optional<SingleRecord> createRecord(RecordRawData recordRawData) {
+    protected Optional<OneValueRecord> createRecord(RecordRawData recordRawData) {
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty();
 
-        SingleRecord record = null;
+        OneValueRecord record = null;
         if (!skipEmptyLine) {
-            record = new SingleRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
+            record = new OneValueRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
                     recordRawData.getRawData());
         }
 
