@@ -3,7 +3,7 @@ package stexfires.core.modifier;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.message.RecordMessage;
-import stexfires.core.record.KeyRecord;
+import stexfires.core.KeyRecord;
 import stexfires.core.record.SingleRecord;
 import stexfires.core.record.StandardRecord;
 import stexfires.core.record.ValueRecord;

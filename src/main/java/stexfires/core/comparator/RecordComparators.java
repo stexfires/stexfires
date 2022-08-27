@@ -2,7 +2,7 @@ package stexfires.core.comparator;
 
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
-import stexfires.core.record.KeyRecord;
+import stexfires.core.KeyRecord;
 import stexfires.core.record.ValueRecord;
 
 import java.util.Comparator;

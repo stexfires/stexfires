@@ -1,8 +1,6 @@
-package stexfires.core.record;
+package stexfires.core;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.core.Field;
-import stexfires.core.TextRecord;
 
 /**
  * The value of a key field must not be null.

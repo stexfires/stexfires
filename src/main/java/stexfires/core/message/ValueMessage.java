@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.core.Field;
 import stexfires.core.TextRecord;
 import stexfires.core.mapper.fieldvalue.FieldValueMapper;
-import stexfires.core.record.KeyRecord;
+import stexfires.core.KeyRecord;
 import stexfires.core.record.ValueRecord;
 
 import java.util.Objects;
