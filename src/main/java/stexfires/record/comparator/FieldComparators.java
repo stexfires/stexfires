@@ -1,7 +1,7 @@
 package stexfires.record.comparator;
 
 import stexfires.record.Field;
-import stexfires.util.NULLS;
+import stexfires.util.SortNulls;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import static java.util.Comparator.comparingInt;
  *
  * @author Mathias Kalb
  * @see stexfires.record.comparator.RecordComparators
- * @see stexfires.util.NULLS
+ * @see stexfires.util.SortNulls
  * @see stexfires.util.StringComparators
  * @see java.util.Comparator
  * @since 0.1
@@ -47,10 +47,10 @@ public final class FieldComparators {
     }
 
     public static Comparator<Field> value(Comparator<String> comparator,
-                                          NULLS nulls) {
+                                          SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
-        Objects.requireNonNull(nulls);
-        return comparing(Field::value, nulls.wrappedComparator(comparator));
+        Objects.requireNonNull(sortNulls);
+        return comparing(Field::value, sortNulls.wrappedComparator(comparator));
     }
 
     public static Comparator<Field> valueLength() {

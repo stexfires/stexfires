@@ -10,7 +10,7 @@ import stexfires.record.modifier.DistinctModifier;
 import stexfires.record.modifier.MapModifier;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.modifier.SortModifier;
-import stexfires.util.NULLS;
+import stexfires.util.SortNulls;
 import stexfires.util.StringUnaryOperatorType;
 
 import java.util.Comparator;
@@ -47,7 +47,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 
         Comparator<KeyValueRecord> recordComparator = RecordComparators
-                .<KeyValueRecord>category(Comparator.naturalOrder(), NULLS.FIRST)
+                .<KeyValueRecord>category(Comparator.naturalOrder(), SortNulls.FIRST)
                 .thenComparing(RecordComparators.valueOfKeyField(Comparator.naturalOrder()));
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
