@@ -33,6 +33,11 @@ public final class EmptyRecord implements TextRecord {
     }
 
     @Override
+    public List<Field> listOfFieldsReversed() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public Stream<Field> streamOfFields() {
         return Stream.empty();
     }

@@ -61,6 +61,14 @@ public final class TwoValuesRecord implements TextRecord {
     }
 
     @Override
+    public List<Field> listOfFieldsReversed() {
+        List<Field> list = new ArrayList<>(FIELD_SIZE);
+        list.add(secondField);
+        list.add(firstField);
+        return list;
+    }
+
+    @Override
     public Stream<Field> streamOfFields() {
         return Stream.of(firstField, secondField);
     }

@@ -70,6 +70,14 @@ public final class KeyValueRecord implements KeyRecord, ValueRecord {
     }
 
     @Override
+    public List<Field> listOfFieldsReversed() {
+        List<Field> list = new ArrayList<>(FIELD_SIZE);
+        list.add(valueField);
+        list.add(keyField);
+        return list;
+    }
+
+    @Override
     public Stream<Field> streamOfFields() {
         return Stream.of(keyField, valueField);
     }

@@ -7,6 +7,7 @@ import stexfires.record.TextRecord;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -80,6 +81,13 @@ public final class ManyValuesRecord implements TextRecord {
     @Override
     public List<Field> listOfFields() {
         return Arrays.asList(arrayOfFields());
+    }
+
+    @Override
+    public List<Field> listOfFieldsReversed() {
+        var fieldList = listOfFields();
+        Collections.reverse(fieldList);
+        return fieldList;
     }
 
     @Override

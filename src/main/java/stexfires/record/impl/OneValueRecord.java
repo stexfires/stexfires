@@ -54,6 +54,11 @@ public final class OneValueRecord implements ValueRecord {
     }
 
     @Override
+    public List<Field> listOfFieldsReversed() {
+        return Collections.singletonList(valueField);
+    }
+
+    @Override
     public Stream<Field> streamOfFields() {
         return Stream.of(valueField);
     }

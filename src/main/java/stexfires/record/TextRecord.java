@@ -35,6 +35,18 @@ public interface TextRecord {
         };
     }
 
+    default List<Field> listOfFieldsReversed() {
+        if (size() == 0) {
+            return Collections.emptyList();
+        } else if (size() == 1) {
+            return Collections.singletonList(firstField());
+        } else {
+            var fieldList = Arrays.asList(arrayOfFields());
+            Collections.reverse(fieldList);
+            return fieldList;
+        }
+    }
+
     default Stream<Field> streamOfFields() {
         return switch (size()) {
             case 0 -> Stream.empty();
