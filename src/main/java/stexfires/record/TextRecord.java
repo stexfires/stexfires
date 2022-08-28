@@ -2,6 +2,8 @@ package stexfires.record;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -25,9 +27,21 @@ public interface TextRecord {
 
     Field[] arrayOfFields();
 
-    List<Field> listOfFields();
+    default List<Field> listOfFields() {
+        return switch (size()) {
+            case 0 -> Collections.emptyList();
+            case 1 -> Collections.singletonList(firstField());
+            default -> Arrays.asList(arrayOfFields());
+        };
+    }
 
-    Stream<Field> streamOfFields();
+    default Stream<Field> streamOfFields() {
+        return switch (size()) {
+            case 0 -> Stream.empty();
+            case 1 -> Stream.of(firstField());
+            default -> Arrays.stream(arrayOfFields());
+        };
+    }
 
     String category();
 
