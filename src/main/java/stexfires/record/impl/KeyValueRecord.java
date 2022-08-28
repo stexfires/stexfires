@@ -46,13 +46,13 @@ public final class KeyValueRecord implements KeyRecord, ValueRecord {
     }
 
     @Override
-    public KeyValueRecord newKeyRecord(@NotNull String key) {
+    public KeyValueRecord withKey(@NotNull String key) {
         Objects.requireNonNull(key);
         return new KeyValueRecord(category, recordId, key, valueField.value());
     }
 
     @Override
-    public KeyValueRecord newValueRecord(@Nullable String value) {
+    public KeyValueRecord withValue(@Nullable String value) {
         return new KeyValueRecord(category, recordId, keyField.value(), value);
     }
 

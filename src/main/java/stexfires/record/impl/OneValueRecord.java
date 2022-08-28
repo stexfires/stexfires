@@ -39,7 +39,7 @@ public final class OneValueRecord implements ValueRecord {
     }
 
     @Override
-    public OneValueRecord newValueRecord(@Nullable String value) {
+    public OneValueRecord withValue(@Nullable String value) {
         return new OneValueRecord(category, recordId, value);
     }
 

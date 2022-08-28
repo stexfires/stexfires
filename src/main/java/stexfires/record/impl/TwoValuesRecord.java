@@ -43,7 +43,7 @@ public final class TwoValuesRecord implements TextRecord {
         hashCode = Objects.hash(category, recordId, firstField, secondField);
     }
 
-    public TwoValuesRecord newRecordSwapped() {
+    public TwoValuesRecord withSwappedValues() {
         return new TwoValuesRecord(category, recordId, secondField.value(), firstField.value());
     }
 

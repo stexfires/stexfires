@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface KeyRecord extends TextRecord {
 
-    KeyRecord newKeyRecord(@NotNull String key);
+    KeyRecord withKey(@NotNull String key);
 
     @NotNull Field keyField();
 

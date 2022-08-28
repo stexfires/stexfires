@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface ValueRecord extends TextRecord {
 
-    ValueRecord newValueRecord(@Nullable String value);
+    ValueRecord withValue(@Nullable String value);
 
     @NotNull Field valueField();
 
