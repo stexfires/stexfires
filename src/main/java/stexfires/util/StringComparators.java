@@ -1,7 +1,6 @@
-package stexfires.record.comparator;
+package stexfires.util;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.util.StringUnaryOperatorType;
 
 import java.text.Collator;
 import java.util.Comparator;

@@ -1,6 +1,7 @@
 package stexfires.record.comparator;
 
 import stexfires.record.Field;
+import stexfires.util.NULLS;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -13,9 +14,9 @@ import static java.util.Comparator.comparingInt;
  * for constructing comparators for {@link Field}s.
  *
  * @author Mathias Kalb
- * @see stexfires.record.comparator.NULLS
  * @see stexfires.record.comparator.RecordComparators
- * @see stexfires.record.comparator.StringComparators
+ * @see stexfires.util.NULLS
+ * @see stexfires.util.StringComparators
  * @see java.util.Comparator
  * @since 0.1
  */

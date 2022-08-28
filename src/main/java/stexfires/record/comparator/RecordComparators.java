@@ -4,6 +4,7 @@ import stexfires.record.Field;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
+import stexfires.util.NULLS;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -18,9 +19,9 @@ import static java.util.Comparator.naturalOrder;
  * for constructing comparators for {@link stexfires.record.TextRecord}s.
  *
  * @author Mathias Kalb
- * @see stexfires.record.comparator.NULLS
  * @see stexfires.record.comparator.FieldComparators
- * @see stexfires.record.comparator.StringComparators
+ * @see stexfires.util.NULLS
+ * @see stexfires.util.StringComparators
  * @see java.util.Comparator
  * @since 0.1
  */
