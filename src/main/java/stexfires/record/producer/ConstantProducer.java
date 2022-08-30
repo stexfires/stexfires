@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.impl.EmptyRecord;
+import stexfires.record.impl.KeyValueCommentRecord;
 import stexfires.record.impl.KeyValueRecord;
 import stexfires.record.impl.ManyValuesRecord;
 import stexfires.record.impl.OneValueRecord;
@@ -49,6 +50,11 @@ public class ConstantProducer<T extends TextRecord> implements RecordProducer<T>
     public static ConstantProducer<KeyValueRecord> keyValueRecords(long streamSize,
                                                                    @NotNull String key, @Nullable String value) {
         return new ConstantProducer<>(streamSize, new KeyValueRecord(key, value));
+    }
+
+    public static ConstantProducer<KeyValueCommentRecord> keyValueCommentRecords(long streamSize,
+                                                                                 @NotNull String key, @Nullable String value, @Nullable String comment) {
+        return new ConstantProducer<>(streamSize, new KeyValueCommentRecord(key, value, comment));
     }
 
     public static ConstantProducer<ManyValuesRecord> manyValuesRecords(long streamSize,
