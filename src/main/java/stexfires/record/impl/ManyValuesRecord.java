@@ -1,5 +1,6 @@
 package stexfires.record.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.Field;
 import stexfires.record.Fields;
@@ -16,13 +17,9 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ManyValuesRecord implements TextRecord {
-
-    private final String category;
-    private final Long recordId;
-    private final Field[] fields;
-
-    private final int hashCode;
+public record ManyValuesRecord(@Nullable String category, @Nullable Long recordId,
+                               @NotNull Field[] fields)
+        implements TextRecord {
 
     public ManyValuesRecord() {
         this(null, null, Fields.emptyArray());
@@ -62,13 +59,25 @@ public final class ManyValuesRecord implements TextRecord {
         this(category, recordId, Fields.newArray(values));
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
-    private ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Field[] fields) {
+    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
+        Objects.requireNonNull(fields);
         this.category = category;
         this.recordId = recordId;
-        this.fields = fields;
 
-        hashCode = Objects.hash(category, recordId, Arrays.hashCode(fields));
+        // Check and copy fields
+        this.fields = new Field[fields.length];
+        int maxIndex = fields.length - 1;
+        for (int index = Fields.FIRST_FIELD_INDEX; index < fields.length; index++) {
+            var field = fields[index];
+            if (field.index() != index) {
+                throw new IllegalArgumentException("Wrong 'index' of field: " + field);
+            }
+            if (field.maxIndex() != maxIndex) {
+                throw new IllegalArgumentException("Wrong 'maxIndex' of field: " + field);
+            }
+
+            this.fields[index] = field;
+        }
     }
 
     @Override
@@ -114,33 +123,6 @@ public final class ManyValuesRecord implements TextRecord {
     @Override
     public Field fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        ManyValuesRecord record = (ManyValuesRecord) obj;
-        return Objects.equals(category, record.category) &&
-                Objects.equals(recordId, record.recordId) &&
-                Arrays.equals(fields, record.fields);
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "ManyValuesRecord{" +
-                "category=" + category +
-                ", recordId=" + recordId +
-                ", values=[" + Fields.joinValues(fields) +
-                "]}";
     }
 
 }
