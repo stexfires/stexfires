@@ -17,36 +17,56 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class KeyValueCommentRecord implements KeyRecord, ValueRecord, CommentRecord {
+public record KeyValueCommentRecord(@Nullable String category, @Nullable Long recordId,
+                                    @NotNull Field keyField, @NotNull Field valueField, @NotNull Field commentField)
+        implements KeyRecord, ValueRecord, CommentRecord {
 
     public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
     public static final int COMMENT_INDEX = Fields.FIRST_FIELD_INDEX + 2;
-    public static final int FIELD_SIZE = 3;
-
-    private final String category;
-    private final Long recordId;
-    private final Field keyField;
-    private final Field valueField;
-    private final Field commentField;
-
-    private final int hashCode;
+    public static final int MAX_INDEX = COMMENT_INDEX;
+    public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     public KeyValueCommentRecord(@NotNull String key, @Nullable String value, @Nullable String comment) {
-        this(null, null, Objects.requireNonNull(key), value, comment);
+        this(null, null, key, value, comment);
     }
 
     public KeyValueCommentRecord(@Nullable String category, @Nullable Long recordId,
                                  @NotNull String key, @Nullable String value, @Nullable String comment) {
-        Objects.requireNonNull(key);
-        this.category = category;
-        this.recordId = recordId;
-        Field[] fields = Fields.newArray(key, value, comment);
-        keyField = fields[KEY_INDEX];
-        valueField = fields[VALUE_INDEX];
-        commentField = fields[COMMENT_INDEX];
+        this(category, recordId,
+                new Field(KEY_INDEX, MAX_INDEX, key),
+                new Field(VALUE_INDEX, MAX_INDEX, value),
+                new Field(COMMENT_INDEX, MAX_INDEX, comment));
+    }
 
-        hashCode = Objects.hash(category, recordId, keyField, valueField, commentField);
+    public KeyValueCommentRecord {
+        // keyField
+        Objects.requireNonNull(keyField);
+        if (keyField.index() != KEY_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of keyField: " + keyField);
+        }
+        if (keyField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of keyField: " + keyField);
+        }
+        if (keyField.valueIsNull()) {
+            throw new IllegalArgumentException("Wrong 'value' of keyField: " + keyField);
+        }
+        // valueField
+        Objects.requireNonNull(valueField);
+        if (valueField.index() != VALUE_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of valueField: " + valueField);
+        }
+        if (valueField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of valueField: " + valueField);
+        }
+        // commentField
+        Objects.requireNonNull(commentField);
+        if (commentField.index() != COMMENT_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of commentField: " + commentField);
+        }
+        if (commentField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of commentField: " + commentField);
+        }
     }
 
     @Override
@@ -177,37 +197,6 @@ public final class KeyValueCommentRecord implements KeyRecord, ValueRecord, Comm
     @Override
     public @Nullable String valueOfCommentField() {
         return commentField.value();
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        KeyValueCommentRecord record = (KeyValueCommentRecord) obj;
-        return Objects.equals(category, record.category) &&
-                Objects.equals(recordId, record.recordId) &&
-                Objects.equals(keyField, record.keyField) &&
-                Objects.equals(valueField, record.valueField) &&
-                Objects.equals(commentField, record.commentField);
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "KeyValueCommentRecord{" +
-                "category=" + category +
-                ", recordId=" + recordId +
-                ", key=" + keyField.value() +
-                ", value=" + valueField.value() +
-                ", comment=" + commentField.value() +
-                '}';
     }
 
 }

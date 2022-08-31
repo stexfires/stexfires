@@ -13,14 +13,10 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class EmptyRecord implements TextRecord {
+public record EmptyRecord() implements TextRecord {
 
-    public static final int FIELD_SIZE = 0;
-
-    private static final int HASH_CODE = 0;
-
-    public EmptyRecord() {
-    }
+    public static final int MAX_INDEX = -1;
+    public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     @Override
     public Field[] arrayOfFields() {
@@ -100,28 +96,6 @@ public final class EmptyRecord implements TextRecord {
     @Override
     public @Nullable String valueOfLastField() {
         return null;
-    }
-
-    @SuppressWarnings("RedundantIfStatement")
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        // always true
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return HASH_CODE;
-    }
-
-    @Override
-    public String toString() {
-        return "EmptyRecord{}";
     }
 
 }

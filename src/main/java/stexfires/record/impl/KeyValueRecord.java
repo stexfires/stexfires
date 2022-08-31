@@ -16,33 +16,46 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class KeyValueRecord implements KeyRecord, ValueRecord {
+public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
+                             @NotNull Field keyField, @NotNull Field valueField)
+        implements KeyRecord, ValueRecord {
 
     public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
-    public static final int FIELD_SIZE = 2;
-
-    private final String category;
-    private final Long recordId;
-    private final Field keyField;
-    private final Field valueField;
-
-    private final int hashCode;
+    public static final int MAX_INDEX = VALUE_INDEX;
+    public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     public KeyValueRecord(@NotNull String key, @Nullable String value) {
-        this(null, null, Objects.requireNonNull(key), value);
+        this(null, null, key, value);
     }
 
     public KeyValueRecord(@Nullable String category, @Nullable Long recordId,
                           @NotNull String key, @Nullable String value) {
-        Objects.requireNonNull(key);
-        this.category = category;
-        this.recordId = recordId;
-        Field[] fields = Fields.newArray(key, value);
-        keyField = fields[KEY_INDEX];
-        valueField = fields[VALUE_INDEX];
+        this(category, recordId,
+                new Field(KEY_INDEX, MAX_INDEX, key),
+                new Field(VALUE_INDEX, MAX_INDEX, value));
+    }
 
-        hashCode = Objects.hash(category, recordId, keyField, valueField);
+    public KeyValueRecord {
+        // keyField
+        Objects.requireNonNull(keyField);
+        if (keyField.index() != KEY_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of keyField: " + keyField);
+        }
+        if (keyField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of keyField: " + keyField);
+        }
+        if (keyField.valueIsNull()) {
+            throw new IllegalArgumentException("Wrong 'value' of keyField: " + keyField);
+        }
+        // valueField
+        Objects.requireNonNull(valueField);
+        if (valueField.index() != VALUE_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of valueField: " + valueField);
+        }
+        if (valueField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of valueField: " + valueField);
+        }
     }
 
     @Override
@@ -155,35 +168,6 @@ public final class KeyValueRecord implements KeyRecord, ValueRecord {
     @Override
     public @Nullable String valueOfValueField() {
         return valueField.value();
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        KeyValueRecord record = (KeyValueRecord) obj;
-        return Objects.equals(category, record.category) &&
-                Objects.equals(recordId, record.recordId) &&
-                Objects.equals(keyField, record.keyField) &&
-                Objects.equals(valueField, record.valueField);
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "KeyValueRecord{" +
-                "category=" + category +
-                ", recordId=" + recordId +
-                ", key=" + keyField.value() +
-                ", value=" + valueField.value() +
-                '}';
     }
 
 }

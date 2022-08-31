@@ -15,18 +15,14 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class TwoValuesRecord implements TextRecord {
+public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
+                              @NotNull Field firstField, @NotNull Field secondField)
+        implements TextRecord {
 
     public static final int FIRST_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int SECOND_INDEX = Fields.FIRST_FIELD_INDEX + 1;
-    public static final int FIELD_SIZE = 2;
-
-    private final String category;
-    private final Long recordId;
-    private final Field firstField;
-    private final Field secondField;
-
-    private final int hashCode;
+    public static final int MAX_INDEX = SECOND_INDEX;
+    public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     public TwoValuesRecord(@Nullable String firstValue, @Nullable String secondValue) {
         this(null, null, firstValue, secondValue);
@@ -34,13 +30,29 @@ public final class TwoValuesRecord implements TextRecord {
 
     public TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
                            @Nullable String firstValue, @Nullable String secondValue) {
-        this.category = category;
-        this.recordId = recordId;
-        Field[] fields = Fields.newArray(firstValue, secondValue);
-        firstField = fields[FIRST_INDEX];
-        secondField = fields[SECOND_INDEX];
+        this(category, recordId,
+                new Field(FIRST_INDEX, MAX_INDEX, firstValue),
+                new Field(SECOND_INDEX, MAX_INDEX, secondValue));
+    }
 
-        hashCode = Objects.hash(category, recordId, firstField, secondField);
+    public TwoValuesRecord {
+        // firstField
+        Objects.requireNonNull(firstField);
+        if (firstField.index() != FIRST_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of firstField: " + firstField);
+        }
+        if (firstField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of firstField: " + firstField);
+        }
+        // secondField
+        Objects.requireNonNull(secondField);
+        if (secondField.index() != SECOND_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index' of secondField: " + secondField);
+        }
+        if (secondField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of secondField: " + secondField);
+        }
+
     }
 
     public TwoValuesRecord withSwappedValues() {
@@ -118,6 +130,7 @@ public final class TwoValuesRecord implements TextRecord {
         return secondField;
     }
 
+    @Override
     public @NotNull Field secondField() {
         return secondField;
     }
@@ -134,35 +147,6 @@ public final class TwoValuesRecord implements TextRecord {
 
     public @Nullable String valueOfSecondField() {
         return secondField.value();
-    }
-
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        TwoValuesRecord record = (TwoValuesRecord) obj;
-        return Objects.equals(category, record.category) &&
-                Objects.equals(recordId, record.recordId) &&
-                Objects.equals(firstField, record.firstField) &&
-                Objects.equals(secondField, record.secondField);
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public String toString() {
-        return "TwoValuesRecord{" +
-                "category=" + category +
-                ", recordId=" + recordId +
-                ", firstValue=" + firstField.value() +
-                ", secondValue=" + secondField.value() +
-                '}';
     }
 
 }
