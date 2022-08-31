@@ -27,7 +27,7 @@ public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
     public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        String value = record.valueOfValueField();
+        String value = record.value();
         if (value != null) {
             writeString(value);
             writeLineSeparator(fileSpec.getLineSeparator());

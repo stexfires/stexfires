@@ -42,7 +42,7 @@ public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> 
     public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        String value = record.valueOfValueField();
+        String value = record.value();
         if (value != null || !fileSpec.isSkipNullValue()) {
             switch (fileSpec.getBulletPoint()) {
                 case NUMBER -> {

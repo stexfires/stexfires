@@ -125,7 +125,7 @@ public record OneValueRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public @Nullable String valueOfValueField() {
+    public @Nullable String value() {
         return valueField.value();
     }
 

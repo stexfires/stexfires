@@ -15,11 +15,11 @@ public interface ValueRecord extends TextRecord {
 
     @NotNull Field valueField();
 
-    default @Nullable String valueOfValueField() {
+    default @Nullable String value() {
         return valueField().value();
     }
 
-    default Optional<String> valueOfValueFieldAsOptional() {
+    default Optional<String> valueAsOptional() {
         return Optional.ofNullable(valueField().value());
     }
 

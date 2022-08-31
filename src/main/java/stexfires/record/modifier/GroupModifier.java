@@ -61,8 +61,8 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return KeyRecord::key;
     }
 
-    public static <T extends ValueRecord> Function<? super T, String> groupByValueOfValueField() {
-        return ValueRecord::valueOfValueField;
+    public static <T extends ValueRecord> Function<? super T, String> groupByValue() {
+        return ValueRecord::value;
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByValueAt(int index) {
