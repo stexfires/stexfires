@@ -76,11 +76,13 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
         return new KeyValueCommentRecord(category, recordId, key, valueField.value(), commentField.value());
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueCommentRecord withValue(@Nullable String value) {
         return new KeyValueCommentRecord(category, recordId, keyField.value(), value, commentField.value());
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueCommentRecord withComment(@Nullable String comment) {
         return new KeyValueCommentRecord(category, recordId, keyField.value(), valueField.value(), comment);
@@ -175,6 +177,7 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
         return commentField;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String valueOfFirstField() {
         return keyField.value();
@@ -185,6 +188,7 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
         return commentField.value();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String key() {
         return keyField.value();

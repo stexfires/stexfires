@@ -14,6 +14,7 @@ public interface KeyRecord extends TextRecord {
 
     @NotNull Field keyField();
 
+    @SuppressWarnings("ConstantConditions")
     default @NotNull String key() {
         return keyField().value();
     }

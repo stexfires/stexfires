@@ -24,19 +24,16 @@ import java.util.stream.Stream;
  * @see Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
-public record Field(int index, int maxIndex, String value)
+public record Field(int index, int maxIndex, @Nullable String value)
         implements Serializable {
 
-    public Field(int index, int maxIndex, @Nullable String value) {
+    public Field {
         if (index < Fields.FIRST_FIELD_INDEX) {
             throw new IllegalArgumentException("Illegal field index! index=" + index + " maxIndex=" + maxIndex);
         }
         if (index > maxIndex) {
             throw new IllegalArgumentException("Illegal field index! index=" + index + " maxIndex=" + maxIndex);
         }
-        this.index = index;
-        this.maxIndex = maxIndex;
-        this.value = value;
     }
 
     public boolean isFirstField() {

@@ -65,6 +65,7 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
         return new KeyValueRecord(category, recordId, key, valueField.value());
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueRecord withValue(@Nullable String value) {
         return new KeyValueRecord(category, recordId, keyField.value(), value);
@@ -151,6 +152,7 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
         return valueField;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String valueOfFirstField() {
         return keyField.value();
@@ -161,6 +163,7 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
         return valueField.value();
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String key() {
         return keyField.value();
