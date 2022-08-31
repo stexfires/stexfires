@@ -14,7 +14,6 @@ public class ToManyValuesRecordMapper<T extends TextRecord> implements RecordMap
     public ToManyValuesRecordMapper() {
     }
 
-    @SuppressWarnings("CastToConcreteClass")
     @Override
     public final @NotNull ManyValuesRecord map(@NotNull T record) {
         if (record instanceof ManyValuesRecord) {

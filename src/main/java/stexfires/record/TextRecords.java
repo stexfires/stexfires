@@ -39,7 +39,6 @@ public final class TextRecords {
 
     public static final long DEFAULT_INITIAL_RECORD_ID = 1L;
 
-    @SuppressWarnings("StaticVariableOfConcreteClass")
     private static final EmptyRecord EMPTY_RECORD = new EmptyRecord();
 
     private TextRecords() {
