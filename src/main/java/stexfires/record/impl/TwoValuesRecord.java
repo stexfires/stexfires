@@ -6,6 +6,7 @@ import stexfires.record.Field;
 import stexfires.record.Fields;
 import stexfires.record.TextRecord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
  */
 public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
                               @NotNull Field firstField, @NotNull Field secondField)
-        implements TextRecord {
+        implements TextRecord, Serializable {
 
     public static final int FIRST_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int SECOND_INDEX = Fields.FIRST_FIELD_INDEX + 1;

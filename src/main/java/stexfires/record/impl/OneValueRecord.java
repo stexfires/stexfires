@@ -6,6 +6,7 @@ import stexfires.record.Field;
 import stexfires.record.Fields;
 import stexfires.record.ValueRecord;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record OneValueRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field valueField)
-        implements ValueRecord {
+        implements ValueRecord, Serializable {
 
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int MAX_INDEX = VALUE_INDEX;

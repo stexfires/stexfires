@@ -6,6 +6,7 @@ import stexfires.record.Field;
 import stexfires.record.Fields;
 import stexfires.record.TextRecord;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
  */
 public record ManyValuesRecord(@Nullable String category, @Nullable Long recordId,
                                @NotNull Field[] fields)
-        implements TextRecord {
+        implements TextRecord, Serializable {
 
     public ManyValuesRecord() {
         this(null, null, Fields.emptyArray());

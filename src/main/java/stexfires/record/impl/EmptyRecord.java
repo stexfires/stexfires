@@ -5,6 +5,7 @@ import stexfires.record.Field;
 import stexfires.record.Fields;
 import stexfires.record.TextRecord;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,7 +14,8 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record EmptyRecord() implements TextRecord {
+public record EmptyRecord()
+        implements TextRecord, Serializable {
 
     public static final int MAX_INDEX = -1;
     public static final int FIELD_SIZE = MAX_INDEX + 1;

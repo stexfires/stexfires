@@ -2,6 +2,7 @@ package stexfires.record;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -23,7 +24,8 @@ import java.util.stream.Stream;
  * @see Fields#FIRST_FIELD_INDEX
  * @since 0.1
  */
-public record Field(int index, int maxIndex, String value) {
+public record Field(int index, int maxIndex, String value)
+        implements Serializable {
 
     public Field(int index, int maxIndex, @Nullable String value) {
         if (index < Fields.FIRST_FIELD_INDEX) {

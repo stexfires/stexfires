@@ -7,6 +7,7 @@ import stexfires.record.Fields;
 import stexfires.record.KeyRecord;
 import stexfires.record.ValueRecord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ import java.util.stream.Stream;
  */
 public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
                              @NotNull Field keyField, @NotNull Field valueField)
-        implements KeyRecord, ValueRecord {
+        implements KeyRecord, ValueRecord, Serializable {
 
     public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
