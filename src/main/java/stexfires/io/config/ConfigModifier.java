@@ -48,7 +48,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
 
         Comparator<KeyValueRecord> recordComparator = RecordComparators
                 .<KeyValueRecord>category(Comparator.naturalOrder(), SortNulls.FIRST)
-                .thenComparing(RecordComparators.valueOfKeyField(Comparator.naturalOrder()));
+                .thenComparing(RecordComparators.key(Comparator.naturalOrder()));
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
         if (removeDuplicates) {

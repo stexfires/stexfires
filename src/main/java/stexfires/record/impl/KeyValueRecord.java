@@ -162,7 +162,7 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public @NotNull String valueOfKeyField() {
+    public @NotNull String key() {
         return keyField.value();
     }
 

@@ -186,7 +186,7 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
     }
 
     @Override
-    public @NotNull String valueOfKeyField() {
+    public @NotNull String key() {
         return keyField.value();
     }
 

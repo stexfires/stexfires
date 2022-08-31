@@ -57,8 +57,8 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return recordMessage.asFunction();
     }
 
-    public static <T extends KeyRecord> Function<? super T, String> groupByValueOfKeyField() {
-        return KeyRecord::valueOfKeyField;
+    public static <T extends KeyRecord> Function<? super T, String> groupByKey() {
+        return KeyRecord::key;
     }
 
     public static <T extends ValueRecord> Function<? super T, String> groupByValueOfValueField() {

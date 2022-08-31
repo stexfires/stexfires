@@ -114,9 +114,9 @@ public final class RecordComparators {
         return value(TextRecord::valueOfLastField, comparator, sortNulls);
     }
 
-    public static <T extends KeyRecord> Comparator<T> valueOfKeyField(Comparator<String> comparator) {
+    public static <T extends KeyRecord> Comparator<T> key(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(KeyRecord::valueOfKeyField, comparator);
+        return comparing(KeyRecord::key, comparator);
     }
 
     public static <T extends ValueRecord> Comparator<T> valueOfValueField(Comparator<String> comparator,
