@@ -32,7 +32,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> ValuesMapper<T> identity() {
-        return new ValuesMapper<>(Fields::collectValues);
+        return new ValuesMapper<>(Fields::collectTexts);
     }
 
     public static <T extends TextRecord> ValuesMapper<T> recordFieldFunction(BiFunction<TextRecord, Field, String> recordFieldFunction) {
@@ -70,7 +70,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
             if (size < record.size()) {
                 return
                         record.streamOfFields()
-                              .map(Field::value)
+                              .map(Field::text)
                               .limit(size)
                               .collect(Collectors.toList());
             } else if (size > record.size()) {
@@ -84,13 +84,13 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
                 }
                 return newValues;
             }
-            return Fields.collectValues(record);
+            return Fields.collectTexts(record);
         });
     }
 
     public static <T extends TextRecord> ValuesMapper<T> reverseValues() {
         return new ValuesMapper<>(record -> {
-            List<String> newValues = Fields.collectValues(record);
+            List<String> newValues = Fields.collectTexts(record);
             Collections.reverse(newValues);
             return newValues;
         });
@@ -131,7 +131,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
     public static <T extends TextRecord> ValuesMapper<T> add(Function<? super T, String> valueFunction) {
         return new ValuesMapper<>(record -> {
             List<String> newValues = new ArrayList<>(record.size() + 1);
-            newValues.addAll(Fields.collectValues(record));
+            newValues.addAll(Fields.collectTexts(record));
             newValues.add(valueFunction.apply(record));
             return newValues;
         });
@@ -141,7 +141,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
                       .filter(field -> field.index() != index)
-                      .map(Field::value)
+                      .map(Field::text)
                       .collect(Collectors.toList()));
     }
 
@@ -150,7 +150,7 @@ public class ValuesMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new ValuesMapper<>(record ->
                 record.streamOfFields()
                       .filter(fieldPredicate.negate())
-                      .map(Field::value)
+                      .map(Field::text)
                       .collect(Collectors.toList()));
     }
 

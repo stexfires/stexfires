@@ -23,12 +23,12 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     private final FieldValueMapper fieldValueMapper;
 
     public ValueMessage(int index) {
-        this(record -> record.fieldAt(index), DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        this(record -> record.fieldAt(index), DEFAULT_NULL_FIELD_MESSAGE, Field::text);
     }
 
     public ValueMessage(int index,
                         @Nullable String nullFieldMessage) {
-        this(record -> record.fieldAt(index), nullFieldMessage, Field::value);
+        this(record -> record.fieldAt(index), nullFieldMessage, Field::text);
     }
 
     public ValueMessage(int index,
@@ -38,12 +38,12 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction) {
-        this(fieldFunction, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        this(fieldFunction, DEFAULT_NULL_FIELD_MESSAGE, Field::text);
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction,
                         @Nullable String nullFieldMessage) {
-        this(fieldFunction, nullFieldMessage, Field::value);
+        this(fieldFunction, nullFieldMessage, Field::text);
     }
 
     public ValueMessage(Function<? super T, Field> fieldFunction,
@@ -57,7 +57,7 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     public static <T extends KeyRecord> ValueMessage<T> key() {
-        return new ValueMessage<>(KeyRecord::keyField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        return new ValueMessage<>(KeyRecord::keyField, DEFAULT_NULL_FIELD_MESSAGE, Field::text);
     }
 
     public static <T extends KeyRecord> ValueMessage<T> keyField(FieldValueMapper fieldValueMapper) {
@@ -66,7 +66,7 @@ public class ValueMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     public static <T extends ValueRecord> ValueMessage<T> value() {
-        return new ValueMessage<>(ValueRecord::valueField, DEFAULT_NULL_FIELD_MESSAGE, Field::value);
+        return new ValueMessage<>(ValueRecord::valueField, DEFAULT_NULL_FIELD_MESSAGE, Field::text);
     }
 
     public static <T extends ValueRecord> ValueMessage<T> valueField(FieldValueMapper fieldValueMapper) {

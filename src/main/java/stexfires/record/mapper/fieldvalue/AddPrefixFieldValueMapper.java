@@ -20,8 +20,8 @@ public class AddPrefixFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final @NotNull String mapToValue(@NotNull Field field) {
-        String value = field.value();
-        return (value == null) ? prefix : prefix + value;
+        String text = field.text();
+        return (text == null) ? prefix : prefix + text;
     }
 
 }

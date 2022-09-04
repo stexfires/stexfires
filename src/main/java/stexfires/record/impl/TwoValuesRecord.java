@@ -57,7 +57,7 @@ public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId
     }
 
     public TwoValuesRecord withSwappedValues() {
-        return new TwoValuesRecord(category, recordId, secondField.value(), firstField.value());
+        return new TwoValuesRecord(category, recordId, secondField.text(), firstField.text());
     }
 
     @Override
@@ -138,16 +138,16 @@ public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId
 
     @Override
     public @Nullable String valueOfFirstField() {
-        return firstField.value();
+        return firstField.text();
     }
 
     @Override
     public @Nullable String valueOfLastField() {
-        return secondField.value();
+        return secondField.text();
     }
 
     public @Nullable String valueOfSecondField() {
-        return secondField.value();
+        return secondField.text();
     }
 
 }

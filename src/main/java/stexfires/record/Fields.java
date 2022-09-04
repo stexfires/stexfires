@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public final class Fields {
 
     public static final int FIRST_FIELD_INDEX = 0;
-    public static final String DEFAULT_FIELD_VALUE_DELIMITER = ", ";
+    public static final String DEFAULT_FIELD_TEXT_DELIMITER = ", ";
 
     private static final Field[] EMPTY_FIELD_ARRAY = new Field[0];
 
@@ -36,12 +36,12 @@ public final class Fields {
         return EMPTY_FIELD_ARRAY;
     }
 
-    public static Field[] newArray(Collection<String> values) {
-        Objects.requireNonNull(values);
-        Field[] fields = new Field[values.size()];
+    public static Field[] newArray(Collection<String> texts) {
+        Objects.requireNonNull(texts);
+        Field[] fields = new Field[texts.size()];
         int index = FIRST_FIELD_INDEX;
-        for (String value : values) {
-            fields[index] = new Field(index, values.size() - 1, value);
+        for (String text : texts) {
+            fields[index] = new Field(index, texts.size() - 1, text);
             index++;
         }
         return fields;
@@ -53,57 +53,57 @@ public final class Fields {
     }
 
     @SuppressWarnings({"Convert2streamapi", "OverloadedVarargsMethod"})
-    public static Field[] newArray(String... values) {
-        Objects.requireNonNull(values);
-        Field[] fields = new Field[values.length];
-        for (int index = FIRST_FIELD_INDEX; index < values.length; index++) {
-            fields[index] = new Field(index, values.length - 1, values[index]);
+    public static Field[] newArray(String... texts) {
+        Objects.requireNonNull(texts);
+        Field[] fields = new Field[texts.length];
+        for (int index = FIRST_FIELD_INDEX; index < texts.length; index++) {
+            fields[index] = new Field(index, texts.length - 1, texts[index]);
         }
         return fields;
     }
 
     @SuppressWarnings("Convert2streamapi")
-    public static Field[] newArray(int length, Supplier<String> valueSupplier) {
+    public static Field[] newArray(int length, Supplier<String> textSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);
         }
-        Objects.requireNonNull(valueSupplier);
+        Objects.requireNonNull(textSupplier);
         Field[] fields = new Field[length];
         for (int index = FIRST_FIELD_INDEX; index < length; index++) {
-            fields[index] = new Field(index, length - 1, valueSupplier.get());
+            fields[index] = new Field(index, length - 1, textSupplier.get());
         }
         return fields;
     }
 
-    public static List<String> collectValues(TextRecord record) {
+    public static List<String> collectTexts(TextRecord record) {
         Objects.requireNonNull(record);
-        return collectValues(record.streamOfFields(), new IdentityFieldValueMapper());
+        return collectTexts(record.streamOfFields(), new IdentityFieldValueMapper());
     }
 
-    public static List<String> collectValues(TextRecord record, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(TextRecord record, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(fieldValueMapper);
-        return collectValues(record.streamOfFields(), fieldValueMapper);
+        return collectTexts(record.streamOfFields(), fieldValueMapper);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static List<String> collectValues(Field[] fields) {
+    public static List<String> collectTexts(Field[] fields) {
         Objects.requireNonNull(fields);
-        return collectValues(Arrays.stream(fields), new IdentityFieldValueMapper());
+        return collectTexts(Arrays.stream(fields), new IdentityFieldValueMapper());
     }
 
-    public static List<String> collectValues(Field[] fields, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(Field[] fields, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldValueMapper);
-        return collectValues(Arrays.stream(fields), fieldValueMapper);
+        return collectTexts(Arrays.stream(fields), fieldValueMapper);
     }
 
-    public static List<String> collectValues(Stream<Field> fields) {
+    public static List<String> collectTexts(Stream<Field> fields) {
         Objects.requireNonNull(fields);
-        return collectValues(fields, new IdentityFieldValueMapper());
+        return collectTexts(fields, new IdentityFieldValueMapper());
     }
 
-    public static List<String> collectValues(Stream<Field> fields, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(Stream<Field> fields, FieldValueMapper fieldValueMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldValueMapper);
         return fields.map(fieldValueMapper::mapToValue).collect(Collectors.toList());
@@ -114,38 +114,38 @@ public final class Fields {
         return fields.collect(Collectors.toList());
     }
 
-    public static String joinValues(TextRecord record) {
+    public static String joinTexts(TextRecord record) {
         Objects.requireNonNull(record);
-        return joinValues(record.streamOfFields(), DEFAULT_FIELD_VALUE_DELIMITER);
+        return joinTexts(record.streamOfFields(), DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinValues(TextRecord record, CharSequence delimiter) {
+    public static String joinTexts(TextRecord record, CharSequence delimiter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(delimiter);
-        return joinValues(record.streamOfFields(), delimiter);
+        return joinTexts(record.streamOfFields(), delimiter);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static String joinValues(Field[] fields) {
+    public static String joinTexts(Field[] fields) {
         Objects.requireNonNull(fields);
-        return joinValues(Arrays.stream(fields), DEFAULT_FIELD_VALUE_DELIMITER);
+        return joinTexts(Arrays.stream(fields), DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinValues(Field[] fields, CharSequence delimiter) {
+    public static String joinTexts(Field[] fields, CharSequence delimiter) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
-        return joinValues(Arrays.stream(fields), delimiter);
+        return joinTexts(Arrays.stream(fields), delimiter);
     }
 
-    public static String joinValues(Stream<Field> fields) {
+    public static String joinTexts(Stream<Field> fields) {
         Objects.requireNonNull(fields);
-        return joinValues(fields, DEFAULT_FIELD_VALUE_DELIMITER);
+        return joinTexts(fields, DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinValues(Stream<Field> fields, CharSequence delimiter) {
+    public static String joinTexts(Stream<Field> fields, CharSequence delimiter) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
-        return fields.map(Field::value).collect(Collectors.joining(delimiter));
+        return fields.map(Field::text).collect(Collectors.joining(delimiter));
     }
 
     public static Stream<String> mapToValue(Stream<Field> fields, FieldValueMapper fieldValueMapper) {

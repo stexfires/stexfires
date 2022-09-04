@@ -73,19 +73,19 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
     @Override
     public KeyValueCommentRecord withKey(@NotNull String key) {
         Objects.requireNonNull(key);
-        return new KeyValueCommentRecord(category, recordId, key, valueField.value(), commentField.value());
+        return new KeyValueCommentRecord(category, recordId, key, valueField.text(), commentField.text());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueCommentRecord withValue(@Nullable String value) {
-        return new KeyValueCommentRecord(category, recordId, keyField.value(), value, commentField.value());
+        return new KeyValueCommentRecord(category, recordId, keyField.text(), value, commentField.text());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueCommentRecord withComment(@Nullable String comment) {
-        return new KeyValueCommentRecord(category, recordId, keyField.value(), valueField.value(), comment);
+        return new KeyValueCommentRecord(category, recordId, keyField.text(), valueField.text(), comment);
     }
 
     @Override
@@ -180,28 +180,28 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String valueOfFirstField() {
-        return keyField.value();
+        return keyField.text();
     }
 
     @Override
     public @Nullable String valueOfLastField() {
-        return commentField.value();
+        return commentField.text();
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String key() {
-        return keyField.value();
+        return keyField.text();
     }
 
     @Override
     public @Nullable String value() {
-        return valueField.value();
+        return valueField.text();
     }
 
     @Override
     public @Nullable String comment() {
-        return commentField.value();
+        return commentField.text();
     }
 
 }

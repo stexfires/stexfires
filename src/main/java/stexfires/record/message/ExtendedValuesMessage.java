@@ -40,7 +40,7 @@ public class ExtendedValuesMessage<T extends TextRecord> implements RecordMessag
                 builder.append(prefix);
             }
             if (!field.isNull()) {
-                builder.append(field.value());
+                builder.append(field.text());
             }
             if (postfixLastValue != null && field.isLastField()) {
                 builder.append(postfixLastValue);

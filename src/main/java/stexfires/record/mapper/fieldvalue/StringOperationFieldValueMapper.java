@@ -31,7 +31,7 @@ public class StringOperationFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final String mapToValue(@NotNull Field field) {
-        return stringUnaryOperator.apply(field.value());
+        return stringUnaryOperator.apply(field.text());
     }
 
 }

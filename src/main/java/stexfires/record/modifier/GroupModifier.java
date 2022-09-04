@@ -148,7 +148,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                            Field::index,
                                            TreeMap::new,
                                            Collectors.mapping(
-                                                   Field::value,
+                                                   Field::text,
                                                    valueCollector)),
                                    map -> map.values()
                                              .stream()

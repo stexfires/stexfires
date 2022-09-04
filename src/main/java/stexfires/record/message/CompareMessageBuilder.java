@@ -98,12 +98,12 @@ public final class CompareMessageBuilder {
                 builder.append("]");
             }
             if (buildValues) {
-                builder.append("values[");
+                builder.append("texts[");
                 builder.append(record.streamOfFields().map(field -> {
                             if (field.isNull()) {
                                 return "[" + field.index() + "]";
                             } else {
-                                return "[" + field.index() + ",'" + field.value() + "']";
+                                return "[" + field.index() + ",'" + field.text() + "']";
                             }
                         }
                 ).collect(Collectors.joining(",")));

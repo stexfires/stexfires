@@ -14,7 +14,7 @@ public class IdentityFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final String mapToValue(@NotNull Field field) {
-        return field.value();
+        return field.text();
     }
 
 }

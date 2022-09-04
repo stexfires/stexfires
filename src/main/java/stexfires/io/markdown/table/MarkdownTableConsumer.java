@@ -106,20 +106,20 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
             int minWidth = fieldSpec.getMinWidth();
 
             Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.value() : null;
-            if (value != null) {
+            String text = (field != null) ? field.text() : null;
+            if (text != null) {
                 // Escape pipe
-                value = escapePattern.matcher(value).replaceAll(ESCAPE_REPLACEMENT);
+                text = escapePattern.matcher(text).replaceAll(ESCAPE_REPLACEMENT);
             }
-            int valueWidth = (value != null) ? value.length() : 0;
+            int textWidth = (text != null) ? text.length() : 0;
 
             b.append(FIELD_DELIMITER);
 
-            if (value != null) {
-                b.append(value);
+            if (text != null) {
+                b.append(text);
             }
 
-            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - valueWidth)));
+            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - textWidth)));
 
             b.append(FILL_CHARACTER);
         }

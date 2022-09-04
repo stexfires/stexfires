@@ -41,16 +41,16 @@ public final class FieldComparators {
         return comparing(Field::isLastField);
     }
 
-    public static Comparator<Field> value(Comparator<String> comparator) {
+    public static Comparator<Field> text(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(Field::value, comparator);
+        return comparing(Field::text, comparator);
     }
 
-    public static Comparator<Field> value(Comparator<String> comparator,
-                                          SortNulls sortNulls) {
+    public static Comparator<Field> text(Comparator<String> comparator,
+                                         SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(Field::value, sortNulls.wrappedComparator(comparator));
+        return comparing(Field::text, sortNulls.wrappedComparator(comparator));
     }
 
     public static Comparator<Field> length() {

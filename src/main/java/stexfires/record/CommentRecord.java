@@ -16,11 +16,11 @@ public interface CommentRecord extends TextRecord {
     @NotNull Field commentField();
 
     default @Nullable String comment() {
-        return commentField().value();
+        return commentField().text();
     }
 
     default Optional<String> commentAsOptional() {
-        return Optional.ofNullable(commentField().value());
+        return Optional.ofNullable(commentField().text());
     }
 
 }

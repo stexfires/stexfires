@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public RecordIdMapper(Function<? super T, Long> recordIdFunction) {
-        super(TextRecord::category, recordIdFunction, Fields::collectValues);
+        super(TextRecord::category, recordIdFunction, Fields::collectTexts);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> identity() {

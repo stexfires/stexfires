@@ -20,7 +20,7 @@ public class ToManyValuesRecordMapper<T extends TextRecord> implements RecordMap
             return (ManyValuesRecord) record;
         }
         return new ManyValuesRecord(record.category(), record.recordId(),
-                Fields.collectValues(record));
+                Fields.collectTexts(record));
     }
 
 }

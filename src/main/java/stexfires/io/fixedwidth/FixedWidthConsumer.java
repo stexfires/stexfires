@@ -51,19 +51,19 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
             }
 
             Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String value = (field != null) ? field.value() : null;
-            int valueWidth = (value != null) ? value.length() : 0;
+            String text = (field != null) ? field.text() : null;
+            int textWidth = (text != null) ? text.length() : 0;
 
             // Insert field fill character
-            if ((valueWidth < fieldWidth)
+            if ((textWidth < fieldWidth)
                     && (fieldSpec.getFillCharacter() != null)) {
                 Arrays.fill(characters, fieldSpec.getStartIndex(),
                         fieldSpec.getStartIndex() + fieldWidth, fieldSpec.getFillCharacter());
             }
 
             // Insert field value
-            if (valueWidth > 0) {
-                fillCharacters(characters, fieldSpec.getStartIndex(), fieldWidth, valueWidth, value,
+            if (textWidth > 0) {
+                fillCharacters(characters, fieldSpec.getStartIndex(), fieldWidth, textWidth, text,
                         (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment);
             }
         }

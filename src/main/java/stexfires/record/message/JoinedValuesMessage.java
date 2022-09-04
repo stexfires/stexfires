@@ -15,7 +15,7 @@ public class JoinedValuesMessage<T extends TextRecord> implements RecordMessage<
     private final CharSequence delimiter;
 
     public JoinedValuesMessage() {
-        this(Fields.DEFAULT_FIELD_VALUE_DELIMITER);
+        this(Fields.DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
     public JoinedValuesMessage(CharSequence delimiter) {
@@ -25,7 +25,7 @@ public class JoinedValuesMessage<T extends TextRecord> implements RecordMessage<
 
     @Override
     public final @NotNull String createMessage(T record) {
-        return Fields.joinValues(record, delimiter);
+        return Fields.joinTexts(record, delimiter);
     }
 
 }

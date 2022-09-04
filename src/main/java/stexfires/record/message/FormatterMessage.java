@@ -53,7 +53,7 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
             // add limited record values
             record.streamOfFields()
                   .limit(numberOfFieldValues)
-                  .map(Field::value)
+                  .map(Field::text)
                   .forEachOrdered(args::add);
 
             // fill up missing values

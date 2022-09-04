@@ -62,13 +62,13 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
     @Override
     public KeyValueRecord withKey(@NotNull String key) {
         Objects.requireNonNull(key);
-        return new KeyValueRecord(category, recordId, key, valueField.value());
+        return new KeyValueRecord(category, recordId, key, valueField.text());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public KeyValueRecord withValue(@Nullable String value) {
-        return new KeyValueRecord(category, recordId, keyField.value(), value);
+        return new KeyValueRecord(category, recordId, keyField.text(), value);
     }
 
     @Override
@@ -155,23 +155,23 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String valueOfFirstField() {
-        return keyField.value();
+        return keyField.text();
     }
 
     @Override
     public @Nullable String valueOfLastField() {
-        return valueField.value();
+        return valueField.text();
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String key() {
-        return keyField.value();
+        return keyField.text();
     }
 
     @Override
     public @Nullable String value() {
-        return valueField.value();
+        return valueField.text();
     }
 
 }

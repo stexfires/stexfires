@@ -116,17 +116,17 @@ public record OneValueRecord(@Nullable String category, @Nullable Long recordId,
 
     @Override
     public @Nullable String valueOfFirstField() {
-        return valueField.value();
+        return valueField.text();
     }
 
     @Override
     public @Nullable String valueOfLastField() {
-        return valueField.value();
+        return valueField.text();
     }
 
     @Override
     public @Nullable String value() {
-        return valueField.value();
+        return valueField.text();
     }
 
 }

@@ -116,7 +116,7 @@ public interface TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     default String valueAt(int index) {
-        return isValidIndex(index) ? fieldAt(index).value() : null;
+        return isValidIndex(index) ? fieldAt(index).text() : null;
     }
 
     default String valueAtOrElse(int index, @Nullable String other) {
@@ -125,12 +125,12 @@ public interface TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     default String valueOfFirstField() {
-        return isEmpty() ? null : firstField().value();
+        return isEmpty() ? null : firstField().text();
     }
 
     @SuppressWarnings("ReturnOfNull")
     default String valueOfLastField() {
-        return isEmpty() ? null : lastField().value();
+        return isEmpty() ? null : lastField().text();
     }
 
     /**

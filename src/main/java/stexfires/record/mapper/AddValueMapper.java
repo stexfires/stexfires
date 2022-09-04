@@ -29,10 +29,10 @@ public class AddValueMapper<T extends TextRecord> extends ValuesMapper<T> {
 
     public AddValueMapper(Function<? super T, String> valueFunction) {
         super(record -> {
-            List<String> newValues = new ArrayList<>(record.size() + 1);
-            newValues.addAll(Fields.collectValues(record));
-            newValues.add(valueFunction.apply(record));
-            return newValues;
+            List<String> newTexts = new ArrayList<>(record.size() + 1);
+            newTexts.addAll(Fields.collectTexts(record));
+            newTexts.add(valueFunction.apply(record));
+            return newTexts;
         });
         Objects.requireNonNull(valueFunction);
     }
