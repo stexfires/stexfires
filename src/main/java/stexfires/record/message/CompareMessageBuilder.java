@@ -100,7 +100,7 @@ public final class CompareMessageBuilder {
             if (buildValues) {
                 builder.append("values[");
                 builder.append(record.streamOfFields().map(field -> {
-                            if (field.valueIsNull()) {
+                            if (field.isNull()) {
                                 return "[" + field.index() + "]";
                             } else {
                                 return "[" + field.index() + ",'" + field.value() + "']";

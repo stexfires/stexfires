@@ -51,7 +51,7 @@ public class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
         writeString(record.key());
         writeString(fileSpec.getValueDelimiter());
-        writeString(record.valueField().valueOrElse(NULL_VALUE));
+        writeString(record.valueField().orElse(NULL_VALUE));
         writeLineSeparator(fileSpec.getLineSeparator());
     }
 

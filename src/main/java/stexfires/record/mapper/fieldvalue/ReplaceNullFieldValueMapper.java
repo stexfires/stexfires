@@ -20,7 +20,7 @@ public class ReplaceNullFieldValueMapper implements FieldValueMapper {
 
     @Override
     public final @NotNull String mapToValue(@NotNull Field field) {
-        return field.valueOrElse(nullValue);
+        return field.orElse(nullValue);
     }
 
 }

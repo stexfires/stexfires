@@ -53,8 +53,8 @@ public final class FieldComparators {
         return comparing(Field::value, sortNulls.wrappedComparator(comparator));
     }
 
-    public static Comparator<Field> valueLength() {
-        return comparingInt(Field::valueLength);
+    public static Comparator<Field> length() {
+        return comparingInt(Field::length);
     }
 
 }

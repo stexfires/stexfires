@@ -3,7 +3,6 @@ package stexfires.record;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -44,31 +43,36 @@ public record Field(int index, int maxIndex, @Nullable String value)
         return index == maxIndex;
     }
 
-    public boolean hasValue() {
-        return value != null;
+    public int recordSize() {
+        return maxIndex + 1;
     }
 
-    public String valueOrElse(@Nullable String other) {
+    @Override
+    public @Nullable String value() {
+        return value;
+    }
+
+    public String orElse(@Nullable String other) {
         return value != null ? value : other;
     }
 
-    public Optional<String> valueAsOptional() {
+    public Optional<String> asOptional() {
         return Optional.ofNullable(value);
     }
 
-    public boolean valueEquals(@Nullable String other) {
-        return Objects.equals(value, other);
+    public boolean isNotNull() {
+        return value != null;
     }
 
-    public boolean valueIsNull() {
+    public boolean isNull() {
         return value == null;
     }
 
-    public boolean valueIsEmpty() {
+    public boolean isEmpty() {
         return value != null && value.isEmpty();
     }
 
-    public boolean valueIsNullOrEmpty() {
+    public boolean isNullOrEmpty() {
         return value == null || value.isEmpty();
     }
 
@@ -76,11 +80,11 @@ public record Field(int index, int maxIndex, @Nullable String value)
      * @return the length of value or '0' for 'null' value
      * @see java.lang.String#length()
      */
-    public int valueLength() {
+    public int length() {
         return value != null ? value.length() : 0;
     }
 
-    public Stream<String> valueAsStream() {
+    public Stream<String> stream() {
         return Stream.ofNullable(value);
     }
 

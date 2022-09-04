@@ -49,7 +49,7 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
         if (keyField.maxIndex() != MAX_INDEX) {
             throw new IllegalArgumentException("Wrong 'maxIndex' of keyField: " + keyField);
         }
-        if (keyField.valueIsNull()) {
+        if (keyField.isNull()) {
             throw new IllegalArgumentException("Wrong 'value' of keyField: " + keyField);
         }
         // valueField
