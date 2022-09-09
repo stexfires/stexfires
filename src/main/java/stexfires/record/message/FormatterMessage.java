@@ -20,28 +20,28 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
 
     private final String format;
     private final Locale locale;
-    private final int numberOfFieldValues;
-    private final String fillUpValue;
+    private final int numberOfFieldTexts;
+    private final String fillUpText;
 
-    public FormatterMessage(String format, Locale locale, int numberOfFieldValues, @Nullable String fillUpValue) {
+    public FormatterMessage(String format, Locale locale, int numberOfFieldTexts, @Nullable String fillUpText) {
         Objects.requireNonNull(format);
         Objects.requireNonNull(locale);
-        if (numberOfFieldValues < 0) {
-            throw new IllegalArgumentException("Illegal size! numberOfFieldValues=" + numberOfFieldValues);
+        if (numberOfFieldTexts < 0) {
+            throw new IllegalArgumentException("Illegal size! numberOfFieldTexts=" + numberOfFieldTexts);
         }
         this.format = format;
         this.locale = locale;
-        this.numberOfFieldValues = numberOfFieldValues;
-        this.fillUpValue = fillUpValue;
+        this.numberOfFieldTexts = numberOfFieldTexts;
+        this.fillUpText = fillUpText;
     }
 
-    public static <T extends TextRecord> FormatterMessage<T> withoutValues(String format, Locale locale) {
+    public static <T extends TextRecord> FormatterMessage<T> withoutTexts(String format, Locale locale) {
         return new FormatterMessage<>(format, locale, 0, null);
     }
 
     @Override
     public final String createMessage(T record) {
-        List<Object> args = new ArrayList<>(4 + numberOfFieldValues);
+        List<Object> args = new ArrayList<>(4 + numberOfFieldTexts);
 
         // add 4 standard arguments
         args.add(record.getClass().getName());
@@ -49,17 +49,17 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
         args.add(record.recordId());
         args.add(record.size());
 
-        if (numberOfFieldValues > 0) {
-            // add limited record values
+        if (numberOfFieldTexts > 0) {
+            // add limited record texts
             record.streamOfFields()
-                  .limit(numberOfFieldValues)
+                  .limit(numberOfFieldTexts)
                   .map(Field::text)
                   .forEachOrdered(args::add);
 
-            // fill up missing values
-            if (numberOfFieldValues > record.size()) {
-                Stream.generate(() -> fillUpValue)
-                      .limit(numberOfFieldValues - record.size())
+            // fill up missing texts
+            if (numberOfFieldTexts > record.size()) {
+                Stream.generate(() -> fillUpText)
+                      .limit(numberOfFieldTexts - record.size())
                       .forEachOrdered(args::add);
             }
         }

@@ -20,7 +20,7 @@ public interface ValueRecord extends TextRecord {
     }
 
     default Optional<String> valueAsOptional() {
-        return Optional.ofNullable(valueField().text());
+        return valueField().asOptional();
     }
 
 }

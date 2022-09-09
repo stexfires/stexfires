@@ -15,20 +15,20 @@ public class ToKeyValueCommentRecordMapper<T extends TextRecord> implements Reco
     private final int keyIndex;
     private final int valueIndex;
     private final int commentIndex;
-    private final String nullKeyValue;
+    private final String nullKey;
 
-    public ToKeyValueCommentRecordMapper(int keyIndex, int valueIndex, int commentIndex, String nullKeyValue) {
-        Objects.requireNonNull(nullKeyValue);
+    public ToKeyValueCommentRecordMapper(int keyIndex, int valueIndex, int commentIndex, String nullKey) {
+        Objects.requireNonNull(nullKey);
         this.keyIndex = keyIndex;
         this.valueIndex = valueIndex;
         this.commentIndex = commentIndex;
-        this.nullKeyValue = nullKeyValue;
+        this.nullKey = nullKey;
     }
 
     @Override
     public final @NotNull KeyValueCommentRecord map(@NotNull T record) {
         return new KeyValueCommentRecord(record.category(), record.recordId(),
-                record.valueAtOrElse(keyIndex, nullKeyValue), record.valueAt(valueIndex), record.valueAt(commentIndex));
+                record.textAtOrElse(keyIndex, nullKey), record.textAt(valueIndex), record.textAt(commentIndex));
     }
 
 }

@@ -40,7 +40,7 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> isNotNull() {
-        return new RecordIdFilter<>(value -> true);
+        return new RecordIdFilter<>(anyExistingRecordId -> true);
     }
 
     public static <T extends TextRecord> RecordFilter<T> isNull() {

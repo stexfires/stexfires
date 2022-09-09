@@ -5,9 +5,9 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.ManyValuesRecord;
-import stexfires.record.impl.OneValueRecord;
-import stexfires.record.impl.TwoValuesRecord;
+import stexfires.record.impl.OneFieldRecord;
+import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
@@ -48,19 +48,19 @@ public final class TextRecords {
         return EMPTY_RECORD;
     }
 
-    public static ValueRecord ofValue(@Nullable String value) {
-        return new OneValueRecord(value);
+    public static ValueRecord ofText(@Nullable String text) {
+        return new OneFieldRecord(text);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static TextRecord ofValues(String... values) {
-        Objects.requireNonNull(values);
-        return new ManyValuesRecord(values);
+    public static TextRecord ofTexts(String... texts) {
+        Objects.requireNonNull(texts);
+        return new StandardRecord(texts);
     }
 
-    public static TextRecord ofValues(Collection<String> values) {
-        Objects.requireNonNull(values);
-        return new ManyValuesRecord(values);
+    public static TextRecord ofTexts(Collection<String> texts) {
+        Objects.requireNonNull(texts);
+        return new StandardRecord(texts);
     }
 
     public static <T extends TextRecord> List<T> list(T record) {
@@ -148,14 +148,14 @@ public final class TextRecords {
     public static final class Builder implements Consumer<String> {
         private String category;
         private Long recordId;
-        private List<String> valueList;
+        private List<String> textList;
 
         private Builder() {
-            valueList = new ArrayList<>();
+            textList = new ArrayList<>();
         }
 
         public synchronized Builder category(@Nullable String category) {
-            if (valueList == null) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
             this.category = category;
@@ -163,7 +163,7 @@ public final class TextRecords {
         }
 
         public synchronized Builder recordId(@Nullable Long recordId) {
-            if (valueList == null) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
             this.recordId = recordId;
@@ -171,43 +171,43 @@ public final class TextRecords {
         }
 
         @Override
-        public synchronized void accept(@Nullable String value) {
-            if (valueList == null) {
+        public synchronized void accept(@Nullable String text) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            valueList.add(value);
+            textList.add(text);
         }
 
-        public synchronized Builder add(@Nullable String value) {
-            if (valueList == null) {
+        public synchronized Builder add(@Nullable String text) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            valueList.add(value);
+            textList.add(text);
             return this;
         }
 
-        public synchronized Builder addAll(Collection<String> values) {
-            if (valueList == null) {
+        public synchronized Builder addAll(Collection<String> texts) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            Objects.requireNonNull(values);
-            valueList.addAll(values);
+            Objects.requireNonNull(texts);
+            textList.addAll(texts);
             return this;
         }
 
         public synchronized TextRecord build() {
-            if (valueList == null) {
+            if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            TextRecord record = switch (valueList.size()) {
-                case OneValueRecord.FIELD_SIZE -> new OneValueRecord(category, recordId, valueList.get(0));
-                case TwoValuesRecord.FIELD_SIZE ->
-                        new TwoValuesRecord(category, recordId, valueList.get(0), valueList.get(1));
-                default -> new ManyValuesRecord(category, recordId, valueList);
+            TextRecord record = switch (textList.size()) {
+                case OneFieldRecord.FIELD_SIZE -> new OneFieldRecord(category, recordId, textList.get(0));
+                case TwoFieldsRecord.FIELD_SIZE ->
+                        new TwoFieldsRecord(category, recordId, textList.get(0), textList.get(1));
+                default -> new StandardRecord(category, recordId, textList);
             };
             category = null;
             recordId = null;
-            valueList = null;
+            textList = null;
             return record;
         }
 

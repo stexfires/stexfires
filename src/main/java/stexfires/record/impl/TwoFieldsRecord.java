@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
+public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
                               @NotNull Field firstField, @NotNull Field secondField)
         implements TextRecord, Serializable {
 
@@ -25,18 +25,18 @@ public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId
     public static final int MAX_INDEX = SECOND_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public TwoValuesRecord(@Nullable String firstValue, @Nullable String secondValue) {
-        this(null, null, firstValue, secondValue);
+    public TwoFieldsRecord(@Nullable String firstText, @Nullable String secondText) {
+        this(null, null, firstText, secondText);
     }
 
-    public TwoValuesRecord(@Nullable String category, @Nullable Long recordId,
-                           @Nullable String firstValue, @Nullable String secondValue) {
+    public TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
+                           @Nullable String firstText, @Nullable String secondText) {
         this(category, recordId,
-                new Field(FIRST_INDEX, MAX_INDEX, firstValue),
-                new Field(SECOND_INDEX, MAX_INDEX, secondValue));
+                new Field(FIRST_INDEX, MAX_INDEX, firstText),
+                new Field(SECOND_INDEX, MAX_INDEX, secondText));
     }
 
-    public TwoValuesRecord {
+    public TwoFieldsRecord {
         // firstField
         Objects.requireNonNull(firstField);
         if (firstField.index() != FIRST_INDEX) {
@@ -56,8 +56,8 @@ public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId
 
     }
 
-    public TwoValuesRecord withSwappedValues() {
-        return new TwoValuesRecord(category, recordId, secondField.text(), firstField.text());
+    public TwoFieldsRecord withSwappedTexts() {
+        return new TwoFieldsRecord(category, recordId, secondField.text(), firstField.text());
     }
 
     @Override
@@ -137,16 +137,16 @@ public record TwoValuesRecord(@Nullable String category, @Nullable Long recordId
     }
 
     @Override
-    public @Nullable String valueOfFirstField() {
+    public @Nullable String firstText() {
         return firstField.text();
     }
 
     @Override
-    public @Nullable String valueOfLastField() {
+    public @Nullable String lastText() {
         return secondField.text();
     }
 
-    public @Nullable String valueOfSecondField() {
+    public @Nullable String secondText() {
         return secondField.text();
     }
 

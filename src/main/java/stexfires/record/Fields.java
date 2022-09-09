@@ -1,7 +1,7 @@
 package stexfires.record;
 
-import stexfires.record.mapper.fieldvalue.FieldValueMapper;
-import stexfires.record.mapper.fieldvalue.IdentityFieldValueMapper;
+import stexfires.record.mapper.field.FieldTextMapper;
+import stexfires.record.mapper.field.IdentityFieldTextMapper;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @see Field
  * @see TextRecord
- * @see stexfires.record.mapper.fieldvalue.FieldValueMapper
+ * @see stexfires.record.mapper.field.FieldTextMapper
  * @since 0.1
  */
 public final class Fields {
@@ -47,9 +47,9 @@ public final class Fields {
         return fields;
     }
 
-    public static Field[] newArray(Stream<String> values) {
-        Objects.requireNonNull(values);
-        return newArray(values.collect(Collectors.toList()));
+    public static Field[] newArray(Stream<String> texts) {
+        Objects.requireNonNull(texts);
+        return newArray(texts.collect(Collectors.toList()));
     }
 
     @SuppressWarnings({"Convert2streamapi", "OverloadedVarargsMethod"})
@@ -77,36 +77,36 @@ public final class Fields {
 
     public static List<String> collectTexts(TextRecord record) {
         Objects.requireNonNull(record);
-        return collectTexts(record.streamOfFields(), new IdentityFieldValueMapper());
+        return collectTexts(record.streamOfFields(), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(TextRecord record, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(TextRecord record, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(record);
-        Objects.requireNonNull(fieldValueMapper);
-        return collectTexts(record.streamOfFields(), fieldValueMapper);
+        Objects.requireNonNull(fieldTextMapper);
+        return collectTexts(record.streamOfFields(), fieldTextMapper);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static List<String> collectTexts(Field[] fields) {
         Objects.requireNonNull(fields);
-        return collectTexts(Arrays.stream(fields), new IdentityFieldValueMapper());
+        return collectTexts(Arrays.stream(fields), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(Field[] fields, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(Field[] fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
-        Objects.requireNonNull(fieldValueMapper);
-        return collectTexts(Arrays.stream(fields), fieldValueMapper);
+        Objects.requireNonNull(fieldTextMapper);
+        return collectTexts(Arrays.stream(fields), fieldTextMapper);
     }
 
     public static List<String> collectTexts(Stream<Field> fields) {
         Objects.requireNonNull(fields);
-        return collectTexts(fields, new IdentityFieldValueMapper());
+        return collectTexts(fields, new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(Stream<Field> fields, FieldValueMapper fieldValueMapper) {
+    public static List<String> collectTexts(Stream<Field> fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
-        Objects.requireNonNull(fieldValueMapper);
-        return fields.map(fieldValueMapper::mapToValue).collect(Collectors.toList());
+        Objects.requireNonNull(fieldTextMapper);
+        return fields.map(fieldTextMapper::mapToText).collect(Collectors.toList());
     }
 
     public static List<Field> collectFields(Stream<Field> fields) {
@@ -148,10 +148,10 @@ public final class Fields {
         return fields.map(Field::text).collect(Collectors.joining(delimiter));
     }
 
-    public static Stream<String> mapToValue(Stream<Field> fields, FieldValueMapper fieldValueMapper) {
+    public static Stream<String> mapToTexts(Stream<Field> fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
-        Objects.requireNonNull(fieldValueMapper);
-        return fields.map(fieldValueMapper::mapToValue);
+        Objects.requireNonNull(fieldTextMapper);
+        return fields.map(fieldTextMapper::mapToText);
     }
 
     public static Stream<Field> sortFields(Stream<Field> fields, Comparator<Field> fieldComparator) {

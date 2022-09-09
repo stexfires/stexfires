@@ -14,19 +14,19 @@ public class ToKeyValueRecordMapper<T extends TextRecord> implements RecordMappe
 
     private final int keyIndex;
     private final int valueIndex;
-    private final String nullKeyValue;
+    private final String nullKey;
 
-    public ToKeyValueRecordMapper(int keyIndex, int valueIndex, String nullKeyValue) {
-        Objects.requireNonNull(nullKeyValue);
+    public ToKeyValueRecordMapper(int keyIndex, int valueIndex, String nullKey) {
+        Objects.requireNonNull(nullKey);
         this.keyIndex = keyIndex;
         this.valueIndex = valueIndex;
-        this.nullKeyValue = nullKeyValue;
+        this.nullKey = nullKey;
     }
 
     @Override
     public final @NotNull KeyValueRecord map(@NotNull T record) {
         return new KeyValueRecord(record.category(), record.recordId(),
-                record.valueAtOrElse(keyIndex, nullKeyValue), record.valueAt(valueIndex));
+                record.textAtOrElse(keyIndex, nullKey), record.textAt(valueIndex));
     }
 
 }

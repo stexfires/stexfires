@@ -179,12 +179,12 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public @NotNull String valueOfFirstField() {
+    public @NotNull String firstText() {
         return keyField.text();
     }
 
     @Override
-    public @Nullable String valueOfLastField() {
+    public @Nullable String lastText() {
         return commentField.text();
     }
 

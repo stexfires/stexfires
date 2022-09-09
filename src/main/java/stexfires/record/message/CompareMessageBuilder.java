@@ -15,16 +15,16 @@ public final class CompareMessageBuilder {
 
     private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
 
-    private final SortedSet<Integer> valueIndex;
+    private final SortedSet<Integer> textIndex;
     private boolean className;
     private boolean category;
     private String categoryOther;
     private boolean recordId;
     private boolean size;
-    private boolean values;
+    private boolean texts;
 
     public CompareMessageBuilder() {
-        valueIndex = new TreeSet<>();
+        textIndex = new TreeSet<>();
     }
 
     public synchronized CompareMessageBuilder className() {
@@ -53,14 +53,14 @@ public final class CompareMessageBuilder {
         return this;
     }
 
-    public synchronized CompareMessageBuilder values() {
-        values = true;
+    public synchronized CompareMessageBuilder texts() {
+        texts = true;
         return this;
     }
 
-    public synchronized CompareMessageBuilder value(Integer index) {
+    public synchronized CompareMessageBuilder text(Integer index) {
         Objects.requireNonNull(index);
-        valueIndex.add(index);
+        textIndex.add(index);
         return this;
     }
 
@@ -70,8 +70,8 @@ public final class CompareMessageBuilder {
         String buildCategoryOther = categoryOther;
         boolean buildRecordId = recordId;
         boolean buildSize = size;
-        boolean buildValues = values;
-        SortedSet<Integer> buildValueIndex = new TreeSet<>(valueIndex);
+        boolean buildTexts = texts;
+        SortedSet<Integer> buildTextIndex = new TreeSet<>(textIndex);
 
         return record -> {
             StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
@@ -97,7 +97,7 @@ public final class CompareMessageBuilder {
                 builder.append(record.size());
                 builder.append("]");
             }
-            if (buildValues) {
+            if (buildTexts) {
                 builder.append("texts[");
                 builder.append(record.streamOfFields().map(field -> {
                             if (field.isNull()) {
@@ -108,17 +108,17 @@ public final class CompareMessageBuilder {
                         }
                 ).collect(Collectors.joining(",")));
                 builder.append("]");
-            } else if (!buildValueIndex.isEmpty()) {
-                builder.append("values[");
-                builder.append(buildValueIndex.stream().map(index -> {
+            } else if (!buildTextIndex.isEmpty()) {
+                builder.append("texts[");
+                builder.append(buildTextIndex.stream().map(index -> {
                             if (!record.isValidIndex(index)) {
                                 return "[" + index + " i]";
                             } else {
-                                String value = record.valueAt(index);
-                                if (value == null) {
+                                String text = record.textAt(index);
+                                if (text == null) {
                                     return "[" + index + " n]";
                                 } else {
-                                    return "[" + index + ". '" + value + "']";
+                                    return "[" + index + ". '" + text + "']";
                                 }
                             }
                         }

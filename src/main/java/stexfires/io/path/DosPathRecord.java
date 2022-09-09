@@ -28,17 +28,17 @@ public class DosPathRecord extends PathRecord {
         super(pathType, values);
     }
 
-    protected static String[] createDosValues(Path path, DosFileAttributes fileAttributes) {
+    protected static String[] createDosTexts(Path path, DosFileAttributes fileAttributes) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(fileAttributes);
-        String[] values = PathRecord.createBasicValues(DOS_FIELD_SIZE, path, fileAttributes);
-        values[ARCHIVE_INDEX] = String.valueOf(fileAttributes.isArchive());
-        values[READ_ONLY_INDEX] = String.valueOf(fileAttributes.isReadOnly());
-        values[HIDDEN_INDEX] = String.valueOf(fileAttributes.isHidden());
-        values[SYSTEM_INDEX] = String.valueOf(fileAttributes.isSystem());
-        values[FILE_EXTENSION_INDEX] = extractFileExtension(path, fileAttributes);
+        String[] texts = PathRecord.createBasicTexts(DOS_FIELD_SIZE, path, fileAttributes);
+        texts[ARCHIVE_INDEX] = String.valueOf(fileAttributes.isArchive());
+        texts[READ_ONLY_INDEX] = String.valueOf(fileAttributes.isReadOnly());
+        texts[HIDDEN_INDEX] = String.valueOf(fileAttributes.isHidden());
+        texts[SYSTEM_INDEX] = String.valueOf(fileAttributes.isSystem());
+        texts[FILE_EXTENSION_INDEX] = extractFileExtension(path, fileAttributes);
 
-        return values;
+        return texts;
     }
 
     protected static String extractFileExtension(Path path, DosFileAttributes fileAttributes) {
@@ -59,23 +59,23 @@ public class DosPathRecord extends PathRecord {
     }
 
     public final boolean isArchive() {
-        return Boolean.parseBoolean(valueAt(ARCHIVE_INDEX));
+        return Boolean.parseBoolean(textAt(ARCHIVE_INDEX));
     }
 
     public final boolean isReadOnly() {
-        return Boolean.parseBoolean(valueAt(READ_ONLY_INDEX));
+        return Boolean.parseBoolean(textAt(READ_ONLY_INDEX));
     }
 
     public final boolean isHidden() {
-        return Boolean.parseBoolean(valueAt(HIDDEN_INDEX));
+        return Boolean.parseBoolean(textAt(HIDDEN_INDEX));
     }
 
     public final boolean isSystem() {
-        return Boolean.parseBoolean(valueAt(SYSTEM_INDEX));
+        return Boolean.parseBoolean(textAt(SYSTEM_INDEX));
     }
 
     public final @Nullable String fileExtension() {
-        return valueAt(FILE_EXTENSION_INDEX);
+        return textAt(FILE_EXTENSION_INDEX);
     }
 
     public final Optional<String> fileExtensionAsOptional() {
@@ -86,19 +86,19 @@ public class DosPathRecord extends PathRecord {
     public String toString() {
         return "DosPathRecord{" +
                 "category(pathType)=" + category() +
-                ", fileName=" + valueAt(FILE_NAME_INDEX) +
-                ", path=" + valueAt(PATH_INDEX) +
-                ", parent=" + valueAt(PARENT_INDEX) +
-                ", pathNameCount=" + valueAt(PATH_NAME_COUNT_INDEX) +
-                ", fileSize=" + valueAt(FILE_SIZE_INDEX) +
-                ", creationTime=" + valueAt(CREATION_TIME_INDEX) +
-                ", lastModifiedTime=" + valueAt(LAST_MODIFIED_TIME_INDEX) +
-                ", lastAccessTime=" + valueAt(LAST_ACCESS_TIME_INDEX) +
-                ", archive=" + valueAt(ARCHIVE_INDEX) +
-                ", readOnly=" + valueAt(READ_ONLY_INDEX) +
-                ", hidden=" + valueAt(HIDDEN_INDEX) +
-                ", system=" + valueAt(SYSTEM_INDEX) +
-                ", fileExtension=" + valueAt(FILE_EXTENSION_INDEX) +
+                ", fileName=" + textAt(FILE_NAME_INDEX) +
+                ", path=" + textAt(PATH_INDEX) +
+                ", parent=" + textAt(PARENT_INDEX) +
+                ", pathNameCount=" + textAt(PATH_NAME_COUNT_INDEX) +
+                ", fileSize=" + textAt(FILE_SIZE_INDEX) +
+                ", creationTime=" + textAt(CREATION_TIME_INDEX) +
+                ", lastModifiedTime=" + textAt(LAST_MODIFIED_TIME_INDEX) +
+                ", lastAccessTime=" + textAt(LAST_ACCESS_TIME_INDEX) +
+                ", archive=" + textAt(ARCHIVE_INDEX) +
+                ", readOnly=" + textAt(READ_ONLY_INDEX) +
+                ", hidden=" + textAt(HIDDEN_INDEX) +
+                ", system=" + textAt(SYSTEM_INDEX) +
+                ", fileExtension=" + textAt(FILE_EXTENSION_INDEX) +
                 '}';
     }
 

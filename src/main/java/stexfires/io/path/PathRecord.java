@@ -51,22 +51,22 @@ public class PathRecord implements TextRecord {
         hashCode = Objects.hash(category, Arrays.hashCode(fields));
     }
 
-    protected static String[] createBasicValues(int fieldSize, Path path,
-                                                BasicFileAttributes fileAttributes) {
+    protected static String[] createBasicTexts(int fieldSize, Path path,
+                                               BasicFileAttributes fileAttributes) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(fileAttributes);
         Path fileName = path.getFileName();
         Path parent = path.getParent();
-        String[] values = new String[fieldSize];
-        values[FILE_NAME_INDEX] = (fileName != null ? fileName.toString() : null);
-        values[PATH_INDEX] = path.toString();
-        values[PARENT_INDEX] = (parent != null ? parent.toString() : null);
-        values[PATH_NAME_COUNT_INDEX] = String.valueOf(path.getNameCount());
-        values[FILE_SIZE_INDEX] = String.valueOf(fileAttributes.size());
-        values[CREATION_TIME_INDEX] = fileAttributes.creationTime().toInstant().toString();
-        values[LAST_MODIFIED_TIME_INDEX] = fileAttributes.lastModifiedTime().toInstant().toString();
-        values[LAST_ACCESS_TIME_INDEX] = fileAttributes.lastAccessTime().toInstant().toString();
-        return values;
+        String[] texts = new String[fieldSize];
+        texts[FILE_NAME_INDEX] = (fileName != null ? fileName.toString() : null);
+        texts[PATH_INDEX] = path.toString();
+        texts[PARENT_INDEX] = (parent != null ? parent.toString() : null);
+        texts[PATH_NAME_COUNT_INDEX] = String.valueOf(path.getNameCount());
+        texts[FILE_SIZE_INDEX] = String.valueOf(fileAttributes.size());
+        texts[CREATION_TIME_INDEX] = fileAttributes.creationTime().toInstant().toString();
+        texts[LAST_MODIFIED_TIME_INDEX] = fileAttributes.lastModifiedTime().toInstant().toString();
+        texts[LAST_ACCESS_TIME_INDEX] = fileAttributes.lastAccessTime().toInstant().toString();
+        return texts;
     }
 
     @Override
@@ -128,14 +128,14 @@ public class PathRecord implements TextRecord {
     public String toString() {
         return "PathRecord{" +
                 "category(pathType)=" + category() +
-                ", fileName=" + valueAt(FILE_NAME_INDEX) +
-                ", path=" + valueAt(PATH_INDEX) +
-                ", parent=" + valueAt(PARENT_INDEX) +
-                ", pathNameCount=" + valueAt(PATH_NAME_COUNT_INDEX) +
-                ", fileSize=" + valueAt(FILE_SIZE_INDEX) +
-                ", creationTime=" + valueAt(CREATION_TIME_INDEX) +
-                ", lastModifiedTime=" + valueAt(LAST_MODIFIED_TIME_INDEX) +
-                ", lastAccessTime=" + valueAt(LAST_ACCESS_TIME_INDEX) +
+                ", fileName=" + textAt(FILE_NAME_INDEX) +
+                ", path=" + textAt(PATH_INDEX) +
+                ", parent=" + textAt(PARENT_INDEX) +
+                ", pathNameCount=" + textAt(PATH_NAME_COUNT_INDEX) +
+                ", fileSize=" + textAt(FILE_SIZE_INDEX) +
+                ", creationTime=" + textAt(CREATION_TIME_INDEX) +
+                ", lastModifiedTime=" + textAt(LAST_MODIFIED_TIME_INDEX) +
+                ", lastAccessTime=" + textAt(LAST_ACCESS_TIME_INDEX) +
                 '}';
     }
 
@@ -144,7 +144,7 @@ public class PathRecord implements TextRecord {
     }
 
     public final @Nullable String fileName() {
-        return valueAt(FILE_NAME_INDEX);
+        return textAt(FILE_NAME_INDEX);
     }
 
     public final Optional<String> fileNameAsOptional() {
@@ -152,11 +152,11 @@ public class PathRecord implements TextRecord {
     }
 
     public final Path path() {
-        return Paths.get(Objects.requireNonNull(valueAt(PATH_INDEX)));
+        return Paths.get(Objects.requireNonNull(textAt(PATH_INDEX)));
     }
 
     public final @Nullable Path parent() {
-        String parent = valueAt(PARENT_INDEX);
+        String parent = textAt(PARENT_INDEX);
         return parent != null ? Paths.get(parent) : null;
     }
 
@@ -165,23 +165,23 @@ public class PathRecord implements TextRecord {
     }
 
     public final int pathNameCount() {
-        return Integer.parseInt(Objects.requireNonNull(valueAt(PATH_NAME_COUNT_INDEX)));
+        return Integer.parseInt(Objects.requireNonNull(textAt(PATH_NAME_COUNT_INDEX)));
     }
 
     public final long fileSize() {
-        return Long.parseLong(Objects.requireNonNull(valueAt(FILE_SIZE_INDEX)));
+        return Long.parseLong(Objects.requireNonNull(textAt(FILE_SIZE_INDEX)));
     }
 
     public final Instant creationTime() {
-        return Instant.parse(Objects.requireNonNull(valueAt(CREATION_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(textAt(CREATION_TIME_INDEX)));
     }
 
     public final Instant lastModifiedTime() {
-        return Instant.parse(Objects.requireNonNull(valueAt(LAST_MODIFIED_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(textAt(LAST_MODIFIED_TIME_INDEX)));
     }
 
     public final Instant lastAccessTime() {
-        return Instant.parse(Objects.requireNonNull(valueAt(LAST_ACCESS_TIME_INDEX)));
+        return Instant.parse(Objects.requireNonNull(textAt(LAST_ACCESS_TIME_INDEX)));
     }
 
 }

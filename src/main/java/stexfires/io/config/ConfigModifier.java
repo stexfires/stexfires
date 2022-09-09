@@ -42,8 +42,8 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueRecord(
                 categoryOperator.apply(r.category()),
                 r.recordId(),
-                r.valueAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
-                r.valueAt(valueIndex));
+                r.textAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
+                r.textAt(valueIndex));
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 
         Comparator<KeyValueRecord> recordComparator = RecordComparators
@@ -55,7 +55,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
             DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
                     new CompareMessageBuilder()
                             .category()
-                            .value(KeyValueRecord.KEY_INDEX));
+                            .text(KeyValueRecord.KEY_INDEX));
 
             modifier = mapModifier.andThen(sortModifier.andThen(distinctModifier));
         } else {

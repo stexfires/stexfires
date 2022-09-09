@@ -4,7 +4,7 @@ import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
-import stexfires.record.impl.ManyValuesRecord;
+import stexfires.record.impl.StandardRecord;
 import stexfires.util.Alignment;
 
 import java.io.BufferedReader;
@@ -23,7 +23,7 @@ import static stexfires.util.Alignment.START;
  */
 public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
-    private static final String NO_VALUE = null;
+    private static final String NO_TEXT = null;
     private static final String ONLY_FILL_CHAR_VALUE = "";
 
     protected final FixedWidthFileSpec fileSpec;
@@ -61,7 +61,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
-        ManyValuesRecord record = null;
+        StandardRecord record = null;
         String rawData = recordRawData.getRawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
@@ -71,7 +71,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
             boolean nonEmptyFound = false;
 
             // Convert rawData to values
-            List<String> newValues = new ArrayList<>(fileSpec.getFieldSpecs().size());
+            List<String> texts = new ArrayList<>(fileSpec.getFieldSpecs().size());
             for (FixedWidthFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
                 Character fillCharacter = fieldSpec.getFillCharacter() != null ? fieldSpec.getFillCharacter() : fileSpec.getFillCharacter();
                 Alignment alignment = fieldSpec.getAlignment() != null ? fieldSpec.getAlignment() : fileSpec.getAlignment();
@@ -79,20 +79,20 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
                 int beginIndex = Math.max(fieldSpec.getStartIndex(), 0);
                 int endIndex = Math.min(fieldSpec.getStartIndex() + fieldSpec.getWidth(), dataLength);
 
-                String value = NO_VALUE;
+                String text = NO_TEXT;
                 if (beginIndex < endIndex) {
-                    value = rawData.substring(beginIndex, endIndex);
-                    value = removeFillCharacters(value, fillCharacter, alignment);
-                    nonEmptyFound = nonEmptyFound || !value.isEmpty();
+                    text = rawData.substring(beginIndex, endIndex);
+                    text = removeFillCharacters(text, fillCharacter, alignment);
+                    nonEmptyFound = nonEmptyFound || !text.isEmpty();
                 }
 
-                newValues.add(value);
+                texts.add(text);
             }
 
             boolean skipAllNullOrEmpty = fileSpec.isSkipAllNullOrEmpty() && !nonEmptyFound;
 
             if (!skipAllNullOrEmpty) {
-                record = new ManyValuesRecord(recordRawData.getCategory(), recordRawData.getRecordId(), newValues);
+                record = new StandardRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
             }
         }
 

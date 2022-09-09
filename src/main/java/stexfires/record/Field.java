@@ -78,7 +78,7 @@ public record Field(int index, int maxIndex, @Nullable String text)
     }
 
     /**
-     * @return the length of value or '0' for 'null' value
+     * @return the length of the text or '0' is the text is 'null'
      * @see java.lang.String#length()
      */
     public int length() {

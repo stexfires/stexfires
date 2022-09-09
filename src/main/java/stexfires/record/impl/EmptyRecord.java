@@ -81,22 +81,22 @@ public record EmptyRecord()
     }
 
     @Override
-    public @Nullable String valueAt(int index) {
+    public @Nullable String textAt(int index) {
         return null;
     }
 
     @Override
-    public String valueAtOrElse(int index, @Nullable String other) {
+    public String textAtOrElse(int index, @Nullable String other) {
         return other;
     }
 
     @Override
-    public @Nullable String valueOfFirstField() {
+    public @Nullable String firstText() {
         return null;
     }
 
     @Override
-    public @Nullable String valueOfLastField() {
+    public @Nullable String lastText() {
         return null;
     }
 

@@ -9,19 +9,19 @@ import stexfires.record.TextRecord;
  */
 public class CategoryMessage<T extends TextRecord> implements RecordMessage<T> {
 
-    private final String nullCategoryValue;
+    private final String nullCategory;
 
     public CategoryMessage() {
         this(null);
     }
 
-    public CategoryMessage(@Nullable String nullCategoryValue) {
-        this.nullCategoryValue = nullCategoryValue;
+    public CategoryMessage(@Nullable String nullCategory) {
+        this.nullCategory = nullCategory;
     }
 
     @Override
     public final @Nullable String createMessage(T record) {
-        return record.categoryOrElse(nullCategoryValue);
+        return record.categoryOrElse(nullCategory);
     }
 
 }

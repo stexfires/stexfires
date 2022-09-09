@@ -2,7 +2,7 @@ package stexfires.record.mapper;
 
 import stexfires.record.Fields;
 import stexfires.record.TextRecord;
-import stexfires.record.mapper.fieldvalue.FieldValueMapper;
+import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.StringUnaryOperatorType;
 import stexfires.util.Strings;
@@ -18,9 +18,9 @@ import java.util.function.Supplier;
 
 /**
  * @author Mathias Kalb
- * @see stexfires.record.mapper.AddValueMapper
+ * @see AddTextMapper
  * @see stexfires.record.mapper.RecordIdMapper
- * @see stexfires.record.mapper.ValuesMapper
+ * @see TextsMapper
  * @since 0.1
  */
 public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
@@ -103,17 +103,17 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> Strings.asString(record.recordId()));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> valueAt(int index) {
-        return new CategoryMapper<>(record -> record.valueAt(index));
+    public static <T extends TextRecord> CategoryMapper<T> textAt(int index) {
+        return new CategoryMapper<>(record -> record.textAt(index));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> valueAtOrElse(int index, String other) {
-        return new CategoryMapper<>(record -> record.valueAtOrElse(index, other));
+    public static <T extends TextRecord> CategoryMapper<T> textAtOrElse(int index, String other) {
+        return new CategoryMapper<>(record -> record.textAtOrElse(index, other));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldValueMapper fieldValueMapper, String other) {
-        Objects.requireNonNull(fieldValueMapper);
-        return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldValueMapper.mapToValue(record.fieldAt(index)) : other);
+    public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, String other) {
+        Objects.requireNonNull(fieldTextMapper);
+        return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldTextMapper.mapToText(record.fieldAt(index)) : other);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> fileName(Path path) {

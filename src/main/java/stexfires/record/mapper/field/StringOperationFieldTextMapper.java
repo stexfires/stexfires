@@ -1,4 +1,4 @@
-package stexfires.record.mapper.fieldvalue;
+package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.Field;
@@ -12,25 +12,25 @@ import java.util.function.UnaryOperator;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class StringOperationFieldValueMapper implements FieldValueMapper {
+public class StringOperationFieldTextMapper implements FieldTextMapper {
 
     private final UnaryOperator<String> stringUnaryOperator;
 
-    public StringOperationFieldValueMapper(StringUnaryOperatorType stringUnaryOperatorType) {
+    public StringOperationFieldTextMapper(StringUnaryOperatorType stringUnaryOperatorType) {
         this(stringUnaryOperatorType.stringUnaryOperator());
     }
 
-    public StringOperationFieldValueMapper(StringUnaryOperatorType stringUnaryOperatorType, Locale locale) {
+    public StringOperationFieldTextMapper(StringUnaryOperatorType stringUnaryOperatorType, Locale locale) {
         this(stringUnaryOperatorType.stringUnaryOperator(locale));
     }
 
-    public StringOperationFieldValueMapper(UnaryOperator<String> stringUnaryOperator) {
+    public StringOperationFieldTextMapper(UnaryOperator<String> stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
         this.stringUnaryOperator = stringUnaryOperator;
     }
 
     @Override
-    public final String mapToValue(@NotNull Field field) {
+    public final String mapToText(@NotNull Field field) {
         return stringUnaryOperator.apply(field.text());
     }
 

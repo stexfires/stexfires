@@ -1,7 +1,7 @@
 package stexfires.record.modifier;
 
 import stexfires.record.TextRecord;
-import stexfires.record.impl.ManyValuesRecord;
+import stexfires.record.impl.StandardRecord;
 import stexfires.util.Strings;
 
 import java.util.Arrays;
@@ -44,14 +44,14 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                 valueIndexes.stream()
                             .filter(valueIndex -> !onlyExistingValues || record.isValidIndex(valueIndex))
                             .map(valueIndex ->
-                                    new ManyValuesRecord(record.category(), record.recordId(),
+                                    new StandardRecord(record.category(), record.recordId(),
                                             Strings.concat(
                                                     // keys
-                                                    keyIndexes.stream().map(record::valueAt),
+                                                    keyIndexes.stream().map(record::textAt),
                                                     // identifier
                                                     Stream.of(valueIndexToIdentifier.apply(valueIndex)),
                                                     // one value
-                                                    Stream.of(record.valueAt(valueIndex)))
+                                                    Stream.of(record.textAt(valueIndex)))
                                     )));
     }
 
@@ -93,14 +93,14 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
         return new UnpivotModifier<>(record ->
                 IntStream.range(0, valueIndexes.length)
                          .mapToObj(recordIndex ->
-                                 new ManyValuesRecord(record.category(), record.recordId(),
+                                 new StandardRecord(record.category(), record.recordId(),
                                          Strings.concat(
                                                  // keys
-                                                 keyIndexes.stream().map(record::valueAt),
+                                                 keyIndexes.stream().map(record::textAt),
                                                  // identifier
                                                  Stream.of(recordIndexToIdentifier.apply(recordIndex)),
                                                  // many values
-                                                 valueIndexes[recordIndex].stream().map(valueIndex -> valueIndex != null ? record.valueAt(valueIndex) : null))
+                                                 valueIndexes[recordIndex].stream().map(valueIndex -> valueIndex != null ? record.textAt(valueIndex) : null))
                                  )));
     }
 

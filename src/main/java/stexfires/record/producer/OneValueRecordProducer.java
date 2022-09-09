@@ -2,7 +2,7 @@ package stexfires.record.producer;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.OneValueRecord;
+import stexfires.record.impl.OneFieldRecord;
 import stexfires.util.Strings;
 
 import java.util.Collection;
@@ -17,9 +17,9 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class OneValueRecordProducer implements RecordProducer<OneValueRecord> {
+public class OneValueRecordProducer implements RecordProducer<OneFieldRecord> {
 
-    private final List<OneValueRecord> records;
+    private final List<OneFieldRecord> records;
 
     public <V> OneValueRecordProducer(Collection<V> values) {
         this(null, TextRecords.recordIdSequence(), values, Strings::asString);
@@ -40,13 +40,13 @@ public class OneValueRecordProducer implements RecordProducer<OneValueRecord> {
         Objects.requireNonNull(valueToStringFunction);
         records = values
                 .stream()
-                .map(value -> new OneValueRecord(category, recordIdSupplier.get(),
+                .map(value -> new OneFieldRecord(category, recordIdSupplier.get(),
                         valueToStringFunction.apply(value)))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public final Stream<OneValueRecord> produceStream() {
+    public final Stream<OneFieldRecord> produceStream() {
         return records.stream();
     }
 

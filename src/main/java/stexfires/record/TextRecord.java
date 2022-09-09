@@ -11,7 +11,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * A {@link TextRecord} contains {@link Field}s with values.
+ * A {@link TextRecord} consists of {@link Field}s, each of which contains a text.
  * It can also contain a category and a record id.
  * <p>
  * It must be {@code immutable} and {@code thread-safe}.
@@ -115,21 +115,21 @@ public interface TextRecord {
     }
 
     @SuppressWarnings("ReturnOfNull")
-    default String valueAt(int index) {
+    default String textAt(int index) {
         return isValidIndex(index) ? fieldAt(index).text() : null;
     }
 
-    default String valueAtOrElse(int index, @Nullable String other) {
-        return valueAt(index) != null ? valueAt(index) : other;
+    default String textAtOrElse(int index, @Nullable String other) {
+        return textAt(index) != null ? textAt(index) : other;
     }
 
     @SuppressWarnings("ReturnOfNull")
-    default String valueOfFirstField() {
+    default String firstText() {
         return isEmpty() ? null : firstField().text();
     }
 
     @SuppressWarnings("ReturnOfNull")
-    default String valueOfLastField() {
+    default String lastText() {
         return isEmpty() ? null : lastField().text();
     }
 

@@ -4,8 +4,8 @@ import stexfires.record.Field;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
-import stexfires.record.impl.ManyValuesRecord;
-import stexfires.record.impl.OneValueRecord;
+import stexfires.record.impl.OneFieldRecord;
+import stexfires.record.impl.StandardRecord;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.NumberCheckType;
 
@@ -65,8 +65,8 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return ValueRecord::value;
     }
 
-    public static <T extends TextRecord> Function<? super T, String> groupByValueAt(int index) {
-        return r -> r.valueAt(index);
+    public static <T extends TextRecord> Function<? super T, String> groupByTextAt(int index) {
+        return r -> r.textAt(index);
     }
 
     public static <T extends TextRecord> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
@@ -91,40 +91,40 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                                                                          Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valueFunction);
-        return list -> new OneValueRecord(categoryFunction.apply(list), null,
+        return list -> new OneFieldRecord(categoryFunction.apply(list), null,
                 valueFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(valueFunction);
-        return list -> new OneValueRecord(valueFunction.apply(list));
+        return list -> new OneFieldRecord(valueFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, String> categoryFunction,
                                                                                          Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valuesFunction);
-        return list -> new ManyValuesRecord(categoryFunction.apply(list), null,
+        return list -> new StandardRecord(categoryFunction.apply(list), null,
                 valuesFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(valuesFunction);
-        return list -> new ManyValuesRecord(valuesFunction.apply(list));
+        return list -> new StandardRecord(valuesFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(valuesMessage);
-        return list -> new ManyValuesRecord(list.stream()
-                                                .map(valuesMessage.asFunction())
-                                                .collect(Collectors.toList()));
+        return list -> new StandardRecord(list.stream()
+                                              .map(valuesMessage.asFunction())
+                                              .collect(Collectors.toList()));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
                                                                                                     RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(categoryMessage);
         Objects.requireNonNull(valuesMessage);
-        return list -> new ManyValuesRecord(categoryMessage.createMessage(list.get(0)), null,
+        return list -> new StandardRecord(categoryMessage.createMessage(list.get(0)), null,
                 list.stream()
                     .map(valuesMessage.asFunction())
                     .collect(Collectors.toList()));

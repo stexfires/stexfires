@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 
 /**
  * @author Mathias Kalb
- * @see stexfires.record.mapper.AddValueMapper
+ * @see AddTextMapper
  * @see stexfires.record.mapper.CategoryMapper
- * @see stexfires.record.mapper.ValuesMapper
+ * @see TextsMapper
  * @since 0.1
  */
 public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
@@ -74,9 +74,9 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new RecordIdMapper<>(TextRecord::recordId);
     }
 
-    public static <T extends TextRecord> RecordIdMapper<T> valueAt(int index, Function<String, Long> valueFunction) {
-        Objects.requireNonNull(valueFunction);
-        return new RecordIdMapper<>(record -> valueFunction.apply(record.valueAt(index)));
+    public static <T extends TextRecord> RecordIdMapper<T> textAt(int index, Function<String, Long> textFunction) {
+        Objects.requireNonNull(textFunction);
+        return new RecordIdMapper<>(record -> textFunction.apply(record.textAt(index)));
     }
 
 }

@@ -154,12 +154,12 @@ public record KeyValueRecord(@Nullable String category, @Nullable Long recordId,
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public @NotNull String valueOfFirstField() {
+    public @NotNull String firstText() {
         return keyField.text();
     }
 
     @Override
-    public @Nullable String valueOfLastField() {
+    public @Nullable String lastText() {
         return valueField.text();
     }
 

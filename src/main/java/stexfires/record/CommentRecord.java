@@ -20,7 +20,7 @@ public interface CommentRecord extends TextRecord {
     }
 
     default Optional<String> commentAsOptional() {
-        return Optional.ofNullable(commentField().text());
+        return commentField().asOptional();
     }
 
 }

@@ -18,49 +18,49 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record ManyValuesRecord(@Nullable String category, @Nullable Long recordId,
-                               @NotNull Field[] fields)
+public record StandardRecord(@Nullable String category, @Nullable Long recordId,
+                             @NotNull Field[] fields)
         implements TextRecord, Serializable {
 
-    public ManyValuesRecord() {
+    public StandardRecord() {
         this(null, null, Fields.emptyArray());
     }
 
-    public ManyValuesRecord(Collection<String> values) {
-        this(null, null, Fields.newArray(values));
+    public StandardRecord(Collection<String> texts) {
+        this(null, null, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(@Nullable String category, Collection<String> values) {
-        this(category, null, Fields.newArray(values));
+    public StandardRecord(@Nullable String category, Collection<String> texts) {
+        this(category, null, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Collection<String> values) {
-        this(category, recordId, Fields.newArray(values));
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, Collection<String> texts) {
+        this(category, recordId, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(Stream<String> values) {
-        this(null, null, Fields.newArray(values));
+    public StandardRecord(Stream<String> texts) {
+        this(null, null, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(@Nullable String category, Stream<String> values) {
-        this(category, null, Fields.newArray(values));
+    public StandardRecord(@Nullable String category, Stream<String> texts) {
+        this(category, null, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, Stream<String> values) {
-        this(category, recordId, Fields.newArray(values));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public ManyValuesRecord(String... values) {
-        this(null, null, Fields.newArray(values));
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, Stream<String> texts) {
+        this(category, recordId, Fields.newArray(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, String... values) {
-        this(category, recordId, Fields.newArray(values));
+    public StandardRecord(String... texts) {
+        this(null, null, Fields.newArray(texts));
     }
 
-    public ManyValuesRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
+    @SuppressWarnings("OverloadedVarargsMethod")
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
+        this(category, recordId, Fields.newArray(texts));
+    }
+
+    public StandardRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
         Objects.requireNonNull(fields);
         this.category = category;
         this.recordId = recordId;

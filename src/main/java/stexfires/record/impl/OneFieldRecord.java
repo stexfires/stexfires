@@ -16,23 +16,23 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record OneValueRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field valueField)
+public record OneFieldRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field valueField)
         implements ValueRecord, Serializable {
 
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int MAX_INDEX = VALUE_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public OneValueRecord(@Nullable String value) {
+    public OneFieldRecord(@Nullable String value) {
         this(null, null, value);
     }
 
-    public OneValueRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
+    public OneFieldRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
         this(category, recordId,
                 new Field(VALUE_INDEX, MAX_INDEX, value));
     }
 
-    public OneValueRecord {
+    public OneFieldRecord {
         // valueField
         Objects.requireNonNull(valueField);
         if (valueField.index() != VALUE_INDEX) {
@@ -44,8 +44,8 @@ public record OneValueRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public OneValueRecord withValue(@Nullable String value) {
-        return new OneValueRecord(category, recordId, value);
+    public OneFieldRecord withValue(@Nullable String value) {
+        return new OneFieldRecord(category, recordId, value);
     }
 
     @Override
@@ -115,12 +115,12 @@ public record OneValueRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public @Nullable String valueOfFirstField() {
+    public @Nullable String firstText() {
         return valueField.text();
     }
 
     @Override
-    public @Nullable String valueOfLastField() {
+    public @Nullable String lastText() {
         return valueField.text();
     }
 

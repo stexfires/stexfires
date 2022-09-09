@@ -68,12 +68,12 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                                                    int valueClassificationIndex,
                                                                                    List<String> valueClassifications) {
         return new PivotModifier<>(
-                GroupModifier.<T>groupByValueAt(keyIndex),
+                GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.valueAt(keyIndex)),
-                r -> r.valueAt(valueIndex),
+                r -> Stream.of(r.textAt(keyIndex)),
+                r -> r.textAt(valueIndex),
                 nullValue,
-                r -> r.valueAt(valueClassificationIndex),
+                r -> r.textAt(valueClassificationIndex),
                 valueClassifications);
     }
 
@@ -105,9 +105,9 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                                            String nullValue,
                                                                            List<Integer> valueIndexes) {
         return new PivotModifier<>(
-                GroupModifier.<T>groupByValueAt(keyIndex),
+                GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.valueAt(keyIndex)),
+                r -> Stream.of(r.textAt(keyIndex)),
                 1 + recordsPerKey * valueIndexes.size(),
                 nullValue,
                 valueIndexes);
@@ -152,7 +152,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         Function<List<T>, Stream<String>> newValues = list ->
                 list.stream()
                     .flatMap(r -> valueIndexes.stream()
-                                              .map(i -> r.valueAtOrElse(i, nullValue)));
+                                              .map(i -> r.textAtOrElse(i, nullValue)));
         return list ->
                 Stream.concat(Stream.concat(
                                       newFirstValuesFunction.apply(list.get(0)),

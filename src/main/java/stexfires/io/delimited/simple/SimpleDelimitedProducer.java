@@ -4,7 +4,7 @@ import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
-import stexfires.record.impl.ManyValuesRecord;
+import stexfires.record.impl.StandardRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
 
-    private static final String NO_VALUE = null;
+    private static final String NO_TEXT = null;
 
     protected final SimpleDelimitedFileSpec fileSpec;
 
@@ -36,7 +36,7 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
-        ManyValuesRecord record = null;
+        StandardRecord record = null;
         String rawData = recordRawData.getRawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
@@ -47,27 +47,27 @@ public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord
             // Convert rawData to values
             int beginIndex = 0;
             int endIndex;
-            List<String> newValues = new ArrayList<>(fileSpec.getFieldSpecs().size());
+            List<String> texts = new ArrayList<>(fileSpec.getFieldSpecs().size());
             for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
-                String value = NO_VALUE;
+                String text = NO_TEXT;
 
                 endIndex = rawData.indexOf(fileSpec.getFieldDelimiter(), beginIndex);
                 if (endIndex == -1) {
                     endIndex = rawData.length();
                 }
                 if (beginIndex < endIndex) {
-                    value = rawData.substring(beginIndex, endIndex);
-                    nonEmptyFound = nonEmptyFound || !value.isEmpty();
+                    text = rawData.substring(beginIndex, endIndex);
+                    nonEmptyFound = nonEmptyFound || !text.isEmpty();
                 }
                 beginIndex = endIndex + 1;
 
-                newValues.add(value);
+                texts.add(text);
             }
 
             boolean skipAllNull = fileSpec.isSkipAllNull() && !nonEmptyFound;
 
             if (!skipAllNull) {
-                record = new ManyValuesRecord(recordRawData.getCategory(), recordRawData.getRecordId(), newValues);
+                record = new StandardRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
             }
         }
 
