@@ -1,7 +1,7 @@
 package stexfires.io.delimited.simple;
 
 import stexfires.io.internal.AbstractWritableConsumer;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -27,7 +27,7 @@ public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord
 
     protected static String createRecordString(String fieldDelimiter,
                                                List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                               List<Field> fields) {
+                                               List<TextField> fields) {
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(fields);
@@ -41,7 +41,7 @@ public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord
                 b.append(fieldDelimiter);
             }
 
-            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
+            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;
 
             if (text != null) {

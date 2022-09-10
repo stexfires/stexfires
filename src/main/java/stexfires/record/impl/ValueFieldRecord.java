@@ -2,8 +2,8 @@ package stexfires.record.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
-import stexfires.record.Fields;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.ValueRecord;
 
 import java.io.Serializable;
@@ -16,10 +16,10 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record ValueFieldRecord(@Nullable String category, @Nullable Long recordId,
-                               @NotNull Field valueField)
+                               @NotNull TextField valueField)
         implements ValueRecord, Serializable {
 
-    public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
+    public static final int VALUE_INDEX = TextFields.FIRST_FIELD_INDEX;
     public static final int MAX_INDEX = VALUE_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
@@ -29,7 +29,7 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
 
     public ValueFieldRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
         this(category, recordId,
-                new Field(VALUE_INDEX, MAX_INDEX, value));
+                new TextField(VALUE_INDEX, MAX_INDEX, value));
     }
 
     public ValueFieldRecord {
@@ -49,22 +49,22 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
-    public @NotNull Field[] arrayOfFields() {
-        return new Field[]{valueField};
+    public @NotNull TextField[] arrayOfFields() {
+        return new TextField[]{valueField};
     }
 
     @Override
-    public @NotNull List<Field> listOfFields() {
+    public @NotNull List<TextField> listOfFields() {
         return List.of(valueField);
     }
 
     @Override
-    public @NotNull List<Field> listOfFieldsReversed() {
+    public @NotNull List<TextField> listOfFieldsReversed() {
         return List.of(valueField);
     }
 
     @Override
-    public @NotNull Stream<Field> streamOfFields() {
+    public @NotNull Stream<TextField> streamOfFields() {
         return Stream.of(valueField);
     }
 
@@ -99,22 +99,22 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
-    public @Nullable Field fieldAt(int index) {
+    public @Nullable TextField fieldAt(int index) {
         return (index == VALUE_INDEX) ? valueField : null;
     }
 
     @Override
-    public @NotNull Field firstField() {
+    public @NotNull TextField firstField() {
         return valueField;
     }
 
     @Override
-    public @NotNull Field lastField() {
+    public @NotNull TextField lastField() {
         return valueField;
     }
 
     @Override
-    public @NotNull Field valueField() {
+    public @NotNull TextField valueField() {
         return valueField;
     }
 

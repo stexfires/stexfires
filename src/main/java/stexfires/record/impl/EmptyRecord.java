@@ -2,8 +2,8 @@ package stexfires.record.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
-import stexfires.record.Fields;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.io.Serializable;
@@ -22,22 +22,22 @@ public record EmptyRecord()
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     @Override
-    public @NotNull Field[] arrayOfFields() {
-        return Fields.emptyArray();
+    public @NotNull TextField[] arrayOfFields() {
+        return TextFields.emptyArray();
     }
 
     @Override
-    public @NotNull List<Field> listOfFields() {
+    public @NotNull List<TextField> listOfFields() {
         return Collections.emptyList();
     }
 
     @Override
-    public @NotNull List<Field> listOfFieldsReversed() {
+    public @NotNull List<TextField> listOfFieldsReversed() {
         return Collections.emptyList();
     }
 
     @Override
-    public @NotNull Stream<Field> streamOfFields() {
+    public @NotNull Stream<TextField> streamOfFields() {
         return Stream.empty();
     }
 
@@ -72,17 +72,17 @@ public record EmptyRecord()
     }
 
     @Override
-    public @Nullable Field fieldAt(int index) {
+    public @Nullable TextField fieldAt(int index) {
         return null;
     }
 
     @Override
-    public @Nullable Field firstField() {
+    public @Nullable TextField firstField() {
         return null;
     }
 
     @Override
-    public @Nullable Field lastField() {
+    public @Nullable TextField lastField() {
         return null;
     }
 

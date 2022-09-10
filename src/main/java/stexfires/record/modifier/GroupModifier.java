@@ -1,7 +1,7 @@
 package stexfires.record.modifier;
 
-import stexfires.record.Field;
 import stexfires.record.KeyRecord;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
 import stexfires.record.impl.ManyFieldsRecord;
@@ -145,10 +145,10 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
                                    Collectors.groupingBy(
-                                           Field::index,
+                                           TextField::index,
                                            TreeMap::new,
                                            Collectors.mapping(
-                                                   Field::text,
+                                                   TextField::text,
                                                    valueCollector)),
                                    map -> map.values()
                                              .stream()

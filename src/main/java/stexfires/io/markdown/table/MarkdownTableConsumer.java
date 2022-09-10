@@ -1,7 +1,7 @@
 package stexfires.io.markdown.table;
 
 import stexfires.io.internal.AbstractWritableConsumer;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -99,13 +99,13 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
         StringBuilder b = new StringBuilder();
 
         List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
-        List<Field> fields = record.listOfFields();
+        List<TextField> fields = record.listOfFields();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
             int minWidth = fieldSpec.getMinWidth();
 
-            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
+            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;
             if (text != null) {
                 // Escape pipe

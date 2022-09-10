@@ -1,7 +1,7 @@
 package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public class ReplaceNullFieldTextMapper implements FieldTextMapper {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public final @NotNull String mapToText(@NotNull Field field) {
+    public final @NotNull String mapToText(@NotNull TextField field) {
         return field.orElse(nullText);
     }
 

@@ -1,7 +1,7 @@
 package stexfires.record.comparator;
 
-import stexfires.record.Field;
 import stexfires.record.KeyRecord;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
 import stexfires.util.SortNulls;
@@ -64,8 +64,8 @@ public final class RecordComparators {
         return comparingInt(TextRecord::size);
     }
 
-    public static <T extends TextRecord> Comparator<T> field(Function<? super T, Field> fieldFunction,
-                                                             Comparator<Field> comparator,
+    public static <T extends TextRecord> Comparator<T> field(Function<? super T, TextField> fieldFunction,
+                                                             Comparator<TextField> comparator,
                                                              SortNulls sortNulls) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(comparator);
@@ -74,17 +74,17 @@ public final class RecordComparators {
     }
 
     public static <T extends TextRecord> Comparator<T> fieldAt(int index,
-                                                               Comparator<Field> comparator,
+                                                               Comparator<TextField> comparator,
                                                                SortNulls sortNulls) {
         return field(record -> record.fieldAt(index), comparator, sortNulls);
     }
 
-    public static <T extends TextRecord> Comparator<T> firstField(Comparator<Field> comparator,
+    public static <T extends TextRecord> Comparator<T> firstField(Comparator<TextField> comparator,
                                                                   SortNulls sortNulls) {
         return field(TextRecord::firstField, comparator, sortNulls);
     }
 
-    public static <T extends TextRecord> Comparator<T> lastField(Comparator<Field> comparator,
+    public static <T extends TextRecord> Comparator<T> lastField(Comparator<TextField> comparator,
                                                                  SortNulls sortNulls) {
         return field(TextRecord::lastField, comparator, sortNulls);
     }

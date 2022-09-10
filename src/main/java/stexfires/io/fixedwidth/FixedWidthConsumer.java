@@ -1,7 +1,7 @@
 package stexfires.io.fixedwidth;
 
 import stexfires.io.internal.AbstractWritableConsumer;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -31,7 +31,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
                                                Character fillCharacter,
                                                Alignment alignment,
                                                List<FixedWidthFieldSpec> fieldSpecs,
-                                               List<Field> fields) {
+                                               List<TextField> fields) {
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fieldSpecs);
@@ -50,7 +50,7 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
                 continue;
             }
 
-            Field field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
+            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;
             int textWidth = (text != null) ? text.length() : 0;
 

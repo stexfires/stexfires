@@ -1,6 +1,6 @@
 package stexfires.record.comparator;
 
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.util.SortNulls;
 
 import java.util.Comparator;
@@ -11,7 +11,7 @@ import static java.util.Comparator.comparingInt;
 
 /**
  * This class consists of {@code static} utility methods
- * for constructing comparators for {@link Field}s.
+ * for constructing comparators for {@link stexfires.record.TextField}s.
  *
  * @author Mathias Kalb
  * @see stexfires.record.comparator.RecordComparators
@@ -25,36 +25,36 @@ public final class FieldComparators {
     private FieldComparators() {
     }
 
-    public static Comparator<Field> index() {
-        return comparingInt(Field::index);
+    public static Comparator<TextField> index() {
+        return comparingInt(TextField::index);
     }
 
-    public static Comparator<Field> maxIndex() {
-        return comparingInt(Field::maxIndex);
+    public static Comparator<TextField> maxIndex() {
+        return comparingInt(TextField::maxIndex);
     }
 
-    public static Comparator<Field> isFirstField() {
-        return comparing(Field::isFirstField);
+    public static Comparator<TextField> isFirstField() {
+        return comparing(TextField::isFirstField);
     }
 
-    public static Comparator<Field> isLastField() {
-        return comparing(Field::isLastField);
+    public static Comparator<TextField> isLastField() {
+        return comparing(TextField::isLastField);
     }
 
-    public static Comparator<Field> text(Comparator<String> comparator) {
+    public static Comparator<TextField> text(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(Field::text, comparator);
+        return comparing(TextField::text, comparator);
     }
 
-    public static Comparator<Field> text(Comparator<String> comparator,
-                                         SortNulls sortNulls) {
+    public static Comparator<TextField> text(Comparator<String> comparator,
+                                             SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(Field::text, sortNulls.wrappedComparator(comparator));
+        return comparing(TextField::text, sortNulls.wrappedComparator(comparator));
     }
 
-    public static Comparator<Field> length() {
-        return comparingInt(Field::length);
+    public static Comparator<TextField> length() {
+        return comparingInt(TextField::length);
     }
 
 }

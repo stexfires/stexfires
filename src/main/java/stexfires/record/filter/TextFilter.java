@@ -1,6 +1,6 @@
 package stexfires.record.filter;
 
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.util.StringCheckType;
 import stexfires.util.StringComparisonType;
@@ -22,7 +22,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public static final boolean DEFAULT_NULL_FIELD_VALIDITY = false;
 
-    private final Function<? super T, Field> fieldFunction;
+    private final Function<? super T, TextField> fieldFunction;
     private final boolean nullFieldValidity;
     private final Predicate<String> textPredicate;
 
@@ -37,12 +37,12 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         this(record -> record.fieldAt(index), nullFieldValidity, textPredicate);
     }
 
-    public TextFilter(Function<? super T, Field> fieldFunction,
+    public TextFilter(Function<? super T, TextField> fieldFunction,
                       Predicate<String> textPredicate) {
         this(fieldFunction, DEFAULT_NULL_FIELD_VALIDITY, textPredicate);
     }
 
-    public TextFilter(Function<? super T, Field> fieldFunction,
+    public TextFilter(Function<? super T, TextField> fieldFunction,
                       boolean nullFieldValidity,
                       Predicate<String> textPredicate) {
         Objects.requireNonNull(fieldFunction);
@@ -59,7 +59,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
                 stringComparisonType.stringPredicate(compareText));
     }
 
-    public static <T extends TextRecord> TextFilter<T> compare(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> compare(Function<? super T, TextField> fieldFunction,
                                                                StringComparisonType stringComparisonType,
                                                                String compareText) {
         return new TextFilter<>(fieldFunction,
@@ -72,7 +72,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
                 stringCheckType.stringPredicate());
     }
 
-    public static <T extends TextRecord> TextFilter<T> check(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> check(Function<? super T, TextField> fieldFunction,
                                                              StringCheckType stringCheckType) {
         return new TextFilter<>(fieldFunction,
                 stringCheckType.stringPredicate());
@@ -83,7 +83,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return compare(index, EQUALS, compareText);
     }
 
-    public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, TextField> fieldFunction,
                                                                String compareText) {
         return compare(fieldFunction, EQUALS, compareText);
     }
@@ -92,7 +92,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return check(index, NOT_NULL);
     }
 
-    public static <T extends TextRecord> TextFilter<T> isNotNull(Function<? super T, Field> fieldFunction) {
+    public static <T extends TextRecord> TextFilter<T> isNotNull(Function<? super T, TextField> fieldFunction) {
         return check(fieldFunction, NOT_NULL);
     }
 
@@ -101,7 +101,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return new TextFilter<>(index, texts::contains);
     }
 
-    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, TextField> fieldFunction,
                                                                    Collection<String> texts) {
         return new TextFilter<>(fieldFunction, texts::contains);
     }
@@ -113,14 +113,14 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, TextField> fieldFunction,
                                                                    String... texts) {
         return containedIn(fieldFunction, Arrays.asList(texts));
     }
 
     @Override
     public final boolean isValid(T record) {
-        Field field = fieldFunction.apply(record);
+        TextField field = fieldFunction.apply(record);
         if (field == null) {
             return nullFieldValidity;
         }

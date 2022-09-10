@@ -13,7 +13,7 @@ public interface ValueRecord extends TextRecord {
 
     @NotNull ValueRecord withValue(@Nullable String value);
 
-    @NotNull Field valueField();
+    @NotNull TextField valueField();
 
     default @Nullable String value() {
         return valueField().text();

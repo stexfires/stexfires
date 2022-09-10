@@ -1,7 +1,7 @@
 package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 
 /**
  * @author Mathias Kalb
@@ -13,7 +13,7 @@ public class IdentityFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(@NotNull Field field) {
+    public final String mapToText(@NotNull TextField field) {
         return field.text();
     }
 

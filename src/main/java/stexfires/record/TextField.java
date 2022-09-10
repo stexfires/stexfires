@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * A {@link Field} is part of a {@link TextRecord}.
+ * A {@link TextField} is part of a {@link TextRecord}.
  * <p>
  * It consists of a text, an index and the maxIndex of the {@link TextRecord}.
  * <p>
@@ -20,15 +20,15 @@ import java.util.stream.Stream;
  *
  * @author Mathias Kalb
  * @see TextRecord
- * @see Fields
- * @see Fields#FIRST_FIELD_INDEX
+ * @see TextFields
+ * @see TextFields#FIRST_FIELD_INDEX
  * @since 0.1
  */
-public record Field(int index, int maxIndex, @Nullable String text)
+public record TextField(int index, int maxIndex, @Nullable String text)
         implements Serializable {
 
-    public Field {
-        if (index < Fields.FIRST_FIELD_INDEX) {
+    public TextField {
+        if (index < TextFields.FIRST_FIELD_INDEX) {
             throw new IllegalArgumentException("Illegal field index! index=" + index + " maxIndex=" + maxIndex);
         }
         if (index > maxIndex) {
@@ -37,7 +37,7 @@ public record Field(int index, int maxIndex, @Nullable String text)
     }
 
     public boolean isFirstField() {
-        return index == Fields.FIRST_FIELD_INDEX;
+        return index == TextFields.FIRST_FIELD_INDEX;
     }
 
     public boolean isLastField() {

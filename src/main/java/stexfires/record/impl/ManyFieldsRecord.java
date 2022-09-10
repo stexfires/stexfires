@@ -2,8 +2,8 @@ package stexfires.record.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
-import stexfires.record.Fields;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.io.Serializable;
@@ -19,48 +19,48 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                               @NotNull Field[] fields)
+                               @NotNull TextField[] fields)
         implements TextRecord, Serializable {
 
     public ManyFieldsRecord() {
-        this(null, null, Fields.emptyArray());
+        this(null, null, TextFields.emptyArray());
     }
 
     public ManyFieldsRecord(@NotNull Collection<String> texts) {
-        this(null, null, Fields.newArray(texts));
+        this(null, null, TextFields.newArray(texts));
     }
 
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Collection<String> texts) {
-        this(category, recordId, Fields.newArray(texts));
+        this(category, recordId, TextFields.newArray(texts));
     }
 
     public ManyFieldsRecord(@NotNull Stream<String> texts) {
-        this(null, null, Fields.newArray(texts));
+        this(null, null, TextFields.newArray(texts));
     }
 
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Stream<String> texts) {
-        this(category, recordId, Fields.newArray(texts));
+        this(category, recordId, TextFields.newArray(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public ManyFieldsRecord(String... texts) {
-        this(null, null, Fields.newArray(texts));
+        this(null, null, TextFields.newArray(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
-        this(category, recordId, Fields.newArray(texts));
+        this(category, recordId, TextFields.newArray(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull TextField[] fields) {
         Objects.requireNonNull(fields);
         this.category = category;
         this.recordId = recordId;
 
         // Check and copy fields
-        this.fields = new Field[fields.length];
+        this.fields = new TextField[fields.length];
         int maxIndex = fields.length - 1;
-        for (int index = Fields.FIRST_FIELD_INDEX; index < fields.length; index++) {
+        for (int index = TextFields.FIRST_FIELD_INDEX; index < fields.length; index++) {
             var field = fields[index];
             if (field.index() != index) {
                 throw new IllegalArgumentException("Wrong 'index' of field: " + field);
@@ -74,26 +74,26 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
-    public @NotNull Field[] arrayOfFields() {
+    public @NotNull TextField[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public @NotNull List<Field> listOfFields() {
+    public @NotNull List<TextField> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public @NotNull List<Field> listOfFieldsReversed() {
+    public @NotNull List<TextField> listOfFieldsReversed() {
         var fieldList = listOfFields();
         Collections.reverse(fieldList);
         return fieldList;
     }
 
     @Override
-    public @NotNull Stream<Field> streamOfFields() {
+    public @NotNull Stream<TextField> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 
@@ -113,7 +113,7 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
-    public @Nullable Field fieldAt(int index) {
+    public @Nullable TextField fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 

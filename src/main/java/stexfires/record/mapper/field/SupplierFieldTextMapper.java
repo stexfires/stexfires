@@ -1,7 +1,7 @@
 package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -23,7 +23,7 @@ public class SupplierFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(@NotNull Field field) {
+    public final String mapToText(@NotNull TextField field) {
         return textSupplier.get();
     }
 

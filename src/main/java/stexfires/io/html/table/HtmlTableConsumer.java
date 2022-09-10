@@ -3,7 +3,7 @@ package stexfires.io.html.table;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.internal.AbstractWritableConsumer;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -55,7 +55,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         StringBuilder b = new StringBuilder();
 
         List<HtmlTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
-        List<Field> fields = record.listOfFields();
+        List<TextField> fields = record.listOfFields();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             String text = (fields.size() > fieldIndex) ? fields.get(fieldIndex).text() : null;

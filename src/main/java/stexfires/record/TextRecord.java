@@ -12,7 +12,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * A {@link TextRecord} consists of {@link Field}s, each of which contains a text.
+ * A {@link TextRecord} consists of {@link TextField}s, each of which contains a text.
  * It can also contain a {@code category} and a {@code recordId}.
  * <p>
  * It must be {@code immutable} and {@code thread-safe}.
@@ -20,16 +20,16 @@ import java.util.stream.Stream;
  * The indexes of the contained fields must be ascending and start with {@code 0}.
  *
  * @author Mathias Kalb
- * @see Field
+ * @see TextField
  * @see TextRecords
- * @see Fields#FIRST_FIELD_INDEX
+ * @see TextFields#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public interface TextRecord {
 
-    @NotNull Field[] arrayOfFields();
+    @NotNull TextField[] arrayOfFields();
 
-    default @NotNull List<Field> listOfFields() {
+    default @NotNull List<TextField> listOfFields() {
         return switch (size()) {
             case 0 -> Collections.emptyList();
             case 1 -> Collections.singletonList(firstField());
@@ -37,7 +37,7 @@ public interface TextRecord {
         };
     }
 
-    default @NotNull List<Field> listOfFieldsReversed() {
+    default @NotNull List<TextField> listOfFieldsReversed() {
         if (size() == 0) {
             return Collections.emptyList();
         } else if (size() == 1) {
@@ -49,7 +49,7 @@ public interface TextRecord {
         }
     }
 
-    default @NotNull Stream<Field> streamOfFields() {
+    default @NotNull Stream<TextField> streamOfFields() {
         return switch (size()) {
             case 0 -> Stream.empty();
             case 1 -> Stream.of(firstField());
@@ -115,13 +115,13 @@ public interface TextRecord {
         return (index >= 0) && (index < size());
     }
 
-    @Nullable Field fieldAt(int index);
+    @Nullable TextField fieldAt(int index);
 
-    default @Nullable Field firstField() {
-        return fieldAt(Fields.FIRST_FIELD_INDEX);
+    default @Nullable TextField firstField() {
+        return fieldAt(TextFields.FIRST_FIELD_INDEX);
     }
 
-    default @Nullable Field lastField() {
+    default @Nullable TextField lastField() {
         return fieldAt(size() - 1);
     }
 

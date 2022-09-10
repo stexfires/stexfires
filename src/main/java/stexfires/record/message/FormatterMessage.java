@@ -1,7 +1,7 @@
 package stexfires.record.message;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
             // add limited record texts
             record.streamOfFields()
                   .limit(numberOfFieldTexts)
-                  .map(Field::text)
+                  .map(TextField::text)
                   .forEachOrdered(args::add);
 
             // fill up missing texts

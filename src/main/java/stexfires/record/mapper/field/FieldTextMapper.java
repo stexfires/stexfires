@@ -1,19 +1,19 @@
 package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * A FieldTextMapper maps a {@link Field} to a new text.
+ * A FieldTextMapper maps a {@link stexfires.record.TextField} to a new text.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.
  * <p>
- * This is a {@code functional interface} whose functional method is {@link #mapToText(Field)}.
+ * This is a {@code functional interface} whose functional method is {@link #mapToText(stexfires.record.TextField)}.
  *
  * @author Mathias Kalb
  * @see java.util.function.Function
@@ -23,14 +23,14 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface FieldTextMapper {
 
-    static FieldTextMapper of(Function<Field, String> function) {
+    static FieldTextMapper of(Function<TextField, String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
 
-    String mapToText(@NotNull Field field);
+    String mapToText(@NotNull TextField field);
 
-    default Function<Field, String> asFunction() {
+    default Function<TextField, String> asFunction() {
         return this::mapToText;
     }
 

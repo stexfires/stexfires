@@ -1,6 +1,6 @@
 package stexfires.record.mapper;
 
-import stexfires.record.Fields;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public RecordIdMapper(Function<? super T, Long> recordIdFunction) {
-        super(TextRecord::category, recordIdFunction, Fields::collectTexts);
+        super(TextRecord::category, recordIdFunction, TextFields::collectTexts);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> identity() {

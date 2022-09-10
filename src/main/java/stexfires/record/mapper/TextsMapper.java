@@ -1,7 +1,7 @@
 package stexfires.record.mapper;
 
-import stexfires.record.Field;
-import stexfires.record.Fields;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
@@ -32,10 +32,10 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> TextsMapper<T> identity() {
-        return new TextsMapper<>(Fields::collectTexts);
+        return new TextsMapper<>(TextFields::collectTexts);
     }
 
-    public static <T extends TextRecord> TextsMapper<T> recordFieldFunction(BiFunction<TextRecord, Field, String> recordFieldFunction) {
+    public static <T extends TextRecord> TextsMapper<T> recordFieldFunction(BiFunction<TextRecord, TextField, String> recordFieldFunction) {
         Objects.requireNonNull(recordFieldFunction);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
@@ -54,7 +54,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                       .collect(Collectors.toList()));
     }
 
-    public static <T extends TextRecord> TextsMapper<T> mapOneField(Function<? super T, Field> fieldFunction,
+    public static <T extends TextRecord> TextsMapper<T> mapOneField(Function<? super T, TextField> fieldFunction,
                                                                     FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(fieldTextMapper);
@@ -70,7 +70,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
             if (size < record.size()) {
                 return
                         record.streamOfFields()
-                              .map(Field::text)
+                              .map(TextField::text)
                               .limit(size)
                               .collect(Collectors.toList());
             } else if (size > record.size()) {
@@ -84,13 +84,13 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                 }
                 return newTexts;
             }
-            return Fields.collectTexts(record);
+            return TextFields.collectTexts(record);
         });
     }
 
     public static <T extends TextRecord> TextsMapper<T> reverseTexts() {
         return new TextsMapper<>(record -> {
-            List<String> newTexts = Fields.collectTexts(record);
+            List<String> newTexts = TextFields.collectTexts(record);
             Collections.reverse(newTexts);
             return newTexts;
         });
@@ -131,7 +131,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     public static <T extends TextRecord> TextsMapper<T> add(Function<? super T, String> textFunction) {
         return new TextsMapper<>(record -> {
             List<String> newTexts = new ArrayList<>(record.size() + 1);
-            newTexts.addAll(Fields.collectTexts(record));
+            newTexts.addAll(TextFields.collectTexts(record));
             newTexts.add(textFunction.apply(record));
             return newTexts;
         });
@@ -141,16 +141,16 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .filter(field -> field.index() != index)
-                      .map(Field::text)
+                      .map(TextField::text)
                       .collect(Collectors.toList()));
     }
 
-    public static <T extends TextRecord> TextsMapper<T> remove(Predicate<Field> fieldPredicate) {
+    public static <T extends TextRecord> TextsMapper<T> remove(Predicate<TextField> fieldPredicate) {
         Objects.requireNonNull(fieldPredicate);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .filter(fieldPredicate.negate())
-                      .map(Field::text)
+                      .map(TextField::text)
                       .collect(Collectors.toList()));
     }
 

@@ -1,6 +1,6 @@
 package stexfires.record.mapper;
 
-import stexfires.record.Fields;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
@@ -30,7 +30,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     public AddTextMapper(Function<? super T, String> textFunction) {
         super(record -> {
             List<String> newTexts = new ArrayList<>(record.size() + 1);
-            newTexts.addAll(Fields.collectTexts(record));
+            newTexts.addAll(TextFields.collectTexts(record));
             newTexts.add(textFunction.apply(record));
             return newTexts;
         });

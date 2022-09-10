@@ -13,7 +13,7 @@ public interface CommentRecord extends TextRecord {
 
     @NotNull CommentRecord withComment(@Nullable String comment);
 
-    @NotNull Field commentField();
+    @NotNull TextField commentField();
 
     default @Nullable String comment() {
         return commentField().text();

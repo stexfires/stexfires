@@ -2,9 +2,9 @@ package stexfires.record.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
-import stexfires.record.Fields;
 import stexfires.record.KeyValueCommentRecord;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,13 +16,13 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                          @NotNull Field keyField, @NotNull Field valueField,
-                                          @NotNull Field commentField)
+                                          @NotNull TextField keyField, @NotNull TextField valueField,
+                                          @NotNull TextField commentField)
         implements KeyValueCommentRecord, Serializable {
 
-    public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
-    public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
-    public static final int COMMENT_INDEX = Fields.FIRST_FIELD_INDEX + 2;
+    public static final int KEY_INDEX = TextFields.FIRST_FIELD_INDEX;
+    public static final int VALUE_INDEX = TextFields.FIRST_FIELD_INDEX + 1;
+    public static final int COMMENT_INDEX = TextFields.FIRST_FIELD_INDEX + 2;
     public static final int MAX_INDEX = COMMENT_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
@@ -33,9 +33,9 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     public KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
                                        @NotNull String key, @Nullable String value, @Nullable String comment) {
         this(category, recordId,
-                new Field(KEY_INDEX, MAX_INDEX, key),
-                new Field(VALUE_INDEX, MAX_INDEX, value),
-                new Field(COMMENT_INDEX, MAX_INDEX, comment));
+                new TextField(KEY_INDEX, MAX_INDEX, key),
+                new TextField(VALUE_INDEX, MAX_INDEX, value),
+                new TextField(COMMENT_INDEX, MAX_INDEX, comment));
     }
 
     public KeyValueCommentFieldsRecord {
@@ -96,22 +96,22 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
-    public @NotNull Field[] arrayOfFields() {
-        return new Field[]{keyField, valueField, commentField};
+    public @NotNull TextField[] arrayOfFields() {
+        return new TextField[]{keyField, valueField, commentField};
     }
 
     @Override
-    public @NotNull List<Field> listOfFields() {
+    public @NotNull List<TextField> listOfFields() {
         return List.of(keyField, valueField, commentField);
     }
 
     @Override
-    public @NotNull List<Field> listOfFieldsReversed() {
+    public @NotNull List<TextField> listOfFieldsReversed() {
         return List.of(commentField, valueField, keyField);
     }
 
     @Override
-    public @NotNull Stream<Field> streamOfFields() {
+    public @NotNull Stream<TextField> streamOfFields() {
         return Stream.of(keyField, valueField, commentField);
     }
 
@@ -146,7 +146,7 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
-    public @Nullable Field fieldAt(int index) {
+    public @Nullable TextField fieldAt(int index) {
         return switch (index) {
             case KEY_INDEX -> keyField;
             case VALUE_INDEX -> valueField;
@@ -156,27 +156,27 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
-    public @NotNull Field firstField() {
+    public @NotNull TextField firstField() {
         return keyField;
     }
 
     @Override
-    public @NotNull Field lastField() {
+    public @NotNull TextField lastField() {
         return commentField;
     }
 
     @Override
-    public @NotNull Field keyField() {
+    public @NotNull TextField keyField() {
         return keyField;
     }
 
     @Override
-    public @NotNull Field valueField() {
+    public @NotNull TextField valueField() {
         return valueField;
     }
 
     @Override
-    public @NotNull Field commentField() {
+    public @NotNull TextField commentField() {
         return commentField;
     }
 

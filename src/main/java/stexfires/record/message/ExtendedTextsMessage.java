@@ -2,7 +2,7 @@ package stexfires.record.message;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
 /**
@@ -33,7 +33,7 @@ public class ExtendedTextsMessage<T extends TextRecord> implements RecordMessage
     public final @NotNull String createMessage(T record) {
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
-        for (Field field : record.listOfFields()) {
+        for (TextField field : record.listOfFields()) {
             if (prefixFirstText != null && field.isFirstField()) {
                 builder.append(prefixFirstText);
             } else if (prefix != null && !field.isFirstField()) {

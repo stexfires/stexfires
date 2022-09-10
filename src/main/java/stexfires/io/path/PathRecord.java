@@ -2,8 +2,8 @@ package stexfires.io.path;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.Field;
-import stexfires.record.Fields;
+import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.nio.file.Path;
@@ -40,14 +40,14 @@ public class PathRecord implements TextRecord {
     protected static final int FIELD_SIZE = 8;
 
     private final String category;
-    private final Field[] fields;
+    private final TextField[] fields;
 
     private final int hashCode;
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
     protected PathRecord(PathType pathType, String[] values) {
         this.category = pathType.name();
-        this.fields = Fields.newArray(values);
+        this.fields = TextFields.newArray(values);
 
         hashCode = Objects.hash(category, Arrays.hashCode(fields));
     }
@@ -71,19 +71,19 @@ public class PathRecord implements TextRecord {
     }
 
     @Override
-    public final Field[] arrayOfFields() {
+    public final TextField[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public final @NotNull List<Field> listOfFields() {
+    public final @NotNull List<TextField> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public final @NotNull Stream<Field> streamOfFields() {
+    public final @NotNull Stream<TextField> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 
@@ -104,7 +104,7 @@ public class PathRecord implements TextRecord {
 
     @SuppressWarnings("ReturnOfNull")
     @Override
-    public final Field fieldAt(int index) {
+    public final TextField fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 

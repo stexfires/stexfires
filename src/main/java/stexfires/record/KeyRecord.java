@@ -12,7 +12,7 @@ public interface KeyRecord extends TextRecord {
 
     @NotNull KeyRecord withKey(@NotNull String key);
 
-    @NotNull Field keyField();
+    @NotNull TextField keyField();
 
     @SuppressWarnings("ConstantConditions")
     default @NotNull String key() {

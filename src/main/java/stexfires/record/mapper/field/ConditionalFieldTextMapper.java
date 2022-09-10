@@ -1,7 +1,7 @@
 package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.Field;
+import stexfires.record.TextField;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -12,11 +12,11 @@ import java.util.function.Predicate;
  */
 public class ConditionalFieldTextMapper implements FieldTextMapper {
 
-    private final Predicate<Field> condition;
+    private final Predicate<TextField> condition;
     private final FieldTextMapper trueFieldTextMapper;
     private final FieldTextMapper falseFieldTextMapper;
 
-    public ConditionalFieldTextMapper(Predicate<Field> condition,
+    public ConditionalFieldTextMapper(Predicate<TextField> condition,
                                       FieldTextMapper trueFieldTextMapper,
                                       FieldTextMapper falseFieldTextMapper) {
         Objects.requireNonNull(condition);
@@ -28,7 +28,7 @@ public class ConditionalFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(@NotNull Field field) {
+    public final String mapToText(@NotNull TextField field) {
         return condition.test(field) ? trueFieldTextMapper.mapToText(field) : falseFieldTextMapper.mapToText(field);
     }
 
