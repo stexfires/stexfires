@@ -4,7 +4,6 @@ import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.record.ValueRecord;
-import stexfires.record.impl.OneFieldRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;
@@ -14,14 +13,14 @@ import java.nio.file.Path;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueFile extends BaseRecordFile<ValueRecord, OneFieldRecord, SingleValueFileSpec> {
+public class SingleValueFile extends BaseRecordFile<ValueRecord, ValueRecord, SingleValueFileSpec> {
 
     public SingleValueFile(Path path, SingleValueFileSpec fileSpec) {
         super(path, fileSpec);
     }
 
     @Override
-    public ReadableRecordProducer<OneFieldRecord> openProducer() throws IOException {
+    public ReadableRecordProducer<ValueRecord> openProducer() throws IOException {
         return fileSpec.producer(newInputStream());
     }
 

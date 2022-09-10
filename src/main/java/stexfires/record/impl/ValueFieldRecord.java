@@ -7,7 +7,6 @@ import stexfires.record.Fields;
 import stexfires.record.ValueRecord;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -16,23 +15,24 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record OneFieldRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field valueField)
+public record ValueFieldRecord(@Nullable String category, @Nullable Long recordId,
+                               @NotNull Field valueField)
         implements ValueRecord, Serializable {
 
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int MAX_INDEX = VALUE_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public OneFieldRecord(@Nullable String value) {
+    public ValueFieldRecord(@Nullable String value) {
         this(null, null, value);
     }
 
-    public OneFieldRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
+    public ValueFieldRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
         this(category, recordId,
                 new Field(VALUE_INDEX, MAX_INDEX, value));
     }
 
-    public OneFieldRecord {
+    public ValueFieldRecord {
         // valueField
         Objects.requireNonNull(valueField);
         if (valueField.index() != VALUE_INDEX) {
@@ -44,43 +44,48 @@ public record OneFieldRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public OneFieldRecord withValue(@Nullable String value) {
-        return new OneFieldRecord(category, recordId, value);
+    public @NotNull ValueFieldRecord withValue(@Nullable String value) {
+        return new ValueFieldRecord(category, recordId, value);
     }
 
     @Override
-    public Field[] arrayOfFields() {
+    public @NotNull Field[] arrayOfFields() {
         return new Field[]{valueField};
     }
 
     @Override
-    public List<Field> listOfFields() {
-        return Collections.singletonList(valueField);
+    public @NotNull List<Field> listOfFields() {
+        return List.of(valueField);
     }
 
     @Override
-    public List<Field> listOfFieldsReversed() {
-        return Collections.singletonList(valueField);
+    public @NotNull List<Field> listOfFieldsReversed() {
+        return List.of(valueField);
     }
 
     @Override
-    public Stream<Field> streamOfFields() {
+    public @NotNull Stream<Field> streamOfFields() {
         return Stream.of(valueField);
     }
 
     @Override
-    public String category() {
+    public @Nullable String category() {
         return category;
     }
 
     @Override
-    public Long recordId() {
+    public @Nullable Long recordId() {
         return recordId;
     }
 
     @Override
     public int size() {
         return FIELD_SIZE;
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return true;
     }
 
     @Override
@@ -93,9 +98,8 @@ public record OneFieldRecord(@Nullable String category, @Nullable Long recordId,
         return index == VALUE_INDEX;
     }
 
-    @SuppressWarnings("ReturnOfNull")
     @Override
-    public Field fieldAt(int index) {
+    public @Nullable Field fieldAt(int index) {
         return (index == VALUE_INDEX) ? valueField : null;
     }
 

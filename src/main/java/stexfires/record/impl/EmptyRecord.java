@@ -1,5 +1,6 @@
 package stexfires.record.impl;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.Field;
 import stexfires.record.Fields;
@@ -21,22 +22,22 @@ public record EmptyRecord()
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     @Override
-    public Field[] arrayOfFields() {
+    public @NotNull Field[] arrayOfFields() {
         return Fields.emptyArray();
     }
 
     @Override
-    public List<Field> listOfFields() {
+    public @NotNull List<Field> listOfFields() {
         return Collections.emptyList();
     }
 
     @Override
-    public List<Field> listOfFieldsReversed() {
+    public @NotNull List<Field> listOfFieldsReversed() {
         return Collections.emptyList();
     }
 
     @Override
-    public Stream<Field> streamOfFields() {
+    public @NotNull Stream<Field> streamOfFields() {
         return Stream.empty();
     }
 
@@ -53,6 +54,11 @@ public record EmptyRecord()
     @Override
     public int size() {
         return FIELD_SIZE;
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return false;
     }
 
     @Override
@@ -86,8 +92,8 @@ public record EmptyRecord()
     }
 
     @Override
-    public String textAtOrElse(int index, @Nullable String other) {
-        return other;
+    public @Nullable String textAtOrElse(int index, @Nullable String otherText) {
+        return otherText;
     }
 
     @Override

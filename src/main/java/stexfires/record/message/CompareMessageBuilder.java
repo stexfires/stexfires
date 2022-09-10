@@ -82,8 +82,8 @@ public final class CompareMessageBuilder {
             }
             if (buildCategory) {
                 builder.append("category[");
-                if (record.categoryOrElse(buildCategoryOther) != null) {
-                    builder.append(record.categoryOrElse(buildCategoryOther));
+                if (record.categoryAsOptional().orElse(buildCategoryOther) != null) {
+                    builder.append(record.categoryAsOptional().orElse(buildCategoryOther));
                 }
                 builder.append("]");
             }

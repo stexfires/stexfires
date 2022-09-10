@@ -4,7 +4,7 @@ import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Alignment;
 
 import java.io.BufferedReader;
@@ -61,7 +61,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
-        StandardRecord record = null;
+        TextRecord record = null;
         String rawData = recordRawData.getRawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
@@ -92,7 +92,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
             boolean skipAllNullOrEmpty = fileSpec.isSkipAllNullOrEmpty() && !nonEmptyFound;
 
             if (!skipAllNullOrEmpty) {
-                record = new StandardRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
+                record = new ManyFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
             }
         }
 

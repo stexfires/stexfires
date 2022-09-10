@@ -1,7 +1,7 @@
 package stexfires.record.modifier;
 
 import stexfires.record.TextRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Strings;
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                 valueIndexes.stream()
                             .filter(valueIndex -> !onlyExistingValues || record.isValidIndex(valueIndex))
                             .map(valueIndex ->
-                                    new StandardRecord(record.category(), record.recordId(),
+                                    new ManyFieldsRecord(record.category(), record.recordId(),
                                             Strings.concat(
                                                     // keys
                                                     keyIndexes.stream().map(record::textAt),
@@ -93,7 +93,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
         return new UnpivotModifier<>(record ->
                 IntStream.range(0, valueIndexes.length)
                          .mapToObj(recordIndex ->
-                                 new StandardRecord(record.category(), record.recordId(),
+                                 new ManyFieldsRecord(record.category(), record.recordId(),
                                          Strings.concat(
                                                  // keys
                                                  keyIndexes.stream().map(record::textAt),

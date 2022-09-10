@@ -1,9 +1,10 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.RecordComparators;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.CompareMessageBuilder;
 import stexfires.record.modifier.DistinctModifier;
@@ -30,6 +31,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
         this(keyIndex, valueIndex, removeDuplicates, null);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates, @Nullable Locale locale) {
         UnaryOperator<String> categoryOperator = c -> {
             String category = c;
@@ -39,7 +41,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
             return category;
         };
 
-        RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueRecord(
+        RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueFieldsRecord(
                 categoryOperator.apply(r.category()),
                 r.recordId(),
                 r.textAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
@@ -55,7 +57,7 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
             DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
                     new CompareMessageBuilder()
                             .category()
-                            .text(KeyValueRecord.KEY_INDEX));
+                            .text(KeyValueFieldsRecord.KEY_INDEX));
 
             modifier = mapModifier.andThen(sortModifier.andThen(distinctModifier));
         } else {

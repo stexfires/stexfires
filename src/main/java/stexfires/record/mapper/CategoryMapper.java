@@ -76,7 +76,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOrElse(String other) {
-        return new CategoryMapper<>(record -> record.categoryOrElse(other));
+        return new CategoryMapper<>(record -> record.categoryAsOptional().orElse(other));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryFunction(Function<String, String> categoryFunction) {
@@ -111,6 +111,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> record.textAtOrElse(index, other));
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, String other) {
         Objects.requireNonNull(fieldTextMapper);
         return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldTextMapper.mapToText(record.fieldAt(index)) : other);

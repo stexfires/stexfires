@@ -53,8 +53,8 @@ public record Field(int index, int maxIndex, @Nullable String text)
         return text;
     }
 
-    public String orElse(@Nullable String other) {
-        return text != null ? text : other;
+    public @Nullable String orElse(@Nullable String otherText) {
+        return text != null ? text : otherText;
     }
 
     public @NotNull Optional<String> asOptional() {
@@ -78,7 +78,7 @@ public record Field(int index, int maxIndex, @Nullable String text)
     }
 
     /**
-     * @return the length of the text or '0' is the text is 'null'
+     * @return the length of the text or '0' if the text is 'null'
      * @see java.lang.String#length()
      */
     public int length() {

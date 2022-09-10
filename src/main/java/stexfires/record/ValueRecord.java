@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface ValueRecord extends TextRecord {
 
-    ValueRecord withValue(@Nullable String value);
+    @NotNull ValueRecord withValue(@Nullable String value);
 
     @NotNull Field valueField();
 
@@ -19,7 +19,7 @@ public interface ValueRecord extends TextRecord {
         return valueField().text();
     }
 
-    default Optional<String> valueAsOptional() {
+    default @NotNull Optional<String> valueAsOptional() {
         return valueField().asOptional();
     }
 

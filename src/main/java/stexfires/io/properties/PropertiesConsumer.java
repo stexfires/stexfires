@@ -1,9 +1,9 @@
 package stexfires.io.properties;
 
 import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.record.KeyValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.record.impl.KeyValueRecord;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -87,6 +87,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);

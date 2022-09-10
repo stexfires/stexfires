@@ -2,7 +2,7 @@ package stexfires.io.properties;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
@@ -59,9 +59,9 @@ public final class PropertiesFileSpec extends AbstractRecordFileSpec {
 
         // both
         fieldSpecs = new ArrayList<>(2);
-        fieldSpecs.add(KeyValueRecord.KEY_INDEX,
+        fieldSpecs.add(KeyValueFieldsRecord.KEY_INDEX,
                 new PropertiesFieldSpec(DEFAULT_READ_NULL_VALUE_REPLACEMENT, DEFAULT_WRITE_NULL_VALUE_REPLACEMENT));
-        fieldSpecs.add(KeyValueRecord.VALUE_INDEX,
+        fieldSpecs.add(KeyValueFieldsRecord.VALUE_INDEX,
                 new PropertiesFieldSpec(readNullValueReplacement, writeNullValueReplacement));
 
         // read
@@ -151,7 +151,7 @@ public final class PropertiesFileSpec extends AbstractRecordFileSpec {
     }
 
     public PropertiesFieldSpec getValueSpec() {
-        return fieldSpecs.get(KeyValueRecord.VALUE_INDEX);
+        return fieldSpecs.get(KeyValueFieldsRecord.VALUE_INDEX);
     }
 
     public boolean isCommentAsCategory() {

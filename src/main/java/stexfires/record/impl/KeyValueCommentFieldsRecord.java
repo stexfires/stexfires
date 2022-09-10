@@ -2,14 +2,11 @@ package stexfires.record.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.record.CommentRecord;
 import stexfires.record.Field;
 import stexfires.record.Fields;
-import stexfires.record.KeyRecord;
-import stexfires.record.ValueRecord;
+import stexfires.record.KeyValueCommentRecord;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -18,9 +15,10 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record KeyValueCommentRecord(@Nullable String category, @Nullable Long recordId,
-                                    @NotNull Field keyField, @NotNull Field valueField, @NotNull Field commentField)
-        implements KeyRecord, ValueRecord, CommentRecord, Serializable {
+public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
+                                          @NotNull Field keyField, @NotNull Field valueField,
+                                          @NotNull Field commentField)
+        implements KeyValueCommentRecord, Serializable {
 
     public static final int KEY_INDEX = Fields.FIRST_FIELD_INDEX;
     public static final int VALUE_INDEX = Fields.FIRST_FIELD_INDEX + 1;
@@ -28,19 +26,19 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
     public static final int MAX_INDEX = COMMENT_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public KeyValueCommentRecord(@NotNull String key, @Nullable String value, @Nullable String comment) {
+    public KeyValueCommentFieldsRecord(@NotNull String key, @Nullable String value, @Nullable String comment) {
         this(null, null, key, value, comment);
     }
 
-    public KeyValueCommentRecord(@Nullable String category, @Nullable Long recordId,
-                                 @NotNull String key, @Nullable String value, @Nullable String comment) {
+    public KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
+                                       @NotNull String key, @Nullable String value, @Nullable String comment) {
         this(category, recordId,
                 new Field(KEY_INDEX, MAX_INDEX, key),
                 new Field(VALUE_INDEX, MAX_INDEX, value),
                 new Field(COMMENT_INDEX, MAX_INDEX, comment));
     }
 
-    public KeyValueCommentRecord {
+    public KeyValueCommentFieldsRecord {
         // keyField
         Objects.requireNonNull(keyField);
         if (keyField.index() != KEY_INDEX) {
@@ -50,7 +48,7 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
             throw new IllegalArgumentException("Wrong 'maxIndex' of keyField: " + keyField);
         }
         if (keyField.isNull()) {
-            throw new IllegalArgumentException("Wrong 'value' of keyField: " + keyField);
+            throw new IllegalArgumentException("Wrong 'text' of keyField: " + keyField);
         }
         // valueField
         Objects.requireNonNull(valueField);
@@ -71,64 +69,70 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
     }
 
     @Override
-    public KeyValueCommentRecord withKey(@NotNull String key) {
+    public @NotNull KeyValueCommentFieldsRecord withKey(@NotNull String key) {
         Objects.requireNonNull(key);
-        return new KeyValueCommentRecord(category, recordId, key, valueField.text(), commentField.text());
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public KeyValueCommentRecord withValue(@Nullable String value) {
-        return new KeyValueCommentRecord(category, recordId, keyField.text(), value, commentField.text());
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public KeyValueCommentRecord withComment(@Nullable String comment) {
-        return new KeyValueCommentRecord(category, recordId, keyField.text(), valueField.text(), comment);
+        return new KeyValueCommentFieldsRecord(category, recordId, key, value(), comment());
     }
 
     @Override
-    public Field[] arrayOfFields() {
+    public @NotNull KeyValueCommentFieldsRecord withValue(@Nullable String value) {
+        return new KeyValueCommentFieldsRecord(category, recordId, key(), value, comment());
+    }
+
+    @Override
+    public @NotNull KeyValueCommentFieldsRecord withComment(@Nullable String comment) {
+        return new KeyValueCommentFieldsRecord(category, recordId, key(), value(), comment);
+    }
+
+    @Override
+    public @NotNull KeyValueCommentFieldsRecord withKeyAndValue(@NotNull String key, @Nullable String value) {
+        Objects.requireNonNull(key);
+        return new KeyValueCommentFieldsRecord(category, recordId, key, value, comment());
+    }
+
+    @Override
+    public @NotNull KeyValueCommentFieldsRecord withValueAndComment(@Nullable String value, @Nullable String comment) {
+        return new KeyValueCommentFieldsRecord(category, recordId, key(), value, comment);
+    }
+
+    @Override
+    public @NotNull Field[] arrayOfFields() {
         return new Field[]{keyField, valueField, commentField};
     }
 
     @Override
-    public List<Field> listOfFields() {
-        List<Field> list = new ArrayList<>(FIELD_SIZE);
-        list.add(keyField);
-        list.add(valueField);
-        list.add(commentField);
-        return list;
+    public @NotNull List<Field> listOfFields() {
+        return List.of(keyField, valueField, commentField);
     }
 
     @Override
-    public List<Field> listOfFieldsReversed() {
-        List<Field> list = new ArrayList<>(FIELD_SIZE);
-        list.add(commentField);
-        list.add(valueField);
-        list.add(keyField);
-        return list;
+    public @NotNull List<Field> listOfFieldsReversed() {
+        return List.of(commentField, valueField, keyField);
     }
 
     @Override
-    public Stream<Field> streamOfFields() {
+    public @NotNull Stream<Field> streamOfFields() {
         return Stream.of(keyField, valueField, commentField);
     }
 
     @Override
-    public String category() {
+    public @Nullable String category() {
         return category;
     }
 
     @Override
-    public Long recordId() {
+    public @Nullable Long recordId() {
         return recordId;
     }
 
     @Override
     public int size() {
         return FIELD_SIZE;
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return true;
     }
 
     @Override
@@ -141,9 +145,8 @@ public record KeyValueCommentRecord(@Nullable String category, @Nullable Long re
         return index == KEY_INDEX || index == VALUE_INDEX || index == COMMENT_INDEX;
     }
 
-    @SuppressWarnings("ReturnOfNull")
     @Override
-    public Field fieldAt(int index) {
+    public @Nullable Field fieldAt(int index) {
         return switch (index) {
             case KEY_INDEX -> keyField;
             case VALUE_INDEX -> valueField;

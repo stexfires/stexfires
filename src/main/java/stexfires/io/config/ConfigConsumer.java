@@ -1,9 +1,9 @@
 package stexfires.io.config;
 
 import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.record.KeyValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.record.impl.KeyValueRecord;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

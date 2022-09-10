@@ -4,8 +4,8 @@ import stexfires.record.Field;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
-import stexfires.record.impl.OneFieldRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyFieldsRecord;
+import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.NumberCheckType;
 
@@ -91,40 +91,40 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                                                                          Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valueFunction);
-        return list -> new OneFieldRecord(categoryFunction.apply(list), null,
+        return list -> new ValueFieldRecord(categoryFunction.apply(list), null,
                 valueFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
         Objects.requireNonNull(valueFunction);
-        return list -> new OneFieldRecord(valueFunction.apply(list));
+        return list -> new ValueFieldRecord(valueFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, String> categoryFunction,
                                                                                          Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valuesFunction);
-        return list -> new StandardRecord(categoryFunction.apply(list), null,
+        return list -> new ManyFieldsRecord(categoryFunction.apply(list), null,
                 valuesFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
         Objects.requireNonNull(valuesFunction);
-        return list -> new StandardRecord(valuesFunction.apply(list));
+        return list -> new ManyFieldsRecord(valuesFunction.apply(list));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(valuesMessage);
-        return list -> new StandardRecord(list.stream()
-                                              .map(valuesMessage.asFunction())
-                                              .collect(Collectors.toList()));
+        return list -> new ManyFieldsRecord(list.stream()
+                                                .map(valuesMessage.asFunction())
+                                                .collect(Collectors.toList()));
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
                                                                                                     RecordMessage<? super T> valuesMessage) {
         Objects.requireNonNull(categoryMessage);
         Objects.requireNonNull(valuesMessage);
-        return list -> new StandardRecord(categoryMessage.createMessage(list.get(0)), null,
+        return list -> new ManyFieldsRecord(categoryMessage.createMessage(list.get(0)), null,
                 list.stream()
                     .map(valuesMessage.asFunction())
                     .collect(Collectors.toList()));

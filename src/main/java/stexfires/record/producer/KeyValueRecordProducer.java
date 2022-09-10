@@ -1,8 +1,10 @@
 package stexfires.record.producer;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.util.Strings;
 
 import java.util.List;
@@ -17,39 +19,43 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class KeyValueRecordProducer implements RecordProducer<KeyValueRecord> {
+public final class KeyValueRecordProducer implements RecordProducer<KeyValueRecord> {
 
     private final List<KeyValueRecord> records;
 
-    public <K, V> KeyValueRecordProducer(Map<K, V> keyValueMap) {
+    public <K, V> KeyValueRecordProducer(@NotNull Map<K, V> keyValueMap) {
         this(null, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueRecordProducer(@Nullable String category, Map<K, V> keyValueMap) {
+    public <K, V> KeyValueRecordProducer(@Nullable String category,
+                                         @NotNull Map<K, V> keyValueMap) {
         this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap) {
+    public <K, V> KeyValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
+                                         @NotNull Map<K, V> keyValueMap) {
         this(category, recordIdSupplier, keyValueMap, Strings::asString, Strings::asString);
     }
 
-    public <K, V> KeyValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier, Map<K, V> keyValueMap,
-                                         Function<? super K, String> keyToStringFunction,
-                                         Function<? super V, String> valueToStringFunction) {
+    public <K, V> KeyValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
+                                         @NotNull Map<K, V> keyValueMap,
+                                         @NotNull Function<? super K, String> keyToStringFunction,
+                                         @NotNull Function<? super V, String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(keyValueMap);
         Objects.requireNonNull(keyToStringFunction);
         Objects.requireNonNull(valueToStringFunction);
         records = keyValueMap.entrySet()
                              .stream()
-                             .map(entry -> new KeyValueRecord(category, recordIdSupplier.get(),
-                                     keyToStringFunction.apply(entry.getKey()),
-                                     valueToStringFunction.apply(entry.getValue())))
+                             .map(entry ->
+                                     new KeyValueFieldsRecord(category, recordIdSupplier.get(),
+                                             keyToStringFunction.apply(entry.getKey()),
+                                             valueToStringFunction.apply(entry.getValue())))
                              .collect(Collectors.toList());
     }
 
     @Override
-    public final Stream<KeyValueRecord> produceStream() {
+    public Stream<KeyValueRecord> produceStream() {
         return records.stream();
     }
 

@@ -1,5 +1,6 @@
 package stexfires.record;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -12,10 +13,11 @@ import java.util.stream.Stream;
 
 /**
  * A {@link TextRecord} consists of {@link Field}s, each of which contains a text.
- * It can also contain a category and a record id.
+ * It can also contain a {@code category} and a {@code recordId}.
  * <p>
  * It must be {@code immutable} and {@code thread-safe}.
- * The field index must start with {@code 0}.
+ * The implementation can be a 'Java' {@code record}.
+ * The indexes of the contained fields must be ascending and start with {@code 0}.
  *
  * @author Mathias Kalb
  * @see Field
@@ -25,9 +27,9 @@ import java.util.stream.Stream;
  */
 public interface TextRecord {
 
-    Field[] arrayOfFields();
+    @NotNull Field[] arrayOfFields();
 
-    default List<Field> listOfFields() {
+    default @NotNull List<Field> listOfFields() {
         return switch (size()) {
             case 0 -> Collections.emptyList();
             case 1 -> Collections.singletonList(firstField());
@@ -35,7 +37,7 @@ public interface TextRecord {
         };
     }
 
-    default List<Field> listOfFieldsReversed() {
+    default @NotNull List<Field> listOfFieldsReversed() {
         if (size() == 0) {
             return Collections.emptyList();
         } else if (size() == 1) {
@@ -47,7 +49,7 @@ public interface TextRecord {
         }
     }
 
-    default Stream<Field> streamOfFields() {
+    default @NotNull Stream<Field> streamOfFields() {
         return switch (size()) {
             case 0 -> Stream.empty();
             case 1 -> Stream.of(firstField());
@@ -55,94 +57,92 @@ public interface TextRecord {
         };
     }
 
-    String category();
+    @Nullable String category();
 
     default boolean hasCategory() {
         return category() != null;
     }
 
-    default String categoryOrElse(@Nullable String other) {
-        return category() != null ? category() : other;
-    }
-
-    default Optional<String> categoryAsOptional() {
+    default @NotNull Optional<String> categoryAsOptional() {
         return Optional.ofNullable(category());
     }
 
-    default Stream<String> categoryAsStream() {
+    default @NotNull Stream<String> categoryAsStream() {
         return Stream.ofNullable(category());
     }
 
-    Long recordId();
+    @Nullable Long recordId();
 
     default boolean hasRecordId() {
         return recordId() != null;
     }
 
-    default OptionalLong recordIdAsOptionalLong() {
-        return hasRecordId() ? OptionalLong.of(recordId()) : OptionalLong.empty();
-    }
-
-    default Optional<Long> recordIdAsOptional() {
+    default @NotNull Optional<Long> recordIdAsOptional() {
         return Optional.ofNullable(recordId());
     }
 
-    default LongStream recordIdAsStream() {
-        if (recordId() == null) {
-            return LongStream.empty();
-        }
-        return LongStream.of(recordId());
+    @SuppressWarnings("ConstantConditions")
+    default @NotNull OptionalLong recordIdAsOptionalLong() {
+        return hasRecordId() ? OptionalLong.of(recordId()) : OptionalLong.empty();
     }
 
+    default @NotNull Stream<Long> recordIdAsStream() {
+        return Stream.ofNullable(recordId());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    default @NotNull LongStream recordIdAsLongStream() {
+        return hasRecordId() ? LongStream.of(recordId()) : LongStream.empty();
+    }
+
+    /**
+     * Returns the number of contained fields.
+     * It must not be negative.
+     *
+     * @return number of contained fields
+     */
     int size();
 
+    default boolean isNotEmpty() {
+        return size() > 0;
+    }
+
     default boolean isEmpty() {
-        return size() == 0;
+        return size() <= 0;
     }
 
     default boolean isValidIndex(int index) {
         return (index >= 0) && (index < size());
     }
 
-    Field fieldAt(int index);
+    @Nullable Field fieldAt(int index);
 
-    default Field firstField() {
-        return fieldAt(0);
+    default @Nullable Field firstField() {
+        return fieldAt(Fields.FIRST_FIELD_INDEX);
     }
 
-    default Field lastField() {
+    default @Nullable Field lastField() {
         return fieldAt(size() - 1);
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String textAt(int index) {
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String textAt(int index) {
         return isValidIndex(index) ? fieldAt(index).text() : null;
     }
 
-    default String textAtOrElse(int index, @Nullable String other) {
-        return textAt(index) != null ? textAt(index) : other;
+    default @Nullable String textAtOrElse(int index, @Nullable String otherText) {
+        String textAt = textAt(index);
+        return textAt != null ? textAt : otherText;
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String firstText() {
-        return isEmpty() ? null : firstField().text();
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String firstText() {
+        return isNotEmpty() ? firstField().text() : null;
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    default String lastText() {
-        return isEmpty() ? null : lastField().text();
+    @SuppressWarnings("ConstantConditions")
+    default @Nullable String lastText() {
+        return isNotEmpty() ? lastField().text() : null;
     }
-
-    /**
-     * Compare class, category, recordId and all fields.
-     */
-    @Override
-    boolean equals(@Nullable Object obj);
-
-    @Override
-    int hashCode();
-
-    @Override
-    String toString();
 
 }

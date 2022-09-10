@@ -3,7 +3,8 @@ package stexfires.io.config;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.KeyValueRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
             key = rawData;
             value = null;
         }
-        return Optional.of(new KeyValueRecord(recordRawData.getCategory(), recordRawData.getRecordId(), key, value));
+        return Optional.of(new KeyValueFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), key, value));
     }
 
     protected static final class ConfigIterator extends AbstractRecordRawDataIterator {

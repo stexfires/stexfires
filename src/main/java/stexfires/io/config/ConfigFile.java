@@ -3,7 +3,7 @@ package stexfires.io.config;
 import stexfires.io.BaseRecordFile;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.WritableRecordConsumer;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.KeyValueRecord;
 
 import java.io.IOException;
 import java.nio.file.OpenOption;

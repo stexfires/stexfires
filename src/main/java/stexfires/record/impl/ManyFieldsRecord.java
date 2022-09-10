@@ -18,49 +18,41 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record StandardRecord(@Nullable String category, @Nullable Long recordId,
-                             @NotNull Field[] fields)
+public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordId,
+                               @NotNull Field[] fields)
         implements TextRecord, Serializable {
 
-    public StandardRecord() {
+    public ManyFieldsRecord() {
         this(null, null, Fields.emptyArray());
     }
 
-    public StandardRecord(Collection<String> texts) {
+    public ManyFieldsRecord(@NotNull Collection<String> texts) {
         this(null, null, Fields.newArray(texts));
     }
 
-    public StandardRecord(@Nullable String category, Collection<String> texts) {
-        this(category, null, Fields.newArray(texts));
-    }
-
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, Collection<String> texts) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Collection<String> texts) {
         this(category, recordId, Fields.newArray(texts));
     }
 
-    public StandardRecord(Stream<String> texts) {
+    public ManyFieldsRecord(@NotNull Stream<String> texts) {
         this(null, null, Fields.newArray(texts));
     }
 
-    public StandardRecord(@Nullable String category, Stream<String> texts) {
-        this(category, null, Fields.newArray(texts));
-    }
-
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, Stream<String> texts) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Stream<String> texts) {
         this(category, recordId, Fields.newArray(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public StandardRecord(String... texts) {
+    public ManyFieldsRecord(String... texts) {
         this(null, null, Fields.newArray(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
         this(category, recordId, Fields.newArray(texts));
     }
 
-    public StandardRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Field[] fields) {
         Objects.requireNonNull(fields);
         this.category = category;
         this.recordId = recordId;
@@ -82,36 +74,36 @@ public record StandardRecord(@Nullable String category, @Nullable Long recordId,
     }
 
     @Override
-    public Field[] arrayOfFields() {
+    public @NotNull Field[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public List<Field> listOfFields() {
+    public @NotNull List<Field> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public List<Field> listOfFieldsReversed() {
+    public @NotNull List<Field> listOfFieldsReversed() {
         var fieldList = listOfFields();
         Collections.reverse(fieldList);
         return fieldList;
     }
 
     @Override
-    public Stream<Field> streamOfFields() {
+    public @NotNull Stream<Field> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 
     @Override
-    public String category() {
+    public @Nullable String category() {
         return category;
     }
 
     @Override
-    public Long recordId() {
+    public @Nullable Long recordId() {
         return recordId;
     }
 
@@ -120,9 +112,8 @@ public record StandardRecord(@Nullable String category, @Nullable Long recordId,
         return fields.length;
     }
 
-    @SuppressWarnings("ReturnOfNull")
     @Override
-    public Field fieldAt(int index) {
+    public @Nullable Field fieldAt(int index) {
         return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
     }
 

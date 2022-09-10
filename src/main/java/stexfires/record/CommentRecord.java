@@ -11,7 +11,7 @@ import java.util.Optional;
  */
 public interface CommentRecord extends TextRecord {
 
-    CommentRecord withComment(@Nullable String comment);
+    @NotNull CommentRecord withComment(@Nullable String comment);
 
     @NotNull Field commentField();
 
@@ -19,7 +19,7 @@ public interface CommentRecord extends TextRecord {
         return commentField().text();
     }
 
-    default Optional<String> commentAsOptional() {
+    default @NotNull Optional<String> commentAsOptional() {
         return commentField().asOptional();
     }
 

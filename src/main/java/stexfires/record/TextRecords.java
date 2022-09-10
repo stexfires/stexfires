@@ -1,13 +1,14 @@
 package stexfires.record;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.OneFieldRecord;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
+import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
@@ -49,21 +50,26 @@ public final class TextRecords {
     }
 
     public static ValueRecord ofText(@Nullable String text) {
-        return new OneFieldRecord(text);
+        return new ValueFieldRecord(text);
+    }
+
+    public static TextRecord ofTexts(@NotNull Collection<String> texts) {
+        Objects.requireNonNull(texts);
+        return new ManyFieldsRecord(texts);
+    }
+
+    public static TextRecord ofTexts(@NotNull Stream<String> texts) {
+        Objects.requireNonNull(texts);
+        return new ManyFieldsRecord(texts);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public static TextRecord ofTexts(String... texts) {
         Objects.requireNonNull(texts);
-        return new StandardRecord(texts);
+        return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(Collection<String> texts) {
-        Objects.requireNonNull(texts);
-        return new StandardRecord(texts);
-    }
-
-    public static <T extends TextRecord> List<T> list(T record) {
+    public static <T extends TextRecord> List<T> list(@NotNull T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
@@ -75,7 +81,7 @@ public final class TextRecords {
         return Arrays.stream(records).collect(Collectors.toList());
     }
 
-    public static <T extends TextRecord> Stream<T> stream(T record) {
+    public static <T extends TextRecord> Stream<T> stream(@NotNull T record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
     }
@@ -103,38 +109,39 @@ public final class TextRecords {
         return new SequencePrimitiveLongSupplier(initialValue);
     }
 
-    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(T record,
-                                                                                RecordConsumer<P> recordConsumer) throws UncheckedConsumerException {
+    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(@NotNull T record,
+                                                                                @NotNull RecordConsumer<P> recordConsumer)
+            throws UncheckedConsumerException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordConsumer);
         recordConsumer.consume(record);
         return recordConsumer;
     }
 
-    public static <P extends TextRecord, T extends P> boolean isValid(T record,
-                                                                      RecordFilter<P> recordFilter) {
+    public static <P extends TextRecord, T extends P> boolean isValid(@NotNull T record,
+                                                                      @NotNull RecordFilter<P> recordFilter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordFilter);
         return recordFilter.isValid(record);
     }
 
-    public static <P extends TextRecord, T extends P> RecordLogger<P> log(T record,
-                                                                          RecordLogger<P> recordLogger) {
+    public static <P extends TextRecord, T extends P> RecordLogger<P> log(@NotNull T record,
+                                                                          @NotNull RecordLogger<P> recordLogger) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordLogger);
         recordLogger.log(record);
         return recordLogger;
     }
 
-    public static <R extends TextRecord, T extends TextRecord> R map(T record,
-                                                                     RecordMapper<T, R> recordMapper) {
+    public static <R extends TextRecord, T extends TextRecord> R map(@NotNull T record,
+                                                                     @NotNull RecordMapper<T, R> recordMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMapper);
         return recordMapper.map(record);
     }
 
-    public static <P extends TextRecord, T extends P> String createMessage(T record,
-                                                                           RecordMessage<P> recordMessage) {
+    public static <P extends TextRecord, T extends P> String createMessage(@NotNull T record,
+                                                                           @NotNull RecordMessage<P> recordMessage) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMessage);
         return recordMessage.createMessage(record);
@@ -186,7 +193,7 @@ public final class TextRecords {
             return this;
         }
 
-        public synchronized Builder addAll(Collection<String> texts) {
+        public synchronized Builder addAll(@NotNull Collection<String> texts) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -199,12 +206,13 @@ public final class TextRecords {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            TextRecord record = switch (textList.size()) {
-                case OneFieldRecord.FIELD_SIZE -> new OneFieldRecord(category, recordId, textList.get(0));
-                case TwoFieldsRecord.FIELD_SIZE ->
-                        new TwoFieldsRecord(category, recordId, textList.get(0), textList.get(1));
-                default -> new StandardRecord(category, recordId, textList);
-            };
+            TextRecord record =
+                    switch (textList.size()) {
+                        case ValueFieldRecord.FIELD_SIZE -> new ValueFieldRecord(category, recordId, textList.get(0));
+                        case TwoFieldsRecord.FIELD_SIZE ->
+                                new TwoFieldsRecord(category, recordId, textList.get(0), textList.get(1));
+                        default -> new ManyFieldsRecord(category, recordId, textList);
+                    };
             category = null;
             recordId = null;
             textList = null;

@@ -1,5 +1,6 @@
 package stexfires.record;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.mapper.field.IdentityFieldTextMapper;
 
@@ -32,11 +33,11 @@ public final class Fields {
     private Fields() {
     }
 
-    public static Field[] emptyArray() {
+    public static @NotNull Field[] emptyArray() {
         return EMPTY_FIELD_ARRAY;
     }
 
-    public static Field[] newArray(Collection<String> texts) {
+    public static @NotNull Field[] newArray(@NotNull Collection<String> texts) {
         Objects.requireNonNull(texts);
         Field[] fields = new Field[texts.size()];
         int index = FIRST_FIELD_INDEX;
@@ -47,13 +48,13 @@ public final class Fields {
         return fields;
     }
 
-    public static Field[] newArray(Stream<String> texts) {
+    public static @NotNull Field[] newArray(@NotNull Stream<String> texts) {
         Objects.requireNonNull(texts);
         return newArray(texts.collect(Collectors.toList()));
     }
 
     @SuppressWarnings({"Convert2streamapi", "OverloadedVarargsMethod"})
-    public static Field[] newArray(String... texts) {
+    public static @NotNull Field[] newArray(String... texts) {
         Objects.requireNonNull(texts);
         Field[] fields = new Field[texts.length];
         for (int index = FIRST_FIELD_INDEX; index < texts.length; index++) {
@@ -63,7 +64,7 @@ public final class Fields {
     }
 
     @SuppressWarnings("Convert2streamapi")
-    public static Field[] newArray(int length, Supplier<String> textSupplier) {
+    public static @NotNull Field[] newArray(int length, @NotNull Supplier<String> textSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);
         }
@@ -75,93 +76,93 @@ public final class Fields {
         return fields;
     }
 
-    public static List<String> collectTexts(TextRecord record) {
+    public static List<String> collectTexts(@NotNull TextRecord record) {
         Objects.requireNonNull(record);
         return collectTexts(record.streamOfFields(), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(TextRecord record, FieldTextMapper fieldTextMapper) {
+    public static List<String> collectTexts(@NotNull TextRecord record, @NotNull FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(fieldTextMapper);
         return collectTexts(record.streamOfFields(), fieldTextMapper);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static List<String> collectTexts(Field[] fields) {
+    public static List<String> collectTexts(@NotNull Field[] fields) {
         Objects.requireNonNull(fields);
         return collectTexts(Arrays.stream(fields), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(Field[] fields, FieldTextMapper fieldTextMapper) {
+    public static List<String> collectTexts(@NotNull Field[] fields, @NotNull FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return collectTexts(Arrays.stream(fields), fieldTextMapper);
     }
 
-    public static List<String> collectTexts(Stream<Field> fields) {
+    public static List<String> collectTexts(@NotNull Stream<Field> fields) {
         Objects.requireNonNull(fields);
         return collectTexts(fields, new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(Stream<Field> fields, FieldTextMapper fieldTextMapper) {
+    public static List<String> collectTexts(@NotNull Stream<Field> fields, @NotNull FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return fields.map(fieldTextMapper::mapToText).collect(Collectors.toList());
     }
 
-    public static List<Field> collectFields(Stream<Field> fields) {
+    public static List<Field> collectFields(@NotNull Stream<Field> fields) {
         Objects.requireNonNull(fields);
         return fields.collect(Collectors.toList());
     }
 
-    public static String joinTexts(TextRecord record) {
+    public static String joinTexts(@NotNull TextRecord record) {
         Objects.requireNonNull(record);
         return joinTexts(record.streamOfFields(), DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinTexts(TextRecord record, CharSequence delimiter) {
+    public static String joinTexts(@NotNull TextRecord record, @NotNull CharSequence delimiter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(delimiter);
         return joinTexts(record.streamOfFields(), delimiter);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static String joinTexts(Field[] fields) {
+    public static String joinTexts(@NotNull Field[] fields) {
         Objects.requireNonNull(fields);
         return joinTexts(Arrays.stream(fields), DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinTexts(Field[] fields, CharSequence delimiter) {
+    public static String joinTexts(@NotNull Field[] fields, @NotNull CharSequence delimiter) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
         return joinTexts(Arrays.stream(fields), delimiter);
     }
 
-    public static String joinTexts(Stream<Field> fields) {
+    public static String joinTexts(@NotNull Stream<Field> fields) {
         Objects.requireNonNull(fields);
         return joinTexts(fields, DEFAULT_FIELD_TEXT_DELIMITER);
     }
 
-    public static String joinTexts(Stream<Field> fields, CharSequence delimiter) {
+    public static String joinTexts(@NotNull Stream<Field> fields, @NotNull CharSequence delimiter) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(delimiter);
         return fields.map(Field::text).collect(Collectors.joining(delimiter));
     }
 
-    public static Stream<String> mapToTexts(Stream<Field> fields, FieldTextMapper fieldTextMapper) {
+    public static Stream<String> mapToTexts(@NotNull Stream<Field> fields, @NotNull FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return fields.map(fieldTextMapper::mapToText);
     }
 
-    public static Stream<Field> sortFields(Stream<Field> fields, Comparator<Field> fieldComparator) {
+    public static Stream<Field> sortFields(@NotNull Stream<Field> fields, @NotNull Comparator<Field> fieldComparator) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldComparator);
         return fields.sorted(fieldComparator);
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void printLines(Stream<Field> fields) {
+    public static void printLines(@NotNull Stream<Field> fields) {
         Objects.requireNonNull(fields);
         fields.forEachOrdered(System.out::println);
     }

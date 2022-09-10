@@ -7,7 +7,6 @@ import stexfires.record.Fields;
 import stexfires.record.TextRecord;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -56,49 +55,48 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
 
     }
 
-    public TwoFieldsRecord withSwappedTexts() {
+    public @NotNull TwoFieldsRecord withSwappedTexts() {
         return new TwoFieldsRecord(category, recordId, secondField.text(), firstField.text());
     }
 
     @Override
-    public Field[] arrayOfFields() {
+    public @NotNull Field[] arrayOfFields() {
         return new Field[]{firstField, secondField};
     }
 
     @Override
-    public List<Field> listOfFields() {
-        List<Field> list = new ArrayList<>(FIELD_SIZE);
-        list.add(firstField);
-        list.add(secondField);
-        return list;
+    public @NotNull List<Field> listOfFields() {
+        return List.of(firstField, secondField);
     }
 
     @Override
-    public List<Field> listOfFieldsReversed() {
-        List<Field> list = new ArrayList<>(FIELD_SIZE);
-        list.add(secondField);
-        list.add(firstField);
-        return list;
+    public @NotNull List<Field> listOfFieldsReversed() {
+        return List.of(secondField, firstField);
     }
 
     @Override
-    public Stream<Field> streamOfFields() {
+    public @NotNull Stream<Field> streamOfFields() {
         return Stream.of(firstField, secondField);
     }
 
     @Override
-    public String category() {
+    public @Nullable String category() {
         return category;
     }
 
     @Override
-    public Long recordId() {
+    public @Nullable Long recordId() {
         return recordId;
     }
 
     @Override
     public int size() {
         return FIELD_SIZE;
+    }
+
+    @Override
+    public boolean isNotEmpty() {
+        return true;
     }
 
     @Override
@@ -111,9 +109,8 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
         return index == FIRST_INDEX || index == SECOND_INDEX;
     }
 
-    @SuppressWarnings("ReturnOfNull")
     @Override
-    public Field fieldAt(int index) {
+    public @Nullable Field fieldAt(int index) {
         return switch (index) {
             case FIRST_INDEX -> firstField;
             case SECOND_INDEX -> secondField;

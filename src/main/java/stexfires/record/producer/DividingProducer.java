@@ -1,8 +1,10 @@
 package stexfires.record.producer;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.StandardRecord;
+import stexfires.record.impl.ManyFieldsRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,9 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class DividingProducer implements RecordProducer<StandardRecord> {
+public final class DividingProducer implements RecordProducer<TextRecord> {
 
-    private final List<StandardRecord> records;
+    private final List<TextRecord> records;
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(int recordSize, String... texts) {
@@ -24,12 +26,8 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public DividingProducer(@Nullable String category, int recordSize, String... texts) {
-        this(category, TextRecords.recordIdSequence(), recordSize, texts);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public DividingProducer(@Nullable String category, Supplier<Long> recordIdSupplier, int recordSize, String... texts) {
+    public DividingProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
+                            int recordSize, String... texts) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
@@ -49,12 +47,12 @@ public class DividingProducer implements RecordProducer<StandardRecord> {
                 }
             }
 
-            records.add(new StandardRecord(category, recordIdSupplier.get(), newRecordTexts));
+            records.add(new ManyFieldsRecord(category, recordIdSupplier.get(), newRecordTexts));
         }
     }
 
     @Override
-    public final Stream<StandardRecord> produceStream() {
+    public Stream<TextRecord> produceStream() {
         return records.stream();
     }
 

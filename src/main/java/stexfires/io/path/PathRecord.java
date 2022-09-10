@@ -1,5 +1,6 @@
 package stexfires.io.path;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.Field;
 import stexfires.record.Fields;
@@ -77,12 +78,12 @@ public class PathRecord implements TextRecord {
     }
 
     @Override
-    public final List<Field> listOfFields() {
+    public final @NotNull List<Field> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public final Stream<Field> streamOfFields() {
+    public final @NotNull Stream<Field> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 

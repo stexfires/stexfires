@@ -3,7 +3,8 @@ package stexfires.io.properties;
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
-import stexfires.record.impl.KeyValueRecord;
+import stexfires.record.KeyValueRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -163,9 +164,9 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
 
         if (key != null) {
             if (value != null) {
-                record = new KeyValueRecord(category, recordId, key, value);
+                record = new KeyValueFieldsRecord(category, recordId, key, value);
             } else {
-                record = new KeyValueRecord(category, recordId, key, nullValueReplacement);
+                record = new KeyValueFieldsRecord(category, recordId, key, nullValueReplacement);
             }
         }
 
