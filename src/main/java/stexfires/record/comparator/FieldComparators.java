@@ -33,14 +33,6 @@ public final class FieldComparators {
         return comparingInt(TextField::maxIndex);
     }
 
-    public static Comparator<TextField> isFirstField() {
-        return comparing(TextField::isFirstField);
-    }
-
-    public static Comparator<TextField> isLastField() {
-        return comparing(TextField::isLastField);
-    }
-
     public static Comparator<TextField> text(Comparator<String> comparator) {
         Objects.requireNonNull(comparator);
         return comparing(TextField::text, comparator);
@@ -51,6 +43,34 @@ public final class FieldComparators {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
         return comparing(TextField::text, sortNulls.wrappedComparator(comparator));
+    }
+
+    public static Comparator<TextField> isFirstField() {
+        return comparing(TextField::isFirstField);
+    }
+
+    public static Comparator<TextField> isLastField() {
+        return comparing(TextField::isLastField);
+    }
+
+    public static Comparator<TextField> recordSize() {
+        return comparingInt(TextField::recordSize);
+    }
+
+    public static Comparator<TextField> isNotNull() {
+        return comparing(TextField::isNotNull);
+    }
+
+    public static Comparator<TextField> isNull() {
+        return comparing(TextField::isNull);
+    }
+
+    public static Comparator<TextField> isEmpty() {
+        return comparing(TextField::isEmpty);
+    }
+
+    public static Comparator<TextField> isNullOrEmpty() {
+        return comparing(TextField::isNullOrEmpty);
     }
 
     public static Comparator<TextField> length() {
