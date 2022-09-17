@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 // TODO chars and codePoints
+
 /**
  * @author Mathias Kalb
  * @since 0.1
