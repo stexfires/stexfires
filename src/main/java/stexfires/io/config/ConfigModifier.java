@@ -12,7 +12,7 @@ import stexfires.record.modifier.MapModifier;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.modifier.SortModifier;
 import stexfires.util.SortNulls;
-import stexfires.util.StringUnaryOperatorType;
+import stexfires.util.function.StringUnaryOperatorType;
 
 import java.util.Comparator;
 import java.util.Locale;

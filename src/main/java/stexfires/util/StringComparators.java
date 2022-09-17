@@ -1,6 +1,7 @@
 package stexfires.util;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.util.function.StringUnaryOperatorType;
 
 import java.text.Collator;
 import java.util.Comparator;
@@ -17,7 +18,7 @@ import static java.util.Comparator.comparing;
  * @author Mathias Kalb
  * @see java.util.Comparator
  * @see java.text.Collator
- * @see stexfires.util.StringUnaryOperatorType
+ * @see stexfires.util.function.StringUnaryOperatorType
  * @since 0.1
  */
 public final class StringComparators {

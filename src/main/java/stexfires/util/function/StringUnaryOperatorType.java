@@ -1,4 +1,4 @@
-package stexfires.util;
+package stexfires.util.function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +10,8 @@ import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
+ * @see java.lang.String
+ * @see java.util.function.UnaryOperator
  * @since 0.1
  */
 public enum StringUnaryOperatorType {

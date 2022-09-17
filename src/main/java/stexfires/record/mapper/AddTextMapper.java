@@ -4,8 +4,8 @@ import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.StringUnaryOperatorType;
 import stexfires.util.Strings;
+import stexfires.util.function.StringUnaryOperatorType;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

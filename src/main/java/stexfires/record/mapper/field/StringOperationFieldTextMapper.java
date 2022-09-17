@@ -2,7 +2,7 @@ package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
-import stexfires.util.StringUnaryOperatorType;
+import stexfires.util.function.StringUnaryOperatorType;
 
 import java.util.Locale;
 import java.util.Objects;
