@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
+// TODO BooleanSuppplier?
 /**
  * @author Mathias Kalb
  * @since 0.1

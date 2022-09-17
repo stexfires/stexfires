@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
+// TODO chars and codePoints
+
 /**
  * @author Mathias Kalb
  * @since 0.1
