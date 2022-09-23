@@ -2,9 +2,7 @@ package stexfires.record.mapper.field;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
-import stexfires.util.function.StringUnaryOperatorType;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.function.UnaryOperator;
 
@@ -14,24 +12,16 @@ import java.util.function.UnaryOperator;
  */
 public class StringOperationFieldTextMapper implements FieldTextMapper {
 
-    private final UnaryOperator<String> stringUnaryOperator;
+    private final UnaryOperator<String> fieldTextFunction;
 
-    public StringOperationFieldTextMapper(StringUnaryOperatorType stringUnaryOperatorType) {
-        this(stringUnaryOperatorType.stringUnaryOperator());
-    }
-
-    public StringOperationFieldTextMapper(StringUnaryOperatorType stringUnaryOperatorType, Locale locale) {
-        this(stringUnaryOperatorType.stringUnaryOperator(locale));
-    }
-
-    public StringOperationFieldTextMapper(UnaryOperator<String> stringUnaryOperator) {
-        Objects.requireNonNull(stringUnaryOperator);
-        this.stringUnaryOperator = stringUnaryOperator;
+    public StringOperationFieldTextMapper(UnaryOperator<String> fieldTextFunction) {
+        Objects.requireNonNull(fieldTextFunction);
+        this.fieldTextFunction = fieldTextFunction;
     }
 
     @Override
     public final String mapToText(@NotNull TextField field) {
-        return stringUnaryOperator.apply(field.text());
+        return fieldTextFunction.apply(field.text());
     }
 
 }

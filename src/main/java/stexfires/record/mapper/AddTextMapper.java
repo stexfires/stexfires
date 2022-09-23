@@ -5,18 +5,17 @@ import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.Strings;
-import stexfires.util.function.StringUnaryOperatorType;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
@@ -88,14 +87,9 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         return new AddTextMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
-    public static <T extends TextRecord> AddTextMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator) {
+    public static <T extends TextRecord> AddTextMapper<T> categoryOperator(UnaryOperator<String> categoryOperator) {
         Objects.requireNonNull(categoryOperator);
-        return new AddTextMapper<>(record -> categoryOperator.operateString(record.category()));
-    }
-
-    public static <T extends TextRecord> AddTextMapper<T> categoryOperator(StringUnaryOperatorType categoryOperator, Locale locale) {
-        Objects.requireNonNull(categoryOperator);
-        return new AddTextMapper<>(record -> categoryOperator.operateString(record.category(), locale));
+        return new AddTextMapper<>(record -> categoryOperator.apply(record.category()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {

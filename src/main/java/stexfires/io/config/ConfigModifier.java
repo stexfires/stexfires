@@ -12,7 +12,7 @@ import stexfires.record.modifier.MapModifier;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.modifier.SortModifier;
 import stexfires.util.SortNulls;
-import stexfires.util.function.StringUnaryOperatorType;
+import stexfires.util.function.StringUnaryOperators;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -33,13 +33,10 @@ public class ConfigModifier<T extends TextRecord> implements RecordStreamModifie
 
     @SuppressWarnings("ConstantConditions")
     public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates, @Nullable Locale locale) {
-        UnaryOperator<String> categoryOperator = c -> {
-            String category = c;
-            category = StringUnaryOperatorType.REMOVE_VERTICAL_WHITESPACE.operateString(category);
-            category = StringUnaryOperatorType.TRIM_TO_NULL.operateString(category);
-            category = StringUnaryOperatorType.UPPER_CASE.operateString(category, locale);
-            return category;
-        };
+        UnaryOperator<String> categoryOperator = StringUnaryOperators.concat(
+                StringUnaryOperators.removeVerticalWhitespaces(),
+                StringUnaryOperators.trimToNull(),
+                StringUnaryOperators.upperCase(locale));
 
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueFieldsRecord(
                 categoryOperator.apply(r.category()),
