@@ -261,8 +261,18 @@ public final class StringUnaryOperators {
         return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative : Character.toString(s.codePointAt(index));
     }
 
+    public static UnaryOperator<String> codePointAt(int index, Supplier<String> alternative) {
+        Objects.requireNonNull(alternative);
+        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : Character.toString(s.codePointAt(index));
+    }
+
     public static UnaryOperator<String> charAt(int index, @Nullable String alternative) {
         return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative : String.valueOf(s.charAt(index));
+    }
+
+    public static UnaryOperator<String> charAt(int index, Supplier<String> alternative) {
+        Objects.requireNonNull(alternative);
+        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : String.valueOf(s.charAt(index));
     }
 
     public static UnaryOperator<String> format(@Nullable Locale locale, Object... args) {
