@@ -2,6 +2,7 @@ package stexfires.util.function;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.BooleanSupplier;
 
 /**
  * Represents an operation upon two {@code boolean}-valued operands and producing an
@@ -23,11 +24,11 @@ public interface BooleanBinaryOperator {
     /**
      * Applies this operator to the given operands.
      *
-     * @param left  the first operand
-     * @param right the second operand
+     * @param first  the first operand
+     * @param second the second operand
      * @return the operator result
      */
-    boolean applyAsBoolean(boolean left, boolean right);
+    boolean applyAsBoolean(boolean first, boolean second);
 
     /**
      * Returns a composed function that first applies this function to
@@ -42,39 +43,60 @@ public interface BooleanBinaryOperator {
      */
     default BooleanBinaryOperator andThen(BooleanUnaryOperator after) {
         Objects.requireNonNull(after);
-        return (left, right) -> after.applyAsBoolean(applyAsBoolean(left, right));
+        return (first, second) -> after.applyAsBoolean(applyAsBoolean(first, second));
     }
 
     default BinaryOperator<Boolean> asBinaryOperator() {
         return this::applyAsBoolean;
     }
 
-    default BooleanUnaryOperator asBooleanUnaryOperator(boolean right) {
-        return (left) -> applyAsBoolean(left, right);
+    default BooleanUnaryOperator asBooleanUnaryOperator(boolean second) {
+        return (first) -> applyAsBoolean(first, second);
+    }
+
+    static BooleanBinaryOperator constant(boolean constant) {
+        return (first, second) -> constant;
+    }
+
+    static BooleanBinaryOperator supplier(BooleanSupplier supplier) {
+        Objects.requireNonNull(supplier);
+        return (first, second) -> supplier.getAsBoolean();
+    }
+
+    static BooleanBinaryOperator first() {
+        return (first, second) -> first;
+    }
+
+    static BooleanBinaryOperator second() {
+        return (first, second) -> second;
+    }
+
+    static BooleanBinaryOperator equals() {
+        return (first, second) -> first == second;
     }
 
     static BooleanBinaryOperator AND() {
-        return (left, right) -> left && right;
+        return (first, second) -> first && second;
     }
 
     static BooleanBinaryOperator NAND() {
-        return (left, right) -> !(left && right);
+        return (first, second) -> !(first && second);
     }
 
     static BooleanBinaryOperator OR() {
-        return (left, right) -> left || right;
+        return (first, second) -> first || second;
     }
 
     static BooleanBinaryOperator NOR() {
-        return (left, right) -> !(left || right);
+        return (first, second) -> !(first || second);
     }
 
     static BooleanBinaryOperator XOR() {
-        return (left, right) -> left != right;
+        return (first, second) -> first != second;
     }
 
     static BooleanBinaryOperator XNOR() {
-        return (left, right) -> left == right;
+        return (first, second) -> first == second;
     }
 
 }

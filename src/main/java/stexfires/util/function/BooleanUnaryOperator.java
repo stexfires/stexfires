@@ -1,6 +1,7 @@
 package stexfires.util.function;
 
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
@@ -86,8 +87,17 @@ public interface BooleanUnaryOperator {
      *
      * @return a unary operator that always returns its input argument
      */
-    static BooleanUnaryOperator IDENTITY() {
+    static BooleanUnaryOperator identity() {
         return b -> b;
+    }
+
+    static BooleanUnaryOperator constant(boolean constant) {
+        return b -> constant;
+    }
+
+    static BooleanUnaryOperator supplier(BooleanSupplier supplier) {
+        Objects.requireNonNull(supplier);
+        return b -> supplier.getAsBoolean();
     }
 
     static BooleanUnaryOperator NOT() {
