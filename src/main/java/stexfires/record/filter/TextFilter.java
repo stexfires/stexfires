@@ -2,17 +2,13 @@ package stexfires.record.filter;
 
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
-import stexfires.util.StringCheckType;
-import stexfires.util.StringComparisonType;
+import stexfires.util.function.StringPredicates;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import static stexfires.util.StringCheckType.NOT_NULL;
-import static stexfires.util.StringComparisonType.EQUALS;
 
 /**
  * @author Mathias Kalb
@@ -52,48 +48,22 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         this.textPredicate = textPredicate;
     }
 
-    public static <T extends TextRecord> TextFilter<T> compare(int index,
-                                                               StringComparisonType stringComparisonType,
-                                                               String compareText) {
-        return new TextFilter<>(index,
-                stringComparisonType.stringPredicate(compareText));
-    }
-
-    public static <T extends TextRecord> TextFilter<T> compare(Function<? super T, TextField> fieldFunction,
-                                                               StringComparisonType stringComparisonType,
-                                                               String compareText) {
-        return new TextFilter<>(fieldFunction,
-                stringComparisonType.stringPredicate(compareText));
-    }
-
-    public static <T extends TextRecord> TextFilter<T> check(int index,
-                                                             StringCheckType stringCheckType) {
-        return new TextFilter<>(index,
-                stringCheckType.stringPredicate());
-    }
-
-    public static <T extends TextRecord> TextFilter<T> check(Function<? super T, TextField> fieldFunction,
-                                                             StringCheckType stringCheckType) {
-        return new TextFilter<>(fieldFunction,
-                stringCheckType.stringPredicate());
-    }
-
     public static <T extends TextRecord> TextFilter<T> equalTo(int index,
                                                                String compareText) {
-        return compare(index, EQUALS, compareText);
+        return new TextFilter<>(index, StringPredicates.equals(compareText));
     }
 
     public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, TextField> fieldFunction,
                                                                String compareText) {
-        return compare(fieldFunction, EQUALS, compareText);
+        return new TextFilter<>(fieldFunction, StringPredicates.equals(compareText));
     }
 
     public static <T extends TextRecord> TextFilter<T> isNotNull(int index) {
-        return check(index, NOT_NULL);
+        return new TextFilter<>(index, StringPredicates.isNotNull());
     }
 
     public static <T extends TextRecord> TextFilter<T> isNotNull(Function<? super T, TextField> fieldFunction) {
-        return check(fieldFunction, NOT_NULL);
+        return new TextFilter<>(fieldFunction, StringPredicates.isNotNull());
     }
 
     public static <T extends TextRecord> TextFilter<T> containedIn(int index,

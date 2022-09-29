@@ -1,17 +1,12 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
-import stexfires.util.StringCheckType;
-import stexfires.util.StringComparisonType;
+import stexfires.util.function.StringPredicates;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
-
-import static stexfires.util.StringCheckType.NOT_NULL;
-import static stexfires.util.StringCheckType.NULL;
-import static stexfires.util.StringComparisonType.EQUALS;
 
 /**
  * @author Mathias Kalb
@@ -26,25 +21,16 @@ public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
         this.categoryPredicate = categoryPredicate;
     }
 
-    public static <T extends TextRecord> CategoryFilter<T> compare(StringComparisonType stringComparisonType,
-                                                                   String compareCategory) {
-        return new CategoryFilter<>(stringComparisonType.stringPredicate(compareCategory));
-    }
-
-    public static <T extends TextRecord> CategoryFilter<T> check(StringCheckType stringCheckType) {
-        return new CategoryFilter<>(stringCheckType.stringPredicate());
-    }
-
     public static <T extends TextRecord> CategoryFilter<T> equalTo(String compareCategory) {
-        return compare(EQUALS, compareCategory);
+        return new CategoryFilter<>(StringPredicates.equals(compareCategory));
     }
 
     public static <T extends TextRecord> CategoryFilter<T> isNotNull() {
-        return check(NOT_NULL);
+        return new CategoryFilter<>(StringPredicates.isNotNull());
     }
 
     public static <T extends TextRecord> CategoryFilter<T> isNull() {
-        return check(NULL);
+        return new CategoryFilter<>(StringPredicates.isNull());
     }
 
     public static <T extends TextRecord> CategoryFilter<T> containedIn(Collection<String> categories) {
