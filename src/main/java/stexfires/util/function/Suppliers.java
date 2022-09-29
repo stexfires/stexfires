@@ -1,6 +1,8 @@
 package stexfires.util.function;
 
 import java.math.BigInteger;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
@@ -79,6 +81,14 @@ public final class Suppliers {
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);
         return () -> combiner.applyAsLong(first.getAsLong(), second.getAsLong());
+    }
+
+    public static Supplier<String> stringSupplierLocalTime() {
+        return () -> LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);
+    }
+
+    public static Supplier<String> stringSupplierThreadName() {
+        return () -> Thread.currentThread().getName();
     }
 
 }
