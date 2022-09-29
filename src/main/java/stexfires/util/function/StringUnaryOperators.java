@@ -1,6 +1,5 @@
 package stexfires.util.function;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.Normalizer;
@@ -11,20 +10,22 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static stexfires.util.Strings.EMPTY;
+import static stexfires.util.Strings.REGEX_TAB;
+import static stexfires.util.Strings.REGEX_WHITESPACE;
+
 /**
  * @author Mathias Kalb
  * @see java.lang.String
+ * @see java.lang.Character
  * @see java.lang.StringBuilder
  * @see java.text.Normalizer
+ * @see java.util.function.Function
  * @see java.util.function.UnaryOperator
+ * @see stexfires.util.Strings
  * @since 0.1
  */
 public final class StringUnaryOperators {
-
-    private static final String EMPTY = "";
-    public static final String REGEX_TAB = "\\t";
-    public static final String REGEX_WHITESPACE = "\\s";
-    public static final String REGEX_BACKSLASH = "\\\\";
 
     private StringUnaryOperators() {
     }
@@ -241,15 +242,15 @@ public final class StringUnaryOperators {
         return s -> nullOrEmpty(s) ? prefix : prefix.concat(s);
     }
 
-    public static UnaryOperator<String> postfix(String postfix) {
-        Objects.requireNonNull(postfix);
-        return s -> nullOrEmpty(s) ? postfix : s.concat(postfix);
+    public static UnaryOperator<String> suffix(String suffix) {
+        Objects.requireNonNull(suffix);
+        return s -> nullOrEmpty(s) ? suffix : s.concat(suffix);
     }
 
-    public static UnaryOperator<String> surround(String prefix, String postfix) {
+    public static UnaryOperator<String> surround(String prefix, String suffix) {
         Objects.requireNonNull(prefix);
-        Objects.requireNonNull(postfix);
-        return s -> nullOrEmpty(s) ? prefix.concat(postfix) : prefix.concat(s).concat(postfix);
+        Objects.requireNonNull(suffix);
+        return s -> nullOrEmpty(s) ? prefix.concat(suffix) : prefix.concat(s).concat(suffix);
     }
 
     public static UnaryOperator<String> supplier(Supplier<String> supplier) {
@@ -317,7 +318,7 @@ public final class StringUnaryOperators {
         return s -> nullOrEmpty(s) ? s : s.substring(Math.max(0, s.length() - length));
     }
 
-    public static UnaryOperator<String> padStart(@NotNull String character, int length) {
+    public static UnaryOperator<String> padStart(String character, int length) {
         if (nullOrEmpty(character)) {
             throw new IllegalArgumentException("character is null or empty:" + character);
         }
@@ -345,7 +346,7 @@ public final class StringUnaryOperators {
         };
     }
 
-    public static UnaryOperator<String> padEnd(@NotNull String character, int length) {
+    public static UnaryOperator<String> padEnd(String character, int length) {
         if (nullOrEmpty(character)) {
             throw new IllegalArgumentException("character is null or empty:" + character);
         }
