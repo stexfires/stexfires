@@ -14,9 +14,9 @@ import java.util.random.RandomGenerator;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class RandomNumberSupplier {
+public final class RandomNumberSuppliers {
 
-    private RandomNumberSupplier() {
+    private RandomNumberSuppliers() {
     }
 
     public static IntSupplier randomPrimitiveInteger(RandomGenerator random,

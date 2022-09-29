@@ -12,9 +12,9 @@ import java.util.random.RandomGenerator;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class RandomStringSupplier {
+public final class RandomStringSuppliers {
 
-    private RandomStringSupplier() {
+    private RandomStringSuppliers() {
     }
 
     public static Supplier<String> uuid() {
