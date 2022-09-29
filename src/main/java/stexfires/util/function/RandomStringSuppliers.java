@@ -1,4 +1,4 @@
-package stexfires.util.supplier;
+package stexfires.util.function;
 
 import java.util.List;
 import java.util.Objects;

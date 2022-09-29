@@ -1,4 +1,4 @@
-package stexfires.util.supplier;
+package stexfires.util.function;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.util.NumberCheckType;

@@ -1,4 +1,4 @@
-package stexfires.util.supplier;
+package stexfires.util.function;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongSupplier;

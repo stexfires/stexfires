@@ -12,8 +12,8 @@ import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.supplier.SequenceLongSupplier;
-import stexfires.util.supplier.SequencePrimitiveLongSupplier;
+import stexfires.util.function.SequenceLongSupplier;
+import stexfires.util.function.SequencePrimitiveLongSupplier;
 
 import java.util.ArrayList;
 import java.util.Arrays;

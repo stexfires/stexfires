@@ -1,4 +1,4 @@
-package stexfires.util.supplier;
+package stexfires.util.function;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -9,17 +9,17 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SequenceStringSupplier implements Supplier<String> {
+public final class SequenceLongSupplier implements Supplier<Long> {
 
     private final AtomicLong atomicLong;
 
-    public SequenceStringSupplier(long initialValue) {
+    public SequenceLongSupplier(long initialValue) {
         atomicLong = new AtomicLong(initialValue);
     }
 
     @Override
-    public @NotNull String get() {
-        return String.valueOf(atomicLong.getAndIncrement());
+    public @NotNull Long get() {
+        return atomicLong.getAndIncrement();
     }
 
 }
