@@ -9,8 +9,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 
-// TODO BooleanSupplier?
-
 /**
  * @author Mathias Kalb
  * @since 0.1
