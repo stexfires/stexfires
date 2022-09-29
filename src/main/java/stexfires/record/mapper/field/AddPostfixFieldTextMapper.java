@@ -9,6 +9,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
+// TODO Rename Postfix into Suffix
 public class AddPostfixFieldTextMapper implements FieldTextMapper {
 
     private final String postfix;
