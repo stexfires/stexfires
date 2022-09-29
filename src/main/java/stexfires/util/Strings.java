@@ -26,8 +26,14 @@ public final class Strings {
      * A default delimiter for joining strings: {@code ", "}
      */
     public static final String DEFAULT_DELIMITER = ", ";
+    public static final String REGEX_TAB = "\\t";
+    public static final String REGEX_WHITESPACE = "\\s";
+    public static final String REGEX_BACKSLASH = "\\\\";
 
-    private static final String EMPTY = "";
+    public static final String EMPTY = "";
+
+    public static final int MIN_ASCII_CODE_POINT = 0;
+    public static final int MAX_ASCII_CODE_POINT = 127;
 
     private Strings() {
     }
@@ -40,6 +46,7 @@ public final class Strings {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static String empty() {
         return EMPTY;
     }
