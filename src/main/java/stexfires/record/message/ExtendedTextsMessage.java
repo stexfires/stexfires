@@ -14,19 +14,19 @@ public class ExtendedTextsMessage<T extends TextRecord> implements RecordMessage
     private static final int INITIAL_STRING_BUILDER_CAPACITY = 64;
 
     private final String prefix;
-    private final String postfix;
+    private final String suffix;
     private final String prefixFirstText;
-    private final String postfixLastText;
+    private final String suffixLastText;
 
-    public ExtendedTextsMessage(@Nullable String prefix, @Nullable String postfix) {
-        this(prefix, postfix, prefix, postfix);
+    public ExtendedTextsMessage(@Nullable String prefix, @Nullable String suffix) {
+        this(prefix, suffix, prefix, suffix);
     }
 
-    public ExtendedTextsMessage(@Nullable String prefix, @Nullable String postfix, @Nullable String prefixFirstText, @Nullable String postfixLastText) {
+    public ExtendedTextsMessage(@Nullable String prefix, @Nullable String suffix, @Nullable String prefixFirstText, @Nullable String suffixLastText) {
         this.prefix = prefix;
-        this.postfix = postfix;
+        this.suffix = suffix;
         this.prefixFirstText = prefixFirstText;
-        this.postfixLastText = postfixLastText;
+        this.suffixLastText = suffixLastText;
     }
 
     @Override
@@ -42,10 +42,10 @@ public class ExtendedTextsMessage<T extends TextRecord> implements RecordMessage
             if (!field.isNull()) {
                 builder.append(field.text());
             }
-            if (postfixLastText != null && field.isLastField()) {
-                builder.append(postfixLastText);
-            } else if (postfix != null && !field.isLastField()) {
-                builder.append(postfix);
+            if (suffixLastText != null && field.isLastField()) {
+                builder.append(suffixLastText);
+            } else if (suffix != null && !field.isLastField()) {
+                builder.append(suffix);
             }
         }
 
