@@ -21,6 +21,8 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     public static final String NULL_VALUE = "";
 
     public static final String CATEGORY_PREFIX = "[";
+
+    // TODO Rename POSTFIX into SUFFIX or "end marker" or "end border"
     public static final String CATEGORY_POSTFIX = "]";
 
     // DEFAULT - both
