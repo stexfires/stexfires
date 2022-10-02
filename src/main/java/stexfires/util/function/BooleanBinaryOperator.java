@@ -3,6 +3,8 @@ package stexfires.util.function;
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * Represents an operation upon two {@code boolean}-valued operands and producing an
@@ -54,6 +56,14 @@ public interface BooleanBinaryOperator {
         return (first) -> applyAsBoolean(first, second);
     }
 
+    default Predicate<Boolean> asPredicate(boolean second) {
+        return (first) -> applyAsBoolean(first, second);
+    }
+
+    default UnaryOperator<Boolean> asUnaryOperator(boolean second) {
+        return (first) -> applyAsBoolean(first, second);
+    }
+
     static BooleanBinaryOperator constant(boolean constant) {
         return (first, second) -> constant;
     }
@@ -79,6 +89,7 @@ public interface BooleanBinaryOperator {
         return (first, second) -> first && second;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     static BooleanBinaryOperator NAND() {
         return (first, second) -> !(first && second);
     }
@@ -95,6 +106,7 @@ public interface BooleanBinaryOperator {
         return (first, second) -> first != second;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     static BooleanBinaryOperator XNOR() {
         return (first, second) -> first == second;
     }
