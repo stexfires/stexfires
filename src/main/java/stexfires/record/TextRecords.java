@@ -12,8 +12,7 @@ import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.function.SequenceLongSupplier;
-import stexfires.util.function.SequencePrimitiveLongSupplier;
+import stexfires.util.function.Suppliers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,19 +93,19 @@ public final class TextRecords {
     }
 
     public static Supplier<Long> recordIdSequence() {
-        return new SequenceLongSupplier(DEFAULT_INITIAL_RECORD_ID);
+        return Suppliers.sequenceAsLong(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static Supplier<Long> recordIdSequence(long initialValue) {
-        return new SequenceLongSupplier(initialValue);
+        return Suppliers.sequenceAsLong(initialValue);
     }
 
     public static LongSupplier recordIdPrimitiveSequence() {
-        return new SequencePrimitiveLongSupplier(DEFAULT_INITIAL_RECORD_ID);
+        return Suppliers.sequenceAsPrimitiveLong(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static LongSupplier recordIdPrimitiveSequence(long initialValue) {
-        return new SequencePrimitiveLongSupplier(initialValue);
+        return Suppliers.sequenceAsPrimitiveLong(initialValue);
     }
 
     public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(@NotNull T record,

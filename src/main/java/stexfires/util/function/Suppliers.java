@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntBinaryOperator;
@@ -83,12 +84,46 @@ public final class Suppliers {
         return () -> combiner.applyAsLong(first.getAsLong(), second.getAsLong());
     }
 
-    public static Supplier<String> stringSupplierLocalTime() {
+    public static Supplier<String> localTimeAsString() {
         return () -> LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);
     }
 
-    public static Supplier<String> stringSupplierThreadName() {
+    public static Supplier<String> threadNameAsString() {
         return () -> Thread.currentThread().getName();
+    }
+
+    public static Supplier<String> sequenceAsString(long initialValue) {
+        return new SequenceSupplier(initialValue).asStringSupplier();
+    }
+
+    public static Supplier<Long> sequenceAsLong(long initialValue) {
+        return new SequenceSupplier(initialValue).asLongSupplier();
+    }
+
+    public static LongSupplier sequenceAsPrimitiveLong(long initialValue) {
+        return new SequenceSupplier(initialValue).asPrimitiveLongSupplier();
+    }
+
+    private static final class SequenceSupplier {
+
+        private final AtomicLong atomicLong;
+
+        private SequenceSupplier(long initialValue) {
+            atomicLong = new AtomicLong(initialValue);
+        }
+
+        private Supplier<String> asStringSupplier() {
+            return () -> String.valueOf(atomicLong.getAndIncrement());
+        }
+
+        private Supplier<Long> asLongSupplier() {
+            return atomicLong::getAndIncrement;
+        }
+
+        private LongSupplier asPrimitiveLongSupplier() {
+            return atomicLong::getAndIncrement;
+        }
+
     }
 
 }
