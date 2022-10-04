@@ -19,8 +19,8 @@ public final class RandomNumberSuppliers {
     private RandomNumberSuppliers() {
     }
 
-    public static IntSupplier randomPrimitiveInteger(RandomGenerator random,
-                                                     int origin, int bound) {
+    public static IntSupplier randomPrimitiveInt(RandomGenerator random,
+                                                 int origin, int bound) {
         Objects.requireNonNull(random);
         return () -> random.nextInt(origin, bound);
     }
@@ -85,8 +85,8 @@ public final class RandomNumberSuppliers {
         return () -> random.nextGaussian(mean, stddev);
     }
 
-    public static IntSupplier primitiveIntegerSelection(RandomGenerator random,
-                                                        int... sourceNumbers) {
+    public static IntSupplier primitiveIntSelection(RandomGenerator random,
+                                                    int... sourceNumbers) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(sourceNumbers);
         if (sourceNumbers.length == 0) {

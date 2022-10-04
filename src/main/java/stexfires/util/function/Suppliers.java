@@ -70,7 +70,7 @@ public final class Suppliers {
         return () -> combiner.apply(first.getAsBoolean(), second.getAsBoolean());
     }
 
-    public static IntSupplier combinePrimitiveInteger(IntSupplier first, IntSupplier second, IntBinaryOperator combiner) {
+    public static IntSupplier combinePrimitiveInt(IntSupplier first, IntSupplier second, IntBinaryOperator combiner) {
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);

@@ -47,7 +47,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     /**
      * @param textSupplier must be thread-safe
      */
-    public static <T extends TextRecord> AddTextMapper<T> intSupplier(IntSupplier textSupplier) {
+    public static <T extends TextRecord> AddTextMapper<T> primitiveIntSupplier(IntSupplier textSupplier) {
         Objects.requireNonNull(textSupplier);
         return new AddTextMapper<>(record -> String.valueOf(textSupplier.getAsInt()));
     }
@@ -55,7 +55,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     /**
      * @param textSupplier must be thread-safe
      */
-    public static <T extends TextRecord> AddTextMapper<T> longSupplier(LongSupplier textSupplier) {
+    public static <T extends TextRecord> AddTextMapper<T> primitiveLongSupplier(LongSupplier textSupplier) {
         Objects.requireNonNull(textSupplier);
         return new AddTextMapper<>(record -> String.valueOf(textSupplier.getAsLong()));
     }

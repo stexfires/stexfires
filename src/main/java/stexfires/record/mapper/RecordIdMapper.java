@@ -38,7 +38,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param recordIdSupplier must be thread-safe
      */
-    public static <T extends TextRecord> RecordIdMapper<T> intSupplier(IntSupplier recordIdSupplier) {
+    public static <T extends TextRecord> RecordIdMapper<T> primitiveIntSupplier(IntSupplier recordIdSupplier) {
         Objects.requireNonNull(recordIdSupplier);
         return new RecordIdMapper<>(record -> (long) recordIdSupplier.getAsInt());
     }
@@ -46,7 +46,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param recordIdSupplier must be thread-safe
      */
-    public static <T extends TextRecord> RecordIdMapper<T> longSupplier(LongSupplier recordIdSupplier) {
+    public static <T extends TextRecord> RecordIdMapper<T> primitiveLongSupplier(LongSupplier recordIdSupplier) {
         Objects.requireNonNull(recordIdSupplier);
         return new RecordIdMapper<>(record -> recordIdSupplier.getAsLong());
     }

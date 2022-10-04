@@ -27,7 +27,7 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
     /**
      * @param validitySupplier must be thread-safe
      */
-    public static <T extends TextRecord> SupplierFilter<T> booleanSupplier(BooleanSupplier validitySupplier) {
+    public static <T extends TextRecord> SupplierFilter<T> primitiveBooleanSupplier(BooleanSupplier validitySupplier) {
         return new SupplierFilter<>(validitySupplier::getAsBoolean);
     }
 

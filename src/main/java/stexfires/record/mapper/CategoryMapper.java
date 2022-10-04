@@ -43,7 +43,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param categorySupplier must be thread-safe
      */
-    public static <T extends TextRecord> CategoryMapper<T> intSupplier(IntSupplier categorySupplier) {
+    public static <T extends TextRecord> CategoryMapper<T> primitiveIntSupplier(IntSupplier categorySupplier) {
         Objects.requireNonNull(categorySupplier);
         return new CategoryMapper<>(record -> String.valueOf(categorySupplier.getAsInt()));
     }
@@ -51,7 +51,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param categorySupplier must be thread-safe
      */
-    public static <T extends TextRecord> CategoryMapper<T> longSupplier(LongSupplier categorySupplier) {
+    public static <T extends TextRecord> CategoryMapper<T> primitiveLongSupplier(LongSupplier categorySupplier) {
         Objects.requireNonNull(categorySupplier);
         return new CategoryMapper<>(record -> String.valueOf(categorySupplier.getAsLong()));
     }
