@@ -7,7 +7,6 @@ import stexfires.record.ValueRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.NumberCheckType;
 
 import java.util.Comparator;
 import java.util.List;
@@ -72,11 +71,6 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     public static <T extends TextRecord> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
         Objects.requireNonNull(sizePredicate);
         return list -> sizePredicate.test(list.size());
-    }
-
-    public static <T extends TextRecord> Predicate<List<? super T>> havingSize(NumberCheckType numberCheckType) {
-        Objects.requireNonNull(numberCheckType);
-        return list -> numberCheckType.checkInt(list.size());
     }
 
     public static <T extends TextRecord> Predicate<List<? super T>> havingSizeEqualTo(int size) {

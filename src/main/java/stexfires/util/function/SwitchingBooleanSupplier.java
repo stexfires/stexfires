@@ -1,8 +1,6 @@
 package stexfires.util.function;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.util.NumberCheckType;
-import stexfires.util.NumberComparisonType;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -38,16 +36,6 @@ public final class SwitchingBooleanSupplier implements Supplier<Boolean> {
 
     public static SwitchingBooleanSupplier everyTime(Boolean initialBooleanValue) {
         return new SwitchingBooleanSupplier(initialBooleanValue, DEFAULT_START_INDEX, i -> true);
-    }
-
-    public static SwitchingBooleanSupplier check(Boolean initialBooleanValue, NumberCheckType numberCheckType) {
-        Objects.requireNonNull(numberCheckType);
-        return new SwitchingBooleanSupplier(initialBooleanValue, DEFAULT_START_INDEX, numberCheckType.intPredicate());
-    }
-
-    public static SwitchingBooleanSupplier compare(Boolean initialBooleanValue, NumberComparisonType numberComparisonType, int compareIndex) {
-        Objects.requireNonNull(numberComparisonType);
-        return new SwitchingBooleanSupplier(initialBooleanValue, DEFAULT_START_INDEX, numberComparisonType.intPredicate(compareIndex));
     }
 
     public BooleanSupplier asPrimitiveBooleanSupplier() {

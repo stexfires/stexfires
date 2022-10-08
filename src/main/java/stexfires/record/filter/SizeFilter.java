@@ -1,17 +1,12 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
-import stexfires.util.NumberCheckType;
-import stexfires.util.NumberComparisonType;
+import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.IntPredicate;
-
-import static stexfires.util.NumberComparisonType.EQUAL_TO;
-import static stexfires.util.NumberComparisonType.GREATER_THAN_OR_EQUAL_TO;
-import static stexfires.util.NumberComparisonType.LESS_THAN;
 
 /**
  * @author Mathias Kalb
@@ -26,25 +21,16 @@ public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
         this.sizePredicate = sizePredicate;
     }
 
-    public static <T extends TextRecord> SizeFilter<T> compare(NumberComparisonType numberComparisonType,
-                                                               int compareSize) {
-        return new SizeFilter<>(numberComparisonType.intPredicate(compareSize));
-    }
-
-    public static <T extends TextRecord> SizeFilter<T> check(NumberCheckType numberCheckType) {
-        return new SizeFilter<>(numberCheckType.intPredicate());
-    }
-
     public static <T extends TextRecord> SizeFilter<T> equalTo(int compareSize) {
-        return compare(EQUAL_TO, compareSize);
+        return new SizeFilter<>(PrimitiveIntPredicates.equalTo(compareSize));
     }
 
     public static <T extends TextRecord> SizeFilter<T> isEmpty() {
-        return compare(EQUAL_TO, 0);
+        return new SizeFilter<>(PrimitiveIntPredicates.zero());
     }
 
     public static <T extends TextRecord> SizeFilter<T> containedIn(Collection<Integer> sizes) {
-        return new SizeFilter<>(sizes::contains);
+        return new SizeFilter<>(PrimitiveIntPredicates.containedIn(sizes));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
@@ -53,9 +39,7 @@ public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> SizeFilter<T> between(int from, int to) {
-        return new SizeFilter<>(
-                GREATER_THAN_OR_EQUAL_TO.intPredicate(from)
-                                        .and(LESS_THAN.intPredicate(to)));
+        return new SizeFilter<>(PrimitiveIntPredicates.between(from, to));
     }
 
     @Override

@@ -1,17 +1,12 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
-import stexfires.util.NumberCheckType;
-import stexfires.util.NumberComparisonType;
+import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.LongPredicate;
-
-import static stexfires.util.NumberComparisonType.EQUAL_TO;
-import static stexfires.util.NumberComparisonType.GREATER_THAN_OR_EQUAL_TO;
-import static stexfires.util.NumberComparisonType.LESS_THAN;
 
 /**
  * @author Mathias Kalb
@@ -26,17 +21,8 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
         this.recordIdPredicate = recordIdPredicate;
     }
 
-    public static <T extends TextRecord> RecordIdFilter<T> compare(NumberComparisonType numberComparisonType,
-                                                                   long compareRecordId) {
-        return new RecordIdFilter<>(numberComparisonType.longPredicate(compareRecordId));
-    }
-
-    public static <T extends TextRecord> RecordIdFilter<T> check(NumberCheckType numberCheckType) {
-        return new RecordIdFilter<>(numberCheckType.longPredicate());
-    }
-
     public static <T extends TextRecord> RecordIdFilter<T> equalTo(long compareRecordId) {
-        return compare(EQUAL_TO, compareRecordId);
+        return new RecordIdFilter<>(PrimitiveLongPredicates.equalTo(compareRecordId));
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> isNotNull() {
@@ -48,7 +34,7 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> containedIn(Collection<Long> recordIds) {
-        return new RecordIdFilter<>(recordIds::contains);
+        return new RecordIdFilter<>(PrimitiveLongPredicates.containedIn(recordIds));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
@@ -57,9 +43,7 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> between(long from, long to) {
-        return new RecordIdFilter<>(
-                GREATER_THAN_OR_EQUAL_TO.longPredicate(from)
-                                        .and(LESS_THAN.longPredicate(to)));
+        return new RecordIdFilter<>(PrimitiveLongPredicates.between(from, to));
     }
 
     @SuppressWarnings("ConstantConditions")
