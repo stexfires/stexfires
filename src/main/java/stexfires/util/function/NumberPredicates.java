@@ -17,6 +17,7 @@ import java.util.function.UnaryOperator;
 /**
  * @author Mathias Kalb
  * @see java.lang.Number
+ * @see java.lang.Math
  * @see java.util.function.Predicate
  * @see java.util.function.IntPredicate
  * @see java.util.function.LongPredicate
