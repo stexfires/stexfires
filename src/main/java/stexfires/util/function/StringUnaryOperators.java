@@ -93,6 +93,10 @@ public final class StringUnaryOperators {
         return s -> nullOrEmpty(s) ? EMPTY : s;
     }
 
+    public static UnaryOperator<String> nullToConstant(String constant) {
+        return s -> s == null ? constant : s;
+    }
+
     @SuppressWarnings("ReturnOfNull")
     public static UnaryOperator<String> trimToNull() {
         return s -> nullOrEmpty(s) ? null : emptyToNull().apply(s.trim());
