@@ -1,6 +1,7 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
+import stexfires.record.mapper.RecordMapper;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -25,6 +26,13 @@ public interface RecordFilter<T extends TextRecord> {
     static <T extends TextRecord> RecordFilter<T> of(Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
         return predicate::test;
+    }
+
+    static <T extends TextRecord, V extends TextRecord> RecordFilter<T> mapAndFilter(RecordMapper<? super T, ? extends V> recordMapper,
+                                                                                     RecordFilter<? super V> recordFilter) {
+        Objects.requireNonNull(recordMapper);
+        Objects.requireNonNull(recordFilter);
+        return record -> recordFilter.isValid(recordMapper.map(record));
     }
 
     static <T extends TextRecord> RecordFilter<T> concatAnd(RecordFilter<? super T> firstRecordFilter,
