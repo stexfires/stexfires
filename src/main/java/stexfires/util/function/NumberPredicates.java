@@ -13,6 +13,7 @@ import java.util.function.LongPredicate;
 import java.util.function.LongUnaryOperator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
@@ -54,11 +55,21 @@ public final class NumberPredicates {
             return n -> firstPredicate.test(n) && secondPredicate.test(n);
         }
 
+        public static IntPredicate concatAnd(Stream<IntPredicate> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> true, IntPredicate::and);
+        }
+
         public static IntPredicate concatOr(IntPredicate firstPredicate,
                                             IntPredicate secondPredicate) {
             Objects.requireNonNull(firstPredicate);
             Objects.requireNonNull(secondPredicate);
             return n -> firstPredicate.test(n) || secondPredicate.test(n);
+        }
+
+        public static IntPredicate concatOr(Stream<IntPredicate> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> false, IntPredicate::or);
         }
 
         public static IntPredicate constantTrue() {
@@ -201,11 +212,21 @@ public final class NumberPredicates {
             return n -> firstPredicate.test(n) && secondPredicate.test(n);
         }
 
+        public static LongPredicate concatAnd(Stream<LongPredicate> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> true, LongPredicate::and);
+        }
+
         public static LongPredicate concatOr(LongPredicate firstPredicate,
                                              LongPredicate secondPredicate) {
             Objects.requireNonNull(firstPredicate);
             Objects.requireNonNull(secondPredicate);
             return n -> firstPredicate.test(n) || secondPredicate.test(n);
+        }
+
+        public static LongPredicate concatOr(Stream<LongPredicate> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> false, LongPredicate::or);
         }
 
         public static LongPredicate constantTrue() {
@@ -348,11 +369,21 @@ public final class NumberPredicates {
             return n -> firstPredicate.test(n) && secondPredicate.test(n);
         }
 
+        public static Predicate<BigInteger> concatAnd(Stream<Predicate<BigInteger>> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> true, Predicate::and);
+        }
+
         public static Predicate<BigInteger> concatOr(Predicate<BigInteger> firstPredicate,
                                                      Predicate<BigInteger> secondPredicate) {
             Objects.requireNonNull(firstPredicate);
             Objects.requireNonNull(secondPredicate);
             return n -> firstPredicate.test(n) || secondPredicate.test(n);
+        }
+
+        public static Predicate<BigInteger> concatOr(Stream<Predicate<BigInteger>> predicates) {
+            Objects.requireNonNull(predicates);
+            return predicates.reduce(x -> false, Predicate::or);
         }
 
         public static Predicate<BigInteger> isNullOr(Predicate<BigInteger> predicate) {

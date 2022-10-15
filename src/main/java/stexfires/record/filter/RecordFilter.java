@@ -4,6 +4,7 @@ import stexfires.record.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * A RecordFilter is a filter (boolean-valued function) for a {@link stexfires.record.TextRecord}.
@@ -33,11 +34,21 @@ public interface RecordFilter<T extends TextRecord> {
         return record -> firstRecordFilter.isValid(record) && secondRecordFilter.isValid(record);
     }
 
+    static <T extends TextRecord> RecordFilter<T> concatAnd(Stream<RecordFilter<T>> recordFilters) {
+        Objects.requireNonNull(recordFilters);
+        return recordFilters.reduce(r -> true, RecordFilter::and);
+    }
+
     static <T extends TextRecord> RecordFilter<T> concatOr(RecordFilter<? super T> firstRecordFilter,
                                                            RecordFilter<? super T> secondRecordFilter) {
         Objects.requireNonNull(firstRecordFilter);
         Objects.requireNonNull(secondRecordFilter);
         return record -> firstRecordFilter.isValid(record) || secondRecordFilter.isValid(record);
+    }
+
+    static <T extends TextRecord> RecordFilter<T> concatOr(Stream<RecordFilter<T>> recordFilters) {
+        Objects.requireNonNull(recordFilters);
+        return recordFilters.reduce(r -> false, RecordFilter::or);
     }
 
     boolean isValid(T record);

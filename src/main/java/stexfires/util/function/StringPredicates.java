@@ -9,6 +9,7 @@ import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import static stexfires.util.Strings.MAX_ASCII_CODE_POINT;
 import static stexfires.util.Strings.MIN_ASCII_CODE_POINT;
@@ -78,11 +79,21 @@ public final class StringPredicates {
         return s -> firstStringPredicate.test(s) && secondStringPredicate.test(s);
     }
 
+    public static Predicate<String> concatAnd(Stream<Predicate<String>> stringPredicates) {
+        Objects.requireNonNull(stringPredicates);
+        return stringPredicates.reduce(s -> true, Predicate::and);
+    }
+
     public static Predicate<String> concatOr(Predicate<String> firstStringPredicate,
                                              Predicate<String> secondStringPredicate) {
         Objects.requireNonNull(firstStringPredicate);
         Objects.requireNonNull(secondStringPredicate);
         return s -> firstStringPredicate.test(s) || secondStringPredicate.test(s);
+    }
+
+    public static Predicate<String> concatOr(Stream<Predicate<String>> stringPredicates) {
+        Objects.requireNonNull(stringPredicates);
+        return stringPredicates.reduce(s -> false, Predicate::or);
     }
 
     public static Predicate<String> isNullOr(Predicate<String> stringPredicate) {
