@@ -26,6 +26,7 @@ import static stexfires.util.Strings.REGEX_WHITESPACE;
  * @since 0.1
  */
 public final class StringUnaryOperators {
+// TODO add methods: StringManipulation-Plugin (Escape/Unesacpe, SwitchCase, Sort/Shuffle/Reverse characters or lines, Remove empty lines, Swap " and ')
 
     private StringUnaryOperators() {
     }
