@@ -9,20 +9,19 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-// TODO Rename Postfix into Suffix
-public class AddPostfixFieldTextMapper implements FieldTextMapper {
+public class AddSuffixFieldTextMapper implements FieldTextMapper {
 
-    private final String postfix;
+    private final String suffix;
 
-    public AddPostfixFieldTextMapper(String postfix) {
-        Objects.requireNonNull(postfix);
-        this.postfix = postfix;
+    public AddSuffixFieldTextMapper(String suffix) {
+        Objects.requireNonNull(suffix);
+        this.suffix = suffix;
     }
 
     @Override
     public final @NotNull String mapToText(@NotNull TextField field) {
         String text = field.text();
-        return (text == null) ? postfix : text + postfix;
+        return (text == null) ? suffix : text + suffix;
     }
 
 }
