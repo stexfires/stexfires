@@ -1,6 +1,7 @@
 package stexfires.util.function;
 
 import java.math.BigInteger;
+import java.util.HexFormat;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -44,6 +45,14 @@ public final class NumberToStringFunctions {
             return Integer::toHexString;
         }
 
+        /**
+         * @see java.util.HexFormat
+         */
+        public static IntFunction<String> hexFormat(HexFormat hexFormat) {
+            Objects.requireNonNull(hexFormat);
+            return n -> hexFormat.formatHex(BigInteger.valueOf(n).toByteArray());
+        }
+
         public static IntFunction<String> octal() {
             return Integer::toOctalString;
         }
@@ -80,6 +89,14 @@ public final class NumberToStringFunctions {
 
         public static LongFunction<String> hex() {
             return Long::toHexString;
+        }
+
+        /**
+         * @see java.util.HexFormat
+         */
+        public static LongFunction<String> hexFormat(HexFormat hexFormat) {
+            Objects.requireNonNull(hexFormat);
+            return n -> hexFormat.formatHex(BigInteger.valueOf(n).toByteArray());
         }
 
         public static LongFunction<String> octal() {
@@ -124,6 +141,16 @@ public final class NumberToStringFunctions {
         public static Function<BigInteger, String> hex() {
             return n -> n == null ? null :
                     n.toString(RADIX_HEX);
+        }
+
+        /**
+         * @see java.util.HexFormat
+         */
+        @SuppressWarnings("ReturnOfNull")
+        public static Function<BigInteger, String> hexFormat(HexFormat hexFormat) {
+            Objects.requireNonNull(hexFormat);
+            return n -> n == null ? null :
+                    hexFormat.formatHex(n.toByteArray());
         }
 
         @SuppressWarnings("ReturnOfNull")
