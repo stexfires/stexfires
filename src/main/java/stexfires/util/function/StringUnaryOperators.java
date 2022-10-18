@@ -281,8 +281,13 @@ public final class StringUnaryOperators {
         return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : String.valueOf(s.charAt(index));
     }
 
-    public static UnaryOperator<String> format(@Nullable Locale locale, Object... args) {
+    public static UnaryOperator<String> formattedWithArguments(@Nullable Locale locale, Object... args) {
         return s -> nullOrEmpty(s) ? s : String.format(locale, s, args);
+    }
+
+    public static UnaryOperator<String> formatAsArgument(@Nullable Locale locale, String format) {
+        Objects.requireNonNull(format);
+        return s -> String.format(locale, format, s);
     }
 
     public static UnaryOperator<String> substring(int beginIndex) {
