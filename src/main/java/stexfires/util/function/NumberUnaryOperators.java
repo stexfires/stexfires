@@ -21,7 +21,6 @@ import java.util.function.UnaryOperator;
  * @since 0.1
  */
 public final class NumberUnaryOperators {
-// TODO add methods: round(), clamp()
 
     private NumberUnaryOperators() {
     }
@@ -140,6 +139,11 @@ public final class NumberUnaryOperators {
         public static IntUnaryOperator ceilMod(int divisor) {
             return n ->
                     Math.ceilMod(n, divisor);
+        }
+
+        public static IntUnaryOperator clamp(int min, int max) {
+            return n ->
+                    Math.max(min, Math.min(max, n));
         }
 
     }
@@ -268,6 +272,11 @@ public final class NumberUnaryOperators {
         public static LongUnaryOperator unsignedMultiplyHigh(long secondValue) {
             return n ->
                     Math.unsignedMultiplyHigh(n, secondValue);
+        }
+
+        public static LongUnaryOperator clamp(long min, long max) {
+            return n ->
+                    Math.max(min, Math.min(max, n));
         }
 
     }
@@ -461,6 +470,12 @@ public final class NumberUnaryOperators {
         public static UnaryOperator<BigInteger> shiftRight(int distance) {
             return n -> n == null ? n :
                     n.shiftRight(distance);
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        public static UnaryOperator<BigInteger> clamp(BigInteger min, BigInteger max) {
+            return n -> n == null ? n :
+                    min.max(max.min(n));
         }
 
     }
