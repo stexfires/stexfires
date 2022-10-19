@@ -2,7 +2,9 @@ package stexfires.util.function;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.Charset;
 import java.text.Normalizer;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -26,7 +28,6 @@ import static stexfires.util.Strings.REGEX_WHITESPACE;
  * @since 0.1
  */
 public final class StringUnaryOperators {
-// TODO add methods: StringManipulation-Plugin (Escape/Unesacpe, SwitchCase, Sort/Shuffle/Reverse characters or lines, Remove empty lines, Swap " and ')
 
     private StringUnaryOperators() {
     }
@@ -381,6 +382,18 @@ public final class StringUnaryOperators {
             }
             return result;
         };
+    }
+
+    public static UnaryOperator<String> encodeBase64(Base64.Encoder encoder, Charset charset) {
+        Objects.requireNonNull(encoder);
+        Objects.requireNonNull(charset);
+        return s -> nullOrEmpty(s) ? s : encoder.encodeToString(s.getBytes(charset));
+    }
+
+    public static UnaryOperator<String> decodeBase64(Base64.Decoder decoder, Charset charset) {
+        Objects.requireNonNull(decoder);
+        Objects.requireNonNull(charset);
+        return s -> nullOrEmpty(s) ? s : new String(decoder.decode(s), charset);
     }
 
 }
