@@ -3,8 +3,11 @@ package stexfires.util;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.BreakIterator;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +17,9 @@ import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -129,6 +135,150 @@ public final class Strings {
     public static void printLines(Stream<String> stream) {
         Objects.requireNonNull(stream);
         stream.forEachOrdered(System.out::println);
+    }
+
+    /**
+     * @see java.util.stream.Stream#collect(java.util.stream.Collector)
+     * @see java.util.stream.Collectors#collectingAndThen(java.util.stream.Collector, java.util.function.Function)
+     * @see java.lang.String#join(CharSequence, Iterable)
+     */
+    public static Collector<? super String, ?, String> modifyAndJoinCollector(UnaryOperator<List<String>> modifyListOperator,
+                                                                              String joinDelimiter) {
+        Objects.requireNonNull(modifyListOperator);
+        Objects.requireNonNull(joinDelimiter);
+        // Use ArrayList because of its mutability.
+        return Collectors.collectingAndThen(Collectors.toCollection(ArrayList::new),
+                list -> String.join(joinDelimiter, modifyListOperator.apply(list)));
+    }
+
+    /**
+     * @see java.util.List#removeAll(java.util.Collection)
+     */
+    public static UnaryOperator<List<String>> modifyListRemoveAll(Collection<String> stringCollection) {
+        Objects.requireNonNull(stringCollection);
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                list.removeAll(stringCollection);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.List#removeIf(java.util.function.Predicate)
+     */
+    public static UnaryOperator<List<String>> modifyListRemoveIf(Predicate<? super String> stringPredicate) {
+        Objects.requireNonNull(stringPredicate);
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                list.removeIf(stringPredicate);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#replaceAll(java.util.List, Object, Object)
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static UnaryOperator<List<String>> modifyListReplaceAll(@Nullable String oldVal, @Nullable String newVal) {
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                Collections.replaceAll(list, oldVal, newVal);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.List#replaceAll(java.util.function.UnaryOperator)
+     */
+    public static UnaryOperator<List<String>> modifyListReplaceAll(UnaryOperator<String> stringOperator) {
+        Objects.requireNonNull(stringOperator);
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                list.replaceAll(stringOperator);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.List#retainAll(java.util.Collection)
+     */
+    public static UnaryOperator<List<String>> modifyListRetainAll(Collection<String> stringCollection) {
+        Objects.requireNonNull(stringCollection);
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                list.retainAll(stringCollection);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#reverse(java.util.List)
+     */
+    public static UnaryOperator<List<String>> modifyListReverse() {
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                Collections.reverse(list);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#rotate(java.util.List, int)
+     */
+    public static UnaryOperator<List<String>> modifyListRotate(int distance) {
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                Collections.rotate(list, distance);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#shuffle(java.util.List)
+     */
+    public static UnaryOperator<List<String>> modifyListShuffle() {
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                Collections.shuffle(list);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#sort(java.util.List, java.util.Comparator)
+     */
+    public static UnaryOperator<List<String>> modifyListSort(Comparator<? super String> stringComparator) {
+        Objects.requireNonNull(stringComparator);
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                list.sort(stringComparator);
+            }
+            return list;
+        };
+    }
+
+    /**
+     * @see java.util.Collections#swap(java.util.List, int, int)
+     */
+    public static UnaryOperator<List<String>> modifyListSwap(int firstIndex, int secondIndex) {
+        return list -> {
+            if (list != null && !list.isEmpty()) {
+                if (firstIndex != secondIndex
+                        && firstIndex >= 0 && secondIndex >= 0
+                        && firstIndex < list.size() && secondIndex < list.size()) {
+                    Collections.swap(list, firstIndex, secondIndex);
+                }
+            }
+            return list;
+        };
     }
 
     /**
