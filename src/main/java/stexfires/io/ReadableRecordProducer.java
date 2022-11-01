@@ -26,8 +26,10 @@ public interface ReadableRecordProducer<T extends TextRecord> extends RecordProd
     default Stream<T> produceStream() throws UncheckedProducerException {
         try {
             return readRecords();
-        } catch (ProducerException | IOException e) {
+        } catch (ProducerException e) {
             throw new UncheckedProducerException(e);
+        } catch (IOException e) {
+            throw new UncheckedProducerException(new ProducerException(e));
         }
     }
 

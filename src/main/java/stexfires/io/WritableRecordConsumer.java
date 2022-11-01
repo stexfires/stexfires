@@ -28,8 +28,10 @@ public interface WritableRecordConsumer<T extends TextRecord> extends RecordCons
     default void consume(T record) throws UncheckedConsumerException {
         try {
             writeRecord(record);
-        } catch (ConsumerException | IOException e) {
-            throw new UncheckedConsumerException(record, e);
+        } catch (ConsumerException e) {
+            throw new UncheckedConsumerException(e);
+        } catch (IOException e) {
+            throw new UncheckedConsumerException(new ConsumerException(record, e));
         }
     }
 

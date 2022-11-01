@@ -31,7 +31,7 @@ public class AppendableConsumer<T extends TextRecord, R extends Appendable> impl
             try {
                 appendable.append(message);
             } catch (IOException e) {
-                throw new UncheckedConsumerException(record, e);
+                throw new UncheckedConsumerException(new ConsumerException(record, e));
             }
         }
     }

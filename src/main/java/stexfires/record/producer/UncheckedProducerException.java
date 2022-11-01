@@ -1,7 +1,6 @@
 package stexfires.record.producer;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -17,23 +16,6 @@ public class UncheckedProducerException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    @SuppressWarnings("NewExceptionWithoutArguments")
-    public UncheckedProducerException() {
-        this(new ProducerException());
-    }
-
-    public UncheckedProducerException(@Nullable String message) {
-        this(new ProducerException(message));
-    }
-
-    public UncheckedProducerException(@Nullable Throwable cause) {
-        this(new ProducerException(cause));
-    }
-
-    public UncheckedProducerException(@Nullable String message, @Nullable Throwable cause) {
-        this(new ProducerException(message, cause));
-    }
 
     public UncheckedProducerException(@NotNull ProducerException cause) {
         super(Objects.requireNonNull(cause));

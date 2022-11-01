@@ -78,7 +78,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         } catch (ProducerException e) {
             throw new UncheckedProducerException(e);
         } catch (IOException e) {
-            throw new UncheckedProducerException("IOException during fillQueue! currentRecordIndex=" + currentRecordIndex, e);
+            throw new UncheckedProducerException(new ProducerException("IOException during fillQueue! currentRecordIndex=" + currentRecordIndex, e));
         }
     }
 

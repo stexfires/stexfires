@@ -32,7 +32,7 @@ public class WriterConsumer<T extends TextRecord, R extends Writer> implements C
             try {
                 writer.write(message);
             } catch (IOException e) {
-                throw new UncheckedConsumerException(record, e);
+                throw new UncheckedConsumerException(new ConsumerException(record, e));
             }
         }
     }
