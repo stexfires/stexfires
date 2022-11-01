@@ -91,6 +91,11 @@ public final class NumberUnaryOperators {
                     Math.multiplyExact(n, n);
         }
 
+        public static IntUnaryOperator digitSum() {
+            return n ->
+                    Integer.toString(n).codePoints().filter(Character::isDigit).map(Character::getNumericValue).sum();
+        }
+
         public static IntUnaryOperator addExact(int secondValue) {
             return n ->
                     Math.addExact(n, secondValue);
@@ -212,6 +217,11 @@ public final class NumberUnaryOperators {
         public static LongUnaryOperator squareExact() {
             return n ->
                     Math.multiplyExact(n, n);
+        }
+
+        public static LongUnaryOperator digitSum() {
+            return n ->
+                    Long.toString(n).codePoints().filter(Character::isDigit).map(Character::getNumericValue).sum();
         }
 
         public static LongUnaryOperator addExact(long secondValue) {
@@ -374,6 +384,12 @@ public final class NumberUnaryOperators {
         public static UnaryOperator<BigInteger> sqrt() {
             return n -> n == null ? n :
                     n.sqrt();
+        }
+
+        @SuppressWarnings("ConstantConditions")
+        public static UnaryOperator<BigInteger> digitSum() {
+            return n -> n == null ? n :
+                    BigInteger.valueOf(n.toString().codePoints().filter(Character::isDigit).map(Character::getNumericValue).sum());
         }
 
         @SuppressWarnings("ConstantConditions")
