@@ -132,108 +132,155 @@ public final class Strings {
     }
 
     /**
-     * @see String#lines() ()
+     * @see String#lines()
      */
-    public static Stream<String> splitTextByLines(String text) {
-        Objects.requireNonNull(text);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return text.lines();
+    public static Stream<String> splitTextByLines(@Nullable String text) {
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                text.lines();
+    }
+
+    /**
+     * @see String#lines()
+     */
+    public static Function<String, Stream<String>> splitTextByLinesFunction() {
+        return Strings::splitTextByLines;
     }
 
     /**
      * @see String#chars()
      */
     @SuppressWarnings("NumericCastThatLosesPrecision")
-    public static Stream<String> splitTextByChars(String text) {
-        Objects.requireNonNull(text);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return text.chars().mapToObj((int c) -> Character.toString((char) c));
+    public static Stream<String> splitTextByChars(@Nullable String text) {
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                text.chars().mapToObj((int c) -> Character.toString((char) c));
+    }
+
+    /**
+     * @see String#chars()
+     */
+    public static Function<String, Stream<String>> splitTextByCharsFunction() {
+        return Strings::splitTextByChars;
     }
 
     /**
      * @see String#codePoints()
      */
-    public static Stream<String> splitTextByCodePoints(String text) {
-        Objects.requireNonNull(text);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return text.codePoints().mapToObj(Character::toString);
+    public static Stream<String> splitTextByCodePoints(@Nullable String text) {
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                text.codePoints().mapToObj(Character::toString);
+    }
+
+    /**
+     * @see String#codePoints()
+     */
+    public static Function<String, Stream<String>> splitTextByCodePointsFunction() {
+        return Strings::splitTextByCodePoints;
     }
 
     /**
      * @see String#split(String, int)
      */
-    public static Stream<String> splitTextByRegex(String text, String regex, int limit) {
-        Objects.requireNonNull(text);
+    public static Stream<String> splitTextByRegex(@Nullable String text, String regex, int limit) {
         Objects.requireNonNull(regex);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return Arrays.stream(text.split(regex, limit));
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                Arrays.stream(text.split(regex, limit));
+    }
+
+    /**
+     * @see String#split(String, int)
+     */
+    public static Function<String, Stream<String>> splitTextByRegexFunction(String regex, int limit) {
+        Objects.requireNonNull(regex);
+        return s -> Strings.splitTextByRegex(s, regex, limit);
     }
 
     /**
      * @see String#substring(int, int)
      */
-    public static Stream<String> splitTextByLength(String text, int length) {
-        Objects.requireNonNull(text);
-        if (text.isEmpty()) {
-            return Stream.empty();
+    public static Stream<String> splitTextByLength(@Nullable String text, int length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("length <= 0");
         }
-        return StreamSupport.stream(SplitTextByLengthIterator.lengthSpliterator(text, length), false);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                StreamSupport.stream(SplitTextByLengthIterator.lengthSpliterator(text, length), false);
+    }
+
+    /**
+     * @see String#substring(int, int)
+     */
+    public static Function<String, Stream<String>> splitTextByLengthFunction(int length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("length <= 0");
+        }
+        return s -> Strings.splitTextByLength(s, length);
     }
 
     /**
      * @see java.text.BreakIterator#getSentenceInstance(java.util.Locale)
      */
-    public static Stream<String> breakTextBySentence(String text, Locale locale) {
-        Objects.requireNonNull(text);
+    public static Stream<String> splitTextBySentenceBreaks(@Nullable String text, Locale locale) {
         Objects.requireNonNull(locale);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return StreamSupport.stream(BreakTextIterator.sentenceSpliterator(text, locale), false);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                StreamSupport.stream(SplitTextByBreakIterator.sentenceSpliterator(text, locale), false);
+    }
+
+    /**
+     * @see java.text.BreakIterator#getSentenceInstance(java.util.Locale)
+     */
+    public static Function<String, Stream<String>> splitTextBySentenceBreaksFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return s -> Strings.splitTextBySentenceBreaks(s, locale);
     }
 
     /**
      * @see java.text.BreakIterator#getWordInstance(java.util.Locale)
      */
-    public static Stream<String> breakTextByWord(String text, Locale locale) {
-        Objects.requireNonNull(text);
+    public static Stream<String> splitTextByWordBreaks(@Nullable String text, Locale locale) {
         Objects.requireNonNull(locale);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return StreamSupport.stream(BreakTextIterator.wordSpliterator(text, locale), false);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                StreamSupport.stream(SplitTextByBreakIterator.wordSpliterator(text, locale), false);
+    }
+
+    /**
+     * @see java.text.BreakIterator#getWordInstance(java.util.Locale)
+     */
+    public static Function<String, Stream<String>> splitTextByWordBreaksFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return s -> Strings.splitTextByWordBreaks(s, locale);
     }
 
     /**
      * @see java.text.BreakIterator#getLineInstance(java.util.Locale)
      */
-    public static Stream<String> breakTextByLine(String text, Locale locale) {
-        Objects.requireNonNull(text);
+    public static Stream<String> splitTextByLineBreaks(@Nullable String text, Locale locale) {
         Objects.requireNonNull(locale);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return StreamSupport.stream(BreakTextIterator.lineSpliterator(text, locale), false);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                StreamSupport.stream(SplitTextByBreakIterator.lineSpliterator(text, locale), false);
+    }
+
+    /**
+     * @see java.text.BreakIterator#getLineInstance(java.util.Locale)
+     */
+    public static Function<String, Stream<String>> splitTextByLineBreaksFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return s -> Strings.splitTextByLineBreaks(s, locale);
     }
 
     /**
      * @see java.text.BreakIterator#getCharacterInstance(java.util.Locale)
      */
-    public static Stream<String> breakTextByCharacter(String text, Locale locale) {
-        Objects.requireNonNull(text);
+    public static Stream<String> splitTextByCharacterBreaks(@Nullable String text, Locale locale) {
         Objects.requireNonNull(locale);
-        if (text.isEmpty()) {
-            return Stream.empty();
-        }
-        return StreamSupport.stream(BreakTextIterator.characterSpliterator(text, locale), false);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                StreamSupport.stream(SplitTextByBreakIterator.characterSpliterator(text, locale), false);
+    }
+
+    /**
+     * @see java.text.BreakIterator#getCharacterInstance(java.util.Locale)
+     */
+    public static Function<String, Stream<String>> splitTextByCharacterBreaksFunction(Locale locale) {
+        Objects.requireNonNull(locale);
+        return s -> Strings.splitTextByCharacterBreaks(s, locale);
     }
 
     private static final class SplitTextByLengthIterator implements Iterator<String> {
@@ -305,7 +352,7 @@ public final class Strings {
 
     }
 
-    private static final class BreakTextIterator implements Iterator<String> {
+    private static final class SplitTextByBreakIterator implements Iterator<String> {
 
         private static final int SPLITERATOR_CHARACTERISTICS = Spliterator.NONNULL | Spliterator.ORDERED | Spliterator.IMMUTABLE;
 
@@ -316,7 +363,7 @@ public final class Strings {
             BreakIterator breakIterator = BreakIterator.getSentenceInstance(locale);
             breakIterator.setText(text);
 
-            var iterator = new BreakTextIterator(text, breakIterator);
+            var iterator = new SplitTextByBreakIterator(text, breakIterator);
             return Spliterators.spliteratorUnknownSize(iterator, SPLITERATOR_CHARACTERISTICS);
         }
 
@@ -327,7 +374,7 @@ public final class Strings {
             BreakIterator breakIterator = BreakIterator.getWordInstance(locale);
             breakIterator.setText(text);
 
-            var iterator = new BreakTextIterator(text, breakIterator);
+            var iterator = new SplitTextByBreakIterator(text, breakIterator);
             return Spliterators.spliteratorUnknownSize(iterator, SPLITERATOR_CHARACTERISTICS);
         }
 
@@ -338,7 +385,7 @@ public final class Strings {
             BreakIterator breakIterator = BreakIterator.getLineInstance(locale);
             breakIterator.setText(text);
 
-            var iterator = new BreakTextIterator(text, breakIterator);
+            var iterator = new SplitTextByBreakIterator(text, breakIterator);
             return Spliterators.spliteratorUnknownSize(iterator, SPLITERATOR_CHARACTERISTICS);
         }
 
@@ -349,7 +396,7 @@ public final class Strings {
             BreakIterator breakIterator = BreakIterator.getCharacterInstance(locale);
             breakIterator.setText(text);
 
-            var iterator = new BreakTextIterator(text, breakIterator);
+            var iterator = new SplitTextByBreakIterator(text, breakIterator);
             return Spliterators.spliteratorUnknownSize(iterator, SPLITERATOR_CHARACTERISTICS);
         }
 
@@ -358,7 +405,7 @@ public final class Strings {
         private int currentBeginIndex;
         private int currentEndIndex;
 
-        private BreakTextIterator(String text, BreakIterator breakIterator) {
+        private SplitTextByBreakIterator(String text, BreakIterator breakIterator) {
             Objects.requireNonNull(text);
             Objects.requireNonNull(breakIterator);
             this.text = text;
