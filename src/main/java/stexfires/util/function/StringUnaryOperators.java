@@ -11,6 +11,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 import static stexfires.util.Strings.EMPTY;
 import static stexfires.util.Strings.REGEX_TAB;
@@ -394,6 +396,39 @@ public final class StringUnaryOperators {
         Objects.requireNonNull(decoder);
         Objects.requireNonNull(charset);
         return s -> nullOrEmpty(s) ? s : new String(decoder.decode(s), charset);
+    }
+
+    public static UnaryOperator<String> splitCollect(Function<? super String, Stream<String>> splitStringFunction,
+                                                     Collector<? super String, ?, String> stringCollector) {
+        Objects.requireNonNull(splitStringFunction);
+        Objects.requireNonNull(stringCollector);
+        return s -> nullOrEmpty(s) ? s :
+                splitStringFunction.apply(s)
+                                   .collect(stringCollector);
+    }
+
+    public static UnaryOperator<String> splitFilterCollect(Function<? super String, Stream<String>> splitStringFunction,
+                                                           Predicate<? super String> filterStringPredicate,
+                                                           Collector<? super String, ?, String> stringCollector) {
+        Objects.requireNonNull(splitStringFunction);
+        Objects.requireNonNull(filterStringPredicate);
+        Objects.requireNonNull(stringCollector);
+        return s -> nullOrEmpty(s) ? s :
+                splitStringFunction.apply(s)
+                                   .filter(filterStringPredicate)
+                                   .collect(stringCollector);
+    }
+
+    public static UnaryOperator<String> splitMapCollect(Function<? super String, Stream<String>> splitStringFunction,
+                                                        UnaryOperator<String> stringUnaryOperator,
+                                                        Collector<? super String, ?, String> stringCollector) {
+        Objects.requireNonNull(splitStringFunction);
+        Objects.requireNonNull(stringUnaryOperator);
+        Objects.requireNonNull(stringCollector);
+        return s -> nullOrEmpty(s) ? s :
+                splitStringFunction.apply(s)
+                                   .map(stringUnaryOperator)
+                                   .collect(stringCollector);
     }
 
 }
