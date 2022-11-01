@@ -179,6 +179,18 @@ public final class NumberPredicates {
                     n >= lowNumber && n <= highNumber;
         }
 
+        public static IntPredicate rangeOfByte() {
+            return between(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        }
+
+        public static IntPredicate rangeOfShort() {
+            return between(Short.MIN_VALUE, Short.MAX_VALUE);
+        }
+
+        public static IntPredicate rangeOfCharacter() {
+            return between(Character.MIN_VALUE, Character.MAX_VALUE);
+        }
+
         public static IntPredicate containedIn(Collection<Integer> numbers) {
             Objects.requireNonNull(numbers);
             return numbers::contains;
@@ -334,6 +346,22 @@ public final class NumberPredicates {
         public static LongPredicate between(long lowNumber, long highNumber) {
             return n ->
                     n >= lowNumber && n <= highNumber;
+        }
+
+        public static LongPredicate rangeOfByte() {
+            return between(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        }
+
+        public static LongPredicate rangeOfShort() {
+            return between(Short.MIN_VALUE, Short.MAX_VALUE);
+        }
+
+        public static LongPredicate rangeOfCharacter() {
+            return between(Character.MIN_VALUE, Character.MAX_VALUE);
+        }
+
+        public static LongPredicate rangeOfInteger() {
+            return between(Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
 
         public static LongPredicate containedIn(Collection<Long> numbers) {
@@ -512,6 +540,26 @@ public final class NumberPredicates {
             Objects.requireNonNull(highNumber);
             return n -> n != null &&
                     n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
+        }
+
+        public static Predicate<BigInteger> rangeOfByte() {
+            return between(BigInteger.valueOf(Byte.MIN_VALUE), BigInteger.valueOf(Byte.MAX_VALUE));
+        }
+
+        public static Predicate<BigInteger> rangeOfShort() {
+            return between(BigInteger.valueOf(Short.MIN_VALUE), BigInteger.valueOf(Short.MAX_VALUE));
+        }
+
+        public static Predicate<BigInteger> rangeOfCharacter() {
+            return between(BigInteger.valueOf(Character.MIN_VALUE), BigInteger.valueOf(Character.MAX_VALUE));
+        }
+
+        public static Predicate<BigInteger> rangeOfInteger() {
+            return between(BigInteger.valueOf(Integer.MIN_VALUE), BigInteger.valueOf(Integer.MAX_VALUE));
+        }
+
+        public static Predicate<BigInteger> rangeOfLong() {
+            return between(BigInteger.valueOf(Long.MIN_VALUE), BigInteger.valueOf(Long.MAX_VALUE));
         }
 
         public static Predicate<BigInteger> containedIn(Collection<BigInteger> numbers) {
