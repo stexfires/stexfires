@@ -1,5 +1,6 @@
 package stexfires.io.spec;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.RecordFile;
 import stexfires.util.LineSeparator;
 
@@ -24,15 +25,27 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
 
     private final Charset charset;
     private final CodingErrorAction codingErrorAction;
+    private final String decoderReplacement;
+    private final byte[] encoderReplacement;
     private final LineSeparator lineSeparator;
 
     protected AbstractRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                     LineSeparator lineSeparator) {
+        this(charset, codingErrorAction, null, null, lineSeparator);
+    }
+
+    protected AbstractRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                     @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                                      LineSeparator lineSeparator) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(codingErrorAction);
         Objects.requireNonNull(lineSeparator);
         this.charset = charset;
         this.codingErrorAction = codingErrorAction;
+        this.decoderReplacement = (codingErrorAction == CodingErrorAction.REPLACE
+                && decoderReplacement != null && !decoderReplacement.isEmpty()) ? decoderReplacement : null;
+        this.encoderReplacement = (codingErrorAction == CodingErrorAction.REPLACE
+                && encoderReplacement != null && !encoderReplacement.isEmpty()) ? encoderReplacement.getBytes(charset) : null;
         this.lineSeparator = lineSeparator;
     }
 
@@ -57,30 +70,22 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         return new BufferedReader(new InputStreamReader(inputStream, newCharsetDecoder()));
     }
 
-    protected final BufferedReader newBufferedReader(InputStream inputStream, String decoderReplacementValue) {
-        return new BufferedReader(new InputStreamReader(inputStream, newCharsetDecoder(decoderReplacementValue)));
-    }
-
-    protected final BufferedWriter newBufferedWriter(OutputStream outputStream, byte... encoderReplacementValue) {
-        return new BufferedWriter(new OutputStreamWriter(outputStream, newCharsetEncoder(encoderReplacementValue)));
+    protected final BufferedWriter newBufferedWriter(OutputStream outputStream) {
+        return new BufferedWriter(new OutputStreamWriter(outputStream, newCharsetEncoder()));
     }
 
     protected final CharsetDecoder newCharsetDecoder() {
-        return newCharsetDecoder(null);
-    }
-
-    protected final CharsetDecoder newCharsetDecoder(String decoderReplacementValue) {
         CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(codingErrorAction);
-        if ((codingErrorAction == CodingErrorAction.REPLACE) && (decoderReplacementValue != null)) {
-            charsetDecoder.replaceWith(decoderReplacementValue);
+        if (decoderReplacement != null) {
+            charsetDecoder.replaceWith(decoderReplacement);
         }
         return charsetDecoder;
     }
 
-    protected final CharsetEncoder newCharsetEncoder(byte... encoderReplacementValue) {
+    protected final CharsetEncoder newCharsetEncoder() {
         CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
-        if ((codingErrorAction == CodingErrorAction.REPLACE) && (encoderReplacementValue != null)) {
-            charsetEncoder.replaceWith(encoderReplacementValue);
+        if (encoderReplacement != null) {
+            charsetEncoder.replaceWith(encoderReplacement);
         }
         return charsetEncoder;
     }
