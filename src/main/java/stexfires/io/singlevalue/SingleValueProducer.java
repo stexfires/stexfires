@@ -32,10 +32,11 @@ public class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
 
     @Override
     protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) {
-        boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty();
-
-        ValueRecord record = null;
-        if (!skipEmptyLine) {
+        ValueRecord record;
+        if (fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty()) {
+            // skip empty line
+            record = null;
+        } else {
             record = new ValueFieldRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
                     recordRawData.getRawData());
         }
