@@ -41,11 +41,12 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
     private final String afterTable;
 
     public MarkdownTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                 @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                                  List<MarkdownTableFieldSpec> fieldSpecs,
                                  LineSeparator lineSeparator,
                                  Alignment alignment,
                                  @Nullable String beforeTable, @Nullable String afterTable) {
-        super(charset, codingErrorAction, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
 
@@ -62,6 +63,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldSpecs,
                 lineSeparator,
                 DEFAULT_ALIGNMENT,
@@ -69,9 +71,11 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
     }
 
     public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                              @Nullable String encoderReplacement,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator) {
         return new MarkdownTableFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 fieldSpecs,
                 lineSeparator,
                 DEFAULT_ALIGNMENT,
@@ -84,6 +88,7 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
                                               Alignment alignment,
                                               @Nullable String beforeTable, @Nullable String afterTable) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldSpecs,
                 lineSeparator,
                 alignment,
@@ -91,11 +96,13 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec {
     }
 
     public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                              @Nullable String encoderReplacement,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator,
                                               Alignment alignment,
                                               @Nullable String beforeTable, @Nullable String afterTable) {
         return new MarkdownTableFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 fieldSpecs,
                 lineSeparator,
                 alignment,

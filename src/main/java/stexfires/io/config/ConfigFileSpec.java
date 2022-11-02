@@ -1,5 +1,6 @@
 package stexfires.io.config;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
@@ -32,9 +33,10 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     private final String valueDelimiter;
 
     public ConfigFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                          @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                           String valueDelimiter,
                           LineSeparator lineSeparator) {
-        super(charset, codingErrorAction, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(valueDelimiter);
 
         // both
@@ -42,21 +44,33 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     }
 
     public static ConfigFileSpec read(Charset charset, String valueDelimiter) {
-        return new ConfigFileSpec(charset, DEFAULT_CODING_ERROR_ACTION, valueDelimiter, DEFAULT_LINE_SEPARATOR);
+        return new ConfigFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
+                valueDelimiter, DEFAULT_LINE_SEPARATOR);
     }
 
-    public static ConfigFileSpec read(Charset charset, CodingErrorAction codingErrorAction, String valueDelimiter) {
-        return new ConfigFileSpec(charset, codingErrorAction, valueDelimiter, DEFAULT_LINE_SEPARATOR);
+    public static ConfigFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
+                                      @Nullable String decoderReplacement,
+                                      String valueDelimiter) {
+        return new ConfigFileSpec(charset, codingErrorAction,
+                decoderReplacement, null,
+                valueDelimiter, DEFAULT_LINE_SEPARATOR);
     }
 
     public static ConfigFileSpec write(Charset charset, String valueDelimiter,
                                        LineSeparator lineSeparator) {
-        return new ConfigFileSpec(charset, DEFAULT_CODING_ERROR_ACTION, valueDelimiter, lineSeparator);
+        return new ConfigFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
+                valueDelimiter, lineSeparator);
     }
 
-    public static ConfigFileSpec write(Charset charset, CodingErrorAction codingErrorAction, String valueDelimiter,
+    public static ConfigFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                       @Nullable String encoderReplacement,
+                                       String valueDelimiter,
                                        LineSeparator lineSeparator) {
-        return new ConfigFileSpec(charset, codingErrorAction, valueDelimiter, lineSeparator);
+        return new ConfigFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
+                valueDelimiter, lineSeparator);
     }
 
     @Override

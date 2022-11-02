@@ -1,5 +1,6 @@
 package stexfires.io.fixedwidth;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
@@ -40,13 +41,14 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
     private final boolean skipAllNullOrEmpty;
 
     public FixedWidthFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                               int recordWidth, boolean separateRecordsByLineSeparator,
                               Alignment alignment, Character fillCharacter,
                               List<FixedWidthFieldSpec> fieldSpecs,
                               int ignoreFirst, int ignoreLast,
                               boolean skipEmptyLines, boolean skipAllNullOrEmpty,
                               LineSeparator lineSeparator) {
-        super(charset, codingErrorAction, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
@@ -81,6 +83,7 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                                           int ignoreFirst, int ignoreLast,
                                           boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
@@ -90,12 +93,14 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
     }
 
     public static FixedWidthFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
+                                          @Nullable String decoderReplacement,
                                           int recordWidth, boolean separateRecordsByLineSeparator,
                                           Alignment alignment, Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
                                           int ignoreFirst, int ignoreLast,
                                           boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charset, codingErrorAction,
+                decoderReplacement, null,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
@@ -110,6 +115,7 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
                                            List<FixedWidthFieldSpec> fieldSpecs,
                                            LineSeparator lineSeparator) {
         return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,
@@ -119,11 +125,13 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
     }
 
     public static FixedWidthFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                           @Nullable String encoderReplacement,
                                            int recordWidth, boolean separateRecordsByLineSeparator,
                                            Alignment alignment, Character fillCharacter,
                                            List<FixedWidthFieldSpec> fieldSpecs,
                                            LineSeparator lineSeparator) {
         return new FixedWidthFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 recordWidth, separateRecordsByLineSeparator,
                 alignment, fillCharacter,
                 fieldSpecs,

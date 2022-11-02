@@ -38,11 +38,12 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
     private final String indentation;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                             @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                              List<HtmlTableFieldSpec> fieldSpecs,
                              LineSeparator lineSeparator,
                              @Nullable String beforeTable, @Nullable String afterTable,
                              @Nullable String indentation) {
-        super(charset, codingErrorAction, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
 
         // both
@@ -58,15 +59,18 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldSpecs,
                 lineSeparator,
                 null, null, null);
     }
 
     public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                          @Nullable String encoderReplacement,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator) {
         return new HtmlTableFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 fieldSpecs,
                 lineSeparator,
                 null, null, null);
@@ -78,17 +82,20 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
                                           @Nullable String beforeTable, @Nullable String afterTable,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldSpecs,
                 lineSeparator,
                 beforeTable, afterTable, indentation);
     }
 
     public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                          @Nullable String encoderReplacement,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator,
                                           @Nullable String beforeTable, @Nullable String afterTable,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 fieldSpecs,
                 lineSeparator,
                 beforeTable, afterTable, indentation);

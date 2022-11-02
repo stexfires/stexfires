@@ -1,5 +1,6 @@
 package stexfires.io.delimited.simple;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.util.LineSeparator;
 
@@ -36,11 +37,12 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     private final boolean skipAllNull;
 
     public SimpleDelimitedFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                   @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                                    String fieldDelimiter,
                                    List<SimpleDelimitedFieldSpec> fieldSpecs,
                                    int ignoreFirst, int ignoreLast, boolean skipEmptyLines, boolean skipAllNull,
                                    LineSeparator lineSeparator) {
-        super(charset, codingErrorAction, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         if (ignoreFirst < 0) {
@@ -67,6 +69,7 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
                                                int ignoreFirst, int ignoreLast,
                                                boolean skipEmptyLines, boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldDelimiter,
                 fieldSpecs,
                 ignoreFirst, ignoreLast,
@@ -75,11 +78,13 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     }
 
     public static SimpleDelimitedFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
+                                               @Nullable String decoderReplacement,
                                                String fieldDelimiter,
                                                List<SimpleDelimitedFieldSpec> fieldSpecs,
                                                int ignoreFirst, int ignoreLast,
                                                boolean skipEmptyLines, boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(charset, codingErrorAction,
+                decoderReplacement, null,
                 fieldDelimiter,
                 fieldSpecs,
                 ignoreFirst, ignoreLast,
@@ -92,6 +97,7 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
                                                 List<SimpleDelimitedFieldSpec> fieldSpecs,
                                                 LineSeparator lineSeparator) {
         return new SimpleDelimitedFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
                 fieldDelimiter,
                 fieldSpecs,
                 DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
@@ -100,10 +106,12 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     }
 
     public static SimpleDelimitedFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+                                                @Nullable String encoderReplacement,
                                                 String fieldDelimiter,
                                                 List<SimpleDelimitedFieldSpec> fieldSpecs,
                                                 LineSeparator lineSeparator) {
         return new SimpleDelimitedFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
                 fieldDelimiter,
                 fieldSpecs,
                 DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
