@@ -33,12 +33,12 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
     @Override
     protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) {
         ValueRecord record;
-        if (fileSpec.isSkipEmptyLines() && recordRawData.getRawData().isEmpty()) {
+        if (fileSpec.isSkipEmptyLines() && recordRawData.rawData().isEmpty()) {
             // skip empty line
             record = null;
         } else {
-            record = new ValueFieldRecord(recordRawData.getCategory(), recordRawData.getRecordId(),
-                    recordRawData.getRawData());
+            record = new ValueFieldRecord(recordRawData.category(), recordRawData.recordId(),
+                    recordRawData.rawData());
         }
 
         return Optional.ofNullable(record);
@@ -53,10 +53,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
-            if (rawData == null) {
-                return Optional.empty();
-            }
-            return Optional.of(new RecordRawData(null, recordIndex, rawData));
+            return RecordRawData.asOptional(null, recordIndex, rawData);
         }
     }
 

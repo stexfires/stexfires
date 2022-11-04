@@ -4,47 +4,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class RecordRawData {
+public record RecordRawData(@Nullable String category, @Nullable Long recordId, @NotNull String rawData) {
 
-    private final String category;
-    private final Long recordId;
-    private final String rawData;
-
-    public RecordRawData(@NotNull String rawData) {
-        this(null, null, rawData);
-    }
-
-    public RecordRawData(@Nullable String category, @Nullable Long recordId, @NotNull String rawData) {
+    public RecordRawData {
         Objects.requireNonNull(rawData);
-        this.category = category;
-        this.recordId = recordId;
-        this.rawData = rawData;
     }
 
-    public @Nullable String getCategory() {
-        return category;
-    }
-
-    public @Nullable Long getRecordId() {
-        return recordId;
-    }
-
-    public @NotNull String getRawData() {
-        return rawData;
-    }
-
-    @Override
-    public String toString() {
-        return "RecordRawData{" +
-                "category='" + category + '\'' +
-                ", recordId=" + recordId +
-                ", rawData='" + rawData + '\'' +
-                '}';
+    public static Optional<RecordRawData> asOptional(@Nullable String category,
+                                                     @Nullable Long recordId,
+                                                     @Nullable String rawData) {
+        return (rawData == null) ? Optional.empty() : Optional.of(new RecordRawData(category, recordId, rawData));
     }
 
 }

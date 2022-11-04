@@ -37,7 +37,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
         TextRecord record = null;
-        String rawData = recordRawData.getRawData();
+        String rawData = recordRawData.rawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
 
@@ -67,7 +67,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
             boolean skipAllNull = fileSpec.isSkipAllNull() && !nonEmptyFound;
 
             if (!skipAllNull) {
-                record = new ManyFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
+                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
             }
         }
 
@@ -83,10 +83,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
-            if (rawData == null) {
-                return Optional.empty();
-            }
-            return Optional.of(new RecordRawData(null, recordIndex, rawData));
+            return RecordRawData.asOptional(null, recordIndex, rawData);
         }
 
     }

@@ -40,11 +40,11 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
 
     @Override
     protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) {
-        String[] keyValue = splitLine(recordRawData.getRawData());
+        String[] keyValue = splitLine(recordRawData.rawData());
 
         return createRecord(
-                fileSpec.isCommentAsCategory() ? recordRawData.getCategory() : null,
-                recordRawData.getRecordId(),
+                fileSpec.isCommentAsCategory() ? recordRawData.category() : null,
+                recordRawData.recordId(),
                 decode(keyValue[0]),
                 decode(keyValue[1]),
                 fileSpec.getValueSpec().getReadNullReplacement());
@@ -233,7 +233,7 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
                 return Optional.empty();
             }
 
-            return Optional.of(new RecordRawData(currentComment, recordIndex, b.toString()));
+            return RecordRawData.asOptional(currentComment, recordIndex, b.toString());
         }
 
     }

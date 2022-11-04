@@ -32,7 +32,7 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
 
     @Override
     protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) {
-        String rawData = recordRawData.getRawData();
+        String rawData = recordRawData.rawData();
         String key;
         String value;
         int index = rawData.indexOf(fileSpec.getValueDelimiter());
@@ -43,7 +43,7 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
             key = rawData;
             value = null;
         }
-        return Optional.of(new KeyValueFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), key, value));
+        return Optional.of(new KeyValueFieldsRecord(recordRawData.category(), recordRawData.recordId(), key, value));
     }
 
     private static final class ConfigIterator extends AbstractRecordRawDataIterator {
@@ -70,10 +70,7 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
                 }
             } while (categoryFound);
 
-            if (rawData == null) {
-                return Optional.empty();
-            }
-            return Optional.of(new RecordRawData(currentCategory, recordIndex, rawData));
+            return RecordRawData.asOptional(currentCategory, recordIndex, rawData);
         }
     }
 

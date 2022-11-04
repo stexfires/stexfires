@@ -64,7 +64,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
         TextRecord record = null;
-        String rawData = recordRawData.getRawData();
+        String rawData = recordRawData.rawData();
 
         boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
 
@@ -94,7 +94,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
             boolean skipAllNullOrEmpty = fileSpec.isSkipAllNullOrEmpty() && !nonEmptyFound;
 
             if (!skipAllNullOrEmpty) {
-                record = new ManyFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), texts);
+                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
             }
         }
 
@@ -122,10 +122,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         @SuppressWarnings("MethodMayBeStatic")
         private Optional<RecordRawData> readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
             String rawData = reader.readLine();
-            if (rawData == null) {
-                return Optional.empty();
-            }
-            return Optional.of(new RecordRawData(null, recordIndex, rawData));
+            return RecordRawData.asOptional(null, recordIndex, rawData);
 
         }
 
@@ -135,7 +132,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
             if (r < 0) {
                 return Optional.empty();
             }
-            return Optional.of(new RecordRawData(null, recordIndex, String.valueOf(c)));
+            return RecordRawData.asOptional(null, recordIndex, String.valueOf(c));
         }
 
     }
