@@ -7,35 +7,12 @@ import stexfires.util.Alignment;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownTableFieldSpec {
+public record MarkdownTableFieldSpec(@Nullable String name, int minWidth, @Nullable Alignment alignment) {
 
-    private final String name;
-    private final int minWidth;
-    private final Alignment alignment;
-
-    public MarkdownTableFieldSpec(@Nullable String name, int minWidth) {
-        this(name, minWidth, null);
-    }
-
-    public MarkdownTableFieldSpec(@Nullable String name, int minWidth, @Nullable Alignment alignment) {
-        if (minWidth < 5) {
-            throw new IllegalArgumentException("minWidth < 5");
+    public MarkdownTableFieldSpec {
+        if (minWidth < MarkdownTableFileSpec.COLUMN_MIN_WIDTH) {
+            throw new IllegalArgumentException("minWidth < " + MarkdownTableFileSpec.COLUMN_MIN_WIDTH);
         }
-        this.name = name;
-        this.minWidth = minWidth;
-        this.alignment = alignment;
-    }
-
-    public @Nullable String getName() {
-        return name;
-    }
-
-    public int getMinWidth() {
-        return minWidth;
-    }
-
-    public @Nullable Alignment getAlignment() {
-        return alignment;
     }
 
 }

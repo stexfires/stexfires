@@ -45,9 +45,9 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
 
             // header name
             int valueWidth;
-            if (fieldSpec.getName() != null) {
+            if (fieldSpec.name() != null) {
                 // Escape pipe
-                String value = escapePattern.matcher(fieldSpec.getName()).replaceAll(ESCAPE_REPLACEMENT);
+                String value = escapePattern.matcher(fieldSpec.name()).replaceAll(ESCAPE_REPLACEMENT);
                 b.append(value);
                 valueWidth = value.length();
             } else {
@@ -55,7 +55,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             }
 
             // fill character
-            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth) + 1));
+            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.minWidth() - valueWidth) + 1));
         }
 
         if (!b.isEmpty()) {
@@ -72,14 +72,14 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             b.append(FIELD_DELIMITER);
 
             // header underline
-            Alignment fieldAlignment = (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : fileSpec.getAlignment();
+            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.getAlignment();
 
             if (fieldAlignment != Alignment.END) {
                 b.append(ALIGNMENT_INDICATOR);
             }
 
             int valueWidth = (fieldAlignment == Alignment.CENTER) ? 2 : 1;
-            b.append(HEADER_DELIMITER.repeat(Math.max(0, fieldSpec.getMinWidth() - valueWidth)));
+            b.append(HEADER_DELIMITER.repeat(Math.max(0, fieldSpec.minWidth() - valueWidth)));
 
             if (fieldAlignment != Alignment.START) {
                 b.append(ALIGNMENT_INDICATOR);
@@ -103,7 +103,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int minWidth = fieldSpec.getMinWidth();
+            int minWidth = fieldSpec.minWidth();
 
             TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;

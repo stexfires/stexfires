@@ -28,6 +28,7 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     public static final String LAST_FIELD_DELIMITER = "|";
     public static final String ALIGNMENT_INDICATOR = ":";
     public static final String HEADER_DELIMITER = "-";
+    public static final int COLUMN_MIN_WIDTH = 5;
 
     // DEFAULT - write
     public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
@@ -40,12 +41,15 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     private final String beforeTable;
     private final String afterTable;
 
-    public MarkdownTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                 @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                                 List<MarkdownTableFieldSpec> fieldSpecs,
+    public MarkdownTableFileSpec(Charset charset,
+                                 CodingErrorAction codingErrorAction,
+                                 @Nullable String decoderReplacement,
+                                 @Nullable String encoderReplacement,
                                  LineSeparator lineSeparator,
-                                 Alignment alignment,
-                                 @Nullable String beforeTable, @Nullable String afterTable) {
+                                 List<MarkdownTableFieldSpec> fieldSpecs,
+                                 @Nullable String beforeTable,
+                                 @Nullable String afterTable,
+                                 Alignment alignment) {
         super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
@@ -60,53 +64,52 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
-                                              List<MarkdownTableFieldSpec> fieldSpecs,
-                                              LineSeparator lineSeparator) {
+                                              LineSeparator lineSeparator,
+                                              List<MarkdownTableFieldSpec> fieldSpecs) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                fieldSpecs,
-                lineSeparator,
-                DEFAULT_ALIGNMENT,
-                null, null);
-    }
-
-    public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                              @Nullable String encoderReplacement,
-                                              List<MarkdownTableFieldSpec> fieldSpecs,
-                                              LineSeparator lineSeparator) {
-        return new MarkdownTableFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                fieldSpecs,
-                lineSeparator,
-                DEFAULT_ALIGNMENT,
-                null, null);
+                lineSeparator, fieldSpecs,
+                null, null, DEFAULT_ALIGNMENT
+        );
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
-                                              List<MarkdownTableFieldSpec> fieldSpecs,
+                                              CodingErrorAction codingErrorAction,
+                                              @Nullable String encoderReplacement,
                                               LineSeparator lineSeparator,
-                                              Alignment alignment,
-                                              @Nullable String beforeTable, @Nullable String afterTable) {
+                                              List<MarkdownTableFieldSpec> fieldSpecs) {
+        return new MarkdownTableFileSpec(charset, codingErrorAction,
+                null, encoderReplacement,
+                lineSeparator, fieldSpecs,
+                null, null, DEFAULT_ALIGNMENT
+        );
+    }
+
+    public static MarkdownTableFileSpec write(Charset charset,
+                                              LineSeparator lineSeparator,
+                                              List<MarkdownTableFieldSpec> fieldSpecs,
+                                              @Nullable String beforeTable,
+                                              @Nullable String afterTable,
+                                              Alignment alignment) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                fieldSpecs,
-                lineSeparator,
-                alignment,
-                beforeTable, afterTable);
+                lineSeparator, fieldSpecs,
+                beforeTable, afterTable, alignment
+        );
     }
 
     public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                               @Nullable String encoderReplacement,
-                                              List<MarkdownTableFieldSpec> fieldSpecs,
                                               LineSeparator lineSeparator,
-                                              Alignment alignment,
-                                              @Nullable String beforeTable, @Nullable String afterTable) {
+                                              List<MarkdownTableFieldSpec> fieldSpecs,
+                                              @Nullable String beforeTable,
+                                              @Nullable String afterTable,
+                                              Alignment alignment) {
         return new MarkdownTableFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
-                fieldSpecs,
-                lineSeparator,
-                alignment,
-                beforeTable, afterTable);
+                lineSeparator, fieldSpecs,
+                beforeTable, afterTable, alignment
+        );
     }
 
     @Override
