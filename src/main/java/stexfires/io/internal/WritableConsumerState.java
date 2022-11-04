@@ -11,7 +11,7 @@ enum WritableConsumerState {
     WRITE_AFTER,
     CLOSE;
 
-    public static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
+    private static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
         if (currentState.ordinal() + 1 != newState.ordinal()) {
             if (newState != CLOSE
                     && !(currentState == WRITE_BEFORE && newState == WRITE_AFTER)
@@ -21,13 +21,13 @@ enum WritableConsumerState {
         }
     }
 
-    public void validateNotClosed() throws IllegalStateException {
+    final void validateNotClosed() throws IllegalStateException {
         if (this == CLOSE) {
             throw new IllegalStateException("Wrong WritableConsumerState! " + this);
         }
     }
 
-    public WritableConsumerState validate(WritableConsumerState currentState) throws IllegalStateException {
+    final WritableConsumerState validate(WritableConsumerState currentState) throws IllegalStateException {
         validateStates(currentState, this);
         return this;
     }
