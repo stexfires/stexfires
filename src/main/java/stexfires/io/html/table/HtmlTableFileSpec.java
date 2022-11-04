@@ -38,10 +38,12 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     private final String indentation;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                             @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                             List<HtmlTableFieldSpec> fieldSpecs,
+                             @Nullable String decoderReplacement,
+                             @Nullable String encoderReplacement,
                              LineSeparator lineSeparator,
-                             @Nullable String beforeTable, @Nullable String afterTable,
+                             List<HtmlTableFieldSpec> fieldSpecs,
+                             @Nullable String beforeTable,
+                             @Nullable String afterTable,
                              @Nullable String indentation) {
         super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         Objects.requireNonNull(fieldSpecs);
@@ -56,48 +58,28 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     }
 
     public static HtmlTableFileSpec write(Charset charset,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
-                                          LineSeparator lineSeparator) {
-        return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                fieldSpecs,
-                lineSeparator,
-                null, null, null);
-    }
-
-    public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                          @Nullable String encoderReplacement,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
-                                          LineSeparator lineSeparator) {
-        return new HtmlTableFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                fieldSpecs,
-                lineSeparator,
-                null, null, null);
-    }
-
-    public static HtmlTableFileSpec write(Charset charset,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator,
-                                          @Nullable String beforeTable, @Nullable String afterTable,
+                                          List<HtmlTableFieldSpec> fieldSpecs,
+                                          @Nullable String beforeTable,
+                                          @Nullable String afterTable,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                fieldSpecs,
-                lineSeparator,
+                lineSeparator, fieldSpecs,
                 beforeTable, afterTable, indentation);
     }
 
-    public static HtmlTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+    public static HtmlTableFileSpec write(Charset charset,
+                                          CodingErrorAction codingErrorAction,
                                           @Nullable String encoderReplacement,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
                                           LineSeparator lineSeparator,
-                                          @Nullable String beforeTable, @Nullable String afterTable,
+                                          List<HtmlTableFieldSpec> fieldSpecs,
+                                          @Nullable String beforeTable,
+                                          @Nullable String afterTable,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
-                fieldSpecs,
-                lineSeparator,
+                lineSeparator, fieldSpecs,
                 beforeTable, afterTable, indentation);
     }
 

@@ -44,7 +44,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
 
         for (HtmlTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
             b.append(HtmlTableFileSpec.TABLE_HEADER_BEGIN);
-            b.append(convertHtml(fieldSpec.getName()));
+            b.append(convertHtml(fieldSpec.name()));
             b.append(HtmlTableFileSpec.TABLE_HEADER_END);
         }
 
