@@ -100,7 +100,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         }
         writeString(convertKey(key, fileSpec.isEscapeUnicode()));
         writeString(DELIMITER);
-        writeString(convertValue(record.valueField().orElse(fileSpec.getValueSpec().getWriteNullReplacement()),
+        writeString(convertValue(record.valueField().orElse(fileSpec.getValueSpec().writeNullReplacement()),
                 fileSpec.isEscapeUnicode()));
         writeLineSeparator(fileSpec.lineSeparator());
     }

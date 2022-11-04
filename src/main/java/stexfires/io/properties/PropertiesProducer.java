@@ -47,7 +47,7 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
                 recordRawData.recordId(),
                 decode(keyValue[0]),
                 decode(keyValue[1]),
-                fileSpec.getValueSpec().getReadNullReplacement());
+                fileSpec.getValueSpec().readNullReplacement());
     }
 
     private static String[] splitLine(String line) {

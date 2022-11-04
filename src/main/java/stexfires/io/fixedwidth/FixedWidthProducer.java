@@ -75,11 +75,11 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
             // Convert rawData to values
             List<String> texts = new ArrayList<>(fileSpec.getFieldSpecs().size());
             for (FixedWidthFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
-                Character fillCharacter = fieldSpec.getFillCharacter() != null ? fieldSpec.getFillCharacter() : fileSpec.getFillCharacter();
-                Alignment alignment = fieldSpec.getAlignment() != null ? fieldSpec.getAlignment() : fileSpec.getAlignment();
+                Character fillCharacter = fieldSpec.fillCharacter() != null ? fieldSpec.fillCharacter() : fileSpec.getFillCharacter();
+                Alignment alignment = fieldSpec.alignment() != null ? fieldSpec.alignment() : fileSpec.getAlignment();
 
-                int beginIndex = Math.max(fieldSpec.getStartIndex(), 0);
-                int endIndex = Math.min(fieldSpec.getStartIndex() + fieldSpec.getWidth(), dataLength);
+                int beginIndex = Math.max(fieldSpec.startIndex(), 0);
+                int endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
 
                 String text = NO_TEXT;
                 if (beginIndex < endIndex) {

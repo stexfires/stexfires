@@ -44,8 +44,8 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         // Insert field values and fill characters
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             FixedWidthFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int fieldWidth = Math.min(fieldSpec.getWidth(), recordWidth - fieldSpec.getStartIndex());
-            if ((fieldWidth <= 0) || (fieldSpec.getStartIndex() < 0)) {
+            int fieldWidth = Math.min(fieldSpec.width(), recordWidth - fieldSpec.startIndex());
+            if ((fieldWidth <= 0) || (fieldSpec.startIndex() < 0)) {
                 // field can be skipped
                 continue;
             }
@@ -56,15 +56,15 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
 
             // Insert field fill character
             if ((textWidth < fieldWidth)
-                    && (fieldSpec.getFillCharacter() != null)) {
-                Arrays.fill(characters, fieldSpec.getStartIndex(),
-                        fieldSpec.getStartIndex() + fieldWidth, fieldSpec.getFillCharacter());
+                    && (fieldSpec.fillCharacter() != null)) {
+                Arrays.fill(characters, fieldSpec.startIndex(),
+                        fieldSpec.startIndex() + fieldWidth, fieldSpec.fillCharacter());
             }
 
             // Insert field value
             if (textWidth > 0) {
-                fillCharacters(characters, fieldSpec.getStartIndex(), fieldWidth, textWidth, text,
-                        (fieldSpec.getAlignment() != null) ? fieldSpec.getAlignment() : alignment);
+                fillCharacters(characters, fieldSpec.startIndex(), fieldWidth, textWidth, text,
+                        (fieldSpec.alignment() != null) ? fieldSpec.alignment() : alignment);
             }
         }
         return String.valueOf(characters);

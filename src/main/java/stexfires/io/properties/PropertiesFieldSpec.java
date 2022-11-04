@@ -1,6 +1,5 @@
 package stexfires.io.properties;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -9,23 +8,10 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class PropertiesFieldSpec {
+public record PropertiesFieldSpec(@Nullable String readNullReplacement, String writeNullReplacement) {
 
-    private final String readNullReplacement;
-    private final String writeNullReplacement;
-
-    public PropertiesFieldSpec(@Nullable String readNullReplacement, @NotNull String writeNullReplacement) {
+    public PropertiesFieldSpec {
         Objects.requireNonNull(writeNullReplacement);
-        this.readNullReplacement = readNullReplacement;
-        this.writeNullReplacement = writeNullReplacement;
-    }
-
-    public @Nullable String getReadNullReplacement() {
-        return readNullReplacement;
-    }
-
-    public @NotNull String getWriteNullReplacement() {
-        return writeNullReplacement;
     }
 
 }
