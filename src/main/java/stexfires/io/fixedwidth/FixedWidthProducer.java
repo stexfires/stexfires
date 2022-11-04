@@ -23,12 +23,12 @@ import static stexfires.util.Alignment.START;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
+public final class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final String NO_TEXT = null;
     private static final String ONLY_FILL_CHAR_VALUE = "";
 
-    protected final FixedWidthFileSpec fileSpec;
+    private final FixedWidthFileSpec fileSpec;
 
     public FixedWidthProducer(BufferedReader reader, FixedWidthFileSpec fileSpec) {
         super(reader);
@@ -36,7 +36,7 @@ public class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
         this.fileSpec = fileSpec;
     }
 
-    protected static String removeFillCharacters(String value, Character fillCharacter, Alignment alignment) {
+    private static String removeFillCharacters(String value, Character fillCharacter, Alignment alignment) {
         int beginIndex = 0;
         int endIndex = value.length();
 

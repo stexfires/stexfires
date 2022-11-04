@@ -2,20 +2,20 @@ package stexfires.io.config;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.KeyValueRecord;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigFileSpec extends AbstractRecordFileSpec {
+public final class ConfigFileSpec extends AbstractRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
@@ -74,14 +74,11 @@ public final class ConfigFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public ConfigFile file(Path path) {
-        return new ConfigFile(path, this);
-    }
-
     public ConfigProducer producer(InputStream inputStream) {
         return new ConfigProducer(newBufferedReader(inputStream), this);
     }
 
+    @Override
     public ConfigConsumer consumer(OutputStream outputStream) {
         return new ConfigConsumer(newBufferedWriter(outputStream), this);
     }

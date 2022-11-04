@@ -15,9 +15,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord> {
 
-    protected final SimpleDelimitedFileSpec fileSpec;
+    private final SimpleDelimitedFileSpec fileSpec;
 
     public SimpleDelimitedConsumer(BufferedWriter writer, SimpleDelimitedFileSpec fileSpec) {
         super(writer);
@@ -25,9 +25,9 @@ public class SimpleDelimitedConsumer extends AbstractWritableConsumer<TextRecord
         this.fileSpec = fileSpec;
     }
 
-    protected static String createRecordString(String fieldDelimiter,
-                                               List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                               List<TextField> fields) {
+    private static String createRecordString(String fieldDelimiter,
+                                             List<SimpleDelimitedFieldSpec> fieldSpecs,
+                                             List<TextField> fields) {
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(fields);

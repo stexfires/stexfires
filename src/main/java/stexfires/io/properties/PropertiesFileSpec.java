@@ -2,6 +2,7 @@ package stexfires.io.properties;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.KeyValueRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.util.LineSeparator;
 
@@ -9,7 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class PropertiesFileSpec extends AbstractRecordFileSpec {
+public final class PropertiesFileSpec extends AbstractRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     // DEFAULT - PropertiesFieldSpec
     public static final String DEFAULT_READ_NULL_VALUE_REPLACEMENT = "";
@@ -145,14 +145,11 @@ public final class PropertiesFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public PropertiesFile file(Path path) {
-        return new PropertiesFile(path, this);
-    }
-
     public PropertiesProducer producer(InputStream inputStream) {
         return new PropertiesProducer(newBufferedReader(inputStream), this);
     }
 
+    @Override
     public PropertiesConsumer consumer(OutputStream outputStream) {
         return new PropertiesConsumer(newBufferedWriter(outputStream), this);
     }

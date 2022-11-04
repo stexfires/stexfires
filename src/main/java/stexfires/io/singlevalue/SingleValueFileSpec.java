@@ -2,19 +2,19 @@ package stexfires.io.singlevalue;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.ValueRecord;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SingleValueFileSpec extends AbstractRecordFileSpec {
+public final class SingleValueFileSpec extends AbstractRecordFileSpec<ValueRecord, ValueRecord> {
 
     // DEFAULT - read
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
@@ -120,14 +120,11 @@ public final class SingleValueFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public SingleValueFile file(Path path) {
-        return new SingleValueFile(path, this);
-    }
-
     public SingleValueProducer producer(InputStream inputStream) {
         return new SingleValueProducer(newBufferedReader(inputStream), this);
     }
 
+    @Override
     public SingleValueConsumer consumer(OutputStream outputStream) {
         return new SingleValueConsumer(newBufferedWriter(outputStream), this);
     }

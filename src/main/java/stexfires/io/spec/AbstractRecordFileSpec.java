@@ -1,15 +1,14 @@
 package stexfires.io.spec;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.RecordFile;
+import stexfires.io.BaseRecordFile;
+import stexfires.io.ReadableRecordProducer;
+import stexfires.io.WritableRecordConsumer;
+import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
@@ -21,7 +20,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public abstract class AbstractRecordFileSpec implements RecordFileSpec {
+public abstract class AbstractRecordFileSpec<CTR extends TextRecord, PTR extends CTR> implements RecordFileSpec {
 
     private final Charset charset;
     private final CodingErrorAction codingErrorAction;
@@ -44,8 +43,6 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         this.lineSeparator = lineSeparator;
     }
 
-    public abstract RecordFile<?> file(Path path);
-
     @Override
     public final Charset getCharset() {
         return charset;
@@ -61,15 +58,8 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         return lineSeparator;
     }
 
-    protected final BufferedReader newBufferedReader(InputStream inputStream) {
-        return new BufferedReader(new InputStreamReader(inputStream, newCharsetDecoder()));
-    }
-
-    protected final BufferedWriter newBufferedWriter(OutputStream outputStream) {
-        return new BufferedWriter(new OutputStreamWriter(outputStream, newCharsetEncoder()));
-    }
-
-    protected final CharsetDecoder newCharsetDecoder() {
+    @Override
+    public final CharsetDecoder newCharsetDecoder() {
         CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(codingErrorAction);
         if (decoderReplacement != null) {
             charsetDecoder.replaceWith(decoderReplacement);
@@ -77,12 +67,22 @@ public abstract class AbstractRecordFileSpec implements RecordFileSpec {
         return charsetDecoder;
     }
 
-    protected final CharsetEncoder newCharsetEncoder() {
+    @Override
+    public final CharsetEncoder newCharsetEncoder() {
         CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
         if (encoderReplacement != null) {
             charsetEncoder.replaceWith(encoderReplacement);
         }
         return charsetEncoder;
     }
+
+    @Override
+    public final BaseRecordFile<CTR, PTR, ?> newRecordFile(Path path) {
+        return new BaseRecordFile<>(path, this);
+    }
+
+    public abstract ReadableRecordProducer<PTR> producer(InputStream inputStream);
+
+    public abstract WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
 
 }

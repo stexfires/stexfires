@@ -15,9 +15,9 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
+public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecord> {
 
-    protected final ConfigFileSpec fileSpec;
+    private final ConfigFileSpec fileSpec;
 
     public ConfigProducer(BufferedReader reader, ConfigFileSpec fileSpec) {
         super(reader);

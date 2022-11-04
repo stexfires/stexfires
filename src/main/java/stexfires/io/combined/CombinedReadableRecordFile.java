@@ -13,10 +13,10 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedReadableRecordFile<T extends TextRecord> implements ReadableRecordFile<T, RecordFileSpec> {
+public final class CombinedReadableRecordFile<T extends TextRecord> implements ReadableRecordFile<T, RecordFileSpec> {
 
-    protected final ReadableRecordFile<? extends T, ?> firstFile;
-    protected final ReadableRecordFile<? extends T, ?> secondFile;
+    private final ReadableRecordFile<? extends T, ?> firstFile;
+    private final ReadableRecordFile<? extends T, ?> secondFile;
 
     public CombinedReadableRecordFile(ReadableRecordFile<? extends T, ?> firstFile,
                                       ReadableRecordFile<? extends T, ?> secondFile) {
@@ -27,13 +27,13 @@ public class CombinedReadableRecordFile<T extends TextRecord> implements Readabl
     }
 
     @Override
-    public Path getPath() {
-        throw new UnsupportedOperationException("getPath() not available for combined files");
+    public Path path() {
+        throw new UnsupportedOperationException("path() not available for combined files");
     }
 
     @Override
-    public final RecordFileSpec getFileSpec() {
-        throw new UnsupportedOperationException("getFileSpec() not available for combined files");
+    public RecordFileSpec fileSpec() {
+        throw new UnsupportedOperationException("fileSpec() not available for combined files");
     }
 
     @Override

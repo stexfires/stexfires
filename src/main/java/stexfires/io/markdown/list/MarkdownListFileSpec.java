@@ -1,20 +1,22 @@
 package stexfires.io.markdown.list;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.ValueRecord;
 import stexfires.util.LineSeparator;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
+public final class MarkdownListFileSpec extends AbstractRecordFileSpec<ValueRecord, ValueRecord> {
 
     public enum BulletPoint {
         NUMBER, STAR, DASH
@@ -95,10 +97,11 @@ public final class MarkdownListFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public MarkdownListFile file(Path path) {
-        return new MarkdownListFile(path, this);
+    public ReadableRecordProducer<ValueRecord> producer(InputStream inputStream) {
+        throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
+    @Override
     public MarkdownListConsumer consumer(OutputStream outputStream) {
         return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
     }

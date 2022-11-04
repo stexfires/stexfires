@@ -8,10 +8,10 @@ import java.nio.file.Path;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface RecordFile<S extends RecordFileSpec> {
+public interface RecordFile<RFS extends RecordFileSpec> {
 
-    Path getPath();
+    Path path();
 
-    S getFileSpec();
+    RFS fileSpec();
 
 }

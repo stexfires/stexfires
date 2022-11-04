@@ -13,11 +13,11 @@ import java.io.IOException;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface WritableRecordConsumer<T extends TextRecord> extends RecordConsumer<T>, Closeable, Flushable {
+public interface WritableRecordConsumer<CTR extends TextRecord> extends RecordConsumer<CTR>, Closeable, Flushable {
 
     void writeBefore() throws IOException;
 
-    void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException;
+    void writeRecord(CTR record) throws ConsumerException, UncheckedConsumerException, IOException;
 
     void writeAfter() throws IOException;
 
@@ -25,7 +25,7 @@ public interface WritableRecordConsumer<T extends TextRecord> extends RecordCons
      * Not synchronized. Use it only with forEachOrdered().
      */
     @Override
-    default void consume(T record) throws UncheckedConsumerException {
+    default void consume(CTR record) throws UncheckedConsumerException {
         try {
             writeRecord(record);
         } catch (ConsumerException e) {

@@ -1,11 +1,10 @@
 package stexfires.io;
 
-import stexfires.io.spec.RecordFileSpec;
+import org.jetbrains.annotations.NotNull;
+import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
@@ -15,45 +14,23 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class BaseRecordFile<W extends TextRecord, R extends W, S extends RecordFileSpec>
-        implements ReadableRecordFile<R, S>, WritableRecordFile<W, S> {
+public record BaseRecordFile<CTR extends TextRecord, PTR extends CTR, RFS extends AbstractRecordFileSpec<CTR, PTR>>
+        (@NotNull Path path, @NotNull RFS fileSpec)
+        implements ReadableRecordFile<PTR, RFS>, WritableRecordFile<CTR, RFS> {
 
-    protected final Path path;
-    protected final S fileSpec;
-
-    public BaseRecordFile(Path path, S fileSpec) {
+    public BaseRecordFile {
         Objects.requireNonNull(path);
         Objects.requireNonNull(fileSpec);
-        this.path = path;
-        this.fileSpec = fileSpec;
     }
 
     @Override
-    public final Path getPath() {
-        return path;
+    public ReadableRecordProducer<PTR> openProducer() throws IOException {
+        return fileSpec().producer(Files.newInputStream(path));
     }
 
     @Override
-    public final S getFileSpec() {
-        return fileSpec;
-    }
-
-    @Override
-    public ReadableRecordProducer<R> openProducer() throws IOException {
-        throw new UnsupportedOperationException("openProducer() not implemented");
-    }
-
-    @Override
-    public WritableRecordConsumer<W> openConsumer(OpenOption... writeOptions) throws IOException {
-        throw new UnsupportedOperationException("openConsumer(OpenOption...) not implemented");
-    }
-
-    protected final InputStream newInputStream() throws IOException {
-        return Files.newInputStream(path);
-    }
-
-    protected final OutputStream newOutputStream(OpenOption... writeOptions) throws IOException {
-        return Files.newOutputStream(path, writeOptions);
+    public WritableRecordConsumer<CTR> openConsumer(OpenOption... writeOptions) throws IOException {
+        return fileSpec().consumer(Files.newOutputStream(path, writeOptions));
     }
 
 }

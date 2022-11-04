@@ -14,16 +14,16 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 @SuppressWarnings("RedundantThrows")
-public interface ReadableRecordProducer<T extends TextRecord> extends RecordProducer<T>, Closeable {
+public interface ReadableRecordProducer<PTR extends TextRecord> extends RecordProducer<PTR>, Closeable {
 
     void readBefore() throws ProducerException, UncheckedProducerException, IOException;
 
-    Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException;
+    Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException;
 
     void readAfter() throws ProducerException, UncheckedProducerException, IOException;
 
     @Override
-    default Stream<T> produceStream() throws UncheckedProducerException {
+    default Stream<PTR> produceStream() throws UncheckedProducerException {
         try {
             return readRecords();
         } catch (ProducerException e) {

@@ -1,13 +1,15 @@
 package stexfires.io.html.table;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
+public final class HtmlTableFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -102,10 +104,11 @@ public final class HtmlTableFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public HtmlTableFile file(Path path) {
-        return new HtmlTableFile(path, this);
+    public ReadableRecordProducer<TextRecord> producer(InputStream inputStream) {
+        throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
+    @Override
     public HtmlTableConsumer consumer(OutputStream outputStream) {
         return new HtmlTableConsumer(newBufferedWriter(outputStream), this);
     }

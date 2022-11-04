@@ -15,9 +15,9 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
+public final class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
 
-    protected final SingleValueFileSpec fileSpec;
+    private final SingleValueFileSpec fileSpec;
 
     public SingleValueProducer(BufferedReader reader, SingleValueFileSpec fileSpec) {
         super(reader);

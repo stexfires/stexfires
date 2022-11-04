@@ -16,14 +16,14 @@ import java.util.stream.IntStream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
+public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";
     public static final int FIRST_NON_ESCAPED_CHAR = 0x0020;
     public static final int LAST_NON_ESCAPED_CHAR = 0x007e;
 
-    protected final PropertiesFileSpec fileSpec;
+    private final PropertiesFileSpec fileSpec;
 
     public PropertiesConsumer(BufferedWriter writer, PropertiesFileSpec fileSpec) {
         super(writer);
@@ -32,7 +32,7 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
     }
 
     @SuppressWarnings("HardcodedLineSeparator")
-    protected static String mapCharacter(char character, boolean escapeSpace, boolean escapeUnicode) {
+    private static String mapCharacter(char character, boolean escapeSpace, boolean escapeUnicode) {
         switch (character) {
             case ' ':
                 return escapeSpace ? "\\ " : " ";
@@ -63,13 +63,13 @@ public class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord>
         }
     }
 
-    protected static String convertKey(String key, boolean escapeUnicode) {
+    private static String convertKey(String key, boolean escapeUnicode) {
         return IntStream.range(0, key.length())
                         .mapToObj(i -> mapCharacter(key.charAt(i), true, escapeUnicode))
                         .collect(Collectors.joining());
     }
 
-    protected static String convertValue(String value, boolean escapeUnicode) {
+    private static String convertValue(String value, boolean escapeUnicode) {
         return IntStream.range(0, value.length())
                         .mapToObj(i -> mapCharacter(value.charAt(i), i == 0, escapeUnicode))
                         .collect(Collectors.joining());

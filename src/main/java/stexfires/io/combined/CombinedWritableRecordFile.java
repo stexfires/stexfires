@@ -14,10 +14,10 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedWritableRecordFile<T extends TextRecord> implements WritableRecordFile<T, RecordFileSpec> {
+public final class CombinedWritableRecordFile<T extends TextRecord> implements WritableRecordFile<T, RecordFileSpec> {
 
-    protected final WritableRecordFile<? super T, ?> firstFile;
-    protected final WritableRecordFile<? super T, ?> secondFile;
+    private final WritableRecordFile<? super T, ?> firstFile;
+    private final WritableRecordFile<? super T, ?> secondFile;
 
     public CombinedWritableRecordFile(WritableRecordFile<? super T, ?> firstFile,
                                       WritableRecordFile<? super T, ?> secondFile) {
@@ -28,13 +28,13 @@ public class CombinedWritableRecordFile<T extends TextRecord> implements Writabl
     }
 
     @Override
-    public Path getPath() {
-        throw new UnsupportedOperationException("getPath() not available for combined files");
+    public Path path() {
+        throw new UnsupportedOperationException("path() not available for combined files");
     }
 
     @Override
-    public final RecordFileSpec getFileSpec() {
-        throw new UnsupportedOperationException("getFileSpec() not available for combined files");
+    public RecordFileSpec fileSpec() {
+        throw new UnsupportedOperationException("fileSpec() not available for combined files");
     }
 
     @Override

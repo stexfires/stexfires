@@ -25,10 +25,10 @@ import static stexfires.io.markdown.table.MarkdownTableFileSpec.LAST_FIELD_DELIM
  * @author Mathias Kalb
  * @since 0.1
  */
-public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
-    protected final MarkdownTableFileSpec fileSpec;
-    protected final Pattern escapePattern;
+    private final MarkdownTableFileSpec fileSpec;
+    private final Pattern escapePattern;
 
     public MarkdownTableConsumer(BufferedWriter writer, MarkdownTableFileSpec fileSpec) {
         super(writer);
@@ -37,7 +37,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
         escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
     }
 
-    protected StringBuilder buildHeaderRow() {
+    private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
         for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
@@ -65,7 +65,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
         return b;
     }
 
-    protected StringBuilder buildSubHeaderRow() {
+    private StringBuilder buildSubHeaderRow() {
         StringBuilder b = new StringBuilder();
 
         for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
@@ -95,7 +95,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
         return b;
     }
 
-    protected StringBuilder buildRecordRow(TextRecord record) {
+    private StringBuilder buildRecordRow(TextRecord record) {
         StringBuilder b = new StringBuilder();
 
         List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
@@ -131,7 +131,7 @@ public class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> 
         return b;
     }
 
-    protected void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
+    private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
         writeCharSequence(tableRow);
         writeLineSeparator(fileSpec.getLineSeparator());
     }

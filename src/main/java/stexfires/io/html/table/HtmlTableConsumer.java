@@ -17,9 +17,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
-    protected final HtmlTableFileSpec fileSpec;
+    private final HtmlTableFileSpec fileSpec;
 
     public HtmlTableConsumer(BufferedWriter writer, HtmlTableFileSpec fileSpec) {
         super(writer);
@@ -27,7 +27,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         this.fileSpec = fileSpec;
     }
 
-    protected static @NotNull String convertHtml(@Nullable String value) {
+    private static @NotNull String convertHtml(@Nullable String value) {
         String convertedValue;
         if (value == null || value.isEmpty()) {
             convertedValue = HtmlTableFileSpec.NON_BREAKING_SPACE;
@@ -39,7 +39,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         return convertedValue;
     }
 
-    protected StringBuilder buildHeaderRow() {
+    private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
         for (HtmlTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
@@ -51,7 +51,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         return b;
     }
 
-    protected StringBuilder buildRecordRow(TextRecord record) {
+    private StringBuilder buildRecordRow(TextRecord record) {
         StringBuilder b = new StringBuilder();
 
         List<HtmlTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
@@ -68,7 +68,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         return b;
     }
 
-    protected void writeStringRow(String tableRow) throws IOException {
+    private void writeStringRow(String tableRow) throws IOException {
         if (fileSpec.getIndentation() != null) {
             writeString(fileSpec.getIndentation());
         }
@@ -76,7 +76,7 @@ public class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
         writeLineSeparator(fileSpec.getLineSeparator());
     }
 
-    protected void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
+    private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
         if (fileSpec.getIndentation() != null) {
             writeString(fileSpec.getIndentation());
         }

@@ -13,9 +13,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
+public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
 
-    protected final SingleValueFileSpec fileSpec;
+    private final SingleValueFileSpec fileSpec;
 
     public SingleValueConsumer(BufferedWriter writer, SingleValueFileSpec fileSpec) {
         super(writer);

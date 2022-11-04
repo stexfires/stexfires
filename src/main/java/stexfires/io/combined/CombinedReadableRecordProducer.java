@@ -14,10 +14,10 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedReadableRecordProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
+public final class CombinedReadableRecordProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
-    protected final ReadableRecordProducer<? extends T> firstProducer;
-    protected final ReadableRecordProducer<? extends T> secondProducer;
+    private final ReadableRecordProducer<? extends T> firstProducer;
+    private final ReadableRecordProducer<? extends T> secondProducer;
 
     public CombinedReadableRecordProducer(ReadableRecordProducer<? extends T> firstProducer,
                                           ReadableRecordProducer<? extends T> secondProducer) {

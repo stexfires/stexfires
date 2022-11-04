@@ -9,8 +9,8 @@ import java.io.IOException;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface ReadableRecordFile<T extends TextRecord, S extends RecordFileSpec> extends RecordFile<S> {
+public interface ReadableRecordFile<PTR extends TextRecord, RFS extends RecordFileSpec> extends RecordFile<RFS> {
 
-    ReadableRecordProducer<T> openProducer() throws IOException;
+    ReadableRecordProducer<PTR> openProducer() throws IOException;
 
 }

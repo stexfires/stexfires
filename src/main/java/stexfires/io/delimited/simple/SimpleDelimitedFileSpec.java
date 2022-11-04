@@ -2,13 +2,13 @@ package stexfires.io.delimited.simple;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
+public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
@@ -120,14 +120,11 @@ public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public SimpleDelimitedFile file(Path path) {
-        return new SimpleDelimitedFile(path, this);
-    }
-
     public SimpleDelimitedProducer producer(InputStream inputStream) {
         return new SimpleDelimitedProducer(newBufferedReader(inputStream), this);
     }
 
+    @Override
     public SimpleDelimitedConsumer consumer(OutputStream outputStream) {
         return new SimpleDelimitedConsumer(newBufferedWriter(outputStream), this);
     }

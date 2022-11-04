@@ -17,11 +17,11 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
+public final class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final String NO_TEXT = null;
 
-    protected final SimpleDelimitedFileSpec fileSpec;
+    private final SimpleDelimitedFileSpec fileSpec;
 
     public SimpleDelimitedProducer(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
         super(reader);

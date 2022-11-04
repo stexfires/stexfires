@@ -17,9 +17,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
 
-    protected final FixedWidthFileSpec fileSpec;
+    private final FixedWidthFileSpec fileSpec;
 
     public FixedWidthConsumer(BufferedWriter writer, FixedWidthFileSpec fileSpec) {
         super(writer);
@@ -27,11 +27,11 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
         this.fileSpec = fileSpec;
     }
 
-    protected static String createRecordString(int recordWidth,
-                                               Character fillCharacter,
-                                               Alignment alignment,
-                                               List<FixedWidthFieldSpec> fieldSpecs,
-                                               List<TextField> fields) {
+    private static String createRecordString(int recordWidth,
+                                             Character fillCharacter,
+                                             Alignment alignment,
+                                             List<FixedWidthFieldSpec> fieldSpecs,
+                                             List<TextField> fields) {
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fieldSpecs);
@@ -70,8 +70,8 @@ public class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
         return String.valueOf(characters);
     }
 
-    protected static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
-                                         int valueWidth, String value, Alignment alignment) {
+    private static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
+                                       int valueWidth, String value, Alignment alignment) {
         // Calculate width and start positions
         int width = Math.min(valueWidth, fieldWidth);
         int startPosValue;

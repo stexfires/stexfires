@@ -12,10 +12,10 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class CombinedWritableRecordConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
+public final class CombinedWritableRecordConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
 
-    protected final WritableRecordConsumer<? super T> firstConsumer;
-    protected final WritableRecordConsumer<? super T> secondConsumer;
+    private final WritableRecordConsumer<? super T> firstConsumer;
+    private final WritableRecordConsumer<? super T> secondConsumer;
 
     public CombinedWritableRecordConsumer(WritableRecordConsumer<? super T> firstConsumer,
                                           WritableRecordConsumer<? super T> secondConsumer) {

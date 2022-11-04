@@ -2,6 +2,7 @@ package stexfires.io.fixedwidth;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
 
@@ -9,7 +10,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
+public final class FixedWidthFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
@@ -141,14 +141,11 @@ public final class FixedWidthFileSpec extends AbstractRecordFileSpec {
     }
 
     @Override
-    public FixedWidthFile file(Path path) {
-        return new FixedWidthFile(path, this);
-    }
-
     public FixedWidthProducer producer(InputStream inputStream) {
         return new FixedWidthProducer(newBufferedReader(inputStream), this);
     }
 
+    @Override
     public FixedWidthConsumer consumer(OutputStream outputStream) {
         return new FixedWidthConsumer(newBufferedWriter(outputStream), this);
     }

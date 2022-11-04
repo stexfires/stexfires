@@ -18,14 +18,14 @@ import java.util.Optional;
  * @since 0.1
  */
 @SuppressWarnings("HardcodedLineSeparator")
-public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
+public final class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
-    protected static final char ESCAPE_CHAR = '\\';
-    protected static final int ILLEGAL_INDEX = -1;
-    protected static final int UNICODE_ENCODE_LENGTH = 4;
-    protected static final int UNICODE_ENCODE_RADIX = 16;
+    private static final char ESCAPE_CHAR = '\\';
+    private static final int ILLEGAL_INDEX = -1;
+    private static final int UNICODE_ENCODE_LENGTH = 4;
+    private static final int UNICODE_ENCODE_RADIX = 16;
 
-    protected final PropertiesFileSpec fileSpec;
+    private final PropertiesFileSpec fileSpec;
 
     public PropertiesProducer(BufferedReader reader, PropertiesFileSpec fileSpec) {
         super(reader);
@@ -50,7 +50,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
                 fileSpec.getValueSpec().getReadNullReplacement());
     }
 
-    protected static String[] splitLine(String line) {
+    private static String[] splitLine(String line) {
         Objects.requireNonNull(line);
 
         final int maxIndex = line.length();
@@ -114,7 +114,7 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
     }
 
     @SuppressWarnings("NumericCastThatLosesPrecision")
-    protected static String decode(String encodedStr) {
+    private static String decode(String encodedStr) {
         if ((encodedStr == null) || (encodedStr.isEmpty())) {
             return encodedStr;
         }
@@ -160,8 +160,8 @@ public class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord>
         return b.toString();
     }
 
-    protected static Optional<KeyValueRecord> createRecord(String category, Long recordId,
-                                                           String key, String value, String nullValueReplacement) {
+    private static Optional<KeyValueRecord> createRecord(String category, Long recordId,
+                                                         String key, String value, String nullValueReplacement) {
         KeyValueRecord record = null;
 
         if (key != null) {

@@ -23,9 +23,9 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueRecord> {
+public final class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueRecord> {
 
-    protected final RecordStreamModifier<T, KeyValueRecord> modifier;
+    private final RecordStreamModifier<T, KeyValueRecord> modifier;
 
     public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates) {
         this(keyIndex, valueIndex, removeDuplicates, null);

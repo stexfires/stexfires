@@ -10,8 +10,8 @@ import java.nio.file.OpenOption;
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface WritableRecordFile<T extends TextRecord, S extends RecordFileSpec> extends RecordFile<S> {
+public interface WritableRecordFile<CTR extends TextRecord, RFS extends RecordFileSpec> extends RecordFile<RFS> {
 
-    WritableRecordConsumer<T> openConsumer(OpenOption... writeOptions) throws IOException;
+    WritableRecordConsumer<CTR> openConsumer(OpenOption... writeOptions) throws IOException;
 
 }

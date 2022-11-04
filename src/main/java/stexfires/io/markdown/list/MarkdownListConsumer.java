@@ -13,11 +13,11 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> {
+public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> {
 
-    protected final MarkdownListFileSpec fileSpec;
+    private final MarkdownListFileSpec fileSpec;
 
-    protected long currentNumber;
+    private long currentNumber;
 
     public MarkdownListConsumer(BufferedWriter writer, MarkdownListFileSpec fileSpec) {
         super(writer);
