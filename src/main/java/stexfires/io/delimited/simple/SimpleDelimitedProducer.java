@@ -74,9 +74,9 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         return Optional.ofNullable(record);
     }
 
-    protected static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
+    private static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
 
-        public SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
+        private SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
         }
 

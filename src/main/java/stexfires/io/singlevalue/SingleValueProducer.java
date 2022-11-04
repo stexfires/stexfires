@@ -44,9 +44,9 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
         return Optional.ofNullable(record);
     }
 
-    protected static final class SingleValueIterator extends AbstractRecordRawDataIterator {
+    private static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
-        public SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
+        private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
         }
 

@@ -175,9 +175,9 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
         return Optional.ofNullable(record);
     }
 
-    protected static final class PropertiesIterator extends AbstractRecordRawDataIterator {
+    private static final class PropertiesIterator extends AbstractRecordRawDataIterator {
 
-        public PropertiesIterator(BufferedReader bufferedReader) {
+        private PropertiesIterator(BufferedReader bufferedReader) {
             super(bufferedReader);
         }
 

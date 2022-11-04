@@ -46,11 +46,11 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
         return Optional.of(new KeyValueFieldsRecord(recordRawData.getCategory(), recordRawData.getRecordId(), key, value));
     }
 
-    protected static final class ConfigIterator extends AbstractRecordRawDataIterator {
+    private static final class ConfigIterator extends AbstractRecordRawDataIterator {
 
         private String currentCategory;
 
-        public ConfigIterator(BufferedReader bufferedReader) {
+        private ConfigIterator(BufferedReader bufferedReader) {
             super(bufferedReader);
             currentCategory = null;
         }

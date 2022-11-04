@@ -101,11 +101,11 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         return Optional.ofNullable(record);
     }
 
-    protected static final class FixedWidthIterator extends AbstractRecordRawDataIterator {
+    private static final class FixedWidthIterator extends AbstractRecordRawDataIterator {
 
         private final FixedWidthFileSpec fileSpec;
 
-        public FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
+        private FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
             super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
             this.fileSpec = fileSpec;
         }
