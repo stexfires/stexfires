@@ -21,10 +21,8 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
     public static final String NULL_KEY = "";
     public static final String NULL_VALUE = "";
 
-    public static final String CATEGORY_PREFIX = "[";
-
-    // TODO Rename POSTFIX into SUFFIX or "end marker" or "end border"
-    public static final String CATEGORY_POSTFIX = "]";
+    public static final String CATEGORY_BEGIN_MARKER = "[";
+    public static final String CATEGORY_END_MARKER = "]";
 
     // DEFAULT - both
     public static final String DEFAULT_VALUE_DELIMITER = "=";

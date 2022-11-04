@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
+import static stexfires.io.config.ConfigFileSpec.CATEGORY_BEGIN_MARKER;
+import static stexfires.io.config.ConfigFileSpec.CATEGORY_END_MARKER;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -63,8 +66,8 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
                 rawData = reader.readLine();
                 categoryFound = false;
                 if ((rawData != null)
-                        && rawData.startsWith(ConfigFileSpec.CATEGORY_PREFIX)
-                        && rawData.endsWith(ConfigFileSpec.CATEGORY_POSTFIX)) {
+                        && rawData.startsWith(CATEGORY_BEGIN_MARKER)
+                        && rawData.endsWith(CATEGORY_END_MARKER)) {
                     categoryFound = true;
                     currentCategory = rawData.substring(1, rawData.length() - 1);
                 }

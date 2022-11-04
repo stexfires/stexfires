@@ -19,6 +19,8 @@ import java.util.Locale;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
+import static stexfires.io.config.ConfigFileSpec.NULL_KEY;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -41,7 +43,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueFieldsRecord(
                 categoryOperator.apply(r.category()),
                 r.recordId(),
-                r.textAtOrElse(keyIndex, ConfigFileSpec.NULL_KEY),
+                r.textAtOrElse(keyIndex, NULL_KEY),
                 r.textAt(valueIndex));
         MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
 

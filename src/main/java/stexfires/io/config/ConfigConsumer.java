@@ -9,8 +9,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_POSTFIX;
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_PREFIX;
+import static stexfires.io.config.ConfigFileSpec.CATEGORY_BEGIN_MARKER;
+import static stexfires.io.config.ConfigFileSpec.CATEGORY_END_MARKER;
 import static stexfires.io.config.ConfigFileSpec.NULL_CATEGORY;
 import static stexfires.io.config.ConfigFileSpec.NULL_VALUE;
 
@@ -43,9 +43,9 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecor
 
         if (!Objects.equals(currentCategory, record.category())) {
             currentCategory = record.category();
-            writeString(CATEGORY_PREFIX);
+            writeString(CATEGORY_BEGIN_MARKER);
             writeString(Objects.requireNonNullElse(currentCategory, NULL_CATEGORY));
-            writeString(CATEGORY_POSTFIX);
+            writeString(CATEGORY_END_MARKER);
             writeLineSeparator(fileSpec.lineSeparator());
         }
 
