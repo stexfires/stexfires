@@ -27,7 +27,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new SingleValueIterator(reader, fileSpec);
+        return new SingleValueIterator(getReader(), fileSpec);
     }
 
     @Override

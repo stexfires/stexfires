@@ -35,7 +35,7 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new PropertiesIterator(reader);
+        return new PropertiesIterator(getReader());
     }
 
     @Override

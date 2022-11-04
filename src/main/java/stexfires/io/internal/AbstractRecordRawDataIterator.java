@@ -96,23 +96,23 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         return queue.poll();
     }
 
-    public final int getIgnoreFirst() {
+    protected final int getIgnoreFirst() {
         return ignoreFirst;
     }
 
-    public final int getIgnoreLast() {
+    protected final int getIgnoreLast() {
         return ignoreLast;
     }
 
-    public final long getCurrentRecordIndex() {
+    protected final long getCurrentRecordIndex() {
         return currentRecordIndex;
     }
 
-    public final List<RecordRawData> getFirst() {
+    protected final List<RecordRawData> getFirst() {
         return new ArrayList<>(first);
     }
 
-    public final List<RecordRawData> getLast() {
+    protected final List<RecordRawData> getLast() {
         return new ArrayList<>(last);
     }
 

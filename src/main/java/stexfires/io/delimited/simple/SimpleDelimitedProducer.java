@@ -31,7 +31,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new SimpleDelimitedIterator(reader, fileSpec);
+        return new SimpleDelimitedIterator(getReader(), fileSpec);
     }
 
     @Override

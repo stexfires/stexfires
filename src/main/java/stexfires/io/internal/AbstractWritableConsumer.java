@@ -22,9 +22,9 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
  */
 public abstract class AbstractWritableConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
 
-    protected final BufferedWriter writer;
+    private final BufferedWriter writer;
 
-    protected WritableConsumerState state;
+    private WritableConsumerState state;
 
     protected AbstractWritableConsumer(BufferedWriter writer) {
         Objects.requireNonNull(writer);

@@ -27,7 +27,7 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new ConfigIterator(reader);
+        return new ConfigIterator(getReader());
     }
 
     @Override

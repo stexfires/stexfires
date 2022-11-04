@@ -29,11 +29,11 @@ import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
 @SuppressWarnings("RedundantThrows")
 public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
-    protected final BufferedReader reader;
-    protected final Consumer<RecordRawData> recordRawDataLogger;
+    private final BufferedReader reader;
+    private final Consumer<RecordRawData> recordRawDataLogger;
 
-    protected AbstractRecordRawDataIterator iterator;
-    protected ReadableProducerState state;
+    private AbstractRecordRawDataIterator iterator;
+    private ReadableProducerState state;
 
     protected AbstractReadableProducer(BufferedReader reader) {
         this(reader, null);
@@ -86,6 +86,10 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     public void close() throws IOException {
         state = CLOSE.validate(state);
         reader.close();
+    }
+
+    protected final BufferedReader getReader() {
+        return reader;
     }
 
 }

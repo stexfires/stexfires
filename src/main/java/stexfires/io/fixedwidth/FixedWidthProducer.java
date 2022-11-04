@@ -58,7 +58,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new FixedWidthIterator(reader, fileSpec);
+        return new FixedWidthIterator(getReader(), fileSpec);
     }
 
     @Override
