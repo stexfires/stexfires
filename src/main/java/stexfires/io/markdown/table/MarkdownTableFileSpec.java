@@ -1,13 +1,11 @@
 package stexfires.io.markdown.table;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableRecordProducer;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
@@ -21,7 +19,7 @@ import java.util.regex.Matcher;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownTableFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
+public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     public static final String ESCAPE_TARGET = "|";
     public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
@@ -109,11 +107,6 @@ public final class MarkdownTableFileSpec extends AbstractRecordFileSpec<TextReco
                 lineSeparator,
                 alignment,
                 beforeTable, afterTable);
-    }
-
-    @Override
-    public ReadableRecordProducer<TextRecord> producer(InputStream inputStream) {
-        throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
     @Override

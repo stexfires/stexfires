@@ -1,26 +1,19 @@
-package stexfires.io.spec;
+package stexfires.io;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.BaseRecordFile;
-import stexfires.io.ReadableRecordProducer;
-import stexfires.io.WritableRecordConsumer;
-import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public abstract class AbstractRecordFileSpec<CTR extends TextRecord, PTR extends CTR> implements RecordFileSpec {
+public class BaseRecordFileSpec implements RecordFileSpec {
 
     private final Charset charset;
     private final CodingErrorAction codingErrorAction;
@@ -28,9 +21,9 @@ public abstract class AbstractRecordFileSpec<CTR extends TextRecord, PTR extends
     private final byte[] encoderReplacement;
     private final LineSeparator lineSeparator;
 
-    protected AbstractRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                     @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                                     LineSeparator lineSeparator) {
+    public BaseRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+                              LineSeparator lineSeparator) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(codingErrorAction);
         Objects.requireNonNull(lineSeparator);
@@ -44,17 +37,17 @@ public abstract class AbstractRecordFileSpec<CTR extends TextRecord, PTR extends
     }
 
     @Override
-    public final Charset getCharset() {
+    public final Charset charset() {
         return charset;
     }
 
     @Override
-    public final CodingErrorAction getCodingErrorAction() {
+    public final CodingErrorAction codingErrorAction() {
         return codingErrorAction;
     }
 
     @Override
-    public final LineSeparator getLineSeparator() {
+    public final LineSeparator lineSeparator() {
         return lineSeparator;
     }
 
@@ -75,14 +68,5 @@ public abstract class AbstractRecordFileSpec<CTR extends TextRecord, PTR extends
         }
         return charsetEncoder;
     }
-
-    @Override
-    public final BaseRecordFile<CTR, PTR, ?> newRecordFile(Path path) {
-        return new BaseRecordFile<>(path, this);
-    }
-
-    public abstract ReadableRecordProducer<PTR> producer(InputStream inputStream);
-
-    public abstract WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
 
 }

@@ -1,6 +1,5 @@
-package stexfires.io.spec;
+package stexfires.io;
 
-import stexfires.io.RecordFile;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
@@ -13,7 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
-import java.nio.file.Path;
 
 /**
  * @author Mathias Kalb
@@ -25,17 +23,15 @@ public interface RecordFileSpec {
 
     LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
 
-    Charset getCharset();
+    Charset charset();
 
-    CodingErrorAction getCodingErrorAction();
+    CodingErrorAction codingErrorAction();
 
-    LineSeparator getLineSeparator();
+    LineSeparator lineSeparator();
 
     CharsetEncoder newCharsetEncoder();
 
     CharsetDecoder newCharsetDecoder();
-
-    RecordFile<?> newRecordFile(Path path);
 
     default BufferedReader newBufferedReader(InputStream inputStream) {
         return new BufferedReader(new InputStreamReader(inputStream, newCharsetDecoder()));

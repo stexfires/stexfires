@@ -2,7 +2,7 @@ package stexfires.io.combined;
 
 import stexfires.io.ReadableRecordFile;
 import stexfires.io.ReadableRecordProducer;
-import stexfires.io.spec.RecordFileSpec;
+import stexfires.io.RecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;

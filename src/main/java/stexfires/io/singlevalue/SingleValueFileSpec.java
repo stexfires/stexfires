@@ -1,7 +1,7 @@
 package stexfires.io.singlevalue;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.ValueRecord;
 import stexfires.util.LineSeparator;
 
@@ -14,7 +14,7 @@ import java.nio.charset.CodingErrorAction;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SingleValueFileSpec extends AbstractRecordFileSpec<ValueRecord, ValueRecord> {
+public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
 
     // DEFAULT - read
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;

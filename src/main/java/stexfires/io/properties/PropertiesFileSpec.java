@@ -1,7 +1,7 @@
 package stexfires.io.properties;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.util.LineSeparator;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class PropertiesFileSpec extends AbstractRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     // DEFAULT - PropertiesFieldSpec
     public static final String DEFAULT_READ_NULL_VALUE_REPLACEMENT = "";

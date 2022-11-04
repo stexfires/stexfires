@@ -30,9 +30,9 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
         String value = record.value();
         if (value != null) {
             writeString(value);
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         } else if (!fileSpec.isSkipNullValue()) {
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
     }
 

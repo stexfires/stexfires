@@ -1,7 +1,7 @@
 package stexfires.io.fixedwidth;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.LineSeparator;
@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
+public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;

@@ -60,7 +60,7 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
                 fileSpec.getFieldDelimiter(),
                 fileSpec.getFieldSpecs(),
                 record.listOfFields()));
-        writeLineSeparator(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.lineSeparator());
     }
 
 }

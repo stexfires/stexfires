@@ -1,7 +1,5 @@
 package stexfires.io;
 
-import stexfires.io.spec.RecordFileSpec;
-
 import java.nio.file.Path;
 
 /**

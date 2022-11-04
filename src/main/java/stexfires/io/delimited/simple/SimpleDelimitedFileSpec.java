@@ -1,7 +1,7 @@
 package stexfires.io.delimited.simple;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SimpleDelimitedFileSpec extends AbstractRecordFileSpec<TextRecord, TextRecord> {
+public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;

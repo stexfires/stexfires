@@ -46,13 +46,13 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecor
             writeString(CATEGORY_PREFIX);
             writeString(Objects.requireNonNullElse(currentCategory, NULL_CATEGORY));
             writeString(CATEGORY_POSTFIX);
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
 
         writeString(record.key());
         writeString(fileSpec.getValueDelimiter());
         writeString(record.valueField().orElse(NULL_VALUE));
-        writeLineSeparator(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.lineSeparator());
     }
 
 }

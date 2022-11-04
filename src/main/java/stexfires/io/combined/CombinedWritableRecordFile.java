@@ -1,8 +1,8 @@
 package stexfires.io.combined;
 
+import stexfires.io.RecordFileSpec;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.io.WritableRecordFile;
-import stexfires.io.spec.RecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;

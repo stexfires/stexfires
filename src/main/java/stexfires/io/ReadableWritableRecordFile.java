@@ -1,7 +1,6 @@
 package stexfires.io;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.io.spec.AbstractRecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;
@@ -14,11 +13,11 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record BaseRecordFile<CTR extends TextRecord, PTR extends CTR, RFS extends AbstractRecordFileSpec<CTR, PTR>>
+public record ReadableWritableRecordFile<CTR extends TextRecord, PTR extends CTR, RFS extends ReadableWritableRecordFileSpec<CTR, PTR>>
         (@NotNull Path path, @NotNull RFS fileSpec)
         implements ReadableRecordFile<PTR, RFS>, WritableRecordFile<CTR, RFS> {
 
-    public BaseRecordFile {
+    public ReadableWritableRecordFile {
         Objects.requireNonNull(path);
         Objects.requireNonNull(fileSpec);
     }

@@ -73,7 +73,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
             writeString(fileSpec.getIndentation());
         }
         writeString(tableRow);
-        writeLineSeparator(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.lineSeparator());
     }
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
@@ -81,7 +81,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
             writeString(fileSpec.getIndentation());
         }
         writeCharSequence(tableRow);
-        writeLineSeparator(fileSpec.getLineSeparator());
+        writeLineSeparator(fileSpec.lineSeparator());
     }
 
     @Override
@@ -90,7 +90,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
 
         if (fileSpec.getBeforeTable() != null) {
             writeString(fileSpec.getBeforeTable());
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
 
         writeStringRow(HtmlTableFileSpec.TABLE_BEGIN);
@@ -116,7 +116,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
 
         if (fileSpec.getAfterTable() != null) {
             writeString(fileSpec.getAfterTable());
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
     }
 

@@ -1,7 +1,7 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.spec.AbstractRecordFileSpec;
+import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.util.LineSeparator;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigFileSpec extends AbstractRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";

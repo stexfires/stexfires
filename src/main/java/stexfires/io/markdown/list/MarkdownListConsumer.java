@@ -31,7 +31,7 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
 
         if (fileSpec.getBeforeList() != null) {
             writeString(fileSpec.getBeforeList());
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
 
         // Init currentNumber
@@ -57,7 +57,7 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
             if (value != null) {
                 writeString(value);
             }
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
     }
 
@@ -67,7 +67,7 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
 
         if (fileSpec.getAfterList() != null) {
             writeString(fileSpec.getAfterList());
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
     }
 

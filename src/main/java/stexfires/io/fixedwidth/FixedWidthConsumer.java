@@ -110,7 +110,7 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
                 record.listOfFields()));
 
         if (fileSpec.isSeparateRecordsByLineSeparator()) {
-            writeLineSeparator(fileSpec.getLineSeparator());
+            writeLineSeparator(fileSpec.lineSeparator());
         }
     }
 
