@@ -32,10 +32,15 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
     // FIELD - write
     private final boolean skipNullValue;
 
-    public SingleValueFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                               @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                               boolean skipEmptyLines, int ignoreFirst, int ignoreLast,
-                               LineSeparator lineSeparator, boolean skipNullValue) {
+    public SingleValueFileSpec(Charset charset,
+                               CodingErrorAction codingErrorAction,
+                               @Nullable String decoderReplacement,
+                               @Nullable String encoderReplacement,
+                               LineSeparator lineSeparator,
+                               boolean skipEmptyLines,
+                               int ignoreFirst,
+                               int ignoreLast,
+                               boolean skipNullValue) {
         super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
@@ -56,67 +61,77 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
     public static SingleValueFileSpec read(Charset charset) {
         return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                           @Nullable String decoderReplacement) {
-        return new SingleValueFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
+                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_NULL_VALUE);
     }
 
     public static SingleValueFileSpec read(Charset charset,
-                                           boolean skipEmptyLines, int ignoreFirstLines, int ignoreLastLines) {
-        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                skipEmptyLines, ignoreFirstLines, ignoreLastLines,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                           @Nullable String decoderReplacement,
-                                           boolean skipEmptyLines, int ignoreFirstLines, int ignoreLastLines) {
+                                           CodingErrorAction codingErrorAction,
+                                           @Nullable String decoderReplacement) {
         return new SingleValueFileSpec(charset, codingErrorAction,
                 decoderReplacement, null,
-                skipEmptyLines, ignoreFirstLines, ignoreLastLines,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_NULL_VALUE);
+                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_NULL_VALUE);
+    }
+
+    public static SingleValueFileSpec read(Charset charset,
+                                           boolean skipEmptyLines,
+                                           int ignoreFirstLines,
+                                           int ignoreLastLines) {
+        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
+                null, null,
+                DEFAULT_LINE_SEPARATOR, skipEmptyLines, ignoreFirstLines, ignoreLastLines,
+                DEFAULT_SKIP_NULL_VALUE);
+    }
+
+    public static SingleValueFileSpec read(Charset charset,
+                                           CodingErrorAction codingErrorAction,
+                                           @Nullable String decoderReplacement,
+                                           boolean skipEmptyLines,
+                                           int ignoreFirstLines,
+                                           int ignoreLastLines) {
+        return new SingleValueFileSpec(charset, codingErrorAction,
+                decoderReplacement, null,
+                DEFAULT_LINE_SEPARATOR, skipEmptyLines, ignoreFirstLines, ignoreLastLines,
+                DEFAULT_SKIP_NULL_VALUE);
     }
 
     public static SingleValueFileSpec write(Charset charset,
                                             LineSeparator lineSeparator) {
         return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                lineSeparator, DEFAULT_SKIP_NULL_VALUE);
+                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_NULL_VALUE);
     }
 
-    public static SingleValueFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+    public static SingleValueFileSpec write(Charset charset,
+                                            CodingErrorAction codingErrorAction,
                                             @Nullable String encoderReplacement,
                                             LineSeparator lineSeparator) {
         return new SingleValueFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                lineSeparator, DEFAULT_SKIP_NULL_VALUE);
+                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_NULL_VALUE);
     }
 
     public static SingleValueFileSpec write(Charset charset,
-                                            LineSeparator lineSeparator, boolean skipNullValue) {
+                                            LineSeparator lineSeparator,
+                                            boolean skipNullValue) {
         return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                lineSeparator, skipNullValue);
+                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                skipNullValue);
     }
 
-    public static SingleValueFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
+    public static SingleValueFileSpec write(Charset charset,
+                                            CodingErrorAction codingErrorAction,
                                             @Nullable String encoderReplacement,
-                                            LineSeparator lineSeparator, boolean skipNullValue) {
+                                            LineSeparator lineSeparator,
+                                            boolean skipNullValue) {
         return new SingleValueFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                lineSeparator, skipNullValue);
+                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+                skipNullValue);
     }
 
     @Override
