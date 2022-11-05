@@ -16,12 +16,26 @@ import java.nio.file.Path;
  */
 public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends CTR> extends BaseRecordFileSpec {
 
+    private final String writeBefore;
+    private final String writeAfter;
+
     protected ReadableWritableRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                                             LineSeparator lineSeparator) {
+                                             LineSeparator lineSeparator,
+                                             @Nullable String writeBefore, @Nullable String writeAfter) {
         super(charset, codingErrorAction,
                 decoderReplacement, encoderReplacement,
                 lineSeparator);
+        this.writeBefore = writeBefore;
+        this.writeAfter = writeAfter;
+    }
+
+    protected ReadableWritableRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
+                                             @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+                                             LineSeparator lineSeparator) {
+        this(charset, codingErrorAction,
+                decoderReplacement, encoderReplacement,
+                lineSeparator, null, null);
     }
 
     public final ReadableWritableRecordFile<CTR, PTR, ?> file(Path path) {
@@ -34,6 +48,14 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
 
     public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
         throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
+    }
+
+    public final @Nullable String getWriteBefore() {
+        return writeBefore;
+    }
+
+    public final @Nullable String getWriteAfter() {
+        return writeAfter;
     }
 
 }

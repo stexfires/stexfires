@@ -90,8 +90,8 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     public void writeBefore() throws IOException {
         super.writeBefore();
 
-        if (fileSpec.getBeforeTable() != null) {
-            writeString(fileSpec.getBeforeTable());
+        if (fileSpec.getWriteBefore() != null) {
+            writeString(fileSpec.getWriteBefore());
             writeLineSeparator(fileSpec.lineSeparator());
         }
 
@@ -116,8 +116,8 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
 
         writeStringRow(TABLE_END);
 
-        if (fileSpec.getAfterTable() != null) {
-            writeString(fileSpec.getAfterTable());
+        if (fileSpec.getWriteAfter() != null) {
+            writeString(fileSpec.getWriteAfter());
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

@@ -144,8 +144,8 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     public void writeBefore() throws IOException {
         super.writeBefore();
 
-        if (fileSpec.getBeforeTable() != null) {
-            writeString(fileSpec.getBeforeTable());
+        if (fileSpec.getWriteBefore() != null) {
+            writeString(fileSpec.getWriteBefore());
             writeLineSeparator(fileSpec.lineSeparator());
         }
 
@@ -164,8 +164,8 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     public void writeAfter() throws IOException {
         super.writeAfter();
 
-        if (fileSpec.getAfterTable() != null) {
-            writeString(fileSpec.getAfterTable());
+        if (fileSpec.getWriteAfter() != null) {
+            writeString(fileSpec.getWriteAfter());
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

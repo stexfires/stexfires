@@ -33,8 +33,6 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     private final List<HtmlTableFieldSpec> fieldSpecs;
 
     // FIELD - write
-    private final String beforeTable;
-    private final String afterTable;
     private final String indentation;
 
     public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
@@ -42,18 +40,16 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
                              @Nullable String encoderReplacement,
                              LineSeparator lineSeparator,
                              List<HtmlTableFieldSpec> fieldSpecs,
-                             @Nullable String beforeTable,
-                             @Nullable String afterTable,
+                             @Nullable String writeBefore,
+                             @Nullable String writeAfter,
                              @Nullable String indentation) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
         Objects.requireNonNull(fieldSpecs);
 
         // both
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
         // write
-        this.beforeTable = beforeTable;
-        this.afterTable = afterTable;
         this.indentation = indentation;
     }
 
@@ -90,14 +86,6 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
 
     public List<HtmlTableFieldSpec> getFieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
-    }
-
-    public @Nullable String getBeforeTable() {
-        return beforeTable;
-    }
-
-    public @Nullable String getAfterTable() {
-        return afterTable;
     }
 
     public @Nullable String getIndentation() {

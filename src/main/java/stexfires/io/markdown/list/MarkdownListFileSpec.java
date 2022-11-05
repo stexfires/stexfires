@@ -32,22 +32,18 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
     // FIELD - write
-    private final String beforeList;
-    private final String afterList;
     private final BulletPoint bulletPoint;
     private final boolean skipNullValue;
 
     public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                 @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                                 LineSeparator lineSeparator,
-                                @Nullable String beforeList, @Nullable String afterList,
+                                @Nullable String writeBefore, @Nullable String writeAfter,
                                 BulletPoint bulletPoint, boolean skipNullValue) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
         Objects.requireNonNull(bulletPoint);
 
         // write
-        this.beforeList = beforeList;
-        this.afterList = afterList;
         this.bulletPoint = bulletPoint;
         this.skipNullValue = skipNullValue;
     }
@@ -97,14 +93,6 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     @Override
     public MarkdownListConsumer consumer(OutputStream outputStream) {
         return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
-    }
-
-    public @Nullable String getBeforeList() {
-        return beforeList;
-    }
-
-    public @Nullable String getAfterList() {
-        return afterList;
     }
 
     public BulletPoint getBulletPoint() {

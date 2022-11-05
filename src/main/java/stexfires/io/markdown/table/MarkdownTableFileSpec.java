@@ -40,8 +40,6 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
 
     // FIELD - write
     private final Alignment alignment;
-    private final String beforeTable;
-    private final String afterTable;
 
     public MarkdownTableFileSpec(Charset charset,
                                  CodingErrorAction codingErrorAction,
@@ -49,10 +47,10 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
                                  @Nullable String encoderReplacement,
                                  LineSeparator lineSeparator,
                                  List<MarkdownTableFieldSpec> fieldSpecs,
-                                 @Nullable String beforeTable,
-                                 @Nullable String afterTable,
+                                 @Nullable String writeBefore,
+                                 @Nullable String writeAfter,
                                  Alignment alignment) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
 
@@ -61,8 +59,6 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
 
         // write
         this.alignment = alignment;
-        this.beforeTable = beforeTable;
-        this.afterTable = afterTable;
     }
 
     public static MarkdownTableFileSpec write(Charset charset,
@@ -125,14 +121,6 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
 
     public Alignment getAlignment() {
         return alignment;
-    }
-
-    public @Nullable String getBeforeTable() {
-        return beforeTable;
-    }
-
-    public @Nullable String getAfterTable() {
-        return afterTable;
     }
 
 }
