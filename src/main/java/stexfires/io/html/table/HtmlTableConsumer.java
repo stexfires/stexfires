@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import static stexfires.io.html.table.HtmlTableFileSpec.*;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -30,7 +32,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     private static @NotNull String convertHtml(@Nullable String value) {
         String convertedValue;
         if (value == null || value.isEmpty()) {
-            convertedValue = HtmlTableFileSpec.NON_BREAKING_SPACE;
+            convertedValue = NON_BREAKING_SPACE;
         } else {
             convertedValue = value.replace("&", "&amp;")
                                   .replace("<", "&lt;")
@@ -43,9 +45,9 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
         StringBuilder b = new StringBuilder();
 
         for (HtmlTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
-            b.append(HtmlTableFileSpec.TABLE_HEADER_BEGIN);
+            b.append(TABLE_HEADER_BEGIN);
             b.append(convertHtml(fieldSpec.name()));
-            b.append(HtmlTableFileSpec.TABLE_HEADER_END);
+            b.append(TABLE_HEADER_END);
         }
 
         return b;
@@ -60,9 +62,9 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             String text = (fields.size() > fieldIndex) ? fields.get(fieldIndex).text() : null;
 
-            b.append(HtmlTableFileSpec.TABLE_DATA_BEGIN);
+            b.append(TABLE_DATA_BEGIN);
             b.append(convertHtml(text));
-            b.append(HtmlTableFileSpec.TABLE_DATA_END);
+            b.append(TABLE_DATA_END);
         }
 
         return b;
@@ -93,26 +95,26 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
             writeLineSeparator(fileSpec.lineSeparator());
         }
 
-        writeStringRow(HtmlTableFileSpec.TABLE_BEGIN);
-        writeStringRow(HtmlTableFileSpec.TABLE_ROW_BEGIN);
+        writeStringRow(TABLE_BEGIN);
+        writeStringRow(TABLE_ROW_BEGIN);
         writeStringBuilderRow(buildHeaderRow());
-        writeStringRow(HtmlTableFileSpec.TABLE_ROW_END);
+        writeStringRow(TABLE_ROW_END);
     }
 
     @Override
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        writeStringRow(HtmlTableFileSpec.TABLE_ROW_BEGIN);
+        writeStringRow(TABLE_ROW_BEGIN);
         writeStringBuilderRow(buildRecordRow(record));
-        writeStringRow(HtmlTableFileSpec.TABLE_ROW_END);
+        writeStringRow(TABLE_ROW_END);
     }
 
     @Override
     public void writeAfter() throws IOException {
         super.writeAfter();
 
-        writeStringRow(HtmlTableFileSpec.TABLE_END);
+        writeStringRow(TABLE_END);
 
         if (fileSpec.getAfterTable() != null) {
             writeString(fileSpec.getAfterTable());

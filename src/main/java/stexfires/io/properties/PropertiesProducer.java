@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
+import static stexfires.io.properties.PropertiesFileSpec.ESCAPE_CHAR;
+import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_LENGTH;
+import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_RADIX;
 // TODO chars and codePoints
 
 /**
@@ -20,10 +23,7 @@ import java.util.Optional;
 @SuppressWarnings("HardcodedLineSeparator")
 public final class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
-    private static final char ESCAPE_CHAR = '\\';
     private static final int ILLEGAL_INDEX = -1;
-    private static final int UNICODE_ENCODE_LENGTH = 4;
-    private static final int UNICODE_ENCODE_RADIX = 16;
 
     private final PropertiesFileSpec fileSpec;
 

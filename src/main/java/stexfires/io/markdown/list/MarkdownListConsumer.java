@@ -9,6 +9,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
+import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_DASH;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_NUMBER;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_STAR;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.FILL_CHARACTER;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.START_NUMBER;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -35,7 +41,7 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         }
 
         // Init currentNumber
-        currentNumber = MarkdownListFileSpec.START_NUMBER;
+        currentNumber = START_NUMBER;
     }
 
     @Override
@@ -47,13 +53,13 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
             switch (fileSpec.getBulletPoint()) {
                 case NUMBER -> {
                     writeString(String.valueOf(currentNumber));
-                    writeString(MarkdownListFileSpec.BULLET_POINT_NUMBER);
+                    writeString(BULLET_POINT_NUMBER);
                     currentNumber++;
                 }
-                case STAR -> writeString(MarkdownListFileSpec.BULLET_POINT_STAR);
-                case DASH -> writeString(MarkdownListFileSpec.BULLET_POINT_DASH);
+                case STAR -> writeString(BULLET_POINT_STAR);
+                case DASH -> writeString(BULLET_POINT_DASH);
             }
-            writeString(MarkdownListFileSpec.FILL_CHARACTER);
+            writeString(FILL_CHARACTER);
             if (value != null) {
                 writeString(value);
             }

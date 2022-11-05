@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 
+import static stexfires.util.Alignment.START;
+
 /**
  * @author Mathias Kalb
  * @since 0.1
@@ -31,7 +33,7 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     public static final int COLUMN_MIN_WIDTH = 5;
 
     // DEFAULT - write
-    public static final Alignment DEFAULT_ALIGNMENT = Alignment.START;
+    public static final Alignment DEFAULT_ALIGNMENT = START;
 
     // FIELD - both
     private final List<MarkdownTableFieldSpec> fieldSpecs;

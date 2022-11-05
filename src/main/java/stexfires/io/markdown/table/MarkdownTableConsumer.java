@@ -20,6 +20,9 @@ import static stexfires.io.markdown.table.MarkdownTableFileSpec.FIELD_DELIMITER;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.FILL_CHARACTER;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.HEADER_DELIMITER;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.LAST_FIELD_DELIMITER;
+import static stexfires.util.Alignment.CENTER;
+import static stexfires.util.Alignment.END;
+import static stexfires.util.Alignment.START;
 
 /**
  * @author Mathias Kalb
@@ -74,14 +77,14 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             // header underline
             Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.getAlignment();
 
-            if (fieldAlignment != Alignment.END) {
+            if (fieldAlignment != END) {
                 b.append(ALIGNMENT_INDICATOR);
             }
 
-            int valueWidth = (fieldAlignment == Alignment.CENTER) ? 2 : 1;
+            int valueWidth = (fieldAlignment == CENTER) ? 2 : 1;
             b.append(HEADER_DELIMITER.repeat(Math.max(0, fieldSpec.minWidth() - valueWidth)));
 
-            if (fieldAlignment != Alignment.START) {
+            if (fieldAlignment != START) {
                 b.append(ALIGNMENT_INDICATOR);
             }
 

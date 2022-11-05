@@ -21,6 +21,14 @@ import java.util.Objects;
  */
 public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
+    public static final String DELIMITER = "=";
+    public static final String COMMENT_PREFIX = "#";
+    public static final int FIRST_NON_ESCAPED_CHAR = 0x0020;
+    public static final int LAST_NON_ESCAPED_CHAR = 0x007e;
+    public static final char ESCAPE_CHAR = '\\';
+    public static final int UNICODE_ENCODE_LENGTH = 4;
+    public static final int UNICODE_ENCODE_RADIX = 16;
+
     // DEFAULT - PropertiesFieldSpec
     public static final String DEFAULT_READ_NULL_VALUE_REPLACEMENT = "";
     public static final String DEFAULT_WRITE_NULL_VALUE_REPLACEMENT = "";
