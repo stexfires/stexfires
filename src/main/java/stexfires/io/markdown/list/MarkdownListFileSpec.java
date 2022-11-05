@@ -38,9 +38,9 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
                                 @Nullable String decoderReplacement, @Nullable String encoderReplacement,
                                 LineSeparator lineSeparator,
-                                @Nullable String writeBefore, @Nullable String writeAfter,
+                                @Nullable String textBefore, @Nullable String textAfter,
                                 BulletPoint bulletPoint, boolean skipNullValue) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(bulletPoint);
 
         // write
@@ -69,24 +69,24 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
 
     public static MarkdownListFileSpec write(Charset charset,
                                              LineSeparator lineSeparator,
-                                             @Nullable String beforeList, @Nullable String afterList,
+                                             @Nullable String textBefore, @Nullable String textAfter,
                                              BulletPoint bulletPoint, boolean skipNullValue) {
         return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
                 lineSeparator,
-                beforeList, afterList,
+                textBefore, textAfter,
                 bulletPoint, skipNullValue);
     }
 
     public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
                                              @Nullable String encoderReplacement,
                                              LineSeparator lineSeparator,
-                                             @Nullable String beforeList, @Nullable String afterList,
+                                             @Nullable String textBefore, @Nullable String textAfter,
                                              BulletPoint bulletPoint, boolean skipNullValue) {
         return new MarkdownListFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
                 lineSeparator,
-                beforeList, afterList,
+                textBefore, textAfter,
                 bulletPoint, skipNullValue);
     }
 

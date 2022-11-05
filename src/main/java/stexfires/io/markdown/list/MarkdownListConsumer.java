@@ -35,8 +35,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
     public void writeBefore() throws IOException {
         super.writeBefore();
 
-        if (fileSpec.getWriteBefore() != null) {
-            writeString(fileSpec.getWriteBefore());
+        if (fileSpec.textBefore() != null) {
+            writeString(fileSpec.textBefore());
             writeLineSeparator(fileSpec.lineSeparator());
         }
 
@@ -71,8 +71,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
     public void writeAfter() throws IOException {
         super.writeAfter();
 
-        if (fileSpec.getWriteAfter() != null) {
-            writeString(fileSpec.getWriteAfter());
+        if (fileSpec.textAfter() != null) {
+            writeString(fileSpec.textAfter());
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

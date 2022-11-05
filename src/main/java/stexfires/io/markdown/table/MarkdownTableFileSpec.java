@@ -47,10 +47,10 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
                                  @Nullable String encoderReplacement,
                                  LineSeparator lineSeparator,
                                  List<MarkdownTableFieldSpec> fieldSpecs,
-                                 @Nullable String writeBefore,
-                                 @Nullable String writeAfter,
+                                 @Nullable String textBefore,
+                                 @Nullable String textAfter,
                                  Alignment alignment) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
 
@@ -86,13 +86,13 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     public static MarkdownTableFileSpec write(Charset charset,
                                               LineSeparator lineSeparator,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
-                                              @Nullable String beforeTable,
-                                              @Nullable String afterTable,
+                                              @Nullable String textBefore,
+                                              @Nullable String textAfter,
                                               Alignment alignment) {
         return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
                 lineSeparator, fieldSpecs,
-                beforeTable, afterTable, alignment
+                textBefore, textAfter, alignment
         );
     }
 
@@ -100,13 +100,13 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
                                               @Nullable String encoderReplacement,
                                               LineSeparator lineSeparator,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
-                                              @Nullable String beforeTable,
-                                              @Nullable String afterTable,
+                                              @Nullable String textBefore,
+                                              @Nullable String textAfter,
                                               Alignment alignment) {
         return new MarkdownTableFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
                 lineSeparator, fieldSpecs,
-                beforeTable, afterTable, alignment
+                textBefore, textAfter, alignment
         );
     }
 

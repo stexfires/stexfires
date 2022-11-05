@@ -40,10 +40,10 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
                              @Nullable String encoderReplacement,
                              LineSeparator lineSeparator,
                              List<HtmlTableFieldSpec> fieldSpecs,
-                             @Nullable String writeBefore,
-                             @Nullable String writeAfter,
+                             @Nullable String textBefore,
+                             @Nullable String textAfter,
                              @Nullable String indentation) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, writeBefore, writeAfter);
+        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(fieldSpecs);
 
         // both
@@ -56,13 +56,13 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     public static HtmlTableFileSpec write(Charset charset,
                                           LineSeparator lineSeparator,
                                           List<HtmlTableFieldSpec> fieldSpecs,
-                                          @Nullable String beforeTable,
-                                          @Nullable String afterTable,
+                                          @Nullable String textBefore,
+                                          @Nullable String textAfter,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
                 null, null,
                 lineSeparator, fieldSpecs,
-                beforeTable, afterTable, indentation);
+                textBefore, textAfter, indentation);
     }
 
     public static HtmlTableFileSpec write(Charset charset,
@@ -70,13 +70,13 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
                                           @Nullable String encoderReplacement,
                                           LineSeparator lineSeparator,
                                           List<HtmlTableFieldSpec> fieldSpecs,
-                                          @Nullable String beforeTable,
-                                          @Nullable String afterTable,
+                                          @Nullable String textBefore,
+                                          @Nullable String textAfter,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(charset, codingErrorAction,
                 null, encoderReplacement,
                 lineSeparator, fieldSpecs,
-                beforeTable, afterTable, indentation);
+                textBefore, textAfter, indentation);
     }
 
     @Override
