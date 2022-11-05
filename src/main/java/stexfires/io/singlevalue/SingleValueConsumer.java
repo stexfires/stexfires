@@ -17,8 +17,8 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
 
     private final SingleValueFileSpec fileSpec;
 
-    public SingleValueConsumer(BufferedWriter writer, SingleValueFileSpec fileSpec) {
-        super(writer);
+    public SingleValueConsumer(BufferedWriter bufferedWriter, SingleValueFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -31,7 +31,7 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
         if (value != null) {
             writeString(value);
             writeLineSeparator(fileSpec.lineSeparator());
-        } else if (!fileSpec.isSkipNullValue()) {
+        } else if (!fileSpec.skipNullValue()) {
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

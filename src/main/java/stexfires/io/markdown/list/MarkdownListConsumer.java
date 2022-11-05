@@ -25,8 +25,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
 
     private long currentNumber;
 
-    public MarkdownListConsumer(BufferedWriter writer, MarkdownListFileSpec fileSpec) {
-        super(writer);
+    public MarkdownListConsumer(BufferedWriter bufferedWriter, MarkdownListFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -49,8 +49,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         super.writeRecord(record);
 
         String value = record.value();
-        if (value != null || !fileSpec.isSkipNullValue()) {
-            switch (fileSpec.getBulletPoint()) {
+        if (value != null || !fileSpec.skipNullValue()) {
+            switch (fileSpec.bulletPoint()) {
                 case NUMBER -> {
                     writeString(String.valueOf(currentNumber));
                     writeString(BULLET_POINT_NUMBER);

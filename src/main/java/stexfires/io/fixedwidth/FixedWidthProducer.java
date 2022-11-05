@@ -30,8 +30,8 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
 
     private final FixedWidthFileSpec fileSpec;
 
-    public FixedWidthProducer(BufferedReader reader, FixedWidthFileSpec fileSpec) {
-        super(reader);
+    public FixedWidthProducer(BufferedReader bufferedReader, FixedWidthFileSpec fileSpec) {
+        super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -58,7 +58,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new FixedWidthIterator(getReader(), fileSpec);
+        return new FixedWidthIterator(bufferedReader(), fileSpec);
     }
 
     @Override
@@ -66,17 +66,17 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         TextRecord record = null;
         String rawData = recordRawData.rawData();
 
-        boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
+        boolean skipEmptyLine = fileSpec.skipEmptyLines() && rawData.isEmpty();
 
         if (!skipEmptyLine) {
-            int dataLength = Math.min(rawData.length(), fileSpec.getRecordWidth());
+            int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
             boolean nonEmptyFound = false;
 
             // Convert rawData to values
-            List<String> texts = new ArrayList<>(fileSpec.getFieldSpecs().size());
-            for (FixedWidthFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
-                Character fillCharacter = fieldSpec.fillCharacter() != null ? fieldSpec.fillCharacter() : fileSpec.getFillCharacter();
-                Alignment alignment = fieldSpec.alignment() != null ? fieldSpec.alignment() : fileSpec.getAlignment();
+            List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+            for (FixedWidthFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+                Character fillCharacter = fieldSpec.fillCharacter() != null ? fieldSpec.fillCharacter() : fileSpec.fillCharacter();
+                Alignment alignment = fieldSpec.alignment() != null ? fieldSpec.alignment() : fileSpec.alignment();
 
                 int beginIndex = Math.max(fieldSpec.startIndex(), 0);
                 int endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
@@ -91,7 +91,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
                 texts.add(text);
             }
 
-            boolean skipAllNullOrEmpty = fileSpec.isSkipAllNullOrEmpty() && !nonEmptyFound;
+            boolean skipAllNullOrEmpty = fileSpec.skipAllNullOrEmpty() && !nonEmptyFound;
 
             if (!skipAllNullOrEmpty) {
                 record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
@@ -106,13 +106,13 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         private final FixedWidthFileSpec fileSpec;
 
         private FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
-            super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
+            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
             this.fileSpec = fileSpec;
         }
 
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
-            if (fileSpec.isSeparateRecordsByLineSeparator()) {
+            if (fileSpec.separateRecordsByLineSeparator()) {
                 return readNextRecordRawDataLines(reader, recordIndex);
             } else {
                 return readNextRecordRawDataWidth(reader, recordIndex);
@@ -127,7 +127,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         }
 
         private Optional<RecordRawData> readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
-            char[] c = new char[fileSpec.getRecordWidth()];
+            char[] c = new char[fileSpec.recordWidth()];
             int r = reader.read(c);
             if (r < 0) {
                 return Optional.empty();

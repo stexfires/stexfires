@@ -23,8 +23,8 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
 
     private final HtmlTableFileSpec fileSpec;
 
-    public HtmlTableConsumer(BufferedWriter writer, HtmlTableFileSpec fileSpec) {
-        super(writer);
+    public HtmlTableConsumer(BufferedWriter bufferedWriter, HtmlTableFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -44,7 +44,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (HtmlTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
+        for (HtmlTableFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
             b.append(TABLE_HEADER_BEGIN);
             b.append(convertHtml(fieldSpec.name()));
             b.append(TABLE_HEADER_END);
@@ -56,7 +56,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     private StringBuilder buildRecordRow(TextRecord record) {
         StringBuilder b = new StringBuilder();
 
-        List<HtmlTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
+        List<HtmlTableFieldSpec> fieldSpecs = fileSpec.fieldSpecs();
         List<TextField> fields = record.listOfFields();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
@@ -71,16 +71,16 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     }
 
     private void writeStringRow(String tableRow) throws IOException {
-        if (fileSpec.getIndentation() != null) {
-            writeString(fileSpec.getIndentation());
+        if (fileSpec.indentation() != null) {
+            writeString(fileSpec.indentation());
         }
         writeString(tableRow);
         writeLineSeparator(fileSpec.lineSeparator());
     }
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
-        if (fileSpec.getIndentation() != null) {
-            writeString(fileSpec.getIndentation());
+        if (fileSpec.indentation() != null) {
+            writeString(fileSpec.indentation());
         }
         writeCharSequence(tableRow);
         writeLineSeparator(fileSpec.lineSeparator());

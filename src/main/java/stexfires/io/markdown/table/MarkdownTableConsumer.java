@@ -34,8 +34,8 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
 
     private final Pattern escapePattern;
 
-    public MarkdownTableConsumer(BufferedWriter writer, MarkdownTableFileSpec fileSpec) {
-        super(writer);
+    public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
         escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
@@ -44,7 +44,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
+        for (MarkdownTableFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
             b.append(FIELD_DELIMITER);
 
             // header name
@@ -72,11 +72,11 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     private StringBuilder buildSubHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (MarkdownTableFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
+        for (MarkdownTableFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
             b.append(FIELD_DELIMITER);
 
             // header underline
-            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.getAlignment();
+            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.alignment();
 
             if (fieldAlignment != END) {
                 b.append(ALIGNMENT_INDICATOR);
@@ -102,7 +102,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     private StringBuilder buildRecordRow(TextRecord record) {
         StringBuilder b = new StringBuilder();
 
-        List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.getFieldSpecs();
+        List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.fieldSpecs();
         List<TextField> fields = record.listOfFields();
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {

@@ -84,11 +84,11 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
         return new HtmlTableConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public List<HtmlTableFieldSpec> getFieldSpecs() {
+    public List<HtmlTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public @Nullable String getIndentation() {
+    public @Nullable String indentation() {
         return indentation;
     }
 

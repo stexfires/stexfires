@@ -162,31 +162,31 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
         return new PropertiesConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public List<PropertiesFieldSpec> getFieldSpecs() {
+    public List<PropertiesFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public PropertiesFieldSpec getValueSpec() {
+    public PropertiesFieldSpec valueSpec() {
         return fieldSpecs.get(KeyValueFieldsRecord.VALUE_INDEX);
     }
 
-    public boolean isCommentAsCategory() {
+    public boolean commentAsCategory() {
         return commentAsCategory;
     }
 
-    public boolean isEscapeUnicode() {
+    public boolean escapeUnicode() {
         return escapeUnicode;
     }
 
-    public boolean isDateComment() {
+    public boolean dateComment() {
         return dateComment;
     }
 
-    public boolean isCategoryAsKeyPrefix() {
+    public boolean categoryAsKeyPrefix() {
         return categoryAsKeyPrefix;
     }
 
-    public String getKeyPrefixDelimiter() {
+    public String keyPrefixDelimiter() {
         return keyPrefixDelimiter;
     }
 

@@ -22,32 +22,32 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
  */
 public abstract class AbstractWritableConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
 
-    private final BufferedWriter writer;
+    private final BufferedWriter bufferedWriter;
 
     private WritableConsumerState state;
 
-    protected AbstractWritableConsumer(BufferedWriter writer) {
-        Objects.requireNonNull(writer);
-        this.writer = writer;
+    protected AbstractWritableConsumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
+        this.bufferedWriter = bufferedWriter;
         state = OPEN;
     }
 
     protected final void writeString(String str) throws IOException {
         Objects.requireNonNull(str);
         state.validateNotClosed();
-        writer.write(str);
+        bufferedWriter.write(str);
     }
 
     protected final void writeLineSeparator(LineSeparator lineSeparator) throws IOException {
         Objects.requireNonNull(lineSeparator);
         state.validateNotClosed();
-        writer.write(lineSeparator.string());
+        bufferedWriter.write(lineSeparator.string());
     }
 
     protected final void writeCharSequence(CharSequence charSequence) throws IOException {
         Objects.requireNonNull(charSequence);
         state.validateNotClosed();
-        writer.append(charSequence);
+        bufferedWriter.append(charSequence);
     }
 
     @Override
@@ -68,13 +68,17 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     @Override
     public final void flush() throws IOException {
         state.validateNotClosed();
-        writer.flush();
+        bufferedWriter.flush();
     }
 
     @Override
     public final void close() throws IOException {
         state = CLOSE.validate(state);
-        writer.close();
+        bufferedWriter.close();
+    }
+
+    protected final BufferedWriter bufferedWriter() {
+        return bufferedWriter;
     }
 
 }

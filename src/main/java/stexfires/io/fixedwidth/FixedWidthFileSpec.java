@@ -150,39 +150,39 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
         return new FixedWidthConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public int getRecordWidth() {
+    public int recordWidth() {
         return recordWidth;
     }
 
-    public boolean isSeparateRecordsByLineSeparator() {
+    public boolean separateRecordsByLineSeparator() {
         return separateRecordsByLineSeparator;
     }
 
-    public Alignment getAlignment() {
+    public Alignment alignment() {
         return alignment;
     }
 
-    public Character getFillCharacter() {
+    public Character fillCharacter() {
         return fillCharacter;
     }
 
-    public List<FixedWidthFieldSpec> getFieldSpecs() {
+    public List<FixedWidthFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public int getIgnoreFirst() {
+    public int ignoreFirst() {
         return ignoreFirst;
     }
 
-    public int getIgnoreLast() {
+    public int ignoreLast() {
         return ignoreLast;
     }
 
-    public boolean isSkipEmptyLines() {
+    public boolean skipEmptyLines() {
         return skipEmptyLines;
     }
 
-    public boolean isSkipAllNullOrEmpty() {
+    public boolean skipAllNullOrEmpty() {
         return skipAllNullOrEmpty;
     }
 

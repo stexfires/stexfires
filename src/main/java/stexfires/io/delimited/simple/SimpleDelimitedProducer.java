@@ -23,15 +23,15 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
 
     private final SimpleDelimitedFileSpec fileSpec;
 
-    public SimpleDelimitedProducer(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
-        super(reader);
+    public SimpleDelimitedProducer(BufferedReader bufferedReader, SimpleDelimitedFileSpec fileSpec) {
+        super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new SimpleDelimitedIterator(getReader(), fileSpec);
+        return new SimpleDelimitedIterator(bufferedReader(), fileSpec);
     }
 
     @Override
@@ -39,7 +39,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         TextRecord record = null;
         String rawData = recordRawData.rawData();
 
-        boolean skipEmptyLine = fileSpec.isSkipEmptyLines() && rawData.isEmpty();
+        boolean skipEmptyLine = fileSpec.skipEmptyLines() && rawData.isEmpty();
 
         if (!skipEmptyLine) {
             boolean nonEmptyFound = false;
@@ -47,11 +47,11 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
             // Convert rawData to values
             int beginIndex = 0;
             int endIndex;
-            List<String> texts = new ArrayList<>(fileSpec.getFieldSpecs().size());
-            for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.getFieldSpecs()) {
+            List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+            for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
                 String text = NO_TEXT;
 
-                endIndex = rawData.indexOf(fileSpec.getFieldDelimiter(), beginIndex);
+                endIndex = rawData.indexOf(fileSpec.fieldDelimiter(), beginIndex);
                 if (endIndex == -1) {
                     endIndex = rawData.length();
                 }
@@ -64,7 +64,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
                 texts.add(text);
             }
 
-            boolean skipAllNull = fileSpec.isSkipAllNull() && !nonEmptyFound;
+            boolean skipAllNull = fileSpec.skipAllNull() && !nonEmptyFound;
 
             if (!skipAllNull) {
                 record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
@@ -77,7 +77,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
     private static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
 
         private SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
-            super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
+            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
         }
 
         @Override

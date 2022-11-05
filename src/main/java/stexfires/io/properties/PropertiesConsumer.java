@@ -25,8 +25,8 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
 
     private final PropertiesFileSpec fileSpec;
 
-    public PropertiesConsumer(BufferedWriter writer, PropertiesFileSpec fileSpec) {
-        super(writer);
+    public PropertiesConsumer(BufferedWriter bufferedWriter, PropertiesFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -80,7 +80,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
     public void writeBefore() throws IOException {
         super.writeBefore();
 
-        if (fileSpec.isDateComment()) {
+        if (fileSpec.dateComment()) {
             writeString(COMMENT_PREFIX);
             writeString(new Date().toString());
             writeLineSeparator(fileSpec.lineSeparator());
@@ -93,15 +93,15 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         super.writeRecord(record);
 
         String key;
-        if (fileSpec.isCategoryAsKeyPrefix() && record.hasCategory()) {
-            key = record.category() + fileSpec.getKeyPrefixDelimiter() + record.key();
+        if (fileSpec.categoryAsKeyPrefix() && record.hasCategory()) {
+            key = record.category() + fileSpec.keyPrefixDelimiter() + record.key();
         } else {
             key = record.key();
         }
-        writeString(convertKey(key, fileSpec.isEscapeUnicode()));
+        writeString(convertKey(key, fileSpec.escapeUnicode()));
         writeString(DELIMITER);
-        writeString(convertValue(record.valueField().orElse(fileSpec.getValueSpec().writeNullReplacement()),
-                fileSpec.isEscapeUnicode()));
+        writeString(convertValue(record.valueField().orElse(fileSpec.valueSpec().writeNullReplacement()),
+                fileSpec.escapeUnicode()));
         writeLineSeparator(fileSpec.lineSeparator());
     }
 

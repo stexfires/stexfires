@@ -27,15 +27,15 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
 
     private final PropertiesFileSpec fileSpec;
 
-    public PropertiesProducer(BufferedReader reader, PropertiesFileSpec fileSpec) {
-        super(reader);
+    public PropertiesProducer(BufferedReader bufferedReader, PropertiesFileSpec fileSpec) {
+        super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new PropertiesIterator(getReader());
+        return new PropertiesIterator(bufferedReader());
     }
 
     @Override
@@ -43,11 +43,11 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
         String[] keyValue = splitLine(recordRawData.rawData());
 
         return createRecord(
-                fileSpec.isCommentAsCategory() ? recordRawData.category() : null,
+                fileSpec.commentAsCategory() ? recordRawData.category() : null,
                 recordRawData.recordId(),
                 decode(keyValue[0]),
                 decode(keyValue[1]),
-                fileSpec.getValueSpec().readNullReplacement());
+                fileSpec.valueSpec().readNullReplacement());
     }
 
     private static String[] splitLine(String line) {

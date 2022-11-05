@@ -81,7 +81,7 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
         return new ConfigConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public String getValueDelimiter() {
+    public String valueDelimiter() {
         return valueDelimiter;
     }
 

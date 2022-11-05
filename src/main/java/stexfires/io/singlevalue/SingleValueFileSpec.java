@@ -144,19 +144,19 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
         return new SingleValueConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public boolean isSkipEmptyLines() {
+    public boolean skipEmptyLines() {
         return skipEmptyLines;
     }
 
-    public int getIgnoreFirst() {
+    public int ignoreFirst() {
         return ignoreFirst;
     }
 
-    public int getIgnoreLast() {
+    public int ignoreLast() {
         return ignoreLast;
     }
 
-    public boolean isSkipNullValue() {
+    public boolean skipNullValue() {
         return skipNullValue;
     }
 

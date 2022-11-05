@@ -19,8 +19,8 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
 
     private final SimpleDelimitedFileSpec fileSpec;
 
-    public SimpleDelimitedConsumer(BufferedWriter writer, SimpleDelimitedFileSpec fileSpec) {
-        super(writer);
+    public SimpleDelimitedConsumer(BufferedWriter bufferedWriter, SimpleDelimitedFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -57,8 +57,8 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
         super.writeRecord(record);
 
         writeString(createRecordString(
-                fileSpec.getFieldDelimiter(),
-                fileSpec.getFieldSpecs(),
+                fileSpec.fieldDelimiter(),
+                fileSpec.fieldSpecs(),
                 record.listOfFields()));
         writeLineSeparator(fileSpec.lineSeparator());
     }

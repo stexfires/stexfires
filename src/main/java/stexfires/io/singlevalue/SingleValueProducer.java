@@ -19,21 +19,21 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
     private final SingleValueFileSpec fileSpec;
 
-    public SingleValueProducer(BufferedReader reader, SingleValueFileSpec fileSpec) {
-        super(reader);
+    public SingleValueProducer(BufferedReader bufferedReader, SingleValueFileSpec fileSpec) {
+        super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new SingleValueIterator(getReader(), fileSpec);
+        return new SingleValueIterator(bufferedReader(), fileSpec);
     }
 
     @Override
     protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) {
         ValueRecord record;
-        if (fileSpec.isSkipEmptyLines() && recordRawData.rawData().isEmpty()) {
+        if (fileSpec.skipEmptyLines() && recordRawData.rawData().isEmpty()) {
             // skip empty line
             record = null;
         } else {
@@ -47,7 +47,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
     private static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
         private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
-            super(reader, fileSpec.getIgnoreFirst(), fileSpec.getIgnoreLast());
+            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
         }
 
         @Override

@@ -129,27 +129,27 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
         return new SimpleDelimitedConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public String getFieldDelimiter() {
+    public String fieldDelimiter() {
         return fieldDelimiter;
     }
 
-    public List<SimpleDelimitedFieldSpec> getFieldSpecs() {
+    public List<SimpleDelimitedFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public int getIgnoreFirst() {
+    public int ignoreFirst() {
         return ignoreFirst;
     }
 
-    public int getIgnoreLast() {
+    public int ignoreLast() {
         return ignoreLast;
     }
 
-    public boolean isSkipEmptyLines() {
+    public boolean skipEmptyLines() {
         return skipEmptyLines;
     }
 
-    public boolean isSkipAllNull() {
+    public boolean skipAllNull() {
         return skipAllNull;
     }
 

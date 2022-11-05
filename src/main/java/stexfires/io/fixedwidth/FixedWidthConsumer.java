@@ -21,8 +21,8 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
 
     private final FixedWidthFileSpec fileSpec;
 
-    public FixedWidthConsumer(BufferedWriter writer, FixedWidthFileSpec fileSpec) {
-        super(writer);
+    public FixedWidthConsumer(BufferedWriter bufferedWriter, FixedWidthFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -103,13 +103,13 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         super.writeRecord(record);
 
         writeString(createRecordString(
-                fileSpec.getRecordWidth(),
-                fileSpec.getFillCharacter(),
-                fileSpec.getAlignment(),
-                fileSpec.getFieldSpecs(),
+                fileSpec.recordWidth(),
+                fileSpec.fillCharacter(),
+                fileSpec.alignment(),
+                fileSpec.fieldSpecs(),
                 record.listOfFields()));
 
-        if (fileSpec.isSeparateRecordsByLineSeparator()) {
+        if (fileSpec.separateRecordsByLineSeparator()) {
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

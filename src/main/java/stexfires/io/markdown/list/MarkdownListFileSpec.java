@@ -95,11 +95,11 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
         return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public BulletPoint getBulletPoint() {
+    public BulletPoint bulletPoint() {
         return bulletPoint;
     }
 
-    public boolean isSkipNullValue() {
+    public boolean skipNullValue() {
         return skipNullValue;
     }
 

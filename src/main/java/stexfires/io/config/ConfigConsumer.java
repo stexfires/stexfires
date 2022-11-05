@@ -24,8 +24,8 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecor
 
     private String currentCategory;
 
-    public ConfigConsumer(BufferedWriter writer, ConfigFileSpec fileSpec) {
-        super(writer);
+    public ConfigConsumer(BufferedWriter bufferedWriter, ConfigFileSpec fileSpec) {
+        super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
@@ -50,7 +50,7 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecor
         }
 
         writeString(record.key());
-        writeString(fileSpec.getValueDelimiter());
+        writeString(fileSpec.valueDelimiter());
         writeString(record.valueField().orElse(NULL_VALUE));
         writeLineSeparator(fileSpec.lineSeparator());
     }

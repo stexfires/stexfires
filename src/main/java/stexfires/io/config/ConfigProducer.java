@@ -22,15 +22,15 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
 
     private final ConfigFileSpec fileSpec;
 
-    public ConfigProducer(BufferedReader reader, ConfigFileSpec fileSpec) {
-        super(reader);
+    public ConfigProducer(BufferedReader bufferedReader, ConfigFileSpec fileSpec) {
+        super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
     }
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new ConfigIterator(getReader());
+        return new ConfigIterator(bufferedReader());
     }
 
     @Override
@@ -38,7 +38,7 @@ public final class ConfigProducer extends AbstractReadableProducer<KeyValueRecor
         String rawData = recordRawData.rawData();
         String key;
         String value;
-        int index = rawData.indexOf(fileSpec.getValueDelimiter());
+        int index = rawData.indexOf(fileSpec.valueDelimiter());
         if (index >= 0) {
             key = rawData.substring(0, index);
             value = rawData.substring(index + 1);

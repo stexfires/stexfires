@@ -115,11 +115,11 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
         return new MarkdownTableConsumer(newBufferedWriter(outputStream), this);
     }
 
-    public List<MarkdownTableFieldSpec> getFieldSpecs() {
+    public List<MarkdownTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 
-    public Alignment getAlignment() {
+    public Alignment alignment() {
         return alignment;
     }
 
