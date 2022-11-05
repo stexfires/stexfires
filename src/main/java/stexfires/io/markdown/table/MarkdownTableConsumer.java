@@ -31,6 +31,7 @@ import static stexfires.util.Alignment.START;
 public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private final MarkdownTableFileSpec fileSpec;
+
     private final Pattern escapePattern;
 
     public MarkdownTableConsumer(BufferedWriter writer, MarkdownTableFileSpec fileSpec) {
