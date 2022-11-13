@@ -8,13 +8,17 @@ import stexfires.util.LineSeparator;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends CTR> extends BaseRecordFileSpec {
+public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends CTR> implements RecordFileSpec {
 
+    private final CharsetCoding charsetCoding;
+
+    private final LineSeparator lineSeparator;
     private final String textBefore;
     private final String textAfter;
 
@@ -22,8 +26,10 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
                                              LineSeparator lineSeparator,
                                              @Nullable String textBefore,
                                              @Nullable String textAfter) {
-        super(charsetCoding,
-                lineSeparator);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
         this.textBefore = textBefore;
         this.textAfter = textAfter;
     }
@@ -46,6 +52,16 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
 
     public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
         throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
+    }
+
+    @Override
+    public final CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public final LineSeparator lineSeparator() {
+        return lineSeparator;
     }
 
     public final @Nullable String textBefore() {
