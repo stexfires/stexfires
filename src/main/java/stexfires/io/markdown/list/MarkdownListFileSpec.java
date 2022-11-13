@@ -3,11 +3,10 @@ package stexfires.io.markdown.list;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.ValueRecord;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.util.Objects;
 
 /**
@@ -35,12 +34,13 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     private final BulletPoint bulletPoint;
     private final boolean skipNullValue;
 
-    public MarkdownListFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+    public MarkdownListFileSpec(CharsetCoding charsetCoding,
                                 LineSeparator lineSeparator,
-                                @Nullable String textBefore, @Nullable String textAfter,
-                                BulletPoint bulletPoint, boolean skipNullValue) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
+                                @Nullable String textBefore,
+                                @Nullable String textAfter,
+                                BulletPoint bulletPoint,
+                                boolean skipNullValue) {
+        super(charsetCoding, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(bulletPoint);
 
         // write
@@ -48,51 +48,33 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
         this.skipNullValue = skipNullValue;
     }
 
-    public static MarkdownListFileSpec write(Charset charset,
+    public static MarkdownListFileSpec write(CharsetCoding charsetCoding,
                                              LineSeparator lineSeparator) {
-        return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
+        return new MarkdownListFileSpec(charsetCoding,
                 lineSeparator,
-                null, null,
-                DEFAULT_BULLET_POINT, DEFAULT_SKIP_NULL_VALUE);
+                null,
+                null,
+                DEFAULT_BULLET_POINT,
+                DEFAULT_SKIP_NULL_VALUE);
     }
 
-    public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                             @Nullable String encoderReplacement,
-                                             LineSeparator lineSeparator) {
-        return new MarkdownListFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator,
-                null, null,
-                DEFAULT_BULLET_POINT, DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static MarkdownListFileSpec write(Charset charset,
+    public static MarkdownListFileSpec write(CharsetCoding charsetCoding,
                                              LineSeparator lineSeparator,
-                                             @Nullable String textBefore, @Nullable String textAfter,
-                                             BulletPoint bulletPoint, boolean skipNullValue) {
-        return new MarkdownListFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
+                                             @Nullable String textBefore,
+                                             @Nullable String textAfter,
+                                             BulletPoint bulletPoint,
+                                             boolean skipNullValue) {
+        return new MarkdownListFileSpec(charsetCoding,
                 lineSeparator,
-                textBefore, textAfter,
-                bulletPoint, skipNullValue);
-    }
-
-    public static MarkdownListFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                             @Nullable String encoderReplacement,
-                                             LineSeparator lineSeparator,
-                                             @Nullable String textBefore, @Nullable String textAfter,
-                                             BulletPoint bulletPoint, boolean skipNullValue) {
-        return new MarkdownListFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator,
-                textBefore, textAfter,
-                bulletPoint, skipNullValue);
+                textBefore,
+                textAfter,
+                bulletPoint,
+                skipNullValue);
     }
 
     @Override
     public MarkdownListConsumer consumer(OutputStream outputStream) {
-        return new MarkdownListConsumer(newBufferedWriter(outputStream), this);
+        return new MarkdownListConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public BulletPoint bulletPoint() {

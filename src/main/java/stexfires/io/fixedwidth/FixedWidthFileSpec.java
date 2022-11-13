@@ -1,15 +1,13 @@
 package stexfires.io.fixedwidth;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,15 +38,16 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
     private final boolean skipEmptyLines;
     private final boolean skipAllNullOrEmpty;
 
-    public FixedWidthFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
-                              int recordWidth, boolean separateRecordsByLineSeparator,
-                              Alignment alignment, Character fillCharacter,
+    public FixedWidthFileSpec(CharsetCoding charsetCoding,
+                              LineSeparator lineSeparator,
+                              int recordWidth,
+                              boolean separateRecordsByLineSeparator,
+                              Alignment alignment,
+                              Character fillCharacter,
                               List<FixedWidthFieldSpec> fieldSpecs,
                               int ignoreFirst, int ignoreLast,
-                              boolean skipEmptyLines, boolean skipAllNullOrEmpty,
-                              LineSeparator lineSeparator) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+                              boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
+        super(charsetCoding, lineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
@@ -76,78 +75,49 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
         this.skipAllNullOrEmpty = skipAllNullOrEmpty;
     }
 
-    public static FixedWidthFileSpec read(Charset charset,
-                                          int recordWidth, boolean separateRecordsByLineSeparator,
-                                          Alignment alignment, Character fillCharacter,
+    public static FixedWidthFileSpec read(CharsetCoding charsetCoding,
+                                          int recordWidth,
+                                          boolean separateRecordsByLineSeparator,
+                                          Alignment alignment,
+                                          Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
                                           int ignoreFirst, int ignoreLast,
                                           boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
-        return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                recordWidth, separateRecordsByLineSeparator,
-                alignment, fillCharacter,
+        return new FixedWidthFileSpec(charsetCoding,
+                DEFAULT_LINE_SEPARATOR,
+                recordWidth,
+                separateRecordsByLineSeparator,
+                alignment,
+                fillCharacter,
                 fieldSpecs,
                 ignoreFirst, ignoreLast,
-                skipEmptyLines, skipAllNullOrEmpty,
-                DEFAULT_LINE_SEPARATOR);
+                skipEmptyLines, skipAllNullOrEmpty);
     }
 
-    public static FixedWidthFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                          @Nullable String decoderReplacement,
-                                          int recordWidth, boolean separateRecordsByLineSeparator,
-                                          Alignment alignment, Character fillCharacter,
-                                          List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast,
-                                          boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
-        return new FixedWidthFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                recordWidth, separateRecordsByLineSeparator,
-                alignment, fillCharacter,
-                fieldSpecs,
-                ignoreFirst, ignoreLast,
-                skipEmptyLines, skipAllNullOrEmpty,
-                DEFAULT_LINE_SEPARATOR);
-    }
-
-    public static FixedWidthFileSpec write(Charset charset,
+    public static FixedWidthFileSpec write(CharsetCoding charsetCoding,
+                                           LineSeparator lineSeparator,
                                            int recordWidth, boolean separateRecordsByLineSeparator,
                                            Alignment alignment, Character fillCharacter,
-                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                           LineSeparator lineSeparator) {
-        return new FixedWidthFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                recordWidth, separateRecordsByLineSeparator,
-                alignment, fillCharacter,
+                                           List<FixedWidthFieldSpec> fieldSpecs) {
+        return new FixedWidthFileSpec(charsetCoding,
+                lineSeparator,
+                recordWidth,
+                separateRecordsByLineSeparator,
+                alignment,
+                fillCharacter,
                 fieldSpecs,
                 DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
-                lineSeparator);
-    }
-
-    public static FixedWidthFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                           @Nullable String encoderReplacement,
-                                           int recordWidth, boolean separateRecordsByLineSeparator,
-                                           Alignment alignment, Character fillCharacter,
-                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                           LineSeparator lineSeparator) {
-        return new FixedWidthFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                recordWidth, separateRecordsByLineSeparator,
-                alignment, fillCharacter,
-                fieldSpecs,
-                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY,
-                lineSeparator);
+                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY);
     }
 
     @Override
     public FixedWidthProducer producer(InputStream inputStream) {
-        return new FixedWidthProducer(newBufferedReader(inputStream), this);
+        return new FixedWidthProducer(charsetCoding().newBufferedReader(inputStream), this);
     }
 
     @Override
     public FixedWidthConsumer consumer(OutputStream outputStream) {
-        return new FixedWidthConsumer(newBufferedWriter(outputStream), this);
+        return new FixedWidthConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public int recordWidth() {

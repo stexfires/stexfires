@@ -1,12 +1,8 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CodingErrorAction;
 import java.util.Objects;
 
 /**
@@ -15,58 +11,26 @@ import java.util.Objects;
  */
 public class BaseRecordFileSpec implements RecordFileSpec {
 
-    private final Charset charset;
-    private final CodingErrorAction codingErrorAction;
-    private final String decoderReplacement;
-    private final byte[] encoderReplacement;
+    private final CharsetCoding charsetCoding;
+
     private final LineSeparator lineSeparator;
 
-    public BaseRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+    public BaseRecordFileSpec(CharsetCoding charsetCoding,
                               LineSeparator lineSeparator) {
-        Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
-        this.charset = charset;
-        this.codingErrorAction = codingErrorAction;
-        this.decoderReplacement = (codingErrorAction == CodingErrorAction.REPLACE
-                && decoderReplacement != null && !decoderReplacement.isEmpty()) ? decoderReplacement : null;
-        this.encoderReplacement = (codingErrorAction == CodingErrorAction.REPLACE
-                && encoderReplacement != null && !encoderReplacement.isEmpty()) ? encoderReplacement.getBytes(charset) : null;
+        this.charsetCoding = charsetCoding;
         this.lineSeparator = lineSeparator;
     }
 
     @Override
-    public final Charset charset() {
-        return charset;
-    }
-
-    @Override
-    public final CodingErrorAction codingErrorAction() {
-        return codingErrorAction;
+    public final CharsetCoding charsetCoding() {
+        return charsetCoding;
     }
 
     @Override
     public final LineSeparator lineSeparator() {
         return lineSeparator;
-    }
-
-    @Override
-    public final CharsetDecoder newCharsetDecoder() {
-        CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(codingErrorAction);
-        if (decoderReplacement != null) {
-            charsetDecoder.replaceWith(decoderReplacement);
-        }
-        return charsetDecoder;
-    }
-
-    @Override
-    public final CharsetEncoder newCharsetEncoder() {
-        CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
-        if (encoderReplacement != null) {
-            charsetEncoder.replaceWith(encoderReplacement);
-        }
-        return charsetEncoder;
     }
 
 }

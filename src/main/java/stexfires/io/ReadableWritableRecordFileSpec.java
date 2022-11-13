@@ -2,12 +2,11 @@ package stexfires.io;
 
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
 
 /**
@@ -19,23 +18,22 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
     private final String textBefore;
     private final String textAfter;
 
-    protected ReadableWritableRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                             @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+    protected ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
                                              LineSeparator lineSeparator,
-                                             @Nullable String textBefore, @Nullable String textAfter) {
-        super(charset, codingErrorAction,
-                decoderReplacement, encoderReplacement,
+                                             @Nullable String textBefore,
+                                             @Nullable String textAfter) {
+        super(charsetCoding,
                 lineSeparator);
         this.textBefore = textBefore;
         this.textAfter = textAfter;
     }
 
-    protected ReadableWritableRecordFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                                             @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+    protected ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
                                              LineSeparator lineSeparator) {
-        this(charset, codingErrorAction,
-                decoderReplacement, encoderReplacement,
-                lineSeparator, null, null);
+        this(charsetCoding,
+                lineSeparator,
+                null,
+                null);
     }
 
     public final ReadableWritableRecordFile<CTR, PTR, ?> file(Path path) {

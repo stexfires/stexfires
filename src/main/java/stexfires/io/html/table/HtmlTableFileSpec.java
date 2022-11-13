@@ -3,11 +3,10 @@ package stexfires.io.html.table;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,15 +34,13 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     // FIELD - write
     private final String indentation;
 
-    public HtmlTableFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                             @Nullable String decoderReplacement,
-                             @Nullable String encoderReplacement,
+    public HtmlTableFileSpec(CharsetCoding charsetCoding,
                              LineSeparator lineSeparator,
-                             List<HtmlTableFieldSpec> fieldSpecs,
                              @Nullable String textBefore,
                              @Nullable String textAfter,
+                             List<HtmlTableFieldSpec> fieldSpecs,
                              @Nullable String indentation) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
+        super(charsetCoding, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(fieldSpecs);
 
         // both
@@ -53,35 +50,23 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
         this.indentation = indentation;
     }
 
-    public static HtmlTableFileSpec write(Charset charset,
+    public static HtmlTableFileSpec write(CharsetCoding charsetCoding,
                                           LineSeparator lineSeparator,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
                                           @Nullable String textBefore,
                                           @Nullable String textAfter,
-                                          @Nullable String indentation) {
-        return new HtmlTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                lineSeparator, fieldSpecs,
-                textBefore, textAfter, indentation);
-    }
-
-    public static HtmlTableFileSpec write(Charset charset,
-                                          CodingErrorAction codingErrorAction,
-                                          @Nullable String encoderReplacement,
-                                          LineSeparator lineSeparator,
                                           List<HtmlTableFieldSpec> fieldSpecs,
-                                          @Nullable String textBefore,
-                                          @Nullable String textAfter,
                                           @Nullable String indentation) {
-        return new HtmlTableFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator, fieldSpecs,
-                textBefore, textAfter, indentation);
+        return new HtmlTableFileSpec(charsetCoding,
+                lineSeparator,
+                textBefore,
+                textAfter,
+                fieldSpecs,
+                indentation);
     }
 
     @Override
     public HtmlTableConsumer consumer(OutputStream outputStream) {
-        return new HtmlTableConsumer(newBufferedWriter(outputStream), this);
+        return new HtmlTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public List<HtmlTableFieldSpec> fieldSpecs() {

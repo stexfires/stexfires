@@ -4,12 +4,11 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,15 +53,16 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
     private final boolean categoryAsKeyPrefix;
     private final String keyPrefixDelimiter;
 
-    public PropertiesFileSpec(Charset charset, CodingErrorAction codingErrorAction,
-                              @Nullable String decoderReplacement, @Nullable String encoderReplacement,
+    public PropertiesFileSpec(CharsetCoding charsetCoding,
+                              LineSeparator lineSeparator,
                               @Nullable String readNullValueReplacement,
                               boolean commentAsCategory,
-                              LineSeparator lineSeparator,
                               String writeNullValueReplacement,
-                              boolean escapeUnicode, boolean dateComment,
-                              boolean categoryAsKeyPrefix, String keyPrefixDelimiter) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+                              boolean escapeUnicode,
+                              boolean dateComment,
+                              boolean categoryAsKeyPrefix,
+                              String keyPrefixDelimiter) {
+        super(charsetCoding, lineSeparator);
         Objects.requireNonNull(writeNullValueReplacement);
         Objects.requireNonNull(keyPrefixDelimiter);
 
@@ -83,83 +83,46 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
         this.keyPrefixDelimiter = keyPrefixDelimiter;
     }
 
-    public static PropertiesFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                          @Nullable String decoderReplacement) {
-        return new PropertiesFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                DEFAULT_READ_NULL_VALUE_REPLACEMENT,
-                DEFAULT_COMMENT_AS_CATEGORY,
-                DEFAULT_LINE_SEPARATOR,
-                DEFAULT_WRITE_NULL_VALUE_REPLACEMENT,
-                DEFAULT_ESCAPE_UNICODE, DEFAULT_DATE_COMMENT,
-                DEFAULT_CATEGORY_AS_KEY_PREFIX, DEFAULT_KEY_PREFIX_DELIMITER);
-    }
-
-    public static PropertiesFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                          @Nullable String decoderReplacement,
-                                          String nullValueReplacement) {
-        return new PropertiesFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                nullValueReplacement,
-                DEFAULT_COMMENT_AS_CATEGORY,
-                DEFAULT_LINE_SEPARATOR,
-                DEFAULT_WRITE_NULL_VALUE_REPLACEMENT,
-                DEFAULT_ESCAPE_UNICODE, DEFAULT_DATE_COMMENT,
-                DEFAULT_CATEGORY_AS_KEY_PREFIX, DEFAULT_KEY_PREFIX_DELIMITER);
-    }
-
-    public static PropertiesFileSpec read(Charset charset, CodingErrorAction codingErrorAction,
-                                          @Nullable String decoderReplacement,
-                                          String nullValueReplacement,
+    public static PropertiesFileSpec read(CharsetCoding charsetCoding,
+                                          @Nullable String readNullValueReplacement,
                                           boolean commentAsCategory) {
-        return new PropertiesFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                nullValueReplacement,
-                commentAsCategory,
+        return new PropertiesFileSpec(charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
+                readNullValueReplacement,
+                commentAsCategory,
                 DEFAULT_WRITE_NULL_VALUE_REPLACEMENT,
-                DEFAULT_ESCAPE_UNICODE, DEFAULT_DATE_COMMENT,
-                DEFAULT_CATEGORY_AS_KEY_PREFIX, DEFAULT_KEY_PREFIX_DELIMITER);
+                DEFAULT_ESCAPE_UNICODE,
+                DEFAULT_DATE_COMMENT,
+                DEFAULT_CATEGORY_AS_KEY_PREFIX,
+                DEFAULT_KEY_PREFIX_DELIMITER);
     }
 
-    public static PropertiesFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                           @Nullable String encoderReplacement,
+    public static PropertiesFileSpec write(CharsetCoding charsetCoding,
                                            LineSeparator lineSeparator,
-                                           boolean escapeUnicode) {
-        return new PropertiesFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
+                                           String writeNullValueReplacement,
+                                           boolean escapeUnicode,
+                                           boolean dateComment,
+                                           boolean categoryAsKeyPrefix,
+                                           String keyPrefixDelimiter) {
+        return new PropertiesFileSpec(charsetCoding,
+                lineSeparator,
                 DEFAULT_READ_NULL_VALUE_REPLACEMENT,
                 DEFAULT_COMMENT_AS_CATEGORY,
-                lineSeparator,
-                DEFAULT_WRITE_NULL_VALUE_REPLACEMENT,
-                escapeUnicode, DEFAULT_DATE_COMMENT,
-                DEFAULT_CATEGORY_AS_KEY_PREFIX, DEFAULT_KEY_PREFIX_DELIMITER);
-    }
-
-    public static PropertiesFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                           @Nullable String encoderReplacement,
-                                           LineSeparator lineSeparator,
-                                           String nullValueReplacement,
-                                           boolean escapeUnicode, boolean dateComment,
-                                           boolean categoryAsKeyPrefix, String keyPrefixDelimiter) {
-        return new PropertiesFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                DEFAULT_READ_NULL_VALUE_REPLACEMENT,
-                DEFAULT_COMMENT_AS_CATEGORY,
-                lineSeparator,
-                nullValueReplacement,
-                escapeUnicode, dateComment,
-                categoryAsKeyPrefix, keyPrefixDelimiter);
+                writeNullValueReplacement,
+                escapeUnicode,
+                dateComment,
+                categoryAsKeyPrefix,
+                keyPrefixDelimiter);
     }
 
     @Override
     public PropertiesProducer producer(InputStream inputStream) {
-        return new PropertiesProducer(newBufferedReader(inputStream), this);
+        return new PropertiesProducer(charsetCoding().newBufferedReader(inputStream), this);
     }
 
     @Override
     public PropertiesConsumer consumer(OutputStream outputStream) {
-        return new PropertiesConsumer(newBufferedWriter(outputStream), this);
+        return new PropertiesConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public List<PropertiesFieldSpec> fieldSpecs() {

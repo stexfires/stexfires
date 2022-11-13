@@ -1,14 +1,12 @@
 package stexfires.io.singlevalue;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.ValueRecord;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 
 /**
  * @author Mathias Kalb
@@ -32,16 +30,13 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
     // FIELD - write
     private final boolean skipNullValue;
 
-    public SingleValueFileSpec(Charset charset,
-                               CodingErrorAction codingErrorAction,
-                               @Nullable String decoderReplacement,
-                               @Nullable String encoderReplacement,
+    public SingleValueFileSpec(CharsetCoding charsetCoding,
                                LineSeparator lineSeparator,
                                boolean skipEmptyLines,
                                int ignoreFirst,
                                int ignoreLast,
                                boolean skipNullValue) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator);
+        super(charsetCoding, lineSeparator);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }
@@ -58,90 +53,37 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
         this.skipNullValue = skipNullValue;
     }
 
-    public static SingleValueFileSpec read(Charset charset) {
-        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec read(Charset charset,
-                                           CodingErrorAction codingErrorAction,
-                                           @Nullable String decoderReplacement) {
-        return new SingleValueFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                DEFAULT_LINE_SEPARATOR, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec read(Charset charset,
+    public static SingleValueFileSpec read(CharsetCoding charsetCoding,
                                            boolean skipEmptyLines,
                                            int ignoreFirstLines,
                                            int ignoreLastLines) {
-        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                DEFAULT_LINE_SEPARATOR, skipEmptyLines, ignoreFirstLines, ignoreLastLines,
+        return new SingleValueFileSpec(charsetCoding,
+                DEFAULT_LINE_SEPARATOR,
+                skipEmptyLines,
+                ignoreFirstLines,
+                ignoreLastLines,
                 DEFAULT_SKIP_NULL_VALUE);
     }
 
-    public static SingleValueFileSpec read(Charset charset,
-                                           CodingErrorAction codingErrorAction,
-                                           @Nullable String decoderReplacement,
-                                           boolean skipEmptyLines,
-                                           int ignoreFirstLines,
-                                           int ignoreLastLines) {
-        return new SingleValueFileSpec(charset, codingErrorAction,
-                decoderReplacement, null,
-                DEFAULT_LINE_SEPARATOR, skipEmptyLines, ignoreFirstLines, ignoreLastLines,
-                DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec write(Charset charset,
-                                            LineSeparator lineSeparator) {
-        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec write(Charset charset,
-                                            CodingErrorAction codingErrorAction,
-                                            @Nullable String encoderReplacement,
-                                            LineSeparator lineSeparator) {
-        return new SingleValueFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_NULL_VALUE);
-    }
-
-    public static SingleValueFileSpec write(Charset charset,
+    public static SingleValueFileSpec write(CharsetCoding charsetCoding,
                                             LineSeparator lineSeparator,
                                             boolean skipNullValue) {
-        return new SingleValueFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                skipNullValue);
-    }
-
-    public static SingleValueFileSpec write(Charset charset,
-                                            CodingErrorAction codingErrorAction,
-                                            @Nullable String encoderReplacement,
-                                            LineSeparator lineSeparator,
-                                            boolean skipNullValue) {
-        return new SingleValueFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator, DEFAULT_SKIP_EMPTY_LINES, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
+        return new SingleValueFileSpec(charsetCoding,
+                lineSeparator,
+                DEFAULT_SKIP_EMPTY_LINES,
+                DEFAULT_IGNORE_FIRST,
+                DEFAULT_IGNORE_LAST,
                 skipNullValue);
     }
 
     @Override
     public SingleValueProducer producer(InputStream inputStream) {
-        return new SingleValueProducer(newBufferedReader(inputStream), this);
+        return new SingleValueProducer(charsetCoding().newBufferedReader(inputStream), this);
     }
 
     @Override
     public SingleValueConsumer consumer(OutputStream outputStream) {
-        return new SingleValueConsumer(newBufferedWriter(outputStream), this);
+        return new SingleValueConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public boolean skipEmptyLines() {

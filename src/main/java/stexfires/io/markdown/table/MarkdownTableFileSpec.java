@@ -4,11 +4,10 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
+import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,16 +40,13 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     // FIELD - write
     private final Alignment alignment;
 
-    public MarkdownTableFileSpec(Charset charset,
-                                 CodingErrorAction codingErrorAction,
-                                 @Nullable String decoderReplacement,
-                                 @Nullable String encoderReplacement,
+    public MarkdownTableFileSpec(CharsetCoding charsetCoding,
                                  LineSeparator lineSeparator,
-                                 List<MarkdownTableFieldSpec> fieldSpecs,
                                  @Nullable String textBefore,
                                  @Nullable String textAfter,
+                                 List<MarkdownTableFieldSpec> fieldSpecs,
                                  Alignment alignment) {
-        super(charset, codingErrorAction, decoderReplacement, encoderReplacement, lineSeparator, textBefore, textAfter);
+        super(charsetCoding, lineSeparator, textBefore, textAfter);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
 
@@ -61,58 +57,34 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
         this.alignment = alignment;
     }
 
-    public static MarkdownTableFileSpec write(Charset charset,
+    public static MarkdownTableFileSpec write(CharsetCoding charsetCoding,
                                               LineSeparator lineSeparator,
                                               List<MarkdownTableFieldSpec> fieldSpecs) {
-        return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                lineSeparator, fieldSpecs,
-                null, null, DEFAULT_ALIGNMENT
-        );
+        return new MarkdownTableFileSpec(charsetCoding,
+                lineSeparator,
+                null,
+                null,
+                fieldSpecs,
+                DEFAULT_ALIGNMENT);
     }
 
-    public static MarkdownTableFileSpec write(Charset charset,
-                                              CodingErrorAction codingErrorAction,
-                                              @Nullable String encoderReplacement,
+    public static MarkdownTableFileSpec write(CharsetCoding charsetCoding,
                                               LineSeparator lineSeparator,
-                                              List<MarkdownTableFieldSpec> fieldSpecs) {
-        return new MarkdownTableFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator, fieldSpecs,
-                null, null, DEFAULT_ALIGNMENT
-        );
-    }
-
-    public static MarkdownTableFileSpec write(Charset charset,
-                                              LineSeparator lineSeparator,
-                                              List<MarkdownTableFieldSpec> fieldSpecs,
                                               @Nullable String textBefore,
                                               @Nullable String textAfter,
-                                              Alignment alignment) {
-        return new MarkdownTableFileSpec(charset, DEFAULT_CODING_ERROR_ACTION,
-                null, null,
-                lineSeparator, fieldSpecs,
-                textBefore, textAfter, alignment
-        );
-    }
-
-    public static MarkdownTableFileSpec write(Charset charset, CodingErrorAction codingErrorAction,
-                                              @Nullable String encoderReplacement,
-                                              LineSeparator lineSeparator,
                                               List<MarkdownTableFieldSpec> fieldSpecs,
-                                              @Nullable String textBefore,
-                                              @Nullable String textAfter,
                                               Alignment alignment) {
-        return new MarkdownTableFileSpec(charset, codingErrorAction,
-                null, encoderReplacement,
-                lineSeparator, fieldSpecs,
-                textBefore, textAfter, alignment
-        );
+        return new MarkdownTableFileSpec(charsetCoding,
+                lineSeparator,
+                textBefore,
+                textAfter,
+                fieldSpecs,
+                alignment);
     }
 
     @Override
     public MarkdownTableConsumer consumer(OutputStream outputStream) {
-        return new MarkdownTableConsumer(newBufferedWriter(outputStream), this);
+        return new MarkdownTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
     }
 
     public List<MarkdownTableFieldSpec> fieldSpecs() {
