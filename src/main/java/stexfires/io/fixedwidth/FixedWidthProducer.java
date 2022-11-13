@@ -6,6 +6,7 @@ import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Alignment;
+import stexfires.util.function.StringPredicates;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,24 +37,24 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         this.fileSpec = fileSpec;
     }
 
-    private static String removeFillCharacters(String value, Character fillCharacter, Alignment alignment) {
+    private static String removeFillCharacters(String text, Character fillCharacter, Alignment alignment) {
         int beginIndex = 0;
-        int endIndex = value.length();
+        int endIndex = text.length();
 
         if (alignment != START) {
             while ((beginIndex < endIndex)
-                    && (value.charAt(beginIndex) == fillCharacter)) {
+                    && (text.charAt(beginIndex) == fillCharacter)) {
                 beginIndex++;
             }
         }
         if (alignment != END) {
             while ((beginIndex < endIndex)
-                    && (value.charAt(endIndex - 1) == fillCharacter)) {
+                    && (text.charAt(endIndex - 1) == fillCharacter)) {
                 endIndex--;
             }
         }
 
-        return (beginIndex < endIndex) ? value.substring(beginIndex, endIndex) : ONLY_FILL_CHAR_VALUE;
+        return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : ONLY_FILL_CHAR_VALUE;
     }
 
     @Override
@@ -67,31 +68,11 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         String rawData = recordRawData.rawData();
 
         boolean skipEmptyLine = fileSpec.skipEmptyLines() && rawData.isEmpty();
-
         if (!skipEmptyLine) {
-            int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
-            boolean nonEmptyFound = false;
+            List<String> texts = convertRawDataIntoTexts(rawData);
 
-            // Convert rawData to values
-            List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
-            for (FixedWidthFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
-                Character fillCharacter = fieldSpec.fillCharacter() != null ? fieldSpec.fillCharacter() : fileSpec.fillCharacter();
-                Alignment alignment = fieldSpec.alignment() != null ? fieldSpec.alignment() : fileSpec.alignment();
-
-                int beginIndex = Math.max(fieldSpec.startIndex(), 0);
-                int endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
-
-                String text = NO_TEXT;
-                if (beginIndex < endIndex) {
-                    text = rawData.substring(beginIndex, endIndex);
-                    text = removeFillCharacters(text, fillCharacter, alignment);
-                    nonEmptyFound = nonEmptyFound || !text.isEmpty();
-                }
-
-                texts.add(text);
-            }
-
-            boolean skipAllNullOrEmpty = fileSpec.skipAllNullOrEmpty() && !nonEmptyFound;
+            boolean skipAllNullOrEmpty = fileSpec.skipAllNullOrEmpty()
+                    && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
 
             if (!skipAllNullOrEmpty) {
                 record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
@@ -99,6 +80,26 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         }
 
         return Optional.ofNullable(record);
+    }
+
+    private List<String> convertRawDataIntoTexts(String rawData) {
+        int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
+        List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+        for (FixedWidthFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+            int beginIndex = Math.max(fieldSpec.startIndex(), 0);
+            int endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
+
+            String text = NO_TEXT;
+            if (beginIndex < endIndex) {
+                text = rawData.substring(beginIndex, endIndex);
+                text = removeFillCharacters(text,
+                        fieldSpec.determineFillCharacter(fileSpec),
+                        fieldSpec.determineAlignment(fileSpec));
+            }
+
+            texts.add(text);
+        }
+        return texts;
     }
 
     private static final class FixedWidthIterator extends AbstractRecordRawDataIterator {
