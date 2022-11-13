@@ -22,10 +22,10 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
     private final String textBefore;
     private final String textAfter;
 
-    protected ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
-                                             LineSeparator lineSeparator,
-                                             @Nullable String textBefore,
-                                             @Nullable String textAfter) {
+    public ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
+                                          LineSeparator lineSeparator,
+                                          @Nullable String textBefore,
+                                          @Nullable String textAfter) {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         this.charsetCoding = charsetCoding;
@@ -34,24 +34,12 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
         this.textAfter = textAfter;
     }
 
-    protected ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
-                                             LineSeparator lineSeparator) {
+    public ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
+                                          LineSeparator lineSeparator) {
         this(charsetCoding,
                 lineSeparator,
                 null,
                 null);
-    }
-
-    public final ReadableWritableRecordFile<CTR, PTR, ?> file(Path path) {
-        return new ReadableWritableRecordFile<>(path, this);
-    }
-
-    public ReadableRecordProducer<PTR> producer(InputStream inputStream) {
-        throw new UnsupportedOperationException("producer(InputStream) not implemented");
-    }
-
-    public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
-        throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
     }
 
     @Override
@@ -64,12 +52,26 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
         return lineSeparator;
     }
 
+    @Override
     public final @Nullable String textBefore() {
         return textBefore;
     }
 
+    @Override
     public final @Nullable String textAfter() {
         return textAfter;
+    }
+
+    public final ReadableWritableRecordFile<CTR, PTR, ?> file(Path path) {
+        return new ReadableWritableRecordFile<>(path, this);
+    }
+
+    public ReadableRecordProducer<PTR> producer(InputStream inputStream) {
+        throw new UnsupportedOperationException("producer(InputStream) not implemented");
+    }
+
+    public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
+        throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
     }
 
 }
