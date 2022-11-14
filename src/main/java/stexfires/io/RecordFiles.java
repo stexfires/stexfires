@@ -30,12 +30,13 @@ public final class RecordFiles {
 
     public static <R extends TextRecord, T extends R> RecordConsumer<R> readFile(
             ReadableRecordFile<T, ?> readableFile,
-            RecordConsumer<R> recordConsumer)
+            RecordConsumer<R> recordConsumer,
+            OpenOption... readOptions)
             throws ProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordConsumer);
 
-        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer(readOptions)) {
             RecordIOStreams.read(readableProducer, recordConsumer);
         }
 
@@ -45,13 +46,14 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> readFile(
             ReadableRecordFile<T, ?> readableFile,
             RecordMapper<? super T, ? extends R> recordMapper,
-            RecordConsumer<R> recordConsumer)
+            RecordConsumer<R> recordConsumer,
+            OpenOption... readOptions)
             throws ProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(recordConsumer);
 
-        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer(readOptions)) {
             RecordIOStreams.read(readableProducer, recordMapper, recordConsumer);
         }
 
@@ -61,13 +63,14 @@ public final class RecordFiles {
     public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> readFile(
             ReadableRecordFile<T, ?> readableFile,
             RecordStreamModifier<T, ? extends R> recordStreamModifier,
-            RecordConsumer<R> recordConsumer)
+            RecordConsumer<R> recordConsumer,
+            OpenOption... readOptions)
             throws ProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordStreamModifier);
         Objects.requireNonNull(recordConsumer);
 
-        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer(readOptions)) {
             RecordIOStreams.read(readableProducer, recordStreamModifier, recordConsumer);
         }
 
@@ -76,12 +79,13 @@ public final class RecordFiles {
 
     public static <R extends TextRecord, T extends R> void logFile(
             ReadableRecordFile<T, ?> readableFile,
-            RecordLogger<R> recordLogger)
+            RecordLogger<R> recordLogger,
+            OpenOption... readOptions)
             throws ProducerException, IOException {
         Objects.requireNonNull(readableFile);
         Objects.requireNonNull(recordLogger);
 
-        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer()) {
+        try (ReadableRecordProducer<T> readableProducer = readableFile.openProducer(readOptions)) {
             RecordIOStreams.log(readableProducer, recordLogger);
         }
     }
