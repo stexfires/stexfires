@@ -3,9 +3,6 @@ package stexfires.io;
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -21,16 +18,6 @@ public record ReadableWritableRecordFile<CTR extends TextRecord, PTR extends CTR
     public ReadableWritableRecordFile {
         Objects.requireNonNull(path);
         Objects.requireNonNull(fileSpec);
-    }
-
-    @Override
-    public ReadableRecordProducer<PTR> openProducer(OpenOption... readOptions) throws IOException {
-        return fileSpec().producer(Files.newInputStream(path, readOptions));
-    }
-
-    @Override
-    public WritableRecordConsumer<CTR> openConsumer(OpenOption... writeOptions) throws IOException {
-        return fileSpec().consumer(Files.newOutputStream(path, writeOptions));
     }
 
 }

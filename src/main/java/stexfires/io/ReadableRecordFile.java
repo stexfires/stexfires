@@ -3,6 +3,7 @@ package stexfires.io;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.OpenOption;
 
 /**
@@ -11,6 +12,8 @@ import java.nio.file.OpenOption;
  */
 public interface ReadableRecordFile<PTR extends TextRecord, RFS extends ReadableRecordFileSpec<PTR>> extends RecordFile<RFS> {
 
-    ReadableRecordProducer<PTR> openProducer(OpenOption... readOptions) throws IOException;
+    default ReadableRecordProducer<PTR> openProducer(OpenOption... readOptions) throws IOException {
+        return fileSpec().producer(Files.newInputStream(path(), readOptions));
+    }
 
 }
