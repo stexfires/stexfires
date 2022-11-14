@@ -133,4 +133,5 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }
+
 }

@@ -1,5 +1,6 @@
 package stexfires.io.delimited.simple;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
@@ -36,14 +37,16 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
 
     public SimpleDelimitedFileSpec(CharsetCoding charsetCoding,
                                    LineSeparator lineSeparator,
+                                   @Nullable String textBefore,
+                                   @Nullable String textAfter,
                                    String fieldDelimiter,
                                    List<SimpleDelimitedFieldSpec> fieldSpecs,
                                    int ignoreFirst, int ignoreLast,
                                    boolean skipEmptyLines, boolean skipAllNull) {
         super(charsetCoding,
                 lineSeparator,
-                null,
-                null);
+                textBefore,
+                textAfter);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         if (ignoreFirst < 0) {
@@ -71,6 +74,8 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
                                                boolean skipEmptyLines, boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
+                DEFAULT_TEXT_BEFORE,
+                DEFAULT_TEXT_AFTER,
                 fieldDelimiter,
                 fieldSpecs,
                 ignoreFirst, ignoreLast,
@@ -79,10 +84,14 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
 
     public static SimpleDelimitedFileSpec write(CharsetCoding charsetCoding,
                                                 LineSeparator lineSeparator,
+                                                @Nullable String textBefore,
+                                                @Nullable String textAfter,
                                                 String fieldDelimiter,
                                                 List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(charsetCoding,
                 lineSeparator,
+                textBefore,
+                textAfter,
                 fieldDelimiter,
                 fieldSpecs,
                 DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
