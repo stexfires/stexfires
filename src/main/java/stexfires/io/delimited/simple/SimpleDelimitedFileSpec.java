@@ -40,7 +40,10 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
                                    List<SimpleDelimitedFieldSpec> fieldSpecs,
                                    int ignoreFirst, int ignoreLast,
                                    boolean skipEmptyLines, boolean skipAllNull) {
-        super(charsetCoding, lineSeparator);
+        super(charsetCoding,
+                lineSeparator,
+                null,
+                null);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         if (ignoreFirst < 0) {

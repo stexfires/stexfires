@@ -32,7 +32,9 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
                           LineSeparator lineSeparator,
                           String valueDelimiter) {
         super(charsetCoding,
-                lineSeparator);
+                lineSeparator,
+                null,
+                null);
         Objects.requireNonNull(valueDelimiter);
 
         // both

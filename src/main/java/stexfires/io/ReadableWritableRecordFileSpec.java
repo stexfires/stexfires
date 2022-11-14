@@ -22,24 +22,16 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
     private final String textBefore;
     private final String textAfter;
 
-    public ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
-                                          LineSeparator lineSeparator,
-                                          @Nullable String textBefore,
-                                          @Nullable String textAfter) {
+    protected ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
+                                             LineSeparator lineSeparator,
+                                             @Nullable String textBefore,
+                                             @Nullable String textAfter) {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         this.charsetCoding = charsetCoding;
         this.lineSeparator = lineSeparator;
         this.textBefore = textBefore;
         this.textAfter = textAfter;
-    }
-
-    public ReadableWritableRecordFileSpec(CharsetCoding charsetCoding,
-                                          LineSeparator lineSeparator) {
-        this(charsetCoding,
-                lineSeparator,
-                null,
-                null);
     }
 
     @Override

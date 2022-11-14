@@ -47,7 +47,10 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
                               List<FixedWidthFieldSpec> fieldSpecs,
                               int ignoreFirst, int ignoreLast,
                               boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
-        super(charsetCoding, lineSeparator);
+        super(charsetCoding,
+                lineSeparator,
+                null,
+                null);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);

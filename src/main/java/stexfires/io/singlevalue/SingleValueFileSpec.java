@@ -36,7 +36,10 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
                                int ignoreFirst,
                                int ignoreLast,
                                boolean skipNullValue) {
-        super(charsetCoding, lineSeparator);
+        super(charsetCoding,
+                lineSeparator,
+                null,
+                null);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }

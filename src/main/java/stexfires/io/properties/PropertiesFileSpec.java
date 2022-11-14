@@ -62,7 +62,10 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
                               boolean dateComment,
                               boolean categoryAsKeyPrefix,
                               String keyPrefixDelimiter) {
-        super(charsetCoding, lineSeparator);
+        super(charsetCoding,
+                lineSeparator,
+                null,
+                null);
         Objects.requireNonNull(writeNullValueReplacement);
         Objects.requireNonNull(keyPrefixDelimiter);
 
