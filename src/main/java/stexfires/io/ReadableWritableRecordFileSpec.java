@@ -14,10 +14,10 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends CTR> implements RecordFileSpec {
+public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends CTR>
+        implements ReadableRecordFileSpec<PTR>, WritableRecordFileSpec<CTR> {
 
     private final CharsetCoding charsetCoding;
-
     private final LineSeparator lineSeparator;
     private final String textBefore;
     private final String textAfter;
@@ -62,14 +62,26 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
         return textAfter;
     }
 
-    public final ReadableWritableRecordFile<CTR, PTR, ?> file(Path path) {
+    public final ReadableWritableRecordFile<CTR, PTR, ? extends ReadableWritableRecordFileSpec<CTR, PTR>> file(Path path) {
         return new ReadableWritableRecordFile<>(path, this);
     }
 
+    @Override
+    public final ReadableWritableRecordFile<CTR, PTR, ? extends ReadableWritableRecordFileSpec<CTR, PTR>> readableFile(Path path) {
+        return file(path);
+    }
+
+    @Override
+    public final ReadableWritableRecordFile<CTR, PTR, ? extends ReadableWritableRecordFileSpec<CTR, PTR>> writableFile(Path path) {
+        return file(path);
+    }
+
+    @Override
     public ReadableRecordProducer<PTR> producer(InputStream inputStream) {
         throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
+    @Override
     public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
         throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
     }

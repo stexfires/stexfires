@@ -12,13 +12,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class CombinedWritableRecordConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
+public final class CombinedWritableRecordConsumer<CTR extends TextRecord> implements WritableRecordConsumer<CTR> {
 
-    private final WritableRecordConsumer<? super T> firstConsumer;
-    private final WritableRecordConsumer<? super T> secondConsumer;
+    private final WritableRecordConsumer<? super CTR> firstConsumer;
+    private final WritableRecordConsumer<? super CTR> secondConsumer;
 
-    public CombinedWritableRecordConsumer(WritableRecordConsumer<? super T> firstConsumer,
-                                          WritableRecordConsumer<? super T> secondConsumer) {
+    public CombinedWritableRecordConsumer(WritableRecordConsumer<? super CTR> firstConsumer,
+                                          WritableRecordConsumer<? super CTR> secondConsumer) {
         Objects.requireNonNull(firstConsumer);
         Objects.requireNonNull(secondConsumer);
         this.firstConsumer = firstConsumer;
@@ -32,7 +32,7 @@ public final class CombinedWritableRecordConsumer<T extends TextRecord> implemen
     }
 
     @Override
-    public void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException {
+    public void writeRecord(CTR record) throws ConsumerException, UncheckedConsumerException, IOException {
         firstConsumer.writeRecord(record);
         secondConsumer.writeRecord(record);
     }

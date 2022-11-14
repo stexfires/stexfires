@@ -1,8 +1,8 @@
 package stexfires.io.combined;
 
-import stexfires.io.RecordFileSpec;
 import stexfires.io.WritableRecordConsumer;
 import stexfires.io.WritableRecordFile;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;
@@ -14,13 +14,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class CombinedWritableRecordFile<T extends TextRecord> implements WritableRecordFile<T, RecordFileSpec> {
+public final class CombinedWritableRecordFile<CTR extends TextRecord> implements WritableRecordFile<CTR, WritableRecordFileSpec<CTR>> {
 
-    private final WritableRecordFile<? super T, ?> firstFile;
-    private final WritableRecordFile<? super T, ?> secondFile;
+    private final WritableRecordFile<? super CTR, ?> firstFile;
+    private final WritableRecordFile<? super CTR, ?> secondFile;
 
-    public CombinedWritableRecordFile(WritableRecordFile<? super T, ?> firstFile,
-                                      WritableRecordFile<? super T, ?> secondFile) {
+    public CombinedWritableRecordFile(WritableRecordFile<? super CTR, ?> firstFile,
+                                      WritableRecordFile<? super CTR, ?> secondFile) {
         Objects.requireNonNull(firstFile);
         Objects.requireNonNull(secondFile);
         this.firstFile = firstFile;
@@ -33,12 +33,12 @@ public final class CombinedWritableRecordFile<T extends TextRecord> implements W
     }
 
     @Override
-    public RecordFileSpec fileSpec() {
+    public WritableRecordFileSpec<CTR> fileSpec() {
         throw new UnsupportedOperationException("fileSpec() not available for combined files");
     }
 
     @Override
-    public WritableRecordConsumer<T> openConsumer(OpenOption... writeOptions) throws IOException {
+    public WritableRecordConsumer<CTR> openConsumer(OpenOption... writeOptions) throws IOException {
         return new CombinedWritableRecordConsumer<>(
                 firstFile.openConsumer(writeOptions),
                 secondFile.openConsumer(writeOptions));

@@ -1,11 +1,12 @@
 package stexfires.io.combined;
 
 import stexfires.io.ReadableRecordFile;
+import stexfires.io.ReadableRecordFileSpec;
 import stexfires.io.ReadableRecordProducer;
-import stexfires.io.RecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.IOException;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -13,13 +14,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class CombinedReadableRecordFile<T extends TextRecord> implements ReadableRecordFile<T, RecordFileSpec> {
+public final class CombinedReadableRecordFile<PTR extends TextRecord> implements ReadableRecordFile<PTR, ReadableRecordFileSpec<PTR>> {
 
-    private final ReadableRecordFile<? extends T, ?> firstFile;
-    private final ReadableRecordFile<? extends T, ?> secondFile;
+    private final ReadableRecordFile<? extends PTR, ?> firstFile;
+    private final ReadableRecordFile<? extends PTR, ?> secondFile;
 
-    public CombinedReadableRecordFile(ReadableRecordFile<? extends T, ?> firstFile,
-                                      ReadableRecordFile<? extends T, ?> secondFile) {
+    public CombinedReadableRecordFile(ReadableRecordFile<? extends PTR, ?> firstFile,
+                                      ReadableRecordFile<? extends PTR, ?> secondFile) {
         Objects.requireNonNull(firstFile);
         Objects.requireNonNull(secondFile);
         this.firstFile = firstFile;
@@ -32,15 +33,15 @@ public final class CombinedReadableRecordFile<T extends TextRecord> implements R
     }
 
     @Override
-    public RecordFileSpec fileSpec() {
+    public ReadableRecordFileSpec<PTR> fileSpec() {
         throw new UnsupportedOperationException("fileSpec() not available for combined files");
     }
 
     @Override
-    public ReadableRecordProducer<T> openProducer() throws IOException {
+    public ReadableRecordProducer<PTR> openProducer(OpenOption... readOptions) throws IOException {
         return new CombinedReadableRecordProducer<>(
-                firstFile.openProducer(),
-                secondFile.openProducer());
+                firstFile.openProducer(readOptions),
+                secondFile.openProducer(readOptions));
     }
 
 }

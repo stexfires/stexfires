@@ -13,7 +13,8 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record ReadableWritableRecordFile<CTR extends TextRecord, PTR extends CTR, RFS extends ReadableWritableRecordFileSpec<CTR, PTR>>
+public record ReadableWritableRecordFile<CTR extends TextRecord, PTR extends CTR,
+        RFS extends ReadableRecordFileSpec<PTR> & WritableRecordFileSpec<CTR>>
         (@NotNull Path path, @NotNull RFS fileSpec)
         implements ReadableRecordFile<PTR, RFS>, WritableRecordFile<CTR, RFS> {
 
@@ -23,8 +24,8 @@ public record ReadableWritableRecordFile<CTR extends TextRecord, PTR extends CTR
     }
 
     @Override
-    public ReadableRecordProducer<PTR> openProducer() throws IOException {
-        return fileSpec().producer(Files.newInputStream(path));
+    public ReadableRecordProducer<PTR> openProducer(OpenOption... readOptions) throws IOException {
+        return fileSpec().producer(Files.newInputStream(path, readOptions));
     }
 
     @Override

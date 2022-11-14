@@ -14,13 +14,13 @@ import java.util.stream.Stream;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class CombinedReadableRecordProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
+public final class CombinedReadableRecordProducer<PTR extends TextRecord> implements ReadableRecordProducer<PTR> {
 
-    private final ReadableRecordProducer<? extends T> firstProducer;
-    private final ReadableRecordProducer<? extends T> secondProducer;
+    private final ReadableRecordProducer<? extends PTR> firstProducer;
+    private final ReadableRecordProducer<? extends PTR> secondProducer;
 
-    public CombinedReadableRecordProducer(ReadableRecordProducer<? extends T> firstProducer,
-                                          ReadableRecordProducer<? extends T> secondProducer) {
+    public CombinedReadableRecordProducer(ReadableRecordProducer<? extends PTR> firstProducer,
+                                          ReadableRecordProducer<? extends PTR> secondProducer) {
         Objects.requireNonNull(firstProducer);
         Objects.requireNonNull(secondProducer);
         this.firstProducer = firstProducer;
@@ -34,7 +34,7 @@ public final class CombinedReadableRecordProducer<T extends TextRecord> implemen
     }
 
     @Override
-    public Stream<T> readRecords() throws UncheckedProducerException {
+    public Stream<PTR> readRecords() throws UncheckedProducerException {
         return TextRecordStreams.concat(firstProducer.produceStream(), secondProducer.produceStream());
     }
 
