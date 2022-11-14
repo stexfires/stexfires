@@ -1,5 +1,6 @@
 package stexfires.io.singlevalue;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
@@ -32,14 +33,16 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
 
     public SingleValueFileSpec(CharsetCoding charsetCoding,
                                LineSeparator lineSeparator,
+                               @Nullable String textBefore,
+                               @Nullable String textAfter,
                                boolean skipEmptyLines,
                                int ignoreFirst,
                                int ignoreLast,
                                boolean skipNullValue) {
         super(charsetCoding,
                 lineSeparator,
-                null,
-                null);
+                textBefore,
+                textAfter);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }
@@ -62,6 +65,8 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
                                            int ignoreLastLines) {
         return new SingleValueFileSpec(charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
+                DEFAULT_TEXT_BEFORE,
+                DEFAULT_TEXT_AFTER,
                 skipEmptyLines,
                 ignoreFirstLines,
                 ignoreLastLines,
@@ -70,9 +75,13 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
 
     public static SingleValueFileSpec write(CharsetCoding charsetCoding,
                                             LineSeparator lineSeparator,
+                                            @Nullable String textBefore,
+                                            @Nullable String textAfter,
                                             boolean skipNullValue) {
         return new SingleValueFileSpec(charsetCoding,
                 lineSeparator,
+                textBefore,
+                textAfter,
                 DEFAULT_SKIP_EMPTY_LINES,
                 DEFAULT_IGNORE_FIRST,
                 DEFAULT_IGNORE_LAST,

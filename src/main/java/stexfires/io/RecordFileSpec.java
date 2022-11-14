@@ -14,6 +14,10 @@ public interface RecordFileSpec {
 
     LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
 
+    String DEFAULT_TEXT_BEFORE = null;
+
+    String DEFAULT_TEXT_AFTER = null;
+
     CharsetCoding charsetCoding();
 
     LineSeparator lineSeparator();
