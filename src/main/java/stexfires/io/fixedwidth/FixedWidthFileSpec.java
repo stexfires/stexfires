@@ -1,5 +1,6 @@
 package stexfires.io.fixedwidth;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
@@ -40,6 +41,8 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
 
     public FixedWidthFileSpec(CharsetCoding charsetCoding,
                               LineSeparator lineSeparator,
+                              @Nullable String textBefore,
+                              @Nullable String textAfter,
                               int recordWidth,
                               boolean separateRecordsByLineSeparator,
                               Alignment alignment,
@@ -49,8 +52,8 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
                               boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         super(charsetCoding,
                 lineSeparator,
-                null,
-                null);
+                textBefore,
+                textAfter);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
@@ -88,6 +91,8 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
                                           boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
+                DEFAULT_TEXT_BEFORE,
+                DEFAULT_TEXT_AFTER,
                 recordWidth,
                 separateRecordsByLineSeparator,
                 alignment,
@@ -99,11 +104,15 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
 
     public static FixedWidthFileSpec write(CharsetCoding charsetCoding,
                                            LineSeparator lineSeparator,
+                                           @Nullable String textBefore,
+                                           @Nullable String textAfter,
                                            int recordWidth, boolean separateRecordsByLineSeparator,
                                            Alignment alignment, Character fillCharacter,
                                            List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(charsetCoding,
                 lineSeparator,
+                textBefore,
+                textAfter,
                 recordWidth,
                 separateRecordsByLineSeparator,
                 alignment,

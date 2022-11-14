@@ -99,6 +99,16 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
     }
 
     @Override
+    public void writeBefore() throws IOException {
+        super.writeBefore();
+
+        if (fileSpec.textBefore() != null) {
+            writeString(fileSpec.textBefore());
+            writeLineSeparator(fileSpec.lineSeparator());
+        }
+    }
+
+    @Override
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
@@ -114,4 +124,13 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         }
     }
 
+    @Override
+    public void writeAfter() throws IOException {
+        super.writeAfter();
+
+        if (fileSpec.textAfter() != null) {
+            writeString(fileSpec.textAfter());
+            writeLineSeparator(fileSpec.lineSeparator());
+        }
+    }
 }

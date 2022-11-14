@@ -18,8 +18,6 @@ import java.util.Optional;
 import static stexfires.util.Alignment.END;
 import static stexfires.util.Alignment.START;
 
-// TODO chars and codePoints
-
 /**
  * @author Mathias Kalb
  * @since 0.1
