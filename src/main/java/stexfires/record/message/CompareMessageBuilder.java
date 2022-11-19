@@ -1,8 +1,8 @@
 package stexfires.record.message;
 
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -58,8 +58,10 @@ public final class CompareMessageBuilder {
         return this;
     }
 
-    public synchronized CompareMessageBuilder text(Integer index) {
-        Objects.requireNonNull(index);
+    public synchronized CompareMessageBuilder textAt(int index) {
+        if (index < TextFields.FIRST_FIELD_INDEX) {
+            throw new IllegalArgumentException("Wrong 'index'! " + index);
+        }
         textIndex.add(index);
         return this;
     }

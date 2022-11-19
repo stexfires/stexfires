@@ -1,6 +1,5 @@
 package stexfires.io.config;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.RecordComparators;
@@ -56,7 +55,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
             DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
                     new CompareMessageBuilder()
                             .category()
-                            .text(KeyValueFieldsRecord.KEY_INDEX));
+                            .textAt(KeyValueFieldsRecord.KEY_INDEX));
 
             modifier = mapModifier.andThen(sortModifier.andThen(distinctModifier));
         } else {
