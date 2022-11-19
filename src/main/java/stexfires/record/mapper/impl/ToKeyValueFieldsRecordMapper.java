@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.RecordMessage;
 
 import java.util.Objects;
 
@@ -13,23 +14,22 @@ import java.util.Objects;
  */
 public final class ToKeyValueFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueFieldsRecord> {
 
-    private final int keyIndex;
-    private final int valueIndex;
-    private final String nullKey;
+    private final RecordMessage<? super T> keyMessage;
+    private final RecordMessage<? super T> valueMessage;
 
-    public ToKeyValueFieldsRecordMapper(int keyIndex, int valueIndex,
-                                        @NotNull String nullKey) {
-        Objects.requireNonNull(nullKey);
-        this.keyIndex = keyIndex;
-        this.valueIndex = valueIndex;
-        this.nullKey = nullKey;
+    public ToKeyValueFieldsRecordMapper(RecordMessage<? super T> keyMessage,
+                                        RecordMessage<? super T> valueMessage) {
+        Objects.requireNonNull(keyMessage);
+        Objects.requireNonNull(valueMessage);
+        this.keyMessage = keyMessage;
+        this.valueMessage = valueMessage;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull KeyValueFieldsRecord map(@NotNull T record) {
         return new KeyValueFieldsRecord(record.category(), record.recordId(),
-                record.textAtOrElse(keyIndex, nullKey), record.textAt(valueIndex));
+                keyMessage.createMessage(record),
+                valueMessage.createMessage(record));
     }
 
 }

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.RecordMessage;
 
 import java.util.Objects;
 
@@ -13,25 +14,27 @@ import java.util.Objects;
  */
 public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueCommentFieldsRecord> {
 
-    private final int keyIndex;
-    private final int valueIndex;
-    private final int commentIndex;
-    private final String nullKey;
+    private final RecordMessage<? super T> keyMessage;
+    private final RecordMessage<? super T> valueMessage;
+    private final RecordMessage<? super T> commentMessage;
 
-    public ToKeyValueCommentFieldsRecordMapper(int keyIndex, int valueIndex, int commentIndex,
-                                               @NotNull String nullKey) {
-        Objects.requireNonNull(nullKey);
-        this.keyIndex = keyIndex;
-        this.valueIndex = valueIndex;
-        this.commentIndex = commentIndex;
-        this.nullKey = nullKey;
+    public ToKeyValueCommentFieldsRecordMapper(RecordMessage<? super T> keyMessage,
+                                               RecordMessage<? super T> valueMessage,
+                                               RecordMessage<? super T> commentMessage) {
+        Objects.requireNonNull(keyMessage);
+        Objects.requireNonNull(valueMessage);
+        Objects.requireNonNull(commentMessage);
+        this.keyMessage = keyMessage;
+        this.valueMessage = valueMessage;
+        this.commentMessage = commentMessage;
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull KeyValueCommentFieldsRecord map(@NotNull T record) {
         return new KeyValueCommentFieldsRecord(record.category(), record.recordId(),
-                record.textAtOrElse(keyIndex, nullKey), record.textAt(valueIndex), record.textAt(commentIndex));
+                keyMessage.createMessage(record),
+                valueMessage.createMessage(record),
+                commentMessage.createMessage(record));
     }
 
 }
