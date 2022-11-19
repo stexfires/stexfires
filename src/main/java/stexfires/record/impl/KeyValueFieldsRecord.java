@@ -153,6 +153,16 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
         return valueField;
     }
 
+    @Override
+    public int keyIndex() {
+        return KEY_INDEX;
+    }
+
+    @Override
+    public int valueIndex() {
+        return VALUE_INDEX;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String firstText() {

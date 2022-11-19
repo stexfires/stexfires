@@ -180,6 +180,21 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         return commentField;
     }
 
+    @Override
+    public int keyIndex() {
+        return KEY_INDEX;
+    }
+
+    @Override
+    public int valueIndex() {
+        return VALUE_INDEX;
+    }
+
+    @Override
+    public int commentIndex() {
+        return COMMENT_INDEX;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     public @NotNull String firstText() {

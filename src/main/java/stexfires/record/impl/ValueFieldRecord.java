@@ -119,6 +119,11 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
+    public int valueIndex() {
+        return VALUE_INDEX;
+    }
+
+    @Override
     public @Nullable String firstText() {
         return valueField.text();
     }

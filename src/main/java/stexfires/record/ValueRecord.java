@@ -15,6 +15,8 @@ public interface ValueRecord extends TextRecord {
 
     @NotNull TextField valueField();
 
+    int valueIndex();
+
     default @Nullable String value() {
         return valueField().text();
     }

@@ -15,6 +15,9 @@ public interface CommentRecord extends TextRecord {
 
     @NotNull TextField commentField();
 
+    @SuppressWarnings("SameReturnValue")
+    int commentIndex();
+
     default @Nullable String comment() {
         return commentField().text();
     }
