@@ -8,9 +8,9 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public class PathTypeFilter<T extends PathRecord> implements RecordFilter<T> {
+public final class PathTypeFilter<T extends PathRecord> implements RecordFilter<T> {
 
-    protected final PathType pathType;
+    private final PathType pathType;
 
     public PathTypeFilter(PathType pathType) {
         Objects.requireNonNull(pathType);

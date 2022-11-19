@@ -4,16 +4,17 @@ import stexfires.record.TextRecord;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.DosFileAttributes;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on {@link Path}s and {@link PathRecord}s.
+ * This class consists of {@code static} utility methods for operating on {@link java.nio.file.Path}s and {@link stexfires.io.path.PathRecord}s.
  *
  * @author Mathias Kalb
  * @since 0.1
@@ -37,29 +38,23 @@ public final class PathRecords {
 
     public static PathType readPathType(Path path) throws IOException {
         Objects.requireNonNull(path);
-        BasicFileAttributes fileAttributes = Files.readAttributes(path, BasicFileAttributes.class);
+        BasicFileAttributes fileAttributes = Files.readAttributes(path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
         return toPathType(fileAttributes);
     }
 
-    public static PathRecord newPathRecord(Path path) throws UncheckedIOException, UnsupportedOperationException {
+    public static DosPathRecord newDosPathRecordFollowLinks(Path path) throws UncheckedIOException, UnsupportedOperationException {
         Objects.requireNonNull(path);
         try {
-            BasicFileAttributes fileAttributes = Files.readAttributes(path, BasicFileAttributes.class);
-
-            return new PathRecord(toPathType(fileAttributes),
-                    PathRecord.createBasicTexts(PathRecord.FIELD_SIZE, path, fileAttributes));
+            return DosPathFieldsRecord.newDosPathFieldsRecord(path);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public static DosPathRecord newDosPathRecord(Path path) throws UncheckedIOException, UnsupportedOperationException {
+    public static DosPathRecord newDosPathRecordNoFollowLinks(Path path) throws UncheckedIOException, UnsupportedOperationException {
         Objects.requireNonNull(path);
         try {
-            DosFileAttributes fileAttributes = Files.readAttributes(path, DosFileAttributes.class);
-
-            return new DosPathRecord(toPathType(fileAttributes),
-                    DosPathRecord.createDosTexts(path, fileAttributes));
+            return DosPathFieldsRecord.newDosPathFieldsRecord(path, LinkOption.NOFOLLOW_LINKS);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -82,9 +77,9 @@ public final class PathRecords {
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
-    public static Stream<PathRecord> listPathRecords(Path path) throws IOException {
+    public static Stream<DosPathRecord> listDosPathRecordsFollowLinks(Path path) throws IOException {
         Objects.requireNonNull(path);
-        return listRecords(path, PathRecords::newPathRecord);
+        return listRecords(path, PathRecords::newDosPathRecordFollowLinks);
     }
 
     /**
@@ -92,9 +87,9 @@ public final class PathRecords {
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
-    public static Stream<DosPathRecord> listDosPathRecords(Path path) throws IOException {
+    public static Stream<DosPathRecord> listDosPathRecordsNoFollowLinks(Path path) throws IOException {
         Objects.requireNonNull(path);
-        return listRecords(path, PathRecords::newDosPathRecord);
+        return listRecords(path, PathRecords::newDosPathRecordNoFollowLinks);
     }
 
     /**
@@ -103,10 +98,14 @@ public final class PathRecords {
      * promptly after the stream's operations have completed.
      */
     @SuppressWarnings("resource")
-    public static <R extends TextRecord> Stream<R> walkRecords(Path path, Function<Path, R> pathMapper) throws IOException {
+    public static <R extends TextRecord> Stream<R> walkRecords(Path path, Function<Path, R> pathMapper,
+                                                               int maxDepth, FileVisitOption... fileVisitOptions) throws IOException {
         Objects.requireNonNull(path);
         Objects.requireNonNull(pathMapper);
-        return Files.walk(path).map(pathMapper);
+        if (maxDepth < 0) {
+            throw new IllegalArgumentException("'maxDepth' is negative");
+        }
+        return Files.walk(path, maxDepth, fileVisitOptions).map(pathMapper);
     }
 
     /**
@@ -114,9 +113,13 @@ public final class PathRecords {
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
-    public static Stream<PathRecord> walkPathRecords(Path path) throws IOException {
+    public static Stream<DosPathRecord> walkDosPathRecordsFollowLinks(Path path,
+                                                                      int maxDepth) throws IOException {
         Objects.requireNonNull(path);
-        return walkRecords(path, PathRecords::newPathRecord);
+        if (maxDepth < 0) {
+            throw new IllegalArgumentException("'maxDepth' is negative");
+        }
+        return walkRecords(path, PathRecords::newDosPathRecordFollowLinks, maxDepth, FileVisitOption.FOLLOW_LINKS);
     }
 
     /**
@@ -124,9 +127,13 @@ public final class PathRecords {
      * control structure to ensure that the stream's open directory is closed
      * promptly after the stream's operations have completed.
      */
-    public static Stream<DosPathRecord> walkDosPathRecords(Path path) throws IOException {
+    public static Stream<DosPathRecord> walkDosPathRecordsNoFollowLinks(Path path,
+                                                                        int maxDepth) throws IOException {
         Objects.requireNonNull(path);
-        return walkRecords(path, PathRecords::newDosPathRecord);
+        if (maxDepth < 0) {
+            throw new IllegalArgumentException("'maxDepth' is negative");
+        }
+        return walkRecords(path, PathRecords::newDosPathRecordNoFollowLinks, maxDepth);
     }
 
 }

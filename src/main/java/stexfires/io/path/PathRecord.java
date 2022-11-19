@@ -3,18 +3,12 @@ package stexfires.io.path;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * A PathRecord is a {@link stexfires.record.TextRecord} containing information about a file path.
@@ -26,163 +20,96 @@ import java.util.stream.Stream;
  * @see stexfires.io.path.PathType
  * @since 0.1
  */
-public class PathRecord implements TextRecord {
+public interface PathRecord extends TextRecord {
 
-    public static final int FILE_NAME_INDEX = 0;
-    public static final int PATH_INDEX = 1;
-    public static final int PARENT_INDEX = 2;
-    public static final int PATH_NAME_COUNT_INDEX = 3;
-    public static final int FILE_SIZE_INDEX = 4;
-    public static final int CREATION_TIME_INDEX = 5;
-    public static final int LAST_MODIFIED_TIME_INDEX = 6;
-    public static final int LAST_ACCESS_TIME_INDEX = 7;
+    @NotNull PathType pathType();
 
-    protected static final int FIELD_SIZE = 8;
+    @NotNull TextField fileNameField();
 
-    private final String category;
-    private final TextField[] fields;
+    @NotNull TextField pathField();
 
-    private final int hashCode;
+    @NotNull TextField parentField();
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
-    protected PathRecord(PathType pathType, String[] values) {
-        this.category = pathType.name();
-        this.fields = TextFields.newArray(values);
+    @NotNull TextField pathNameCountField();
 
-        hashCode = Objects.hash(category, Arrays.hashCode(fields));
-    }
+    @NotNull TextField fileSizeField();
 
-    protected static String[] createBasicTexts(int fieldSize, Path path,
-                                               BasicFileAttributes fileAttributes) {
-        Objects.requireNonNull(path);
-        Objects.requireNonNull(fileAttributes);
-        Path fileName = path.getFileName();
-        Path parent = path.getParent();
-        String[] texts = new String[fieldSize];
-        texts[FILE_NAME_INDEX] = (fileName != null ? fileName.toString() : null);
-        texts[PATH_INDEX] = path.toString();
-        texts[PARENT_INDEX] = (parent != null ? parent.toString() : null);
-        texts[PATH_NAME_COUNT_INDEX] = String.valueOf(path.getNameCount());
-        texts[FILE_SIZE_INDEX] = String.valueOf(fileAttributes.size());
-        texts[CREATION_TIME_INDEX] = fileAttributes.creationTime().toInstant().toString();
-        texts[LAST_MODIFIED_TIME_INDEX] = fileAttributes.lastModifiedTime().toInstant().toString();
-        texts[LAST_ACCESS_TIME_INDEX] = fileAttributes.lastAccessTime().toInstant().toString();
-        return texts;
+    @NotNull TextField creationTimeField();
+
+    @NotNull TextField lastModifiedTimeField();
+
+    @NotNull TextField lastAccessTimeField();
+
+    @NotNull TextField absoluteField();
+
+    @Override
+    default @NotNull String category() {
+        return pathType().name();
     }
 
     @Override
-    public final TextField[] arrayOfFields() {
-        synchronized (fields) {
-            return Arrays.copyOf(fields, fields.length);
-        }
-    }
-
-    @Override
-    public final @NotNull List<TextField> listOfFields() {
-        return Arrays.asList(arrayOfFields());
-    }
-
-    @Override
-    public final @NotNull Stream<TextField> streamOfFields() {
-        return Arrays.stream(arrayOfFields());
-    }
-
-    @Override
-    public final String category() {
-        return category;
-    }
-
-    @Override
-    public final @Nullable Long recordId() {
+    default @Nullable Long recordId() {
         return null;
     }
 
     @Override
-    public final int size() {
-        return fields.length;
-    }
-
-    @SuppressWarnings("ReturnOfNull")
-    @Override
-    public final TextField fieldAt(int index) {
-        return ((index >= 0) && (index < fields.length)) ? fields[index] : null;
+    default boolean hasRecordId() {
+        return false;
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        PathRecord record = (PathRecord) obj;
-        return Objects.equals(category, record.category) &&
-                Arrays.equals(fields, record.fields);
+    default boolean isNotEmpty() {
+        return true;
     }
 
     @Override
-    public int hashCode() {
-        return hashCode;
+    default boolean isEmpty() {
+        return false;
     }
 
-    @Override
-    public String toString() {
-        return "PathRecord{" +
-                "category(pathType)=" + category() +
-                ", fileName=" + textAt(FILE_NAME_INDEX) +
-                ", path=" + textAt(PATH_INDEX) +
-                ", parent=" + textAt(PARENT_INDEX) +
-                ", pathNameCount=" + textAt(PATH_NAME_COUNT_INDEX) +
-                ", fileSize=" + textAt(FILE_SIZE_INDEX) +
-                ", creationTime=" + textAt(CREATION_TIME_INDEX) +
-                ", lastModifiedTime=" + textAt(LAST_MODIFIED_TIME_INDEX) +
-                ", lastAccessTime=" + textAt(LAST_ACCESS_TIME_INDEX) +
-                '}';
+    default @Nullable String fileName() {
+        return fileNameField().text();
     }
 
-    public final PathType pathType() {
-        return PathType.valueOf(category());
+    default Optional<String> fileNameAsOptional() {
+        return fileNameField().asOptional();
     }
 
-    public final @Nullable String fileName() {
-        return textAt(FILE_NAME_INDEX);
+    default Path path() {
+        return Path.of(Objects.requireNonNull(pathField().text()));
     }
 
-    public final Optional<String> fileNameAsOptional() {
-        return Optional.ofNullable(fileName());
+    default @Nullable Path parent() {
+        String parent = parentField().text();
+        return parent != null ? Path.of(parent) : null;
     }
 
-    public final Path path() {
-        return Paths.get(Objects.requireNonNull(textAt(PATH_INDEX)));
-    }
-
-    public final @Nullable Path parent() {
-        String parent = textAt(PARENT_INDEX);
-        return parent != null ? Paths.get(parent) : null;
-    }
-
-    public final Optional<Path> parentAsOptional() {
+    default Optional<Path> parentAsOptional() {
         return Optional.ofNullable(parent());
     }
 
-    public final int pathNameCount() {
-        return Integer.parseInt(Objects.requireNonNull(textAt(PATH_NAME_COUNT_INDEX)));
+    default int pathNameCount() {
+        return Integer.parseInt(Objects.requireNonNull(pathNameCountField().text()));
     }
 
-    public final long fileSize() {
-        return Long.parseLong(Objects.requireNonNull(textAt(FILE_SIZE_INDEX)));
+    default long fileSize() {
+        return Long.parseLong(Objects.requireNonNull(fileSizeField().text()));
     }
 
-    public final Instant creationTime() {
-        return Instant.parse(Objects.requireNonNull(textAt(CREATION_TIME_INDEX)));
+    default Instant creationTime() {
+        return Instant.parse(Objects.requireNonNull(creationTimeField().text()));
     }
 
-    public final Instant lastModifiedTime() {
-        return Instant.parse(Objects.requireNonNull(textAt(LAST_MODIFIED_TIME_INDEX)));
+    default Instant lastModifiedTime() {
+        return Instant.parse(Objects.requireNonNull(lastModifiedTimeField().text()));
     }
 
-    public final Instant lastAccessTime() {
-        return Instant.parse(Objects.requireNonNull(textAt(LAST_ACCESS_TIME_INDEX)));
+    default Instant lastAccessTime() {
+        return Instant.parse(Objects.requireNonNull(lastAccessTimeField().text()));
+    }
+
+    default boolean isAbsolute() {
+        return Boolean.parseBoolean(Objects.requireNonNull(absoluteField().text()));
     }
 
 }
