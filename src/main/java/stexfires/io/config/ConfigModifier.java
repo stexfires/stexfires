@@ -15,6 +15,7 @@ import stexfires.util.function.StringUnaryOperators;
 
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
@@ -28,17 +29,14 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
 
     private final RecordStreamModifier<T, KeyValueRecord> modifier;
 
-    public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates) {
-        this(keyIndex, valueIndex, removeDuplicates, null);
-    }
-
     @SuppressWarnings("ConstantConditions")
-    public ConfigModifier(int keyIndex, int valueIndex, boolean removeDuplicates, @Nullable Locale locale) {
+    public ConfigModifier(Locale categoryOperatorLocale, int keyIndex, int valueIndex, boolean removeDuplicates) {
+        Objects.requireNonNull(categoryOperatorLocale);
+
         UnaryOperator<String> categoryOperator = StringUnaryOperators.concat(
                 StringUnaryOperators.removeVerticalWhitespaces(),
                 StringUnaryOperators.trimToNull(),
-                StringUnaryOperators.upperCase(locale));
-
+                StringUnaryOperators.upperCase(categoryOperatorLocale));
         RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueFieldsRecord(
                 categoryOperator.apply(r.category()),
                 r.recordId(),
@@ -52,6 +50,8 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
         SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
 
         if (removeDuplicates) {
+            // Use of 'KeyValueFieldsRecord.KEY_INDEX' only possible and allowed,
+            // because the constructor is used at the RecordMapper.
             DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
                     new CompareMessageBuilder()
                             .category()
