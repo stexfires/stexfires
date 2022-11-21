@@ -6,6 +6,7 @@ import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
@@ -114,6 +115,11 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
     @Override
     public PropertiesConsumer consumer(OutputStream outputStream) {
         return new PropertiesConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public PropertiesConsumer consumer(BufferedWriter bufferedWriter) {
+        return new PropertiesConsumer(bufferedWriter, this);
     }
 
     public @Nullable String readNullValueReplacement() {

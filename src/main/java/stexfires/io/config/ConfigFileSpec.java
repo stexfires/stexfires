@@ -5,6 +5,7 @@ import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
@@ -64,6 +65,11 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
     @Override
     public ConfigConsumer consumer(OutputStream outputStream) {
         return new ConfigConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public ConfigConsumer consumer(BufferedWriter bufferedWriter) {
+        return new ConfigConsumer(bufferedWriter, this);
     }
 
     public String valueDelimiter() {

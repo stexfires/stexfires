@@ -2,6 +2,7 @@ package stexfires.io;
 
 import stexfires.record.TextRecord;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.nio.file.Path;
 
@@ -14,5 +15,7 @@ public interface WritableRecordFileSpec<CTR extends TextRecord> extends RecordFi
     WritableRecordFile<CTR, ? extends WritableRecordFileSpec<CTR>> writableFile(Path path);
 
     WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
+
+    WritableRecordConsumer<CTR> consumer(BufferedWriter bufferedWriter);
 
 }

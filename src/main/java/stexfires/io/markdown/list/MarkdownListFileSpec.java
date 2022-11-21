@@ -6,6 +6,7 @@ import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -75,6 +76,11 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     @Override
     public MarkdownListConsumer consumer(OutputStream outputStream) {
         return new MarkdownListConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public MarkdownListConsumer consumer(BufferedWriter bufferedWriter) {
+        return new MarkdownListConsumer(bufferedWriter, this);
     }
 
     public BulletPoint bulletPoint() {

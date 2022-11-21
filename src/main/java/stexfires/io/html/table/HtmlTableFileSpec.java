@@ -6,6 +6,7 @@ import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +68,11 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     @Override
     public HtmlTableConsumer consumer(OutputStream outputStream) {
         return new HtmlTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
+        return new HtmlTableConsumer(bufferedWriter, this);
     }
 
     public List<HtmlTableFieldSpec> fieldSpecs() {

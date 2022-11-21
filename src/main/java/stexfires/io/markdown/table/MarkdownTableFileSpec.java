@@ -7,6 +7,7 @@ import stexfires.util.Alignment;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,6 +86,11 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     @Override
     public MarkdownTableConsumer consumer(OutputStream outputStream) {
         return new MarkdownTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
+        return new MarkdownTableConsumer(bufferedWriter, this);
     }
 
     public List<MarkdownTableFieldSpec> fieldSpecs() {

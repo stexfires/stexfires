@@ -6,6 +6,7 @@ import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -106,6 +107,11 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
     @Override
     public SimpleDelimitedConsumer consumer(OutputStream outputStream) {
         return new SimpleDelimitedConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    }
+
+    @Override
+    public SimpleDelimitedConsumer consumer(BufferedWriter bufferedWriter) {
+        return new SimpleDelimitedConsumer(bufferedWriter, this);
     }
 
     public String fieldDelimiter() {
