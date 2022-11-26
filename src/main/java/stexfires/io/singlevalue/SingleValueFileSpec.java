@@ -6,9 +6,11 @@ import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * @author Mathias Kalb
@@ -90,18 +92,27 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
     }
 
     @Override
-    public SingleValueProducer producer(InputStream inputStream) {
-        return new SingleValueProducer(charsetCoding().newBufferedReader(inputStream), this);
+    public SingleValueProducer producer(BufferedReader bufferedReader) {
+        Objects.requireNonNull(bufferedReader);
+        return new SingleValueProducer(bufferedReader, this);
     }
 
     @Override
-    public SingleValueConsumer consumer(OutputStream outputStream) {
-        return new SingleValueConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public SingleValueProducer producer(InputStream inputStream) {
+        Objects.requireNonNull(inputStream);
+        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override
     public SingleValueConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
         return new SingleValueConsumer(bufferedWriter, this);
+    }
+
+    @Override
+    public SingleValueConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public boolean skipEmptyLines() {

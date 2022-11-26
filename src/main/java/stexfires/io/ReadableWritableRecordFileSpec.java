@@ -5,6 +5,7 @@ import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -70,18 +71,23 @@ public class ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR extends 
     }
 
     @Override
+    public ReadableRecordProducer<PTR> producer(BufferedReader bufferedReader) {
+        throw new UnsupportedOperationException("producer(BufferedReader) not implemented");
+    }
+
+    @Override
     public ReadableRecordProducer<PTR> producer(InputStream inputStream) {
         throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
     @Override
-    public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
-        throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
+    public WritableRecordConsumer<CTR> consumer(BufferedWriter bufferedWriter) {
+        throw new UnsupportedOperationException("consumer(BufferedWriter) not implemented");
     }
 
     @Override
-    public WritableRecordConsumer<CTR> consumer(BufferedWriter bufferedWriter) {
-        throw new UnsupportedOperationException("consumer(BufferedWriter) not implemented");
+    public WritableRecordConsumer<CTR> consumer(OutputStream outputStream) {
+        throw new UnsupportedOperationException("consumer(OutputStream) not implemented");
     }
 
 }

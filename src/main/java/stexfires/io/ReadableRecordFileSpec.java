@@ -2,6 +2,7 @@ package stexfires.io;
 
 import stexfires.record.TextRecord;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.nio.file.Path;
 
@@ -12,6 +13,8 @@ import java.nio.file.Path;
 public interface ReadableRecordFileSpec<PTR extends TextRecord> extends RecordFileSpec {
 
     ReadableRecordFile<PTR, ? extends ReadableRecordFileSpec<PTR>> readableFile(Path path);
+
+    ReadableRecordProducer<PTR> producer(BufferedReader bufferedReader);
 
     ReadableRecordProducer<PTR> producer(InputStream inputStream);
 

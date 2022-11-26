@@ -66,13 +66,15 @@ public final class HtmlTableFileSpec extends ReadableWritableRecordFileSpec<Text
     }
 
     @Override
-    public HtmlTableConsumer consumer(OutputStream outputStream) {
-        return new HtmlTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
+        return new HtmlTableConsumer(bufferedWriter, this);
     }
 
     @Override
-    public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
-        return new HtmlTableConsumer(bufferedWriter, this);
+    public HtmlTableConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public List<HtmlTableFieldSpec> fieldSpecs() {

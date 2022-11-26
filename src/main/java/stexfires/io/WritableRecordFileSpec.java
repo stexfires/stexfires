@@ -14,8 +14,8 @@ public interface WritableRecordFileSpec<CTR extends TextRecord> extends RecordFi
 
     WritableRecordFile<CTR, ? extends WritableRecordFileSpec<CTR>> writableFile(Path path);
 
-    WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
-
     WritableRecordConsumer<CTR> consumer(BufferedWriter bufferedWriter);
+
+    WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
 
 }

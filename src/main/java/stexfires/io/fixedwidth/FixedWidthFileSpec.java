@@ -7,6 +7,7 @@ import stexfires.util.Alignment;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -124,18 +125,27 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
     }
 
     @Override
-    public FixedWidthProducer producer(InputStream inputStream) {
-        return new FixedWidthProducer(charsetCoding().newBufferedReader(inputStream), this);
+    public FixedWidthProducer producer(BufferedReader bufferedReader) {
+        Objects.requireNonNull(bufferedReader);
+        return new FixedWidthProducer(bufferedReader, this);
     }
 
     @Override
-    public FixedWidthConsumer consumer(OutputStream outputStream) {
-        return new FixedWidthConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public FixedWidthProducer producer(InputStream inputStream) {
+        Objects.requireNonNull(inputStream);
+        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override
     public FixedWidthConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
         return new FixedWidthConsumer(bufferedWriter, this);
+    }
+
+    @Override
+    public FixedWidthConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public int recordWidth() {

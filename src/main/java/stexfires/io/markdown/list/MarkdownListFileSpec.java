@@ -74,13 +74,15 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     }
 
     @Override
-    public MarkdownListConsumer consumer(OutputStream outputStream) {
-        return new MarkdownListConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public MarkdownListConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
+        return new MarkdownListConsumer(bufferedWriter, this);
     }
 
     @Override
-    public MarkdownListConsumer consumer(BufferedWriter bufferedWriter) {
-        return new MarkdownListConsumer(bufferedWriter, this);
+    public MarkdownListConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public BulletPoint bulletPoint() {

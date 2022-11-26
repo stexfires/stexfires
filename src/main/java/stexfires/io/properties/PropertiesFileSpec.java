@@ -6,6 +6,7 @@ import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -108,18 +109,27 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
     }
 
     @Override
-    public PropertiesProducer producer(InputStream inputStream) {
-        return new PropertiesProducer(charsetCoding().newBufferedReader(inputStream), this);
+    public PropertiesProducer producer(BufferedReader bufferedReader) {
+        Objects.requireNonNull(bufferedReader);
+        return new PropertiesProducer(bufferedReader, this);
     }
 
     @Override
-    public PropertiesConsumer consumer(OutputStream outputStream) {
-        return new PropertiesConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public PropertiesProducer producer(InputStream inputStream) {
+        Objects.requireNonNull(inputStream);
+        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override
     public PropertiesConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
         return new PropertiesConsumer(bufferedWriter, this);
+    }
+
+    @Override
+    public PropertiesConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public @Nullable String readNullValueReplacement() {

@@ -84,13 +84,15 @@ public final class MarkdownTableFileSpec extends ReadableWritableRecordFileSpec<
     }
 
     @Override
-    public MarkdownTableConsumer consumer(OutputStream outputStream) {
-        return new MarkdownTableConsumer(charsetCoding().newBufferedWriter(outputStream), this);
+    public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
+        Objects.requireNonNull(bufferedWriter);
+        return new MarkdownTableConsumer(bufferedWriter, this);
     }
 
     @Override
-    public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
-        return new MarkdownTableConsumer(bufferedWriter, this);
+    public MarkdownTableConsumer consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     public List<MarkdownTableFieldSpec> fieldSpecs() {
