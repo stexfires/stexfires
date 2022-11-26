@@ -73,12 +73,14 @@ public final class RandomNumberSuppliers {
         return () -> BigDecimal.valueOf(random.nextDouble(origin, bound));
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public static DoubleSupplier randomPrimitiveDoubleGaussian(RandomGenerator random,
                                                                double mean, double stddev) {
         Objects.requireNonNull(random);
         return () -> random.nextGaussian(mean, stddev);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public static Supplier<Double> randomDoubleGaussian(RandomGenerator random,
                                                         double mean, double stddev) {
         Objects.requireNonNull(random);
