@@ -10,7 +10,9 @@ import java.util.function.Consumer;
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * <p>
- * It should not throw a RuntimeException (like NullPointerException).
+ * It should be used for debugging with the {@link java.util.stream.Stream#peek(Consumer)} method.
+ * It should not throw a RuntimeException (like {@link java.lang.NullPointerException}
+ * or {@link stexfires.record.consumer.UncheckedConsumerException}).
  * It is expected to operate via side effects.
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #log(stexfires.record.TextRecord)}.
