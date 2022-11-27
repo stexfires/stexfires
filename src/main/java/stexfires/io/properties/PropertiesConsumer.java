@@ -77,7 +77,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
 
     @SuppressWarnings("UseOfObsoleteDateTimeApi")
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
         if (fileSpec.dateComment()) {

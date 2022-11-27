@@ -51,7 +51,7 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     }
 
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         state = WRITE_BEFORE.validate(state);
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     }
 
     @Override
-    public void writeAfter() throws IOException {
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         state = WRITE_AFTER.validate(state);
     }
 

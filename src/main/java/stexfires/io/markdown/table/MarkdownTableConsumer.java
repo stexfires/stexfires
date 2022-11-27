@@ -141,7 +141,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     }
 
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
         if (fileSpec.textBefore() != null) {
@@ -161,7 +161,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     }
 
     @Override
-    public void writeAfter() throws IOException {
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
         if (fileSpec.textAfter() != null) {

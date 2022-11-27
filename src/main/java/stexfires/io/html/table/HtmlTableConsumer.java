@@ -87,7 +87,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     }
 
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
         if (fileSpec.textBefore() != null) {
@@ -111,7 +111,7 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     }
 
     @Override
-    public void writeAfter() throws IOException {
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
         writeStringRow(TABLE_END);

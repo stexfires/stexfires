@@ -15,11 +15,11 @@ import java.io.IOException;
  */
 public interface WritableRecordConsumer<CTR extends TextRecord> extends RecordConsumer<CTR>, Closeable, Flushable {
 
-    void writeBefore() throws IOException;
+    void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException;
 
     void writeRecord(CTR record) throws ConsumerException, UncheckedConsumerException, IOException;
 
-    void writeAfter() throws IOException;
+    void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException;
 
     /**
      * Not synchronized. Use it only with forEachOrdered().

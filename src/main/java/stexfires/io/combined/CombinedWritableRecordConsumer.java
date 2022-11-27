@@ -26,7 +26,7 @@ public final class CombinedWritableRecordConsumer<CTR extends TextRecord> implem
     }
 
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         firstConsumer.writeBefore();
         secondConsumer.writeBefore();
     }
@@ -38,7 +38,7 @@ public final class CombinedWritableRecordConsumer<CTR extends TextRecord> implem
     }
 
     @Override
-    public void writeAfter() throws IOException {
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         firstConsumer.writeAfter();
         secondConsumer.writeAfter();
     }

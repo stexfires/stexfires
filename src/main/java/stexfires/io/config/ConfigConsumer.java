@@ -31,7 +31,7 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueRecor
     }
 
     @Override
-    public void writeBefore() throws IOException {
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
         currentCategory = null;
