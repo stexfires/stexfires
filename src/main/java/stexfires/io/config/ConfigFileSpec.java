@@ -1,7 +1,9 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
@@ -74,6 +76,16 @@ public record ConfigFileSpec(
     public ConfigConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public @Nullable String textBefore() {
+        return WritableRecordFileSpec.DEFAULT_TEXT_BEFORE;
+    }
+
+    @Override
+    public @Nullable String textAfter() {
+        return WritableRecordFileSpec.DEFAULT_TEXT_AFTER;
     }
 
 }

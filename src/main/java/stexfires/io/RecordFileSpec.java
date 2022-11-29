@@ -1,29 +1,16 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.util.CharsetCoding;
-import stexfires.util.LineSeparator;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 public interface RecordFileSpec {
 
     CharsetCoding DEFAULT_CHARSET_CODING = CharsetCoding.UTF_8_REPORTING;
 
-    LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
-
-    String DEFAULT_TEXT_BEFORE = null;
-
-    String DEFAULT_TEXT_AFTER = null;
-
     CharsetCoding charsetCoding();
-
-    LineSeparator lineSeparator();
-
-    @Nullable String textBefore();
-
-    @Nullable String textAfter();
 
 }

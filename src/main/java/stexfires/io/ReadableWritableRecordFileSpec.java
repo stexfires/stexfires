@@ -1,6 +1,5 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.nio.file.Path;
@@ -24,16 +23,6 @@ public interface ReadableWritableRecordFileSpec<CTR extends TextRecord, PTR exte
     default ReadableWritableRecordFile<CTR, PTR, ? extends ReadableWritableRecordFileSpec<CTR, PTR>> writableFile(Path path) {
         Objects.requireNonNull(path);
         return file(path);
-    }
-
-    @Override
-    default @Nullable String textBefore() {
-        return null;
-    }
-
-    @Override
-    default @Nullable String textAfter() {
-        return null;
     }
 
 }
