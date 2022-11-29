@@ -2,7 +2,7 @@ package stexfires.io.config;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.ReadableRecordFileSpec;
 import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
@@ -22,7 +22,7 @@ public record ConfigFileSpec(
         @NotNull CharsetCoding charsetCoding,
         @NotNull LineSeparator lineSeparator,
         @NotNull String valueDelimiter
-) implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+) implements ReadableRecordFileSpec<KeyValueRecord>, WritableRecordFileSpec<KeyValueRecord> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";

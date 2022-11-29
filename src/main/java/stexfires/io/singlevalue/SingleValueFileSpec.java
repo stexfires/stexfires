@@ -2,7 +2,8 @@ package stexfires.io.singlevalue;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.ReadableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
@@ -26,7 +27,7 @@ public record SingleValueFileSpec(
         int ignoreFirst,
         int ignoreLast,
         boolean skipNullValue
-) implements ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
+) implements ReadableRecordFileSpec<ValueRecord>, WritableRecordFileSpec<ValueRecord> {
 
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;

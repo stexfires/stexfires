@@ -2,7 +2,8 @@ package stexfires.io.fixedwidth;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.ReadableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.CharsetCoding;
@@ -35,8 +36,7 @@ public record FixedWidthFileSpec(
         int ignoreLast,
         boolean skipEmptyLines,
         boolean skipAllNullOrEmpty
-) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
-
+) implements ReadableRecordFileSpec<TextRecord>, WritableRecordFileSpec<TextRecord> {
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;

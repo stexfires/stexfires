@@ -2,7 +2,7 @@ package stexfires.io.properties;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.ReadableRecordFileSpec;
 import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
@@ -28,7 +28,7 @@ public record PropertiesFileSpec(
         boolean dateComment,
         boolean categoryAsKeyPrefix,
         @NotNull String keyPrefixDelimiter
-) implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+) implements ReadableRecordFileSpec<KeyValueRecord>, WritableRecordFileSpec<KeyValueRecord> {
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";

@@ -2,15 +2,12 @@ package stexfires.io.html.table;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableRecordProducer;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +25,7 @@ public record HtmlTableFileSpec(
         @Nullable String textAfter,
         @NotNull List<HtmlTableFieldSpec> fieldSpecs,
         @Nullable String indentation
-) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+) implements WritableRecordFileSpec<TextRecord> {
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -62,16 +59,6 @@ public record HtmlTableFileSpec(
                 textAfter,
                 fieldSpecs,
                 indentation);
-    }
-
-    @Override
-    public ReadableRecordProducer<TextRecord> producer(BufferedReader bufferedReader) {
-        throw new UnsupportedOperationException("producer(BufferedReader) not implemented");
-    }
-
-    @Override
-    public ReadableRecordProducer<TextRecord> producer(InputStream inputStream) {
-        throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
     @Override

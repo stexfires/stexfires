@@ -2,7 +2,8 @@ package stexfires.io.delimited.simple;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.ReadableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
@@ -31,7 +32,7 @@ public record SimpleDelimitedFileSpec(
         int ignoreLast,
         boolean skipEmptyLines,
         boolean skipAllNull
-) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+) implements ReadableRecordFileSpec<TextRecord>, WritableRecordFileSpec<TextRecord> {
 
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;

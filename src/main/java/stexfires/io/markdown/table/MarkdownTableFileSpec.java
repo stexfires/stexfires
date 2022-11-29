@@ -2,16 +2,13 @@ package stexfires.io.markdown.table;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableRecordProducer;
-import stexfires.io.ReadableWritableRecordFileSpec;
+import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +29,7 @@ public record MarkdownTableFileSpec(
         @Nullable String textAfter,
         @NotNull List<MarkdownTableFieldSpec> fieldSpecs,
         @NotNull Alignment alignment
-) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+) implements WritableRecordFileSpec<TextRecord> {
 
     public static final String ESCAPE_TARGET = "|";
     public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
@@ -66,16 +63,6 @@ public record MarkdownTableFileSpec(
                 textAfter,
                 fieldSpecs,
                 alignment);
-    }
-
-    @Override
-    public ReadableRecordProducer<TextRecord> producer(BufferedReader bufferedReader) {
-        throw new UnsupportedOperationException("producer(BufferedReader) not implemented");
-    }
-
-    @Override
-    public ReadableRecordProducer<TextRecord> producer(InputStream inputStream) {
-        throw new UnsupportedOperationException("producer(InputStream) not implemented");
     }
 
     @Override
