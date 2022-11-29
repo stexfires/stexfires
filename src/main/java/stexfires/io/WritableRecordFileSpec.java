@@ -38,8 +38,8 @@ public interface WritableRecordFileSpec<CTR extends TextRecord> extends RecordFi
      * @see WritableRecordFileSpec#consumer(java.io.OutputStream)
      * @see java.nio.file.Files#newOutputStream(java.nio.file.Path, java.nio.file.OpenOption...)
      */
-    default WritableRecordConsumer<CTR> openConsumer(Path path, OpenOption... writeOptions) throws IOException {
-        return consumer(Files.newOutputStream(path, writeOptions));
+    default WritableRecordConsumer<CTR> openFileAsConsumer(Path filePath, OpenOption... writeOptions) throws IOException {
+        return consumer(Files.newOutputStream(filePath, writeOptions));
     }
 
 }

@@ -23,8 +23,8 @@ public interface ReadableRecordFileSpec<PTR extends TextRecord> extends RecordFi
      * @see ReadableRecordFileSpec#producer(java.io.InputStream)
      * @see java.nio.file.Files#newInputStream(java.nio.file.Path, java.nio.file.OpenOption...)
      */
-    default ReadableRecordProducer<PTR> openProducer(Path path, OpenOption... readOptions) throws IOException {
-        return producer(Files.newInputStream(path, readOptions));
+    default ReadableRecordProducer<PTR> openFileAsProducer(Path filePath, OpenOption... readOptions) throws IOException {
+        return producer(Files.newInputStream(filePath, readOptions));
     }
 
 }
