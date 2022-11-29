@@ -1,5 +1,6 @@
 package stexfires.io.fixedwidth;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.TextRecord;
@@ -20,42 +21,28 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+public record FixedWidthFileSpec(
+        @NotNull CharsetCoding charsetCoding,
+        @NotNull LineSeparator lineSeparator,
+        @Nullable String textBefore,
+        @Nullable String textAfter,
+        int recordWidth,
+        boolean separateRecordsByLineSeparator,
+        @NotNull Alignment alignment,
+        @NotNull Character fillCharacter,
+        @NotNull List<FixedWidthFieldSpec> fieldSpecs,
+        int ignoreFirst,
+        int ignoreLast,
+        boolean skipEmptyLines,
+        boolean skipAllNullOrEmpty
+) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
-    // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
 
-    // FIELD - both
-    private final CharsetCoding charsetCoding;
-    private final LineSeparator lineSeparator;
-    private final String textBefore;
-    private final String textAfter;
-    private final int recordWidth;
-    private final boolean separateRecordsByLineSeparator;
-    private final Alignment alignment;
-    private final Character fillCharacter;
-    private final List<FixedWidthFieldSpec> fieldSpecs;
-
-    // FIELD - read
-    private final int ignoreFirst;
-    private final int ignoreLast;
-    private final boolean skipEmptyLines;
-    private final boolean skipAllNullOrEmpty;
-
-    public FixedWidthFileSpec(CharsetCoding charsetCoding,
-                              LineSeparator lineSeparator,
-                              @Nullable String textBefore,
-                              @Nullable String textAfter,
-                              int recordWidth,
-                              boolean separateRecordsByLineSeparator,
-                              Alignment alignment,
-                              Character fillCharacter,
-                              List<FixedWidthFieldSpec> fieldSpecs,
-                              int ignoreFirst, int ignoreLast,
-                              boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
+    public FixedWidthFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(alignment);
@@ -71,22 +58,7 @@ public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<
             throw new IllegalArgumentException("ignoreLast < 0");
         }
 
-        // both
-        this.charsetCoding = charsetCoding;
-        this.lineSeparator = lineSeparator;
-        this.textBefore = textBefore;
-        this.textAfter = textAfter;
-        this.recordWidth = recordWidth;
-        this.separateRecordsByLineSeparator = separateRecordsByLineSeparator;
-        this.alignment = alignment;
-        this.fillCharacter = fillCharacter;
-        this.fieldSpecs = new ArrayList<>(fieldSpecs);
-
-        // read
-        this.ignoreFirst = ignoreFirst;
-        this.ignoreLast = ignoreLast;
-        this.skipEmptyLines = skipEmptyLines;
-        this.skipAllNullOrEmpty = skipAllNullOrEmpty;
+        fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
     public static FixedWidthFileSpec read(CharsetCoding charsetCoding,
@@ -95,9 +67,12 @@ public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<
                                           Alignment alignment,
                                           Character fillCharacter,
                                           List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst, int ignoreLast,
-                                          boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
-        return new FixedWidthFileSpec(charsetCoding,
+                                          int ignoreFirst,
+                                          int ignoreLast,
+                                          boolean skipEmptyLines,
+                                          boolean skipAllNullOrEmpty) {
+        return new FixedWidthFileSpec(
+                charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
                 DEFAULT_TEXT_BEFORE,
                 DEFAULT_TEXT_AFTER,
@@ -106,18 +81,23 @@ public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<
                 alignment,
                 fillCharacter,
                 fieldSpecs,
-                ignoreFirst, ignoreLast,
-                skipEmptyLines, skipAllNullOrEmpty);
+                ignoreFirst,
+                ignoreLast,
+                skipEmptyLines,
+                skipAllNullOrEmpty);
     }
 
     public static FixedWidthFileSpec write(CharsetCoding charsetCoding,
                                            LineSeparator lineSeparator,
                                            @Nullable String textBefore,
                                            @Nullable String textAfter,
-                                           int recordWidth, boolean separateRecordsByLineSeparator,
-                                           Alignment alignment, Character fillCharacter,
+                                           int recordWidth,
+                                           boolean separateRecordsByLineSeparator,
+                                           Alignment alignment,
+                                           Character fillCharacter,
                                            List<FixedWidthFieldSpec> fieldSpecs) {
-        return new FixedWidthFileSpec(charsetCoding,
+        return new FixedWidthFileSpec(
+                charsetCoding,
                 lineSeparator,
                 textBefore,
                 textAfter,
@@ -126,8 +106,10 @@ public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<
                 alignment,
                 fillCharacter,
                 fieldSpecs,
-                DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_EMPTY_LINES, DEFAULT_SKIP_ALL_NULL_OR_EMPTY);
+                DEFAULT_IGNORE_FIRST,
+                DEFAULT_IGNORE_LAST,
+                DEFAULT_SKIP_EMPTY_LINES,
+                DEFAULT_SKIP_ALL_NULL_OR_EMPTY);
     }
 
     @Override
@@ -155,59 +137,8 @@ public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<
     }
 
     @Override
-    public CharsetCoding charsetCoding() {
-        return charsetCoding;
-    }
-
-    @Override
-    public LineSeparator lineSeparator() {
-        return lineSeparator;
-    }
-
-    @Override
-    public @Nullable String textBefore() {
-        return textBefore;
-    }
-
-    @Override
-    public @Nullable String textAfter() {
-        return textAfter;
-    }
-
-    public int recordWidth() {
-        return recordWidth;
-    }
-
-    public boolean separateRecordsByLineSeparator() {
-        return separateRecordsByLineSeparator;
-    }
-
-    public Alignment alignment() {
-        return alignment;
-    }
-
-    public Character fillCharacter() {
-        return fillCharacter;
-    }
-
     public List<FixedWidthFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
-    }
-
-    public int ignoreFirst() {
-        return ignoreFirst;
-    }
-
-    public int ignoreLast() {
-        return ignoreLast;
-    }
-
-    public boolean skipEmptyLines() {
-        return skipEmptyLines;
-    }
-
-    public boolean skipAllNullOrEmpty() {
-        return skipAllNullOrEmpty;
     }
 
 }

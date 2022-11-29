@@ -1,5 +1,6 @@
 package stexfires.io.config;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
 import stexfires.util.CharsetCoding;
@@ -15,40 +16,29 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigFileSpec implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public record ConfigFileSpec(
+        @NotNull CharsetCoding charsetCoding,
+        @NotNull LineSeparator lineSeparator,
+        @NotNull String valueDelimiter
+) implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
     public static final String NULL_VALUE = "";
-
     public static final String CATEGORY_BEGIN_MARKER = "[";
     public static final String CATEGORY_END_MARKER = "]";
-
-    // DEFAULT - both
     public static final String DEFAULT_VALUE_DELIMITER = "=";
 
-    // FIELD - both
-    private final CharsetCoding charsetCoding;
-    private final LineSeparator lineSeparator;
-
-    private final String valueDelimiter;
-
-    public ConfigFileSpec(CharsetCoding charsetCoding,
-                          LineSeparator lineSeparator,
-                          String valueDelimiter) {
+    public ConfigFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(valueDelimiter);
-
-        // both
-        this.charsetCoding = charsetCoding;
-        this.lineSeparator = lineSeparator;
-        this.valueDelimiter = valueDelimiter;
     }
 
     public static ConfigFileSpec read(CharsetCoding charsetCoding,
                                       String valueDelimiter) {
-        return new ConfigFileSpec(charsetCoding,
+        return new ConfigFileSpec(
+                charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
                 valueDelimiter);
     }
@@ -56,7 +46,8 @@ public final class ConfigFileSpec implements ReadableWritableRecordFileSpec<KeyV
     public static ConfigFileSpec write(CharsetCoding charsetCoding,
                                        LineSeparator lineSeparator,
                                        String valueDelimiter) {
-        return new ConfigFileSpec(charsetCoding,
+        return new ConfigFileSpec(
+                charsetCoding,
                 lineSeparator,
                 valueDelimiter);
     }
@@ -83,20 +74,6 @@ public final class ConfigFileSpec implements ReadableWritableRecordFileSpec<KeyV
     public ConfigConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
-    }
-
-    @Override
-    public CharsetCoding charsetCoding() {
-        return charsetCoding;
-    }
-
-    @Override
-    public LineSeparator lineSeparator() {
-        return lineSeparator;
-    }
-
-    public String valueDelimiter() {
-        return valueDelimiter;
     }
 
 }

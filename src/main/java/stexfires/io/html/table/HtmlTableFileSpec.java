@@ -1,5 +1,6 @@
 package stexfires.io.html.table;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.io.ReadableWritableRecordFileSpec;
@@ -20,7 +21,14 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class HtmlTableFileSpec implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+public record HtmlTableFileSpec(
+        @NotNull CharsetCoding charsetCoding,
+        @NotNull LineSeparator lineSeparator,
+        @Nullable String textBefore,
+        @Nullable String textAfter,
+        @NotNull List<HtmlTableFieldSpec> fieldSpecs,
+        @Nullable String indentation
+) implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -31,36 +39,14 @@ public final class HtmlTableFileSpec implements ReadableWritableRecordFileSpec<T
     public static final String TABLE_DATA_BEGIN = "<td>";
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
+    public static final String DEFAULT_INDENTATION = null;
 
-    // FIELD - both
-    private final CharsetCoding charsetCoding;
-    private final LineSeparator lineSeparator;
-    private final String textBefore;
-    private final String textAfter;
-    private final List<HtmlTableFieldSpec> fieldSpecs;
-
-    // FIELD - write
-    private final String indentation;
-
-    public HtmlTableFileSpec(CharsetCoding charsetCoding,
-                             LineSeparator lineSeparator,
-                             @Nullable String textBefore,
-                             @Nullable String textAfter,
-                             List<HtmlTableFieldSpec> fieldSpecs,
-                             @Nullable String indentation) {
+    public HtmlTableFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(fieldSpecs);
 
-        // both
-        this.charsetCoding = charsetCoding;
-        this.lineSeparator = lineSeparator;
-        this.textBefore = textBefore;
-        this.textAfter = textAfter;
-        this.fieldSpecs = new ArrayList<>(fieldSpecs);
-
-        // write
-        this.indentation = indentation;
+        fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
     public static HtmlTableFileSpec write(CharsetCoding charsetCoding,
@@ -69,7 +55,8 @@ public final class HtmlTableFileSpec implements ReadableWritableRecordFileSpec<T
                                           @Nullable String textAfter,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           @Nullable String indentation) {
-        return new HtmlTableFileSpec(charsetCoding,
+        return new HtmlTableFileSpec(
+                charsetCoding,
                 lineSeparator,
                 textBefore,
                 textAfter,
@@ -100,31 +87,8 @@ public final class HtmlTableFileSpec implements ReadableWritableRecordFileSpec<T
     }
 
     @Override
-    public CharsetCoding charsetCoding() {
-        return charsetCoding;
-    }
-
-    @Override
-    public LineSeparator lineSeparator() {
-        return lineSeparator;
-    }
-
-    @Override
-    public @Nullable String textBefore() {
-        return textBefore;
-    }
-
-    @Override
-    public @Nullable String textAfter() {
-        return textAfter;
-    }
-
     public List<HtmlTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
-    }
-
-    public @Nullable String indentation() {
-        return indentation;
     }
 
 }

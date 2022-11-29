@@ -1,5 +1,6 @@
 package stexfires.io.properties;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
@@ -16,7 +17,17 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class PropertiesFileSpec implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public record PropertiesFileSpec(
+        @NotNull CharsetCoding charsetCoding,
+        @NotNull LineSeparator lineSeparator,
+        @Nullable String readNullValueReplacement,
+        boolean commentAsCategory,
+        @NotNull String writeNullValueReplacement,
+        boolean escapeUnicode,
+        boolean dateComment,
+        boolean categoryAsKeyPrefix,
+        @NotNull String keyPrefixDelimiter
+) implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";
@@ -25,67 +36,26 @@ public final class PropertiesFileSpec implements ReadableWritableRecordFileSpec<
     public static final char ESCAPE_CHAR = '\\';
     public static final int UNICODE_ENCODE_LENGTH = 4;
     public static final int UNICODE_ENCODE_RADIX = 16;
-
-    // DEFAULT - read
     public static final String DEFAULT_READ_NULL_VALUE_REPLACEMENT = "";
     public static final boolean DEFAULT_COMMENT_AS_CATEGORY = false;
-
-    // DEFAULT - write
     public static final String DEFAULT_WRITE_NULL_VALUE_REPLACEMENT = "";
     public static final boolean DEFAULT_ESCAPE_UNICODE = false;
     public static final boolean DEFAULT_DATE_COMMENT = false;
     public static final boolean DEFAULT_CATEGORY_AS_KEY_PREFIX = false;
     public static final String DEFAULT_KEY_PREFIX_DELIMITER = ".";
 
-    // FIELD - both
-    private final CharsetCoding charsetCoding;
-    private final LineSeparator lineSeparator;
-
-    // FIELD - read
-    private final String readNullValueReplacement;
-    private final boolean commentAsCategory;
-
-    // FIELD - write
-    private final String writeNullValueReplacement;
-    private final boolean escapeUnicode;
-    private final boolean dateComment;
-    private final boolean categoryAsKeyPrefix;
-    private final String keyPrefixDelimiter;
-
-    public PropertiesFileSpec(CharsetCoding charsetCoding,
-                              LineSeparator lineSeparator,
-                              @Nullable String readNullValueReplacement,
-                              boolean commentAsCategory,
-                              String writeNullValueReplacement,
-                              boolean escapeUnicode,
-                              boolean dateComment,
-                              boolean categoryAsKeyPrefix,
-                              String keyPrefixDelimiter) {
+    public PropertiesFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(writeNullValueReplacement);
         Objects.requireNonNull(keyPrefixDelimiter);
-
-        // both
-        this.charsetCoding = charsetCoding;
-        this.lineSeparator = lineSeparator;
-
-        // read
-        this.readNullValueReplacement = readNullValueReplacement;
-        this.commentAsCategory = commentAsCategory;
-
-        // write
-        this.writeNullValueReplacement = writeNullValueReplacement;
-        this.escapeUnicode = escapeUnicode;
-        this.dateComment = dateComment;
-        this.categoryAsKeyPrefix = categoryAsKeyPrefix;
-        this.keyPrefixDelimiter = keyPrefixDelimiter;
     }
 
     public static PropertiesFileSpec read(CharsetCoding charsetCoding,
                                           @Nullable String readNullValueReplacement,
                                           boolean commentAsCategory) {
-        return new PropertiesFileSpec(charsetCoding,
+        return new PropertiesFileSpec(
+                charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
                 readNullValueReplacement,
                 commentAsCategory,
@@ -103,7 +73,8 @@ public final class PropertiesFileSpec implements ReadableWritableRecordFileSpec<
                                            boolean dateComment,
                                            boolean categoryAsKeyPrefix,
                                            String keyPrefixDelimiter) {
-        return new PropertiesFileSpec(charsetCoding,
+        return new PropertiesFileSpec(
+                charsetCoding,
                 lineSeparator,
                 DEFAULT_READ_NULL_VALUE_REPLACEMENT,
                 DEFAULT_COMMENT_AS_CATEGORY,
@@ -136,44 +107,6 @@ public final class PropertiesFileSpec implements ReadableWritableRecordFileSpec<
     public PropertiesConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
-    }
-
-    @Override
-    public CharsetCoding charsetCoding() {
-        return charsetCoding;
-    }
-
-    @Override
-    public LineSeparator lineSeparator() {
-        return lineSeparator;
-    }
-
-    public @Nullable String readNullValueReplacement() {
-        return readNullValueReplacement;
-    }
-
-    public boolean commentAsCategory() {
-        return commentAsCategory;
-    }
-
-    public String writeNullValueReplacement() {
-        return writeNullValueReplacement;
-    }
-
-    public boolean escapeUnicode() {
-        return escapeUnicode;
-    }
-
-    public boolean dateComment() {
-        return dateComment;
-    }
-
-    public boolean categoryAsKeyPrefix() {
-        return categoryAsKeyPrefix;
-    }
-
-    public String keyPrefixDelimiter() {
-        return keyPrefixDelimiter;
     }
 
 }
