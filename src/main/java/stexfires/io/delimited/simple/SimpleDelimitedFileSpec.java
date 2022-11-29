@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+public final class SimpleDelimitedFileSpec implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
@@ -28,6 +28,10 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
     public static final boolean DEFAULT_SKIP_ALL_NULL = false;
 
     // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
+    private final String textBefore;
+    private final String textAfter;
     private final String fieldDelimiter;
     private final List<SimpleDelimitedFieldSpec> fieldSpecs;
 
@@ -45,10 +49,8 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
                                    List<SimpleDelimitedFieldSpec> fieldSpecs,
                                    int ignoreFirst, int ignoreLast,
                                    boolean skipEmptyLines, boolean skipAllNull) {
-        super(charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         if (ignoreFirst < 0) {
@@ -59,6 +61,10 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
         }
 
         // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
+        this.textBefore = textBefore;
+        this.textAfter = textAfter;
         this.fieldDelimiter = fieldDelimiter;
         this.fieldSpecs = new ArrayList<>(fieldSpecs);
 
@@ -122,6 +128,26 @@ public final class SimpleDelimitedFileSpec extends ReadableWritableRecordFileSpe
     public SimpleDelimitedConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
+    }
+
+    @Override
+    public @Nullable String textBefore() {
+        return textBefore;
+    }
+
+    @Override
+    public @Nullable String textAfter() {
+        return textAfter;
     }
 
     public String fieldDelimiter() {

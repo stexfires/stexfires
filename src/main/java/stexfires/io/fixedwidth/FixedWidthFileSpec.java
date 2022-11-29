@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
+public final class FixedWidthFileSpec implements ReadableWritableRecordFileSpec<TextRecord, TextRecord> {
 
     // DEFAULT - read
     public static final int DEFAULT_IGNORE_FIRST = 0;
@@ -29,6 +29,10 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
     public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
 
     // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
+    private final String textBefore;
+    private final String textAfter;
     private final int recordWidth;
     private final boolean separateRecordsByLineSeparator;
     private final Alignment alignment;
@@ -52,10 +56,8 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
                               List<FixedWidthFieldSpec> fieldSpecs,
                               int ignoreFirst, int ignoreLast,
                               boolean skipEmptyLines, boolean skipAllNullOrEmpty) {
-        super(charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
@@ -70,6 +72,10 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
         }
 
         // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
+        this.textBefore = textBefore;
+        this.textAfter = textAfter;
         this.recordWidth = recordWidth;
         this.separateRecordsByLineSeparator = separateRecordsByLineSeparator;
         this.alignment = alignment;
@@ -146,6 +152,26 @@ public final class FixedWidthFileSpec extends ReadableWritableRecordFileSpec<Tex
     public FixedWidthConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
+    }
+
+    @Override
+    public @Nullable String textBefore() {
+        return textBefore;
+    }
+
+    @Override
+    public @Nullable String textAfter() {
+        return textAfter;
     }
 
     public int recordWidth() {

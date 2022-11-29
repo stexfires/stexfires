@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public final class ConfigFileSpec implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
@@ -28,18 +28,21 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
     public static final String DEFAULT_VALUE_DELIMITER = "=";
 
     // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
+
     private final String valueDelimiter;
 
     public ConfigFileSpec(CharsetCoding charsetCoding,
                           LineSeparator lineSeparator,
                           String valueDelimiter) {
-        super(charsetCoding,
-                lineSeparator,
-                null,
-                null);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(valueDelimiter);
 
         // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
         this.valueDelimiter = valueDelimiter;
     }
 
@@ -80,6 +83,16 @@ public final class ConfigFileSpec extends ReadableWritableRecordFileSpec<KeyValu
     public ConfigConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
     }
 
     public String valueDelimiter() {

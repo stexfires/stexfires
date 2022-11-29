@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
+public final class PropertiesFileSpec implements ReadableWritableRecordFileSpec<KeyValueRecord, KeyValueRecord> {
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";
@@ -36,6 +36,10 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
     public static final boolean DEFAULT_DATE_COMMENT = false;
     public static final boolean DEFAULT_CATEGORY_AS_KEY_PREFIX = false;
     public static final String DEFAULT_KEY_PREFIX_DELIMITER = ".";
+
+    // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
 
     // FIELD - read
     private final String readNullValueReplacement;
@@ -57,12 +61,14 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
                               boolean dateComment,
                               boolean categoryAsKeyPrefix,
                               String keyPrefixDelimiter) {
-        super(charsetCoding,
-                lineSeparator,
-                null,
-                null);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(writeNullValueReplacement);
         Objects.requireNonNull(keyPrefixDelimiter);
+
+        // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
 
         // read
         this.readNullValueReplacement = readNullValueReplacement;
@@ -130,6 +136,16 @@ public final class PropertiesFileSpec extends ReadableWritableRecordFileSpec<Key
     public PropertiesConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
     }
 
     public @Nullable String readNullValueReplacement() {

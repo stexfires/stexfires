@@ -1,12 +1,15 @@
 package stexfires.io.markdown.list;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.ReadableRecordProducer;
 import stexfires.io.ReadableWritableRecordFileSpec;
 import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -14,7 +17,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
+public final class MarkdownListFileSpec implements ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
 
     public enum BulletPoint {
         NUMBER, STAR, DASH
@@ -31,6 +34,12 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
 
+    // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
+    private final String textBefore;
+    private final String textAfter;
+
     // FIELD - write
     private final BulletPoint bulletPoint;
     private final boolean skipNullValue;
@@ -41,8 +50,15 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
                                 @Nullable String textAfter,
                                 BulletPoint bulletPoint,
                                 boolean skipNullValue) {
-        super(charsetCoding, lineSeparator, textBefore, textAfter);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         Objects.requireNonNull(bulletPoint);
+
+        // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
+        this.textBefore = textBefore;
+        this.textAfter = textAfter;
 
         // write
         this.bulletPoint = bulletPoint;
@@ -74,6 +90,16 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     }
 
     @Override
+    public ReadableRecordProducer<ValueRecord> producer(BufferedReader bufferedReader) {
+        throw new UnsupportedOperationException("producer(BufferedReader) not implemented");
+    }
+
+    @Override
+    public ReadableRecordProducer<ValueRecord> producer(InputStream inputStream) {
+        throw new UnsupportedOperationException("producer(InputStream) not implemented");
+    }
+
+    @Override
     public MarkdownListConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new MarkdownListConsumer(bufferedWriter, this);
@@ -83,6 +109,26 @@ public final class MarkdownListFileSpec extends ReadableWritableRecordFileSpec<V
     public MarkdownListConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
+    }
+
+    @Override
+    public @Nullable String textBefore() {
+        return textBefore;
+    }
+
+    @Override
+    public @Nullable String textAfter() {
+        return textAfter;
     }
 
     public BulletPoint bulletPoint() {

@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
+public final class SingleValueFileSpec implements ReadableWritableRecordFileSpec<ValueRecord, ValueRecord> {
 
     // DEFAULT - read
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
@@ -25,6 +25,12 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
 
     // DEFAULT - write
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
+
+    // FIELD - both
+    private final CharsetCoding charsetCoding;
+    private final LineSeparator lineSeparator;
+    private final String textBefore;
+    private final String textAfter;
 
     // FIELD - read
     private final boolean skipEmptyLines;
@@ -42,16 +48,20 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
                                int ignoreFirst,
                                int ignoreLast,
                                boolean skipNullValue) {
-        super(charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter);
+        Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(lineSeparator);
         if (ignoreFirst < 0) {
             throw new IllegalArgumentException("ignoreFirst < 0");
         }
         if (ignoreLast < 0) {
             throw new IllegalArgumentException("ignoreLast < 0");
         }
+
+        // both
+        this.charsetCoding = charsetCoding;
+        this.lineSeparator = lineSeparator;
+        this.textBefore = textBefore;
+        this.textAfter = textAfter;
 
         // read
         this.skipEmptyLines = skipEmptyLines;
@@ -113,6 +123,26 @@ public final class SingleValueFileSpec extends ReadableWritableRecordFileSpec<Va
     public SingleValueConsumer consumer(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
+
+    @Override
+    public CharsetCoding charsetCoding() {
+        return charsetCoding;
+    }
+
+    @Override
+    public LineSeparator lineSeparator() {
+        return lineSeparator;
+    }
+
+    @Override
+    public @Nullable String textBefore() {
+        return textBefore;
+    }
+
+    @Override
+    public @Nullable String textAfter() {
+        return textAfter;
     }
 
     public boolean skipEmptyLines() {
