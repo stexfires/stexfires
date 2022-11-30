@@ -5,6 +5,7 @@ import stexfires.record.TextRecord;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * A RecordMessage creates a text message from a {@link stexfires.record.TextRecord}.
@@ -75,6 +76,11 @@ public interface RecordMessage<T extends TextRecord> {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(recordMessage);
         return record -> createMessage(record) + delimiter + recordMessage.createMessage(record);
+    }
+
+    default RecordMessage<T> andThen(UnaryOperator<String> stringUnaryOperator) {
+        Objects.requireNonNull(stringUnaryOperator);
+        return record -> stringUnaryOperator.apply(createMessage(record));
     }
 
 }
