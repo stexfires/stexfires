@@ -5,6 +5,7 @@ import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
@@ -213,6 +214,12 @@ public final class RecordIOStreams {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
         return result;
+    }
+
+    public static <CTR extends TextRecord, T extends CTR> RecordMessage<T> writeRecordIntoStringMessage(
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec) {
+        Objects.requireNonNull(writableRecordFileSpec);
+        return r -> writeRecordIntoString(writableRecordFileSpec, r);
     }
 
     // ReadableRecordProducer and WritableRecordConsumer ---------------------------------------------------------------
