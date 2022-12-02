@@ -9,6 +9,7 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
+import stexfires.util.function.StringUnaryOperators;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -186,6 +187,7 @@ public final class RecordIOStreams {
 
     public static <CTR extends TextRecord, TR extends CTR> String writeStreamIntoString(
             WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
+            boolean removeLastLineSeparator,
             Stream<TR> recordStream)
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
@@ -197,11 +199,14 @@ public final class RecordIOStreams {
         } catch (IOException e) {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
-        return result;
+        return removeLastLineSeparator
+                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(result)
+                : result;
     }
 
     public static <CTR extends TextRecord, TR extends CTR> String writeRecordIntoString(
             WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
+            boolean removeLastLineSeparator,
             TR textRecord)
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
@@ -213,13 +218,16 @@ public final class RecordIOStreams {
         } catch (IOException e) {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
-        return result;
+        return removeLastLineSeparator
+                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(result)
+                : result;
     }
 
     public static <CTR extends TextRecord, T extends CTR> RecordMessage<T> writeRecordIntoStringMessage(
-            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec) {
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
+            boolean removeLastLineSeparator) {
         Objects.requireNonNull(writableRecordFileSpec);
-        return r -> writeRecordIntoString(writableRecordFileSpec, r);
+        return r -> writeRecordIntoString(writableRecordFileSpec, removeLastLineSeparator, r);
     }
 
     // ReadableRecordProducer and WritableRecordConsumer ---------------------------------------------------------------
