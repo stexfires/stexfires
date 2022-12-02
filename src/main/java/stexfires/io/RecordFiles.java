@@ -43,7 +43,7 @@ public final class RecordFiles {
     }
 
     public static <CTR extends TextRecord, T extends CTR> void writeStreamIntoFile(
-            WritableRecordFileSpec<CTR> writableRecordFileSpec,
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             Stream<T> recordStream,
             Path path,
             OpenOption... writeOptions)
@@ -60,7 +60,7 @@ public final class RecordFiles {
     }
 
     public static <CTR extends TextRecord, T extends CTR> void writeRecordIntoFile(
-            WritableRecordFileSpec<CTR> writableRecordFileSpec,
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             T textRecord,
             Path path,
             OpenOption... writeOptions)

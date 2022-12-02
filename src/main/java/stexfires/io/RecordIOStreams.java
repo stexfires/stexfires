@@ -184,7 +184,7 @@ public final class RecordIOStreams {
     }
 
     public static <CTR extends TextRecord, TR extends CTR> String writeStreamIntoString(
-            WritableRecordFileSpec<CTR> writableRecordFileSpec,
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             Stream<TR> recordStream)
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
@@ -200,7 +200,7 @@ public final class RecordIOStreams {
     }
 
     public static <CTR extends TextRecord, TR extends CTR> String writeRecordIntoString(
-            WritableRecordFileSpec<CTR> writableRecordFileSpec,
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             TR textRecord)
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);

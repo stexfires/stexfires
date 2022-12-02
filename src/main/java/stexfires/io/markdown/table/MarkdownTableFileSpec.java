@@ -9,7 +9,6 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +28,7 @@ public record MarkdownTableFileSpec(
         @Nullable String textAfter,
         @NotNull List<MarkdownTableFieldSpec> fieldSpecs,
         @NotNull Alignment alignment
-) implements WritableRecordFileSpec<TextRecord> {
+) implements WritableRecordFileSpec<TextRecord, MarkdownTableConsumer> {
 
     public static final String ESCAPE_TARGET = "|";
     public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
@@ -69,12 +68,6 @@ public record MarkdownTableFileSpec(
     public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new MarkdownTableConsumer(bufferedWriter, this);
-    }
-
-    @Override
-    public MarkdownTableConsumer consumer(OutputStream outputStream) {
-        Objects.requireNonNull(outputStream);
-        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     @Override

@@ -8,7 +8,6 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +24,7 @@ public record HtmlTableFileSpec(
         @Nullable String textAfter,
         @NotNull List<HtmlTableFieldSpec> fieldSpecs,
         @Nullable String indentation
-) implements WritableRecordFileSpec<TextRecord> {
+) implements WritableRecordFileSpec<TextRecord, HtmlTableConsumer> {
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -65,12 +64,6 @@ public record HtmlTableFileSpec(
     public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new HtmlTableConsumer(bufferedWriter, this);
-    }
-
-    @Override
-    public HtmlTableConsumer consumer(OutputStream outputStream) {
-        Objects.requireNonNull(outputStream);
-        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
     @Override

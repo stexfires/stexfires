@@ -13,12 +13,13 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class StringWritableRecordConsumer<CTR extends TextRecord> implements WritableRecordConsumer<CTR> {
+public final class StringWritableRecordConsumer<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>>
+        implements WritableRecordConsumer<CTR> {
 
     private final StringWriter stringWriter;
-    private final WritableRecordConsumer<CTR> writableRecordConsumer;
+    private final WRC writableRecordConsumer;
 
-    public StringWritableRecordConsumer(WritableRecordFileSpec<CTR> writableRecordFileSpec) {
+    public StringWritableRecordConsumer(WritableRecordFileSpec<CTR, WRC> writableRecordFileSpec) {
         Objects.requireNonNull(writableRecordFileSpec);
 
         this.stringWriter = new StringWriter();
@@ -53,6 +54,10 @@ public final class StringWritableRecordConsumer<CTR extends TextRecord> implemen
     @Override
     public void close() throws IOException {
         writableRecordConsumer.close();
+    }
+
+    public WRC writableRecordConsumer() {
+        return writableRecordConsumer;
     }
 
     public String consumedString() throws UncheckedConsumerException {

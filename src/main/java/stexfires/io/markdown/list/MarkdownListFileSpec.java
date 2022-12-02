@@ -8,7 +8,6 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.io.OutputStream;
 import java.util.Objects;
 
 /**
@@ -22,7 +21,7 @@ public record MarkdownListFileSpec(
         @Nullable String textAfter,
         @NotNull BulletPoint bulletPoint,
         boolean skipNullValue
-) implements WritableRecordFileSpec<ValueRecord> {
+) implements WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
 
     public enum BulletPoint {
         NUMBER, STAR, DASH
@@ -61,12 +60,6 @@ public record MarkdownListFileSpec(
     public MarkdownListConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new MarkdownListConsumer(bufferedWriter, this);
-    }
-
-    @Override
-    public MarkdownListConsumer consumer(OutputStream outputStream) {
-        Objects.requireNonNull(outputStream);
-        return consumer(charsetCoding().newBufferedWriter(outputStream));
     }
 
 }

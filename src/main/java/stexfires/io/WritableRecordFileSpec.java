@@ -10,13 +10,14 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("SameReturnValue")
-public interface WritableRecordFileSpec<CTR extends TextRecord> extends RecordFileSpec {
+public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
 
     LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
 
@@ -30,15 +31,23 @@ public interface WritableRecordFileSpec<CTR extends TextRecord> extends RecordFi
 
     @Nullable String textAfter();
 
-    WritableRecordConsumer<CTR> consumer(BufferedWriter bufferedWriter);
+    WRC consumer(BufferedWriter bufferedWriter);
 
-    WritableRecordConsumer<CTR> consumer(OutputStream outputStream);
+    /**
+     * @see WritableRecordFileSpec#consumer(java.io.BufferedWriter)
+     * @see stexfires.util.CharsetCoding#newBufferedWriter(java.io.OutputStream)
+     */
+    default WRC consumer(OutputStream outputStream) {
+        Objects.requireNonNull(outputStream);
+        return consumer(charsetCoding().newBufferedWriter(outputStream));
+    }
 
     /**
      * @see WritableRecordFileSpec#consumer(java.io.OutputStream)
      * @see java.nio.file.Files#newOutputStream(java.nio.file.Path, java.nio.file.OpenOption...)
      */
-    default WritableRecordConsumer<CTR> openFileAsConsumer(Path filePath, OpenOption... writeOptions) throws IOException {
+    default WRC openFileAsConsumer(Path filePath, OpenOption... writeOptions) throws IOException {
+        Objects.requireNonNull(filePath);
         return consumer(Files.newOutputStream(filePath, writeOptions));
     }
 
