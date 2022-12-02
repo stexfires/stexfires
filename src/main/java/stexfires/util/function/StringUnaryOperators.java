@@ -319,6 +319,16 @@ public final class StringUnaryOperators {
         return s -> nullOrEmpty(s) ? s : s.substring(0, Math.max(0, s.length() - length));
     }
 
+    public static UnaryOperator<String> removeStringFromStart(String string) {
+        Objects.requireNonNull(string);
+        return s -> nullOrEmpty(s) || !s.startsWith(string) ? s : removeFromStart(string.length()).apply(s);
+    }
+
+    public static UnaryOperator<String> removeStringFromEnd(String string) {
+        Objects.requireNonNull(string);
+        return s -> nullOrEmpty(s) || !s.endsWith(string) ? s : removeFromEnd(string.length()).apply(s);
+    }
+
     public static UnaryOperator<String> keepFromStart(int length) {
         if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
 
