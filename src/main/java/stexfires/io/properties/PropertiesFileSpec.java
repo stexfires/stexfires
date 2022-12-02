@@ -10,7 +10,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -27,7 +26,7 @@ public record PropertiesFileSpec(
         boolean dateComment,
         boolean categoryAsKeyPrefix,
         @NotNull String keyPrefixDelimiter
-) implements ReadableRecordFileSpec<KeyValueRecord>, WritableRecordFileSpec<KeyValueRecord, PropertiesConsumer> {
+) implements ReadableRecordFileSpec<KeyValueRecord, PropertiesProducer>, WritableRecordFileSpec<KeyValueRecord, PropertiesConsumer> {
 
     public static final String DELIMITER = "=";
     public static final String COMMENT_PREFIX = "#";
@@ -89,12 +88,6 @@ public record PropertiesFileSpec(
     public PropertiesProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
         return new PropertiesProducer(bufferedReader, this);
-    }
-
-    @Override
-    public PropertiesProducer producer(InputStream inputStream) {
-        Objects.requireNonNull(inputStream);
-        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override

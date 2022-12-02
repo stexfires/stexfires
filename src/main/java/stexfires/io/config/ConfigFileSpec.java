@@ -10,7 +10,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -21,7 +20,7 @@ public record ConfigFileSpec(
         @NotNull CharsetCoding charsetCoding,
         @NotNull LineSeparator lineSeparator,
         @NotNull String valueDelimiter
-) implements ReadableRecordFileSpec<KeyValueRecord>, WritableRecordFileSpec<KeyValueRecord, ConfigConsumer> {
+) implements ReadableRecordFileSpec<KeyValueRecord, ConfigProducer>, WritableRecordFileSpec<KeyValueRecord, ConfigConsumer> {
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
@@ -57,12 +56,6 @@ public record ConfigFileSpec(
     public ConfigProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
         return new ConfigProducer(bufferedReader, this);
-    }
-
-    @Override
-    public ConfigProducer producer(InputStream inputStream) {
-        Objects.requireNonNull(inputStream);
-        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override

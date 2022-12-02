@@ -9,18 +9,31 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public interface ReadableRecordFileSpec<PTR extends TextRecord> extends RecordFileSpec {
+public interface ReadableRecordFileSpec<PTR extends TextRecord, RRP extends ReadableRecordProducer<PTR>> extends RecordFileSpec {
 
-    ReadableRecordProducer<PTR> producer(BufferedReader bufferedReader);
+    RRP producer(BufferedReader bufferedReader);
 
-    ReadableRecordProducer<PTR> producer(InputStream inputStream);
+    /**
+     * @see ReadableRecordFileSpec#producer(java.io.BufferedReader)
+     * @see stexfires.util.CharsetCoding#newBufferedReader(java.io.InputStream)
+     */
+    default RRP producer(InputStream inputStream) {
+        Objects.requireNonNull(inputStream);
+        return producer(charsetCoding().newBufferedReader(inputStream));
+    }
 
-    default ReadableRecordProducer<PTR> producer(String sourceString) {
+    /**
+     * @see ReadableRecordFileSpec#producer(java.io.BufferedReader)
+     * @see java.io.StringReader#StringReader(String)
+     */
+    default RRP producer(String sourceString) {
+        Objects.requireNonNull(sourceString);
         return producer(new BufferedReader(new StringReader(sourceString)));
     }
 
@@ -28,7 +41,8 @@ public interface ReadableRecordFileSpec<PTR extends TextRecord> extends RecordFi
      * @see ReadableRecordFileSpec#producer(java.io.InputStream)
      * @see java.nio.file.Files#newInputStream(java.nio.file.Path, java.nio.file.OpenOption...)
      */
-    default ReadableRecordProducer<PTR> openFileAsProducer(Path filePath, OpenOption... readOptions) throws IOException {
+    default RRP openFileAsProducer(Path filePath, OpenOption... readOptions) throws IOException {
+        Objects.requireNonNull(filePath);
         return producer(Files.newInputStream(filePath, readOptions));
     }
 

@@ -10,7 +10,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +30,7 @@ public record SimpleDelimitedFileSpec(
         int ignoreLast,
         boolean skipEmptyLines,
         boolean skipAllNull
-) implements ReadableRecordFileSpec<TextRecord>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
+) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
@@ -95,12 +94,6 @@ public record SimpleDelimitedFileSpec(
     public SimpleDelimitedProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
         return new SimpleDelimitedProducer(bufferedReader, this);
-    }
-
-    @Override
-    public SimpleDelimitedProducer producer(InputStream inputStream) {
-        Objects.requireNonNull(inputStream);
-        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override

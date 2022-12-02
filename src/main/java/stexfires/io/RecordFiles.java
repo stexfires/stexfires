@@ -26,7 +26,7 @@ public final class RecordFiles {
     }
 
     public static <R extends TextRecord, PTR extends R> void readAndConsumeFile(
-            ReadableRecordFileSpec<PTR> readableRecordFileSpec,
+            ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
             RecordConsumer<R> recordConsumer,
             Path path,
             OpenOption... readOptions)

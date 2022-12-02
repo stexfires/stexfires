@@ -10,7 +10,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -26,7 +25,7 @@ public record SingleValueFileSpec(
         int ignoreFirst,
         int ignoreLast,
         boolean skipNullValue
-) implements ReadableRecordFileSpec<ValueRecord>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
+) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
 
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final int DEFAULT_IGNORE_FIRST = 0;
@@ -79,12 +78,6 @@ public record SingleValueFileSpec(
     public SingleValueProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
         return new SingleValueProducer(bufferedReader, this);
-    }
-
-    @Override
-    public SingleValueProducer producer(InputStream inputStream) {
-        Objects.requireNonNull(inputStream);
-        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override

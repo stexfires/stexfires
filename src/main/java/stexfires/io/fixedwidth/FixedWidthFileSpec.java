@@ -11,7 +11,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,7 @@ public record FixedWidthFileSpec(
         int ignoreLast,
         boolean skipEmptyLines,
         boolean skipAllNullOrEmpty
-) implements ReadableRecordFileSpec<TextRecord>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
+) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
     public static final int DEFAULT_IGNORE_FIRST = 0;
     public static final int DEFAULT_IGNORE_LAST = 0;
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
@@ -115,12 +114,6 @@ public record FixedWidthFileSpec(
     public FixedWidthProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
         return new FixedWidthProducer(bufferedReader, this);
-    }
-
-    @Override
-    public FixedWidthProducer producer(InputStream inputStream) {
-        Objects.requireNonNull(inputStream);
-        return producer(charsetCoding().newBufferedReader(inputStream));
     }
 
     @Override
