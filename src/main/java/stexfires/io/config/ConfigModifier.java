@@ -1,5 +1,6 @@
 package stexfires.io.config;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.RecordComparators;
@@ -64,7 +65,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
     }
 
     @Override
-    public Stream<KeyValueRecord> modify(Stream<T> recordStream) {
+    public @NotNull Stream<KeyValueRecord> modify(Stream<T> recordStream) {
         return modifier.modify(recordStream);
     }
 

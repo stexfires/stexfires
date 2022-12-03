@@ -1,5 +1,6 @@
 package stexfires.io.combined;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.io.ReadableRecordProducer;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
@@ -34,7 +35,7 @@ public final class CombinedReadableRecordProducer<PTR extends TextRecord> implem
     }
 
     @Override
-    public Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException {
+    public @NotNull Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         Stream<? extends PTR> firstRecordStream = firstProducer.readRecords();
         Stream<? extends PTR> secondRecordStream = secondProducer.readRecords();
         return TextRecordStreams.concat(firstRecordStream, secondRecordStream);
