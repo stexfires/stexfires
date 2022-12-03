@@ -52,7 +52,7 @@ public final class ValueRecordProducer implements RecordProducer<ValueRecord> {
     }
 
     @Override
-    public Stream<ValueRecord> produceStream() {
+    public @NotNull Stream<ValueRecord> produceStream() {
         return records.stream();
     }
 

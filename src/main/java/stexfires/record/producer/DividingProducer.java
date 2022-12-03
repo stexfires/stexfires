@@ -52,7 +52,7 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
     }
 
     @Override
-    public Stream<TextRecord> produceStream() {
+    public @NotNull Stream<TextRecord> produceStream() {
         return records.stream();
     }
 

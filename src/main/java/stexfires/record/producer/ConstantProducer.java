@@ -25,7 +25,7 @@ public final class ConstantProducer<T extends TextRecord> implements RecordProdu
     }
 
     @Override
-    public Stream<T> produceStream() {
+    public @NotNull Stream<T> produceStream() {
         return Stream.generate(() -> constantRecord).limit(streamSize);
     }
 

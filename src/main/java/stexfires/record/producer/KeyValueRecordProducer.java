@@ -55,7 +55,7 @@ public final class KeyValueRecordProducer implements RecordProducer<KeyValueReco
     }
 
     @Override
-    public Stream<KeyValueRecord> produceStream() {
+    public @NotNull Stream<KeyValueRecord> produceStream() {
         return records.stream();
     }
 
