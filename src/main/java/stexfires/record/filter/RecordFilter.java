@@ -1,8 +1,10 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
+import stexfires.util.function.BooleanUnaryOperator;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -22,9 +24,15 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface RecordFilter<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordFilter<T> of(Predicate<T> predicate) {
+    static <T extends TextRecord> RecordFilter<T> ofPredicate(Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
         return predicate::test;
+    }
+
+    static <T extends TextRecord> RecordFilter<T> ofFunction(Function<T, Boolean> function) {
+        Objects.requireNonNull(function);
+        // The "apply" function must not return "null"!
+        return function::apply;
     }
 
     static <T extends TextRecord> RecordFilter<T> concatAnd(RecordFilter<? super T> firstRecordFilter,
@@ -51,9 +59,19 @@ public interface RecordFilter<T extends TextRecord> {
         return recordFilters.reduce(r -> false, RecordFilter::or);
     }
 
+    @SuppressWarnings("unchecked")
+    static <T extends TextRecord> RecordFilter<T> not(RecordFilter<? super T> recordFilter) {
+        Objects.requireNonNull(recordFilter);
+        return (RecordFilter<T>) recordFilter.negate();
+    }
+
     boolean isValid(T record);
 
     default Predicate<T> asPredicate() {
+        return this::isValid;
+    }
+
+    default Function<T, Boolean> asFunction() {
         return this::isValid;
     }
 
@@ -69,6 +87,11 @@ public interface RecordFilter<T extends TextRecord> {
     default RecordFilter<T> or(RecordFilter<? super T> other) {
         Objects.requireNonNull(other);
         return record -> isValid(record) || other.isValid(record);
+    }
+
+    default RecordFilter<T> andThen(BooleanUnaryOperator booleanUnaryOperator) {
+        Objects.requireNonNull(booleanUnaryOperator);
+        return record -> booleanUnaryOperator.applyAsBoolean(isValid(record));
     }
 
 }
