@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.logger.RecordLogger;
 
@@ -20,7 +21,7 @@ public class LogModifier<T extends TextRecord> implements RecordStreamModifier<T
     }
 
     @Override
-    public final Stream<T> modify(Stream<T> recordStream) {
+    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
         return recordStream.peek(recordLogger::log);
     }
 

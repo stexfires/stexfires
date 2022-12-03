@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.RecordMapper;
 
@@ -20,7 +21,7 @@ public class MapModifier<T extends TextRecord, R extends TextRecord> implements 
     }
 
     @Override
-    public final Stream<R> modify(Stream<T> recordStream) {
+    public final @NotNull Stream<R> modify(Stream<T> recordStream) {
         return recordStream.map(recordMapper::map);
     }
 

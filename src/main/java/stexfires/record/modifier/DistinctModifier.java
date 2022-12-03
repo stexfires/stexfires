@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.CompareMessageBuilder;
@@ -29,7 +30,7 @@ public class DistinctModifier<T extends TextRecord> implements RecordStreamModif
     }
 
     @Override
-    public final Stream<T> modify(Stream<T> recordStream) {
+    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
         return recordStream
                 .map(record -> new DistinctRecordWrapper<>(record, recordCompareMessage.createMessage(record)))
                 .distinct()

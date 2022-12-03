@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.stream.Stream;
@@ -14,7 +15,7 @@ public class IdentityModifier<T extends TextRecord> implements RecordStreamModif
     }
 
     @Override
-    public final Stream<T> modify(Stream<T> recordStream) {
+    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
         return recordStream;
     }
 

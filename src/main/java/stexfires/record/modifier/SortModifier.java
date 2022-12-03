@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Comparator;
@@ -21,7 +22,7 @@ public class SortModifier<T extends TextRecord> implements RecordStreamModifier<
     }
 
     @Override
-    public final Stream<T> modify(Stream<T> recordStream) {
+    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
         return recordStream.sorted(recordComparator);
     }
 
