@@ -5,6 +5,7 @@ import stexfires.record.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -25,10 +26,16 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface RecordStreamModifier<T extends TextRecord, R extends TextRecord> {
 
-    static <T extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> of(Function<Stream<T>, Stream<R>> function) {
+    static <T extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> ofFunction(Function<Stream<T>, Stream<R>> function) {
         Objects.requireNonNull(function);
         // The "apply" function must not return "null"!
         return function::apply;
+    }
+
+    static <T extends TextRecord> RecordStreamModifier<T, T> ofUnaryOperator(UnaryOperator<Stream<T>> unaryOperator) {
+        Objects.requireNonNull(unaryOperator);
+        // The "apply" function must not return "null"!
+        return unaryOperator::apply;
     }
 
     static <T extends TextRecord, V extends TextRecord, R extends TextRecord> RecordStreamModifier<T, R> concat(RecordStreamModifier<T, V> firstRecordStreamModifier,

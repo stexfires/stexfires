@@ -6,6 +6,7 @@ import stexfires.record.TextField;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * A FieldTextMapper maps a {@link stexfires.record.TextField} to a new text.
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface FieldTextMapper {
 
-    static FieldTextMapper of(Function<TextField, String> function) {
+    static FieldTextMapper ofFunction(Function<TextField, String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
@@ -75,6 +76,11 @@ public interface FieldTextMapper {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(fieldTextMapper);
         return field -> mapToText(field) + delimiter + fieldTextMapper.mapToText(field);
+    }
+
+    default FieldTextMapper andThen(UnaryOperator<String> stringUnaryOperator) {
+        Objects.requireNonNull(stringUnaryOperator);
+        return field -> stringUnaryOperator.apply(mapToText(field));
     }
 
 }

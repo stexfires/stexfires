@@ -5,6 +5,7 @@ import stexfires.record.TextRecord;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * A RecordMapper maps a {@link stexfires.record.TextRecord} to another record.
@@ -22,10 +23,16 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface RecordMapper<T extends TextRecord, R extends TextRecord> {
 
-    static <T extends TextRecord, R extends TextRecord> RecordMapper<T, R> of(Function<T, R> function) {
+    static <T extends TextRecord, R extends TextRecord> RecordMapper<T, R> ofFunction(Function<T, R> function) {
         Objects.requireNonNull(function);
         // The "apply" function must not return "null"!
         return function::apply;
+    }
+
+    static <T extends TextRecord> RecordMapper<T, T> ofUnaryOperator(UnaryOperator<T> unaryOperator) {
+        Objects.requireNonNull(unaryOperator);
+        // The "apply" function must not return "null"!
+        return unaryOperator::apply;
     }
 
     static <T extends TextRecord, V extends TextRecord, R extends TextRecord> RecordMapper<T, R> concat(RecordMapper<? super T, ? extends V> firstRecordMapper,

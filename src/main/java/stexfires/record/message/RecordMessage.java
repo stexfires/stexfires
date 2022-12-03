@@ -24,7 +24,7 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface RecordMessage<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordMessage<T> of(Function<T, String> function) {
+    static <T extends TextRecord> RecordMessage<T> ofFunction(Function<T, String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
