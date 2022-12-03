@@ -28,10 +28,14 @@ public class ConditionalLogger<T extends TextRecord> implements RecordLogger<T> 
 
     @Override
     public final void log(T record) {
-        if (condition.isValid(record)) {
-            trueLogger.log(record);
-        } else {
-            falseLogger.log(record);
+        try {
+            if (condition.isValid(record)) {
+                trueLogger.log(record);
+            } else {
+                falseLogger.log(record);
+            }
+        } catch (RuntimeException e) {
+            // Ignore Exception
         }
     }
 

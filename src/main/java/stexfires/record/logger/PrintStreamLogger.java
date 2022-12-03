@@ -35,12 +35,16 @@ public class PrintStreamLogger<T extends TextRecord> implements RecordLogger<T> 
 
     @Override
     public final void log(T record) {
-        String message = recordMessage.createMessage(record);
-        // println() and print() are both 'synchronized'
-        if (terminateLine) {
-            printStream.println(message);
-        } else {
-            printStream.print(message);
+        try {
+            String message = recordMessage.createMessage(record);
+            // println() and print() are both 'synchronized'
+            if (terminateLine) {
+                printStream.println(message);
+            } else {
+                printStream.print(message);
+            }
+        } catch (RuntimeException e) {
+            // Ignore Exception
         }
     }
 

@@ -27,9 +27,13 @@ public class CollectionLogger<T extends TextRecord, R extends Collection<String>
 
     @Override
     public final void log(T record) {
-        String message = recordMessage.createMessage(record);
-        synchronized (lock) {
-            collection.add(message);
+        try {
+            String message = recordMessage.createMessage(record);
+            synchronized (lock) {
+                collection.add(message);
+            }
+        } catch (RuntimeException e) {
+            // Ignore Exception
         }
     }
 

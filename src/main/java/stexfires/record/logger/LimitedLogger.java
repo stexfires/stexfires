@@ -24,11 +24,15 @@ public class LimitedLogger<T extends TextRecord> implements RecordLogger<T> {
 
     @Override
     public final void log(T record) {
-        // get() is faster than getAndIncrement()
-        if (counter.get() < limit) {
-            if (counter.getAndIncrement() < limit) {
-                recordLogger.log(record);
+        try {
+            // get() is faster than getAndIncrement()
+            if (counter.get() < limit) {
+                if (counter.getAndIncrement() < limit) {
+                    recordLogger.log(record);
+                }
             }
+        } catch (RuntimeException e) {
+            // Ignore Exception
         }
     }
 

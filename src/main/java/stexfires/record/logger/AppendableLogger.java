@@ -27,13 +27,13 @@ public class AppendableLogger<T extends TextRecord, R extends Appendable> implem
 
     @Override
     public final void log(T record) throws UncheckedIOException {
-        String message = recordMessage.createMessage(record);
-        synchronized (lock) {
-            try {
+        try {
+            String message = recordMessage.createMessage(record);
+            synchronized (lock) {
                 appendable.append(message);
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
             }
+        } catch (IOException | RuntimeException e) {
+            // Ignore Exception
         }
     }
 

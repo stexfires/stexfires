@@ -110,12 +110,16 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
 
     @Override
     public final void log(T record) {
-        synchronized (lock) {
-            for (int index = 0; index < recordLoggers.size(); index++) {
-                if (predicate.test(index, record)) {
-                    recordLoggers.get(index).log(record);
+        try {
+            synchronized (lock) {
+                for (int index = 0; index < recordLoggers.size(); index++) {
+                    if (predicate.test(index, record)) {
+                        recordLoggers.get(index).log(record);
+                    }
                 }
             }
+        } catch (RuntimeException e) {
+            // Ignore Exception
         }
     }
 
