@@ -6,6 +6,7 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
+import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
@@ -153,7 +154,7 @@ public final class TextRecordStreams {
                                                                       @NotNull RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
-        return recordStream.map(recordMessage::createMessage).collect(Collectors.toList());
+        return recordStream.map(recordMessage::createMessage).toList();
     }
 
     public static <T extends TextRecord> Map<String, List<String>> groupAndCollectMessages(@NotNull Stream<T> recordStream,
@@ -175,11 +176,13 @@ public final class TextRecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
-    public static <T extends TextRecord> Stream<String> mapToMessage(@NotNull Stream<T> recordStream,
-                                                                     @NotNull RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> TextRecord recordWithMessageTexts(@NotNull Stream<T> recordStream,
+                                                                           @NotNull RecordMessage<? super T> recordMessage,
+                                                                           @Nullable String category,
+                                                                           @Nullable Long recordId) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
-        return recordStream.map(recordMessage::createMessage);
+        return new ManyFieldsRecord(category, recordId, TextFields.newArray(collectMessages(recordStream, recordMessage)));
     }
 
     public static <T extends TextRecord> void printLines(@NotNull Stream<T> recordStream) {
