@@ -25,7 +25,7 @@ import java.util.function.Consumer;
 @FunctionalInterface
 public interface RecordLogger<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordLogger<T> of(Consumer<T> consumer) {
+    static <T extends TextRecord> RecordLogger<T> ofConsumer(Consumer<T> consumer) {
         Objects.requireNonNull(consumer);
         return consumer::accept;
     }

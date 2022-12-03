@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface RecordProducer<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordProducer<T> of(Supplier<Stream<T>> supplier) {
+    static <T extends TextRecord> RecordProducer<T> ofSupplier(Supplier<Stream<T>> supplier) {
         Objects.requireNonNull(supplier);
         // The "get" function must not return "null"!
         return supplier::get;
