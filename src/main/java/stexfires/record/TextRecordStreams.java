@@ -34,6 +34,7 @@ import java.util.stream.Stream;
  * @see java.util.stream.Stream
  * @since 0.1
  */
+@SuppressWarnings("UnusedReturnValue")
 public final class TextRecordStreams {
 
     private TextRecordStreams() {
