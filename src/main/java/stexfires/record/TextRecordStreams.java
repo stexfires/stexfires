@@ -6,7 +6,6 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
-import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
@@ -182,15 +181,6 @@ public final class TextRecordStreams {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage);
-    }
-
-    public static <T extends TextRecord> TextRecord recordWithMessageTexts(@NotNull Stream<T> recordStream,
-                                                                           @NotNull RecordMessage<? super T> recordMessage,
-                                                                           @Nullable String category,
-                                                                           @Nullable Long recordId) {
-        Objects.requireNonNull(recordStream);
-        Objects.requireNonNull(recordMessage);
-        return new ManyFieldsRecord(category, recordId, TextFields.newArray(collectMessages(recordStream, recordMessage)));
     }
 
     public static <T extends TextRecord> void printLines(@NotNull Stream<T> recordStream) {
