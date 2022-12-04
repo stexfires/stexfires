@@ -3,6 +3,7 @@ package stexfires.io;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
+import stexfires.util.function.StringUnaryOperators;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,12 +17,14 @@ import java.util.Objects;
 public final class StringWritableRecordConsumer<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>>
         implements WritableRecordConsumer<CTR> {
 
+    private final WritableRecordFileSpec<CTR, WRC> writableRecordFileSpec;
     private final StringWriter stringWriter;
     private final WRC writableRecordConsumer;
 
     public StringWritableRecordConsumer(WritableRecordFileSpec<CTR, WRC> writableRecordFileSpec) {
         Objects.requireNonNull(writableRecordFileSpec);
 
+        this.writableRecordFileSpec = writableRecordFileSpec;
         this.stringWriter = new StringWriter();
         this.writableRecordConsumer = writableRecordFileSpec.consumer(new BufferedWriter(stringWriter));
     }
@@ -56,17 +59,23 @@ public final class StringWritableRecordConsumer<CTR extends TextRecord, WRC exte
         writableRecordConsumer.close();
     }
 
+    public WritableRecordFileSpec<CTR, WRC> writableRecordFileSpec() {
+        return writableRecordFileSpec;
+    }
+
     public WRC writableRecordConsumer() {
         return writableRecordConsumer;
     }
 
-    public String consumedString() throws UncheckedConsumerException {
+    public String consumedString(boolean removeLastLineSeparator) throws UncheckedConsumerException {
         try {
             writableRecordConsumer.flush();
         } catch (IOException e) {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
-        return stringWriter.toString();
+        return removeLastLineSeparator
+                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(stringWriter.toString())
+                : stringWriter.toString();
     }
 
 }

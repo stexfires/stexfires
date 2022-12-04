@@ -9,7 +9,6 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
-import stexfires.util.function.StringUnaryOperators;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -195,13 +194,11 @@ public final class RecordIOStreams {
 
         String result;
         try (var consumer = new StringWritableRecordConsumer<>(writableRecordFileSpec)) {
-            result = writeStream(consumer, recordStream).consumedString();
+            result = writeStream(consumer, recordStream).consumedString(removeLastLineSeparator);
         } catch (IOException e) {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
-        return removeLastLineSeparator
-                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(result)
-                : result;
+        return result;
     }
 
     public static <CTR extends TextRecord, TR extends CTR> String writeRecordIntoString(
@@ -214,13 +211,11 @@ public final class RecordIOStreams {
 
         String result;
         try (var consumer = new StringWritableRecordConsumer<>(writableRecordFileSpec)) {
-            result = writeRecord(consumer, textRecord).consumedString();
+            result = writeRecord(consumer, textRecord).consumedString(removeLastLineSeparator);
         } catch (IOException e) {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
-        return removeLastLineSeparator
-                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(result)
-                : result;
+        return result;
     }
 
     public static <CTR extends TextRecord, T extends CTR> RecordMessage<T> writeRecordIntoStringMessage(
