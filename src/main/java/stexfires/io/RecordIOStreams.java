@@ -1,6 +1,8 @@
 package stexfires.io;
 
 import stexfires.record.TextRecord;
+import stexfires.record.TextRecordStreams;
+import stexfires.record.TextRecords;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -218,11 +220,24 @@ public final class RecordIOStreams {
         return result;
     }
 
-    public static <CTR extends TextRecord, T extends CTR> RecordMessage<T> writeRecordIntoStringMessage(
+    public static <CTR extends TextRecord, TR extends CTR> RecordMessage<TR> writeRecordIntoStringMessage(
             WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             boolean removeLastLineSeparator) {
         Objects.requireNonNull(writableRecordFileSpec);
         return r -> writeRecordIntoString(writableRecordFileSpec, removeLastLineSeparator, r);
+    }
+
+    public static <CTR extends TextRecord, TR extends CTR> TextRecord writeStreamIntoRecord(
+            WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
+            boolean removeLastLineSeparator,
+            Stream<TR> recordStream)
+            throws UncheckedConsumerException {
+        Objects.requireNonNull(writableRecordFileSpec);
+        Objects.requireNonNull(recordStream);
+        return TextRecords.ofTexts(
+                TextRecordStreams.mapToMessage(
+                        recordStream,
+                        writeRecordIntoStringMessage(writableRecordFileSpec, removeLastLineSeparator)));
     }
 
     // ReadableRecordProducer and WritableRecordConsumer ---------------------------------------------------------------
