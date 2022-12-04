@@ -109,7 +109,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         return new AddTextMapper<>(record -> record.textAtOrElse(index, other));
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     public static <T extends TextRecord> AddTextMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, String other) {
         Objects.requireNonNull(fieldTextMapper);
         return new AddTextMapper<>(record -> record.isValidIndex(index) ? fieldTextMapper.mapToText(record.fieldAt(index)) : other);

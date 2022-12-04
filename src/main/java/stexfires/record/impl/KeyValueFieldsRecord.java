@@ -163,7 +163,7 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
         return VALUE_INDEX;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public @NotNull String firstText() {
         return keyField.text();
@@ -174,7 +174,7 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
         return valueField.text();
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public @NotNull String key() {
         return keyField.text();

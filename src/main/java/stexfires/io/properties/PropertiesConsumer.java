@@ -31,7 +31,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         this.fileSpec = fileSpec;
     }
 
-    @SuppressWarnings("HardcodedLineSeparator")
+    @SuppressWarnings({"HardcodedLineSeparator", "EnhancedSwitchMigration"})
     private static String mapCharacter(char character, boolean escapeSpace, boolean escapeUnicode) {
         switch (character) {
             case ' ':
@@ -87,7 +87,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);

@@ -16,7 +16,7 @@ public interface KeyRecord extends TextRecord {
 
     int keyIndex();
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @NotNull String key() {
         return keyField().text();
     }

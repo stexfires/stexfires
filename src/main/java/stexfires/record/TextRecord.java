@@ -81,7 +81,7 @@ public interface TextRecord {
         return Optional.ofNullable(recordId());
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @NotNull OptionalLong recordIdAsOptionalLong() {
         return hasRecordId() ? OptionalLong.of(recordId()) : OptionalLong.empty();
     }
@@ -90,7 +90,7 @@ public interface TextRecord {
         return Stream.ofNullable(recordId());
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @NotNull LongStream recordIdAsLongStream() {
         return hasRecordId() ? LongStream.of(recordId()) : LongStream.empty();
     }
@@ -125,7 +125,7 @@ public interface TextRecord {
         return fieldAt(size() - 1);
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @Nullable String textAt(int index) {
         return isValidIndex(index) ? fieldAt(index).text() : null;
     }
@@ -135,12 +135,12 @@ public interface TextRecord {
         return textAt != null ? textAt : otherText;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @Nullable String firstText() {
         return isNotEmpty() ? firstField().text() : null;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     default @Nullable String lastText() {
         return isNotEmpty() ? lastField().text() : null;
     }

@@ -195,7 +195,7 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         return COMMENT_INDEX;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public @NotNull String firstText() {
         return keyField.text();
@@ -206,7 +206,7 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         return commentField.text();
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public @NotNull String key() {
         return keyField.text();

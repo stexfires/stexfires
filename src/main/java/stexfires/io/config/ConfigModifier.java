@@ -30,7 +30,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
 
     private final RecordStreamModifier<T, KeyValueRecord> modifier;
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     public ConfigModifier(Locale categoryOperatorLocale, int keyIndex, int valueIndex, boolean removeDuplicates) {
         Objects.requireNonNull(categoryOperatorLocale);
 

@@ -18,7 +18,7 @@ public class ReplaceNullFieldTextMapper implements FieldTextMapper {
         this.nullText = nullText;
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public final @NotNull String mapToText(@NotNull TextField field) {
         return field.orElse(nullText);
