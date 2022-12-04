@@ -176,6 +176,13 @@ public final class TextRecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
+    public static <T extends TextRecord> Stream<String> mapToMessage(@NotNull Stream<T> recordStream,
+                                                                     @NotNull RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordStream);
+        Objects.requireNonNull(recordMessage);
+        return recordStream.map(recordMessage::createMessage);
+    }
+
     public static <T extends TextRecord> TextRecord recordWithMessageTexts(@NotNull Stream<T> recordStream,
                                                                            @NotNull RecordMessage<? super T> recordMessage,
                                                                            @Nullable String category,
