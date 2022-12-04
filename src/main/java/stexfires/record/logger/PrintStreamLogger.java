@@ -43,7 +43,8 @@ public class PrintStreamLogger<T extends TextRecord> implements RecordLogger<T> 
             } else {
                 printStream.print(message);
             }
-        } catch (RuntimeException e) {
+        } catch (NullPointerException | UnsupportedOperationException | ClassCastException | IllegalArgumentException |
+                 IllegalStateException e) {
             // Ignore Exception
         }
     }

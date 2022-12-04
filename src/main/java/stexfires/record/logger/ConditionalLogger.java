@@ -34,7 +34,8 @@ public class ConditionalLogger<T extends TextRecord> implements RecordLogger<T> 
             } else {
                 falseLogger.log(record);
             }
-        } catch (RuntimeException e) {
+        } catch (NullPointerException | UnsupportedOperationException | ClassCastException | IllegalArgumentException |
+                 IllegalStateException e) {
             // Ignore Exception
         }
     }

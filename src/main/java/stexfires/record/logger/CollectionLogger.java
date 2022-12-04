@@ -32,7 +32,8 @@ public class CollectionLogger<T extends TextRecord, R extends Collection<String>
             synchronized (lock) {
                 collection.add(message);
             }
-        } catch (RuntimeException e) {
+        } catch (NullPointerException | UnsupportedOperationException | ClassCastException | IllegalArgumentException |
+                 IllegalStateException e) {
             // Ignore Exception
         }
     }

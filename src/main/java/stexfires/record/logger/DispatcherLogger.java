@@ -118,7 +118,8 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
                     }
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (NullPointerException | UnsupportedOperationException | ClassCastException | IllegalArgumentException |
+                 IllegalStateException e) {
             // Ignore Exception
         }
     }

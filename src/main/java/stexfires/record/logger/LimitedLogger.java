@@ -31,7 +31,8 @@ public class LimitedLogger<T extends TextRecord> implements RecordLogger<T> {
                     recordLogger.log(record);
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (NullPointerException | UnsupportedOperationException | ClassCastException | IllegalArgumentException |
+                 IllegalStateException e) {
             // Ignore Exception
         }
     }

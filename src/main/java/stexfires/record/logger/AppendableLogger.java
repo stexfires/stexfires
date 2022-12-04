@@ -32,7 +32,8 @@ public class AppendableLogger<T extends TextRecord, R extends Appendable> implem
             synchronized (lock) {
                 appendable.append(message);
             }
-        } catch (IOException | RuntimeException e) {
+        } catch (IOException | NullPointerException | UnsupportedOperationException | ClassCastException |
+                 IllegalArgumentException | IllegalStateException e) {
             // Ignore Exception
         }
     }
