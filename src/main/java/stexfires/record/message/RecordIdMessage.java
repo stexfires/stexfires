@@ -1,9 +1,7 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
-
-import java.util.Objects;
 
 /**
  * @author Mathias Kalb
@@ -21,16 +19,23 @@ public class RecordIdMessage<T extends TextRecord> implements RecordMessage<T> {
         this(DEFAULT_PREFIX, DEFAULT_MISSING_RECORD_ID_MESSAGE);
     }
 
-    public RecordIdMessage(String prefix, String missingRecordIdMessage) {
-        Objects.requireNonNull(prefix);
-        Objects.requireNonNull(missingRecordIdMessage);
+    public RecordIdMessage(@Nullable String prefix, @Nullable String missingRecordIdMessage) {
         this.prefix = prefix;
         this.missingRecordIdMessage = missingRecordIdMessage;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
-    public final @NotNull String createMessage(T record) {
-        return record.hasRecordId() ? prefix + record.recordId() : missingRecordIdMessage;
+    public final @Nullable String createMessage(T record) {
+        if (record.hasRecordId()) {
+            if (prefix != null) {
+                return prefix + record.recordId().toString();
+            } else {
+                return record.recordId().toString();
+            }
+        } else {
+            return missingRecordIdMessage;
+        }
     }
 
 }
