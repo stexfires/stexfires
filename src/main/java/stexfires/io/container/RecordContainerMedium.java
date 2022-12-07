@@ -1,6 +1,9 @@
 package stexfires.io.container;
 
 import stexfires.record.TextRecord;
+import stexfires.record.message.CategoryMessage;
+import stexfires.record.message.ClassNameMessage;
+import stexfires.record.message.RecordIdMessage;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +15,9 @@ import java.util.Optional;
 public final class RecordContainerMedium implements RecordContainer {
 
     public static final String RECORD_CONTAINER_NAME = "RecordContainerMedium";
-    public static final ContainerField FIELD_CLASS_NAME = new ContainerField("ClassName", 0, record -> record.getClass().getName());
-    public static final ContainerField FIELD_CATEGORY = new ContainerField("Category", 1, TextRecord::category);
-    @SuppressWarnings({"ReturnOfNull", "DataFlowIssue"})
-    public static final ContainerField FIELD_RECORD_ID = new ContainerField("RecordId", 2, record -> record.hasRecordId() ? record.recordId().toString() : null);
+    public static final ContainerField FIELD_CLASS_NAME = new ContainerField("ClassName", 0, new ClassNameMessage<>());
+    public static final ContainerField FIELD_CATEGORY = new ContainerField("Category", 1, new CategoryMessage<>());
+    public static final ContainerField FIELD_RECORD_ID = new ContainerField("RecordId", 2, new RecordIdMessage<>(null, null));
 
     @SuppressWarnings("StaticCollection")
     public static final List<ContainerField> CONTAINER_FIELDS = List.of(
@@ -36,9 +38,9 @@ public final class RecordContainerMedium implements RecordContainer {
     public UnpackResult<? extends TextRecord> unpack(TextRecord packedTextRecord) {
         String errorMessage = null;
 
-        String className = packedTextRecord.textAt(FIELD_CLASS_NAME.index());
-        String category = packedTextRecord.textAt(FIELD_CATEGORY.index());
-        String recordIdString = packedTextRecord.textAt(FIELD_RECORD_ID.index());
+        String className = FIELD_CLASS_NAME.getText(packedTextRecord);
+        String category = FIELD_CATEGORY.getText(packedTextRecord);
+        String recordIdString = FIELD_RECORD_ID.getText(packedTextRecord);
 
         Long recordId = null;
         if (recordIdString != null && !recordIdString.isBlank()) {

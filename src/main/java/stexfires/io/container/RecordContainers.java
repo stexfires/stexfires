@@ -33,7 +33,7 @@ public final class RecordContainers {
         List<String> texts = new ArrayList<>(containerFields.size() + originalTextRecord.size());
         // Add extract container fields
         for (ContainerField containerField : containerFields) {
-            texts.add(containerField.extractFunction().apply(originalTextRecord));
+            texts.add(containerField.createText(originalTextRecord));
         }
         // Add text of original fields
         for (TextField textField : originalTextRecord.listOfFields()) {

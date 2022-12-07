@@ -1,6 +1,7 @@
 package stexfires.io.container;
 
 import stexfires.record.TextRecord;
+import stexfires.record.message.ClassNameMessage;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public final class RecordContainerSmall implements RecordContainer {
 
-    public static final ContainerField FIELD_CLASS_NAME = new ContainerField("ClassName", 0, record -> record.getClass().getName());
+    public static final ContainerField FIELD_CLASS_NAME = new ContainerField("ClassName", 0, new ClassNameMessage<>());
 
     @SuppressWarnings("StaticCollection")
     public static final List<ContainerField> CONTAINER_FIELDS = List.of(
@@ -27,7 +28,7 @@ public final class RecordContainerSmall implements RecordContainer {
 
     @Override
     public UnpackResult<? extends TextRecord> unpack(TextRecord packedTextRecord) {
-        String className = packedTextRecord.textAt(FIELD_CLASS_NAME.index());
+        String className = FIELD_CLASS_NAME.getText(packedTextRecord);
         return RecordContainers.unpack(packedTextRecord, className, CONTAINER_FIELDS.size(), null, null);
     }
 
