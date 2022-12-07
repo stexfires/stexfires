@@ -1,7 +1,10 @@
 package stexfires.io.container;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.path.DosPathFieldsRecord;
+import stexfires.io.path.PathType;
 import stexfires.record.TextField;
+import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.impl.EmptyRecord;
@@ -51,19 +54,21 @@ public final class RecordContainers {
         }
 
         if (EmptyRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackEmptyRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackEmptyRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else if (KeyValueCommentFieldsRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackKeyValueCommentFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackKeyValueCommentFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else if (KeyValueFieldsRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackKeyValueFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackKeyValueFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else if (ManyFieldsRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackManyFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackManyFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else if (TwoFieldsRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackTwoFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackTwoFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else if (ValueFieldRecord.class.getName().equals(className)) {
-            return RecordContainers.unpackValueFieldRecord(packedTextRecord, containerFieldsSize, category, recordId);
+            return unpackValueFieldRecord(packedTextRecord, containerFieldsSize, category, recordId);
+        } else if (DosPathFieldsRecord.class.getName().equals(className)) {
+            return unpackDosPathFieldsRecord(packedTextRecord, containerFieldsSize, category, recordId);
         } else {
-            return RecordContainers.unpackUnknownRecord(packedTextRecord, className, containerFieldsSize, category, recordId);
+            return unpackUnknownRecord(packedTextRecord, className, containerFieldsSize, category, recordId);
         }
     }
 
@@ -159,6 +164,45 @@ public final class RecordContainers {
         } else {
             unpackedRecord = new ValueFieldRecord(category, recordId, value);
         }
+        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+    }
+
+    public static UnpackResult<DosPathFieldsRecord> unpackDosPathFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+        Objects.requireNonNull(packedTextRecord);
+
+        DosPathFieldsRecord unpackedRecord = null;
+        String errorMessage = null;
+
+        if (packedTextRecord.size() - containerFieldsSize != DosPathFieldsRecord.FIELD_SIZE) {
+            errorMessage = "Wrong record size!";
+        } else if (category == null || category.isBlank()) {
+            errorMessage = "Category is null or blank!";
+        } else if (recordId != null) {
+            errorMessage = "RecordId is not null! " + recordId;
+        } else {
+            TextField[] textFields = TextFields.newArray(packedTextRecord.streamOfFields().skip(containerFieldsSize).map(TextField::text));
+            try {
+                unpackedRecord = new DosPathFieldsRecord(
+                        PathType.valueOf(category),
+                        textFields[DosPathFieldsRecord.FILE_NAME_INDEX],
+                        textFields[DosPathFieldsRecord.PATH_INDEX],
+                        textFields[DosPathFieldsRecord.PARENT_INDEX],
+                        textFields[DosPathFieldsRecord.PATH_NAME_COUNT_INDEX],
+                        textFields[DosPathFieldsRecord.FILE_SIZE_INDEX],
+                        textFields[DosPathFieldsRecord.CREATION_TIME_INDEX],
+                        textFields[DosPathFieldsRecord.LAST_MODIFIED_TIME_INDEX],
+                        textFields[DosPathFieldsRecord.LAST_ACCESS_TIME_INDEX],
+                        textFields[DosPathFieldsRecord.ABSOLUTE_INDEX],
+                        textFields[DosPathFieldsRecord.ARCHIVE_INDEX],
+                        textFields[DosPathFieldsRecord.READ_ONLY_INDEX],
+                        textFields[DosPathFieldsRecord.HIDDEN_INDEX],
+                        textFields[DosPathFieldsRecord.SYSTEM_INDEX],
+                        textFields[DosPathFieldsRecord.FILE_EXTENSION_INDEX]);
+            } catch (IllegalArgumentException e) {
+                errorMessage = e.getMessage();
+            }
+        }
+
         return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
