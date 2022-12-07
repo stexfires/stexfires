@@ -8,20 +8,19 @@ The library is still under development.
 Goals
 -----
 - expandable, adaptable, flexible
-- stable and ready for production
-- well tested
 - elegant, short and fluent
 - easy and simple to use
 
 
 Motivation
 ----------
-- Learning and using new "Java 8" techniques and functionalities
+- Learning and using new "Java" techniques and functionalities
   - Functional Interfaces
   - Lambda Expressions
   - Streams
   - New classes and packages (Optional, Objects, java.time, ...)
   - Default methods
+  - record classes
 - Building a useful, free and open Java library (JAR)
 
 
@@ -72,7 +71,7 @@ License
 
 Usage
 -----
-*stexfires* requires only Java 11.
+*stexfires* requires only the newest Java.
 
 
 Building/Developing
