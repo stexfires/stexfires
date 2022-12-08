@@ -55,6 +55,25 @@ public final class RecordIOStreams {
         return result;
     }
 
+    public static <R, PTR extends TextRecord> R readFromString(
+            ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
+            String sourceString,
+            Function<Stream<PTR>, R> streamFunction)
+            throws UncheckedProducerException {
+        Objects.requireNonNull(readableRecordFileSpec);
+        Objects.requireNonNull(sourceString);
+        Objects.requireNonNull(streamFunction);
+
+        R result;
+        try (var readableRecordProducer = readableRecordFileSpec.producer(sourceString)) {
+            result = read(readableRecordProducer, streamFunction);
+        } catch (IOException e) {
+            throw new UncheckedProducerException(new ProducerException(e));
+        }
+
+        return result;
+    }
+
     public static <R extends TextRecord, T extends R> Function<Stream<T>, RecordConsumer<R>> andConsume(
             RecordConsumer<R> recordConsumer) {
         Objects.requireNonNull(recordConsumer);
@@ -130,6 +149,10 @@ public final class RecordIOStreams {
         Objects.requireNonNull(recordStreamModifier);
 
         return s -> recordStreamModifier.modify(s).findFirst();
+    }
+
+    public static <T extends TextRecord> Function<Stream<T>, Stream<T>> andFindFirstAsStream() {
+        return s -> s.findFirst().stream();
     }
 
     public static <R extends TextRecord, PTR extends R> RecordConsumer<R> readAndConsume(
