@@ -45,12 +45,12 @@ public final class RecordContainers {
         return new ManyFieldsRecord(category, recordId, texts);
     }
 
-    public static UnpackResult<? extends TextRecord> unpack(TextRecord packedTextRecord, String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpack(TextRecord packedTextRecord, String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         if (className == null || className.isBlank()) {
-            return new UnpackResult<>(Optional.empty(), Optional.of("ClassName is null or blank!"));
+            return RecordContainers.errorMessageUnpackResult("ClassName is null or blank!");
         }
         if (packedTextRecord.size() < containerFieldsSize) {
-            return new UnpackResult<>(Optional.empty(), Optional.of("Wrong record size!"));
+            return RecordContainers.errorMessageUnpackResult("Wrong record size!");
         }
 
         if (EmptyRecord.class.getName().equals(className)) {
@@ -72,7 +72,12 @@ public final class RecordContainers {
         }
     }
 
-    public static UnpackResult<EmptyRecord> unpackEmptyRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult errorMessageUnpackResult(String errorMessage) {
+        Objects.requireNonNull(errorMessage);
+        return new UnpackResult(Optional.empty(), Optional.of(errorMessage));
+    }
+
+    public static UnpackResult unpackEmptyRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         EmptyRecord unpackedRecord = null;
@@ -87,10 +92,10 @@ public final class RecordContainers {
         } else {
             unpackedRecord = TextRecords.empty();
         }
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<KeyValueCommentFieldsRecord> unpackKeyValueCommentFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackKeyValueCommentFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         KeyValueCommentFieldsRecord unpackedRecord = null;
@@ -107,10 +112,10 @@ public final class RecordContainers {
         } else {
             unpackedRecord = new KeyValueCommentFieldsRecord(category, recordId, key, value, comment);
         }
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<KeyValueFieldsRecord> unpackKeyValueFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackKeyValueFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         KeyValueFieldsRecord unpackedRecord = null;
@@ -125,18 +130,18 @@ public final class RecordContainers {
         } else {
             unpackedRecord = new KeyValueFieldsRecord(category, recordId, key, value);
         }
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<ManyFieldsRecord> unpackManyFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackManyFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         ManyFieldsRecord unpackedRecord = new ManyFieldsRecord(category, recordId, packedTextRecord.streamOfFields().skip(containerFieldsSize).map(TextField::text).toList());
 
-        return new UnpackResult<>(Optional.of(unpackedRecord), Optional.empty());
+        return new UnpackResult(Optional.of(unpackedRecord), Optional.empty());
     }
 
-    public static UnpackResult<TwoFieldsRecord> unpackTwoFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackTwoFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         TwoFieldsRecord unpackedRecord = null;
@@ -149,10 +154,10 @@ public final class RecordContainers {
         } else {
             unpackedRecord = new TwoFieldsRecord(category, recordId, first, second);
         }
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<ValueFieldRecord> unpackValueFieldRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackValueFieldRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         ValueFieldRecord unpackedRecord = null;
@@ -164,10 +169,10 @@ public final class RecordContainers {
         } else {
             unpackedRecord = new ValueFieldRecord(category, recordId, value);
         }
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<DosPathFieldsRecord> unpackDosPathFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackDosPathFieldsRecord(TextRecord packedTextRecord, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         DosPathFieldsRecord unpackedRecord = null;
@@ -203,16 +208,16 @@ public final class RecordContainers {
             }
         }
 
-        return new UnpackResult<>(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
+        return new UnpackResult(Optional.ofNullable(unpackedRecord), Optional.ofNullable(errorMessage));
     }
 
-    public static UnpackResult<TextRecord> unpackUnknownRecord(TextRecord packedTextRecord, String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpackUnknownRecord(TextRecord packedTextRecord, String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
 
         TextRecord unpackedRecord = new ManyFieldsRecord(category, recordId, packedTextRecord.streamOfFields().skip(containerFieldsSize).map(TextField::text).toList());
         String errorMessage = "Unknown class name! " + className;
 
-        return new UnpackResult<>(Optional.of(unpackedRecord), Optional.of(errorMessage));
+        return new UnpackResult(Optional.of(unpackedRecord), Optional.of(errorMessage));
     }
 
 }

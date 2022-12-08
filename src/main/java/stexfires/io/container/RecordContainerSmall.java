@@ -1,5 +1,6 @@
 package stexfires.io.container;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.message.ClassNameMessage;
 
@@ -22,12 +23,12 @@ public final class RecordContainerSmall implements RecordContainer {
     }
 
     @Override
-    public TextRecord pack(TextRecord originalTextRecord) {
+    public @NotNull TextRecord pack(@NotNull TextRecord originalTextRecord) {
         return RecordContainers.pack(originalTextRecord, CONTAINER_FIELDS, null, null);
     }
 
     @Override
-    public UnpackResult<? extends TextRecord> unpack(TextRecord packedTextRecord) {
+    public @NotNull UnpackResult unpack(@NotNull TextRecord packedTextRecord) {
         String className = FIELD_CLASS_NAME.getText(packedTextRecord);
         return RecordContainers.unpack(packedTextRecord, className, CONTAINER_FIELDS.size(), null, null);
     }

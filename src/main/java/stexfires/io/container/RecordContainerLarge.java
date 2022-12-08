@@ -1,5 +1,6 @@
 package stexfires.io.container;
 
+import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.message.CategoryMessage;
 import stexfires.record.message.ClassNameMessage;
@@ -8,7 +9,6 @@ import stexfires.record.message.RecordIdMessage;
 import stexfires.record.message.SizeMessage;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Mathias Kalb
@@ -36,12 +36,12 @@ public final class RecordContainerLarge implements RecordContainer {
     }
 
     @Override
-    public TextRecord pack(TextRecord originalTextRecord) {
+    public @NotNull TextRecord pack(@NotNull TextRecord originalTextRecord) {
         return RecordContainers.pack(originalTextRecord, CONTAINER_FIELDS, null, null);
     }
 
     @Override
-    public UnpackResult<? extends TextRecord> unpack(TextRecord packedTextRecord) {
+    public @NotNull UnpackResult unpack(@NotNull TextRecord packedTextRecord) {
         String errorMessage = null;
 
         String containerClassName = FIELD_RECORD_CONTAINER_NAME.getText(packedTextRecord);
@@ -82,7 +82,7 @@ public final class RecordContainerLarge implements RecordContainer {
             }
         }
 
-        return new UnpackResult<>(Optional.empty(), Optional.of(errorMessage));
+        return RecordContainers.errorMessageUnpackResult(errorMessage);
     }
 
 }
