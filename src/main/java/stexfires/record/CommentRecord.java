@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
@@ -24,6 +25,10 @@ public interface CommentRecord extends TextRecord {
 
     default @NotNull Optional<String> commentAsOptional() {
         return commentField().asOptional();
+    }
+
+    default @NotNull Stream<String> commentAsStream() {
+        return commentField().stream();
     }
 
 }

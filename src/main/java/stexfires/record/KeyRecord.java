@@ -2,6 +2,8 @@ package stexfires.record;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.Stream;
+
 /**
  * The text of a key field must not be null.
  *
@@ -19,6 +21,10 @@ public interface KeyRecord extends TextRecord {
     @SuppressWarnings("DataFlowIssue")
     default @NotNull String key() {
         return keyField().text();
+    }
+
+    default @NotNull Stream<String> keyAsStream() {
+        return keyField().stream();
     }
 
 }

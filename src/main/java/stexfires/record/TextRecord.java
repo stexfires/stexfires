@@ -57,6 +57,14 @@ public interface TextRecord {
         };
     }
 
+    default @NotNull Stream<String> streamOfTexts() {
+        return streamOfFields().map(TextField::text);
+    }
+
+    default @NotNull Stream<Optional<String>> streamOfTextsAsOptional() {
+        return streamOfFields().map(TextField::asOptional);
+    }
+
     @Nullable String category();
 
     default boolean hasCategory() {
