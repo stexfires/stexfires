@@ -1,6 +1,7 @@
 package stexfires.io.singlevalue;
 
 import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.record.TextField;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -37,11 +38,15 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
     public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        String value = record.value();
-        if (value != null) {
-            writeString(value);
-            writeLineSeparator(fileSpec.lineSeparator());
-        } else if (!fileSpec.skipNullValue()) {
+        TextField valueField = record.valueField();
+
+        if (!fileSpec.skipNullValue() || valueField.isNotNull()) {
+            if (fileSpec.linePrefix() != null) {
+                writeString(fileSpec.linePrefix());
+            }
+            if (valueField.isNotNull()) {
+                writeString(valueField.text());
+            }
             writeLineSeparator(fileSpec.lineSeparator());
         }
     }

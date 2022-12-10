@@ -5,11 +5,15 @@ import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.ValueRecord;
 import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
+import stexfires.util.function.StringUnaryOperators;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
@@ -18,11 +22,25 @@ import java.util.Optional;
 public final class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
 
     private final SingleValueFileSpec fileSpec;
+    private final UnaryOperator<String> rawDataOperator;
 
     public SingleValueProducer(BufferedReader bufferedReader, SingleValueFileSpec fileSpec) {
         super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+
+        UnaryOperator<String> combinedOperator = null;
+        if (fileSpec.linePrefix() != null) {
+            combinedOperator = StringUnaryOperators.removeStringFromStart(fileSpec.linePrefix());
+        }
+        if (fileSpec.trimToEmpty()) {
+            if (combinedOperator == null) {
+                combinedOperator = StringUnaryOperators.trimToEmpty();
+            } else {
+                combinedOperator = StringUnaryOperators.concat(combinedOperator, StringUnaryOperators.trimToEmpty());
+            }
+        }
+        rawDataOperator = Objects.requireNonNullElseGet(combinedOperator, StringUnaryOperators::identity);
     }
 
     @Override
@@ -31,14 +49,21 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
     }
 
     @Override
-    protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) {
+    protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+        // Check missing linePrefix
+        if ((fileSpec.linePrefix() != null) && !recordRawData.rawData().startsWith(fileSpec.linePrefix())) {
+            throw new UncheckedProducerException(new ProducerException("Missing linePrefix! " + recordRawData));
+        }
+
         ValueRecord record;
-        if (fileSpec.skipEmptyLines() && recordRawData.rawData().isEmpty()) {
+
+        String valueText = rawDataOperator.apply(recordRawData.rawData());
+
+        if (fileSpec.skipEmptyLines() && valueText.isEmpty()) {
             // skip empty line
             record = null;
         } else {
-            record = new ValueFieldRecord(recordRawData.category(), recordRawData.recordId(),
-                    recordRawData.rawData());
+            record = new ValueFieldRecord(recordRawData.category(), recordRawData.recordId(), valueText);
         }
 
         return Optional.ofNullable(record);
