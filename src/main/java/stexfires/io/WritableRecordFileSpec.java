@@ -1,6 +1,5 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
@@ -19,17 +18,9 @@ import java.util.Objects;
 @SuppressWarnings("SameReturnValue")
 public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
 
-    LineSeparator DEFAULT_LINE_SEPARATOR = LineSeparator.LF;
+    LineSeparator DEFAULT_CONSUMER_LINE_SEPARATOR = LineSeparator.LF;
 
-    String DEFAULT_TEXT_BEFORE = null;
-
-    String DEFAULT_TEXT_AFTER = null;
-
-    LineSeparator lineSeparator();
-
-    @Nullable String textBefore();
-
-    @Nullable String textAfter();
+    LineSeparator consumerLineSeparator();
 
     WRC consumer(BufferedWriter bufferedWriter);
 

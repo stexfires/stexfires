@@ -28,9 +28,9 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
-        if (fileSpec.textBefore() != null) {
-            writeString(fileSpec.textBefore());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 
@@ -47,7 +47,7 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
             if (valueField.isNotNull()) {
                 writeString(valueField.text());
             }
-            writeLineSeparator(fileSpec.lineSeparator());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 
@@ -55,9 +55,9 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
-        if (fileSpec.textAfter() != null) {
-            writeString(fileSpec.textAfter());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 

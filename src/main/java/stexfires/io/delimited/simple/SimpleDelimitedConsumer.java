@@ -56,9 +56,9 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
-        if (fileSpec.textBefore() != null) {
-            writeString(fileSpec.textBefore());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 
@@ -70,16 +70,16 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
                 fileSpec.fieldDelimiter(),
                 fileSpec.fieldSpecs(),
                 record.listOfFields()));
-        writeLineSeparator(fileSpec.lineSeparator());
+        writeLineSeparator(fileSpec.consumerLineSeparator());
     }
 
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
-        if (fileSpec.textAfter() != null) {
-            writeString(fileSpec.textAfter());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 

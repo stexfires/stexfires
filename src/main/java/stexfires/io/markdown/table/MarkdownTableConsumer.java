@@ -137,16 +137,16 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
         writeCharSequence(tableRow);
-        writeLineSeparator(fileSpec.lineSeparator());
+        writeLineSeparator(fileSpec.consumerLineSeparator());
     }
 
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
-        if (fileSpec.textBefore() != null) {
-            writeString(fileSpec.textBefore());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
 
         writeStringBuilderRow(buildHeaderRow());
@@ -164,9 +164,9 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
-        if (fileSpec.textAfter() != null) {
-            writeString(fileSpec.textAfter());
-            writeLineSeparator(fileSpec.lineSeparator());
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
         }
     }
 

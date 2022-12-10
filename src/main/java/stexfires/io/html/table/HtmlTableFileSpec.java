@@ -19,9 +19,9 @@ import java.util.Objects;
  */
 public record HtmlTableFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         @NotNull List<HtmlTableFieldSpec> fieldSpecs,
         @Nullable String indentation
 ) implements WritableRecordFileSpec<TextRecord, HtmlTableConsumer> {
@@ -36,24 +36,27 @@ public record HtmlTableFileSpec(
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
     public static final String DEFAULT_INDENTATION = null;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public HtmlTableFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
 
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
     public static HtmlTableFileSpec write(CharsetCoding charsetCoding,
-                                          LineSeparator lineSeparator,
+                                          LineSeparator consumerLineSeparator,
                                           @Nullable String textBefore,
                                           @Nullable String textAfter,
                                           List<HtmlTableFieldSpec> fieldSpecs,
                                           @Nullable String indentation) {
         return new HtmlTableFileSpec(
                 charsetCoding,
-                lineSeparator,
+                consumerLineSeparator,
                 textBefore,
                 textAfter,
                 fieldSpecs,

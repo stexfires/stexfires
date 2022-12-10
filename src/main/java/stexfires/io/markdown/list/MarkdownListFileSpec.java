@@ -16,9 +16,9 @@ import java.util.Objects;
  */
 public record MarkdownListFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         @NotNull BulletPoint bulletPoint,
         boolean skipNullValue
 ) implements WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
@@ -34,10 +34,13 @@ public record MarkdownListFileSpec(
     public static final long START_NUMBER = 1L;
     public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_SKIP_NULL_VALUE = false;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public MarkdownListFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(bulletPoint);
     }
 

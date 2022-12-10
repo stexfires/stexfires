@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public record PropertiesFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
+        @NotNull LineSeparator consumerLineSeparator,
         @Nullable String readNullValueReplacement,
         boolean commentAsCategory,
         @NotNull String writeNullValueReplacement,
@@ -45,7 +45,7 @@ public record PropertiesFileSpec(
 
     public PropertiesFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(writeNullValueReplacement);
         Objects.requireNonNull(keyPrefixDelimiter);
     }
@@ -55,7 +55,7 @@ public record PropertiesFileSpec(
                                           boolean commentAsCategory) {
         return new PropertiesFileSpec(
                 charsetCoding,
-                DEFAULT_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
                 readNullValueReplacement,
                 commentAsCategory,
                 DEFAULT_WRITE_NULL_VALUE_REPLACEMENT,
@@ -94,16 +94,6 @@ public record PropertiesFileSpec(
     public PropertiesConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new PropertiesConsumer(bufferedWriter, this);
-    }
-
-    @Override
-    public @Nullable String textBefore() {
-        return WritableRecordFileSpec.DEFAULT_TEXT_BEFORE;
-    }
-
-    @Override
-    public @Nullable String textAfter() {
-        return WritableRecordFileSpec.DEFAULT_TEXT_AFTER;
     }
 
 }

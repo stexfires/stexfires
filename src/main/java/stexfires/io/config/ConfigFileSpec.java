@@ -1,7 +1,6 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.io.ReadableRecordFileSpec;
 import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
@@ -18,7 +17,7 @@ import java.util.Objects;
  */
 public record ConfigFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
+        @NotNull LineSeparator consumerLineSeparator,
         @NotNull String valueDelimiter
 ) implements ReadableRecordFileSpec<KeyValueRecord, ConfigProducer>, WritableRecordFileSpec<KeyValueRecord, ConfigConsumer> {
 
@@ -31,7 +30,7 @@ public record ConfigFileSpec(
 
     public ConfigFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(valueDelimiter);
     }
 
@@ -39,7 +38,7 @@ public record ConfigFileSpec(
                                       String valueDelimiter) {
         return new ConfigFileSpec(
                 charsetCoding,
-                DEFAULT_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
                 valueDelimiter);
     }
 
@@ -62,16 +61,6 @@ public record ConfigFileSpec(
     public ConfigConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new ConfigConsumer(bufferedWriter, this);
-    }
-
-    @Override
-    public @Nullable String textBefore() {
-        return WritableRecordFileSpec.DEFAULT_TEXT_BEFORE;
-    }
-
-    @Override
-    public @Nullable String textAfter() {
-        return WritableRecordFileSpec.DEFAULT_TEXT_AFTER;
     }
 
 }

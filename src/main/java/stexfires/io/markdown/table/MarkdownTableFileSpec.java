@@ -23,9 +23,9 @@ import static stexfires.util.Alignment.START;
  */
 public record MarkdownTableFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         @NotNull List<MarkdownTableFieldSpec> fieldSpecs,
         @NotNull Alignment alignment
 ) implements WritableRecordFileSpec<TextRecord, MarkdownTableConsumer> {
@@ -40,9 +40,13 @@ public record MarkdownTableFileSpec(
     public static final int COLUMN_MIN_WIDTH = 5;
     public static final Alignment DEFAULT_ALIGNMENT = START;
 
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+
     public MarkdownTableFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(alignment);
 

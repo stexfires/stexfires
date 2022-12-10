@@ -74,7 +74,7 @@ public final class StringWritableRecordConsumer<CTR extends TextRecord, WRC exte
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
         return removeLastLineSeparator
-                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.lineSeparator().string()).apply(stringWriter.toString())
+                ? StringUnaryOperators.removeStringFromEnd(writableRecordFileSpec.consumerLineSeparator().string()).apply(stringWriter.toString())
                 : stringWriter.toString();
     }
 

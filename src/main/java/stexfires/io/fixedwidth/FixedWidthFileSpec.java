@@ -22,9 +22,9 @@ import java.util.Objects;
  */
 public record FixedWidthFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         int recordWidth,
         boolean separateRecordsByLineSeparator,
         @NotNull Alignment alignment,
@@ -39,10 +39,13 @@ public record FixedWidthFileSpec(
     public static final int DEFAULT_IGNORE_LAST = 0;
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public FixedWidthFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
         Objects.requireNonNull(fieldSpecs);
@@ -71,9 +74,9 @@ public record FixedWidthFileSpec(
                                           boolean skipAllNullOrEmpty) {
         return new FixedWidthFileSpec(
                 charsetCoding,
-                DEFAULT_LINE_SEPARATOR,
-                DEFAULT_TEXT_BEFORE,
-                DEFAULT_TEXT_AFTER,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
                 recordWidth,
                 separateRecordsByLineSeparator,
                 alignment,

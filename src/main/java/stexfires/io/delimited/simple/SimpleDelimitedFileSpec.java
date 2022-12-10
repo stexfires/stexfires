@@ -21,9 +21,9 @@ import java.util.Objects;
  */
 public record SimpleDelimitedFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         @NotNull String fieldDelimiter,
         @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs,
         int ignoreFirst,
@@ -36,10 +36,13 @@ public record SimpleDelimitedFileSpec(
     public static final int DEFAULT_IGNORE_LAST = 0;
     public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_SKIP_ALL_NULL = false;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public SimpleDelimitedFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldDelimiter);
         Objects.requireNonNull(fieldSpecs);
         if (ignoreFirst < 0) {
@@ -60,9 +63,9 @@ public record SimpleDelimitedFileSpec(
                                                boolean skipAllNull) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
-                DEFAULT_LINE_SEPARATOR,
-                DEFAULT_TEXT_BEFORE,
-                DEFAULT_TEXT_AFTER,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
                 fieldDelimiter,
                 fieldSpecs,
                 ignoreFirst,

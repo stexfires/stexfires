@@ -18,9 +18,9 @@ import java.util.Objects;
  */
 public record SingleValueFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator lineSeparator,
-        @Nullable String textBefore,
-        @Nullable String textAfter,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
         boolean consumerSkipNullValueLines,
         boolean producerTrimToEmpty,
         boolean producerSkipEmptyLines,
@@ -37,10 +37,13 @@ public record SingleValueFileSpec(
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final String DEFAULT_LINE_PREFIX = null;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public SingleValueFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(lineSeparator);
+        Objects.requireNonNull(consumerLineSeparator);
         if (producerSkipFirstLines < 0) {
             throw new IllegalArgumentException("producerSkipFirstLines < 0");
         }
@@ -61,9 +64,9 @@ public record SingleValueFileSpec(
                                            int producerIgnoreLastRecords) {
         return new SingleValueFileSpec(
                 charsetCoding,
-                DEFAULT_LINE_SEPARATOR,
-                DEFAULT_TEXT_BEFORE,
-                DEFAULT_TEXT_AFTER,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
                 DEFAULT_CONSUMER_SKIP_NULL_VALUE,
                 producerTrimToEmpty,
                 producerSkipEmptyLines,
