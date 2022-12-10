@@ -33,7 +33,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
         if (fileSpec.linePrefix() != null) {
             combinedOperator = StringUnaryOperators.removeStringFromStart(fileSpec.linePrefix());
         }
-        if (fileSpec.trimToEmpty()) {
+        if (fileSpec.producerTrimToEmpty()) {
             if (combinedOperator == null) {
                 combinedOperator = StringUnaryOperators.trimToEmpty();
             } else {
@@ -59,7 +59,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
         String valueText = rawDataOperator.apply(recordRawData.rawData());
 
-        if (fileSpec.skipEmptyLines() && valueText.isEmpty()) {
+        if (fileSpec.producerSkipEmptyLines() && valueText.isEmpty()) {
             // skip empty line
             record = null;
         } else {

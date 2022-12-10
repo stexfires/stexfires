@@ -40,7 +40,7 @@ public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRec
 
         TextField valueField = record.valueField();
 
-        if (!fileSpec.skipNullValue() || valueField.isNotNull()) {
+        if (!fileSpec.consumerSkipNullValueLines() || valueField.isNotNull()) {
             if (fileSpec.linePrefix() != null) {
                 writeString(fileSpec.linePrefix());
             }
