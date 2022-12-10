@@ -22,6 +22,7 @@ import java.util.Objects;
 public record SimpleDelimitedFileSpec(
         @NotNull CharsetCoding charsetCoding,
         @NotNull String fieldDelimiter,
+        int producerSkipFirstLines,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerSkipEmptyLines,
@@ -32,6 +33,7 @@ public record SimpleDelimitedFileSpec(
         @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
+    public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
@@ -42,6 +44,9 @@ public record SimpleDelimitedFileSpec(
     public SimpleDelimitedFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(fieldDelimiter);
+        if (producerSkipFirstLines < 0) {
+            throw new IllegalArgumentException("producerSkipFirstLines < 0");
+        }
         if (producerIgnoreFirstRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
         }
@@ -56,6 +61,7 @@ public record SimpleDelimitedFileSpec(
 
     public static SimpleDelimitedFileSpec read(@NotNull CharsetCoding charsetCoding,
                                                @NotNull String fieldDelimiter,
+                                               int producerSkipFirstLines,
                                                int producerIgnoreFirstRecords,
                                                int producerIgnoreLastRecords,
                                                boolean producerSkipEmptyLines,
@@ -64,6 +70,7 @@ public record SimpleDelimitedFileSpec(
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
+                producerSkipFirstLines,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
                 producerSkipEmptyLines,
@@ -84,6 +91,7 @@ public record SimpleDelimitedFileSpec(
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_SKIP_EMPTY_LINES,

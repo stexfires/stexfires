@@ -5,6 +5,8 @@ import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,6 +29,18 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+    }
+
+    @Override
+    public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
+        // Skip first lines by reading lines from the buffer without reading Records with the Iterator.
+        if (fileSpec.producerSkipFirstLines() > 0) {
+            for (int i = 0; i < fileSpec.producerSkipFirstLines(); i++) {
+                bufferedReader().readLine();
+            }
+        }
+
+        super.readBefore();
     }
 
     @Override
