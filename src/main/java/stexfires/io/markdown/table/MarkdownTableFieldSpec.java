@@ -17,4 +17,12 @@ public record MarkdownTableFieldSpec(@Nullable String name, int minWidth, @Nulla
         }
     }
 
+    int differenceToMinWidth(int width) {
+        return Math.max(0, minWidth - width);
+    }
+
+    Alignment determineAlignment(MarkdownTableFileSpec fileSpec) {
+        return alignment != null ? alignment : fileSpec.consumerAlignment();
+    }
+
 }

@@ -20,7 +20,7 @@ public record MarkdownListFileSpec(
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         @NotNull BulletPoint consumerBulletPoint,
-        boolean consumerSkipNullValue
+        boolean consumerSkipNullValueLines
 ) implements WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
 
     public enum BulletPoint {
@@ -30,7 +30,7 @@ public record MarkdownListFileSpec(
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final BulletPoint DEFAULT_CONSUMER_BULLET_POINT = BulletPoint.STAR;
-    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
+    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
 
     public static final String BULLET_POINT_NUMBER = ".";
     public static final String BULLET_POINT_STAR = "*";
@@ -49,14 +49,14 @@ public record MarkdownListFileSpec(
                                              @Nullable String consumerTextBefore,
                                              @Nullable String consumerTextAfter,
                                              @NotNull BulletPoint consumerBulletPoint,
-                                             boolean consumerSkipNullValue) {
+                                             boolean consumerSkipNullValueLines) {
         return new MarkdownListFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
                 consumerBulletPoint,
-                consumerSkipNullValue);
+                consumerSkipNullValueLines);
     }
 
     @Override

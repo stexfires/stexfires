@@ -1,6 +1,7 @@
 package stexfires.io.markdown.list;
 
 import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.record.TextField;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -48,8 +49,9 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
     public void writeRecord(ValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        String value = record.value();
-        if (value != null || !fileSpec.consumerSkipNullValue()) {
+        TextField valueField = record.valueField();
+
+        if (!fileSpec.consumerSkipNullValueLines() || valueField.isNotNull()) {
             switch (fileSpec.consumerBulletPoint()) {
                 case NUMBER -> {
                     writeString(String.valueOf(currentNumber));
@@ -60,8 +62,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
                 case DASH -> writeString(BULLET_POINT_DASH);
             }
             writeString(FILL_CHARACTER);
-            if (value != null) {
-                writeString(value);
+            if (valueField.isNotNull()) {
+                writeString(valueField.text());
             }
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }

@@ -59,7 +59,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             }
 
             // fill character
-            b.append(FILL_CHARACTER.repeat(Math.max(0, fieldSpec.minWidth() - valueWidth) + 1));
+            b.append(FILL_CHARACTER.repeat(fieldSpec.differenceToMinWidth(valueWidth) + 1));
         }
 
         if (!b.isEmpty()) {
@@ -76,14 +76,14 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             b.append(FIELD_DELIMITER);
 
             // header underline
-            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.consumerAlignment();
+            Alignment fieldAlignment = fieldSpec.determineAlignment(fileSpec);
 
             if (fieldAlignment != END) {
                 b.append(ALIGNMENT_INDICATOR);
             }
 
             int valueWidth = (fieldAlignment == CENTER) ? 2 : 1;
-            b.append(HEADER_DELIMITER.repeat(Math.max(0, fieldSpec.minWidth() - valueWidth)));
+            b.append(HEADER_DELIMITER.repeat(fieldSpec.differenceToMinWidth(valueWidth)));
 
             if (fieldAlignment != START) {
                 b.append(ALIGNMENT_INDICATOR);
@@ -107,7 +107,6 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-            int minWidth = fieldSpec.minWidth();
 
             TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;
@@ -123,7 +122,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
                 b.append(text);
             }
 
-            b.append(FILL_CHARACTER.repeat(Math.max(0, minWidth - textWidth)));
+            b.append(FILL_CHARACTER.repeat(fieldSpec.differenceToMinWidth(textWidth)));
 
             b.append(FILL_CHARACTER);
         }
