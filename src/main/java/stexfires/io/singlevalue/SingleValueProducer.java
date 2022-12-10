@@ -44,6 +44,18 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
     }
 
     @Override
+    public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
+        // Skip first lines by reading lines from the buffer without reading Records with the Iterator.
+        if (fileSpec.producerSkipFirstLines() > 0) {
+            for (int i = 0; i < fileSpec.producerSkipFirstLines(); i++) {
+                bufferedReader().readLine();
+            }
+        }
+
+        super.readBefore();
+    }
+
+    @Override
     protected AbstractRecordRawDataIterator createIterator() {
         return new SingleValueIterator(bufferedReader(), fileSpec);
     }
@@ -72,7 +84,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
     private static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
         private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
-            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
+            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
         }
 
         @Override

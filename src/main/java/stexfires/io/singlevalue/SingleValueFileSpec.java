@@ -24,26 +24,31 @@ public record SingleValueFileSpec(
         boolean consumerSkipNullValueLines,
         boolean producerTrimToEmpty,
         boolean producerSkipEmptyLines,
-        int ignoreFirst,
-        int ignoreLast,
+        int producerSkipFirstLines,
+        int producerIgnoreFirstRecords,
+        int producerIgnoreLastRecords,
         @Nullable String linePrefix
 ) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
 
-    public static final String DEFAULT_LINE_PREFIX = null;
+    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
     public static final boolean DEFAULT_PRODUCER_TRIM_TO_EMPTY = false;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
-    public static final int DEFAULT_IGNORE_FIRST = 0;
-    public static final int DEFAULT_IGNORE_LAST = 0;
-    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
+    public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
+    public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
+    public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
+    public static final String DEFAULT_LINE_PREFIX = null;
 
     public SingleValueFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(lineSeparator);
-        if (ignoreFirst < 0) {
-            throw new IllegalArgumentException("ignoreFirst < 0");
+        if (producerSkipFirstLines < 0) {
+            throw new IllegalArgumentException("producerSkipFirstLines < 0");
         }
-        if (ignoreLast < 0) {
-            throw new IllegalArgumentException("ignoreLast < 0");
+        if (producerIgnoreFirstRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
+        }
+        if (producerIgnoreLastRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
         }
     }
 
@@ -51,8 +56,9 @@ public record SingleValueFileSpec(
                                            @Nullable String linePrefix,
                                            boolean producerTrimToEmpty,
                                            boolean producerSkipEmptyLines,
-                                           int ignoreFirstLines,
-                                           int ignoreLastLines) {
+                                           int producerSkipFirstLines,
+                                           int producerIgnoreFirstRecords,
+                                           int producerIgnoreLastRecords) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 DEFAULT_LINE_SEPARATOR,
@@ -61,8 +67,9 @@ public record SingleValueFileSpec(
                 DEFAULT_CONSUMER_SKIP_NULL_VALUE,
                 producerTrimToEmpty,
                 producerSkipEmptyLines,
-                ignoreFirstLines,
-                ignoreLastLines,
+                producerSkipFirstLines,
+                producerIgnoreFirstRecords,
+                producerIgnoreLastRecords,
                 linePrefix
         );
     }
@@ -81,8 +88,9 @@ public record SingleValueFileSpec(
                 consumerSkipNullValueLines,
                 DEFAULT_PRODUCER_TRIM_TO_EMPTY,
                 DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
-                DEFAULT_IGNORE_FIRST,
-                DEFAULT_IGNORE_LAST,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 linePrefix
         );
     }
