@@ -58,7 +58,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
 
     protected abstract Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws ProducerException, UncheckedProducerException, IOException;
 
-    public final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
+    protected final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
             while (!endIsReached && (queue.remainingCapacity() > 0)
                     && (!onlyFirst || first.size() < ignoreFirst)) {
