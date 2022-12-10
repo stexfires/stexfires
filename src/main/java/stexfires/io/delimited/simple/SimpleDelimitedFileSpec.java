@@ -21,76 +21,78 @@ import java.util.Objects;
  */
 public record SimpleDelimitedFileSpec(
         @NotNull CharsetCoding charsetCoding,
+        @NotNull String fieldDelimiter,
+        int producerIgnoreFirstRecords,
+        int producerIgnoreLastRecords,
+        boolean producerSkipEmptyLines,
+        boolean producerSkipAllNull,
         @NotNull LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull String fieldDelimiter,
-        @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs,
-        int ignoreFirst,
-        int ignoreLast,
-        boolean skipEmptyLines,
-        boolean skipAllNull
+        @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
-    public static final int DEFAULT_IGNORE_FIRST = 0;
-    public static final int DEFAULT_IGNORE_LAST = 0;
-    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
-    public static final boolean DEFAULT_SKIP_ALL_NULL = false;
+    public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
+    public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
+    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_PRODUCER_SKIP_ALL_NULL = false;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public SimpleDelimitedFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldDelimiter);
+        if (producerIgnoreFirstRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
+        }
+        if (producerIgnoreLastRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
+        }
+        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
-        if (ignoreFirst < 0) {
-            throw new IllegalArgumentException("ignoreFirst < 0");
-        }
-        if (ignoreLast < 0) {
-            throw new IllegalArgumentException("ignoreLast < 0");
-        }
+
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static SimpleDelimitedFileSpec read(CharsetCoding charsetCoding,
-                                               String fieldDelimiter,
-                                               List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                               int ignoreFirst,
-                                               int ignoreLast,
-                                               boolean skipEmptyLines,
-                                               boolean skipAllNull) {
+    public static SimpleDelimitedFileSpec read(@NotNull CharsetCoding charsetCoding,
+                                               @NotNull String fieldDelimiter,
+                                               int producerIgnoreFirstRecords,
+                                               int producerIgnoreLastRecords,
+                                               boolean producerSkipEmptyLines,
+                                               boolean producerSkipAllNull,
+                                               @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
+                fieldDelimiter,
+                producerIgnoreFirstRecords,
+                producerIgnoreLastRecords,
+                producerSkipEmptyLines,
+                producerSkipAllNull,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
-                fieldDelimiter,
-                fieldSpecs,
-                ignoreFirst,
-                ignoreLast,
-                skipEmptyLines,
-                skipAllNull);
+                fieldSpecs
+        );
     }
 
-    public static SimpleDelimitedFileSpec write(CharsetCoding charsetCoding,
-                                                LineSeparator lineSeparator,
-                                                @Nullable String textBefore,
-                                                @Nullable String textAfter,
-                                                String fieldDelimiter,
-                                                List<SimpleDelimitedFieldSpec> fieldSpecs) {
+    public static SimpleDelimitedFileSpec write(@NotNull CharsetCoding charsetCoding,
+                                                @NotNull String fieldDelimiter,
+                                                @NotNull LineSeparator consumerLineSeparator,
+                                                @Nullable String consumerTextBefore,
+                                                @Nullable String consumerTextAfter,
+                                                @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter,
                 fieldDelimiter,
-                fieldSpecs,
-                DEFAULT_IGNORE_FIRST,
-                DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_EMPTY_LINES,
-                DEFAULT_SKIP_ALL_NULL);
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL,
+                consumerLineSeparator,
+                consumerTextBefore,
+                consumerTextAfter,
+                fieldSpecs
+        );
     }
 
     @Override
@@ -106,7 +108,7 @@ public record SimpleDelimitedFileSpec(
     }
 
     @Override
-    public List<SimpleDelimitedFieldSpec> fieldSpecs() {
+    public @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

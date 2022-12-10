@@ -18,32 +18,30 @@ import java.util.Objects;
  */
 public record SingleValueFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
-        @Nullable String consumerTextBefore,
-        @Nullable String consumerTextAfter,
-        boolean consumerSkipNullValueLines,
-        boolean producerTrimToEmpty,
-        boolean producerSkipEmptyLines,
+        @Nullable String linePrefix,
         int producerSkipFirstLines,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
-        @Nullable String linePrefix
+        boolean producerTrimToEmpty,
+        boolean producerSkipEmptyLines,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
+        boolean consumerSkipNullValueLines
 ) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
 
-    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
-    public static final boolean DEFAULT_PRODUCER_TRIM_TO_EMPTY = false;
-    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
+    public static final String DEFAULT_LINE_PREFIX = null;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
-    public static final String DEFAULT_LINE_PREFIX = null;
+    public static final boolean DEFAULT_PRODUCER_TRIM_TO_EMPTY = false;
+    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
 
     public SingleValueFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(consumerLineSeparator);
         if (producerSkipFirstLines < 0) {
             throw new IllegalArgumentException("producerSkipFirstLines < 0");
         }
@@ -53,48 +51,49 @@ public record SingleValueFileSpec(
         if (producerIgnoreLastRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
         }
+        Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static SingleValueFileSpec read(CharsetCoding charsetCoding,
+    public static SingleValueFileSpec read(@NotNull CharsetCoding charsetCoding,
                                            @Nullable String linePrefix,
-                                           boolean producerTrimToEmpty,
-                                           boolean producerSkipEmptyLines,
                                            int producerSkipFirstLines,
                                            int producerIgnoreFirstRecords,
-                                           int producerIgnoreLastRecords) {
+                                           int producerIgnoreLastRecords,
+                                           boolean producerTrimToEmpty,
+                                           boolean producerSkipEmptyLines) {
         return new SingleValueFileSpec(
                 charsetCoding,
-                DEFAULT_CONSUMER_LINE_SEPARATOR,
-                DEFAULT_CONSUMER_TEXT_BEFORE,
-                DEFAULT_CONSUMER_TEXT_AFTER,
-                DEFAULT_CONSUMER_SKIP_NULL_VALUE,
-                producerTrimToEmpty,
-                producerSkipEmptyLines,
+                linePrefix,
                 producerSkipFirstLines,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
-                linePrefix
+                producerTrimToEmpty,
+                producerSkipEmptyLines,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
         );
     }
 
-    public static SingleValueFileSpec write(CharsetCoding charsetCoding,
-                                            LineSeparator lineSeparator,
+    public static SingleValueFileSpec write(@NotNull CharsetCoding charsetCoding,
                                             @Nullable String linePrefix,
-                                            @Nullable String textBefore,
-                                            @Nullable String textAfter,
+                                            @NotNull LineSeparator consumerLineSeparator,
+                                            @Nullable String consumerTextBefore,
+                                            @Nullable String consumerTextAfter,
                                             boolean consumerSkipNullValueLines) {
         return new SingleValueFileSpec(
                 charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter,
-                consumerSkipNullValueLines,
-                DEFAULT_PRODUCER_TRIM_TO_EMPTY,
-                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                linePrefix,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
-                linePrefix
+                DEFAULT_PRODUCER_TRIM_TO_EMPTY,
+                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                consumerLineSeparator,
+                consumerTextBefore,
+                consumerTextAfter,
+                consumerSkipNullValueLines
         );
     }
 

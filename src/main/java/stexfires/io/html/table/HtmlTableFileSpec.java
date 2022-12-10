@@ -22,9 +22,13 @@ public record HtmlTableFileSpec(
         @NotNull LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull List<HtmlTableFieldSpec> fieldSpecs,
-        @Nullable String indentation
+        @Nullable String consumerIndentation,
+        @NotNull List<HtmlTableFieldSpec> fieldSpecs
 ) implements WritableRecordFileSpec<TextRecord, HtmlTableConsumer> {
+
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final String DEFAULT_CONSUMER_INDENTATION = null;
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -35,10 +39,6 @@ public record HtmlTableFileSpec(
     public static final String TABLE_DATA_BEGIN = "<td>";
     public static final String TABLE_DATA_END = "</td>";
     public static final String NON_BREAKING_SPACE = "&nbsp;";
-    public static final String DEFAULT_INDENTATION = null;
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public HtmlTableFileSpec {
         Objects.requireNonNull(charsetCoding);
@@ -48,19 +48,19 @@ public record HtmlTableFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static HtmlTableFileSpec write(CharsetCoding charsetCoding,
-                                          LineSeparator consumerLineSeparator,
-                                          @Nullable String textBefore,
-                                          @Nullable String textAfter,
-                                          List<HtmlTableFieldSpec> fieldSpecs,
-                                          @Nullable String indentation) {
+    public static HtmlTableFileSpec write(@NotNull CharsetCoding charsetCoding,
+                                          @NotNull LineSeparator consumerLineSeparator,
+                                          @Nullable String consumerTextBefore,
+                                          @Nullable String consumerTextAfter,
+                                          @Nullable String consumerIndentation,
+                                          @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
         return new HtmlTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
-                textBefore,
-                textAfter,
-                fieldSpecs,
-                indentation);
+                consumerTextBefore,
+                consumerTextAfter,
+                consumerIndentation, fieldSpecs
+        );
     }
 
     @Override
@@ -70,7 +70,7 @@ public record HtmlTableFileSpec(
     }
 
     @Override
-    public List<HtmlTableFieldSpec> fieldSpecs() {
+    public @NotNull List<HtmlTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

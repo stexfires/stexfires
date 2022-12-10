@@ -65,11 +65,11 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         TextRecord record = null;
         String rawData = recordRawData.rawData();
 
-        boolean skipEmptyLine = fileSpec.skipEmptyLines() && rawData.isEmpty();
+        boolean skipEmptyLine = fileSpec.producerSkipEmptyLines() && rawData.isEmpty();
         if (!skipEmptyLine) {
             List<String> texts = convertRawDataIntoTexts(rawData);
 
-            boolean skipAllNullOrEmpty = fileSpec.skipAllNullOrEmpty()
+            boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
                     && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
 
             if (!skipAllNullOrEmpty) {
@@ -105,7 +105,7 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         private final FixedWidthFileSpec fileSpec;
 
         private FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
-            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
+            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

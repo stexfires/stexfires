@@ -43,11 +43,11 @@ public final class PropertiesProducer extends AbstractReadableProducer<KeyValueR
         String[] keyValue = splitLine(recordRawData.rawData());
 
         return createRecord(
-                fileSpec.commentAsCategory() ? recordRawData.category() : null,
+                fileSpec.producerCommentAsCategory() ? recordRawData.category() : null,
                 recordRawData.recordId(),
                 decode(keyValue[0]),
                 decode(keyValue[1]),
-                fileSpec.readNullValueReplacement());
+                fileSpec.producerNullValueReplacement());
     }
 
     private static String[] splitLine(String line) {

@@ -71,16 +71,16 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
     }
 
     private void writeStringRow(String tableRow) throws IOException {
-        if (fileSpec.indentation() != null) {
-            writeString(fileSpec.indentation());
+        if (fileSpec.consumerIndentation() != null) {
+            writeString(fileSpec.consumerIndentation());
         }
         writeString(tableRow);
         writeLineSeparator(fileSpec.consumerLineSeparator());
     }
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
-        if (fileSpec.indentation() != null) {
-            writeString(fileSpec.indentation());
+        if (fileSpec.consumerIndentation() != null) {
+            writeString(fileSpec.consumerIndentation());
         }
         writeCharSequence(tableRow);
         writeLineSeparator(fileSpec.consumerLineSeparator());

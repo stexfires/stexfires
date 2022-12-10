@@ -80,7 +80,7 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
-        if (fileSpec.dateComment()) {
+        if (fileSpec.consumerDateComment()) {
             writeString(COMMENT_PREFIX);
             writeString(new Date().toString());
             writeLineSeparator(fileSpec.consumerLineSeparator());
@@ -93,15 +93,15 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         super.writeRecord(record);
 
         String key;
-        if (fileSpec.categoryAsKeyPrefix() && record.hasCategory()) {
-            key = record.category() + fileSpec.keyPrefixDelimiter() + record.key();
+        if (fileSpec.consumerCategoryAsKeyPrefix() && record.hasCategory()) {
+            key = record.category() + fileSpec.consumerKeyPrefixDelimiter() + record.key();
         } else {
             key = record.key();
         }
-        writeString(convertKey(key, fileSpec.escapeUnicode()));
+        writeString(convertKey(key, fileSpec.consumerEscapeUnicode()));
         writeString(DELIMITER);
-        writeString(convertValue(record.valueField().orElse(fileSpec.writeNullValueReplacement()),
-                fileSpec.escapeUnicode()));
+        writeString(convertValue(record.valueField().orElse(fileSpec.consumerNullValueReplacement()),
+                fileSpec.consumerEscapeUnicode()));
         writeLineSeparator(fileSpec.consumerLineSeparator());
     }
 

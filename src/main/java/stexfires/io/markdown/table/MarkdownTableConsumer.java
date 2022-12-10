@@ -76,7 +76,7 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
             b.append(FIELD_DELIMITER);
 
             // header underline
-            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.alignment();
+            Alignment fieldAlignment = (fieldSpec.alignment() != null) ? fieldSpec.alignment() : fileSpec.consumerAlignment();
 
             if (fieldAlignment != END) {
                 b.append(ALIGNMENT_INDICATOR);

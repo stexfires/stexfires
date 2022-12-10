@@ -39,7 +39,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         TextRecord record = null;
         String rawData = recordRawData.rawData();
 
-        boolean skipEmptyLine = fileSpec.skipEmptyLines() && rawData.isEmpty();
+        boolean skipEmptyLine = fileSpec.producerSkipEmptyLines() && rawData.isEmpty();
 
         if (!skipEmptyLine) {
             boolean nonEmptyFound = false;
@@ -64,7 +64,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
                 texts.add(text);
             }
 
-            boolean skipAllNull = fileSpec.skipAllNull() && !nonEmptyFound;
+            boolean skipAllNull = fileSpec.producerSkipAllNull() && !nonEmptyFound;
 
             if (!skipAllNull) {
                 record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
@@ -77,7 +77,7 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
     private static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
 
         private SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
-            super(reader, fileSpec.ignoreFirst(), fileSpec.ignoreLast());
+            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
         }
 
         @Override

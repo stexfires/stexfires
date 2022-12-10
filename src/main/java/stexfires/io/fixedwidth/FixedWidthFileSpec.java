@@ -22,95 +22,97 @@ import java.util.Objects;
  */
 public record FixedWidthFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
-        @Nullable String consumerTextBefore,
-        @Nullable String consumerTextAfter,
         int recordWidth,
         boolean separateRecordsByLineSeparator,
         @NotNull Alignment alignment,
         @NotNull Character fillCharacter,
-        @NotNull List<FixedWidthFieldSpec> fieldSpecs,
-        int ignoreFirst,
-        int ignoreLast,
-        boolean skipEmptyLines,
-        boolean skipAllNullOrEmpty
+        int producerIgnoreFirstRecords,
+        int producerIgnoreLastRecords,
+        boolean producerSkipEmptyLines,
+        boolean producerSkipAllNullOrEmpty,
+        @NotNull LineSeparator consumerLineSeparator,
+        @Nullable String consumerTextBefore,
+        @Nullable String consumerTextAfter,
+        @NotNull List<FixedWidthFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
-    public static final int DEFAULT_IGNORE_FIRST = 0;
-    public static final int DEFAULT_IGNORE_LAST = 0;
-    public static final boolean DEFAULT_SKIP_EMPTY_LINES = false;
-    public static final boolean DEFAULT_SKIP_ALL_NULL_OR_EMPTY = false;
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
 
+    public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
+    public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
+    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY = false;
+    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public FixedWidthFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(consumerLineSeparator);
-        Objects.requireNonNull(alignment);
-        Objects.requireNonNull(fillCharacter);
-        Objects.requireNonNull(fieldSpecs);
         if (recordWidth < 0) {
             throw new IllegalArgumentException("recordWidth < 0");
         }
-        if (ignoreFirst < 0) {
-            throw new IllegalArgumentException("ignoreFirst < 0");
+        Objects.requireNonNull(alignment);
+        Objects.requireNonNull(fillCharacter);
+        if (producerIgnoreFirstRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
         }
-        if (ignoreLast < 0) {
-            throw new IllegalArgumentException("ignoreLast < 0");
+        if (producerIgnoreLastRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
         }
+        Objects.requireNonNull(consumerLineSeparator);
+        Objects.requireNonNull(fieldSpecs);
 
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static FixedWidthFileSpec read(CharsetCoding charsetCoding,
+    public static FixedWidthFileSpec read(@NotNull CharsetCoding charsetCoding,
                                           int recordWidth,
                                           boolean separateRecordsByLineSeparator,
-                                          Alignment alignment,
-                                          Character fillCharacter,
-                                          List<FixedWidthFieldSpec> fieldSpecs,
-                                          int ignoreFirst,
-                                          int ignoreLast,
-                                          boolean skipEmptyLines,
-                                          boolean skipAllNullOrEmpty) {
+                                          @NotNull Alignment alignment,
+                                          @NotNull Character fillCharacter,
+                                          int producerIgnoreFirstRecords,
+                                          int producerIgnoreLastRecords,
+                                          boolean producerSkipEmptyLines,
+                                          boolean producerSkipAllNullOrEmpty,
+                                          @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(
                 charsetCoding,
+                recordWidth,
+                separateRecordsByLineSeparator,
+                alignment,
+                fillCharacter,
+                producerIgnoreFirstRecords,
+                producerIgnoreLastRecords,
+                producerSkipEmptyLines,
+                producerSkipAllNullOrEmpty,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
-                recordWidth,
-                separateRecordsByLineSeparator,
-                alignment,
-                fillCharacter,
-                fieldSpecs,
-                ignoreFirst,
-                ignoreLast,
-                skipEmptyLines,
-                skipAllNullOrEmpty);
+                fieldSpecs
+        );
     }
 
-    public static FixedWidthFileSpec write(CharsetCoding charsetCoding,
-                                           LineSeparator lineSeparator,
-                                           @Nullable String textBefore,
-                                           @Nullable String textAfter,
+    public static FixedWidthFileSpec write(@NotNull CharsetCoding charsetCoding,
                                            int recordWidth,
                                            boolean separateRecordsByLineSeparator,
-                                           Alignment alignment,
-                                           Character fillCharacter,
-                                           List<FixedWidthFieldSpec> fieldSpecs) {
+                                           @NotNull Alignment alignment,
+                                           @NotNull Character fillCharacter,
+                                           @NotNull LineSeparator consumerLineSeparator,
+                                           @Nullable String consumerTextBefore,
+                                           @Nullable String consumerTextAfter,
+                                           @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(
                 charsetCoding,
-                lineSeparator,
-                textBefore,
-                textAfter,
                 recordWidth,
                 separateRecordsByLineSeparator,
                 alignment,
                 fillCharacter,
-                fieldSpecs,
-                DEFAULT_IGNORE_FIRST,
-                DEFAULT_IGNORE_LAST,
-                DEFAULT_SKIP_EMPTY_LINES,
-                DEFAULT_SKIP_ALL_NULL_OR_EMPTY);
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY,
+                consumerLineSeparator,
+                consumerTextBefore,
+                consumerTextAfter,
+                fieldSpecs
+        );
     }
 
     @Override
@@ -126,7 +128,7 @@ public record FixedWidthFileSpec(
     }
 
     @Override
-    public List<FixedWidthFieldSpec> fieldSpecs() {
+    public @NotNull List<FixedWidthFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

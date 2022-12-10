@@ -49,8 +49,8 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         super.writeRecord(record);
 
         String value = record.value();
-        if (value != null || !fileSpec.skipNullValue()) {
-            switch (fileSpec.bulletPoint()) {
+        if (value != null || !fileSpec.consumerSkipNullValue()) {
+            switch (fileSpec.consumerBulletPoint()) {
                 case NUMBER -> {
                     writeString(String.valueOf(currentNumber));
                     writeString(BULLET_POINT_NUMBER);

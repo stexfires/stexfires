@@ -17,38 +17,41 @@ import java.util.Objects;
  */
 public record ConfigFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
-        @NotNull String valueDelimiter
+        @NotNull String valueDelimiter,
+        @NotNull LineSeparator consumerLineSeparator
 ) implements ReadableRecordFileSpec<KeyValueRecord, ConfigProducer>, WritableRecordFileSpec<KeyValueRecord, ConfigConsumer> {
+
+    public static final String DEFAULT_VALUE_DELIMITER = "=";
 
     public static final String NULL_CATEGORY = "";
     public static final String NULL_KEY = "";
     public static final String NULL_VALUE = "";
     public static final String CATEGORY_BEGIN_MARKER = "[";
     public static final String CATEGORY_END_MARKER = "]";
-    public static final String DEFAULT_VALUE_DELIMITER = "=";
 
     public ConfigFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(valueDelimiter);
+        Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static ConfigFileSpec read(CharsetCoding charsetCoding,
-                                      String valueDelimiter) {
+    public static ConfigFileSpec read(@NotNull CharsetCoding charsetCoding,
+                                      @NotNull String valueDelimiter) {
         return new ConfigFileSpec(
                 charsetCoding,
-                DEFAULT_CONSUMER_LINE_SEPARATOR,
-                valueDelimiter);
+                valueDelimiter,
+                DEFAULT_CONSUMER_LINE_SEPARATOR
+        );
     }
 
-    public static ConfigFileSpec write(CharsetCoding charsetCoding,
-                                       LineSeparator lineSeparator,
-                                       String valueDelimiter) {
+    public static ConfigFileSpec write(@NotNull CharsetCoding charsetCoding,
+                                       @NotNull String valueDelimiter,
+                                       @NotNull LineSeparator consumerLineSeparator) {
         return new ConfigFileSpec(
                 charsetCoding,
-                lineSeparator,
-                valueDelimiter);
+                valueDelimiter,
+                consumerLineSeparator
+        );
     }
 
     @Override
