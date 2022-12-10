@@ -9,6 +9,7 @@ import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Spliterator;
@@ -91,6 +92,31 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
 
     protected final BufferedReader bufferedReader() {
         return bufferedReader;
+    }
+
+    protected final ReadableProducerState state() {
+        return state;
+    }
+
+    protected final long recordCount() {
+        if (state != READ_AFTER && state != CLOSE) {
+            throw new IllegalStateException("Illegal state! " + state);
+        }
+        return iterator.currentRecordIndex();
+    }
+
+    protected final List<RecordRawData> firstIgnored() {
+        if (state != READ_AFTER && state != CLOSE) {
+            throw new IllegalStateException("Illegal state! " + state);
+        }
+        return iterator.first();
+    }
+
+    protected final List<RecordRawData> lastIgnored() {
+        if (state != READ_AFTER && state != CLOSE) {
+            throw new IllegalStateException("Illegal state! " + state);
+        }
+        return iterator.last();
     }
 
 }
