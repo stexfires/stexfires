@@ -1,17 +1,21 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.record.KeyValueRecord;
+import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.RecordComparators;
+import stexfires.record.filter.TextFilter;
+import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.CompareMessageBuilder;
 import stexfires.record.modifier.DistinctModifier;
+import stexfires.record.modifier.FilterModifier;
 import stexfires.record.modifier.MapModifier;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.modifier.SortModifier;
 import stexfires.util.SortNulls;
+import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
 
 import java.util.Comparator;
@@ -26,46 +30,91 @@ import static stexfires.io.config.ConfigFileSpec.NULL_KEY;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueRecord> {
+public final class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueCommentRecord> {
 
-    private final RecordStreamModifier<T, KeyValueRecord> modifier;
+    public static final int ILLEGAL_COMMENT_INDEX = -1;
+
+    private final RecordStreamModifier<T, KeyValueCommentRecord> modifier;
+
+    public ConfigModifier(UnaryOperator<String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
+                          int keyIndex, int valueIndex) {
+        this(categoryOperator, removeNullOrBlankKey, removeDuplicates, keyIndex, valueIndex, ILLEGAL_COMMENT_INDEX);
+    }
 
     @SuppressWarnings("DataFlowIssue")
-    public ConfigModifier(Locale categoryOperatorLocale, int keyIndex, int valueIndex, boolean removeDuplicates) {
-        Objects.requireNonNull(categoryOperatorLocale);
+    public ConfigModifier(UnaryOperator<String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
+                          int keyIndex, int valueIndex, int commentIndex) {
+        Objects.requireNonNull(categoryOperator);
 
-        UnaryOperator<String> categoryOperator = StringUnaryOperators.concat(
-                StringUnaryOperators.removeVerticalWhitespaces(),
-                StringUnaryOperators.trimToNull(),
-                StringUnaryOperators.upperCase(categoryOperatorLocale));
-        RecordMapper<T, KeyValueRecord> mapper = r -> new KeyValueFieldsRecord(
+        // MapModifier
+        RecordMapper<T, KeyValueCommentRecord> mapper = r -> new KeyValueCommentFieldsRecord(
                 categoryOperator.apply(r.category()),
                 r.recordId(),
                 r.textAtOrElse(keyIndex, NULL_KEY),
-                r.textAt(valueIndex));
-        MapModifier<T, KeyValueRecord> mapModifier = new MapModifier<>(mapper);
+                r.textAt(valueIndex),
+                r.textAt(commentIndex));
+        MapModifier<T, KeyValueCommentRecord> mapModifier = new MapModifier<>(mapper);
 
-        Comparator<KeyValueRecord> recordComparator = RecordComparators
-                .<KeyValueRecord>category(Comparator.naturalOrder(), SortNulls.FIRST)
+        // FilterModifier
+        FilterModifier<KeyValueCommentRecord> filterModifier;
+        if (removeNullOrBlankKey) {
+            // Use of 'KeyValueFieldsRecord.KEY_INDEX' only possible and allowed,
+            // because the constructor is used at the RecordMapper.
+            filterModifier = new FilterModifier<>(
+                    new TextFilter<>(KeyValueFieldsRecord.KEY_INDEX, StringPredicates.isNullOrBlank().negate()));
+        } else {
+            filterModifier = null;
+        }
+
+        // SortModifier
+        Comparator<KeyValueCommentRecord> recordComparator = RecordComparators
+                .<KeyValueCommentRecord>category(Comparator.naturalOrder(), SortNulls.FIRST)
                 .thenComparing(RecordComparators.key(Comparator.naturalOrder()));
-        SortModifier<KeyValueRecord> sortModifier = new SortModifier<>(recordComparator);
+        SortModifier<KeyValueCommentRecord> sortModifier = new SortModifier<>(recordComparator);
 
+        // DistinctModifier
+        DistinctModifier<KeyValueCommentRecord> distinctModifier;
         if (removeDuplicates) {
             // Use of 'KeyValueFieldsRecord.KEY_INDEX' only possible and allowed,
             // because the constructor is used at the RecordMapper.
-            DistinctModifier<KeyValueRecord> distinctModifier = new DistinctModifier<>(
+            distinctModifier = new DistinctModifier<>(
                     new CompareMessageBuilder()
                             .category()
                             .textAt(KeyValueFieldsRecord.KEY_INDEX));
-
-            modifier = mapModifier.andThen(sortModifier.andThen(distinctModifier));
         } else {
-            modifier = mapModifier.andThen(sortModifier);
+            distinctModifier = null;
         }
+
+        // Combine modifiers
+        RecordStreamModifier<T, KeyValueCommentRecord> combinedModifier = mapModifier;
+        if (filterModifier != null) {
+            combinedModifier = combinedModifier.andThen(filterModifier);
+        }
+        combinedModifier = combinedModifier.andThen(sortModifier);
+        if (distinctModifier != null) {
+            combinedModifier = combinedModifier.andThen(distinctModifier);
+        }
+        modifier = combinedModifier;
+    }
+
+    public static UnaryOperator<String> categoryTrimAndUppercase(Locale locale) {
+        Objects.requireNonNull(locale);
+        return StringUnaryOperators.concat(
+                StringUnaryOperators.removeVerticalWhitespaces(),
+                StringUnaryOperators.trimToNull(),
+                StringUnaryOperators.upperCase(locale));
+    }
+
+    public static UnaryOperator<String> categoryTrimAndLowercase(Locale locale) {
+        Objects.requireNonNull(locale);
+        return StringUnaryOperators.concat(
+                StringUnaryOperators.removeVerticalWhitespaces(),
+                StringUnaryOperators.trimToNull(),
+                StringUnaryOperators.lowerCase(locale));
     }
 
     @Override
-    public @NotNull Stream<KeyValueRecord> modify(Stream<T> recordStream) {
+    public @NotNull Stream<KeyValueCommentRecord> modify(Stream<T> recordStream) {
         return modifier.modify(recordStream);
     }
 
