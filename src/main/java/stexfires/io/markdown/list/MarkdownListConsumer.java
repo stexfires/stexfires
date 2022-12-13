@@ -10,11 +10,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_DASH;
-import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_NUMBER;
-import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_STAR;
-import static stexfires.io.markdown.list.MarkdownListFileSpec.FILL_CHARACTER;
-import static stexfires.io.markdown.list.MarkdownListFileSpec.START_NUMBER;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_START_NUMBER;
 
 /**
  * @author Mathias Kalb
@@ -42,7 +38,7 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         }
 
         // Init currentNumber
-        currentNumber = START_NUMBER;
+        currentNumber = BULLET_POINT_START_NUMBER;
     }
 
     @Override
@@ -52,21 +48,17 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         TextField valueField = record.valueField();
 
         if (!fileSpec.consumerSkipNullValueLines() || valueField.isNotNull()) {
-            switch (fileSpec.consumerBulletPoint()) {
-                case NUMBER -> {
-                    writeString(String.valueOf(currentNumber));
-                    writeString(BULLET_POINT_NUMBER);
-                    currentNumber++;
-                }
-                case STAR -> writeString(BULLET_POINT_STAR);
-                case DASH -> writeString(BULLET_POINT_DASH);
-            }
-            writeString(FILL_CHARACTER);
+            writeLinePrefix();
             if (valueField.isNotNull()) {
                 writeString(valueField.text());
             }
             writeLineSeparator(fileSpec.consumerLineSeparator());
+            currentNumber++;
         }
+    }
+
+    private void writeLinePrefix() throws IOException {
+        writeString(fileSpec.bulletPoint().linePrefix(currentNumber));
     }
 
     @Override

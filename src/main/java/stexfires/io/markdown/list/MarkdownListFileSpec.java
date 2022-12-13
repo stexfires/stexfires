@@ -16,46 +16,61 @@ import java.util.Objects;
  */
 public record MarkdownListFileSpec(
         @NotNull CharsetCoding charsetCoding,
+        @NotNull BulletPoint bulletPoint,
         @NotNull LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull BulletPoint consumerBulletPoint,
         boolean consumerSkipNullValueLines
 ) implements WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
 
     public enum BulletPoint {
-        NUMBER, STAR, DASH
+
+        DASH("-"),
+        NUMBER("."),
+        STAR("*");
+
+        private final String characters;
+
+        BulletPoint(String characters) {
+            this.characters = characters;
+        }
+
+        public final String linePrefix(long lineNumber) {
+            if (this == NUMBER) {
+                return lineNumber + characters + BULLET_POINT_SEPARATOR;
+            } else {
+                return characters + BULLET_POINT_SEPARATOR;
+            }
+        }
+
     }
 
+    public static final BulletPoint DEFAULT_BULLET_POINT = BulletPoint.STAR;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
-    public static final BulletPoint DEFAULT_CONSUMER_BULLET_POINT = BulletPoint.STAR;
     public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
 
-    public static final String BULLET_POINT_NUMBER = ".";
-    public static final String BULLET_POINT_STAR = "*";
-    public static final String BULLET_POINT_DASH = "-";
-    public static final String FILL_CHARACTER = " ";
-    public static final long START_NUMBER = 1L;
+    public static final String BULLET_POINT_SEPARATOR = " ";
+    public static final long BULLET_POINT_START_NUMBER = 1L;
 
     public MarkdownListFileSpec {
         Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(bulletPoint);
         Objects.requireNonNull(consumerLineSeparator);
-        Objects.requireNonNull(consumerBulletPoint);
     }
 
     public static MarkdownListFileSpec write(@NotNull CharsetCoding charsetCoding,
+                                             @NotNull BulletPoint bulletPoint,
                                              @NotNull LineSeparator consumerLineSeparator,
                                              @Nullable String consumerTextBefore,
                                              @Nullable String consumerTextAfter,
-                                             @NotNull BulletPoint consumerBulletPoint,
                                              boolean consumerSkipNullValueLines) {
         return new MarkdownListFileSpec(
                 charsetCoding,
+                bulletPoint,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
-                consumerBulletPoint,
                 consumerSkipNullValueLines);
     }
 
