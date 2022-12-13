@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * @author Mathias Kalb
@@ -107,6 +108,14 @@ public record SimpleDelimitedFileSpec(
                 consumerTextAfter,
                 fieldSpecs
         );
+    }
+
+    public static @NotNull List<SimpleDelimitedFieldSpec> newFieldSpecs(int number) {
+        if (number < 0) {
+            throw new IllegalArgumentException("number < 0");
+        }
+        var fieldSpec = new SimpleDelimitedFieldSpec();
+        return Stream.generate(() -> fieldSpec).limit(number).toList();
     }
 
     @Override
