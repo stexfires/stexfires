@@ -5,7 +5,10 @@ import stexfires.io.internal.AbstractRecordRawDataIterator;
 import stexfires.io.internal.RecordRawData;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 import stexfires.util.Alignment;
+import stexfires.util.Strings;
 import stexfires.util.function.StringPredicates;
 
 import java.io.BufferedReader;
@@ -25,7 +28,6 @@ import static stexfires.util.Alignment.START;
 public final class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final String NO_TEXT = null;
-    private static final String ONLY_FILL_CHAR_VALUE = "";
 
     private final FixedWidthFileSpec fileSpec;
 
@@ -35,7 +37,11 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         this.fileSpec = fileSpec;
     }
 
-    private static String removeFillCharacters(String text, Character fillCharacter, Alignment alignment) {
+    static String removeFillCharacters(String text, Character fillCharacter, Alignment alignment) {
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(fillCharacter);
+        Objects.requireNonNull(alignment);
+
         int beginIndex = 0;
         int endIndex = text.length();
 
@@ -52,7 +58,19 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
             }
         }
 
-        return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : ONLY_FILL_CHAR_VALUE;
+        return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : Strings.EMPTY;
+    }
+
+    @Override
+    public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
+        // Skip first lines by reading lines from the buffer without reading Records with the Iterator.
+        if (fileSpec.producerSkipFirstLines() > 0) {
+            for (int i = 0; i < fileSpec.producerSkipFirstLines(); i++) {
+                bufferedReader().readLine();
+            }
+        }
+
+        super.readBefore();
     }
 
     @Override
@@ -81,13 +99,16 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
     }
 
     private List<String> convertRawDataIntoTexts(String rawData) {
-        int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
+        Objects.requireNonNull(rawData);
         List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+        int beginIndex;
+        int endIndex;
+        int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
         for (FixedWidthFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
-            int beginIndex = Math.max(fieldSpec.startIndex(), 0);
-            int endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
-
             String text = NO_TEXT;
+
+            beginIndex = Math.max(fieldSpec.startIndex(), 0);
+            endIndex = Math.min(fieldSpec.startIndex() + fieldSpec.width(), dataLength);
             if (beginIndex < endIndex) {
                 text = rawData.substring(beginIndex, endIndex);
                 text = removeFillCharacters(text,
@@ -111,27 +132,20 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
 
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
+            String rawData;
             if (fileSpec.separateRecordsByLineSeparator()) {
-                return readNextRecordRawDataLines(reader, recordIndex);
+                rawData = reader.readLine();
             } else {
-                return readNextRecordRawDataWidth(reader, recordIndex);
+                char[] c = new char[fileSpec.recordWidth()];
+                int r = reader.read(c);
+                if (r < 0) {
+                    // end of stream reached
+                    rawData = null;
+                } else {
+                    rawData = String.valueOf(c);
+                }
             }
-        }
-
-        @SuppressWarnings("MethodMayBeStatic")
-        private Optional<RecordRawData> readNextRecordRawDataLines(BufferedReader reader, long recordIndex) throws IOException {
-            String rawData = reader.readLine();
             return RecordRawData.asOptional(null, recordIndex, rawData);
-
-        }
-
-        private Optional<RecordRawData> readNextRecordRawDataWidth(BufferedReader reader, long recordIndex) throws IOException {
-            char[] c = new char[fileSpec.recordWidth()];
-            int r = reader.read(c);
-            if (r < 0) {
-                return Optional.empty();
-            }
-            return RecordRawData.asOptional(null, recordIndex, String.valueOf(c));
         }
 
     }

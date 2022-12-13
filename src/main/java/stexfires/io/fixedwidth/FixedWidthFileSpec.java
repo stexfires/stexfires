@@ -26,6 +26,7 @@ public record FixedWidthFileSpec(
         boolean separateRecordsByLineSeparator,
         @NotNull Alignment alignment,
         @NotNull Character fillCharacter,
+        int producerSkipFirstLines,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerSkipEmptyLines,
@@ -36,6 +37,7 @@ public record FixedWidthFileSpec(
         @NotNull List<FixedWidthFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
 
+    public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
@@ -50,6 +52,9 @@ public record FixedWidthFileSpec(
         }
         Objects.requireNonNull(alignment);
         Objects.requireNonNull(fillCharacter);
+        if (producerSkipFirstLines < 0) {
+            throw new IllegalArgumentException("producerSkipFirstLines < 0");
+        }
         if (producerIgnoreFirstRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
         }
@@ -67,6 +72,7 @@ public record FixedWidthFileSpec(
                                           boolean separateRecordsByLineSeparator,
                                           @NotNull Alignment alignment,
                                           @NotNull Character fillCharacter,
+                                          int producerSkipFirstLines,
                                           int producerIgnoreFirstRecords,
                                           int producerIgnoreLastRecords,
                                           boolean producerSkipEmptyLines,
@@ -78,6 +84,7 @@ public record FixedWidthFileSpec(
                 separateRecordsByLineSeparator,
                 alignment,
                 fillCharacter,
+                producerSkipFirstLines,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
                 producerSkipEmptyLines,
@@ -104,6 +111,7 @@ public record FixedWidthFileSpec(
                 separateRecordsByLineSeparator,
                 alignment,
                 fillCharacter,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_SKIP_EMPTY_LINES,

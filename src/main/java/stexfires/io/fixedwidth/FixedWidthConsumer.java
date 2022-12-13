@@ -27,6 +27,38 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         this.fileSpec = fileSpec;
     }
 
+    static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
+                               int valueWidth, String value, Alignment alignment) {
+        Objects.requireNonNull(characters);
+        Objects.requireNonNull(value);
+        Objects.requireNonNull(alignment);
+
+        // Calculate width and start positions
+        int width = Math.min(valueWidth, fieldWidth);
+        int startPosValue;
+        int startPosChars;
+        switch (alignment) {
+            case START -> {
+                startPosValue = 0;
+                startPosChars = startIndex;
+            }
+            case CENTER -> {
+                startPosValue = ((valueWidth - width) / 2);
+                startPosChars = ((fieldWidth - width) / 2) + startIndex;
+            }
+            case END -> {
+                startPosValue = (valueWidth - width);
+                startPosChars = (fieldWidth - width) + startIndex;
+            }
+            default -> throw new IllegalArgumentException("alignment = " + alignment);
+        }
+
+        // fill character array with value
+        for (int charIndex = 0; charIndex < width; charIndex++) {
+            characters[startPosChars + charIndex] = value.charAt(startPosValue + charIndex);
+        }
+    }
+
     private static String createRecordString(int recordWidth,
                                              Character fillCharacter,
                                              Alignment alignment,
@@ -70,34 +102,6 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         return String.valueOf(characters);
     }
 
-    private static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
-                                       int valueWidth, String value, Alignment alignment) {
-        // Calculate width and start positions
-        int width = Math.min(valueWidth, fieldWidth);
-        int startPosValue;
-        int startPosChars;
-        switch (alignment) {
-            case START -> {
-                startPosValue = 0;
-                startPosChars = startIndex;
-            }
-            case CENTER -> {
-                startPosValue = ((valueWidth - width) / 2);
-                startPosChars = ((fieldWidth - width) / 2) + startIndex;
-            }
-            case END -> {
-                startPosValue = (valueWidth - width);
-                startPosChars = (fieldWidth - width) + startIndex;
-            }
-            default -> throw new IllegalArgumentException("alignment = " + alignment);
-        }
-
-        // fill character array with value
-        for (int charIndex = 0; charIndex < width; charIndex++) {
-            characters[startPosChars + charIndex] = value.charAt(startPosValue + charIndex);
-        }
-    }
-
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
@@ -118,7 +122,6 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
                 fileSpec.alignment(),
                 fileSpec.fieldSpecs(),
                 record.listOfFields()));
-
         if (fileSpec.separateRecordsByLineSeparator()) {
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
