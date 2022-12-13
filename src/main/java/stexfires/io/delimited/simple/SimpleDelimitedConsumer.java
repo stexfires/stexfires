@@ -44,8 +44,6 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
             TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
             String text = (field != null) ? field.text() : null;
 
-            // TODO null replacement
-
             if (text != null) {
                 b.append(text);
             }
@@ -62,19 +60,16 @@ public final class SimpleDelimitedConsumer extends AbstractWritableConsumer<Text
             writeString(fileSpec.consumerTextBefore());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
-
-        // TODO write header row
     }
 
     @Override
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        writeString(
-                createRecordString(
-                        fileSpec.fieldDelimiter(),
-                        fileSpec.fieldSpecs(),
-                        record.listOfFields()));
+        writeString(createRecordString(
+                fileSpec.fieldDelimiter(),
+                fileSpec.fieldSpecs(),
+                record.listOfFields()));
         writeLineSeparator(fileSpec.consumerLineSeparator());
     }
 

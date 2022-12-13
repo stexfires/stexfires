@@ -26,18 +26,24 @@ public record SimpleDelimitedFileSpec(
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerSkipEmptyLines,
-        boolean producerSkipAllNull,
+        boolean producerSkipAllNullOrEmpty,
         @NotNull LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
+    public static final String FIELD_DELIMITER_CHARACTER_TABULATION = "\t";
+    public static final String FIELD_DELIMITER_SPACE = " ";
+    public static final String FIELD_DELIMITER_COMMA = ",";
+    public static final String FIELD_DELIMITER_SEMICOLON = ";";
+    public static final String FIELD_DELIMITER_VERTICAL_LINE = "|";
+
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
-    public static final boolean DEFAULT_PRODUCER_SKIP_ALL_NULL = false;
+    public static final boolean DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY = false;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
@@ -65,7 +71,7 @@ public record SimpleDelimitedFileSpec(
                                                int producerIgnoreFirstRecords,
                                                int producerIgnoreLastRecords,
                                                boolean producerSkipEmptyLines,
-                                               boolean producerSkipAllNull,
+                                               boolean producerSkipAllNullOrEmpty,
                                                @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
@@ -74,7 +80,7 @@ public record SimpleDelimitedFileSpec(
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
                 producerSkipEmptyLines,
-                producerSkipAllNull,
+                producerSkipAllNullOrEmpty,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
@@ -95,7 +101,7 @@ public record SimpleDelimitedFileSpec(
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
-                DEFAULT_PRODUCER_SKIP_ALL_NULL,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,

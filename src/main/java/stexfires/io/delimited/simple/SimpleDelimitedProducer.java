@@ -7,6 +7,7 @@ import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
+import stexfires.util.function.StringPredicates;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,38 +55,40 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
         String rawData = recordRawData.rawData();
 
         boolean skipEmptyLine = fileSpec.producerSkipEmptyLines() && rawData.isEmpty();
-
         if (!skipEmptyLine) {
-            boolean nonEmptyFound = false;
+            List<String> texts = convertRawDataIntoTexts(rawData);
 
-            // Convert rawData to values
-            int beginIndex = 0;
-            int endIndex;
-            List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
-            for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
-                String text = NO_TEXT;
+            boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
+                    && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
 
-                endIndex = rawData.indexOf(fileSpec.fieldDelimiter(), beginIndex);
-                if (endIndex == -1) {
-                    endIndex = rawData.length();
-                }
-                if (beginIndex < endIndex) {
-                    text = rawData.substring(beginIndex, endIndex);
-                    nonEmptyFound = nonEmptyFound || !text.isEmpty();
-                }
-                beginIndex = endIndex + 1;
-
-                texts.add(text);
-            }
-
-            boolean skipAllNull = fileSpec.producerSkipAllNull() && !nonEmptyFound;
-
-            if (!skipAllNull) {
+            if (!skipAllNullOrEmpty) {
                 record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
             }
         }
 
         return Optional.ofNullable(record);
+    }
+
+    private List<String> convertRawDataIntoTexts(String rawData) {
+        Objects.requireNonNull(rawData);
+        List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+        int beginIndex = 0;
+        int endIndex;
+        for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+            String text = NO_TEXT;
+
+            endIndex = rawData.indexOf(fileSpec.fieldDelimiter(), beginIndex);
+            if (endIndex == -1) {
+                endIndex = rawData.length();
+            }
+            if (beginIndex < endIndex) {
+                text = rawData.substring(beginIndex, endIndex);
+            }
+            beginIndex = endIndex + 1;
+
+            texts.add(text);
+        }
+        return texts;
     }
 
     private static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
