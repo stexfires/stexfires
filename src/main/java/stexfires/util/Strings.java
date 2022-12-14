@@ -44,6 +44,7 @@ public final class Strings {
     public static final String REGEX_BACKSLASH = "\\\\";
 
     public static final String EMPTY = "";
+    public static final String SPACE = " ";
 
     public static final int MIN_ASCII_CODE_POINT = 0;
     public static final int MAX_ASCII_CODE_POINT = 127;
