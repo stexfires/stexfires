@@ -33,7 +33,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
         if (fileSpec.linePrefix() != null) {
             combinedOperator = StringUnaryOperators.removeStringFromStart(fileSpec.linePrefix());
         }
-        if (fileSpec.producerTrimToEmpty()) {
+        if (fileSpec.producerTrimValueToEmpty()) {
             if (combinedOperator == null) {
                 combinedOperator = StringUnaryOperators.trimToEmpty();
             } else {
@@ -71,7 +71,7 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
         String valueText = rawDataOperator.apply(recordRawData.rawData());
 
-        if (fileSpec.producerSkipEmptyLines() && valueText.isEmpty()) {
+        if (fileSpec.producerSkipEmptyValue() && valueText.isEmpty()) {
             // skip empty line
             record = null;
         } else {
@@ -83,13 +83,16 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
     private static final class SingleValueIterator extends AbstractRecordRawDataIterator {
 
+        private final SingleValueFileSpec fileSpec;
+
         private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
             super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+            this.fileSpec = fileSpec;
         }
 
         @Override
-        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
-            String rawData = reader.readLine();
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws UncheckedProducerException {
+            String rawData = fileSpec.producerReadLineHandling().readAndHandleLine(reader);
             return RecordRawData.asOptional(null, recordIndex, rawData);
         }
     }

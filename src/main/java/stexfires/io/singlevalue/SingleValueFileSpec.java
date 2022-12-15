@@ -2,6 +2,7 @@ package stexfires.io.singlevalue;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import stexfires.io.ProducerReadLineHandling;
 import stexfires.io.ReadableRecordFileSpec;
 import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.ValueRecord;
@@ -20,10 +21,11 @@ public record SingleValueFileSpec(
         @NotNull CharsetCoding charsetCoding,
         @Nullable String linePrefix,
         int producerSkipFirstLines,
+        @NotNull ProducerReadLineHandling producerReadLineHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
-        boolean producerTrimToEmpty,
-        boolean producerSkipEmptyLines,
+        boolean producerTrimValueToEmpty,
+        boolean producerSkipEmptyValue,
         @NotNull LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
@@ -32,10 +34,11 @@ public record SingleValueFileSpec(
 
     public static final String DEFAULT_LINE_PREFIX = null;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
+    public static final ProducerReadLineHandling DEFAULT_PRODUCER_READ_LINE_HANDLING = ProducerReadLineHandling.NO_HANDLING;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
-    public static final boolean DEFAULT_PRODUCER_TRIM_TO_EMPTY = false;
-    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
+    public static final boolean DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY = false;
+    public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_VALUE = false;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
@@ -45,6 +48,7 @@ public record SingleValueFileSpec(
         if (producerSkipFirstLines < 0) {
             throw new IllegalArgumentException("producerSkipFirstLines < 0");
         }
+        Objects.requireNonNull(producerReadLineHandling);
         if (producerIgnoreFirstRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
         }
@@ -57,18 +61,20 @@ public record SingleValueFileSpec(
     public static SingleValueFileSpec read(@NotNull CharsetCoding charsetCoding,
                                            @Nullable String linePrefix,
                                            int producerSkipFirstLines,
+                                           @NotNull ProducerReadLineHandling producerReadLineHandling,
                                            int producerIgnoreFirstRecords,
                                            int producerIgnoreLastRecords,
-                                           boolean producerTrimToEmpty,
-                                           boolean producerSkipEmptyLines) {
+                                           boolean producerTrimValueToEmpty,
+                                           boolean producerSkipEmptyValue) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 linePrefix,
                 producerSkipFirstLines,
+                producerReadLineHandling,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
-                producerTrimToEmpty,
-                producerSkipEmptyLines,
+                producerTrimValueToEmpty,
+                producerSkipEmptyValue,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
@@ -86,10 +92,11 @@ public record SingleValueFileSpec(
                 charsetCoding,
                 linePrefix,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
-                DEFAULT_PRODUCER_TRIM_TO_EMPTY,
-                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
+                DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
