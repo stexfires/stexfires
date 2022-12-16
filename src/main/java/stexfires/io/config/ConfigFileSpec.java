@@ -51,6 +51,18 @@ public record ConfigFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
+    public static ConfigFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+        return new ConfigFileSpec(
+                charsetCoding,
+                DEFAULT_VALUE_DELIMITER,
+                DEFAULT_COMMENT_LINE_PREFIX,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_SEPARATE_CATEGORIES_BY_LINE,
+                DEFAULT_CONSUMER_SEPARATE_BY_WHITESPACE,
+                DEFAULT_CONSUMER_COMMENT_LINES_BEFORE
+        );
+    }
+
     public static ConfigFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                   @NotNull String valueDelimiter,
                                                   @NotNull String commentLinePrefix) {

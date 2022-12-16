@@ -51,6 +51,19 @@ public record PropertiesFileSpec(
         Objects.requireNonNull(consumerKeyPrefixDelimiter);
     }
 
+    public static PropertiesFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+        return new PropertiesFileSpec(
+                charsetCoding,
+                DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
+                DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                DEFAULT_CONSUMER_ESCAPE_UNICODE,
+                DEFAULT_CONSUMER_DATE_COMMENT,
+                DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
+                DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
+    }
+
     public static PropertiesFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                       @Nullable String producerNullValueReplacement,
                                                       boolean producerCommentAsCategory) {

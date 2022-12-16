@@ -72,6 +72,30 @@ public record FixedWidthFileSpec(
                                                       boolean separateRecordsByLineSeparator,
                                                       @NotNull Alignment alignment,
                                                       @NotNull Character fillCharacter,
+                                                      @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
+        return new FixedWidthFileSpec(
+                charsetCoding,
+                recordWidth,
+                separateRecordsByLineSeparator,
+                alignment,
+                fillCharacter,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                fieldSpecs
+        );
+    }
+
+    public static FixedWidthFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      int recordWidth,
+                                                      boolean separateRecordsByLineSeparator,
+                                                      @NotNull Alignment alignment,
+                                                      @NotNull Character fillCharacter,
                                                       int producerSkipFirstLines,
                                                       int producerIgnoreFirstRecords,
                                                       int producerIgnoreLastRecords,

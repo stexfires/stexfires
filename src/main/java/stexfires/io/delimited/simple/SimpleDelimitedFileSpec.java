@@ -73,6 +73,24 @@ public record SimpleDelimitedFileSpec(
 
     public static SimpleDelimitedFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                            @NotNull String fieldDelimiter,
+                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+        return new SimpleDelimitedFileSpec(
+                charsetCoding,
+                fieldDelimiter,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                fieldSpecs
+        );
+    }
+
+    public static SimpleDelimitedFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                           @NotNull String fieldDelimiter,
                                                            int producerSkipFirstLines,
                                                            @NotNull ProducerReadLineHandling producerReadLineHandling,
                                                            int producerIgnoreFirstRecords,

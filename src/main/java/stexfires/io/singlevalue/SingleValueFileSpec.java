@@ -58,6 +58,23 @@ public record SingleValueFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
+    public static SingleValueFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+        return new SingleValueFileSpec(
+                charsetCoding,
+                DEFAULT_LINE_PREFIX,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
+                DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
+                DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
+        );
+    }
+
     public static SingleValueFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                        @Nullable String linePrefix,
                                                        int producerSkipFirstLines,
