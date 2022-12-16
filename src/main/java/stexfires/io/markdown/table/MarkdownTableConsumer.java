@@ -41,6 +41,39 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
         escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
     }
 
+    @Override
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeBefore();
+
+        // write text before
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+
+        // write header
+        writeStringBuilderRow(buildHeaderRow());
+        writeStringBuilderRow(buildSubHeaderRow());
+    }
+
+    @Override
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeRecord(record);
+
+        writeStringBuilderRow(buildRecordRow(record));
+    }
+
+    @Override
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeAfter();
+
+        // write text after
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
     private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
@@ -137,36 +170,6 @@ public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRe
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
         writeCharSequence(tableRow);
         writeLineSeparator(fileSpec.consumerLineSeparator());
-    }
-
-    @Override
-    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeBefore();
-
-        if (fileSpec.consumerTextBefore() != null) {
-            writeString(fileSpec.consumerTextBefore());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
-
-        writeStringBuilderRow(buildHeaderRow());
-        writeStringBuilderRow(buildSubHeaderRow());
-    }
-
-    @Override
-    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeRecord(record);
-
-        writeStringBuilderRow(buildRecordRow(record));
-    }
-
-    @Override
-    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeAfter();
-
-        if (fileSpec.consumerTextAfter() != null) {
-            writeString(fileSpec.consumerTextAfter());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
     }
 
 }

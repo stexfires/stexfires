@@ -37,30 +37,6 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         this.fileSpec = fileSpec;
     }
 
-    static String removeFillCharacters(String text, Character fillCharacter, Alignment alignment) {
-        Objects.requireNonNull(text);
-        Objects.requireNonNull(fillCharacter);
-        Objects.requireNonNull(alignment);
-
-        int beginIndex = 0;
-        int endIndex = text.length();
-
-        if (alignment != START) {
-            while ((beginIndex < endIndex)
-                    && (text.charAt(beginIndex) == fillCharacter)) {
-                beginIndex++;
-            }
-        }
-        if (alignment != END) {
-            while ((beginIndex < endIndex)
-                    && (text.charAt(endIndex - 1) == fillCharacter)) {
-                endIndex--;
-            }
-        }
-
-        return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : Strings.EMPTY;
-    }
-
     @Override
     public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
         // Skip first lines by reading lines from the buffer without reading Records with the Iterator.
@@ -96,6 +72,30 @@ public final class FixedWidthProducer extends AbstractReadableProducer<TextRecor
         }
 
         return Optional.ofNullable(record);
+    }
+
+    static String removeFillCharacters(String text, Character fillCharacter, Alignment alignment) {
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(fillCharacter);
+        Objects.requireNonNull(alignment);
+
+        int beginIndex = 0;
+        int endIndex = text.length();
+
+        if (alignment != START) {
+            while ((beginIndex < endIndex)
+                    && (text.charAt(beginIndex) == fillCharacter)) {
+                beginIndex++;
+            }
+        }
+        if (alignment != END) {
+            while ((beginIndex < endIndex)
+                    && (text.charAt(endIndex - 1) == fillCharacter)) {
+                endIndex--;
+            }
+        }
+
+        return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : Strings.EMPTY;
     }
 
     private List<String> convertRawDataIntoTexts(String rawData) {

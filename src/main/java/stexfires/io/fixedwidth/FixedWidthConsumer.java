@@ -27,6 +27,43 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
         this.fileSpec = fileSpec;
     }
 
+    @Override
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeBefore();
+
+        // write text before
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
+    @Override
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeRecord(record);
+
+        writeString(createRecordString(
+                fileSpec.recordWidth(),
+                fileSpec.fillCharacter(),
+                fileSpec.alignment(),
+                fileSpec.fieldSpecs(),
+                record.listOfFields()));
+        if (fileSpec.separateRecordsByLineSeparator()) {
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
+    @Override
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeAfter();
+
+        // write text after
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
     static void fillCharacters(char[] characters, int startIndex, int fieldWidth,
                                int valueWidth, String value, Alignment alignment) {
         Objects.requireNonNull(characters);
@@ -100,41 +137,6 @@ public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecor
             }
         }
         return String.valueOf(characters);
-    }
-
-    @Override
-    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeBefore();
-
-        if (fileSpec.consumerTextBefore() != null) {
-            writeString(fileSpec.consumerTextBefore());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
-    }
-
-    @Override
-    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeRecord(record);
-
-        writeString(createRecordString(
-                fileSpec.recordWidth(),
-                fileSpec.fillCharacter(),
-                fileSpec.alignment(),
-                fileSpec.fieldSpecs(),
-                record.listOfFields()));
-        if (fileSpec.separateRecordsByLineSeparator()) {
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
-    }
-
-    @Override
-    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeAfter();
-
-        if (fileSpec.consumerTextAfter() != null) {
-            writeString(fileSpec.consumerTextAfter());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
     }
 
 }

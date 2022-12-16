@@ -38,13 +38,14 @@ public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueComme
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
-        categoryFound = false;
-        currentCategory = null;
-
         // write comment lines before the records
         if (fileSpec.consumerCommentLinesBefore() != null) {
             fileSpec.consumerCommentLinesBefore().lines().forEachOrdered(this::writeComment);
         }
+
+        // init
+        categoryFound = false;
+        currentCategory = null;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-import static stexfires.io.markdown.list.MarkdownListFileSpec.BULLET_POINT_START_NUMBER;
+import static stexfires.io.markdown.list.MarkdownListFileSpec.ORDERED_LIST_START_NUMBER;
 
 /**
  * @author Mathias Kalb
@@ -32,13 +32,14 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
 
+        // write text before
         if (fileSpec.consumerTextBefore() != null) {
             writeString(fileSpec.consumerTextBefore());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
 
-        // Init currentNumber
-        currentNumber = BULLET_POINT_START_NUMBER;
+        // init
+        currentNumber = ORDERED_LIST_START_NUMBER;
     }
 
     @Override
@@ -57,18 +58,19 @@ public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRe
         }
     }
 
-    private void writeLinePrefix() throws IOException {
-        writeString(fileSpec.bulletPoint().linePrefix(currentNumber));
-    }
-
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();
 
+        // write text after
         if (fileSpec.consumerTextAfter() != null) {
             writeString(fileSpec.consumerTextAfter());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
+    }
+
+    private void writeLinePrefix() throws IOException {
+        writeString(fileSpec.listMarker().linePrefix(currentNumber));
     }
 
 }

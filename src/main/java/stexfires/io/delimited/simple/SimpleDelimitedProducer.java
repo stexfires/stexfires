@@ -51,19 +51,17 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
-        TextRecord record = null;
-        String rawData = recordRawData.rawData();
+        TextRecord record;
 
-        boolean skipEmptyLine = fileSpec.producerSkipEmptyLines() && rawData.isEmpty();
-        if (!skipEmptyLine) {
-            List<String> texts = convertRawDataIntoTexts(rawData);
+        List<String> texts = convertRawDataIntoTexts(recordRawData.rawData());
 
-            boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
-                    && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
+        boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
+                && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
 
-            if (!skipAllNullOrEmpty) {
-                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
-            }
+        if (skipAllNullOrEmpty) {
+            record = null;
+        } else {
+            record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
         }
 
         return Optional.ofNullable(record);
@@ -93,13 +91,16 @@ public final class SimpleDelimitedProducer extends AbstractReadableProducer<Text
 
     private static final class SimpleDelimitedIterator extends AbstractRecordRawDataIterator {
 
+        private final SimpleDelimitedFileSpec fileSpec;
+
         private SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
             super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+            this.fileSpec = fileSpec;
         }
 
         @Override
-        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
-            String rawData = reader.readLine();
+        protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws UncheckedProducerException {
+            String rawData = fileSpec.producerReadLineHandling().readAndHandleLine(reader);
             return RecordRawData.asOptional(null, recordIndex, rawData);
         }
 

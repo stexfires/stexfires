@@ -7,6 +7,7 @@ import stexfires.io.WritableRecordFileSpec;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
+import stexfires.util.Strings;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,7 +42,7 @@ public record ConfigFileSpec(
     public static final String NULL_VALUE = "";
     public static final String CATEGORY_BEGIN_MARKER = "[";
     public static final String CATEGORY_END_MARKER = "]";
-    public static final String WHITESPACE_SEPARATOR = " ";
+    public static final String WHITESPACE_SEPARATOR = Strings.SPACE;
 
     public ConfigFileSpec {
         Objects.requireNonNull(charsetCoding);

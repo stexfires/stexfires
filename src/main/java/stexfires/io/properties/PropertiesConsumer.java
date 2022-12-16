@@ -31,6 +31,37 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
         this.fileSpec = fileSpec;
     }
 
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
+    @Override
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeBefore();
+
+        // write comment
+        if (fileSpec.consumerDateComment()) {
+            writeString(COMMENT_PREFIX);
+            writeString(new Date().toString());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Override
+    public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeRecord(record);
+
+        String key;
+        if (fileSpec.consumerCategoryAsKeyPrefix() && record.hasCategory()) {
+            key = record.category() + fileSpec.consumerKeyPrefixDelimiter() + record.key();
+        } else {
+            key = record.key();
+        }
+        writeString(convertKey(key, fileSpec.consumerEscapeUnicode()));
+        writeString(DELIMITER);
+        writeString(convertValue(record.valueField().orElse(fileSpec.consumerNullValueReplacement()),
+                fileSpec.consumerEscapeUnicode()));
+        writeLineSeparator(fileSpec.consumerLineSeparator());
+    }
+
     @SuppressWarnings({"HardcodedLineSeparator", "EnhancedSwitchMigration"})
     private static String mapCharacter(char character, boolean escapeSpace, boolean escapeUnicode) {
         switch (character) {
@@ -75,35 +106,4 @@ public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueR
                         .collect(Collectors.joining());
     }
 
-    @SuppressWarnings("UseOfObsoleteDateTimeApi")
-    @Override
-    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeBefore();
-
-        if (fileSpec.consumerDateComment()) {
-            writeString(COMMENT_PREFIX);
-            writeString(new Date().toString());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    @Override
-    public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeRecord(record);
-
-        String key;
-        if (fileSpec.consumerCategoryAsKeyPrefix() && record.hasCategory()) {
-            key = record.category() + fileSpec.consumerKeyPrefixDelimiter() + record.key();
-        } else {
-            key = record.key();
-        }
-        writeString(convertKey(key, fileSpec.consumerEscapeUnicode()));
-        writeString(DELIMITER);
-        writeString(convertValue(record.valueField().orElse(fileSpec.consumerNullValueReplacement()),
-                fileSpec.consumerEscapeUnicode()));
-        writeLineSeparator(fileSpec.consumerLineSeparator());
-    }
-
 }
-

@@ -1,4 +1,4 @@
-package stexfires.io.singlevalue;
+package stexfires.io.markdown.list;
 
 import stexfires.io.internal.AbstractReadableProducer;
 import stexfires.io.internal.AbstractRecordRawDataIterator;
@@ -13,34 +13,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
+public final class MarkdownListProducer extends AbstractReadableProducer<ValueRecord> {
 
-    private final SingleValueFileSpec fileSpec;
-    private final UnaryOperator<String> rawDataOperator;
+    private final MarkdownListFileSpec fileSpec;
 
-    public SingleValueProducer(BufferedReader bufferedReader, SingleValueFileSpec fileSpec) {
+    public MarkdownListProducer(BufferedReader bufferedReader, MarkdownListFileSpec fileSpec) {
         super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
-
-        UnaryOperator<String> combinedOperator = null;
-        if (fileSpec.linePrefix() != null) {
-            combinedOperator = StringUnaryOperators.removeStringFromStart(fileSpec.linePrefix());
-        }
-        if (fileSpec.producerTrimValueToEmpty()) {
-            if (combinedOperator == null) {
-                combinedOperator = StringUnaryOperators.trimToEmpty();
-            } else {
-                combinedOperator = StringUnaryOperators.concat(combinedOperator, StringUnaryOperators.trimToEmpty());
-            }
-        }
-        rawDataOperator = Objects.requireNonNullElseGet(combinedOperator, StringUnaryOperators::identity);
     }
 
     @Override
@@ -57,19 +42,19 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
 
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
-        return new SingleValueIterator(bufferedReader(), fileSpec);
+        return new MarkdownListIterator(bufferedReader(), fileSpec);
     }
 
     @Override
     protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         ValueRecord record;
 
-        // Check missing linePrefix
-        if ((fileSpec.linePrefix() != null) && !recordRawData.rawData().startsWith(fileSpec.linePrefix())) {
-            throw new UncheckedProducerException(new ProducerException("Missing linePrefix! " + recordRawData));
-        }
+        // TODO Check listMarker and remove listMarker
 
-        String valueText = rawDataOperator.apply(recordRawData.rawData());
+        String valueText = recordRawData.rawData();
+        if (fileSpec.producerTrimValueToEmpty()) {
+            valueText = StringUnaryOperators.trimToEmpty().apply(valueText);
+        }
 
         boolean skipEmptyValue = fileSpec.producerSkipEmptyValue() && valueText.isEmpty();
 
@@ -82,11 +67,11 @@ public final class SingleValueProducer extends AbstractReadableProducer<ValueRec
         return Optional.ofNullable(record);
     }
 
-    private static final class SingleValueIterator extends AbstractRecordRawDataIterator {
+    private static final class MarkdownListIterator extends AbstractRecordRawDataIterator {
 
-        private final SingleValueFileSpec fileSpec;
+        private final MarkdownListFileSpec fileSpec;
 
-        private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
+        private MarkdownListIterator(BufferedReader reader, MarkdownListFileSpec fileSpec) {
             super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }

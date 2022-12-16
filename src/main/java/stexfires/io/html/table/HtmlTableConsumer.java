@@ -29,6 +29,45 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
         this.fileSpec = fileSpec;
     }
 
+    @Override
+    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeBefore();
+
+        // write text before
+        if (fileSpec.consumerTextBefore() != null) {
+            writeString(fileSpec.consumerTextBefore());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+
+        // write header
+        writeStringRow(TABLE_BEGIN);
+        writeStringRow(TABLE_ROW_BEGIN);
+        writeStringBuilderRow(buildHeaderRow());
+        writeStringRow(TABLE_ROW_END);
+    }
+
+    @Override
+    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeRecord(record);
+
+        writeStringRow(TABLE_ROW_BEGIN);
+        writeStringBuilderRow(buildRecordRow(record));
+        writeStringRow(TABLE_ROW_END);
+    }
+
+    @Override
+    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
+        super.writeAfter();
+
+        writeStringRow(TABLE_END);
+
+        // write text after
+        if (fileSpec.consumerTextAfter() != null) {
+            writeString(fileSpec.consumerTextAfter());
+            writeLineSeparator(fileSpec.consumerLineSeparator());
+        }
+    }
+
     private static @NotNull String convertHtml(@Nullable String value) {
         String convertedValue;
         if (value == null || value.isEmpty()) {
@@ -84,42 +123,6 @@ public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord
         }
         writeCharSequence(tableRow);
         writeLineSeparator(fileSpec.consumerLineSeparator());
-    }
-
-    @Override
-    public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeBefore();
-
-        if (fileSpec.consumerTextBefore() != null) {
-            writeString(fileSpec.consumerTextBefore());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
-
-        writeStringRow(TABLE_BEGIN);
-        writeStringRow(TABLE_ROW_BEGIN);
-        writeStringBuilderRow(buildHeaderRow());
-        writeStringRow(TABLE_ROW_END);
-    }
-
-    @Override
-    public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeRecord(record);
-
-        writeStringRow(TABLE_ROW_BEGIN);
-        writeStringBuilderRow(buildRecordRow(record));
-        writeStringRow(TABLE_ROW_END);
-    }
-
-    @Override
-    public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
-        super.writeAfter();
-
-        writeStringRow(TABLE_END);
-
-        if (fileSpec.consumerTextAfter() != null) {
-            writeString(fileSpec.consumerTextAfter());
-            writeLineSeparator(fileSpec.consumerLineSeparator());
-        }
     }
 
 }
