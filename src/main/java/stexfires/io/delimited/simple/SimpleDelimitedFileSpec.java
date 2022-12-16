@@ -71,14 +71,14 @@ public record SimpleDelimitedFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static SimpleDelimitedFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                               @NotNull String fieldDelimiter,
-                                               int producerSkipFirstLines,
-                                               @NotNull ProducerReadLineHandling producerReadLineHandling,
-                                               int producerIgnoreFirstRecords,
-                                               int producerIgnoreLastRecords,
-                                               boolean producerSkipAllNullOrEmpty,
-                                               @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+    public static SimpleDelimitedFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                           @NotNull String fieldDelimiter,
+                                                           int producerSkipFirstLines,
+                                                           @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                           int producerIgnoreFirstRecords,
+                                                           int producerIgnoreLastRecords,
+                                                           boolean producerSkipAllNullOrEmpty,
+                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
@@ -94,12 +94,12 @@ public record SimpleDelimitedFileSpec(
         );
     }
 
-    public static SimpleDelimitedFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                                @NotNull String fieldDelimiter,
-                                                @NotNull LineSeparator consumerLineSeparator,
-                                                @Nullable String consumerTextBefore,
-                                                @Nullable String consumerTextAfter,
-                                                @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+    public static SimpleDelimitedFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                           @NotNull String fieldDelimiter,
+                                                           @NotNull LineSeparator consumerLineSeparator,
+                                                           @Nullable String consumerTextBefore,
+                                                           @Nullable String consumerTextAfter,
+                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,

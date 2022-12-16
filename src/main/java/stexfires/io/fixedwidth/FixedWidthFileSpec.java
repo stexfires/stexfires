@@ -67,17 +67,17 @@ public record FixedWidthFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static FixedWidthFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                          int recordWidth,
-                                          boolean separateRecordsByLineSeparator,
-                                          @NotNull Alignment alignment,
-                                          @NotNull Character fillCharacter,
-                                          int producerSkipFirstLines,
-                                          int producerIgnoreFirstRecords,
-                                          int producerIgnoreLastRecords,
-                                          boolean producerSkipEmptyLines,
-                                          boolean producerSkipAllNullOrEmpty,
-                                          @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
+    public static FixedWidthFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      int recordWidth,
+                                                      boolean separateRecordsByLineSeparator,
+                                                      @NotNull Alignment alignment,
+                                                      @NotNull Character fillCharacter,
+                                                      int producerSkipFirstLines,
+                                                      int producerIgnoreFirstRecords,
+                                                      int producerIgnoreLastRecords,
+                                                      boolean producerSkipEmptyLines,
+                                                      boolean producerSkipAllNullOrEmpty,
+                                                      @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(
                 charsetCoding,
                 recordWidth,
@@ -96,15 +96,15 @@ public record FixedWidthFileSpec(
         );
     }
 
-    public static FixedWidthFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                           int recordWidth,
-                                           boolean separateRecordsByLineSeparator,
-                                           @NotNull Alignment alignment,
-                                           @NotNull Character fillCharacter,
-                                           @NotNull LineSeparator consumerLineSeparator,
-                                           @Nullable String consumerTextBefore,
-                                           @Nullable String consumerTextAfter,
-                                           @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
+    public static FixedWidthFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      int recordWidth,
+                                                      boolean separateRecordsByLineSeparator,
+                                                      @NotNull Alignment alignment,
+                                                      @NotNull Character fillCharacter,
+                                                      @NotNull LineSeparator consumerLineSeparator,
+                                                      @Nullable String consumerTextBefore,
+                                                      @Nullable String consumerTextAfter,
+                                                      @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(
                 charsetCoding,
                 recordWidth,

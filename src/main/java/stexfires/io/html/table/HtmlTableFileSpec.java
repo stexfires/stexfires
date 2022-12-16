@@ -48,12 +48,12 @@ public record HtmlTableFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static HtmlTableFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                          @NotNull LineSeparator consumerLineSeparator,
-                                          @Nullable String consumerTextBefore,
-                                          @Nullable String consumerTextAfter,
-                                          @Nullable String consumerIndentation,
-                                          @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
+    public static HtmlTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                     @NotNull LineSeparator consumerLineSeparator,
+                                                     @Nullable String consumerTextBefore,
+                                                     @Nullable String consumerTextAfter,
+                                                     @Nullable String consumerIndentation,
+                                                     @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
         return new HtmlTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,

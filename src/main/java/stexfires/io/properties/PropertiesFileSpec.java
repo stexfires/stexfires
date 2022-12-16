@@ -51,9 +51,9 @@ public record PropertiesFileSpec(
         Objects.requireNonNull(consumerKeyPrefixDelimiter);
     }
 
-    public static PropertiesFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                          @Nullable String producerNullValueReplacement,
-                                          boolean producerCommentAsCategory) {
+    public static PropertiesFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      @Nullable String producerNullValueReplacement,
+                                                      boolean producerCommentAsCategory) {
         return new PropertiesFileSpec(
                 charsetCoding,
                 producerNullValueReplacement,
@@ -66,13 +66,13 @@ public record PropertiesFileSpec(
                 DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
     }
 
-    public static PropertiesFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                           @NotNull LineSeparator consumerLineSeparator,
-                                           @NotNull String consumerNullValueReplacement,
-                                           boolean consumerEscapeUnicode,
-                                           boolean consumerDateComment,
-                                           boolean consumerCategoryAsKeyPrefix,
-                                           @NotNull String consumerKeyPrefixDelimiter) {
+    public static PropertiesFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      @NotNull LineSeparator consumerLineSeparator,
+                                                      @NotNull String consumerNullValueReplacement,
+                                                      boolean consumerEscapeUnicode,
+                                                      boolean consumerDateComment,
+                                                      boolean consumerCategoryAsKeyPrefix,
+                                                      @NotNull String consumerKeyPrefixDelimiter) {
         return new PropertiesFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,

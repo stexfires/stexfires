@@ -66,14 +66,14 @@ public record MarkdownListFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static MarkdownListFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                            @NotNull MarkdownListMarker listMarker,
-                                            int producerSkipFirstLines,
-                                            @NotNull ProducerReadLineHandling producerReadLineHandling,
-                                            int producerIgnoreFirstRecords,
-                                            int producerIgnoreLastRecords,
-                                            boolean producerTrimValueToEmpty,
-                                            boolean producerSkipEmptyValue) {
+    public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                        @NotNull MarkdownListMarker listMarker,
+                                                        int producerSkipFirstLines,
+                                                        @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                        int producerIgnoreFirstRecords,
+                                                        int producerIgnoreLastRecords,
+                                                        boolean producerTrimValueToEmpty,
+                                                        boolean producerSkipEmptyValue) {
         return new MarkdownListFileSpec(
                 charsetCoding,
                 listMarker,
@@ -90,12 +90,12 @@ public record MarkdownListFileSpec(
         );
     }
 
-    public static MarkdownListFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                             @NotNull MarkdownListMarker listMarker,
-                                             @NotNull LineSeparator consumerLineSeparator,
-                                             @Nullable String consumerTextBefore,
-                                             @Nullable String consumerTextAfter,
-                                             boolean consumerSkipNullValueLines) {
+    public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                        @NotNull MarkdownListMarker listMarker,
+                                                        @NotNull LineSeparator consumerLineSeparator,
+                                                        @Nullable String consumerTextBefore,
+                                                        @Nullable String consumerTextAfter,
+                                                        boolean consumerSkipNullValueLines) {
         return new MarkdownListFileSpec(
                 charsetCoding,
                 listMarker,

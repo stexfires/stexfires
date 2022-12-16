@@ -58,14 +58,14 @@ public record SingleValueFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static SingleValueFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                           @Nullable String linePrefix,
-                                           int producerSkipFirstLines,
-                                           @NotNull ProducerReadLineHandling producerReadLineHandling,
-                                           int producerIgnoreFirstRecords,
-                                           int producerIgnoreLastRecords,
-                                           boolean producerTrimValueToEmpty,
-                                           boolean producerSkipEmptyValue) {
+    public static SingleValueFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                       @Nullable String linePrefix,
+                                                       int producerSkipFirstLines,
+                                                       @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                       int producerIgnoreFirstRecords,
+                                                       int producerIgnoreLastRecords,
+                                                       boolean producerTrimValueToEmpty,
+                                                       boolean producerSkipEmptyValue) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 linePrefix,
@@ -82,12 +82,12 @@ public record SingleValueFileSpec(
         );
     }
 
-    public static SingleValueFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                            @Nullable String linePrefix,
-                                            @NotNull LineSeparator consumerLineSeparator,
-                                            @Nullable String consumerTextBefore,
-                                            @Nullable String consumerTextAfter,
-                                            boolean consumerSkipNullValueLines) {
+    public static SingleValueFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                       @Nullable String linePrefix,
+                                                       @NotNull LineSeparator consumerLineSeparator,
+                                                       @Nullable String consumerTextBefore,
+                                                       @Nullable String consumerTextAfter,
+                                                       boolean consumerSkipNullValueLines) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 linePrefix,

@@ -51,9 +51,9 @@ public record ConfigFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static ConfigFileSpec read(@NotNull CharsetCoding charsetCoding,
-                                      @NotNull String valueDelimiter,
-                                      @NotNull String commentLinePrefix) {
+    public static ConfigFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                  @NotNull String valueDelimiter,
+                                                  @NotNull String commentLinePrefix) {
         return new ConfigFileSpec(
                 charsetCoding,
                 valueDelimiter,
@@ -65,13 +65,13 @@ public record ConfigFileSpec(
         );
     }
 
-    public static ConfigFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                       @NotNull String valueDelimiter,
-                                       @NotNull String commentLinePrefix,
-                                       @NotNull LineSeparator consumerLineSeparator,
-                                       boolean consumerSeparateCategoriesByLine,
-                                       boolean consumerSeparateByWhitespace,
-                                       @Nullable String consumerCommentLinesBefore) {
+    public static ConfigFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                  @NotNull String valueDelimiter,
+                                                  @NotNull String commentLinePrefix,
+                                                  @NotNull LineSeparator consumerLineSeparator,
+                                                  boolean consumerSeparateCategoriesByLine,
+                                                  boolean consumerSeparateByWhitespace,
+                                                  @Nullable String consumerCommentLinesBefore) {
         return new ConfigFileSpec(
                 charsetCoding,
                 valueDelimiter,

@@ -52,12 +52,12 @@ public record MarkdownTableFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static MarkdownTableFileSpec write(@NotNull CharsetCoding charsetCoding,
-                                              @NotNull LineSeparator consumerLineSeparator,
-                                              @Nullable String consumerTextBefore,
-                                              @Nullable String consumerTextAfter,
-                                              @NotNull Alignment consumerAlignment,
-                                              @NotNull List<MarkdownTableFieldSpec> fieldSpecs) {
+    public static MarkdownTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                         @NotNull LineSeparator consumerLineSeparator,
+                                                         @Nullable String consumerTextBefore,
+                                                         @Nullable String consumerTextAfter,
+                                                         @NotNull Alignment consumerAlignment,
+                                                         @NotNull List<MarkdownTableFieldSpec> fieldSpecs) {
         return new MarkdownTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
