@@ -54,6 +54,19 @@ public record MarkdownTableFileSpec(
 
     public static MarkdownTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                          @NotNull LineSeparator consumerLineSeparator,
+                                                         @NotNull List<MarkdownTableFieldSpec> fieldSpecs) {
+        return new MarkdownTableFileSpec(
+                charsetCoding,
+                consumerLineSeparator,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_ALIGNMENT,
+                fieldSpecs
+        );
+    }
+
+    public static MarkdownTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                         @NotNull LineSeparator consumerLineSeparator,
                                                          @Nullable String consumerTextBefore,
                                                          @Nullable String consumerTextAfter,
                                                          @NotNull Alignment consumerAlignment,

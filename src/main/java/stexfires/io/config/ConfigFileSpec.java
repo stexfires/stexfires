@@ -78,6 +78,19 @@ public record ConfigFileSpec(
     }
 
     public static ConfigFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                  @NotNull LineSeparator consumerLineSeparator) {
+        return new ConfigFileSpec(
+                charsetCoding,
+                DEFAULT_VALUE_DELIMITER,
+                DEFAULT_COMMENT_LINE_PREFIX,
+                consumerLineSeparator,
+                DEFAULT_CONSUMER_SEPARATE_CATEGORIES_BY_LINE,
+                DEFAULT_CONSUMER_SEPARATE_BY_WHITESPACE,
+                DEFAULT_CONSUMER_COMMENT_LINES_BEFORE
+        );
+    }
+
+    public static ConfigFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                   @NotNull String valueDelimiter,
                                                   @NotNull String commentLinePrefix,
                                                   @NotNull LineSeparator consumerLineSeparator,

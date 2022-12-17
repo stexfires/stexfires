@@ -80,6 +80,20 @@ public record PropertiesFileSpec(
     }
 
     public static PropertiesFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      @NotNull LineSeparator consumerLineSeparator) {
+        return new PropertiesFileSpec(
+                charsetCoding,
+                DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
+                DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
+                consumerLineSeparator,
+                DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                DEFAULT_CONSUMER_ESCAPE_UNICODE,
+                DEFAULT_CONSUMER_DATE_COMMENT,
+                DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
+                DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
+    }
+
+    public static PropertiesFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                       @NotNull LineSeparator consumerLineSeparator,
                                                       @NotNull String consumerNullValueReplacement,
                                                       boolean consumerEscapeUnicode,

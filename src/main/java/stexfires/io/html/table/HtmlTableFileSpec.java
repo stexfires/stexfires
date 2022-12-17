@@ -50,6 +50,19 @@ public record HtmlTableFileSpec(
 
     public static HtmlTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                      @NotNull LineSeparator consumerLineSeparator,
+                                                     @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
+        return new HtmlTableFileSpec(
+                charsetCoding,
+                consumerLineSeparator,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_INDENTATION,
+                fieldSpecs
+        );
+    }
+
+    public static HtmlTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                     @NotNull LineSeparator consumerLineSeparator,
                                                      @Nullable String consumerTextBefore,
                                                      @Nullable String consumerTextAfter,
                                                      @Nullable String consumerIndentation,
@@ -59,7 +72,8 @@ public record HtmlTableFileSpec(
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
-                consumerIndentation, fieldSpecs
+                consumerIndentation,
+                fieldSpecs
         );
     }
 

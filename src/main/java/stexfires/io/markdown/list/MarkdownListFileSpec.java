@@ -110,6 +110,25 @@ public record MarkdownListFileSpec(
 
     public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                         @NotNull MarkdownListMarker listMarker,
+                                                        @NotNull LineSeparator consumerLineSeparator) {
+        return new MarkdownListFileSpec(
+                charsetCoding,
+                listMarker,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
+                DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
+                consumerLineSeparator,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
+        );
+    }
+
+    public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                        @NotNull MarkdownListMarker listMarker,
                                                         @NotNull LineSeparator consumerLineSeparator,
                                                         @Nullable String consumerTextBefore,
                                                         @Nullable String consumerTextAfter,

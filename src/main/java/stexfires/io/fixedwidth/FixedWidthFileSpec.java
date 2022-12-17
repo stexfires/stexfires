@@ -37,6 +37,7 @@ public record FixedWidthFileSpec(
         @NotNull List<FixedWidthFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
 
+    public static final boolean DEFAULT_SEPARATE_RECORDS_BY_LINE_SEPARATOR = true;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
@@ -69,14 +70,13 @@ public record FixedWidthFileSpec(
 
     public static FixedWidthFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
                                                       int recordWidth,
-                                                      boolean separateRecordsByLineSeparator,
                                                       @NotNull Alignment alignment,
                                                       @NotNull Character fillCharacter,
                                                       @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
         return new FixedWidthFileSpec(
                 charsetCoding,
                 recordWidth,
-                separateRecordsByLineSeparator,
+                DEFAULT_SEPARATE_RECORDS_BY_LINE_SEPARATOR,
                 alignment,
                 fillCharacter,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
@@ -114,6 +114,30 @@ public record FixedWidthFileSpec(
                 producerSkipEmptyLines,
                 producerSkipAllNullOrEmpty,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                fieldSpecs
+        );
+    }
+
+    public static FixedWidthFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+                                                      int recordWidth,
+                                                      @NotNull Alignment alignment,
+                                                      @NotNull Character fillCharacter,
+                                                      @NotNull LineSeparator consumerLineSeparator,
+                                                      @NotNull List<FixedWidthFieldSpec> fieldSpecs) {
+        return new FixedWidthFileSpec(
+                charsetCoding,
+                recordWidth,
+                DEFAULT_SEPARATE_RECORDS_BY_LINE_SEPARATOR,
+                alignment,
+                fillCharacter,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                DEFAULT_PRODUCER_SKIP_EMPTY_LINES,
+                DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY,
+                consumerLineSeparator,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
                 fieldSpecs
