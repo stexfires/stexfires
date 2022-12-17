@@ -1,6 +1,6 @@
 package stexfires.io.internal;
 
-import stexfires.io.consumer.WritableRecordConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -20,39 +20,38 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
  * @author Mathias Kalb
  * @since 0.1
  */
-public abstract class AbstractWritableConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {
-
-    private final BufferedWriter bufferedWriter;
+@SuppressWarnings("resource")
+public abstract class AbstractInternalWritableConsumer<T extends TextRecord> extends AbstractWritableConsumer<T> {
 
     private WritableConsumerState state;
 
-    protected AbstractWritableConsumer(BufferedWriter bufferedWriter) {
-        Objects.requireNonNull(bufferedWriter);
-        this.bufferedWriter = bufferedWriter;
+    protected AbstractInternalWritableConsumer(BufferedWriter bufferedWriter) {
+        super(bufferedWriter);
         state = OPEN;
     }
 
     protected final void writeString(String str) throws IOException {
         Objects.requireNonNull(str);
         state.validateNotClosed();
-        bufferedWriter.write(str);
+        bufferedWriter().write(str);
     }
 
     protected final void writeLineSeparator(LineSeparator lineSeparator) throws IOException {
         Objects.requireNonNull(lineSeparator);
         state.validateNotClosed();
-        bufferedWriter.write(lineSeparator.string());
+        bufferedWriter().write(lineSeparator.string());
     }
 
     protected final void writeCharSequence(CharSequence charSequence) throws IOException {
         Objects.requireNonNull(charSequence);
         state.validateNotClosed();
-        bufferedWriter.append(charSequence);
+        bufferedWriter().append(charSequence);
     }
 
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         state = WRITE_BEFORE.validate(state);
+        super.writeBefore();
     }
 
     @Override
@@ -63,22 +62,19 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         state = WRITE_AFTER.validate(state);
+        super.writeAfter();
     }
 
     @Override
     public final void flush() throws IOException {
         state.validateNotClosed();
-        bufferedWriter.flush();
+        super.flush();
     }
 
     @Override
     public final void close() throws IOException {
         state = CLOSE.validate(state);
-        bufferedWriter.close();
-    }
-
-    protected final BufferedWriter bufferedWriter() {
-        return bufferedWriter;
+        super.close();
     }
 
 }

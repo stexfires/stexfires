@@ -2,7 +2,7 @@ package stexfires.io.html.table;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -19,7 +19,7 @@ import static stexfires.io.html.table.HtmlTableFileSpec.*;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
     private final HtmlTableFileSpec fileSpec;
 

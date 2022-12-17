@@ -1,6 +1,6 @@
 package stexfires.io.singlevalue;
 
-import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.TextField;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SingleValueConsumer extends AbstractWritableConsumer<ValueRecord> {
+public final class SingleValueConsumer extends AbstractInternalWritableConsumer<ValueRecord> {
 
     private final SingleValueFileSpec fileSpec;
 

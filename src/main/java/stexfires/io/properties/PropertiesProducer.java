@@ -1,6 +1,6 @@
 package stexfires.io.properties;
 
-import stexfires.io.internal.AbstractReadableProducer;
+import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.KeyValueRecord;
@@ -21,7 +21,7 @@ import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_RADIX;
  * @since 0.1
  */
 @SuppressWarnings("HardcodedLineSeparator")
-public final class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
+public final class PropertiesProducer extends AbstractInternalReadableProducer<KeyValueRecord> {
 
     private static final int ILLEGAL_INDEX = -1;
 

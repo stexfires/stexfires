@@ -1,6 +1,6 @@
 package stexfires.io.markdown.list;
 
-import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.TextField;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -16,7 +16,7 @@ import static stexfires.io.markdown.list.MarkdownListFileSpec.ORDERED_LIST_START
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownListConsumer extends AbstractWritableConsumer<ValueRecord> {
+public final class MarkdownListConsumer extends AbstractInternalWritableConsumer<ValueRecord> {
 
     private final MarkdownListFileSpec fileSpec;
 

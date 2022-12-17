@@ -1,7 +1,7 @@
 package stexfires.io.config;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;
 import stexfires.record.consumer.ConsumerException;
@@ -21,7 +21,7 @@ import static stexfires.io.config.ConfigFileSpec.WHITESPACE_SEPARATOR;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueCommentRecord> {
+public final class ConfigConsumer extends AbstractInternalWritableConsumer<KeyValueCommentRecord> {
 
     private final ConfigFileSpec fileSpec;
 

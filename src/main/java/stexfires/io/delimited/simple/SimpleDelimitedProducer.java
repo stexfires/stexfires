@@ -1,6 +1,6 @@
 package stexfires.io.delimited.simple;
 
-import stexfires.io.internal.AbstractReadableProducer;
+import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
@@ -20,7 +20,7 @@ import java.util.Optional;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
+public final class SimpleDelimitedProducer extends AbstractInternalReadableProducer<TextRecord> {
 
     private static final String NO_TEXT = null;
 

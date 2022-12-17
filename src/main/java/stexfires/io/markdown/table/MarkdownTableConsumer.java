@@ -1,6 +1,6 @@
 package stexfires.io.markdown.table;
 
-import stexfires.io.internal.AbstractWritableConsumer;
+import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -28,7 +28,7 @@ import static stexfires.util.Alignment.START;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
+public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
     private final MarkdownTableFileSpec fileSpec;
 

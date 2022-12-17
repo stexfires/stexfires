@@ -1,6 +1,6 @@
 package stexfires.io.fixedwidth;
 
-import stexfires.io.internal.AbstractReadableProducer;
+import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
@@ -25,7 +25,7 @@ import static stexfires.util.Alignment.START;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class FixedWidthProducer extends AbstractReadableProducer<TextRecord> {
+public final class FixedWidthProducer extends AbstractInternalReadableProducer<TextRecord> {
 
     private static final String NO_TEXT = null;
 
