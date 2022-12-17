@@ -94,10 +94,6 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
         return bufferedReader;
     }
 
-    protected final ReadableProducerState state() {
-        return state;
-    }
-
     protected final long recordCount() {
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);

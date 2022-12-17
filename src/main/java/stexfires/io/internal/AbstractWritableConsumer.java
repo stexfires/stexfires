@@ -81,8 +81,4 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
         return bufferedWriter;
     }
 
-    protected final WritableConsumerState state() {
-        return state;
-    }
-
 }
