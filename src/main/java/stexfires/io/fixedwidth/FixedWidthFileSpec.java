@@ -2,8 +2,8 @@ package stexfires.io.fixedwidth;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableRecordFileSpec;
-import stexfires.io.WritableRecordFileSpec;
+import stexfires.io.consumer.WritableRecordFileSpec;
+import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
 import stexfires.util.CharsetCoding;

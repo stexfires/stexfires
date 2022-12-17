@@ -1,8 +1,8 @@
 package stexfires.io.fixedwidth;
 
 import stexfires.io.internal.AbstractReadableProducer;
-import stexfires.io.internal.AbstractRecordRawDataIterator;
-import stexfires.io.internal.RecordRawData;
+import stexfires.io.producer.AbstractRecordRawDataIterator;
+import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.producer.ProducerException;

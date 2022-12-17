@@ -1,5 +1,6 @@
-package stexfires.io;
+package stexfires.io.producer;
 
+import stexfires.io.RecordFileSpec;
 import stexfires.record.TextRecord;
 
 import java.io.BufferedReader;

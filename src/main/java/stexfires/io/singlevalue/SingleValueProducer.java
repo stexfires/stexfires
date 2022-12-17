@@ -1,8 +1,8 @@
 package stexfires.io.singlevalue;
 
 import stexfires.io.internal.AbstractReadableProducer;
-import stexfires.io.internal.AbstractRecordRawDataIterator;
-import stexfires.io.internal.RecordRawData;
+import stexfires.io.producer.AbstractRecordRawDataIterator;
+import stexfires.io.producer.RecordRawData;
 import stexfires.record.ValueRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.producer.ProducerException;

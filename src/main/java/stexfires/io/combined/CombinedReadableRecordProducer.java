@@ -1,7 +1,7 @@
 package stexfires.io.combined;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.io.ReadableRecordProducer;
+import stexfires.io.producer.ReadableRecordProducer;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.producer.ProducerException;

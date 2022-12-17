@@ -1,4 +1,4 @@
-package stexfires.io;
+package stexfires.io.producer;
 
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;

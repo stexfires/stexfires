@@ -1,6 +1,6 @@
 package stexfires.io.combined;
 
-import stexfires.io.WritableRecordConsumer;
+import stexfires.io.consumer.WritableRecordConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;

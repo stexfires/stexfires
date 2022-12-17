@@ -1,8 +1,8 @@
 package stexfires.io.container;
 
 import org.jetbrains.annotations.NotNull;
-import stexfires.io.ReadableRecordFileSpec;
-import stexfires.io.WritableRecordFileSpec;
+import stexfires.io.consumer.WritableRecordFileSpec;
+import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.producer.UncheckedProducerException;

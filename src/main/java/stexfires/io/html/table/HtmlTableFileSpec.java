@@ -2,7 +2,7 @@ package stexfires.io.html.table;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.WritableRecordFileSpec;
+import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;

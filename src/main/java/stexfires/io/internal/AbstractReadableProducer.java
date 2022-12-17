@@ -2,7 +2,9 @@ package stexfires.io.internal;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ReadableRecordProducer;
+import stexfires.io.producer.AbstractRecordRawDataIterator;
+import stexfires.io.producer.ReadableRecordProducer;
+import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;

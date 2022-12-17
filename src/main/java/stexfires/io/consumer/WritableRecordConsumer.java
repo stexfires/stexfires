@@ -1,4 +1,4 @@
-package stexfires.io;
+package stexfires.io.consumer;
 
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;

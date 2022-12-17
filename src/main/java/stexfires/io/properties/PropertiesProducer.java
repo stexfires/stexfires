@@ -1,8 +1,8 @@
 package stexfires.io.properties;
 
 import stexfires.io.internal.AbstractReadableProducer;
-import stexfires.io.internal.AbstractRecordRawDataIterator;
-import stexfires.io.internal.RecordRawData;
+import stexfires.io.producer.AbstractRecordRawDataIterator;
+import stexfires.io.producer.RecordRawData;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 

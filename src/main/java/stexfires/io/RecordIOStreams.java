@@ -1,5 +1,10 @@
 package stexfires.io;
 
+import stexfires.io.consumer.StringWritableRecordConsumer;
+import stexfires.io.consumer.WritableRecordConsumer;
+import stexfires.io.consumer.WritableRecordFileSpec;
+import stexfires.io.producer.ReadableRecordFileSpec;
+import stexfires.io.producer.ReadableRecordProducer;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;

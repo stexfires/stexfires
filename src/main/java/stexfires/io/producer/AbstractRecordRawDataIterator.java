@@ -1,4 +1,4 @@
-package stexfires.io.internal;
+package stexfires.io.producer;
 
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
@@ -17,7 +17,6 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("RedundantThrows")
 public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRawData> {
 
     public static final long FIRST_RECORD_INDEX = 0L;
@@ -50,15 +49,17 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         this.ignoreFirst = ignoreFirst;
         this.ignoreLast = ignoreLast;
 
+        // init
         queue = new ArrayBlockingQueue<>(ignoreLast + 1);
         first = new ArrayList<>(ignoreFirst);
         last = new ArrayList<>(ignoreLast);
         currentRecordIndex = FIRST_RECORD_INDEX;
     }
 
+    @SuppressWarnings("RedundantThrows")
     protected abstract Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws ProducerException, UncheckedProducerException, IOException;
 
-    protected final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
+    public final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
             while (!endIsReached && (queue.remainingCapacity() > 0)
                     && (!onlyFirst || first.size() < ignoreFirst)) {
@@ -96,23 +97,23 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         return queue.poll();
     }
 
-    protected final int ignoreFirst() {
+    public final int ignoreFirst() {
         return ignoreFirst;
     }
 
-    protected final int ignoreLast() {
+    public final int ignoreLast() {
         return ignoreLast;
     }
 
-    protected final long currentRecordIndex() {
+    public final long currentRecordIndex() {
         return currentRecordIndex;
     }
 
-    protected final List<RecordRawData> first() {
+    public final List<RecordRawData> first() {
         return new ArrayList<>(first);
     }
 
-    protected final List<RecordRawData> last() {
+    public final List<RecordRawData> last() {
         return new ArrayList<>(last);
     }
 

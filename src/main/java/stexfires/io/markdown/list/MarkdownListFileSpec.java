@@ -2,9 +2,9 @@ package stexfires.io.markdown.list;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.io.ProducerReadLineHandling;
-import stexfires.io.ReadableRecordFileSpec;
-import stexfires.io.WritableRecordFileSpec;
+import stexfires.io.consumer.WritableRecordFileSpec;
+import stexfires.io.producer.ProducerReadLineHandling;
+import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.ValueRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;

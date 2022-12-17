@@ -1,5 +1,6 @@
-package stexfires.io;
+package stexfires.io.consumer;
 
+import stexfires.io.RecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.LineSeparator;
 
