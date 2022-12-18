@@ -1,6 +1,7 @@
 package stexfires.util.function;
 
 import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.util.HexFormat;
 import java.util.Locale;
 import java.util.Objects;
@@ -63,6 +64,11 @@ public final class NumberToStringFunctions {
             return n -> String.format(locale, format, n);
         }
 
+        public static IntFunction<String> numberFormat(NumberFormat numberFormat) {
+            Objects.requireNonNull(numberFormat);
+            return numberFormat::format;
+        }
+
         public static IntFunction<String> constant(String constant) {
             return n -> constant;
         }
@@ -107,6 +113,11 @@ public final class NumberToStringFunctions {
             Objects.requireNonNull(locale);
             Objects.requireNonNull(format);
             return n -> String.format(locale, format, n);
+        }
+
+        public static LongFunction<String> numberFormat(NumberFormat numberFormat) {
+            Objects.requireNonNull(numberFormat);
+            return numberFormat::format;
         }
 
         public static LongFunction<String> constant(String constant) {
@@ -165,6 +176,13 @@ public final class NumberToStringFunctions {
             Objects.requireNonNull(format);
             return n -> n == null ? null :
                     String.format(locale, format, n);
+        }
+
+        @SuppressWarnings("ReturnOfNull")
+        public static Function<BigInteger, String> numberFormat(NumberFormat numberFormat) {
+            Objects.requireNonNull(numberFormat);
+            return n -> n == null ? null :
+                    numberFormat.format(n);
         }
 
         public static Function<BigInteger, String> constant(String constant) {
