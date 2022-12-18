@@ -14,7 +14,8 @@ import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
 /**
- * This class consists of {@code static} utility methods for operating on {@code Supplier}s.
+ * This class consists of {@code static} utility methods
+ * for operating on {@code Supplier}s.
  *
  * @author Mathias Kalb
  * @see java.util.function.Supplier

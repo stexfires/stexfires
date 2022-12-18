@@ -25,8 +25,8 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on
- * {@code ReadableRecordProducer} and {@code WritableRecordConsumer}.
+ * This class consists of {@code static} utility methods
+ * for operating on {@code ReadableRecordProducer} and {@code WritableRecordConsumer}.
  *
  * @author Mathias Kalb
  * @since 0.1

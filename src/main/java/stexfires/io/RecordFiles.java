@@ -19,8 +19,8 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * This class consists of {@code static} utility methods for operating on
- * record files.
+ * This class consists of {@code static} utility methods
+ * for operating on record files.
  *
  * @author Mathias Kalb
  * @since 0.1
