@@ -3,6 +3,7 @@ package stexfires.util;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Objects;
 
 /**
  * Enum with common charset names.
@@ -215,6 +216,27 @@ public enum CommonCharsetNames {
             case UTF_16 -> StandardCharsets.UTF_16;
             default -> Charset.forName(canonicalName);
         };
+    }
+
+    /**
+     * @see java.nio.charset.StandardCharsets
+     */
+    public static CommonCharsetNames ofStandardCharset(Charset standardCharset) {
+        Objects.requireNonNull(standardCharset);
+        if (StandardCharsets.US_ASCII.equals(standardCharset)) {
+            return US_ASCII;
+        } else if (StandardCharsets.ISO_8859_1.equals(standardCharset)) {
+            return ISO_8859_1;
+        } else if (StandardCharsets.UTF_8.equals(standardCharset)) {
+            return UTF_8;
+        } else if (StandardCharsets.UTF_16BE.equals(standardCharset)) {
+            return UTF_16BE;
+        } else if (StandardCharsets.UTF_16LE.equals(standardCharset)) {
+            return UTF_16LE;
+        } else if (StandardCharsets.UTF_16.equals(standardCharset)) {
+            return UTF_16;
+        }
+        throw new IllegalArgumentException("Charset is not a standard charset! " + standardCharset);
     }
 
 }
