@@ -57,6 +57,16 @@ public enum LineSeparator {
     }
 
     /**
+     * Returns the length of the line separator.
+     *
+     * @return length of the line separator
+     * @see String#length()
+     */
+    public final int length() {
+        return separator.length();
+    }
+
+    /**
      * Returns the line separator as a {@code Supplier}.
      *
      * @return line separator as a {@code Supplier}
@@ -84,6 +94,16 @@ public enum LineSeparator {
      */
     public final IntStream chars() {
         return separator.chars();
+    }
+
+    /**
+     * Returns the line separator as an {@code IntStream} with the codePoints.
+     *
+     * @return line separator as an {@code IntStream} with the codePoints
+     * @see String#codePoints()
+     */
+    public final IntStream codePoints() {
+        return separator.codePoints();
     }
 
     /**
