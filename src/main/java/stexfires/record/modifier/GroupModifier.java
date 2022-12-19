@@ -1,6 +1,7 @@
 package stexfires.record.modifier;
 
 import org.jetbrains.annotations.NotNull;
+import stexfires.record.CommentRecord;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
@@ -53,6 +54,10 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return TextRecord::category;
     }
 
+    public static <T extends TextRecord> Function<? super T, Long> groupByRecordId() {
+        return TextRecord::recordId;
+    }
+
     public static <T extends TextRecord> Function<? super T, String> groupByMessage(RecordMessage<? super T> recordMessage) {
         return recordMessage.asFunction();
     }
@@ -63,6 +68,10 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
 
     public static <T extends ValueRecord> Function<? super T, String> groupByValue() {
         return ValueRecord::value;
+    }
+
+    public static <T extends CommentRecord> Function<? super T, String> groupByComment() {
+        return CommentRecord::comment;
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByTextAt(int index) {
@@ -95,33 +104,33 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return list -> new ValueFieldRecord(valueFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, String> categoryFunction,
-                                                                                         Function<List<T>, List<String>> valuesFunction) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, String> categoryFunction,
+                                                                                        Function<List<T>, List<String>> textsFunction) {
         Objects.requireNonNull(categoryFunction);
-        Objects.requireNonNull(valuesFunction);
+        Objects.requireNonNull(textsFunction);
         return list -> new ManyFieldsRecord(categoryFunction.apply(list), null,
-                valuesFunction.apply(list));
+                textsFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValues(Function<List<T>, List<String>> valuesFunction) {
-        Objects.requireNonNull(valuesFunction);
-        return list -> new ManyFieldsRecord(valuesFunction.apply(list));
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, List<String>> textsFunction) {
+        Objects.requireNonNull(textsFunction);
+        return list -> new ManyFieldsRecord(textsFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> valuesMessage) {
-        Objects.requireNonNull(valuesMessage);
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTextsWithMessage(RecordMessage<? super T> textMessage) {
+        Objects.requireNonNull(textMessage);
         return list -> new ManyFieldsRecord(list.stream()
-                                                .map(valuesMessage.asFunction())
+                                                .map(textMessage.asFunction())
                                                 .collect(Collectors.toList()));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToValuesWithMessage(RecordMessage<? super T> categoryMessage,
-                                                                                                    RecordMessage<? super T> valuesMessage) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTextsWithMessage(RecordMessage<? super T> categoryMessage,
+                                                                                                   RecordMessage<? super T> textMessage) {
         Objects.requireNonNull(categoryMessage);
-        Objects.requireNonNull(valuesMessage);
+        Objects.requireNonNull(textMessage);
         return list -> new ManyFieldsRecord(categoryMessage.createMessage(list.get(0)), null,
                 list.stream()
-                    .map(valuesMessage.asFunction())
+                    .map(textMessage.asFunction())
                     .collect(Collectors.toList()));
     }
 
@@ -134,8 +143,8 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return list -> recordMessage.createMessage(list.get(0));
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> collectValues(Collector<String, ?, Optional<String>> valueCollector,
-                                                                                       String nullValue) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> collectTexts(Collector<String, ?, Optional<String>> textCollector,
+                                                                                      String nullText) {
         return list -> list.stream()
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
@@ -144,21 +153,21 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                            TreeMap::new,
                                            Collectors.mapping(
                                                    TextField::text,
-                                                   valueCollector)),
+                                                   textCollector)),
                                    map -> map.values()
                                              .stream()
-                                             .map(o -> o.orElse(nullValue))
+                                             .map(o -> o.orElse(nullText))
                                              .collect(Collectors.toList())));
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> maxValuesNullsFirst(String nullValue) {
-        return collectValues(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
-                nullValue);
+    public static <T extends TextRecord> Function<List<T>, List<String>> maxTextNullsFirst(String nullText) {
+        return collectTexts(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
+                nullText);
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> minValuesNullsLast(String nullValue) {
-        return collectValues(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
-                nullValue);
+    public static <T extends TextRecord> Function<List<T>, List<String>> minTextNullsLast(String nullText) {
+        return collectTexts(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
+                nullText);
     }
 
     @Override

@@ -17,44 +17,44 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
                          Function<? super T, String> newCategoryFunction,
-                         Function<List<T>, List<String>> pivotValuesFunction) {
+                         Function<List<T>, List<String>> pivotTextsFunction) {
         super(groupByFunction,
-                GroupModifier.aggregateToValues(
+                GroupModifier.aggregateToTexts(
                         list -> newCategoryFunction.apply(list.get(0)),
-                        pivotValuesFunction));
+                        pivotTextsFunction));
         Objects.requireNonNull(newCategoryFunction);
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
                          Function<? super T, String> newCategoryFunction,
-                         Function<? super T, Stream<String>> newFirstValuesFunction,
-                         Function<? super T, String> valueFunction,
-                         String nullValue,
-                         Function<? super T, String> valueClassificationFunction,
-                         List<String> valueClassifications) {
+                         Function<? super T, Stream<String>> newFirstTextsFunction,
+                         Function<? super T, String> textFunction,
+                         String nullText,
+                         Function<? super T, String> textClassificationFunction,
+                         List<String> textClassifications) {
         this(groupByFunction,
                 newCategoryFunction,
-                pivotValuesFunctionWithClassifications(
-                        newFirstValuesFunction,
-                        valueFunction,
-                        nullValue,
-                        valueClassificationFunction,
-                        valueClassifications));
+                pivotTextsFunctionWithClassifications(
+                        newFirstTextsFunction,
+                        textFunction,
+                        nullText,
+                        textClassificationFunction,
+                        textClassifications));
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
                          Function<? super T, String> newCategoryFunction,
-                         Function<? super T, Stream<String>> newFirstValuesFunction,
+                         Function<? super T, Stream<String>> newFirstTextsFunction,
                          int newRecordSize,
-                         String nullValue,
-                         List<Integer> valueIndexes) {
+                         String nullText,
+                         List<Integer> textIndexes) {
         this(groupByFunction,
                 newCategoryFunction,
-                pivotValuesFunctionWithIndexes(
-                        newFirstValuesFunction,
+                pivotTextsFunctionWithIndexes(
+                        newFirstTextsFunction,
                         newRecordSize,
-                        nullValue,
-                        valueIndexes));
+                        nullText,
+                        textIndexes));
     }
 
     @SuppressWarnings("ReturnOfNull")
@@ -63,101 +63,101 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
     }
 
     public static <T extends TextRecord> PivotModifier<T> pivotWithClassifications(int keyIndex,
-                                                                                   int valueIndex,
-                                                                                   String nullValue,
-                                                                                   int valueClassificationIndex,
-                                                                                   List<String> valueClassifications) {
+                                                                                   int textIndex,
+                                                                                   String nullText,
+                                                                                   int textClassificationIndex,
+                                                                                   List<String> textClassifications) {
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
                 r -> Stream.of(r.textAt(keyIndex)),
-                r -> r.textAt(valueIndex),
-                nullValue,
-                r -> r.textAt(valueClassificationIndex),
-                valueClassifications);
+                r -> r.textAt(textIndex),
+                nullText,
+                r -> r.textAt(textClassificationIndex),
+                textClassifications);
     }
 
     public static <T extends TextRecord> PivotModifier<T> pivotWithClassifications(Function<? super T, String> keyFunction,
-                                                                                   Function<? super T, String> valueFunction,
-                                                                                   String nullValue,
-                                                                                   Function<? super T, String> valueClassificationFunction,
-                                                                                   List<String> valueClassifications) {
+                                                                                   Function<? super T, String> textFunction,
+                                                                                   String nullText,
+                                                                                   Function<? super T, String> textClassificationFunction,
+                                                                                   List<String> textClassifications) {
         return new PivotModifier<>(keyFunction,
                 withoutCategory(),
                 r -> Stream.of(keyFunction.apply(r)),
-                valueFunction,
-                nullValue,
-                valueClassificationFunction,
-                valueClassifications);
+                textFunction,
+                nullText,
+                textClassificationFunction,
+                textClassifications);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                            int recordsPerKey,
-                                                                           String nullValue,
-                                                                           Integer... valueIndexes) {
-        return pivotWithIndexes(keyIndex, recordsPerKey, nullValue,
-                Arrays.asList(valueIndexes));
+                                                                           String nullText,
+                                                                           Integer... textIndexes) {
+        return pivotWithIndexes(keyIndex, recordsPerKey, nullText,
+                Arrays.asList(textIndexes));
     }
 
     public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                            int recordsPerKey,
-                                                                           String nullValue,
-                                                                           List<Integer> valueIndexes) {
+                                                                           String nullText,
+                                                                           List<Integer> textIndexes) {
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
                 r -> Stream.of(r.textAt(keyIndex)),
-                1 + recordsPerKey * valueIndexes.size(),
-                nullValue,
-                valueIndexes);
+                1 + recordsPerKey * textIndexes.size(),
+                nullText,
+                textIndexes);
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> pivotValuesFunctionWithClassifications(
-            Function<? super T, Stream<String>> newFirstValuesFunction,
-            Function<? super T, String> valueFunction,
-            String nullValue,
-            Function<? super T, String> valueClassificationFunction,
-            List<String> valueClassifications) {
-        Objects.requireNonNull(newFirstValuesFunction);
-        Objects.requireNonNull(valueFunction);
-        Objects.requireNonNull(valueClassificationFunction);
-        Objects.requireNonNull(valueClassifications);
-        Function<List<T>, Stream<String>> newValues = list ->
-                valueClassifications.stream()
-                                    .map(vc ->
-                                            list.stream()
-                                                .filter(r -> Objects.equals(vc, valueClassificationFunction.apply(r)))
-                                                .map(valueFunction)
-                                                .map(v -> v == null ? nullValue : v)
-                                                .findFirst()
-                                                .orElse(nullValue));
+    public static <T extends TextRecord> Function<List<T>, List<String>> pivotTextsFunctionWithClassifications(
+            Function<? super T, Stream<String>> newFirstTextsFunction,
+            Function<? super T, String> textFunction,
+            String nullText,
+            Function<? super T, String> textClassificationFunction,
+            List<String> textClassifications) {
+        Objects.requireNonNull(newFirstTextsFunction);
+        Objects.requireNonNull(textFunction);
+        Objects.requireNonNull(textClassificationFunction);
+        Objects.requireNonNull(textClassifications);
+        Function<List<T>, Stream<String>> newTextsFunction = list ->
+                textClassifications.stream()
+                                   .map(vc ->
+                                           list.stream()
+                                               .filter(r -> Objects.equals(vc, textClassificationFunction.apply(r)))
+                                               .map(textFunction)
+                                               .map(v -> v == null ? nullText : v)
+                                               .findFirst()
+                                               .orElse(nullText));
         return list ->
                 Stream.concat(
-                              newFirstValuesFunction.apply(list.get(0)),
-                              newValues.apply(list))
+                              newFirstTextsFunction.apply(list.get(0)),
+                              newTextsFunction.apply(list))
                       .collect(Collectors.toList());
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> pivotValuesFunctionWithIndexes(
-            Function<? super T, Stream<String>> newFirstValuesFunction,
+    public static <T extends TextRecord> Function<List<T>, List<String>> pivotTextsFunctionWithIndexes(
+            Function<? super T, Stream<String>> newFirstTextsFunction,
             int newRecordSize,
-            String nullValue,
-            List<Integer> valueIndexes) {
-        Objects.requireNonNull(newFirstValuesFunction);
+            String nullText,
+            List<Integer> textIndexes) {
+        Objects.requireNonNull(newFirstTextsFunction);
         if (newRecordSize < 0) {
             throw new IllegalArgumentException("newRecordSize=" + newRecordSize);
         }
-        Objects.requireNonNull(valueIndexes);
-        Function<List<T>, Stream<String>> newValues = list ->
+        Objects.requireNonNull(textIndexes);
+        Function<List<T>, Stream<String>> newTextsFunction = list ->
                 list.stream()
-                    .flatMap(r -> valueIndexes.stream()
-                                              .map(i -> r.textAtOrElse(i, nullValue)));
+                    .flatMap(r -> textIndexes.stream()
+                                             .map(i -> r.textAtOrElse(i, nullText)));
         return list ->
                 Stream.concat(Stream.concat(
-                                      newFirstValuesFunction.apply(list.get(0)),
-                                      newValues.apply(list)),
-                              Stream.generate(() -> nullValue))
+                                      newFirstTextsFunction.apply(list.get(0)),
+                                      newTextsFunction.apply(list)),
+                              Stream.generate(() -> nullText))
                       .limit(newRecordSize)
                       .collect(Collectors.toList());
     }
