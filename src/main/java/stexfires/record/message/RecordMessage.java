@@ -29,6 +29,18 @@ public interface RecordMessage<T extends TextRecord> {
         return function::apply;
     }
 
+    static <T extends TextRecord> RecordMessage<T> category() {
+        return TextRecord::category;
+    }
+
+    static <T extends TextRecord> RecordMessage<T> firstText() {
+        return TextRecord::firstText;
+    }
+
+    static <T extends TextRecord> RecordMessage<T> lastText() {
+        return TextRecord::lastText;
+    }
+
     String createMessage(T record);
 
     default Function<T, String> asFunction() {
