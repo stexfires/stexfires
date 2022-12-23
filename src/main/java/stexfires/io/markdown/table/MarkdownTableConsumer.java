@@ -31,8 +31,8 @@ import static stexfires.util.Alignment.START;
 public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
     private final MarkdownTableFileSpec fileSpec;
-    private final Pattern escapePattern;
     private final List<MarkdownTableFieldSpec> fieldSpecs;
+    private final Pattern escapePattern;
 
     public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec,
                                  List<MarkdownTableFieldSpec> fieldSpecs) {
@@ -87,7 +87,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
         for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
 
-            writeCell(fieldSpec, b, fieldSpec.name());
+            b.append(buildCell(fieldSpec, fieldSpec.name()));
         }
 
         // last field delimiter
@@ -128,7 +128,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             b.append(FIELD_DELIMITER);
 
-            writeCell(fieldSpecs.get(fieldIndex), b, record.textAt(fieldIndex));
+            b.append(buildCell(fieldSpecs.get(fieldIndex), record.textAt(fieldIndex)));
         }
 
         // last field delimiter
@@ -137,7 +137,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
         return b;
     }
 
-    private void writeCell(MarkdownTableFieldSpec fieldSpec, StringBuilder b, @Nullable String cellText) {
+    private String buildCell(MarkdownTableFieldSpec fieldSpec, @Nullable String cellText) {
         String text = (cellText == null) ? Strings.EMPTY
                 : escapePattern.matcher(cellText).replaceAll(ESCAPE_REPLACEMENT);
 
@@ -157,9 +157,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
         fillBefore++;
         fillAfter++;
 
-        b.append(FILL_CHARACTER.repeat(fillBefore));
-        b.append(text);
-        b.append(FILL_CHARACTER.repeat(fillAfter));
+        return FILL_CHARACTER.repeat(fillBefore) + text + FILL_CHARACTER.repeat(fillAfter);
     }
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
