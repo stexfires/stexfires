@@ -154,12 +154,20 @@ public final class StringPredicates {
         return s -> s == null || s.isEmpty();
     }
 
+    public static Predicate<String> isNotNullAndNotEmpty() {
+        return s -> s != null && !s.isEmpty();
+    }
+
     public static Predicate<String> isBlank() {
         return s -> s != null && s.isBlank();
     }
 
     public static Predicate<String> isNullOrBlank() {
         return s -> s == null || s.isBlank();
+    }
+
+    public static Predicate<String> isNotNullAndNotBlank() {
+        return s -> s != null && !s.isBlank();
     }
 
     public static Predicate<String> equals(String compareValue) {
