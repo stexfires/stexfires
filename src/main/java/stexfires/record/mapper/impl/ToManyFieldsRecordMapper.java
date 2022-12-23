@@ -16,8 +16,8 @@ public final class ToManyFieldsRecordMapper<T extends TextRecord> implements Rec
 
     @Override
     public @NotNull ManyFieldsRecord map(@NotNull T record) {
-        if (record instanceof ManyFieldsRecord) {
-            return (ManyFieldsRecord) record;
+        if (record instanceof ManyFieldsRecord manyFieldsRecord) {
+            return manyFieldsRecord;
         }
         return new ManyFieldsRecord(record.category(), record.recordId(),
                 record.arrayOfFields());
