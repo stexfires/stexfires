@@ -7,8 +7,12 @@ import stexfires.util.Alignment;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record FixedWidthFieldSpec(int startIndex, int width,
-                                  @Nullable Alignment alignment, @Nullable Character fillCharacter) {
+public record FixedWidthFieldSpec(
+        int startIndex,
+        int width,
+        @Nullable Alignment alignment,
+        @Nullable Character fillCharacter
+) {
 
     public FixedWidthFieldSpec {
         if (startIndex < 0) {
@@ -17,6 +21,10 @@ public record FixedWidthFieldSpec(int startIndex, int width,
         if (width < 0) {
             throw new IllegalArgumentException("width < 0");
         }
+    }
+
+    public FixedWidthFieldSpec(int startIndex, int width) {
+        this(startIndex, width, null, null);
     }
 
     Character determineFillCharacter(FixedWidthFileSpec fileSpec) {

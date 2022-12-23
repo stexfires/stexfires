@@ -20,11 +20,15 @@ import java.util.Objects;
 public final class FixedWidthConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
     private final FixedWidthFileSpec fileSpec;
+    private final List<FixedWidthFieldSpec> fieldSpecs;
 
-    public FixedWidthConsumer(BufferedWriter bufferedWriter, FixedWidthFileSpec fileSpec) {
+    public FixedWidthConsumer(BufferedWriter bufferedWriter, FixedWidthFileSpec fileSpec,
+                              List<FixedWidthFieldSpec> fieldSpecs) {
         super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
+        Objects.requireNonNull(fieldSpecs);
         this.fileSpec = fileSpec;
+        this.fieldSpecs = fieldSpecs;
     }
 
     @Override
@@ -46,7 +50,7 @@ public final class FixedWidthConsumer extends AbstractInternalWritableConsumer<T
                 fileSpec.recordWidth(),
                 fileSpec.fillCharacter(),
                 fileSpec.alignment(),
-                fileSpec.fieldSpecs(),
+                fieldSpecs,
                 record.listOfFields()));
         if (fileSpec.separateRecordsByLineSeparator()) {
             writeLineSeparator(fileSpec.consumerLineSeparator());

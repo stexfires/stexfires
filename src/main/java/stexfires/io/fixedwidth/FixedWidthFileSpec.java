@@ -174,13 +174,13 @@ public record FixedWidthFileSpec(
     @Override
     public FixedWidthProducer producer(BufferedReader bufferedReader) {
         Objects.requireNonNull(bufferedReader);
-        return new FixedWidthProducer(bufferedReader, this);
+        return new FixedWidthProducer(bufferedReader, this, fieldSpecs);
     }
 
     @Override
     public FixedWidthConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
-        return new FixedWidthConsumer(bufferedWriter, this);
+        return new FixedWidthConsumer(bufferedWriter, this, fieldSpecs);
     }
 
     @Override

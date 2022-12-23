@@ -30,11 +30,15 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
     private static final String NO_TEXT = null;
 
     private final FixedWidthFileSpec fileSpec;
+    private final List<FixedWidthFieldSpec> fieldSpecs;
 
-    public FixedWidthProducer(BufferedReader bufferedReader, FixedWidthFileSpec fileSpec) {
+    public FixedWidthProducer(BufferedReader bufferedReader, FixedWidthFileSpec fileSpec,
+                              List<FixedWidthFieldSpec> fieldSpecs) {
         super(bufferedReader);
         Objects.requireNonNull(fileSpec);
+        Objects.requireNonNull(fieldSpecs);
         this.fileSpec = fileSpec;
+        this.fieldSpecs = fieldSpecs;
     }
 
     @Override
@@ -100,11 +104,11 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
 
     private List<String> convertRawDataIntoTexts(String rawData) {
         Objects.requireNonNull(rawData);
-        List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+        List<String> texts = new ArrayList<>(fieldSpecs.size());
         int beginIndex;
         int endIndex;
         int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
-        for (FixedWidthFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+        for (FixedWidthFieldSpec fieldSpec : fieldSpecs) {
             String text = NO_TEXT;
 
             beginIndex = Math.max(fieldSpec.startIndex(), 0);
