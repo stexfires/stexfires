@@ -37,8 +37,7 @@ public record MarkdownTableFileSpec(
     public static final String ESCAPE_TARGET = "|";
     public static final String ESCAPE_REPLACEMENT = Matcher.quoteReplacement("\\|");
     public static final String FILL_CHARACTER = " ";
-    public static final String FIELD_DELIMITER = "| ";
-    public static final String LAST_FIELD_DELIMITER = "|";
+    public static final String FIELD_DELIMITER = "|";
     public static final String ALIGNMENT_INDICATOR = ":";
     public static final String HEADER_DELIMITER = "-";
     public static final int COLUMN_MIN_WIDTH = 5;
@@ -84,7 +83,7 @@ public record MarkdownTableFileSpec(
     @Override
     public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
-        return new MarkdownTableConsumer(bufferedWriter, this);
+        return new MarkdownTableConsumer(bufferedWriter, this, fieldSpecs);
     }
 
     @Override

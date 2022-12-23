@@ -1,11 +1,12 @@
 package stexfires.io.markdown.table;
 
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalWritableConsumer;
-import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.util.Alignment;
+import stexfires.util.Strings;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -19,7 +20,6 @@ import static stexfires.io.markdown.table.MarkdownTableFileSpec.ESCAPE_TARGET;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.FIELD_DELIMITER;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.FILL_CHARACTER;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.HEADER_DELIMITER;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.LAST_FIELD_DELIMITER;
 import static stexfires.util.Alignment.CENTER;
 import static stexfires.util.Alignment.END;
 import static stexfires.util.Alignment.START;
@@ -31,13 +31,14 @@ import static stexfires.util.Alignment.START;
 public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
     private final MarkdownTableFileSpec fileSpec;
-
     private final Pattern escapePattern;
+    private final List<MarkdownTableFieldSpec> fieldSpecs;
 
-    public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec) {
+    public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec, List<MarkdownTableFieldSpec> fieldSpecs) {
         super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+        this.fieldSpecs = fieldSpecs;
         escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
     }
 
@@ -52,15 +53,19 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
         }
 
         // write header
-        writeStringBuilderRow(buildHeaderRow());
-        writeStringBuilderRow(buildSubHeaderRow());
+        if (!fieldSpecs.isEmpty()) {
+            writeStringBuilderRow(buildHeaderRow());
+            writeStringBuilderRow(buildSubHeaderRow());
+        }
     }
 
     @Override
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        writeStringBuilderRow(buildRecordRow(record));
+        if (!fieldSpecs.isEmpty()) {
+            writeStringBuilderRow(buildRecordRow(record));
+        }
     }
 
     @Override
@@ -77,27 +82,14 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     private StringBuilder buildHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (MarkdownTableFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
 
-            // header name
-            int valueWidth;
-            if (fieldSpec.name() != null) {
-                // Escape pipe
-                String value = escapePattern.matcher(fieldSpec.name()).replaceAll(ESCAPE_REPLACEMENT);
-                b.append(value);
-                valueWidth = value.length();
-            } else {
-                valueWidth = 0;
-            }
-
-            // fill character
-            b.append(FILL_CHARACTER.repeat(fieldSpec.differenceToMinWidth(valueWidth) + 1));
+            writeCell(fieldSpec, b, fieldSpec.name());
         }
 
-        if (!b.isEmpty()) {
-            b.append(LAST_FIELD_DELIMITER);
-        }
+        // last field delimiter
+        b.append(FIELD_DELIMITER);
 
         return b;
     }
@@ -105,29 +97,25 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     private StringBuilder buildSubHeaderRow() {
         StringBuilder b = new StringBuilder();
 
-        for (MarkdownTableFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+        for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
 
-            // header underline
             Alignment fieldAlignment = fieldSpec.determineAlignment(fileSpec);
 
             if (fieldAlignment != END) {
                 b.append(ALIGNMENT_INDICATOR);
             }
 
-            int valueWidth = (fieldAlignment == CENTER) ? 2 : 1;
-            b.append(HEADER_DELIMITER.repeat(fieldSpec.differenceToMinWidth(valueWidth)));
+            int additionalDelimiter = (fieldAlignment == CENTER) ? 0 : 1;
+            b.append(HEADER_DELIMITER.repeat(fieldSpec.minWidth() + additionalDelimiter));
 
             if (fieldAlignment != START) {
                 b.append(ALIGNMENT_INDICATOR);
             }
-
-            b.append(FILL_CHARACTER);
         }
 
-        if (!b.isEmpty()) {
-            b.append(LAST_FIELD_DELIMITER);
-        }
+        // last field delimiter
+        b.append(FIELD_DELIMITER);
 
         return b;
     }
@@ -135,36 +123,41 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     private StringBuilder buildRecordRow(TextRecord record) {
         StringBuilder b = new StringBuilder();
 
-        List<MarkdownTableFieldSpec> fieldSpecs = fileSpec.fieldSpecs();
-        List<TextField> fields = record.listOfFields();
-
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            MarkdownTableFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-
-            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String text = (field != null) ? field.text() : null;
-            if (text != null) {
-                // Escape pipe
-                text = escapePattern.matcher(text).replaceAll(ESCAPE_REPLACEMENT);
-            }
-            int textWidth = (text != null) ? text.length() : 0;
-
             b.append(FIELD_DELIMITER);
 
-            if (text != null) {
-                b.append(text);
-            }
-
-            b.append(FILL_CHARACTER.repeat(fieldSpec.differenceToMinWidth(textWidth)));
-
-            b.append(FILL_CHARACTER);
+            writeCell(fieldSpecs.get(fieldIndex), b, record.textAt(fieldIndex));
         }
 
-        if (!b.isEmpty()) {
-            b.append(LAST_FIELD_DELIMITER);
-        }
+        // last field delimiter
+        b.append(FIELD_DELIMITER);
 
         return b;
+    }
+
+    private void writeCell(MarkdownTableFieldSpec fieldSpec, StringBuilder b, @Nullable String cellText) {
+        String text = (cellText == null) ? Strings.EMPTY
+                : escapePattern.matcher(cellText).replaceAll(ESCAPE_REPLACEMENT);
+
+        int fillBefore = 0;
+        int fillAfter = 0;
+        int differenceToMinWidth = fieldSpec.differenceToMinWidth(text.length());
+        switch (fieldSpec.determineAlignment(fileSpec)) {
+            case START -> fillAfter = differenceToMinWidth;
+            case CENTER -> {
+                fillBefore = differenceToMinWidth / 2;
+                fillAfter = (differenceToMinWidth + 1) / 2;
+            }
+            case END -> fillBefore = differenceToMinWidth;
+        }
+
+        // always write one additional fill character around the field delimiters
+        fillBefore++;
+        fillAfter++;
+
+        b.append(FILL_CHARACTER.repeat(fillBefore));
+        b.append(text);
+        b.append(FILL_CHARACTER.repeat(fillAfter));
     }
 
     private void writeStringBuilderRow(StringBuilder tableRow) throws IOException {
