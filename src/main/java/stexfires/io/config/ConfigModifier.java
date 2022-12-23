@@ -61,7 +61,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
             // Use of 'KeyValueFieldsRecord.KEY_INDEX' only possible and allowed,
             // because the constructor is used at the RecordMapper.
             filterModifier = new FilterModifier<>(
-                    new TextFilter<>(KeyValueFieldsRecord.KEY_INDEX, StringPredicates.isNullOrBlank().negate()));
+                    new TextFilter<>(KeyValueFieldsRecord.KEY_INDEX, StringPredicates.isNotNullAndNotBlank()));
         } else {
             filterModifier = null;
         }
