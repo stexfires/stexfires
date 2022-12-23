@@ -29,6 +29,10 @@ public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
         return new SizeFilter<>(PrimitiveIntPredicates.zero());
     }
 
+    public static <T extends TextRecord> SizeFilter<T> isNotEmpty() {
+        return new SizeFilter<>(PrimitiveIntPredicates.positive());
+    }
+
     public static <T extends TextRecord> SizeFilter<T> containedIn(Collection<Integer> sizes) {
         return new SizeFilter<>(PrimitiveIntPredicates.containedIn(sizes));
     }
