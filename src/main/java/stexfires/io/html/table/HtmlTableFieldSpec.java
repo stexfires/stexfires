@@ -6,6 +6,12 @@ import org.jetbrains.annotations.Nullable;
  * @author Mathias Kalb
  * @since 0.1
  */
-public record HtmlTableFieldSpec(@Nullable String name) {
+public record HtmlTableFieldSpec(
+        @Nullable String name
+) {
+
+    public HtmlTableFieldSpec() {
+        this(null);
+    }
 
 }
