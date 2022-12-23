@@ -34,9 +34,11 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     private final Pattern escapePattern;
     private final List<MarkdownTableFieldSpec> fieldSpecs;
 
-    public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec, List<MarkdownTableFieldSpec> fieldSpecs) {
+    public MarkdownTableConsumer(BufferedWriter bufferedWriter, MarkdownTableFileSpec fileSpec,
+                                 List<MarkdownTableFieldSpec> fieldSpecs) {
         super(bufferedWriter);
         Objects.requireNonNull(fileSpec);
+        Objects.requireNonNull(fieldSpecs);
         this.fileSpec = fileSpec;
         this.fieldSpecs = fieldSpecs;
         escapePattern = Pattern.compile(ESCAPE_TARGET, Pattern.LITERAL);
