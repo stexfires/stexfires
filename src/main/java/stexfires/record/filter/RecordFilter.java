@@ -65,6 +65,22 @@ public interface RecordFilter<T extends TextRecord> {
         return (RecordFilter<T>) recordFilter.negate();
     }
 
+    static <T extends TextRecord> RecordFilter<T> isEmpty() {
+        return TextRecord::isEmpty;
+    }
+
+    static <T extends TextRecord> RecordFilter<T> isNotEmpty() {
+        return TextRecord::isNotEmpty;
+    }
+
+    static <T extends TextRecord> RecordFilter<T> hasCategory() {
+        return TextRecord::hasCategory;
+    }
+
+    static <T extends TextRecord> RecordFilter<T> hasRecordId() {
+        return TextRecord::hasRecordId;
+    }
+
     boolean isValid(T record);
 
     default Predicate<T> asPredicate() {
