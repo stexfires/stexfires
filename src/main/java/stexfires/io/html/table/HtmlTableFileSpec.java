@@ -80,7 +80,7 @@ public record HtmlTableFileSpec(
     @Override
     public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
-        return new HtmlTableConsumer(bufferedWriter, this);
+        return new HtmlTableConsumer(bufferedWriter, this, fieldSpecs);
     }
 
     @Override
