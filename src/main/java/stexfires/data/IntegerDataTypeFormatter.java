@@ -32,7 +32,11 @@ public final class IntegerDataTypeFormatter implements DataTypeFormatter<Integer
                 return nullSourceSupplier.get();
             }
         } else {
-            return numberFormat.format(source);
+            try {
+                return numberFormat.format(source);
+            } catch (IllegalArgumentException e) {
+                throw new DataTypeFormatException(e.getMessage());
+            }
         }
     }
 
