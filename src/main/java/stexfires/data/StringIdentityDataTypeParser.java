@@ -20,7 +20,7 @@ public final class StringIdentityDataTypeParser implements DataTypeParser<String
     }
 
     @Override
-    public String parse(String source) throws DataTypeParseException {
+    public @Nullable String parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");

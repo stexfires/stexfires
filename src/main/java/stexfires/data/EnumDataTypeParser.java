@@ -32,7 +32,7 @@ public final class EnumDataTypeParser<T extends Enum<T>> implements DataTypePars
     }
 
     @Override
-    public T parse(String source) throws DataTypeParseException {
+    public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");

@@ -33,7 +33,7 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
     }
 
     @Override
-    public Boolean parse(String source) throws DataTypeParseException {
+    public @Nullable Boolean parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");

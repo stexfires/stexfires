@@ -26,7 +26,7 @@ public final class DateInstantDataTypeFormatter implements DataTypeFormatter<Ins
     }
 
     @Override
-    public String format(Instant source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable Instant source) throws DataTypeFormatException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeFormatException("Source is null.");

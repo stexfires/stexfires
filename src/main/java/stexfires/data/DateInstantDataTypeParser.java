@@ -29,7 +29,7 @@ public final class DateInstantDataTypeParser implements DataTypeParser<Instant> 
     }
 
     @Override
-    public Instant parse(String source) throws DataTypeParseException {
+    public @Nullable Instant parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");

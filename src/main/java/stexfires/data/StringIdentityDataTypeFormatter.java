@@ -20,7 +20,7 @@ public final class StringIdentityDataTypeFormatter implements DataTypeFormatter<
     }
 
     @Override
-    public String format(String source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable String source) throws DataTypeFormatException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeFormatException("Source is null.");

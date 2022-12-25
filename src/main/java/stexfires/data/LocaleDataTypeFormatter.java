@@ -18,7 +18,7 @@ public final class LocaleDataTypeFormatter implements DataTypeFormatter<Locale> 
     }
 
     @Override
-    public String format(Locale source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable Locale source) throws DataTypeFormatException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeFormatException("Source is null.");

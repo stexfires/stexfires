@@ -24,7 +24,7 @@ public final class IntegerDataTypeFormatter implements DataTypeFormatter<Integer
     }
 
     @Override
-    public String format(Integer source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable Integer source) throws DataTypeFormatException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeFormatException("Source is null.");

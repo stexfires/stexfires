@@ -32,7 +32,7 @@ public final class IntegerDataTypeParser implements DataTypeParser<Integer> {
     }
 
     @Override
-    public Integer parse(String source) throws DataTypeParseException {
+    public @Nullable Integer parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");

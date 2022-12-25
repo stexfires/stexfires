@@ -21,7 +21,7 @@ public final class LocaleDataTypeParser implements DataTypeParser<Locale> {
     }
 
     @Override
-    public Locale parse(String source) throws DataTypeParseException {
+    public @Nullable Locale parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeParseException("Source is null.");
