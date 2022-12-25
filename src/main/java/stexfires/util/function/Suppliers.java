@@ -1,12 +1,13 @@
 package stexfires.util.function;
 
-import java.math.BigInteger;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleBinaryOperator;
+import java.util.function.DoubleSupplier;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntSupplier;
 import java.util.function.LongBinaryOperator;
@@ -19,9 +20,10 @@ import java.util.function.Supplier;
  *
  * @author Mathias Kalb
  * @see java.util.function.Supplier
+ * @see java.util.function.BooleanSupplier
  * @see java.util.function.IntSupplier
  * @see java.util.function.LongSupplier
- * @see java.util.function.BooleanSupplier
+ * @see java.util.function.DoubleSupplier
  * @since 0.1
  */
 public final class Suppliers {
@@ -29,35 +31,32 @@ public final class Suppliers {
     private Suppliers() {
     }
 
-    public static Supplier<String> combineString(Supplier<String> first, Supplier<String> second, BinaryOperator<String> combiner) {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
-        Objects.requireNonNull(combiner);
-        return () -> combiner.apply(first.get(), second.get());
+    public static <T> Supplier<T> constant(T constant) {
+        return () -> constant;
     }
 
-    public static Supplier<Boolean> combineBoolean(Supplier<Boolean> first, Supplier<Boolean> second, BinaryOperator<Boolean> combiner) {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
-        Objects.requireNonNull(combiner);
-        return () -> combiner.apply(first.get(), second.get());
+    @SuppressWarnings("ReturnOfNull")
+    public static <T> Supplier<T> constantNull() {
+        return () -> null;
     }
 
-    public static Supplier<Integer> combineInteger(Supplier<Integer> first, Supplier<Integer> second, BinaryOperator<Integer> combiner) {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
-        Objects.requireNonNull(combiner);
-        return () -> combiner.apply(first.get(), second.get());
+    public static BooleanSupplier constantPrimitiveBoolean(boolean constant) {
+        return () -> constant;
     }
 
-    public static Supplier<Long> combineLong(Supplier<Long> first, Supplier<Long> second, BinaryOperator<Long> combiner) {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
-        Objects.requireNonNull(combiner);
-        return () -> combiner.apply(first.get(), second.get());
+    public static IntSupplier constantPrimitiveInt(int constant) {
+        return () -> constant;
     }
 
-    public static Supplier<BigInteger> combineBigInteger(Supplier<BigInteger> first, Supplier<BigInteger> second, BinaryOperator<BigInteger> combiner) {
+    public static LongSupplier constantPrimitiveLong(long constant) {
+        return () -> constant;
+    }
+
+    public static DoubleSupplier constantPrimitiveDouble(double constant) {
+        return () -> constant;
+    }
+
+    public static <T> Supplier<T> combine(Supplier<T> first, Supplier<T> second, BinaryOperator<T> combiner) {
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);
@@ -83,6 +82,13 @@ public final class Suppliers {
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);
         return () -> combiner.applyAsLong(first.getAsLong(), second.getAsLong());
+    }
+
+    public static DoubleSupplier combinePrimitiveDouble(DoubleSupplier first, DoubleSupplier second, DoubleBinaryOperator combiner) {
+        Objects.requireNonNull(first);
+        Objects.requireNonNull(second);
+        Objects.requireNonNull(combiner);
+        return () -> combiner.applyAsDouble(first.getAsDouble(), second.getAsDouble());
     }
 
     public static Supplier<String> localTimeAsString() {
