@@ -27,8 +27,8 @@ import java.util.Objects;
  */
 public record CharsetCoding(@NotNull Charset charset,
                             @NotNull CodingErrorAction codingErrorAction,
-                            @Nullable String decoderReplacementOnMalformedInput,
-                            @Nullable String encoderReplacementOnUnmappableCharacter) {
+                            @Nullable String decoderReplacement,
+                            @Nullable String encoderReplacement) {
 
     public static final CharsetCoding UTF_8_REPORTING = reportingErrors(StandardCharsets.UTF_8);
 
@@ -54,20 +54,20 @@ public record CharsetCoding(@NotNull Charset charset,
     }
 
     public static CharsetCoding replacingErrors(@NotNull Charset charset,
-                                                @Nullable String decoderReplacementOnMalformedInput,
-                                                @Nullable String encoderReplacementOnUnmappableCharacter) {
+                                                @Nullable String decoderReplacement,
+                                                @Nullable String encoderReplacement) {
         return new CharsetCoding(charset,
                 CodingErrorAction.REPLACE,
-                decoderReplacementOnMalformedInput,
-                encoderReplacementOnUnmappableCharacter);
+                decoderReplacement,
+                encoderReplacement);
     }
 
     public static CharsetCoding replacingErrors(@NotNull CommonCharsetNames commonCharsetNames,
-                                                @Nullable String decoderReplacementOnMalformedInput,
-                                                @Nullable String encoderReplacementOnUnmappableCharacter) {
+                                                @Nullable String decoderReplacement,
+                                                @Nullable String encoderReplacement) {
         return replacingErrors(commonCharsetNames.charset(),
-                decoderReplacementOnMalformedInput,
-                encoderReplacementOnUnmappableCharacter);
+                decoderReplacement,
+                encoderReplacement);
     }
 
     public static CharsetCoding replacingErrorsWithDefaults(@NotNull Charset charset) {
@@ -83,17 +83,21 @@ public record CharsetCoding(@NotNull Charset charset,
     }
 
     public CharsetDecoder newDecoder() {
-        CharsetDecoder charsetDecoder = charset.newDecoder().onMalformedInput(codingErrorAction);
-        if ((decoderReplacementOnMalformedInput != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
-            charsetDecoder.replaceWith(decoderReplacementOnMalformedInput);
+        CharsetDecoder charsetDecoder = charset.newDecoder()
+                                               .onMalformedInput(codingErrorAction)
+                                               .onUnmappableCharacter(codingErrorAction);
+        if ((decoderReplacement != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
+            charsetDecoder.replaceWith(decoderReplacement);
         }
         return charsetDecoder;
     }
 
     public CharsetEncoder newEncoder() {
-        CharsetEncoder charsetEncoder = charset.newEncoder().onUnmappableCharacter(codingErrorAction);
-        if ((encoderReplacementOnUnmappableCharacter != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
-            charsetEncoder.replaceWith(encoderReplacementOnUnmappableCharacter.getBytes(charset));
+        CharsetEncoder charsetEncoder = charset.newEncoder()
+                                               .onMalformedInput(codingErrorAction)
+                                               .onUnmappableCharacter(codingErrorAction);
+        if ((encoderReplacement != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
+            charsetEncoder.replaceWith(encoderReplacement.getBytes(charset));
         }
         return charsetEncoder;
     }
