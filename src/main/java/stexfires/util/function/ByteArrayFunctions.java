@@ -2,6 +2,10 @@ package stexfires.util.function;
 
 import stexfires.util.Strings;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -18,6 +22,9 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.LongFunction;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * @author Mathias Kalb
@@ -30,6 +37,9 @@ import java.util.function.Predicate;
  * @see java.util.function.IntFunction
  * @see java.util.function.LongFunction
  * @see java.util.function.Predicate
+ * @see java.util.function.UnaryOperator
+ * @see java.util.zip.GZIPInputStream
+ * @see java.util.zip.GZIPOutputStream
  * @since 0.1
  */
 @SuppressWarnings("ReturnOfNull")
@@ -295,6 +305,53 @@ public final class ByteArrayFunctions {
 
     public static Function<byte[], BigInteger> toBigInteger() {
         return b -> b == null || b.length == 0 ? null : new BigInteger(b);
+    }
+
+    public static UnaryOperator<byte[]> encodeBase64(Base64.Encoder encoder) {
+        Objects.requireNonNull(encoder);
+        return b -> b == null ? null : encoder.encode(b);
+    }
+
+    public static UnaryOperator<byte[]> decodeBase64(Base64.Decoder decoder) {
+        Objects.requireNonNull(decoder);
+        return b -> b == null ? null : decoder.decode(b);
+    }
+
+    public static UnaryOperator<byte[]> compressGZIP() {
+        return b -> {
+            byte[] result;
+            if (b == null) {
+                result = null;
+            } else {
+                ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+                try (GZIPOutputStream gzipStream = new GZIPOutputStream(byteStream)) {
+                    gzipStream.write(b);
+                } catch (IOException e) {
+                    // Should not normally occur.
+                    throw new UncheckedIOException("Error occurred while compressing data.", e);
+                }
+                // 'toByteArray' should be called after closing GZIPOutputStream
+                result = byteStream.toByteArray();
+            }
+            return result;
+        };
+    }
+
+    public static UnaryOperator<byte[]> decompressGZIP() {
+        return b -> {
+            byte[] result;
+            if (b == null) {
+                result = null;
+            } else {
+                ByteArrayInputStream byteStream = new ByteArrayInputStream(b);
+                try (GZIPInputStream gzipStream = new GZIPInputStream(byteStream)) {
+                    result = gzipStream.readAllBytes();
+                } catch (IOException e) {
+                    throw new UncheckedIOException("Error occurred while decompressing data.", e);
+                }
+            }
+            return result;
+        };
     }
 
 }
