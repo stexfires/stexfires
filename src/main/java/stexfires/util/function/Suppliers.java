@@ -157,6 +157,14 @@ public final class Suppliers {
         }
     }
 
+    public static <T> Supplier<T> conditional(BooleanSupplier conditionSupplier,
+                                              Supplier<T> trueSupplier, Supplier<T> falseSupplier) {
+        Objects.requireNonNull(conditionSupplier);
+        Objects.requireNonNull(trueSupplier);
+        Objects.requireNonNull(falseSupplier);
+        return () -> conditionSupplier.getAsBoolean() ? trueSupplier.get() : falseSupplier.get();
+    }
+
     public static Supplier<String> localTimeAsString() {
         return () -> LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);
     }
