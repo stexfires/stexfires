@@ -8,11 +8,16 @@ import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleSupplier;
+import java.util.function.Function;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntSupplier;
 import java.util.function.LongBinaryOperator;
 import java.util.function.LongSupplier;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * This class consists of {@code static} utility methods
@@ -89,6 +94,36 @@ public final class Suppliers {
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);
         return () -> combiner.applyAsDouble(first.getAsDouble(), second.getAsDouble());
+    }
+
+    public static <T, R> Supplier<R> mapTo(Supplier<T> supplier, Function<T, R> function) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(function);
+        return () -> function.apply(supplier.get());
+    }
+
+    public static <T> BooleanSupplier mapToPrimitiveBoolean(Supplier<T> supplier, Predicate<T> function) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(function);
+        return () -> function.test(supplier.get());
+    }
+
+    public static <T> IntSupplier mapToPrimitiveInt(Supplier<T> supplier, ToIntFunction<T> function) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(function);
+        return () -> function.applyAsInt(supplier.get());
+    }
+
+    public static <T> LongSupplier mapToPrimitiveLong(Supplier<T> supplier, ToLongFunction<T> function) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(function);
+        return () -> function.applyAsLong(supplier.get());
+    }
+
+    public static <T> DoubleSupplier mapToPrimitiveDouble(Supplier<T> supplier, ToDoubleFunction<T> function) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(function);
+        return () -> function.applyAsDouble(supplier.get());
     }
 
     public static Supplier<String> localTimeAsString() {
