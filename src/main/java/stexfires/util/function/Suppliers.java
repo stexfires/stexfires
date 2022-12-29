@@ -2,6 +2,7 @@ package stexfires.util.function;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BinaryOperator;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import java.util.random.RandomGenerator;
 
 /**
  * This class consists of {@code static} utility methods
@@ -124,6 +126,35 @@ public final class Suppliers {
         Objects.requireNonNull(supplier);
         Objects.requireNonNull(function);
         return () -> function.applyAsDouble(supplier.get());
+    }
+
+    public static <T> Supplier<T> randomSelection(RandomGenerator random,
+                                                  List<T> values) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(values);
+        int bound = values.size();
+        if (bound == 0) {
+            return constantNull();
+        } else if (bound == 1) {
+            return constant(values.get(0));
+        } else {
+            return () -> values.get(random.nextInt(0, bound));
+        }
+    }
+
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
+    public static <T> Supplier<T> randomSelection(RandomGenerator random,
+                                                  T[] values) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(values);
+        int bound = values.length;
+        if (bound == 0) {
+            return constantNull();
+        } else if (bound == 1) {
+            return constant(values[0]);
+        } else {
+            return () -> values[random.nextInt(0, bound)];
+        }
     }
 
     public static Supplier<String> localTimeAsString() {

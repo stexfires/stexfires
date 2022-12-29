@@ -21,27 +21,6 @@ public final class RandomStringSuppliers {
         return () -> UUID.randomUUID().toString();
     }
 
-    public static Supplier<String> stringSelection(RandomGenerator random,
-                                                   List<String> sourceStrings) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceStrings);
-        if (sourceStrings.isEmpty()) {
-            throw new IllegalArgumentException("At least one string must be passed.");
-        }
-        return () -> sourceStrings.get(random.nextInt(0, sourceStrings.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<String> stringSelection(RandomGenerator random,
-                                                   String... sourceStrings) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceStrings);
-        if (sourceStrings.length == 0) {
-            throw new IllegalArgumentException("At least one string must be passed.");
-        }
-        return () -> sourceStrings[random.nextInt(0, sourceStrings.length)];
-    }
-
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
                                                           int lowestCodePointBoundary, int highestCodePointBoundary,
                                                           IntPredicate codePointFilter) {

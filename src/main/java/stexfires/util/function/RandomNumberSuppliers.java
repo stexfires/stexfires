@@ -2,7 +2,6 @@ package stexfires.util.function;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
@@ -91,156 +90,33 @@ public final class RandomNumberSuppliers {
                                                     int... sourceNumbers) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
+        int bound = sourceNumbers.length;
+        if (bound == 0) {
             throw new IllegalArgumentException("At least one number must be passed.");
         }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<Integer> integerSelection(RandomGenerator random,
-                                                     List<Integer> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<Integer> integerSelection(RandomGenerator random,
-                                                     Integer... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
+        return () -> sourceNumbers[random.nextInt(0, bound)];
     }
 
     public static LongSupplier primitiveLongSelection(RandomGenerator random,
                                                       long... sourceNumbers) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
+        int bound = sourceNumbers.length;
+        if (bound == 0) {
             throw new IllegalArgumentException("At least one number must be passed.");
         }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<Long> longSelection(RandomGenerator random,
-                                               List<Long> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<Long> longSelection(RandomGenerator random,
-                                               Long... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
+        return () -> sourceNumbers[random.nextInt(0, bound)];
     }
 
     public static DoubleSupplier primitiveDoubleSelection(RandomGenerator random,
                                                           double... sourceNumbers) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
+        int bound = sourceNumbers.length;
+        if (bound == 0) {
             throw new IllegalArgumentException("At least one number must be passed.");
         }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<Double> doubleSelection(RandomGenerator random,
-                                                   List<Double> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<Double> doubleSelection(RandomGenerator random,
-                                                   Double... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<Float> floatSelection(RandomGenerator random,
-                                                 List<Float> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<Float> floatSelection(RandomGenerator random,
-                                                 Float... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<BigInteger> bigIntegerSelection(RandomGenerator random,
-                                                           List<BigInteger> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<BigInteger> bigIntegerSelection(RandomGenerator random,
-                                                           BigInteger... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
-    }
-
-    public static Supplier<BigDecimal> bigDecimalSelection(RandomGenerator random,
-                                                           List<BigDecimal> sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.isEmpty()) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers.get(random.nextInt(0, sourceNumbers.size()));
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Supplier<BigDecimal> bigDecimalSelection(RandomGenerator random,
-                                                           BigDecimal... sourceNumbers) {
-        Objects.requireNonNull(random);
-        Objects.requireNonNull(sourceNumbers);
-        if (sourceNumbers.length == 0) {
-            throw new IllegalArgumentException("At least one number must be passed.");
-        }
-        return () -> sourceNumbers[random.nextInt(0, sourceNumbers.length)];
+        return () -> sourceNumbers[random.nextInt(0, bound)];
     }
 
 }
