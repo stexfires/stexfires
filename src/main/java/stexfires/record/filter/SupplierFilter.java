@@ -7,6 +7,7 @@ import stexfires.util.function.RepeatingPatternBooleanSupplier;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
+import java.util.random.RandomGenerator;
 
 /**
  * @author Mathias Kalb
@@ -31,8 +32,8 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
         return new SupplierFilter<>(validitySupplier::getAsBoolean);
     }
 
-    public static <T extends TextRecord> SupplierFilter<T> random(int percent) {
-        return new SupplierFilter<>(new RandomBooleanSupplier(percent));
+    public static <T extends TextRecord> SupplierFilter<T> random(int percent, RandomGenerator randomGenerator) {
+        return new SupplierFilter<>(new RandomBooleanSupplier(percent, randomGenerator));
     }
 
     public static <T extends TextRecord> SupplierFilter<T> pattern(boolean... pattern) {

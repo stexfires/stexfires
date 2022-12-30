@@ -3,7 +3,6 @@ package stexfires.util.function;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
@@ -19,14 +18,6 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
     private final RandomGenerator random;
     private final int percent;
     private final Boolean constantResult;
-
-    public RandomBooleanSupplier(int percent) {
-        this(percent, new Random());
-    }
-
-    public RandomBooleanSupplier(int percent, long seed) {
-        this(percent, new Random(seed));
-    }
 
     public RandomBooleanSupplier(int percent, RandomGenerator random) {
         Objects.requireNonNull(random);
