@@ -16,8 +16,7 @@ import java.util.stream.Stream;
 public class LogFilterModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
     private final RecordFilter<? super T> recordFilter;
-    private final RecordLogger<? super T> validLogger;
-    private final RecordLogger<? super T> invalidLogger;
+    private final Consumer<T> peekConsumer;
 
     public LogFilterModifier(RecordFilter<? super T> recordFilter,
                              RecordLogger<? super T> validLogger,
@@ -26,25 +25,21 @@ public class LogFilterModifier<T extends TextRecord> implements RecordStreamModi
         Objects.requireNonNull(validLogger);
         Objects.requireNonNull(invalidLogger);
         this.recordFilter = recordFilter;
-        this.validLogger = validLogger;
-        this.invalidLogger = invalidLogger;
-    }
 
-    @Override
-    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
-        return recordStream
-                .peek(logRecord())
-                .filter(recordFilter::isValid);
-    }
-
-    protected final Consumer<T> logRecord() {
-        return record -> {
+        peekConsumer = record -> {
             if (recordFilter.isValid(record)) {
                 validLogger.log(record);
             } else {
                 invalidLogger.log(record);
             }
         };
+    }
+
+    @Override
+    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
+        return recordStream
+                .peek(peekConsumer)
+                .filter(recordFilter::isValid);
     }
 
 }
