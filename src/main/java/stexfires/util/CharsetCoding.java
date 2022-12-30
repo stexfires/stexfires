@@ -26,19 +26,21 @@ import java.util.Objects;
  * @since 0.1
  */
 public record CharsetCoding(@NotNull Charset charset,
-                            @NotNull CodingErrorAction codingErrorAction,
+                            @NotNull CodingErrors codingErrors,
                             @Nullable String decoderReplacement,
                             @Nullable String encoderReplacement) {
 
+    public static final CharsetCoding UTF_8_IGNORING = ignoringErrors(StandardCharsets.UTF_8);
+    public static final CharsetCoding UTF_8_REPLACING = replacingErrorsWithDefaults(StandardCharsets.UTF_8);
     public static final CharsetCoding UTF_8_REPORTING = reportingErrors(StandardCharsets.UTF_8);
 
     public CharsetCoding {
         Objects.requireNonNull(charset);
-        Objects.requireNonNull(codingErrorAction);
+        Objects.requireNonNull(codingErrors);
     }
 
     public static CharsetCoding ignoringErrors(@NotNull Charset charset) {
-        return new CharsetCoding(charset, CodingErrorAction.IGNORE, null, null);
+        return new CharsetCoding(charset, CodingErrors.IGNORE, null, null);
     }
 
     public static CharsetCoding ignoringErrors(@NotNull CommonCharsetNames commonCharsetNames) {
@@ -46,7 +48,7 @@ public record CharsetCoding(@NotNull Charset charset,
     }
 
     public static CharsetCoding reportingErrors(@NotNull Charset charset) {
-        return new CharsetCoding(charset, CodingErrorAction.REPORT, null, null);
+        return new CharsetCoding(charset, CodingErrors.REPORT, null, null);
     }
 
     public static CharsetCoding reportingErrors(@NotNull CommonCharsetNames commonCharsetNames) {
@@ -57,7 +59,7 @@ public record CharsetCoding(@NotNull Charset charset,
                                                 @Nullable String decoderReplacement,
                                                 @Nullable String encoderReplacement) {
         return new CharsetCoding(charset,
-                CodingErrorAction.REPLACE,
+                CodingErrors.REPLACE,
                 decoderReplacement,
                 encoderReplacement);
     }
@@ -84,9 +86,9 @@ public record CharsetCoding(@NotNull Charset charset,
 
     public CharsetDecoder newDecoder() {
         CharsetDecoder charsetDecoder = charset.newDecoder()
-                                               .onMalformedInput(codingErrorAction)
-                                               .onUnmappableCharacter(codingErrorAction);
-        if ((decoderReplacement != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
+                                               .onMalformedInput(codingErrors.codingErrorAction())
+                                               .onUnmappableCharacter(codingErrors.codingErrorAction());
+        if ((decoderReplacement != null) && (codingErrors == CodingErrors.REPLACE)) {
             charsetDecoder.replaceWith(decoderReplacement);
         }
         return charsetDecoder;
@@ -94,9 +96,9 @@ public record CharsetCoding(@NotNull Charset charset,
 
     public CharsetEncoder newEncoder() {
         CharsetEncoder charsetEncoder = charset.newEncoder()
-                                               .onMalformedInput(codingErrorAction)
-                                               .onUnmappableCharacter(codingErrorAction);
-        if ((encoderReplacement != null) && (codingErrorAction == CodingErrorAction.REPLACE)) {
+                                               .onMalformedInput(codingErrors.codingErrorAction())
+                                               .onUnmappableCharacter(codingErrors.codingErrorAction());
+        if ((encoderReplacement != null) && (codingErrors == CodingErrors.REPLACE)) {
             charsetEncoder.replaceWith(encoderReplacement.getBytes(charset));
         }
         return charsetEncoder;
@@ -120,6 +122,19 @@ public record CharsetCoding(@NotNull Charset charset,
     public BufferedWriter newBufferedWriter(@NotNull OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return new BufferedWriter(newOutputStreamWriter(outputStream));
+    }
+
+    public enum CodingErrors {
+        IGNORE, REPLACE, REPORT;
+
+        public final CodingErrorAction codingErrorAction() {
+            return switch (this) {
+                case IGNORE -> CodingErrorAction.IGNORE;
+                case REPLACE -> CodingErrorAction.REPLACE;
+                case REPORT -> CodingErrorAction.REPORT;
+            };
+        }
+
     }
 
 }
