@@ -94,7 +94,7 @@ public final class SingleValueProducer extends AbstractInternalReadableProducer<
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws UncheckedProducerException {
             String rawData = fileSpec.producerReadLineHandling().readAndHandleLine(reader);
-            return RecordRawData.asOptional(null, recordIndex, rawData);
+            return RecordRawData.buildOptionalRecordRawData(null, recordIndex, rawData);
         }
 
     }

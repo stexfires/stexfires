@@ -149,7 +149,7 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
                     rawData = String.valueOf(c);
                 }
             }
-            return RecordRawData.asOptional(null, recordIndex, rawData);
+            return RecordRawData.buildOptionalRecordRawData(null, recordIndex, rawData);
         }
 
     }

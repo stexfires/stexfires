@@ -132,7 +132,7 @@ public final class ConfigProducer extends AbstractInternalReadableProducer<KeyVa
                 // Read until a record is found or the end is reached.
             } while (blankLineFound || commentLineFound || categoryFound);
 
-            return RecordRawData.asOptional(currentCategory, recordIndex, rawData);
+            return RecordRawData.buildOptionalRecordRawData(currentCategory, recordIndex, rawData);
         }
     }
 

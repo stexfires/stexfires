@@ -233,7 +233,7 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
                 return Optional.empty();
             }
 
-            return RecordRawData.asOptional(currentComment, recordIndex, b.toString());
+            return RecordRawData.buildOptionalRecordRawData(currentComment, recordIndex, b.toString());
         }
 
     }
