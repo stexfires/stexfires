@@ -94,7 +94,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> recordId() {
-        return new CategoryMapper<>(record -> Strings.asString(record.recordId()));
+        return new CategoryMapper<>(record -> Strings.toNullableString(record.recordId()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> textAt(int index) {

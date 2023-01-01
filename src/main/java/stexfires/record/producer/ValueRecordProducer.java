@@ -24,17 +24,17 @@ public final class ValueRecordProducer implements RecordProducer<ValueRecord> {
     private final List<ValueRecord> records;
 
     public <V> ValueRecordProducer(@NotNull Collection<V> values) {
-        this(null, TextRecords.recordIdSequence(), values, Strings::asString);
+        this(null, TextRecords.recordIdSequence(), values, Strings::toNullableString);
     }
 
     public <V> ValueRecordProducer(@Nullable String category,
                                    @NotNull Collection<V> values) {
-        this(category, TextRecords.recordIdSequence(), values, Strings::asString);
+        this(category, TextRecords.recordIdSequence(), values, Strings::toNullableString);
     }
 
     public <V> ValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
                                    @NotNull Collection<V> values) {
-        this(category, recordIdSupplier, values, Strings::asString);
+        this(category, recordIdSupplier, values, Strings::toNullableString);
     }
 
     public <V> ValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,

@@ -24,17 +24,17 @@ public final class KeyValueRecordProducer implements RecordProducer<KeyValueReco
     private final List<KeyValueRecord> records;
 
     public <K, V> KeyValueRecordProducer(@NotNull Map<K, V> keyValueMap) {
-        this(null, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
+        this(null, TextRecords.recordIdSequence(), keyValueMap, Strings::toNullableString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category,
                                          @NotNull Map<K, V> keyValueMap) {
-        this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::asString, Strings::asString);
+        this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::toNullableString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
                                          @NotNull Map<K, V> keyValueMap) {
-        this(category, recordIdSupplier, keyValueMap, Strings::asString, Strings::asString);
+        this(category, recordIdSupplier, keyValueMap, Strings::toNullableString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,

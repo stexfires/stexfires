@@ -98,7 +98,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     }
 
     public static <T extends TextRecord> AddTextMapper<T> recordId() {
-        return new AddTextMapper<>(record -> Strings.asString(record.recordId()));
+        return new AddTextMapper<>(record -> Strings.toNullableString(record.recordId()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> textAt(int index) {

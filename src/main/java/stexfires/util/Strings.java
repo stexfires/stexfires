@@ -53,11 +53,11 @@ public final class Strings {
     private Strings() {
     }
 
-    public static @Nullable String asString(@Nullable Object o) {
+    public static @Nullable String toNullableString(@Nullable Object o) {
         return o == null ? null : o.toString();
     }
 
-    public static Optional<String> asOptionalString(@Nullable Object o) {
+    public static Optional<String> toOptionalString(@Nullable Object o) {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
@@ -439,17 +439,10 @@ public final class Strings {
 
         private static final int SPLITERATOR_CHARACTERISTICS = Spliterator.SIZED | Spliterator.SUBSIZED
                 | Spliterator.NONNULL | Spliterator.ORDERED | Spliterator.IMMUTABLE;
-
-        private static Spliterator<String> lengthSpliterator(String text, int length) {
-            var iterator = new SplitTextByLengthIterator(text, length);
-            return Spliterators.spliterator(iterator, iterator.size(), SPLITERATOR_CHARACTERISTICS);
-        }
-
         private final String text;
         private final int length;
         private final int maxIndex;
         private int currentIndex;
-
         private SplitTextByLengthIterator(String text, int length) {
             Objects.requireNonNull(text);
             if (length <= 0) {
@@ -461,6 +454,11 @@ public final class Strings {
             // init indexes
             currentIndex = 0;
             maxIndex = text.length();
+        }
+
+        private static Spliterator<String> lengthSpliterator(String text, int length) {
+            var iterator = new SplitTextByLengthIterator(text, length);
+            return Spliterators.spliterator(iterator, iterator.size(), SPLITERATOR_CHARACTERISTICS);
         }
 
         private int size() {
@@ -507,6 +505,21 @@ public final class Strings {
     private static final class SplitTextByBreakIterator implements Iterator<String> {
 
         private static final int SPLITERATOR_CHARACTERISTICS = Spliterator.NONNULL | Spliterator.ORDERED | Spliterator.IMMUTABLE;
+        private final String text;
+        private final BreakIterator breakIterator;
+        private int currentBeginIndex;
+        private int currentEndIndex;
+
+        private SplitTextByBreakIterator(String text, BreakIterator breakIterator) {
+            Objects.requireNonNull(text);
+            Objects.requireNonNull(breakIterator);
+            this.text = text;
+            this.breakIterator = breakIterator;
+
+            // determine the first indexes
+            currentBeginIndex = breakIterator.first();
+            currentEndIndex = breakIterator.next();
+        }
 
         private static Spliterator<String> sentenceSpliterator(String text, Locale locale) {
             Objects.requireNonNull(text);
@@ -550,22 +563,6 @@ public final class Strings {
 
             var iterator = new SplitTextByBreakIterator(text, breakIterator);
             return Spliterators.spliteratorUnknownSize(iterator, SPLITERATOR_CHARACTERISTICS);
-        }
-
-        private final String text;
-        private final BreakIterator breakIterator;
-        private int currentBeginIndex;
-        private int currentEndIndex;
-
-        private SplitTextByBreakIterator(String text, BreakIterator breakIterator) {
-            Objects.requireNonNull(text);
-            Objects.requireNonNull(breakIterator);
-            this.text = text;
-            this.breakIterator = breakIterator;
-
-            // determine the first indexes
-            currentBeginIndex = breakIterator.first();
-            currentEndIndex = breakIterator.next();
         }
 
         /**
