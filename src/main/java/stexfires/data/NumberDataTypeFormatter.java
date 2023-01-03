@@ -11,20 +11,21 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-public final class IntegerDataTypeFormatter implements DataTypeFormatter<Integer> {
+public final class NumberDataTypeFormatter<T extends Number> implements DataTypeFormatter<T> {
 
     private final NumberFormat numberFormat;
     private final Supplier<String> nullSourceSupplier;
+    private final Object lock = new Object();
 
-    public IntegerDataTypeFormatter(@NotNull NumberFormat numberFormat,
-                                    @Nullable Supplier<String> nullSourceSupplier) {
+    public NumberDataTypeFormatter(@NotNull NumberFormat numberFormat,
+                                   @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(numberFormat);
         this.numberFormat = numberFormat;
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
     @Override
-    public @Nullable String format(@Nullable Integer source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
             if (nullSourceSupplier == null) {
                 throw new DataTypeFormatException("Source is null.");
@@ -33,7 +34,9 @@ public final class IntegerDataTypeFormatter implements DataTypeFormatter<Integer
             }
         } else {
             try {
-                return numberFormat.format(source);
+                synchronized (lock) {
+                    return numberFormat.format(source);
+                }
             } catch (IllegalArgumentException e) {
                 throw new DataTypeFormatException(e.getMessage());
             }
