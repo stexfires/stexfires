@@ -37,9 +37,9 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static Function<Number, Integer> convertIntegerFunction() {
+    public static Integer toInteger(Number numberResult) {
         LongPredicate rangeNotValid = NumberPredicates.PrimitiveLongPredicates.rangeOfInteger().negate();
-        return numberResult -> switch (numberResult) {
+        return switch (numberResult) {
             case null -> throw new DataTypeParseException("Parsed number is null.");
             case Long longResult -> {
                 if (rangeNotValid.test(longResult)) {
@@ -53,8 +53,8 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
         };
     }
 
-    public static Function<Number, Long> convertLongFunction() {
-        return numberResult -> switch (numberResult) {
+    public static Long toLong(Number numberResult) {
+        return switch (numberResult) {
             case null -> throw new DataTypeParseException("Parsed number is null.");
             case Long longResult -> longResult;
             case Integer integerResult -> integerResult.longValue();
@@ -63,8 +63,8 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
         };
     }
 
-    public static Function<Number, Double> convertDoubleFunction() {
-        return numberResult -> switch (numberResult) {
+    public static Double toDouble(Number numberResult) {
+        return switch (numberResult) {
             case null -> throw new DataTypeParseException("Parsed number is null.");
             case Double doubleResult -> doubleResult;
             case Long longResult -> longResult.doubleValue();
@@ -74,8 +74,8 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
         };
     }
 
-    public static Function<Number, BigInteger> convertBigIntegerFunction() {
-        return numberResult -> switch (numberResult) {
+    public static BigInteger toBigInteger(Number numberResult) {
+        return switch (numberResult) {
             case null -> throw new DataTypeParseException("Parsed number is null.");
             case BigDecimal bigDecimalResult -> {
                 try {
@@ -102,8 +102,8 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
         };
     }
 
-    public static Function<Number, BigDecimal> convertBigDecimalFunction() {
-        return numberResult -> switch (numberResult) {
+    public static BigDecimal toBigDecimal(Number numberResult) {
+        return switch (numberResult) {
             case null -> throw new DataTypeParseException("Parsed number is null.");
             case BigDecimal bigDecimalResult -> bigDecimalResult;
             case BigInteger bigIntegerResult -> new BigDecimal(bigIntegerResult);
