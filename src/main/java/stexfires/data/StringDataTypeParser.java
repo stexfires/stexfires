@@ -72,17 +72,9 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
     @Override
     public @Nullable String parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeParseException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
-            if (emptySourceSupplier == null) {
-                throw new DataTypeParseException("Source is empty.");
-            } else {
-                return emptySourceSupplier.get();
-            }
+            return handleEmptySource(emptySourceSupplier);
         } else {
             if (checkPredicate != null && !checkPredicate.test(source)) {
                 throw new DataTypeParseException("Source is not formatted correctly.");

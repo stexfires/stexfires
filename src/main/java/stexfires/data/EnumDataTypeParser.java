@@ -34,17 +34,9 @@ public final class EnumDataTypeParser<T extends Enum<T>> implements DataTypePars
     @Override
     public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeParseException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
-            if (emptySourceSupplier == null) {
-                throw new DataTypeParseException("Source is empty.");
-            } else {
-                return emptySourceSupplier.get();
-            }
+            return handleEmptySource(emptySourceSupplier);
         } else {
             try {
                 return Enum.valueOf(enumClass, sourceOperator.apply(source));

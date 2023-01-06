@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
@@ -33,6 +34,22 @@ public interface DataTypeParser<T> {
     default DataTypeParser<T> andThen(UnaryOperator<T> dataTypeUnaryOperator) {
         Objects.requireNonNull(dataTypeUnaryOperator);
         return source -> dataTypeUnaryOperator.apply(parse(source));
+    }
+
+    default T handleNullSource(@Nullable Supplier<T> nullSourceSupplier) throws DataTypeParseException {
+        if (nullSourceSupplier == null) {
+            throw new DataTypeParseException("Source is null.");
+        } else {
+            return nullSourceSupplier.get();
+        }
+    }
+
+    default T handleEmptySource(@Nullable Supplier<T> emptySourceSupplier) throws DataTypeParseException {
+        if (emptySourceSupplier == null) {
+            throw new DataTypeParseException("Source is empty.");
+        } else {
+            return emptySourceSupplier.get();
+        }
     }
 
 }
