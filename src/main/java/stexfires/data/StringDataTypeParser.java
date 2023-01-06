@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.util.Strings;
 import stexfires.util.function.Suppliers;
 
+import java.io.UncheckedIOException;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -76,11 +77,16 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
         } else if (source.isEmpty()) {
             return handleEmptySource(emptySourceSupplier);
         } else {
-            if (checkPredicate != null && !checkPredicate.test(source)) {
-                throw new DataTypeParseException("Source is not formatted correctly.");
-            }
-            if (operatorAfterCheck != null) {
-                return operatorAfterCheck.apply(source);
+            try {
+                if (checkPredicate != null && !checkPredicate.test(source)) {
+                    throw new DataTypeParseException("Source is not formatted correctly.");
+                }
+                if (operatorAfterCheck != null) {
+                    return operatorAfterCheck.apply(source);
+                }
+            } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException e) {
+                throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
             }
             return source;
         }

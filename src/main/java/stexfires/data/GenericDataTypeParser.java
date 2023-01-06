@@ -5,8 +5,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -42,15 +40,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Charset> newCharsetDataTypeParserWithSuppliers(@Nullable Supplier<Charset> nullSourceSupplier,
                                                                                        @Nullable Supplier<Charset> emptySourceSupplier) {
-        return new GenericDataTypeParser<>(
-                source -> {
-                    try {
-                        return Charset.forName(source);
-                    } catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
-                        throw new DataTypeParseException("Illegal or unsupported charset: " + e.getMessage());
-                    }
-                },
-                nullSourceSupplier, emptySourceSupplier);
+        return new GenericDataTypeParser<>(Charset::forName, nullSourceSupplier, emptySourceSupplier);
     }
 
     public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Charset nullOrEmptySource) {
@@ -60,15 +50,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
                                                                                         @Nullable Supplier<byte[]> nullSourceSupplier,
                                                                                         @Nullable Supplier<byte[]> emptySourceSupplier) {
-        return new GenericDataTypeParser<>(
-                source -> {
-                    try {
-                        return parseFunction.apply(source);
-                    } catch (IllegalArgumentException | NullPointerException | UncheckedIOException e) {
-                        throw new DataTypeParseException("Cannot parse String to byte[]: " + e.getMessage());
-                    }
-                },
-                nullSourceSupplier, emptySourceSupplier);
+        return new GenericDataTypeParser<>(parseFunction, nullSourceSupplier, emptySourceSupplier);
     }
 
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParser(@NotNull Function<String, byte[]> parseFunction,
@@ -83,7 +65,12 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         } else if (source.isEmpty()) {
             return handleEmptySource(emptySourceSupplier);
         } else {
-            return parseFunction.apply(source);
+            try {
+                return parseFunction.apply(source);
+            } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException e) {
+                throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
+            }
         }
     }
 
