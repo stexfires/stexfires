@@ -25,12 +25,20 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static GenericDataTypeFormatter<Locale> newLocaleDataTypeFormatter(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Locale> newLocaleDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Locale::toLanguageTag, nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Charset> newCharsetDataTypeFormatter(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Locale> newLocaleDataTypeFormatter(@Nullable String nullSource) {
+        return newLocaleDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Charset> newCharsetDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Charset::name, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Charset> newCharsetDataTypeFormatter(@Nullable String nullSource) {
+        return newCharsetDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
     @Override

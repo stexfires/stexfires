@@ -30,13 +30,17 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static GenericDataTypeParser<Locale> newLocaleDataTypeParser(@Nullable Supplier<Locale> nullSourceSupplier,
-                                                                        @Nullable Supplier<Locale> emptySourceSupplier) {
+    public static GenericDataTypeParser<Locale> newLocaleDataTypeParserWithSuppliers(@Nullable Supplier<Locale> nullSourceSupplier,
+                                                                                     @Nullable Supplier<Locale> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Locale::forLanguageTag, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Supplier<Charset> nullSourceSupplier,
-                                                                          @Nullable Supplier<Charset> emptySourceSupplier) {
+    public static GenericDataTypeParser<Locale> newLocaleDataTypeParser(@Nullable Locale nullOrEmptySource) {
+        return newLocaleDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Charset> newCharsetDataTypeParserWithSuppliers(@Nullable Supplier<Charset> nullSourceSupplier,
+                                                                                       @Nullable Supplier<Charset> emptySourceSupplier) {
         return new GenericDataTypeParser<>(
                 source -> {
                     try {
@@ -46,6 +50,10 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
                     }
                 },
                 nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Charset nullOrEmptySource) {
+        return newCharsetDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     @Override
