@@ -26,11 +26,7 @@ public final class MappingDataTypeFormatter<T> implements DataTypeFormatter<T> {
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else {
             return pairList.stream()
                            .filter(pair -> source.equals(pair.dataValue()))

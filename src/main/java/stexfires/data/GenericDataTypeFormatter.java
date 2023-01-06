@@ -44,11 +44,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else {
             return formatFunction.apply(source);
         }

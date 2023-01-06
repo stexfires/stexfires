@@ -29,11 +29,7 @@ public final class BooleanDataTypeFormatter implements DataTypeFormatter<Boolean
     @Override
     public @Nullable String format(@Nullable Boolean source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else {
             return source ? trueSourceSupplier.get() : falseSourceSupplier.get();
         }

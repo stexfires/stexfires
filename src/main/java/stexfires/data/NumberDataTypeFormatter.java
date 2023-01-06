@@ -27,11 +27,7 @@ public final class NumberDataTypeFormatter<T extends Number> implements DataType
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else {
             try {
                 synchronized (lock) {

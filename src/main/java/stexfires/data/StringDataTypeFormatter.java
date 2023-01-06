@@ -45,11 +45,7 @@ public final class StringDataTypeFormatter implements DataTypeFormatter<String> 
     @Override
     public @Nullable String format(@Nullable String source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
             if (emptySourceSupplier == null) {
                 throw new DataTypeFormatException("Source is empty.");

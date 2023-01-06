@@ -28,11 +28,7 @@ public final class TimeDataTypeFormatter<T extends TemporalAccessor> implements 
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
-            if (nullSourceSupplier == null) {
-                throw new DataTypeFormatException("Source is null.");
-            } else {
-                return nullSourceSupplier.get();
-            }
+            return handleNullSource(nullSourceSupplier);
         } else {
             try {
                 return dateTimeFormatter.format(source);

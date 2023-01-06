@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
@@ -32,6 +33,14 @@ public interface DataTypeFormatter<T> {
     default DataTypeFormatter<T> andThen(UnaryOperator<String> stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
         return source -> stringUnaryOperator.apply(format(source));
+    }
+
+    default String handleNullSource(@Nullable Supplier<String> nullSourceSupplier) throws DataTypeFormatException {
+        if (nullSourceSupplier == null) {
+            throw new DataTypeFormatException("Source is null.");
+        } else {
+            return nullSourceSupplier.get();
+        }
     }
 
 }
