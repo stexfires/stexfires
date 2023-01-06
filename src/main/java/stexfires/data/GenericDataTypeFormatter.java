@@ -3,6 +3,7 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -26,6 +27,10 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     public static GenericDataTypeFormatter<Locale> newLocaleDataTypeFormatter(@Nullable Supplier<String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Locale::toLanguageTag, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Charset> newCharsetDataTypeFormatter(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(Charset::name, nullSourceSupplier);
     }
 
     @Override

@@ -3,6 +3,9 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -30,6 +33,19 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Locale> newLocaleDataTypeParser(@Nullable Supplier<Locale> nullSourceSupplier,
                                                                         @Nullable Supplier<Locale> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Locale::forLanguageTag, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Supplier<Charset> nullSourceSupplier,
+                                                                          @Nullable Supplier<Charset> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(
+                source -> {
+                    try {
+                        return Charset.forName(source);
+                    } catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
+                        throw new DataTypeParseException("Illegal or unsupported charset: " + e.getMessage());
+                    }
+                },
+                nullSourceSupplier, emptySourceSupplier);
     }
 
     @Override
