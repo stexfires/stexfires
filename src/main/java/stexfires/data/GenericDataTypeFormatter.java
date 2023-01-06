@@ -41,6 +41,16 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return newCharsetDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
+    public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,
+                                                                                             @Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(formatFunction, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatter(@NotNull Function<byte[], String> formatFunction,
+                                                                                 @Nullable String nullSource) {
+        return newByteArrayDataTypeFormatterWithSupplier(formatFunction, () -> nullSource);
+    }
+
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {

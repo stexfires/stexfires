@@ -3,6 +3,7 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -54,6 +55,25 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Charset nullOrEmptySource) {
         return newCharsetDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
+                                                                                        @Nullable Supplier<byte[]> nullSourceSupplier,
+                                                                                        @Nullable Supplier<byte[]> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(
+                source -> {
+                    try {
+                        return parseFunction.apply(source);
+                    } catch (IllegalArgumentException | NullPointerException | UncheckedIOException e) {
+                        throw new DataTypeParseException("Cannot parse String to byte[]: " + e.getMessage());
+                    }
+                },
+                nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParser(@NotNull Function<String, byte[]> parseFunction,
+                                                                           byte @Nullable [] nullOrEmptySource) {
+        return newByteArrayDataTypeParserWithSuppliers(parseFunction, () -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     @Override
