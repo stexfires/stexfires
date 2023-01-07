@@ -3,6 +3,7 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Objects;
@@ -49,6 +50,45 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatter(@NotNull Function<byte[], String> formatFunction,
                                                                                  @Nullable String nullSource) {
         return newByteArrayDataTypeFormatterWithSupplier(formatFunction, () -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Long> newLongRadixDataType(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+            throw new IllegalArgumentException("Invalid range for radix: " + radix);
+        }
+        return new GenericDataTypeFormatter<>(source -> Long.toString(source, radix), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Integer> newIntegerRadixDataType(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+            throw new IllegalArgumentException("Invalid range for radix: " + radix);
+        }
+        return new GenericDataTypeFormatter<>(source -> Integer.toString(source, radix), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Short> newShortRadixDataType(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+            throw new IllegalArgumentException("Invalid range for radix: " + radix);
+        }
+        return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Byte> newByteRadixDataType(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+            throw new IllegalArgumentException("Invalid range for radix: " + radix);
+        }
+        return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Double> newDoubleDataType(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(source -> Double.toString(source), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<BigInteger> newBigIntegerRadixDataType(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+            throw new IllegalArgumentException("Invalid range for radix: " + radix);
+        }
+        return new GenericDataTypeFormatter<>(source -> source.toString(radix), nullSourceSupplier);
     }
 
     @Override
