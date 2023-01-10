@@ -48,6 +48,23 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         return newCharsetDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
+    @SuppressWarnings("rawtypes")
+    public static GenericDataTypeParser<Class> newClassDataTypeParserWithSuppliers(@Nullable Supplier<Class> nullSourceSupplier,
+                                                                                   @Nullable Supplier<Class> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return Class.forName(source);
+            } catch (ClassNotFoundException e) {
+                throw new DataTypeParseException("ClassNotFoundException");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static GenericDataTypeParser<Class> newClassDataTypeParser(@Nullable Class nullOrEmptySource) {
+        return newClassDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
                                                                                         @Nullable Supplier<byte[]> nullSourceSupplier,
                                                                                         @Nullable Supplier<byte[]> emptySourceSupplier) {

@@ -42,6 +42,16 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return newCharsetDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
+    @SuppressWarnings("rawtypes")
+    public static GenericDataTypeFormatter<Class> newClassDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(Class::getName, nullSourceSupplier);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static GenericDataTypeFormatter<Class> newClassDataTypeFormatter(@Nullable String nullSource) {
+        return newClassDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,
                                                                                              @Nullable Supplier<String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(formatFunction, nullSourceSupplier);
