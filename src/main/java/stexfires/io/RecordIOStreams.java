@@ -1,5 +1,12 @@
 package stexfires.io;
 
+import org.jetbrains.annotations.Nullable;
+import stexfires.data.DataTypeFormatException;
+import stexfires.data.DataTypeFormatter;
+import stexfires.data.DataTypeParseException;
+import stexfires.data.DataTypeParser;
+import stexfires.data.GenericDataTypeFormatter;
+import stexfires.data.GenericDataTypeParser;
 import stexfires.io.consumer.StringWritableRecordConsumer;
 import stexfires.io.consumer.WritableRecordConsumer;
 import stexfires.io.consumer.WritableRecordFileSpec;
@@ -21,6 +28,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -77,6 +85,29 @@ public final class RecordIOStreams {
         }
 
         return result;
+    }
+
+    public static <PTR extends TextRecord> DataTypeParser<PTR> newRecordDataTypeParser(ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
+                                                                                       Function<Stream<PTR>, PTR> streamFunction,
+                                                                                       @Nullable Supplier<PTR> nullSourceSupplier,
+                                                                                       @Nullable Supplier<PTR> emptySourceSupplier) {
+        Objects.requireNonNull(readableRecordFileSpec);
+        Objects.requireNonNull(streamFunction);
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return RecordIOStreams.readFromString(readableRecordFileSpec, source, streamFunction);
+            } catch (UncheckedProducerException e) {
+                throw new DataTypeParseException(e.getCause().getMessage());
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static <PTR extends TextRecord> DataTypeParser<PTR> newRecordDataTypeParser(ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
+                                                                                       @Nullable Supplier<PTR> nullSourceSupplier,
+                                                                                       @Nullable Supplier<PTR> emptySourceSupplier) {
+        return newRecordDataTypeParser(readableRecordFileSpec,
+                stream -> stream.findFirst().orElseThrow(() -> new DataTypeParseException("No record could be parsed.")),
+                nullSourceSupplier, emptySourceSupplier);
     }
 
     public static <R extends TextRecord, T extends R> Function<Stream<T>, RecordConsumer<R>> andConsume(
@@ -248,6 +279,22 @@ public final class RecordIOStreams {
         return result;
     }
 
+    public static <CTR extends TextRecord, TR extends CTR> DataTypeFormatter<TR> newRecordDataTypeFormatter(WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
+                                                                                                            boolean removeLastLineSeparator,
+                                                                                                            @Nullable Supplier<String> nullSourceSupplier) {
+        Objects.requireNonNull(writableRecordFileSpec);
+        return new GenericDataTypeFormatter<>(source -> {
+            try {
+                return RecordIOStreams.writeRecordIntoString(
+                        writableRecordFileSpec,
+                        removeLastLineSeparator,
+                        source);
+            } catch (UncheckedConsumerException e) {
+                throw new DataTypeFormatException(e.getCause().getMessage());
+            }
+        }, nullSourceSupplier);
+    }
+
     public static <CTR extends TextRecord, TR extends CTR> RecordMessage<TR> writeRecordIntoStringMessage(
             WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
             boolean removeLastLineSeparator) {
@@ -293,7 +340,8 @@ public final class RecordIOStreams {
         return writableRecordConsumer;
     }
 
-    public static <CTR extends TextRecord, PTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> WRC transferMapped(
+    public static <CTR extends TextRecord, PTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>>
+    WRC transferMapped(
             ReadableRecordProducer<PTR> readableRecordProducer,
             WRC writableRecordConsumer,
             RecordMapper<? super PTR, ? extends CTR> recordMapper)
@@ -318,7 +366,8 @@ public final class RecordIOStreams {
         return writableRecordConsumer;
     }
 
-    public static <CTR extends TextRecord, PTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> WRC transferModified(
+    public static <CTR extends TextRecord, PTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>>
+    WRC transferModified(
             ReadableRecordProducer<PTR> readableRecordProducer,
             WRC writableRecordConsumer,
             RecordStreamModifier<PTR, ? extends CTR> recordStreamModifier)
