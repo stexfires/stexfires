@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
+@SuppressWarnings("UseOfObsoleteDateTimeApi")
 public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     private final Function<T, String> formatFunction;
@@ -95,6 +97,17 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     public static GenericDataTypeFormatter<UUID> newUuidDataTypeFormatter(@Nullable String nullSource) {
         return newUuidDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Date> newDateDataTypeFormatterWithSupplier(@NotNull DataTypeFormatter<Instant> instantDataTypeFormatter,
+                                                                                      @Nullable Supplier<String> nullSourceSupplier) {
+        Objects.requireNonNull(instantDataTypeFormatter);
+        return new GenericDataTypeFormatter<>(source -> instantDataTypeFormatter.format(source.toInstant()), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Date> newDateDataTypeFormatter(@NotNull DataTypeFormatter<Instant> instantDataTypeFormatter,
+                                                                          @Nullable String nullSource) {
+        return newDateDataTypeFormatterWithSupplier(instantDataTypeFormatter, () -> nullSource);
     }
 
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,
