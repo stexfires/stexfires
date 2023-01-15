@@ -8,8 +8,10 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.time.DateTimeException;
 import java.time.Instant;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -69,6 +71,30 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     public static GenericDataTypeFormatter<Instant> newInstantEpochMilliDataTypeFormatter(@Nullable String nullSource) {
         return newInstantEpochMilliDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Character> newCharacterDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(Object::toString, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Character> newCharacterDataTypeFormatter(@Nullable String nullSource) {
+        return newCharacterDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Currency> newCurrencyDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(Currency::getCurrencyCode, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Currency> newCurrencyDataTypeFormatter(@Nullable String nullSource) {
+        return newCurrencyDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<UUID> newUuidDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(UUID::toString, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<UUID> newUuidDataTypeFormatter(@Nullable String nullSource) {
+        return newUuidDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,

@@ -8,8 +8,10 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.time.DateTimeException;
 import java.time.Instant;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -83,6 +85,38 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParser(@Nullable Instant nullOrEmptySource) {
         return newInstantEpochMilliDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Character> newCharacterDataTypeParserWithSuppliers(@Nullable Supplier<Character> nullSourceSupplier,
+                                                                                           @Nullable Supplier<Character> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            if (source.length() > 1) {
+                throw new DataTypeParseException("Invalid length: " + source.length());
+            }
+            return source.charAt(0);
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Character> newCharacterDataTypeParser(@Nullable Character nullOrEmptySource) {
+        return newCharacterDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Currency> newCurrencyDataTypeParserWithSuppliers(@Nullable Supplier<Currency> nullSourceSupplier,
+                                                                                         @Nullable Supplier<Currency> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(Currency::getInstance, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Currency> newCurrencyDataTypeParser(@Nullable Currency nullOrEmptySource) {
+        return newCurrencyDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<UUID> newUuidDataTypeParserWithSuppliers(@Nullable Supplier<UUID> nullSourceSupplier,
+                                                                                 @Nullable Supplier<UUID> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(UUID::fromString, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<UUID> newUuidDataTypeParser(@Nullable UUID nullOrEmptySource) {
+        return newUuidDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
