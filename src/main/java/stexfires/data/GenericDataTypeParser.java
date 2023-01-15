@@ -69,13 +69,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
                                                                                                   @Nullable Supplier<Instant> emptySourceSupplier) {
-        return new GenericDataTypeParser<>(source -> {
-            try {
-                return Instant.ofEpochSecond(Long.parseLong(source));
-            } catch (DateTimeException e) {
-                throw new DataTypeParseException("DateTimeException");
-            }
-        }, nullSourceSupplier, emptySourceSupplier);
+        return new GenericDataTypeParser<>(source -> Instant.ofEpochSecond(Long.parseLong(source)), nullSourceSupplier, emptySourceSupplier);
     }
 
     public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParser(@Nullable Instant nullOrEmptySource) {
@@ -84,13 +78,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
                                                                                                  @Nullable Supplier<Instant> emptySourceSupplier) {
-        return new GenericDataTypeParser<>(source -> {
-            try {
-                return Instant.ofEpochMilli(Long.parseLong(source));
-            } catch (DateTimeException e) {
-                throw new DataTypeParseException("DateTimeException");
-            }
-        }, nullSourceSupplier, emptySourceSupplier);
+        return new GenericDataTypeParser<>(source -> Instant.ofEpochMilli(Long.parseLong(source)), nullSourceSupplier, emptySourceSupplier);
     }
 
     public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParser(@Nullable Instant nullOrEmptySource) {
@@ -168,7 +156,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 return parseFunction.apply(source);
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
-                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException e) {
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
                 throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
             }
         }

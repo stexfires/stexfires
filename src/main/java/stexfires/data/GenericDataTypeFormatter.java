@@ -3,8 +3,10 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.UncheckedIOException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
@@ -123,7 +125,12 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
-            return formatFunction.apply(source);
+            try {
+                return formatFunction.apply(source);
+            } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
+                throw new DataTypeFormatException("Cannot format source: " + e.getClass().getName());
+            }
         }
     }
 
