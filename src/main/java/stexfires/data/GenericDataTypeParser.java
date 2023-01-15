@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.DateTimeException;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -63,6 +65,36 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     @SuppressWarnings("rawtypes")
     public static GenericDataTypeParser<Class> newClassDataTypeParser(@Nullable Class nullOrEmptySource) {
         return newClassDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
+                                                                                                  @Nullable Supplier<Instant> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return Instant.ofEpochSecond(Long.parseLong(source));
+            } catch (DateTimeException e) {
+                throw new DataTypeParseException("DateTimeException");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParser(@Nullable Instant nullOrEmptySource) {
+        return newInstantEpochSecondDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
+                                                                                                 @Nullable Supplier<Instant> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return Instant.ofEpochMilli(Long.parseLong(source));
+            } catch (DateTimeException e) {
+                throw new DataTypeParseException("DateTimeException");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParser(@Nullable Instant nullOrEmptySource) {
+        return newInstantEpochMilliDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,

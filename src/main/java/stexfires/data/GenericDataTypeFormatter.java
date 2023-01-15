@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Function;
@@ -50,6 +51,22 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     @SuppressWarnings("rawtypes")
     public static GenericDataTypeFormatter<Class> newClassDataTypeFormatter(@Nullable String nullSource) {
         return newClassDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Instant> newInstantEpochSecondDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(source -> String.valueOf(source.getEpochSecond()), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Instant> newInstantEpochSecondDataTypeFormatter(@Nullable String nullSource) {
+        return newInstantEpochSecondDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Instant> newInstantEpochMilliDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(source -> String.valueOf(source.toEpochMilli()), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Instant> newInstantEpochMilliDataTypeFormatter(@Nullable String nullSource) {
+        return newInstantEpochMilliDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,
