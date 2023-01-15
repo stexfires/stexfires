@@ -31,9 +31,14 @@ public interface DataTypeParser<T> {
         return this::parse;
     }
 
-    default DataTypeParser<T> andThen(UnaryOperator<T> dataTypeUnaryOperator) {
-        Objects.requireNonNull(dataTypeUnaryOperator);
-        return source -> dataTypeUnaryOperator.apply(parse(source));
+    default DataTypeParser<T> compose(UnaryOperator<String> before) {
+        Objects.requireNonNull(before);
+        return source -> parse(before.apply(source));
+    }
+
+    default <V> DataTypeParser<V> andThen(Function<? super T, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return source -> after.apply(parse(source));
     }
 
     default T handleNullSource(@Nullable Supplier<T> nullSourceSupplier) throws DataTypeParseException {

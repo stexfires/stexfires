@@ -30,9 +30,14 @@ public interface DataTypeFormatter<T> {
         return this::format;
     }
 
-    default DataTypeFormatter<T> andThen(UnaryOperator<String> stringUnaryOperator) {
-        Objects.requireNonNull(stringUnaryOperator);
-        return source -> stringUnaryOperator.apply(format(source));
+    default <V> DataTypeFormatter<V> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return source -> format(before.apply(source));
+    }
+
+    default DataTypeFormatter<T> andThen(UnaryOperator<String> after) {
+        Objects.requireNonNull(after);
+        return source -> after.apply(format(source));
     }
 
     default String handleNullSource(@Nullable Supplier<String> nullSourceSupplier) throws DataTypeFormatException {
