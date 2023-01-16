@@ -5,7 +5,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystemNotFoundException;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
@@ -112,6 +115,28 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         return newCurrencyDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static GenericDataTypeParser<URI> newUriDataTypeParserWithSuppliers(boolean parseServerAuthority,
+                                                                               @Nullable Supplier<URI> nullSourceSupplier,
+                                                                               @Nullable Supplier<URI> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                URI uri = new URI(source);
+                if (parseServerAuthority) {
+                    uri.parseServerAuthority();
+                }
+                return uri;
+            } catch (URISyntaxException e) {
+                throw new DataTypeParseException("Source is not a valid URI");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<URI> newUriDataTypeParser(boolean parseServerAuthority,
+                                                                  @Nullable URI nullOrEmptySource) {
+        return newUriDataTypeParserWithSuppliers(parseServerAuthority, () -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
     public static GenericDataTypeParser<UUID> newUuidDataTypeParserWithSuppliers(@Nullable Supplier<UUID> nullSourceSupplier,
                                                                                  @Nullable Supplier<UUID> emptySourceSupplier) {
         return new GenericDataTypeParser<>(UUID::fromString, nullSourceSupplier, emptySourceSupplier);
@@ -205,7 +230,8 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 return parseFunction.apply(source);
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
-                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
+                     UnsupportedOperationException | FileSystemNotFoundException e) {
                 throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
             }
         }

@@ -4,6 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystemNotFoundException;
 import java.time.DateTimeException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -33,6 +37,16 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
+    public static Function<URL, URI> formatterConverterUrlToUri() {
+        return url -> {
+            try {
+                return url.toURI();
+            } catch (URISyntaxException e) {
+                throw new DataTypeFormatException("Cannot convert URL to URI");
+            }
+        };
+    }
+
     @Override
     public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
         if (source == null) {
@@ -42,7 +56,8 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
                 String formattedString = dataTypeFormatter.format(dataConverter.apply(source));
                 return (postAdjustment == null) ? formattedString : postAdjustment.apply(formattedString);
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
-                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
+                     UnsupportedOperationException | FileSystemNotFoundException e) {
                 throw new DataTypeFormatException("Cannot format source: " + e.getClass().getName());
             }
         }

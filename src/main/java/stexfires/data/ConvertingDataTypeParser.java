@@ -4,6 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.FileSystemNotFoundException;
 import java.time.DateTimeException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -36,6 +40,16 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
+    public static Function<URI, URL> parserConverterUriToUrl() {
+        return uri -> {
+            try {
+                return uri.toURL();
+            } catch (IllegalArgumentException | MalformedURLException e) {
+                throw new DataTypeParseException("Cannot convert URI to URL");
+            }
+        };
+    }
+
     @Override
     public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
         if (source == null) {
@@ -48,7 +62,8 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
 
                 return dataConverter.apply(dataTypeParser.parse(preparedString));
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
-                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
+                     UnsupportedOperationException | FileSystemNotFoundException e) {
                 throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
             }
         }

@@ -5,7 +5,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystemNotFoundException;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
@@ -91,6 +94,26 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return newCurrencyDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static GenericDataTypeFormatter<URI> newUriDataTypeFormatterWithSupplier(boolean parseServerAuthority,
+                                                                                    @Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(source -> {
+            try {
+                if (parseServerAuthority) {
+                    source.parseServerAuthority();
+                }
+                return source.toString();
+            } catch (URISyntaxException e) {
+                throw new DataTypeFormatException("Source is not a valid URI");
+            }
+        }, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<URI> newUriDataTypeFormatter(boolean parseServerAuthority,
+                                                                        @Nullable String nullSource) {
+        return newUriDataTypeFormatterWithSupplier(parseServerAuthority, () -> nullSource);
+    }
+
     public static GenericDataTypeFormatter<UUID> newUuidDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(UUID::toString, nullSourceSupplier);
     }
@@ -167,7 +190,8 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
             try {
                 return formatFunction.apply(source);
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
-                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException e) {
+                     IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
+                     UnsupportedOperationException | FileSystemNotFoundException e) {
                 throw new DataTypeFormatException("Cannot format source: " + e.getClass().getName());
             }
         }
