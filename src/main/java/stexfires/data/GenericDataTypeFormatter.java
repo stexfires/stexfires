@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -140,6 +141,22 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     public static GenericDataTypeFormatter<Path> newPathDataTypeFormatter(@Nullable String nullSource) {
         return newPathDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<InetAddress> newInetAddressHostAddressDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(InetAddress::getHostAddress, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<InetAddress> newInetAddressHostAddressDataTypeFormatter(@Nullable String nullSource) {
+        return newInetAddressHostAddressDataTypeFormatterWithSupplier(() -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<InetAddress> newInetAddressHostNameDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(InetAddress::getHostName, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<InetAddress> newInetAddressHostNameDataTypeFormatter(@Nullable String nullSource) {
+        return newInetAddressHostNameDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,

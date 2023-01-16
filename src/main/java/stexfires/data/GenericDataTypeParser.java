@@ -5,8 +5,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.InvalidPathException;
@@ -174,6 +176,21 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<Path> newPathDataTypeParser(@Nullable Path nullOrEmptySource) {
         return newPathDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<InetAddress> newInetAddressDataTypeParserWithSuppliers(@Nullable Supplier<InetAddress> nullSourceSupplier,
+                                                                                               @Nullable Supplier<InetAddress> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return InetAddress.getByName(source);
+            } catch (UnknownHostException e) {
+                throw new DataTypeParseException("Source is not a valid InetAddress");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<InetAddress> newInetAddressDataTypeParser(@Nullable InetAddress nullOrEmptySource) {
+        return newInetAddressDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
