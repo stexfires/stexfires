@@ -3,11 +3,14 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -43,6 +46,34 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
                 return url.toURI();
             } catch (URISyntaxException e) {
                 throw new DataTypeFormatException("Cannot convert URL to URI");
+            }
+        };
+    }
+
+    public static Function<Path, URI> formatterConverterPathToUri() {
+        return Path::toUri;
+    }
+
+    public static Function<File, URI> formatterConverterFileToUri() {
+        return File::toURI;
+    }
+
+    public static Function<URI, Path> formatterConverterUriToPath() {
+        return uri -> {
+            try {
+                return Path.of(uri);
+            } catch (IllegalArgumentException | FileSystemNotFoundException e) {
+                throw new DataTypeFormatException("Cannot convert URI to Path");
+            }
+        };
+    }
+
+    public static Function<File, Path> formatterConverterFileToPath() {
+        return file -> {
+            try {
+                return file.toPath();
+            } catch (InvalidPathException e) {
+                throw new DataTypeFormatException("Cannot convert File to Path");
             }
         };
     }

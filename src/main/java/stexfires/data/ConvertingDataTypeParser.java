@@ -3,11 +3,13 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.util.Objects;
 import java.util.function.Function;
@@ -46,6 +48,40 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
                 return uri.toURL();
             } catch (IllegalArgumentException | MalformedURLException e) {
                 throw new DataTypeParseException("Cannot convert URI to URL");
+            }
+        };
+    }
+
+    public static Function<URI, Path> parserConverterUriToPath() {
+        return uri -> {
+            try {
+                return Path.of(uri);
+            } catch (IllegalArgumentException | FileSystemNotFoundException e) {
+                throw new DataTypeParseException("Cannot convert URI to Path");
+            }
+        };
+    }
+
+    public static Function<URI, File> parserConverterUriToFile() {
+        return uri -> {
+            try {
+                return new File(uri);
+            } catch (IllegalArgumentException e) {
+                throw new DataTypeParseException("Cannot convert URI to File");
+            }
+        };
+    }
+
+    public static Function<Path, URI> parserConverterPathToUri() {
+        return Path::toUri;
+    }
+
+    public static Function<Path, File> parserConverterPathToFile() {
+        return path -> {
+            try {
+                return path.toFile();
+            } catch (UnsupportedOperationException e) {
+                throw new DataTypeParseException("Cannot convert Path to File");
             }
         };
     }
