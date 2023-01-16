@@ -9,6 +9,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
@@ -157,6 +159,21 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Date> newDateDataTypeParser(@NotNull DataTypeParser<Instant> instantDataTypeParser,
                                                                     @Nullable Date nullOrEmptySource) {
         return newDateDataTypeParserWithSuppliers(instantDataTypeParser, () -> nullOrEmptySource, () -> nullOrEmptySource);
+    }
+
+    public static GenericDataTypeParser<Path> newPathDataTypeParserWithSuppliers(@Nullable Supplier<Path> nullSourceSupplier,
+                                                                                 @Nullable Supplier<Path> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(source -> {
+            try {
+                return Path.of(source);
+            } catch (InvalidPathException e) {
+                throw new DataTypeParseException("Source is not a valid Path");
+            }
+        }, nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<Path> newPathDataTypeParser(@Nullable Path nullOrEmptySource) {
+        return newPathDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,

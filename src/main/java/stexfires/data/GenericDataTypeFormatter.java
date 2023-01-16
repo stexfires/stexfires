@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
@@ -131,6 +132,14 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     public static GenericDataTypeFormatter<Date> newDateDataTypeFormatter(@NotNull DataTypeFormatter<Instant> instantDataTypeFormatter,
                                                                           @Nullable String nullSource) {
         return newDateDataTypeFormatterWithSupplier(instantDataTypeFormatter, () -> nullSource);
+    }
+
+    public static GenericDataTypeFormatter<Path> newPathDataTypeFormatterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(Path::toString, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<Path> newPathDataTypeFormatter(@Nullable String nullSource) {
+        return newPathDataTypeFormatterWithSupplier(() -> nullSource);
     }
 
     public static GenericDataTypeFormatter<byte[]> newByteArrayDataTypeFormatterWithSupplier(@NotNull Function<byte[], String> formatFunction,
