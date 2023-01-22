@@ -1,7 +1,7 @@
 package stexfires.io;
 
 import org.jetbrains.annotations.Nullable;
-import stexfires.data.DataTypeFormatException;
+import stexfires.data.DataTypeConverterException;
 import stexfires.data.DataTypeFormatter;
 import stexfires.data.DataTypeParseException;
 import stexfires.data.DataTypeParser;
@@ -290,7 +290,7 @@ public final class RecordIOStreams {
                         removeLastLineSeparator,
                         source);
             } catch (UncheckedConsumerException e) {
-                throw new DataTypeFormatException(e.getCause().getMessage());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, e);
             }
         }, nullSourceSupplier);
     }

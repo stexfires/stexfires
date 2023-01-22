@@ -24,14 +24,14 @@ public final class MappingDataTypeFormatter<T> implements DataTypeFormatter<T> {
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
             return pairList.stream()
                            .filter(pair -> source.equals(pair.dataValue()))
                            .findFirst()
-                           .orElseThrow(() -> new DataTypeFormatException("Unsupported source: " + source))
+                           .orElseThrow(() -> new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Unsupported source: " + source))
                            .stringValue();
         }
     }

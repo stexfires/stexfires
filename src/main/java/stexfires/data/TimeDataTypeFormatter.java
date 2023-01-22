@@ -26,14 +26,14 @@ public final class TimeDataTypeFormatter<T extends TemporalAccessor> implements 
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
             try {
                 return dateTimeFormatter.format(source);
             } catch (DateTimeException e) {
-                throw new DataTypeFormatException(e.getMessage());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, e);
             }
         }
     }

@@ -20,9 +20,9 @@ public interface DataTypeFormatter<T> {
         return function::apply;
     }
 
-    @Nullable String format(@Nullable T source) throws DataTypeFormatException;
+    @Nullable String format(@Nullable T source) throws DataTypeConverterException;
 
-    default @Nullable Optional<String> formatToOptional(@Nullable T source) throws DataTypeFormatException {
+    default @Nullable Optional<String> formatToOptional(@Nullable T source) throws DataTypeConverterException {
         return Optional.ofNullable(format(source));
     }
 
@@ -40,9 +40,9 @@ public interface DataTypeFormatter<T> {
         return source -> after.apply(format(source));
     }
 
-    default String handleNullSource(@Nullable Supplier<String> nullSourceSupplier) throws DataTypeFormatException {
+    default String handleNullSource(@Nullable Supplier<String> nullSourceSupplier) throws DataTypeConverterException {
         if (nullSourceSupplier == null) {
-            throw new DataTypeFormatException("Source is null.");
+            throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Source is null.");
         } else {
             return nullSourceSupplier.get();
         }

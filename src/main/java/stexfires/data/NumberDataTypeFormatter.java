@@ -25,7 +25,7 @@ public final class NumberDataTypeFormatter<T extends Number> implements DataType
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
@@ -34,7 +34,7 @@ public final class NumberDataTypeFormatter<T extends Number> implements DataType
                     return numberFormat.format(source);
                 }
             } catch (IllegalArgumentException e) {
-                throw new DataTypeFormatException(e.getMessage());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, e);
             }
         }
     }

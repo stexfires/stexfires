@@ -37,7 +37,7 @@ public final class StringDataTypeFormatter implements DataTypeFormatter<String> 
     }
 
     @Override
-    public @Nullable String format(@Nullable String source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {

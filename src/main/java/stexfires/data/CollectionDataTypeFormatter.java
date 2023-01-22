@@ -74,7 +74,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
         }
     }
 
-    private void appendCollectionElements(@NotNull C source, @NotNull StringBuilder b) throws DataTypeFormatException {
+    private void appendCollectionElements(@NotNull C source, @NotNull StringBuilder b) throws DataTypeConverterException {
         boolean firstElement = true;
         for (T element : source) {
             // Format element to string
@@ -83,7 +83,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
             if (formattedElement != null) {
                 // Validate formatted element
                 if (formattedElementValidator != null && !formattedElementValidator.test(formattedElement)) {
-                    throw new DataTypeFormatException("A formatted element is not valid.");
+                    throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "A formatted element is not valid.");
                 }
 
                 // Add delimiter
@@ -99,7 +99,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
     }
 
     @Override
-    public @Nullable String format(@Nullable C source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable C source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {

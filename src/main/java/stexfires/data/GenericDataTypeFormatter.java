@@ -106,7 +106,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
                 }
                 return source.toString();
             } catch (URISyntaxException e) {
-                throw new DataTypeFormatException("Source is not a valid URI");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Source is not a valid URI");
             }
         }, nullSourceSupplier);
     }
@@ -209,7 +209,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
@@ -218,7 +218,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
                      UnsupportedOperationException | FileSystemNotFoundException e) {
-                throw new DataTypeFormatException("Cannot format source: " + e.getClass().getName());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot format source: " + e.getClass().getName());
             }
         }
     }

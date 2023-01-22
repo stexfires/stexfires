@@ -17,7 +17,7 @@ public final class EnumDataTypeFormatter<T extends Enum<T>> implements DataTypeF
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {

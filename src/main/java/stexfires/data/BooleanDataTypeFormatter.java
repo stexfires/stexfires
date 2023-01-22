@@ -27,7 +27,7 @@ public final class BooleanDataTypeFormatter implements DataTypeFormatter<Boolean
     }
 
     @Override
-    public @Nullable String format(@Nullable Boolean source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable Boolean source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {

@@ -47,7 +47,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             try {
                 return url.toURI();
             } catch (URISyntaxException e) {
-                throw new DataTypeFormatException("Cannot convert URL to URI");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert URL to URI");
             }
         };
     }
@@ -65,7 +65,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             try {
                 return Path.of(uri);
             } catch (IllegalArgumentException | FileSystemNotFoundException e) {
-                throw new DataTypeFormatException("Cannot convert URI to Path");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert URI to Path");
             }
         };
     }
@@ -75,7 +75,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             try {
                 return file.toPath();
             } catch (InvalidPathException e) {
-                throw new DataTypeFormatException("Cannot convert File to Path");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert File to Path");
             }
         };
     }
@@ -89,7 +89,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             try {
                 return instant.toEpochMilli();
             } catch (ArithmeticException e) {
-                throw new DataTypeFormatException("Cannot convert Instant to Long");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert Instant to Long");
             }
         };
     }
@@ -100,7 +100,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
     }
 
     @Override
-    public @Nullable String format(@Nullable T source) throws DataTypeFormatException {
+    public @Nullable String format(@Nullable T source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
@@ -110,7 +110,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
                      UnsupportedOperationException | FileSystemNotFoundException e) {
-                throw new DataTypeFormatException("Cannot format source: " + e.getClass().getName());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot format source: " + e.getClass().getName());
             }
         }
     }
