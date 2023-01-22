@@ -49,7 +49,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return uri.toURL();
             } catch (IllegalArgumentException | MalformedURLException e) {
-                throw new DataTypeParseException("Cannot convert URI to URL");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert URI to URL");
             }
         };
     }
@@ -59,7 +59,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return Path.of(uri);
             } catch (IllegalArgumentException | FileSystemNotFoundException e) {
-                throw new DataTypeParseException("Cannot convert URI to Path");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert URI to Path");
             }
         };
     }
@@ -69,7 +69,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return new File(uri);
             } catch (IllegalArgumentException e) {
-                throw new DataTypeParseException("Cannot convert URI to File");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert URI to File");
             }
         };
     }
@@ -83,7 +83,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return path.toFile();
             } catch (UnsupportedOperationException e) {
-                throw new DataTypeParseException("Cannot convert Path to File");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert Path to File");
             }
         };
     }
@@ -93,7 +93,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return Instant.ofEpochSecond(epochSecond);
             } catch (DateTimeException e) {
-                throw new DataTypeParseException("Cannot convert Long to Instant");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert Long to Instant");
             }
         };
     }
@@ -103,7 +103,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return Instant.ofEpochMilli(epochMilli);
             } catch (DateTimeException e) {
-                throw new DataTypeParseException("Cannot convert Long to Instant");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert Long to Instant");
             }
         };
     }
@@ -114,13 +114,13 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             try {
                 return Date.from(instant);
             } catch (IllegalArgumentException e) {
-                throw new DataTypeParseException("Cannot convert Instant to Date");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot convert Instant to Date");
             }
         };
     }
 
     @Override
-    public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable T parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -133,7 +133,7 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
                      UnsupportedOperationException | FileSystemNotFoundException e) {
-                throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot parse source: " + e.getClass().getName());
             }
         }
     }

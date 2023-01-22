@@ -27,7 +27,7 @@ public final class MappingDataTypeParser<T> implements DataTypeParser<T> {
     }
 
     @Override
-    public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable T parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -36,7 +36,7 @@ public final class MappingDataTypeParser<T> implements DataTypeParser<T> {
             return pairList.stream()
                            .filter(pair -> source.equals(pair.stringValue()))
                            .findFirst()
-                           .orElseThrow(() -> new DataTypeParseException("Unsupported source: " + source))
+                           .orElseThrow(() -> new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Unsupported source: " + source))
                            .dataValue();
         }
     }

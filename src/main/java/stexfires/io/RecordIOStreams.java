@@ -3,7 +3,6 @@ package stexfires.io;
 import org.jetbrains.annotations.Nullable;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.DataTypeFormatter;
-import stexfires.data.DataTypeParseException;
 import stexfires.data.DataTypeParser;
 import stexfires.data.GenericDataTypeFormatter;
 import stexfires.data.GenericDataTypeParser;
@@ -97,7 +96,7 @@ public final class RecordIOStreams {
             try {
                 return RecordIOStreams.readFromString(readableRecordFileSpec, source, streamFunction);
             } catch (UncheckedProducerException e) {
-                throw new DataTypeParseException(e.getCause().getMessage());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, e);
             }
         }, nullSourceSupplier, emptySourceSupplier);
     }
@@ -106,7 +105,7 @@ public final class RecordIOStreams {
                                                                                        @Nullable Supplier<PTR> nullSourceSupplier,
                                                                                        @Nullable Supplier<PTR> emptySourceSupplier) {
         return newRecordDataTypeParser(readableRecordFileSpec,
-                stream -> stream.findFirst().orElseThrow(() -> new DataTypeParseException("No record could be parsed.")),
+                stream -> stream.findFirst().orElseThrow(() -> new DataTypeConverterException(DataTypeConverterException.Type.Parser, "No record could be parsed.")),
                 nullSourceSupplier, emptySourceSupplier);
     }
 

@@ -34,7 +34,7 @@ public final class TimeDataTypeParser<T extends TemporalAccessor> implements Dat
     }
 
     @Override
-    public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable T parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -43,7 +43,7 @@ public final class TimeDataTypeParser<T extends TemporalAccessor> implements Dat
             try {
                 return dateTimeFormatter.parse(source, temporalQuery);
             } catch (DateTimeParseException e) {
-                throw new DataTypeParseException(e.getMessage());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, e);
             }
         }
     }

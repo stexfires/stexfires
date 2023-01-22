@@ -33,7 +33,7 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
     }
 
     @Override
-    public @Nullable Boolean parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable Boolean parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -44,7 +44,7 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
             } else if (falseValues.contains(source)) {
                 return Boolean.FALSE;
             } else {
-                throw new DataTypeParseException("The source \"" + source + "\" is invalid.");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "The source \"" + source + "\" is invalid.");
             }
         }
     }

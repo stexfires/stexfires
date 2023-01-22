@@ -21,9 +21,9 @@ public interface DataTypeParser<T> {
         return function::apply;
     }
 
-    @Nullable T parse(@Nullable String source) throws DataTypeParseException;
+    @Nullable T parse(@Nullable String source) throws DataTypeConverterException;
 
-    default @NotNull Optional<T> parseToOptional(@Nullable String source) throws DataTypeParseException {
+    default @NotNull Optional<T> parseToOptional(@Nullable String source) throws DataTypeConverterException {
         return Optional.ofNullable(parse(source));
     }
 
@@ -41,17 +41,17 @@ public interface DataTypeParser<T> {
         return source -> after.apply(parse(source));
     }
 
-    default T handleNullSource(@Nullable Supplier<T> nullSourceSupplier) throws DataTypeParseException {
+    default T handleNullSource(@Nullable Supplier<T> nullSourceSupplier) throws DataTypeConverterException {
         if (nullSourceSupplier == null) {
-            throw new DataTypeParseException("Source is null.");
+            throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is null.");
         } else {
             return nullSourceSupplier.get();
         }
     }
 
-    default T handleEmptySource(@Nullable Supplier<T> emptySourceSupplier) throws DataTypeParseException {
+    default T handleEmptySource(@Nullable Supplier<T> emptySourceSupplier) throws DataTypeConverterException {
         if (emptySourceSupplier == null) {
-            throw new DataTypeParseException("Source is empty.");
+            throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is empty.");
         } else {
             return emptySourceSupplier.get();
         }

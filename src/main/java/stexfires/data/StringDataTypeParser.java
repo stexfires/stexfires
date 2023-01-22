@@ -71,7 +71,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
     }
 
     @Override
-    public @Nullable String parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable String parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -79,14 +79,14 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
         } else {
             try {
                 if (checkPredicate != null && !checkPredicate.test(source)) {
-                    throw new DataTypeParseException("Source is not formatted correctly.");
+                    throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is not formatted correctly.");
                 }
                 if (operatorAfterCheck != null) {
                     return operatorAfterCheck.apply(source);
                 }
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException e) {
-                throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot parse source: " + e.getClass().getName());
             }
             return source;
         }

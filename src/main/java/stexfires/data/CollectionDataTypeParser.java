@@ -57,19 +57,19 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         Objects.requireNonNull(converterValidator);
         return stream -> {
             if (converterValidator.checkInitialSize() && !resultSet.isEmpty()) {
-                throw new DataTypeParseException("Set is not empty: size=" + resultSet.size());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Set is not empty: size=" + resultSet.size());
             }
             List<T> list = stream.toList();
             resultSet.addAll(list);
             if (converterValidator.checkIdenticalSize() && (list.size() != resultSet.size())) {
-                throw new DataTypeParseException("Different size: " + resultSet.size() + " != " + list.size());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Different size: " + resultSet.size() + " != " + list.size());
             }
             if (converterValidator.checkOrder()) {
                 int index = 0;
                 for (T setElement : resultSet) {
                     T listElement = list.get(index);
                     if (!Objects.equals(setElement, listElement)) {
-                        throw new DataTypeParseException("Different order: index=" + index);
+                        throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Different order: index=" + index);
                     }
                     index++;
                 }
@@ -124,7 +124,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
                 beginIndex = prefix.length();
                 subString = true;
             } else {
-                throw new DataTypeParseException("Source does not start with prefix.");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source does not start with prefix.");
             }
         }
         // Suffix
@@ -133,7 +133,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
                 endIndex = source.length() - suffix.length();
                 subString = true;
             } else {
-                throw new DataTypeParseException("Source does not end with suffix.");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source does not end with suffix.");
             }
         }
 
@@ -141,7 +141,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
     }
 
     @Override
-    public @Nullable C parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable C parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {

@@ -68,7 +68,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 return Class.forName(source);
             } catch (ClassNotFoundException e) {
-                throw new DataTypeParseException("ClassNotFoundException");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "ClassNotFoundException");
             }
         }, nullSourceSupplier, emptySourceSupplier);
     }
@@ -100,7 +100,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
                                                                                            @Nullable Supplier<Character> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             if (source.length() > 1) {
-                throw new DataTypeParseException("Invalid length: " + source.length());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Invalid length: " + source.length());
             }
             return source.charAt(0);
         }, nullSourceSupplier, emptySourceSupplier);
@@ -131,7 +131,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
                 }
                 return uri;
             } catch (URISyntaxException e) {
-                throw new DataTypeParseException("Source is not a valid URI");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is not a valid URI");
             }
         }, nullSourceSupplier, emptySourceSupplier);
     }
@@ -169,7 +169,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 return Path.of(source);
             } catch (InvalidPathException e) {
-                throw new DataTypeParseException("Source is not a valid Path");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is not a valid Path");
             }
         }, nullSourceSupplier, emptySourceSupplier);
     }
@@ -184,7 +184,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 return InetAddress.getByName(source);
             } catch (UnknownHostException e) {
-                throw new DataTypeParseException("Source is not a valid InetAddress");
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is not a valid InetAddress");
             }
         }, nullSourceSupplier, emptySourceSupplier);
     }
@@ -255,7 +255,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     }
 
     @Override
-    public @Nullable T parse(@Nullable String source) throws DataTypeParseException {
+    public @Nullable T parse(@Nullable String source) throws DataTypeConverterException {
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else if (source.isEmpty()) {
@@ -266,7 +266,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
                      UnsupportedOperationException | FileSystemNotFoundException e) {
-                throw new DataTypeParseException("Cannot parse source: " + e.getClass().getName());
+                throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Cannot parse source: " + e.getClass().getName());
             }
         }
     }
