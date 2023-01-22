@@ -3,17 +3,9 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.io.UncheckedIOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.time.DateTimeException;
-import java.time.Instant;
-import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -25,78 +17,21 @@ import java.util.function.UnaryOperator;
  */
 public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatter<T> {
 
-    private final Function<T, V> dataConverter;
+    private final Function<T, V> dataTypeConverter;
     private final DataTypeFormatter<V> dataTypeFormatter;
     private final UnaryOperator<String> postAdjustment;
     private final Supplier<String> nullSourceSupplier;
 
-    public ConvertingDataTypeFormatter(@NotNull Function<T, V> dataConverter,
+    public ConvertingDataTypeFormatter(@NotNull Function<T, V> dataTypeConverter,
                                        @NotNull DataTypeFormatter<V> dataTypeFormatter,
                                        @Nullable UnaryOperator<String> postAdjustment,
                                        @Nullable Supplier<String> nullSourceSupplier) {
-        Objects.requireNonNull(dataConverter);
+        Objects.requireNonNull(dataTypeConverter);
         Objects.requireNonNull(dataTypeFormatter);
-        this.dataConverter = dataConverter;
+        this.dataTypeConverter = dataTypeConverter;
         this.dataTypeFormatter = dataTypeFormatter;
         this.postAdjustment = postAdjustment;
         this.nullSourceSupplier = nullSourceSupplier;
-    }
-
-    public static Function<URL, URI> formatterConverterUrlToUri() {
-        return url -> {
-            try {
-                return url.toURI();
-            } catch (URISyntaxException e) {
-                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert URL to URI");
-            }
-        };
-    }
-
-    public static Function<Path, URI> formatterConverterPathToUri() {
-        return Path::toUri;
-    }
-
-    public static Function<File, URI> formatterConverterFileToUri() {
-        return File::toURI;
-    }
-
-    public static Function<URI, Path> formatterConverterUriToPath() {
-        return uri -> {
-            try {
-                return Path.of(uri);
-            } catch (IllegalArgumentException | FileSystemNotFoundException e) {
-                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert URI to Path");
-            }
-        };
-    }
-
-    public static Function<File, Path> formatterConverterFileToPath() {
-        return file -> {
-            try {
-                return file.toPath();
-            } catch (InvalidPathException e) {
-                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert File to Path");
-            }
-        };
-    }
-
-    public static Function<Instant, Long> formatterConverterInstantToLongEpochSecond() {
-        return Instant::getEpochSecond;
-    }
-
-    public static Function<Instant, Long> formatterConverterInstantToLongEpochMilli() {
-        return instant -> {
-            try {
-                return instant.toEpochMilli();
-            } catch (ArithmeticException e) {
-                throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Cannot convert Instant to Long");
-            }
-        };
-    }
-
-    @SuppressWarnings("UseOfObsoleteDateTimeApi")
-    public static Function<Date, Instant> formatterConverterDateToInstant() {
-        return Date::toInstant;
     }
 
     @Override
@@ -105,7 +40,7 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
             return handleNullSource(nullSourceSupplier);
         } else {
             try {
-                String formattedString = dataTypeFormatter.format(dataConverter.apply(source));
+                String formattedString = dataTypeFormatter.format(dataTypeConverter.apply(source));
                 return (postAdjustment == null) ? formattedString : postAdjustment.apply(formattedString);
             } catch (IllegalArgumentException | NullPointerException | UncheckedIOException | ClassCastException |
                      IllegalStateException | IndexOutOfBoundsException | ArithmeticException | DateTimeException |
