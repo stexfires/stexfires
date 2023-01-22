@@ -18,8 +18,15 @@ import static stexfires.data.DataTypeConverterException.Type.Converter;
 /**
  * This class consists of {@code static} utility methods
  * for converting data types.
+ * <p>
+ * All methods return a {@link java.util.function.Function}.
+ * All methods are not null-safe and throw a {@link java.lang.NullPointerException}.
+ * All other possible exceptions are caught and thrown as a new {@link stexfires.data.DataTypeConverterException}.
  *
  * @author Mathias Kalb
+ * @see java.util.function.Function
+ * @see stexfires.data.ConvertingDataTypeFormatter
+ * @see stexfires.data.ConvertingDataTypeParser
  * @since 0.1
  */
 public final class DataTypeConverters {

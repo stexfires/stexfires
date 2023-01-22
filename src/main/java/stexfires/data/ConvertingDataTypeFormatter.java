@@ -13,6 +13,7 @@ import java.util.function.UnaryOperator;
 
 /**
  * @author Mathias Kalb
+ * @see stexfires.data.DataTypeConverters
  * @since 0.1
  */
 public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatter<T> {
