@@ -12,6 +12,8 @@ import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.time.DateTimeException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -76,6 +78,25 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
                 throw new DataTypeFormatException("Cannot convert File to Path");
             }
         };
+    }
+
+    public static Function<Instant, Long> formatterConverterInstantToLongEpochSecond() {
+        return Instant::getEpochSecond;
+    }
+
+    public static Function<Instant, Long> formatterConverterInstantToLongEpochMilli() {
+        return instant -> {
+            try {
+                return instant.toEpochMilli();
+            } catch (ArithmeticException e) {
+                throw new DataTypeFormatException("Cannot convert Instant to Long");
+            }
+        };
+    }
+
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
+    public static Function<Date, Instant> formatterConverterDateToInstant() {
+        return Date::toInstant;
     }
 
     @Override

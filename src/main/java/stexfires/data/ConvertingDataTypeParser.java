@@ -11,6 +11,8 @@ import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Path;
 import java.time.DateTimeException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -82,6 +84,37 @@ public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
                 return path.toFile();
             } catch (UnsupportedOperationException e) {
                 throw new DataTypeParseException("Cannot convert Path to File");
+            }
+        };
+    }
+
+    public static Function<Long, Instant> parserConverterLongEpochSecondToInstant() {
+        return epochSecond -> {
+            try {
+                return Instant.ofEpochSecond(epochSecond);
+            } catch (DateTimeException e) {
+                throw new DataTypeParseException("Cannot convert Long to Instant");
+            }
+        };
+    }
+
+    public static Function<Long, Instant> parserConverterLongEpochMilliToInstant() {
+        return epochMilli -> {
+            try {
+                return Instant.ofEpochMilli(epochMilli);
+            } catch (DateTimeException e) {
+                throw new DataTypeParseException("Cannot convert Long to Instant");
+            }
+        };
+    }
+
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
+    public static Function<Instant, Date> parserConverterInstantToDate() {
+        return instant -> {
+            try {
+                return Date.from(instant);
+            } catch (IllegalArgumentException e) {
+                throw new DataTypeParseException("Cannot convert Instant to Date");
             }
         };
     }
