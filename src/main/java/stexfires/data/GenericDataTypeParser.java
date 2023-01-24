@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URI;
@@ -230,6 +231,11 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         return new GenericDataTypeParser<>(Double::valueOf, nullSourceSupplier, emptySourceSupplier);
     }
 
+    public static GenericDataTypeParser<Float> forFloat(@Nullable Supplier<Float> nullSourceSupplier,
+                                                        @Nullable Supplier<Float> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(Float::valueOf, nullSourceSupplier, emptySourceSupplier);
+    }
+
     public static GenericDataTypeParser<BigInteger> forBigInteger(int radix,
                                                                   @Nullable Supplier<BigInteger> nullSourceSupplier,
                                                                   @Nullable Supplier<BigInteger> emptySourceSupplier) {
@@ -237,6 +243,11 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> new BigInteger(source, radix), nullSourceSupplier, emptySourceSupplier);
+    }
+
+    public static GenericDataTypeParser<BigDecimal> forBigDecimal(@Nullable Supplier<BigDecimal> nullSourceSupplier,
+                                                                  @Nullable Supplier<BigDecimal> emptySourceSupplier) {
+        return new GenericDataTypeParser<>(BigDecimal::new, nullSourceSupplier, emptySourceSupplier);
     }
 
     @Override

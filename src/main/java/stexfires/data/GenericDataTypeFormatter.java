@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.UncheckedIOException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.URI;
@@ -188,11 +189,27 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return new GenericDataTypeFormatter<>(source -> Double.toString(source), nullSourceSupplier);
     }
 
+    public static GenericDataTypeFormatter<Float> forFloat(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(source -> Float.toString(source), nullSourceSupplier);
+    }
+
     public static GenericDataTypeFormatter<BigInteger> forBigInteger(int radix, @Nullable Supplier<String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> source.toString(radix), nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimal(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(BigDecimal::toString, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalPlain(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(BigDecimal::toPlainString, nullSourceSupplier);
+    }
+
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalEngineering(@Nullable Supplier<String> nullSourceSupplier) {
+        return new GenericDataTypeFormatter<>(BigDecimal::toEngineeringString, nullSourceSupplier);
     }
 
     @Override
