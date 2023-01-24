@@ -23,14 +23,14 @@ public final class StringDataTypeFormatter implements DataTypeFormatter<String> 
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static StringDataTypeFormatter newFormatter(@NotNull UnaryOperator<String> formatter) {
+    public static StringDataTypeFormatter passingNull(@NotNull UnaryOperator<String> formatter) {
         Objects.requireNonNull(formatter);
         return new StringDataTypeFormatter(
                 formatter,
                 Suppliers.constantNull());
     }
 
-    public static StringDataTypeFormatter newIdentityFormatter() {
+    public static StringDataTypeFormatter identity() {
         return new StringDataTypeFormatter(
                 null,
                 Suppliers.constantNull());

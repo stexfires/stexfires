@@ -35,7 +35,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static StringDataTypeParser newIdentityParser() {
+    public static StringDataTypeParser identity() {
         return new StringDataTypeParser(
                 null,
                 null,
@@ -43,7 +43,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 Suppliers.constant(Strings.EMPTY));
     }
 
-    public static StringDataTypeParser newParserWithCheck(@NotNull Predicate<String> checkPredicate) {
+    public static StringDataTypeParser withCheck(@NotNull Predicate<String> checkPredicate) {
         Objects.requireNonNull(checkPredicate);
         return new StringDataTypeParser(checkPredicate,
                 null,
@@ -51,10 +51,10 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 Suppliers.constant(Strings.EMPTY));
     }
 
-    public static StringDataTypeParser newParserWithEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck,
-                                                                  @Nullable UnaryOperator<String> operatorAfterCheck,
-                                                                  @Nullable Supplier<String> nullSourceSupplier,
-                                                                  @Nullable Supplier<String> emptySourceSupplier) {
+    public static StringDataTypeParser withEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck,
+                                                         @Nullable UnaryOperator<String> operatorAfterCheck,
+                                                         @Nullable Supplier<String> nullSourceSupplier,
+                                                         @Nullable Supplier<String> emptySourceSupplier) {
         Objects.requireNonNull(operatorForEqualityCheck);
         return new StringDataTypeParser(s -> s.equals(operatorForEqualityCheck.apply(s)),
                 operatorAfterCheck,
@@ -62,9 +62,9 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 emptySourceSupplier);
     }
 
-    public static StringDataTypeParser newParserWithEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck) {
+    public static StringDataTypeParser withEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck) {
         Objects.requireNonNull(operatorForEqualityCheck);
-        return newParserWithEqualityCheck(operatorForEqualityCheck,
+        return withEqualityCheck(operatorForEqualityCheck,
                 null,
                 Suppliers.constantNull(),
                 Suppliers.constant(Strings.EMPTY));
