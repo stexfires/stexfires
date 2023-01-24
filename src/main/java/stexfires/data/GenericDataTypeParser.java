@@ -41,27 +41,27 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static GenericDataTypeParser<Locale> newLocaleDataTypeParserWithSuppliers(@Nullable Supplier<Locale> nullSourceSupplier,
-                                                                                     @Nullable Supplier<Locale> emptySourceSupplier) {
+    public static GenericDataTypeParser<Locale> forLocaleWithSuppliers(@Nullable Supplier<Locale> nullSourceSupplier,
+                                                                       @Nullable Supplier<Locale> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Locale::forLanguageTag, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Locale> newLocaleDataTypeParser(@Nullable Locale nullOrEmptySource) {
-        return newLocaleDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Locale> forLocale(@Nullable Locale nullOrEmptySource) {
+        return forLocaleWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Charset> newCharsetDataTypeParserWithSuppliers(@Nullable Supplier<Charset> nullSourceSupplier,
-                                                                                       @Nullable Supplier<Charset> emptySourceSupplier) {
+    public static GenericDataTypeParser<Charset> forCharsetWithSuppliers(@Nullable Supplier<Charset> nullSourceSupplier,
+                                                                         @Nullable Supplier<Charset> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Charset::forName, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Charset> newCharsetDataTypeParser(@Nullable Charset nullOrEmptySource) {
-        return newCharsetDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Charset> forCharset(@Nullable Charset nullOrEmptySource) {
+        return forCharsetWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     @SuppressWarnings("rawtypes")
-    public static GenericDataTypeParser<Class> newClassDataTypeParserWithSuppliers(@Nullable Supplier<Class> nullSourceSupplier,
-                                                                                   @Nullable Supplier<Class> emptySourceSupplier) {
+    public static GenericDataTypeParser<Class> forClassWithSuppliers(@Nullable Supplier<Class> nullSourceSupplier,
+                                                                     @Nullable Supplier<Class> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             try {
                 return Class.forName(source);
@@ -72,30 +72,30 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     }
 
     @SuppressWarnings("rawtypes")
-    public static GenericDataTypeParser<Class> newClassDataTypeParser(@Nullable Class nullOrEmptySource) {
-        return newClassDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Class> forClass(@Nullable Class nullOrEmptySource) {
+        return forClassWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
-                                                                                                  @Nullable Supplier<Instant> emptySourceSupplier) {
+    public static GenericDataTypeParser<Instant> forInstantEpochSecondWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
+                                                                                    @Nullable Supplier<Instant> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> Instant.ofEpochSecond(Long.parseLong(source)), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Instant> newInstantEpochSecondDataTypeParser(@Nullable Instant nullOrEmptySource) {
-        return newInstantEpochSecondDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Instant> forInstantEpochSecond(@Nullable Instant nullOrEmptySource) {
+        return forInstantEpochSecondWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParserWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
-                                                                                                 @Nullable Supplier<Instant> emptySourceSupplier) {
+    public static GenericDataTypeParser<Instant> forInstantEpochMilliWithSuppliers(@Nullable Supplier<Instant> nullSourceSupplier,
+                                                                                   @Nullable Supplier<Instant> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> Instant.ofEpochMilli(Long.parseLong(source)), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Instant> newInstantEpochMilliDataTypeParser(@Nullable Instant nullOrEmptySource) {
-        return newInstantEpochMilliDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Instant> forInstantEpochMilli(@Nullable Instant nullOrEmptySource) {
+        return forInstantEpochMilliWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Character> newCharacterDataTypeParserWithSuppliers(@Nullable Supplier<Character> nullSourceSupplier,
-                                                                                           @Nullable Supplier<Character> emptySourceSupplier) {
+    public static GenericDataTypeParser<Character> forCharacterWithSuppliers(@Nullable Supplier<Character> nullSourceSupplier,
+                                                                             @Nullable Supplier<Character> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             if (source.length() > 1) {
                 throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Invalid length: " + source.length());
@@ -104,23 +104,23 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         }, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Character> newCharacterDataTypeParser(@Nullable Character nullOrEmptySource) {
-        return newCharacterDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Character> forCharacter(@Nullable Character nullOrEmptySource) {
+        return forCharacterWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Currency> newCurrencyDataTypeParserWithSuppliers(@Nullable Supplier<Currency> nullSourceSupplier,
-                                                                                         @Nullable Supplier<Currency> emptySourceSupplier) {
+    public static GenericDataTypeParser<Currency> forCurrencyWithSuppliers(@Nullable Supplier<Currency> nullSourceSupplier,
+                                                                           @Nullable Supplier<Currency> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Currency::getInstance, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Currency> newCurrencyDataTypeParser(@Nullable Currency nullOrEmptySource) {
-        return newCurrencyDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Currency> forCurrency(@Nullable Currency nullOrEmptySource) {
+        return forCurrencyWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static GenericDataTypeParser<URI> newUriDataTypeParserWithSuppliers(boolean parseServerAuthority,
-                                                                               @Nullable Supplier<URI> nullSourceSupplier,
-                                                                               @Nullable Supplier<URI> emptySourceSupplier) {
+    public static GenericDataTypeParser<URI> forUriWithSuppliers(boolean parseServerAuthority,
+                                                                 @Nullable Supplier<URI> nullSourceSupplier,
+                                                                 @Nullable Supplier<URI> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             try {
                 URI uri = new URI(source);
@@ -134,22 +134,22 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         }, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<URI> newUriDataTypeParser(boolean parseServerAuthority,
-                                                                  @Nullable URI nullOrEmptySource) {
-        return newUriDataTypeParserWithSuppliers(parseServerAuthority, () -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<URI> forUri(boolean parseServerAuthority,
+                                                    @Nullable URI nullOrEmptySource) {
+        return forUriWithSuppliers(parseServerAuthority, () -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<UUID> newUuidDataTypeParserWithSuppliers(@Nullable Supplier<UUID> nullSourceSupplier,
-                                                                                 @Nullable Supplier<UUID> emptySourceSupplier) {
+    public static GenericDataTypeParser<UUID> forUuidWithSuppliers(@Nullable Supplier<UUID> nullSourceSupplier,
+                                                                   @Nullable Supplier<UUID> emptySourceSupplier) {
         return new GenericDataTypeParser<>(UUID::fromString, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<UUID> newUuidDataTypeParser(@Nullable UUID nullOrEmptySource) {
-        return newUuidDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<UUID> forUuid(@Nullable UUID nullOrEmptySource) {
+        return forUuidWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Path> newPathDataTypeParserWithSuppliers(@Nullable Supplier<Path> nullSourceSupplier,
-                                                                                 @Nullable Supplier<Path> emptySourceSupplier) {
+    public static GenericDataTypeParser<Path> forPathWithSuppliers(@Nullable Supplier<Path> nullSourceSupplier,
+                                                                   @Nullable Supplier<Path> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             try {
                 return Path.of(source);
@@ -159,12 +159,12 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         }, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Path> newPathDataTypeParser(@Nullable Path nullOrEmptySource) {
-        return newPathDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<Path> forPath(@Nullable Path nullOrEmptySource) {
+        return forPathWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<InetAddress> newInetAddressDataTypeParserWithSuppliers(@Nullable Supplier<InetAddress> nullSourceSupplier,
-                                                                                               @Nullable Supplier<InetAddress> emptySourceSupplier) {
+    public static GenericDataTypeParser<InetAddress> forInetAddressWithSuppliers(@Nullable Supplier<InetAddress> nullSourceSupplier,
+                                                                                 @Nullable Supplier<InetAddress> emptySourceSupplier) {
         return new GenericDataTypeParser<>(source -> {
             try {
                 return InetAddress.getByName(source);
@@ -174,65 +174,65 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         }, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<InetAddress> newInetAddressDataTypeParser(@Nullable InetAddress nullOrEmptySource) {
-        return newInetAddressDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<InetAddress> forInetAddress(@Nullable InetAddress nullOrEmptySource) {
+        return forInetAddressWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParserWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
-                                                                                        @Nullable Supplier<byte[]> nullSourceSupplier,
-                                                                                        @Nullable Supplier<byte[]> emptySourceSupplier) {
+    public static GenericDataTypeParser<byte[]> forByteArrayWithSuppliers(@NotNull Function<String, byte[]> parseFunction,
+                                                                          @Nullable Supplier<byte[]> nullSourceSupplier,
+                                                                          @Nullable Supplier<byte[]> emptySourceSupplier) {
         return new GenericDataTypeParser<>(parseFunction, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<byte[]> newByteArrayDataTypeParser(@NotNull Function<String, byte[]> parseFunction,
-                                                                           byte @Nullable [] nullOrEmptySource) {
-        return newByteArrayDataTypeParserWithSuppliers(parseFunction, () -> nullOrEmptySource, () -> nullOrEmptySource);
+    public static GenericDataTypeParser<byte[]> forByteArray(@NotNull Function<String, byte[]> parseFunction,
+                                                             byte @Nullable [] nullOrEmptySource) {
+        return forByteArrayWithSuppliers(parseFunction, () -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<Long> newLongRadixDataType(int radix,
-                                                                   @Nullable Supplier<Long> nullSourceSupplier,
-                                                                   @Nullable Supplier<Long> emptySourceSupplier) {
+    public static GenericDataTypeParser<Long> forLong(int radix,
+                                                      @Nullable Supplier<Long> nullSourceSupplier,
+                                                      @Nullable Supplier<Long> emptySourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Long.parseLong(source, radix), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Integer> newIntegerRadixDataType(int radix,
-                                                                         @Nullable Supplier<Integer> nullSourceSupplier,
-                                                                         @Nullable Supplier<Integer> emptySourceSupplier) {
+    public static GenericDataTypeParser<Integer> forInteger(int radix,
+                                                            @Nullable Supplier<Integer> nullSourceSupplier,
+                                                            @Nullable Supplier<Integer> emptySourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Integer.parseInt(source, radix), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Short> newShortRadixDataType(int radix,
-                                                                     @Nullable Supplier<Short> nullSourceSupplier,
-                                                                     @Nullable Supplier<Short> emptySourceSupplier) {
+    public static GenericDataTypeParser<Short> forShort(int radix,
+                                                        @Nullable Supplier<Short> nullSourceSupplier,
+                                                        @Nullable Supplier<Short> emptySourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Short.parseShort(source, radix), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Byte> newByteRadixDataType(int radix,
-                                                                   @Nullable Supplier<Byte> nullSourceSupplier,
-                                                                   @Nullable Supplier<Byte> emptySourceSupplier) {
+    public static GenericDataTypeParser<Byte> forByte(int radix,
+                                                      @Nullable Supplier<Byte> nullSourceSupplier,
+                                                      @Nullable Supplier<Byte> emptySourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Byte.parseByte(source, radix), nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<Double> newDoubleDataType(@Nullable Supplier<Double> nullSourceSupplier,
-                                                                  @Nullable Supplier<Double> emptySourceSupplier) {
+    public static GenericDataTypeParser<Double> forDouble(@Nullable Supplier<Double> nullSourceSupplier,
+                                                          @Nullable Supplier<Double> emptySourceSupplier) {
         return new GenericDataTypeParser<>(Double::valueOf, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<BigInteger> newBigIntegerRadixDataType(int radix,
-                                                                               @Nullable Supplier<BigInteger> nullSourceSupplier,
-                                                                               @Nullable Supplier<BigInteger> emptySourceSupplier) {
+    public static GenericDataTypeParser<BigInteger> forBigInteger(int radix,
+                                                                  @Nullable Supplier<BigInteger> nullSourceSupplier,
+                                                                  @Nullable Supplier<BigInteger> emptySourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
