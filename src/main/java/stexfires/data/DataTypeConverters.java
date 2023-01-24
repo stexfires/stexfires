@@ -16,11 +16,10 @@ import java.util.function.Function;
 import static stexfires.data.DataTypeConverterException.Type.Converter;
 
 /**
- * This class consists of {@code static} utility methods
+ * This class consists of constant utility functions
  * for converting data types.
  * <p>
- * All methods return a {@link java.util.function.Function}.
- * All methods are not null-safe and throw a {@link java.lang.NullPointerException}.
+ * All {@link java.util.function.Function}s are not null-safe and throw a {@link java.lang.NullPointerException}.
  * All other possible exceptions are caught and thrown as a new {@link stexfires.data.DataTypeConverterException}.
  *
  * @author Mathias Kalb
@@ -31,125 +30,98 @@ import static stexfires.data.DataTypeConverterException.Type.Converter;
  */
 public final class DataTypeConverters {
 
+    public static final Function<Path, File> PATH_TO_FILE = (path) -> {
+        try {
+            return path.toFile();
+        } catch (UnsupportedOperationException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert Path to File.", e);
+        }
+    };
+
+    public static final Function<File, Path> FILE_TO_PATH = (file) -> {
+        try {
+            return file.toPath();
+        } catch (InvalidPathException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert File to Path.", e);
+        }
+    };
+
+    public static final Function<Path, URI> PATH_TO_URI = Path::toUri;
+
+    public static final Function<URI, Path> URI_TO_PATH = (uri) -> {
+        try {
+            return Path.of(uri);
+        } catch (IllegalArgumentException | FileSystemNotFoundException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert URI to Path.", e);
+        }
+    };
+
+    public static final Function<File, URI> FILE_TO_URI = File::toURI;
+
+    public static final Function<URI, File> URI_TO_FILE = (uri) -> {
+        try {
+            return new File(uri);
+        } catch (IllegalArgumentException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert URI to File.", e);
+        }
+    };
+
+    public static final Function<URL, URI> URL_TO_URI = (url) -> {
+        try {
+            return url.toURI();
+        } catch (URISyntaxException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert URL to URI.", e);
+        }
+    };
+
+    public static final Function<URI, URL> URI_TO_URL = (uri) -> {
+        try {
+            return uri.toURL();
+        } catch (IllegalArgumentException | MalformedURLException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert URI to URL.", e);
+        }
+    };
+
+    public static final Function<Instant, Long> INSTANT_TO_LONG_EPOCH_SECOND =
+            Instant::getEpochSecond;
+
+    public static final Function<Long, Instant> LONG_TO_INSTANT_EPOCH_SECOND = (epochSecond) -> {
+        try {
+            return Instant.ofEpochSecond(epochSecond);
+        } catch (DateTimeException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert Long to Instant.", e);
+        }
+    };
+
+    public static final Function<Instant, Long> INSTANT_TO_LONG_EPOCH_MILLI = (instant) -> {
+        try {
+            return instant.toEpochMilli();
+        } catch (ArithmeticException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert Instant to Long.", e);
+        }
+    };
+
+    public static final Function<Long, Instant> LONG_TO_INSTANT_EPOCH_MILLI = (epochMilli) -> {
+        try {
+            return Instant.ofEpochMilli(epochMilli);
+        } catch (DateTimeException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert Long to Instant.", e);
+        }
+    };
+
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
+    public static final Function<Date, Instant> DATE_TO_INSTANT = Date::toInstant;
+
+    @SuppressWarnings("UseOfObsoleteDateTimeApi")
+    public static final Function<Instant, Date> INSTANT_TO_DATE = (instant) -> {
+        try {
+            return Date.from(instant);
+        } catch (IllegalArgumentException e) {
+            throw new DataTypeConverterException(Converter, "Cannot convert Instant to Date.", e);
+        }
+    };
+
     private DataTypeConverters() {
-    }
-
-    public static Function<URL, URI> URL_to_URI() {
-        return url -> {
-            try {
-                return url.toURI();
-            } catch (URISyntaxException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert URL to URI.", e);
-            }
-        };
-    }
-
-    public static Function<Path, URI> Path_to_URI() {
-        return Path::toUri;
-    }
-
-    public static Function<File, URI> File_to_URI() {
-        return File::toURI;
-    }
-
-    public static Function<URI, Path> URI_to_Path() {
-        return uri -> {
-            try {
-                return Path.of(uri);
-            } catch (IllegalArgumentException | FileSystemNotFoundException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert URI to Path.", e);
-            }
-        };
-    }
-
-    public static Function<File, Path> File_to_Path() {
-        return file -> {
-            try {
-                return file.toPath();
-            } catch (InvalidPathException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert File to Path.", e);
-            }
-        };
-    }
-
-    public static Function<Instant, Long> Instant_to_Long_EpochSecond() {
-        return Instant::getEpochSecond;
-    }
-
-    public static Function<Instant, Long> Instant_to_Long_EpochMilli() {
-        return instant -> {
-            try {
-                return instant.toEpochMilli();
-            } catch (ArithmeticException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert Instant to Long.", e);
-            }
-        };
-    }
-
-    @SuppressWarnings("UseOfObsoleteDateTimeApi")
-    public static Function<Date, Instant> Date_to_Instant() {
-        return Date::toInstant;
-    }
-
-    public static Function<URI, URL> URI_to_URL() {
-        return uri -> {
-            try {
-                return uri.toURL();
-            } catch (IllegalArgumentException | MalformedURLException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert URI to URL.", e);
-            }
-        };
-    }
-
-    public static Function<URI, File> URI_to_File() {
-        return uri -> {
-            try {
-                return new File(uri);
-            } catch (IllegalArgumentException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert URI to File.", e);
-            }
-        };
-    }
-
-    public static Function<Path, File> Path_to_File() {
-        return path -> {
-            try {
-                return path.toFile();
-            } catch (UnsupportedOperationException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert Path to File.", e);
-            }
-        };
-    }
-
-    public static Function<Long, Instant> Long_to_Instant_EpochSecond() {
-        return epochSecond -> {
-            try {
-                return Instant.ofEpochSecond(epochSecond);
-            } catch (DateTimeException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert Long to Instant.", e);
-            }
-        };
-    }
-
-    public static Function<Long, Instant> Long_to_Instant_EpochMilli() {
-        return epochMilli -> {
-            try {
-                return Instant.ofEpochMilli(epochMilli);
-            } catch (DateTimeException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert Long to Instant.", e);
-            }
-        };
-    }
-
-    @SuppressWarnings("UseOfObsoleteDateTimeApi")
-    public static Function<Instant, Date> Instant_to_Date() {
-        return instant -> {
-            try {
-                return Date.from(instant);
-            } catch (IllegalArgumentException e) {
-                throw new DataTypeConverterException(Converter, "Cannot convert Instant to Date.", e);
-            }
-        };
     }
 
 }
