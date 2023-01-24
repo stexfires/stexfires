@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.util.Currency;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,7 +26,6 @@ import java.util.function.Supplier;
  * @author Mathias Kalb
  * @since 0.1
  */
-@SuppressWarnings("UseOfObsoleteDateTimeApi")
 public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     private final Function<String, T> parseFunction;
@@ -148,19 +146,6 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
 
     public static GenericDataTypeParser<UUID> newUuidDataTypeParser(@Nullable UUID nullOrEmptySource) {
         return newUuidDataTypeParserWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public static GenericDataTypeParser<Date> newDateDataTypeParserWithSuppliers(@NotNull DataTypeParser<Instant> instantDataTypeParser,
-                                                                                 @Nullable Supplier<Date> nullSourceSupplier,
-                                                                                 @Nullable Supplier<Date> emptySourceSupplier) {
-        Objects.requireNonNull(instantDataTypeParser);
-        return new GenericDataTypeParser<>(source -> Date.from(instantDataTypeParser.parse(source)), nullSourceSupplier, emptySourceSupplier);
-    }
-
-    public static GenericDataTypeParser<Date> newDateDataTypeParser(@NotNull DataTypeParser<Instant> instantDataTypeParser,
-                                                                    @Nullable Date nullOrEmptySource) {
-        return newDateDataTypeParserWithSuppliers(instantDataTypeParser, () -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
     public static GenericDataTypeParser<Path> newPathDataTypeParserWithSuppliers(@Nullable Supplier<Path> nullSourceSupplier,
