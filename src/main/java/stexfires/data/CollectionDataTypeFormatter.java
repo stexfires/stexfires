@@ -21,13 +21,12 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
     private final DataTypeFormatter<T> dataTypeFormatter;
     private final Supplier<String> nullSourceSupplier;
 
-    public CollectionDataTypeFormatter(
-            @Nullable String prefix,
-            @Nullable String suffix,
-            @Nullable String delimiter,
-            @NotNull DataTypeFormatter<T> dataTypeFormatter,
-            @Nullable Predicate<String> formattedElementValidator,
-            @Nullable Supplier<String> nullSourceSupplier) {
+    public CollectionDataTypeFormatter(@Nullable String prefix,
+                                       @Nullable String suffix,
+                                       @Nullable String delimiter,
+                                       @NotNull DataTypeFormatter<T> dataTypeFormatter,
+                                       @Nullable Predicate<String> formattedElementValidator,
+                                       @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(dataTypeFormatter);
         this.prefix = prefix;
         this.suffix = suffix;

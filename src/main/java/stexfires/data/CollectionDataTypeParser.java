@@ -78,9 +78,9 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         };
     }
 
-    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(@Nullable String prefix,
+    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(@NotNull String delimiter,
+                                                                               @Nullable String prefix,
                                                                                @Nullable String suffix,
-                                                                               @NotNull String delimiter,
                                                                                @NotNull DataTypeParser<T> dataTypeParser,
                                                                                @Nullable Supplier<List<T>> nullSourceSupplier,
                                                                                @Nullable Supplier<List<T>> emptySourceSupplier) {
@@ -96,9 +96,9 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
                 nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static <T> CollectionDataTypeParser<T, List<T>> withLengthAsList(@Nullable String prefix,
+    public static <T> CollectionDataTypeParser<T, List<T>> withLengthAsList(int length,
+                                                                            @Nullable String prefix,
                                                                             @Nullable String suffix,
-                                                                            int length,
                                                                             @NotNull DataTypeParser<T> dataTypeParser,
                                                                             @Nullable Supplier<List<T>> nullSourceSupplier,
                                                                             @Nullable Supplier<List<T>> emptySourceSupplier) {
