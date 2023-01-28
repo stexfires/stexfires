@@ -1,11 +1,17 @@
 package stexfires.io;
 
 import org.jetbrains.annotations.Nullable;
+import stexfires.data.CollectionDataTypeFormatter;
+import stexfires.data.CollectionDataTypeParser;
+import stexfires.data.ConvertingDataTypeFormatter;
+import stexfires.data.ConvertingDataTypeParser;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.DataTypeFormatter;
 import stexfires.data.DataTypeParser;
 import stexfires.data.GenericDataTypeFormatter;
 import stexfires.data.GenericDataTypeParser;
+import stexfires.data.StringDataTypeFormatter;
+import stexfires.data.StringDataTypeParser;
 import stexfires.io.consumer.StringWritableRecordConsumer;
 import stexfires.io.consumer.WritableRecordConsumer;
 import stexfires.io.consumer.WritableRecordFileSpec;
@@ -84,6 +90,22 @@ public final class RecordIOStreams {
         }
 
         return result;
+    }
+
+    public static DataTypeParser<TextRecord> newRecordDataTypeParser(String delimiter,
+                                                                     @Nullable String prefix,
+                                                                     @Nullable String suffix,
+                                                                     @Nullable Supplier<TextRecord> nullSourceSupplier,
+                                                                     @Nullable Supplier<TextRecord> emptySourceSupplier) {
+        Objects.requireNonNull(delimiter);
+        return new ConvertingDataTypeParser<>(
+                null,
+                CollectionDataTypeParser.withDelimiterAsList(delimiter, prefix, suffix,
+                        StringDataTypeParser.identity(),
+                        null, null),
+                TextRecords::fromStringList,
+                nullSourceSupplier,
+                emptySourceSupplier);
     }
 
     public static <PTR extends TextRecord> DataTypeParser<PTR> newRecordDataTypeParser(ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
@@ -276,6 +298,19 @@ public final class RecordIOStreams {
             throw new UncheckedConsumerException(new ConsumerException(e));
         }
         return result;
+    }
+
+    public static DataTypeFormatter<TextRecord> newRecordDataTypeFormatter(String delimiter,
+                                                                           @Nullable String prefix,
+                                                                           @Nullable String suffix,
+                                                                           @Nullable Supplier<String> nullSourceSupplier) {
+        Objects.requireNonNull(delimiter);
+        return new ConvertingDataTypeFormatter<>(
+                TextRecords::toStringList,
+                CollectionDataTypeFormatter.withDelimiter(delimiter, prefix, suffix,
+                        StringDataTypeFormatter.identity(), null),
+                null,
+                nullSourceSupplier);
     }
 
     public static <CTR extends TextRecord, TR extends CTR> DataTypeFormatter<TR> newRecordDataTypeFormatter(WritableRecordFileSpec<CTR, ?> writableRecordFileSpec,
