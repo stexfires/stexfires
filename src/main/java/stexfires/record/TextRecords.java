@@ -97,6 +97,9 @@ public final class TextRecords {
         } else {
             texts = Collections.emptyList();
         }
+        if (texts.size() == 1) {
+            return new ValueFieldRecord(category, recordId, texts.get(0));
+        }
         return new ManyFieldsRecord(category, recordId, texts);
     }
 
