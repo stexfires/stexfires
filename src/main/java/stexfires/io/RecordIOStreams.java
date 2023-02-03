@@ -17,12 +17,18 @@ import stexfires.io.consumer.WritableRecordConsumer;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.io.producer.ReadableRecordProducer;
+import stexfires.record.KeyValueCommentRecord;
+import stexfires.record.KeyValueRecord;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;
+import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
+import stexfires.record.impl.KeyValueCommentFieldsRecord;
+import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.mapper.RecordMapper;
@@ -37,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
@@ -88,6 +95,73 @@ public final class RecordIOStreams {
             return new ValueFieldRecord(category, recordId, texts.get(0));
         }
         return new ManyFieldsRecord(category, recordId, texts);
+    }
+
+    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords() {
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new ValueFieldRecord(
+                        textField.text()));
+    }
+
+    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
+                                                                                  BiFunction<TextRecord, TextField, Long> recordIdFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new ValueFieldRecord(
+                        categoryFunction.apply(textRecord, textField),
+                        recordIdFunction.apply(textRecord, textField),
+                        textField.text()));
+    }
+
+    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, String> keyFunction) {
+        Objects.requireNonNull(keyFunction);
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new KeyValueFieldsRecord(
+                        keyFunction.apply(textRecord, textField),
+                        textField.text()));
+    }
+
+    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
+                                                                                        BiFunction<TextRecord, TextField, Long> recordIdFunction,
+                                                                                        BiFunction<TextRecord, TextField, String> keyFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        Objects.requireNonNull(keyFunction);
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new KeyValueFieldsRecord(
+                        categoryFunction.apply(textRecord, textField),
+                        recordIdFunction.apply(textRecord, textField),
+                        keyFunction.apply(textRecord, textField),
+                        textField.text()));
+    }
+
+    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, String> keyFunction,
+                                                                                                      BiFunction<TextRecord, TextField, String> commentFunction) {
+        Objects.requireNonNull(keyFunction);
+        Objects.requireNonNull(commentFunction);
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new KeyValueCommentFieldsRecord(
+                        keyFunction.apply(textRecord, textField),
+                        textField.text(),
+                        commentFunction.apply(textRecord, textField)));
+    }
+
+    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
+                                                                                                      BiFunction<TextRecord, TextField, Long> recordIdFunction,
+                                                                                                      BiFunction<TextRecord, TextField, String> keyFunction,
+                                                                                                      BiFunction<TextRecord, TextField, String> commentFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        Objects.requireNonNull(keyFunction);
+        Objects.requireNonNull(commentFunction);
+        return textRecord -> textRecord.streamOfFields().map(textField ->
+                new KeyValueCommentFieldsRecord(
+                        categoryFunction.apply(textRecord, textField),
+                        recordIdFunction.apply(textRecord, textField),
+                        keyFunction.apply(textRecord, textField),
+                        textField.text(),
+                        commentFunction.apply(textRecord, textField)));
     }
 
     // ReadableRecordProducer ------------------------------------------------------------------------------------------
