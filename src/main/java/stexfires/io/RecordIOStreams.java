@@ -47,6 +47,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -162,6 +163,39 @@ public final class RecordIOStreams {
                         keyFunction.apply(textRecord, textField),
                         textField.text(),
                         commentFunction.apply(textRecord, textField)));
+    }
+
+    public static Collector<ValueRecord, ?, TextRecord> collectValueRecords(Function<List<ValueRecord>, String> categoryFunction,
+                                                                            Function<List<ValueRecord>, Long> recordIdFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        return Collectors.collectingAndThen(Collectors.toList(),
+                (list) -> new ManyFieldsRecord(
+                        categoryFunction.apply(list),
+                        recordIdFunction.apply(list),
+                        list.stream().map(ValueRecord::value)));
+    }
+
+    public static Collector<KeyValueRecord, ?, TextRecord> collectKeyValueRecords(Function<List<KeyValueRecord>, String> categoryFunction,
+                                                                                  Function<List<KeyValueRecord>, Long> recordIdFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        return Collectors.collectingAndThen(Collectors.toList(),
+                (list) -> new ManyFieldsRecord(
+                        categoryFunction.apply(list),
+                        recordIdFunction.apply(list),
+                        list.stream().map(KeyValueRecord::value)));
+    }
+
+    public static Collector<KeyValueCommentRecord, ?, TextRecord> collectKeyValueCommentRecords(Function<List<KeyValueCommentRecord>, String> categoryFunction,
+                                                                                                Function<List<KeyValueCommentRecord>, Long> recordIdFunction) {
+        Objects.requireNonNull(categoryFunction);
+        Objects.requireNonNull(recordIdFunction);
+        return Collectors.collectingAndThen(Collectors.toList(),
+                (list) -> new ManyFieldsRecord(
+                        categoryFunction.apply(list),
+                        recordIdFunction.apply(list),
+                        list.stream().map(KeyValueCommentRecord::value)));
     }
 
     // ReadableRecordProducer ------------------------------------------------------------------------------------------
