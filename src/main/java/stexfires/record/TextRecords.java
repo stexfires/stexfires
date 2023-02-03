@@ -68,41 +68,6 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    public static List<String> toStringList(TextRecord record) {
-        Objects.requireNonNull(record);
-        List<String> stringList = new ArrayList<>(2 + record.size());
-        stringList.add(record.category());
-        stringList.add(record.hasRecordId() ? String.valueOf(record.recordId()) : null);
-        stringList.addAll(record.streamOfTexts().toList());
-        return stringList;
-    }
-
-    @SuppressWarnings("DuplicateThrows")
-    public static TextRecord fromStringList(List<String> stringList) throws IllegalArgumentException, NumberFormatException {
-        Objects.requireNonNull(stringList);
-        if (stringList.size() < 2) {
-            throw new IllegalArgumentException("List contains too few data.");
-        }
-        String category = stringList.get(0);
-        Long recordId;
-        String recordIdString = stringList.get(1);
-        if (recordIdString != null && !recordIdString.isEmpty()) {
-            recordId = Long.valueOf(recordIdString);
-        } else {
-            recordId = null;
-        }
-        List<String> texts;
-        if (stringList.size() > 2) {
-            texts = stringList.subList(2, stringList.size());
-        } else {
-            texts = Collections.emptyList();
-        }
-        if (texts.size() == 1) {
-            return new ValueFieldRecord(category, recordId, texts.get(0));
-        }
-        return new ManyFieldsRecord(category, recordId, texts);
-    }
-
     public static <T extends TextRecord> List<T> list(@NotNull T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);

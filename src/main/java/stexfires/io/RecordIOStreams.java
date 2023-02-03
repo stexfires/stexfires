@@ -23,6 +23,8 @@ import stexfires.record.TextRecords;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
+import stexfires.record.impl.ManyFieldsRecord;
+import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
@@ -30,6 +32,9 @@ import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -39,7 +44,7 @@ import java.util.stream.Stream;
 
 /**
  * This class consists of {@code static} utility methods
- * for operating on {@code ReadableRecordProducer} and {@code WritableRecordConsumer}.
+ * for input and output of {@code TextRecords}.
  *
  * @author Mathias Kalb
  * @since 0.1
@@ -48,6 +53,41 @@ import java.util.stream.Stream;
 public final class RecordIOStreams {
 
     private RecordIOStreams() {
+    }
+
+    public static List<String> toStringList(TextRecord record) {
+        Objects.requireNonNull(record);
+        List<String> stringList = new ArrayList<>(2 + record.size());
+        stringList.add(record.category());
+        stringList.add(record.hasRecordId() ? String.valueOf(record.recordId()) : null);
+        stringList.addAll(record.streamOfTexts().toList());
+        return stringList;
+    }
+
+    @SuppressWarnings("DuplicateThrows")
+    public static TextRecord fromStringList(List<String> stringList) throws IllegalArgumentException, NumberFormatException {
+        Objects.requireNonNull(stringList);
+        if (stringList.size() < 2) {
+            throw new IllegalArgumentException("List contains too few data.");
+        }
+        String category = stringList.get(0);
+        Long recordId;
+        String recordIdString = stringList.get(1);
+        if (recordIdString != null && !recordIdString.isEmpty()) {
+            recordId = Long.valueOf(recordIdString);
+        } else {
+            recordId = null;
+        }
+        List<String> texts;
+        if (stringList.size() > 2) {
+            texts = stringList.subList(2, stringList.size());
+        } else {
+            texts = Collections.emptyList();
+        }
+        if (texts.size() == 1) {
+            return new ValueFieldRecord(category, recordId, texts.get(0));
+        }
+        return new ManyFieldsRecord(category, recordId, texts);
     }
 
     // ReadableRecordProducer ------------------------------------------------------------------------------------------
@@ -103,7 +143,7 @@ public final class RecordIOStreams {
                 CollectionDataTypeParser.withDelimiterAsList(delimiter, prefix, suffix,
                         StringDataTypeParser.identity(),
                         null, null),
-                TextRecords::fromStringList,
+                RecordIOStreams::fromStringList,
                 nullSourceSupplier,
                 emptySourceSupplier);
     }
@@ -306,7 +346,7 @@ public final class RecordIOStreams {
                                                                            @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(delimiter);
         return new ConvertingDataTypeFormatter<>(
-                TextRecords::toStringList,
+                RecordIOStreams::toStringList,
                 CollectionDataTypeFormatter.withDelimiter(delimiter, prefix, suffix,
                         StringDataTypeFormatter.identity(), null),
                 null,
