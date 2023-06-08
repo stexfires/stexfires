@@ -11,7 +11,7 @@ import java.util.Objects;
  * <p>
  * Example: {@code Charset c = CommonCharsetNames.WINDOWS_1252.charset();}
  * <p>
- * Source: <a href="https://docs.oracle.com/en/java/javase/18/intl/supported-encodings.html#GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205</a>
+ * Source: <a href="https://docs.oracle.com/en/java/javase/18/intl/supported-encodings.html#GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205">supported-encodings</a>
  *
  * @author Mathias Kalb
  * @see java.nio.charset.StandardCharsets
