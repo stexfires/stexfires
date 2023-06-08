@@ -103,6 +103,11 @@ public interface TextRecord {
         return hasRecordId() ? LongStream.of(recordId()) : LongStream.empty();
     }
 
+    @SuppressWarnings("DataFlowIssue")
+    default @Nullable String recordIdAsString() {
+        return hasRecordId() ? recordId().toString() : null;
+    }
+
     /**
      * Returns the number of contained fields.
      * It must not be negative.
