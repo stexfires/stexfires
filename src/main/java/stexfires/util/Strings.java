@@ -443,6 +443,7 @@ public final class Strings {
         private final int length;
         private final int maxIndex;
         private int currentIndex;
+
         private SplitTextByLengthIterator(String text, int length) {
             Objects.requireNonNull(text);
             if (length <= 0) {
