@@ -11,7 +11,6 @@ import java.util.function.LongFunction;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.Number
  * @see java.lang.String
  * @see java.util.Formatter

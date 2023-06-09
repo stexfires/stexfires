@@ -25,7 +25,6 @@ import static stexfires.util.Alignment.END;
 import static stexfires.util.Alignment.START;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {

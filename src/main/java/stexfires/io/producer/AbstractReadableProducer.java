@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {

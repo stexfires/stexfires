@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextField;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ConstantFieldTextMapper implements FieldTextMapper {

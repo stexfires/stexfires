@@ -17,7 +17,6 @@ import java.util.function.Consumer;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #log(stexfires.record.TextRecord)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Consumer
  * @see java.util.stream.Stream#peek(Consumer)
  * @since 0.1

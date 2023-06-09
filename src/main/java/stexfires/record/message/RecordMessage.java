@@ -15,7 +15,6 @@ import java.util.function.UnaryOperator;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #createMessage(stexfires.record.TextRecord)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Function
  * @see stexfires.record.logger.RecordLogger
  * @see stexfires.record.consumer.RecordConsumer

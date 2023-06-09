@@ -14,7 +14,6 @@ import java.util.function.LongPredicate;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class NumberDataTypeParser<T extends Number> implements DataTypeParser<T> {

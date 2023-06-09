@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class CollectionDataTypeParser<T, C extends Collection<T>> implements DataTypeParser<C> {

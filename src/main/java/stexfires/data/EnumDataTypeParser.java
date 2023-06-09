@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class EnumDataTypeParser<T extends Enum<T>> implements DataTypeParser<T> {

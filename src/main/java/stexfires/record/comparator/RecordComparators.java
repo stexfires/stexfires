@@ -20,7 +20,6 @@ import static java.util.Comparator.naturalOrder;
  * This class consists of {@code static} utility methods
  * for constructing comparators for {@link stexfires.record.TextRecord}s.
  *
- * @author Mathias Kalb
  * @see stexfires.record.comparator.FieldComparators
  * @see stexfires.util.SortNulls
  * @see stexfires.util.StringComparators

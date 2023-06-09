@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @see java.util.Formatter
  * @since 0.1
  */

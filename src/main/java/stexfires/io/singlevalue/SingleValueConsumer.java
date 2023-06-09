@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class SingleValueConsumer extends AbstractInternalWritableConsumer<ValueRecord> {

@@ -18,7 +18,6 @@ import static stexfires.io.config.ConfigFileSpec.NULL_VALUE;
 import static stexfires.io.config.ConfigFileSpec.WHITESPACE_SEPARATOR;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ConfigConsumer extends AbstractInternalWritableConsumer<KeyValueCommentRecord> {

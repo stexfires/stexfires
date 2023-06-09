@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * @author Mathias Kalb
  * @see AddTextMapper
  * @see stexfires.record.mapper.CategoryMapper
  * @see stexfires.record.mapper.RecordIdMapper

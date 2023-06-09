@@ -9,7 +9,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class CollectionDataTypeFormatter<T, C extends Collection<T>> implements DataTypeFormatter<C> {

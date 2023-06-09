@@ -18,7 +18,6 @@ import java.util.stream.Stream;
  * The {@code index} of the last field is always identical with the {@code maxIndex}.
  * The {@code index} must never be less than {@code 0} or greater than the {@code maxIndex}.
  *
- * @author Mathias Kalb
  * @see TextRecord
  * @see TextFields
  * @see TextFields#FIRST_FIELD_INDEX

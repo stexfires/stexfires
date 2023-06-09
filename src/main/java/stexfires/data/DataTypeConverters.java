@@ -22,7 +22,6 @@ import static stexfires.data.DataTypeConverterException.Type.Converter;
  * All {@link java.util.function.Function}s are not null-safe and throw a {@link java.lang.NullPointerException}.
  * All other possible exceptions are caught and thrown as a new {@link stexfires.data.DataTypeConverterException}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Function
  * @see stexfires.data.ConvertingDataTypeFormatter
  * @see stexfires.data.ConvertingDataTypeParser

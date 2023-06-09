@@ -11,7 +11,6 @@ import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @see AddTextMapper
  * @see stexfires.record.mapper.CategoryMapper
  * @see TextsMapper

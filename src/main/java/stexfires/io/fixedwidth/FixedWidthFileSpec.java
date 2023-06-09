@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record FixedWidthFileSpec(

@@ -10,7 +10,6 @@ import java.io.Flushable;
 import java.io.IOException;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public interface WritableRecordConsumer<CTR extends TextRecord> extends RecordConsumer<CTR>, Closeable, Flushable {

@@ -10,7 +10,6 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class RandomNumberSuppliers {

@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 import static stexfires.io.config.ConfigFileSpec.NULL_KEY;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ConfigModifier<T extends TextRecord> implements RecordStreamModifier<T, KeyValueCommentRecord> {

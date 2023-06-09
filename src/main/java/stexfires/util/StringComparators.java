@@ -12,7 +12,6 @@ import static java.util.Comparator.comparing;
  * This class consists of {@code static} utility methods
  * for constructing comparators for {@link String} values.
  *
- * @author Mathias Kalb
  * @see java.util.Comparator
  * @see java.text.Collator
  * @since 0.1

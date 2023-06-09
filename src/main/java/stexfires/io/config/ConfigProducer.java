@@ -21,7 +21,6 @@ import static stexfires.io.config.ConfigFileSpec.CATEGORY_BEGIN_MARKER;
 import static stexfires.io.config.ConfigFileSpec.CATEGORY_END_MARKER;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ConfigProducer extends AbstractInternalReadableProducer<KeyValueCommentRecord> {

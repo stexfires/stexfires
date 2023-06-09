@@ -14,7 +14,6 @@ import java.util.function.Consumer;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #consume(stexfires.record.TextRecord)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Consumer
  * @see java.util.stream.Stream#forEach(Consumer)
  * @see java.util.stream.Stream#forEachOrdered(Consumer)

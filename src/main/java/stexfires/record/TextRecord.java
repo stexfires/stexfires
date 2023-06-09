@@ -19,7 +19,6 @@ import java.util.stream.Stream;
  * The implementation can be a 'Java' {@code record}.
  * The indexes of the contained fields must be ascending and start with {@code 0}.
  *
- * @author Mathias Kalb
  * @see TextField
  * @see TextRecords
  * @see TextFields#FIRST_FIELD_INDEX

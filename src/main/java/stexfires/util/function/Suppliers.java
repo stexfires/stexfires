@@ -25,7 +25,6 @@ import java.util.random.RandomGenerator;
  * This class consists of {@code static} utility methods
  * for operating on {@code Supplier}s.
  *
- * @author Mathias Kalb
  * @see java.util.function.Supplier
  * @see java.util.function.BooleanSupplier
  * @see java.util.function.IntSupplier

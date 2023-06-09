@@ -10,7 +10,6 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {

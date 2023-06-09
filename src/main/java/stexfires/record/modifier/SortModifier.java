@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @see stexfires.record.comparator.RecordComparators
  * @since 0.1
  */

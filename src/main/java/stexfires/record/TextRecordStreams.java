@@ -27,7 +27,6 @@ import java.util.stream.Stream;
  * This class consists of {@code static} utility methods
  * for operating on {@link TextRecord} {@link Stream}s.
  *
- * @author Mathias Kalb
  * @see TextRecord
  * @see TextRecords
  * @see java.util.stream.Stream

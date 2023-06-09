@@ -28,7 +28,6 @@ import java.util.stream.StreamSupport;
  * This class consists of {@code static} utility methods
  * for operating on {@code String} objects.
  *
- * @author Mathias Kalb
  * @see java.lang.String
  * @see java.util.stream.Stream
  * @see java.util.List

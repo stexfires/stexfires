@@ -8,7 +8,6 @@ import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class SwitchingBooleanSupplier implements Supplier<Boolean> {

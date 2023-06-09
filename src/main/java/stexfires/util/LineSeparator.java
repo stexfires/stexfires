@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 /**
  * Enum with three common line separators for text files: {@code LF, CR, CR_LF}.
  *
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("HardcodedLineSeparator")

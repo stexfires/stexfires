@@ -1,7 +1,6 @@
 package stexfires.io.internal;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 enum ReadableProducerState {

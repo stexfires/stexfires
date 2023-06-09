@@ -18,7 +18,6 @@ import static stexfires.io.properties.PropertiesFileSpec.FIRST_NON_ESCAPED_CHAR;
 import static stexfires.io.properties.PropertiesFileSpec.LAST_NON_ESCAPED_CHAR;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class PropertiesConsumer extends AbstractInternalWritableConsumer<KeyValueRecord> {

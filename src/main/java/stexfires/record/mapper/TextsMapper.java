@@ -19,7 +19,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * @author Mathias Kalb
  * @see AddTextMapper
  * @see stexfires.record.mapper.CategoryMapper
  * @see stexfires.record.mapper.RecordIdMapper

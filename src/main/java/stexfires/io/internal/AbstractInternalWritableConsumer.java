@@ -17,7 +17,6 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_BEFORE;
 import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("resource")

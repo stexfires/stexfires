@@ -15,7 +15,6 @@ import static stexfires.io.RecordIOStreams.readFromString;
 import static stexfires.io.RecordIOStreams.writeStreamIntoRecord;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public interface RecordContainer {

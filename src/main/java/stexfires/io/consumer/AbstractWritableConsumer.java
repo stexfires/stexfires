@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public abstract class AbstractWritableConsumer<T extends TextRecord> implements WritableRecordConsumer<T> {

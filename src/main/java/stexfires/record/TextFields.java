@@ -17,7 +17,6 @@ import java.util.stream.Stream;
  * This class consists of {@code static} utility methods
  * for operating on {@link TextField}s.
  *
- * @author Mathias Kalb
  * @see TextField
  * @see TextRecord
  * @see stexfires.record.mapper.field.FieldTextMapper

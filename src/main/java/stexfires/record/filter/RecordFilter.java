@@ -16,7 +16,6 @@ import java.util.stream.Stream;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #isValid(stexfires.record.TextRecord)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Predicate
  * @see java.util.stream.Stream#filter(Predicate)
  * @since 0.1

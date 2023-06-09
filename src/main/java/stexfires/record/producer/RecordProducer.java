@@ -12,7 +12,6 @@ import java.util.stream.Stream;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #produceStream()}.
  *
- * @author Mathias Kalb
  * @since 0.1
  */
 @FunctionalInterface

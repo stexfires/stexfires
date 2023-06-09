@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record RecordRawData(@Nullable String category, @Nullable Long recordId, @NotNull String rawData) {

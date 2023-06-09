@@ -7,7 +7,6 @@ import stexfires.record.message.ToStringMessage;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class SystemOutLogger<T extends TextRecord> extends PrintStreamLogger<T> {

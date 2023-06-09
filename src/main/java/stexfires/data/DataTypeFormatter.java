@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @FunctionalInterface

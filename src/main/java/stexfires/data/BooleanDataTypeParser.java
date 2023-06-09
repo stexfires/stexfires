@@ -10,7 +10,6 @@ import java.util.TreeSet;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {

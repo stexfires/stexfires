@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public interface CommentRecord extends TextRecord {

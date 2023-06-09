@@ -27,7 +27,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * @author Mathias Kalb
  * @see java.math.BigInteger
  * @see java.lang.String
  * @see java.nio.charset.Charset

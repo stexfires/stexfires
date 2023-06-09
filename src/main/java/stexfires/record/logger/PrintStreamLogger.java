@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class PrintStreamLogger<T extends TextRecord> implements RecordLogger<T> {

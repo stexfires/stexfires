@@ -19,7 +19,6 @@ import static stexfires.util.Strings.REGEX_TAB;
 import static stexfires.util.Strings.REGEX_WHITESPACE;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.String
  * @see java.lang.Character
  * @see java.lang.StringBuilder

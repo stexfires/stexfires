@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long recordId,

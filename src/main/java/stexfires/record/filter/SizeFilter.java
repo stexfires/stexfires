@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.function.IntPredicate;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {

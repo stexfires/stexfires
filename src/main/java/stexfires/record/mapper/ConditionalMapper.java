@@ -7,7 +7,6 @@ import stexfires.record.filter.RecordFilter;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ConditionalMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {

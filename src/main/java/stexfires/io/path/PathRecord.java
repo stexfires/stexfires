@@ -15,7 +15,6 @@ import java.util.Optional;
  * The category contains the {@link PathType}.
  * All other information is stored in the values.
  *
- * @author Mathias Kalb
  * @see java.nio.file.Path
  * @see stexfires.io.path.PathType
  * @since 0.1

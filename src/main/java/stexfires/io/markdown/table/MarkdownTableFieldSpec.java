@@ -9,7 +9,6 @@ import java.util.Objects;
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.COLUMN_MIN_WIDTH;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record MarkdownTableFieldSpec(

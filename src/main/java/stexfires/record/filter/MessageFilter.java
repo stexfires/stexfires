@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {

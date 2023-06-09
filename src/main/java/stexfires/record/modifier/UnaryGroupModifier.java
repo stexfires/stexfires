@@ -12,7 +12,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("OptionalGetWithoutIsPresent")

@@ -13,7 +13,6 @@ import static java.util.Comparator.comparingInt;
  * This class consists of {@code static} utility methods
  * for constructing comparators for {@link stexfires.record.TextField}s.
  *
- * @author Mathias Kalb
  * @see stexfires.record.comparator.RecordComparators
  * @see stexfires.util.SortNulls
  * @see stexfires.util.StringComparators

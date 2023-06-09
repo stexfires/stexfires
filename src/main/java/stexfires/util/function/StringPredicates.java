@@ -15,7 +15,6 @@ import static stexfires.util.Strings.MAX_ASCII_CODE_POINT;
 import static stexfires.util.Strings.MIN_ASCII_CODE_POINT;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.String
  * @see java.lang.Character
  * @see java.text.Normalizer

@@ -57,7 +57,6 @@ import java.util.stream.Stream;
  * This class consists of {@code static} utility methods
  * for input and output of {@code TextRecords}.
  *
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("UnusedReturnValue")

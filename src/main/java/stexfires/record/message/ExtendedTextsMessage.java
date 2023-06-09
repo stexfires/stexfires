@@ -6,7 +6,6 @@ import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ExtendedTextsMessage<T extends TextRecord> implements RecordMessage<T> {

@@ -16,7 +16,6 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * @author Mathias Kalb
  * @see AddTextMapper
  * @see stexfires.record.mapper.RecordIdMapper
  * @see TextsMapper

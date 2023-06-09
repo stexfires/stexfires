@@ -8,7 +8,6 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class AppendableLogger<T extends TextRecord, R extends Appendable> implements RecordLogger<T> {

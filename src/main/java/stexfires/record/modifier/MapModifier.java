@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class MapModifier<T extends TextRecord, R extends TextRecord> implements RecordStreamModifier<T, R> {

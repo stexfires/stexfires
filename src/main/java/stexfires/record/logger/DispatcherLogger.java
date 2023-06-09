@@ -12,7 +12,6 @@ import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {

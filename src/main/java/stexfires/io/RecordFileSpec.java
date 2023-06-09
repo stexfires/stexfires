@@ -3,7 +3,6 @@ package stexfires.io;
 import stexfires.util.CharsetCoding;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("InterfaceMayBeAnnotatedFunctional")

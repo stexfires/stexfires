@@ -8,7 +8,6 @@ import java.io.Writer;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class WriterConsumer<T extends TextRecord, R extends Writer> implements ClosableRecordConsumer<T> {

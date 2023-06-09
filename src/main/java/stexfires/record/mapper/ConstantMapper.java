@@ -6,7 +6,6 @@ import stexfires.record.TextRecord;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ConstantMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {

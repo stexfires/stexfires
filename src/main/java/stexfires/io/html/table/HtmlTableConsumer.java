@@ -15,7 +15,6 @@ import java.util.Objects;
 import static stexfires.io.html.table.HtmlTableFileSpec.*;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {

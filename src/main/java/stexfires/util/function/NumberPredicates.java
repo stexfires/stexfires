@@ -16,7 +16,6 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.Number
  * @see java.lang.Math
  * @see java.util.function.Predicate

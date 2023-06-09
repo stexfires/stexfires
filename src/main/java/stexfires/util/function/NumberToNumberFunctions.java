@@ -12,7 +12,6 @@ import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.Number
  * @see java.util.function.Function
  * @see java.util.function.IntFunction

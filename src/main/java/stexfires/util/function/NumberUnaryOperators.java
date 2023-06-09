@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
- * @author Mathias Kalb
  * @see java.lang.Number
  * @see java.lang.Math
  * @see java.util.function.Function

@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class NumberDataTypeFormatter<T extends Number> implements DataTypeFormatter<T> {

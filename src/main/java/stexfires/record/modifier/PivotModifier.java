@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRecord> {

@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class CollectionConsumer<T extends TextRecord, R extends Collection<String>> implements RecordConsumer<T> {

@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.function.IntFunction;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class IndexedFieldTextMapper implements FieldTextMapper {

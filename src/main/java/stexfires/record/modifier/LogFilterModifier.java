@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class LogFilterModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {

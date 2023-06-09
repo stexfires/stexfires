@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class EnumDataTypeFormatter<T extends Enum<T>> implements DataTypeFormatter<T> {

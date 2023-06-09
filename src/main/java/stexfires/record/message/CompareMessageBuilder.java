@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class CompareMessageBuilder {

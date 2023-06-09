@@ -6,7 +6,6 @@ import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ToManyFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, ManyFieldsRecord> {

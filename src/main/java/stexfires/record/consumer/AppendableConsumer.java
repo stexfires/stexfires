@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class AppendableConsumer<T extends TextRecord, R extends Appendable> implements RecordConsumer<T> {

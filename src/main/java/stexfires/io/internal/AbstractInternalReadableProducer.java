@@ -21,7 +21,6 @@ import static stexfires.io.internal.ReadableProducerState.READ_BEFORE;
 import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("RedundantThrows")

@@ -22,7 +22,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {

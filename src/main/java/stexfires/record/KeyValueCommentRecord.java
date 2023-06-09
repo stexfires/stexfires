@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public interface KeyValueCommentRecord extends KeyValueRecord, CommentRecord {

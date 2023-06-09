@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("SameReturnValue")

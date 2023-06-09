@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("RedundantThrows")

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class MapConsumer<T extends TextRecord, R extends Map<String, String>> implements RecordConsumer<T> {

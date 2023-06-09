@@ -17,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @see java.nio.charset.Charset
  * @see java.nio.charset.CodingErrorAction
  * @see java.nio.charset.CharsetDecoder

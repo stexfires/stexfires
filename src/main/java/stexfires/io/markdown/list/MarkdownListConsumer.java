@@ -13,7 +13,6 @@ import java.util.Objects;
 import static stexfires.io.markdown.list.MarkdownListFileSpec.ORDERED_LIST_START_NUMBER;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class MarkdownListConsumer extends AbstractInternalWritableConsumer<ValueRecord> {

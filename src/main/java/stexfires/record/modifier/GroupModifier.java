@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 /**
  * Aggregator / Group By.
  *
- * @author Mathias Kalb
  * @since 0.1
  */
 public class GroupModifier<T extends TextRecord, R extends TextRecord> implements RecordStreamModifier<T, R> {

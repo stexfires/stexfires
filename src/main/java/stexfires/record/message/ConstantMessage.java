@@ -4,7 +4,6 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ConstantMessage<T extends TextRecord> implements RecordMessage<T> {

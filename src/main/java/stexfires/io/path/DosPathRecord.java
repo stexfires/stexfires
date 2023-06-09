@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public interface DosPathRecord extends PathRecord {

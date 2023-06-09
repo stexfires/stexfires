@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import static stexfires.util.Alignment.START;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record MarkdownTableFileSpec(

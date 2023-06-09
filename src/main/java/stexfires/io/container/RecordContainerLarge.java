@@ -11,7 +11,6 @@ import stexfires.record.message.SizeMessage;
 import java.util.List;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class RecordContainerLarge implements RecordContainer {

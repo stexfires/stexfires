@@ -13,7 +13,6 @@ import java.util.function.UnaryOperator;
  * <p>This is a <a href="package-summary.html">functional interface</a>
  * whose functional method is {@link #applyAsBoolean(boolean)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.UnaryOperator
  * @see stexfires.util.function.BooleanBinaryOperator
  * @see java.util.function.IntUnaryOperator

@@ -18,7 +18,6 @@ import java.util.stream.Stream;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #modify(Stream)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Function
  * @see java.util.stream.Stream
  * @since 0.1

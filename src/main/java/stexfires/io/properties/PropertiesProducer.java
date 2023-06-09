@@ -17,7 +17,6 @@ import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_RADIX;
 // TODO chars and codePoints
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 @SuppressWarnings("HardcodedLineSeparator")

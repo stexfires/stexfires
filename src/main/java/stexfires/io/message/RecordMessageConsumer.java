@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class RecordMessageConsumer extends AbstractInternalWritableConsumer<TextRecord> {

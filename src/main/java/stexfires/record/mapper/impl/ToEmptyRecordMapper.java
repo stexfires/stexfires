@@ -7,7 +7,6 @@ import stexfires.record.impl.EmptyRecord;
 import stexfires.record.mapper.RecordMapper;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ToEmptyRecordMapper<T extends TextRecord> implements RecordMapper<T, EmptyRecord> {

@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class SupplierMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {

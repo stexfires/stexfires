@@ -17,7 +17,6 @@ import java.util.stream.Stream;
  * This class consists of {@code static} utility methods
  * for operating on {@link java.nio.file.Path}s and {@link stexfires.io.path.PathRecord}s.
  *
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class PathRecords {

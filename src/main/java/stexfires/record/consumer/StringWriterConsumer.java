@@ -6,7 +6,6 @@ import stexfires.record.message.RecordMessage;
 import java.io.StringWriter;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class StringWriterConsumer<T extends TextRecord> extends AppendableConsumer<T, StringWriter> {

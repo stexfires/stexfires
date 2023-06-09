@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class LookupMapper<T extends TextRecord, R extends TextRecord, K> implements RecordMapper<T, R> {

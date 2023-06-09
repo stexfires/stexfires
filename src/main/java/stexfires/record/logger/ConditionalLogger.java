@@ -6,7 +6,6 @@ import stexfires.record.filter.RecordFilter;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ConditionalLogger<T extends TextRecord> implements RecordLogger<T> {

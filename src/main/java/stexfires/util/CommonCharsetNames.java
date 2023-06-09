@@ -13,7 +13,6 @@ import java.util.Objects;
  * <p>
  * Source: <a href="https://docs.oracle.com/en/java/javase/18/intl/supported-encodings.html#GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205">supported-encodings</a>
  *
- * @author Mathias Kalb
  * @see java.nio.charset.StandardCharsets
  * @see java.nio.charset.Charset
  * @since 0.1

@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRawData> {

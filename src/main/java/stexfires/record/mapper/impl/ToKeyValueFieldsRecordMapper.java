@@ -9,7 +9,6 @@ import stexfires.record.message.RecordMessage;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public final class ToKeyValueFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueFieldsRecord> {

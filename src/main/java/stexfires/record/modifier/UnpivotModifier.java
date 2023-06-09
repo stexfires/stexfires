@@ -17,7 +17,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class UnpivotModifier<T extends TextRecord, R extends TextRecord> implements RecordStreamModifier<T, R> {

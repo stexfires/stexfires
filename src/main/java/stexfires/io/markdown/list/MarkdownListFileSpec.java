@@ -15,7 +15,6 @@ import java.io.BufferedWriter;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public record MarkdownListFileSpec(

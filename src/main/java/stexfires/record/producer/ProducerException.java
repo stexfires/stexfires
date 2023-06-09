@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serial;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class ProducerException extends Exception {

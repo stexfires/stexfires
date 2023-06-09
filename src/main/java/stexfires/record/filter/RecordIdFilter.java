@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.function.LongPredicate;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {

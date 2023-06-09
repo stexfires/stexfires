@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class TextMessage<T extends TextRecord> implements RecordMessage<T> {

@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class LimitedLogger<T extends TextRecord> implements RecordLogger<T> {

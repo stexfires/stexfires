@@ -1,7 +1,6 @@
 package stexfires.io.markdown.list;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public enum MarkdownListMarker {

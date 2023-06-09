@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class IdentityFieldTextMapper implements FieldTextMapper {

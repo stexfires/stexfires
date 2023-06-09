@@ -6,7 +6,6 @@ import stexfires.record.mapper.RecordMapper;
 import java.util.Objects;
 
 /**
- * @author Mathias Kalb
  * @since 0.1
  */
 public class MappingFilter<T extends TextRecord, V extends TextRecord> implements RecordFilter<T> {

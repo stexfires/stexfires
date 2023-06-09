@@ -6,7 +6,6 @@ import java.util.Objects;
 /**
  * Enum with two types for comparing {@code null} values: {@code FIRST, LAST}.
  *
- * @author Mathias Kalb
  * @see java.util.Comparator#nullsFirst(Comparator)
  * @see java.util.Comparator#nullsLast(Comparator)
  * @since 0.1

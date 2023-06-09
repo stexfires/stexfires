@@ -16,7 +16,6 @@ import java.util.function.UnaryOperator;
  * <p>
  * This is a {@code functional interface} whose functional method is {@link #mapToText(stexfires.record.TextField)}.
  *
- * @author Mathias Kalb
  * @see java.util.function.Function
  * @see java.util.stream.Stream#map(Function)
  * @since 0.1
