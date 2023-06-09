@@ -68,6 +68,30 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
+    public static @NotNull TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable List<String> texts) {
+        if (category == null && recordId == null) {
+            if (texts == null || texts.isEmpty()) {
+                return empty();
+            } else if (texts.size() == 1) {
+                return new ValueFieldRecord(texts.get(0));
+            } else if (texts.size() == 2) {
+                return new TwoFieldsRecord(texts.get(0), texts.get(1));
+            } else {
+                return new ManyFieldsRecord(texts);
+            }
+        } else {
+            if (texts == null || texts.isEmpty()) {
+                return new ManyFieldsRecord(category, recordId);
+            } else if (texts.size() == 1) {
+                return new ValueFieldRecord(category, recordId, texts.get(0));
+            } else if (texts.size() == 2) {
+                return new TwoFieldsRecord(category, recordId, texts.get(0), texts.get(1));
+            } else {
+                return new ManyFieldsRecord(category, recordId, texts);
+            }
+        }
+    }
+
     public static <T extends TextRecord> List<T> list(@NotNull T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
