@@ -36,11 +36,14 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
+import stexfires.util.function.StringPredicates;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -60,42 +63,60 @@ import java.util.stream.Stream;
 @SuppressWarnings("UnusedReturnValue")
 public final class RecordIOStreams {
 
+    public static final int CATEGORY_INDEX = 0;
+    public static final int RECORD_ID_INDEX = 1;
+    public static final int TEXTS_INDEX_START = 2;
+    public static final String CATEGORY_KEY = "category";
+    public static final String RECORD_ID_KEY = "recordId";
+    public static final String TEXTS_KEY = "texts";
+
     private RecordIOStreams() {
     }
 
-    public static List<String> toStringList(TextRecord record) {
+    public static List<String> storeInList(TextRecord record) {
         Objects.requireNonNull(record);
-        List<String> stringList = new ArrayList<>(2 + record.size());
-        stringList.add(record.category());
-        stringList.add(record.hasRecordId() ? String.valueOf(record.recordId()) : null);
-        stringList.addAll(record.streamOfTexts().toList());
-        return stringList;
+        List<String> list = new ArrayList<>(2 + record.size());
+        list.add(record.category());
+        list.add(record.recordIdAsString());
+        list.addAll(record.streamOfTexts().toList());
+        return list;
     }
 
-    @SuppressWarnings("DuplicateThrows")
-    public static TextRecord fromStringList(List<String> stringList) throws IllegalArgumentException, NumberFormatException {
-        Objects.requireNonNull(stringList);
-        if (stringList.size() < 2) {
-            throw new IllegalArgumentException("List contains too few data.");
-        }
-        String category = stringList.get(0);
-        Long recordId;
-        String recordIdString = stringList.get(1);
-        if (recordIdString != null && !recordIdString.isEmpty()) {
-            recordId = Long.valueOf(recordIdString);
-        } else {
-            recordId = null;
-        }
-        List<String> texts;
-        if (stringList.size() > 2) {
-            texts = stringList.subList(2, stringList.size());
-        } else {
-            texts = Collections.emptyList();
-        }
-        if (texts.size() == 1) {
-            return new ValueFieldRecord(category, recordId, texts.get(0));
-        }
-        return new ManyFieldsRecord(category, recordId, texts);
+    public static Map<String, Object> storeInMap(TextRecord record) {
+        Objects.requireNonNull(record);
+        return storeInMap(record, HashMap.newHashMap(3));
+    }
+
+    public static Map<String, Object> storeInMap(TextRecord record, Map<String, Object> map) {
+        Objects.requireNonNull(record);
+        Objects.requireNonNull(map);
+        map.put(CATEGORY_KEY, record.category());
+        map.put(RECORD_ID_KEY, record.recordId());
+        map.put(TEXTS_KEY, record.streamOfTexts().toList());
+        return map;
+    }
+
+    @SuppressWarnings("SizeReplaceableByIsEmpty")
+    public static TextRecord restoreFromList(List<String> list) throws NumberFormatException {
+        Objects.requireNonNull(list);
+        String category = (list.size() > CATEGORY_INDEX)
+                ? list.get(CATEGORY_INDEX) : null;
+        Long recordId = (list.size() > RECORD_ID_INDEX) && StringPredicates.isNotNullAndNotEmpty().test(list.get(RECORD_ID_INDEX))
+                ? Long.valueOf(list.get(RECORD_ID_INDEX)) : null;
+        List<String> texts = (list.size() > TEXTS_INDEX_START)
+                ? list.subList(TEXTS_INDEX_START, list.size()) : null;
+        return TextRecords.ofNullable(category, recordId, texts);
+    }
+
+    public static TextRecord restoreFromMap(Map<String, Object> map) throws ClassCastException {
+        Objects.requireNonNull(map);
+        String category = map.containsKey(CATEGORY_KEY) && (map.get(CATEGORY_KEY) != null)
+                ? String.valueOf(map.get(CATEGORY_KEY)) : null;
+        Long recordId = map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Number)
+                ? ((Number) map.get(RECORD_ID_KEY)).longValue() : null;
+        List<String> texts = map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof Collection)
+                ? ((Collection<?>) map.get(TEXTS_KEY)).stream().map(String::valueOf).toList() : null;
+        return TextRecords.ofNullable(category, recordId, texts);
     }
 
     public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords() {
@@ -251,7 +272,7 @@ public final class RecordIOStreams {
                 CollectionDataTypeParser.withDelimiterAsList(delimiter, prefix, suffix,
                         StringDataTypeParser.identity(),
                         null, null),
-                RecordIOStreams::fromStringList,
+                RecordIOStreams::restoreFromList,
                 nullSourceSupplier,
                 emptySourceSupplier);
     }
@@ -454,7 +475,7 @@ public final class RecordIOStreams {
                                                                            @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(delimiter);
         return new ConvertingDataTypeFormatter<>(
-                RecordIOStreams::toStringList,
+                RecordIOStreams::storeInList,
                 CollectionDataTypeFormatter.withDelimiter(delimiter, prefix, suffix,
                         StringDataTypeFormatter.identity(), null),
                 null,
