@@ -62,7 +62,6 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static TextRecord ofTexts(String... texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);

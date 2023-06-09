@@ -20,12 +20,10 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
 
     private final List<TextRecord> records;
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(int recordSize, String... texts) {
         this(null, TextRecords.recordIdSequence(), recordSize, texts);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public DividingProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
                             int recordSize, String... texts) {
         Objects.requireNonNull(recordIdSupplier);

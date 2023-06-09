@@ -91,7 +91,6 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                 textClassifications);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                            int recordsPerKey,
                                                                            String nullText,

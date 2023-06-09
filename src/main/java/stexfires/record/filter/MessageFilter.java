@@ -45,7 +45,6 @@ public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
                 messages::contains);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
                                                                       String... messages) {
         return containedIn(recordMessage, Arrays.asList(messages));

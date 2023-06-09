@@ -53,7 +53,6 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
                                                           Integer... codePoints) {
         Objects.requireNonNull(random);
@@ -101,7 +100,6 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
                                                           Character... characters) {
         Objects.requireNonNull(random);

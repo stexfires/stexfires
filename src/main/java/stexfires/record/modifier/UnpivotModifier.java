@@ -56,7 +56,6 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                                     )));
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValue(int keyIndex,
                                                                                           IntFunction<String> valueIndexToIdentifier,
                                                                                           boolean onlyExistingValues,

@@ -37,7 +37,6 @@ public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
         return new SizeFilter<>(PrimitiveIntPredicates.containedIn(sizes));
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> SizeFilter<T> containedIn(Integer... sizes) {
         return containedIn(Arrays.asList(sizes));
     }

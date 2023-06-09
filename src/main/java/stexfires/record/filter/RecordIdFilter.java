@@ -37,7 +37,6 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
         return new RecordIdFilter<>(PrimitiveLongPredicates.containedIn(recordIds));
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> RecordIdFilter<T> containedIn(Long... recordIds) {
         return containedIn(Arrays.asList(recordIds));
     }

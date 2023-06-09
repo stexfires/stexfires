@@ -37,7 +37,6 @@ public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
         return new CategoryFilter<>(categories::contains);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> CategoryFilter<T> containedIn(String... categories) {
         return containedIn(Arrays.asList(categories));
     }

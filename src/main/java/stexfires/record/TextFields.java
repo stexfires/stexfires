@@ -53,7 +53,7 @@ public final class TextFields {
         return newArray(texts.collect(Collectors.toList()));
     }
 
-    @SuppressWarnings({"Convert2streamapi", "OverloadedVarargsMethod"})
+    @SuppressWarnings({"Convert2streamapi"})
     public static @NotNull TextField[] newArray(String... texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.length];
@@ -63,7 +63,7 @@ public final class TextFields {
         return fields;
     }
 
-    @SuppressWarnings("Convert2streamapi")
+    @SuppressWarnings({"Convert2streamapi", "ExplicitArrayFilling"})
     public static @NotNull TextField[] newArray(int length, @NotNull Supplier<String> textSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);

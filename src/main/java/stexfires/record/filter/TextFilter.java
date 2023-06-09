@@ -76,13 +76,11 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return new TextFilter<>(fieldFunction, texts::contains);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> TextFilter<T> containedIn(int index,
                                                                    String... texts) {
         return containedIn(index, Arrays.asList(texts));
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, TextField> fieldFunction,
                                                                    String... texts) {
         return containedIn(fieldFunction, Arrays.asList(texts));

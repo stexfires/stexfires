@@ -47,7 +47,6 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
         this(null, null, TextFields.newArray(texts));
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
         this(category, recordId, TextFields.newArray(texts));
     }
