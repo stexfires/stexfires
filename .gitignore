@@ -6,6 +6,6 @@ build
 
 # Ignore IntelliJ IDEA
 /.idea/
-/out/
+out/
 *.iws
 *.iml
