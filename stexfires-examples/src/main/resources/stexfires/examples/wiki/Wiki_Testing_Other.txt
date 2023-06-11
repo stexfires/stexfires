@@ -1,0 +1,2 @@
+mockito - Most popular mocking framework for Java	http://site.mockito.org/
+Jukito - The combined power of JUnit, Guice and Mockito	https://github.com/ArcBees/Jukito
