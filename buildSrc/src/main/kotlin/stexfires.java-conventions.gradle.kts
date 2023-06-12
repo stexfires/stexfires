@@ -17,6 +17,16 @@ java {
     }
 }
 
+testing {
+    suites {
+        // Configure the built-in test suite
+        val test by getting(JvmTestSuite::class) {
+            // Use JUnit Jupiter test framework
+            useJUnitJupiter("5.9.3")
+        }
+    }
+}
+
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("--enable-preview")
     // options.compilerArgs.add("-Xlint:preview")
