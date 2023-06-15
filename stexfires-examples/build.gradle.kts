@@ -1,5 +1,5 @@
 plugins {
-    id("stexfires.java-conventions")
+    id("stexfires-examples.java-conventions")
 }
 
 dependencies {
