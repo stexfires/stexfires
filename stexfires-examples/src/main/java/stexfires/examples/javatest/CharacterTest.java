@@ -32,6 +32,7 @@ public final class CharacterTest {
     private static final int INDEX_MIRRORED = 7;
     private static final int INDEX_TYPE = 15;
     private static final int INDEX_BLOCK = 16;
+    private static final int INDEX_DIRECTIONALITY = 17;
 
     private CharacterTest() {
     }
@@ -205,18 +206,35 @@ public final class CharacterTest {
         }
 
         try {
-            // LETTER
+            // LETTER_LEFT_TO_RIGHT
             writeFilteredFile(new File(outputDirectory,
-                            "Character_Markdown_Table_LETTER.md"),
+                            "Character_Markdown_Table_LETTER_LEFT_TO_RIGHT.md"),
                     TextFilter.containedIn(INDEX_TYPE,
-                            List.of(
-                                    "LOWERCASE_LETTER",
-                                    "MODIFIER_LETTER",
-                                    "OTHER_LETTER",
-                                    "LETTER_NUMBER",
-                                    "TITLECASE_LETTER",
-                                    "UPPERCASE_LETTER"
-                            )));
+                                      List.of(
+                                              "LOWERCASE_LETTER",
+                                              "MODIFIER_LETTER",
+                                              "OTHER_LETTER",
+                                              "TITLECASE_LETTER",
+                                              "UPPERCASE_LETTER"
+                                      ))
+                              .and(TextFilter.equalTo(INDEX_DIRECTIONALITY,
+                                      "DIRECTIONALITY_LEFT_TO_RIGHT"
+                              )));
+
+            // LETTER_NOT_LEFT_TO_RIGHT
+            writeFilteredFile(new File(outputDirectory,
+                            "Character_Markdown_Table_LETTER_NOT_LEFT_TO_RIGHT.md"),
+                    TextFilter.containedIn(INDEX_TYPE,
+                                      List.of(
+                                              "LOWERCASE_LETTER",
+                                              "MODIFIER_LETTER",
+                                              "OTHER_LETTER",
+                                              "TITLECASE_LETTER",
+                                              "UPPERCASE_LETTER"
+                                      ))
+                              .and(TextFilter.equalTo(INDEX_DIRECTIONALITY,
+                                      "DIRECTIONALITY_LEFT_TO_RIGHT"
+                              ).negate()));
 
             // NUMBER
             writeFilteredFile(new File(outputDirectory,
@@ -224,12 +242,13 @@ public final class CharacterTest {
                     TextFilter.containedIn(INDEX_TYPE,
                             List.of(
                                     "DECIMAL_DIGIT_NUMBER",
+                                    "LETTER_NUMBER",
                                     "OTHER_NUMBER"
                             )));
 
-            // SYMBOL_PUNCTUATION
+            // SYMBOL_PUNCTUATION_FORMAT
             writeFilteredFile(new File(outputDirectory,
-                            "Character_Markdown_Table_SYMBOL_PUNCTUATION.md"),
+                            "Character_Markdown_Table_SYMBOL_PUNCTUATION_FORMAT.md"),
                     TextFilter.containedIn(INDEX_TYPE,
                             List.of(
                                     "CURRENCY_SYMBOL",
@@ -242,12 +261,20 @@ public final class CharacterTest {
                                     "FINAL_QUOTE_PUNCTUATION",
                                     "INITIAL_QUOTE_PUNCTUATION",
                                     "OTHER_PUNCTUATION",
-                                    "START_PUNCTUATION"
+                                    "START_PUNCTUATION",
+                                    "FORMAT"
                             )));
 
-            // MISC
+            // CONTROL
             writeFilteredFile(new File(outputDirectory,
-                            "Character_Markdown_Table_MISC.md"),
+                            "Character_Markdown_Table_CONTROL.md"),
+                    TextFilter.equalTo(INDEX_TYPE,
+                            "CONTROL"
+                    ));
+
+            // SEPARATOR_MARK
+            writeFilteredFile(new File(outputDirectory,
+                            "Character_Markdown_Table_SEPARATOR_MARK.md"),
                     TextFilter.containedIn(INDEX_TYPE,
                             List.of(
                                     "LINE_SEPARATOR",
@@ -255,9 +282,7 @@ public final class CharacterTest {
                                     "SPACE_SEPARATOR",
                                     "COMBINING_SPACING_MARK",
                                     "ENCLOSING_MARK",
-                                    "FORMAT",
-                                    "NON_SPACING_MARK",
-                                    "CONTROL"
+                                    "NON_SPACING_MARK"
                             )));
 
             // Block_LATIN
