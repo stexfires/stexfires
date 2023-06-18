@@ -11,6 +11,6 @@ dependencies {
 
 application {
     mainModule.set("stexfires.app.character")
-    mainClass.set("stexfires.app.character.CharacterTest")
+    mainClass.set("stexfires.app.character.CharacterInformationFiles")
     applicationDefaultJvmArgs = listOf("--enable-preview")
 }

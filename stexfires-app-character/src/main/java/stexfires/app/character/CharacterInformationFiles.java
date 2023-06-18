@@ -24,8 +24,11 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * @since 0.1
+ */
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
-public final class CharacterTest {
+public final class CharacterInformationFiles {
 
     private static final String MISSING = "-----";
     private static final String NOT_PRINTABLE = "-----";
@@ -34,7 +37,7 @@ public final class CharacterTest {
     private static final int INDEX_BLOCK = 16;
     private static final int INDEX_DIRECTIONALITY = 17;
 
-    private CharacterTest() {
+    private CharacterInformationFiles() {
     }
 
     public static String convertTypeIntoString(int characterType) {
@@ -140,7 +143,7 @@ public final class CharacterTest {
 
     public static Stream<TextRecord> generateCodePointRecordStream(int lowestCodePoint, int highestCodePoint) {
         return IntStream.rangeClosed(lowestCodePoint, highestCodePoint)
-                        .mapToObj(CharacterTest::generateCodePointRecord);
+                        .mapToObj(CharacterInformationFiles::generateCodePointRecord);
     }
 
     @SuppressWarnings({"MagicNumber", "OverlyBroadThrowsClause"})
