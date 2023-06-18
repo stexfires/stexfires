@@ -1,4 +1,4 @@
-package stexfires.examples.javatest;
+package stexfires.app.character;
 
 import stexfires.io.RecordIOStreams;
 import stexfires.io.markdown.table.MarkdownTableConsumer;
