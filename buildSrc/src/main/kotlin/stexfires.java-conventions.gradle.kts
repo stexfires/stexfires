@@ -56,8 +56,12 @@ tasks.withType<Javadoc> {
 
 tasks.withType<Jar> {
     manifest {
-        attributes(mapOf("Implementation-Title" to project.name,
-                         "Implementation-Version" to project.version))
+        attributes(
+            mapOf(
+                "Implementation-Title" to project.name,
+                "Implementation-Version" to project.version
+            )
+        )
     }
 }
 
