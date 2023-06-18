@@ -14,4 +14,10 @@ plugins {
 }
 
 rootProject.name = "stexfires"
-include("stexfires-data", "stexfires-examples", "stexfires-io", "stexfires-record", "stexfires-util")
+include(
+    "stexfires-data",
+    "stexfires-examples",
+    "stexfires-io",
+    "stexfires-record",
+    "stexfires-util"
+)
