@@ -3,4 +3,5 @@ module stexfires.app.character {
     requires stexfires.io;
     requires stexfires.record;
     requires stexfires.util;
+    exports stexfires.app.character;
 }
