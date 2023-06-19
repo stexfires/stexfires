@@ -192,6 +192,14 @@ public final class CharacterInformationFiles {
                             StringPredicates.equals(
                                     "true"
                             )));
+
+            // Numeric_3
+            writeFilteredFile(new File(outputDirectory,
+                            "Character_Markdown_Table_Numeric_3.md"),
+                    new TextFilter<>(CodePointRecordHelper.INDEX_NUMERIC_VALUE,
+                            StringPredicates.equals(
+                                    "3"
+                            )));
         } catch (IOException | UncheckedConsumerException e) {
             System.out.println("Cannot generate MarkdownTable file! " + e.getMessage());
         }
