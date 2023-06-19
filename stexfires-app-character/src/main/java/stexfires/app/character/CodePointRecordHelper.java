@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 @SuppressWarnings("SpellCheckingInspection")
-public final class CodePointRecordBuilder {
+public final class CodePointRecordHelper {
 
     public static final int INDEX_CODE_POINT = 0;
     public static final int INDEX_HEX_STRING = 1;
@@ -32,7 +32,7 @@ public final class CodePointRecordBuilder {
     public static final int INDEX_BLOCK = 16;
     public static final int INDEX_DIRECTIONALITY = 17;
 
-    private CodePointRecordBuilder() {
+    private CodePointRecordHelper() {
     }
 
     public static String codePointCharacterTypeAsString(int codePoint,
@@ -152,7 +152,7 @@ public final class CodePointRecordBuilder {
                                                                    String notPrintable,
                                                                    String missing) {
         return IntStream.rangeClosed(lowestCodePoint, highestCodePoint)
-                        .mapToObj(codePoint -> CodePointRecordBuilder.generateCodePointRecord(codePoint,
+                        .mapToObj(codePoint -> CodePointRecordHelper.generateCodePointRecord(codePoint,
                                 notPrintable, missing));
     }
 

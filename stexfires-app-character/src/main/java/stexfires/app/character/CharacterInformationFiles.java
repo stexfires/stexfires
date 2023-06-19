@@ -83,8 +83,8 @@ public final class CharacterInformationFiles {
         System.out.println("Generate MarkdownTable file: " + outputMarkdownFile);
 
         writeMarkdownTableFile(outputMarkdownFile,
-                CodePointRecordBuilder.generateCodePointRecordStream(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT, NOT_PRINTABLE, MISSING)
-                                      .filter(recordFilter.asPredicate()));
+                CodePointRecordHelper.generateCodePointRecordStream(Character.MIN_CODE_POINT, Character.MAX_CODE_POINT, NOT_PRINTABLE, MISSING)
+                                     .filter(recordFilter.asPredicate()));
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
@@ -101,7 +101,7 @@ public final class CharacterInformationFiles {
             // LETTER_LEFT_TO_RIGHT
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_LETTER_LEFT_TO_RIGHT.md"),
-                    TextFilter.containedIn(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.containedIn(CodePointRecordHelper.INDEX_TYPE,
                                       List.of(
                                               "LOWERCASE_LETTER",
                                               "MODIFIER_LETTER",
@@ -109,14 +109,14 @@ public final class CharacterInformationFiles {
                                               "TITLECASE_LETTER",
                                               "UPPERCASE_LETTER"
                                       ))
-                              .and(TextFilter.equalTo(CodePointRecordBuilder.INDEX_DIRECTIONALITY,
+                              .and(TextFilter.equalTo(CodePointRecordHelper.INDEX_DIRECTIONALITY,
                                       "DIRECTIONALITY_LEFT_TO_RIGHT"
                               )));
 
             // LETTER_NOT_LEFT_TO_RIGHT
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_LETTER_NOT_LEFT_TO_RIGHT.md"),
-                    TextFilter.containedIn(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.containedIn(CodePointRecordHelper.INDEX_TYPE,
                                       List.of(
                                               "LOWERCASE_LETTER",
                                               "MODIFIER_LETTER",
@@ -124,14 +124,14 @@ public final class CharacterInformationFiles {
                                               "TITLECASE_LETTER",
                                               "UPPERCASE_LETTER"
                                       ))
-                              .and(TextFilter.equalTo(CodePointRecordBuilder.INDEX_DIRECTIONALITY,
+                              .and(TextFilter.equalTo(CodePointRecordHelper.INDEX_DIRECTIONALITY,
                                       "DIRECTIONALITY_LEFT_TO_RIGHT"
                               ).negate()));
 
             // NUMBER
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_NUMBER.md"),
-                    TextFilter.containedIn(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.containedIn(CodePointRecordHelper.INDEX_TYPE,
                             List.of(
                                     "DECIMAL_DIGIT_NUMBER",
                                     "LETTER_NUMBER",
@@ -141,7 +141,7 @@ public final class CharacterInformationFiles {
             // SYMBOL_PUNCTUATION_FORMAT
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_SYMBOL_PUNCTUATION_FORMAT.md"),
-                    TextFilter.containedIn(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.containedIn(CodePointRecordHelper.INDEX_TYPE,
                             List.of(
                                     "CURRENCY_SYMBOL",
                                     "MATH_SYMBOL",
@@ -160,14 +160,14 @@ public final class CharacterInformationFiles {
             // CONTROL
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_CONTROL.md"),
-                    TextFilter.equalTo(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.equalTo(CodePointRecordHelper.INDEX_TYPE,
                             "CONTROL"
                     ));
 
             // SEPARATOR_MARK
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_SEPARATOR_MARK.md"),
-                    TextFilter.containedIn(CodePointRecordBuilder.INDEX_TYPE,
+                    TextFilter.containedIn(CodePointRecordHelper.INDEX_TYPE,
                             List.of(
                                     "LINE_SEPARATOR",
                                     "PARAGRAPH_SEPARATOR",
@@ -180,7 +180,7 @@ public final class CharacterInformationFiles {
             // Block_LATIN
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_Block_LATIN.md"),
-                    new TextFilter<>(CodePointRecordBuilder.INDEX_BLOCK,
+                    new TextFilter<>(CodePointRecordHelper.INDEX_BLOCK,
                             StringPredicates.contains(
                                     "LATIN"
                             )));
@@ -188,7 +188,7 @@ public final class CharacterInformationFiles {
             // IsMirrored
             writeFilteredFile(new File(outputDirectory,
                             "Character_Markdown_Table_IsMirrored.md"),
-                    new TextFilter<>(CodePointRecordBuilder.INDEX_IS_MIRRORED,
+                    new TextFilter<>(CodePointRecordHelper.INDEX_IS_MIRRORED,
                             StringPredicates.equals(
                                     "true"
                             )));
