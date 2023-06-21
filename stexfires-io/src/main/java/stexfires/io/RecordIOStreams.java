@@ -41,7 +41,7 @@ import stexfires.util.function.StringPredicates;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,21 +72,26 @@ public final class RecordIOStreams {
     private RecordIOStreams() {
     }
 
-    public static List<String> storeInList(TextRecord record) {
+    public static ArrayList<String> storeInArrayList(TextRecord record) {
         Objects.requireNonNull(record);
-        List<String> list = new ArrayList<>(2 + record.size());
-        list.add(record.category());
-        list.add(record.recordIdAsString());
-        list.addAll(record.streamOfTexts().toList());
-        return list;
+        return storeInCollection(record, new ArrayList<>(2 + record.size()));
     }
 
-    public static Map<String, Object> storeInMap(TextRecord record) {
+    public static <T extends Collection<String>> T storeInCollection(TextRecord record, T collection) {
         Objects.requireNonNull(record);
-        return storeInMap(record, HashMap.newHashMap(3));
+        Objects.requireNonNull(collection);
+        collection.add(record.category());
+        collection.add(record.recordIdAsString());
+        collection.addAll(record.streamOfTexts().toList());
+        return collection;
     }
 
-    public static Map<String, Object> storeInMap(TextRecord record, Map<String, Object> map) {
+    public static LinkedHashMap<String, Object> storeInLinkedHashMap(TextRecord record) {
+        Objects.requireNonNull(record);
+        return storeInMap(record, LinkedHashMap.newLinkedHashMap(3));
+    }
+
+    public static <T extends Map<String, Object>> T storeInMap(TextRecord record, T map) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(map);
         map.put(CATEGORY_KEY, record.category());
@@ -474,7 +479,7 @@ public final class RecordIOStreams {
                                                                            @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(delimiter);
         return new ConvertingDataTypeFormatter<>(
-                RecordIOStreams::storeInList,
+                RecordIOStreams::storeInArrayList,
                 CollectionDataTypeFormatter.withDelimiter(delimiter, prefix, suffix,
                         StringDataTypeFormatter.identity(), null),
                 null,

@@ -213,11 +213,11 @@ public final class ExamplesIO {
         System.out.println("-showList---");
 
         System.out.println("-storeInList");
-        generateRecordStream().map(RecordIOStreams::storeInList)
+        generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .forEachOrdered(System.out::println);
 
         System.out.println("-restoreFromList (storeInList)");
-        generateRecordStream().map(RecordIOStreams::storeInList)
+        generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .map(RecordIOStreams::restoreFromList)
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
 
@@ -241,11 +241,11 @@ public final class ExamplesIO {
         System.out.println("-showMap---");
 
         System.out.println("-storeInMap");
-        generateRecordStream().map(RecordIOStreams::storeInMap)
+        generateRecordStream().map(RecordIOStreams::storeInLinkedHashMap)
                               .forEachOrdered(System.out::println);
 
         System.out.println("-restoreFromMap (storeInMap)");
-        generateRecordStream().map(RecordIOStreams::storeInMap)
+        generateRecordStream().map(RecordIOStreams::storeInLinkedHashMap)
                               .map(RecordIOStreams::restoreFromMap)
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
 
@@ -282,7 +282,7 @@ public final class ExamplesIO {
         TextRecord record = generateRecord();
 
         // to String List
-        List<String> stringList = storeInList(generateRecord());
+        List<String> stringList = storeInArrayList(generateRecord());
         System.out.println(stringList);
 
         // from String List
