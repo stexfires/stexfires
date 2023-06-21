@@ -3,9 +3,9 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.NavigableSet;
 import java.util.Objects;
-import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Supplier;
 
@@ -14,17 +14,18 @@ import java.util.function.Supplier;
  */
 public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
 
-    private final SortedSet<String> trueValues;
-    private final SortedSet<String> falseValues;
+    private final NavigableSet<String> trueValues;
+    private final NavigableSet<String> falseValues;
     private final Supplier<Boolean> nullSourceSupplier;
     private final Supplier<Boolean> emptySourceSupplier;
 
-    public BooleanDataTypeParser(@NotNull Set<String> trueValues,
-                                 @NotNull Set<String> falseValues,
+    public BooleanDataTypeParser(@NotNull Collection<String> trueValues,
+                                 @NotNull Collection<String> falseValues,
                                  @Nullable Supplier<Boolean> nullSourceSupplier,
                                  @Nullable Supplier<Boolean> emptySourceSupplier) {
         Objects.requireNonNull(trueValues);
         Objects.requireNonNull(falseValues);
+        // Use TreeSet so that duplicate values are removed and 'null' is prevented.
         this.trueValues = new TreeSet<>(trueValues);
         this.falseValues = new TreeSet<>(falseValues);
         this.nullSourceSupplier = nullSourceSupplier;
