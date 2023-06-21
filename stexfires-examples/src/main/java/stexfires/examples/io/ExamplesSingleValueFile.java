@@ -115,7 +115,7 @@ public final class ExamplesSingleValueFile {
                         CharsetCoding.replacingErrors(ISO_8859_1, "?", "?"),
                         SingleValueFileSpec.DEFAULT_LINE_PREFIX,
                         lineSeparator,
-                        SingleValueFileSpec.DEFAULT_CONSUMER_TEXT_BEFORE,
+                        "ISO_8859_1",
                         SingleValueFileSpec.DEFAULT_CONSUMER_TEXT_AFTER,
                         true);
 

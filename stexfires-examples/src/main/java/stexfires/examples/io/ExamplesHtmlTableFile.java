@@ -37,9 +37,10 @@ public final class ExamplesHtmlTableFile {
                         CharsetCoding.UTF_8_REPORTING,
                         lineSeparator,
                         "<!DOCTYPE html>" + lineSeparator
-                                + "<html>" + lineSeparator
+                                + "<html lang=\"en\">" + lineSeparator
                                 + "<head>" + lineSeparator
                                 + "  <meta charset=\"UTF-8\"/>" + lineSeparator
+                                + "  <title>Test 1</title>" + lineSeparator
                                 + "  <style>table, th, td { border: 1px solid black; }</style>" + lineSeparator
                                 + "</head>" + lineSeparator
                                 + "<body>" + lineSeparator
@@ -88,9 +89,10 @@ public final class ExamplesHtmlTableFile {
                         CharsetCoding.UTF_8_REPORTING,
                         lineSeparator,
                         "<!DOCTYPE html>" + lineSeparator
-                                + "<html>" + lineSeparator
+                                + "<html lang=\"en\">" + lineSeparator
                                 + "<head>" + lineSeparator
                                 + "  <meta charset=\"UTF-8\"/>" + lineSeparator
+                                + "  <title>Test 2</title>" + lineSeparator
                                 + "  <style>table, th, td { border: 1px solid black; }</style>" + lineSeparator
                                 + "</head>" + lineSeparator
                                 + "<body>" + lineSeparator
