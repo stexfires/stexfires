@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.SortedSet;
+import java.util.NavigableSet;
 import java.util.TreeSet;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber", "UnnecessaryUnicodeEscape", "ReuseOfLocalVariable", "ConstantValue", "HardcodedLineSeparator", "SpellCheckingInspection"})
@@ -175,7 +175,7 @@ public final class ExamplesCollectionDataType {
         testParse("aa", new CollectionDataTypeParser<>(null, null, Strings.splitTextByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.IDENTICAL_SIZE), null, Suppliers.constantNull()));
         testParse("abcd", new CollectionDataTypeParser<>(null, null, Strings.splitTextByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.SAME_ORDER), null, Suppliers.constantNull()));
         testParse("abdc", new CollectionDataTypeParser<>(null, null, Strings.splitTextByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.SAME_ORDER), null, Suppliers.constantNull()));
-        SortedSet<String> treeSet = new TreeSet<>(stringComparator);
+        NavigableSet<String> treeSet = new TreeSet<>(stringComparator);
         treeSet.add("b");
         treeSet.add("e");
         testParse("abcd", new CollectionDataTypeParser<>(null, null, Strings.splitTextByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(treeSet, CollectionDataTypeParser.ConverterValidator.INITIALLY_EMPTY), null, Suppliers.constantNull()));
