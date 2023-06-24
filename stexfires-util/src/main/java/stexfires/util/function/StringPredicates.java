@@ -299,6 +299,10 @@ public final class StringPredicates {
         return s -> s != null && index >= 0 && index < s.length() && s.charAt(index) == character;
     }
 
+    public static Predicate<String> codePointAt(int index, int codePoint) {
+        return s -> s != null && index >= 0 && index < s.length() && s.codePointAt(index) == codePoint;
+    }
+
     public static Predicate<String> matches(String regEx) {
         Objects.requireNonNull(regEx);
         return s -> (s != null) && !s.isEmpty() && s.matches(regEx);

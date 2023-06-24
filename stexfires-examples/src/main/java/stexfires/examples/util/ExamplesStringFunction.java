@@ -312,6 +312,8 @@ public final class ExamplesStringFunction {
         printStringPredicates(StringPredicates.surroundedBy("1", "3"), "surroundedBy");
         printStringPredicates(StringPredicates.containedIn(List.of(" ", "1", "ä")), "containedIn");
         printStringPredicates(StringPredicates.charAt(1, '1'), "charAt");
+        printStringPredicates(StringPredicates.codePointAt(0, 97), "codePointAt");
+        printStringPredicates(StringPredicates.codePointAt(0, 0x0001F600), "codePointAt");
         printStringPredicates(StringPredicates.matches("[a-i]+"), "matches [a-i]+");
         printStringPredicates(StringPredicates.matches("\\p{Alnum}+"), "matches Alnum");
         printStringPredicates(StringPredicates.matches("\\p{Blank}+"), "matches Blank");
