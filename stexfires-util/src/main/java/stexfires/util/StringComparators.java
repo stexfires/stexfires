@@ -4,6 +4,9 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 import java.util.function.UnaryOperator;
 
 import static java.util.Comparator.comparing;
@@ -54,6 +57,48 @@ public final class StringComparators {
         Objects.requireNonNull(normalizeFunction);
         Objects.requireNonNull(comparator);
         return comparing(normalizeFunction, comparator);
+    }
+
+    public static Comparator<String> primitiveIntComparator(int nullOrEmptyValue, int notParsableValue) {
+        ToIntFunction<String> extractor = s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        };
+        return Comparator.comparingInt(extractor);
+    }
+
+    public static Comparator<String> primitiveLongComparator(long nullOrEmptyValue, long notParsableValue) {
+        ToLongFunction<String> extractor = s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Long.parseLong(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        };
+        return Comparator.comparingLong(extractor);
+    }
+
+    public static Comparator<String> primitiveDoubleComparator(double nullOrEmptyValue, double notParsableValue) {
+        ToDoubleFunction<String> extractor = s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Double.parseDouble(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        };
+        return Comparator.comparingDouble(extractor);
     }
 
 }

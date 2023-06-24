@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
 public final class ExamplesStringComparators {
 
-    private ExamplesStringComparators() {
-    }
-
     @SuppressWarnings({"StaticCollection", "UnnecessaryUnicodeEscape"})
     private static final List<String> STRING_VALUES = List.of(
             "!",
@@ -54,6 +51,25 @@ public final class ExamplesStringComparators {
             "\u212b",
             "\uD83D\uDE00"
     );
+    @SuppressWarnings("StaticCollection")
+    private static final List<String> STRING_NUMBER_VALUES = List.of(
+            "100",
+            "2",
+            "",
+            "0.002",
+            "-100",
+            "0",
+            "a",
+            "-1",
+            "123456789.123456789",
+            "0.001",
+            "+10000000000",
+            "-10000000000",
+            "10"
+    );
+
+    private ExamplesStringComparators() {
+    }
 
     private static void showStringComparators() {
         System.out.println("-showStringComparators---");
@@ -154,9 +170,29 @@ public final class ExamplesStringComparators {
         }
     }
 
+    private static void showStringNumberComparators() {
+        System.out.println("-showStringNumberComparators---");
+
+        System.out.println("--primitiveIntComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.primitiveIntComparator(Integer.MAX_VALUE, Integer.MAX_VALUE))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--primitiveLongComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.primitiveLongComparator(Long.MAX_VALUE, Long.MAX_VALUE))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--primitiveDoubleComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.primitiveDoubleComparator(Double.MAX_VALUE, Double.MAX_VALUE))
+                            .forEachOrdered(System.out::println);
+    }
+
     public static void main(String... args) {
         showStringComparators();
         showStringCollators();
+        showStringNumberComparators();
     }
 
 }
