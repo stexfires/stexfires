@@ -17,19 +17,19 @@ public final class CodePointRecordHelper {
     public static final int INDEX_PRINTABLE_STRING = 2;
     public static final int INDEX_CHARACTER_COUNT = 3;
     public static final int INDEX_CHARACTER_NAME = 4;
-    public static final int INDEX_IS_DEFINED = 5;
-    public static final int INDEX_IS_VALID_CODE_POINT = 6;
-    public static final int INDEX_IS_MIRRORED = 7;
-    public static final int INDEX_IS_ISO_CONTROL = 8;
-    public static final int INDEX_IS_ALPHABETIC = 9;
-    public static final int INDEX_IS_LETTER = 10;
-    public static final int INDEX_IS_SPACE_CHAR = 11;
-    public static final int INDEX_IS_DIGIT = 12;
-    public static final int INDEX_DIGIT_VALUE = 13;
-    public static final int INDEX_NUMERIC_VALUE = 14;
-    public static final int INDEX_TYPE = 15;
-    public static final int INDEX_BLOCK = 16;
-    public static final int INDEX_DIRECTIONALITY = 17;
+    public static final int INDEX_TYPE = 5;
+    public static final int INDEX_BLOCK = 6;
+    public static final int INDEX_DIRECTIONALITY = 7;
+    public static final int INDEX_IS_DEFINED = 8;
+    public static final int INDEX_IS_VALID_CODE_POINT = 9;
+    public static final int INDEX_IS_MIRRORED = 10;
+    public static final int INDEX_IS_ISO_CONTROL = 11;
+    public static final int INDEX_IS_ALPHABETIC = 12;
+    public static final int INDEX_IS_LETTER = 13;
+    public static final int INDEX_IS_SPACE_CHAR = 14;
+    public static final int INDEX_IS_DIGIT = 15;
+    public static final int INDEX_DIGIT_VALUE = 16;
+    public static final int INDEX_NUMERIC_VALUE = 17;
 
     private CodePointRecordHelper() {
     }
@@ -48,6 +48,9 @@ public final class CodePointRecordHelper {
                 CodePoints.toPrintableString(codePoint, notPrintableValue),
                 String.valueOf(Character.charCount(codePoint)),
                 Character.isValidCodePoint(codePoint) ? Character.getName(codePoint) : unknownValue,
+                CodePoints.typeAsString(codePoint, unknownValue),
+                CodePoints.unicodeBlockAsString(codePoint, unknownValue),
+                CodePoints.directionalityAsString(codePoint, unknownValue),
                 String.valueOf(Character.isDefined(codePoint)),
                 String.valueOf(Character.isValidCodePoint(codePoint)),
                 String.valueOf(Character.isMirrored(codePoint)),
@@ -57,10 +60,7 @@ public final class CodePointRecordHelper {
                 String.valueOf(Character.isSpaceChar(codePoint)),
                 String.valueOf(Character.isDigit(codePoint)),
                 String.valueOf(Character.digit(codePoint, 10)),
-                String.valueOf(Character.getNumericValue(codePoint)),
-                CodePoints.typeAsString(codePoint, unknownValue),
-                CodePoints.unicodeBlockAsString(codePoint, unknownValue),
-                CodePoints.directionalityAsString(codePoint, unknownValue)
+                String.valueOf(Character.getNumericValue(codePoint))
         );
     }
 
