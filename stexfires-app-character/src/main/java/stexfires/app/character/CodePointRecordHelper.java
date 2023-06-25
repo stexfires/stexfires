@@ -59,8 +59,11 @@ public final class CodePointRecordHelper {
                 String.valueOf(Character.isLetter(codePoint)),
                 String.valueOf(Character.isSpaceChar(codePoint)),
                 String.valueOf(Character.isDigit(codePoint)),
-                String.valueOf(Character.digit(codePoint, 10)),
-                String.valueOf(Character.getNumericValue(codePoint))
+                Character.digit(codePoint, 10) == -1 ? unknownValue :
+                        String.valueOf(Character.digit(codePoint, 10)),
+                Character.getNumericValue(codePoint) == -2 ? notPrintableValue :
+                        Character.getNumericValue(codePoint) == -1 ? unknownValue :
+                                String.valueOf(Character.getNumericValue(codePoint))
         );
     }
 
