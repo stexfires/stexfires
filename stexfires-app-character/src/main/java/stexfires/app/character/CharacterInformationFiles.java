@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("SpellCheckingInspection")
 public final class CharacterInformationFiles {
 
-    public static final String MISSING = "-----";
+    public static final String MISSING = "";
     public static final String NOT_PRINTABLE = "-----";
     public static final LineSeparator LINE_SEPARATOR = LineSeparator.CR_LF;
 
@@ -168,7 +168,8 @@ public final class CharacterInformationFiles {
                                     "LETTER_NUMBER",
                                     "OTHER_NUMBER"
                             )),
-                    RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, String::compareTo, SortNulls.FIRST)
+                    RecordComparators.textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
+                                     .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST))
                                      .thenComparing(RecordComparators.recordId(SortNulls.FIRST)),
                     "List of Unicode characters with the following types." + LINE_SEPARATOR
                             + "DECIMAL_DIGIT_NUMBER, LETTER_NUMBER, OTHER_NUMBER" + LINE_SEPARATOR);
@@ -264,7 +265,7 @@ public final class CharacterInformationFiles {
                                     "3",
                                     "13"
                             )),
-                    RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, String::compareTo, SortNulls.FIRST).reversed()
+                    RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_DIRECTIONALITY, String::compareTo, SortNulls.FIRST))
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_BLOCK, String::compareTo, SortNulls.FIRST))
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_TYPE, String::compareTo, SortNulls.FIRST))
