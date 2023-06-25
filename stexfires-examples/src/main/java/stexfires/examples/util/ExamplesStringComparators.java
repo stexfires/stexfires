@@ -4,6 +4,7 @@ import stexfires.util.StringComparators;
 import stexfires.util.function.StringUnaryOperators;
 
 import java.text.Collator;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -170,6 +171,7 @@ public final class ExamplesStringComparators {
         }
     }
 
+    @SuppressWarnings("ReturnOfNull")
     private static void showStringNumberComparators() {
         System.out.println("-showStringNumberComparators---");
 
@@ -186,6 +188,38 @@ public final class ExamplesStringComparators {
         System.out.println("--primitiveDoubleComparator");
         STRING_NUMBER_VALUES.stream()
                             .sorted(StringComparators.primitiveDoubleComparator(Double.MAX_VALUE, Double.MAX_VALUE))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--integerComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.integerComparator(null, Integer.MAX_VALUE, Comparator.nullsFirst(Integer::compare)))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--longComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.longComparator(null, Long.MAX_VALUE, Comparator.nullsFirst(Long::compare)))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--doubleComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.doubleComparator(null, Double.MAX_VALUE, Comparator.nullsFirst(Double::compare)))
+                            .forEachOrdered(System.out::println);
+
+        System.out.println("--extractorComparator");
+        STRING_NUMBER_VALUES.stream()
+                            .sorted(StringComparators.extractorComparator(
+                                    s -> {
+                                        if (s == null || s.isEmpty()) {
+                                            return null;
+                                        }
+                                        try {
+                                            return Long.parseLong(s);
+                                        } catch (NumberFormatException e) {
+                                            return null;
+                                        }
+                                    },
+                                    Comparator.nullsFirst(Long::compare)
+                            ))
                             .forEachOrdered(System.out::println);
     }
 

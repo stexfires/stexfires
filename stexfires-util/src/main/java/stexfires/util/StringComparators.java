@@ -1,9 +1,12 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
@@ -99,6 +102,58 @@ public final class StringComparators {
             }
         };
         return Comparator.comparingDouble(extractor);
+    }
+
+    public static Comparator<String> integerComparator(@Nullable Integer nullOrEmptyValue,
+                                                       @Nullable Integer notParsableValue,
+                                                       Comparator<Integer> keyComparator) {
+        return extractorComparator(s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        }, keyComparator);
+    }
+
+    public static Comparator<String> longComparator(@Nullable Long nullOrEmptyValue,
+                                                    @Nullable Long notParsableValue,
+                                                    Comparator<Long> keyComparator) {
+        return extractorComparator(s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Long.parseLong(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        }, keyComparator);
+    }
+
+    public static Comparator<String> doubleComparator(@Nullable Double nullOrEmptyValue,
+                                                      @Nullable Double notParsableValue,
+                                                      Comparator<Double> keyComparator) {
+        return extractorComparator(s -> {
+            if (s == null || s.isEmpty()) {
+                return nullOrEmptyValue;
+            }
+            try {
+                return Double.parseDouble(s);
+            } catch (NumberFormatException e) {
+                return notParsableValue;
+            }
+        }, keyComparator);
+    }
+
+    public static <T> Comparator<String> extractorComparator(Function<String, T> keyExtractor,
+                                                             Comparator<T> keyComparator) {
+        Objects.requireNonNull(keyExtractor);
+        Objects.requireNonNull(keyComparator);
+        return Comparator.comparing(keyExtractor, keyComparator);
     }
 
 }
