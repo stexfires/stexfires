@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests for {@link BooleanDataTypeFormatter}.
+ */
 class BooleanDataTypeFormatterTest {
 
     private static final String STRING_TRUE = "TRUE";
@@ -12,6 +15,9 @@ class BooleanDataTypeFormatterTest {
 
     private final BooleanDataTypeFormatter formatter = new BooleanDataTypeFormatter(() -> STRING_TRUE, () -> STRING_FALSE, () -> STRING_NULL);
 
+    /**
+     * Test method for {@link BooleanDataTypeFormatter#format(Boolean)}.
+     */
     @Test
     void format() {
         assertEquals(STRING_TRUE, formatter.format(Boolean.TRUE));

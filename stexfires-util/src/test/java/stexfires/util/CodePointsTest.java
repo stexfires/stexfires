@@ -4,9 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests for {@link CodePoints}.
+ */
 @SuppressWarnings("MagicNumber")
 class CodePointsTest {
 
+    /**
+     * Test method for {@link CodePoints#typeAsString(int, String)}.
+     */
     @Test
     void typeAsString() {
         assertEquals("UNASSIGNED", CodePoints.typeAsString(-1, ""));
@@ -35,6 +41,9 @@ class CodePointsTest {
         }
     }
 
+    /**
+     * Test method for {@link CodePoints#directionalityAsString(int, String)}.
+     */
     @Test
     void directionalityAsString() {
         assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(-1, ""));
@@ -59,6 +68,9 @@ class CodePointsTest {
         }
     }
 
+    /**
+     * Test method for {@link CodePoints#unicodeBlockAsString(int, String)}.
+     */
     @Test
     void unicodeBlockAsString() {
         assertEquals("", CodePoints.unicodeBlockAsString(-1, ""));
@@ -73,6 +85,9 @@ class CodePointsTest {
         }
     }
 
+    /**
+     * Test method for {@link CodePoints#toPrintableString(int, String)}.
+     */
     @Test
     void toPrintableString() {
         assertEquals("", CodePoints.toPrintableString(-1, ""));

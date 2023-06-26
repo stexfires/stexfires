@@ -13,6 +13,9 @@ import static stexfires.util.LineSeparator.CR;
 import static stexfires.util.LineSeparator.CR_LF;
 import static stexfires.util.LineSeparator.LF;
 
+/**
+ * Tests for {@link LineSeparator}.
+ */
 @SuppressWarnings("HardcodedLineSeparator")
 class LineSeparatorTest {
 
@@ -20,6 +23,9 @@ class LineSeparatorTest {
     private static final String STRING_CR = "\r";
     private static final String STRING_CR_LF = "\r\n";
 
+    /**
+     * Test method for {@link LineSeparator#name()}.
+     */
     @Test
     void name() {
         assertEquals("LF", LF.name());
@@ -27,6 +33,9 @@ class LineSeparatorTest {
         assertEquals("CR_LF", CR_LF.name());
     }
 
+    /**
+     * Test method for {@link LineSeparator#ordinal()}.
+     */
     @Test
     void ordinal() {
         assertEquals(0, LF.ordinal());
@@ -34,6 +43,9 @@ class LineSeparatorTest {
         assertEquals(2, CR_LF.ordinal());
     }
 
+    /**
+     * Test method for {@link LineSeparator#string()}.
+     */
     @Test
     void string() {
         assertEquals(STRING_LF, LF.string());
@@ -41,6 +53,9 @@ class LineSeparatorTest {
         assertEquals(STRING_CR_LF, CR_LF.string());
     }
 
+    /**
+     * Test method for {@link LineSeparator#string(int)}.
+     */
     @Test
     void string_count() {
         assertEquals("", LF.string(0));
@@ -64,6 +79,9 @@ class LineSeparatorTest {
         assertThrows(IllegalArgumentException.class, () -> CR_LF.string(-1));
     }
 
+    /**
+     * Test method for {@link LineSeparator#length()}.
+     */
     @Test
     void length() {
         assertEquals(1, LF.length());
@@ -71,6 +89,9 @@ class LineSeparatorTest {
         assertEquals(2, CR_LF.length());
     }
 
+    /**
+     * Test method for {@link LineSeparator#supplier()}.
+     */
     @Test
     void supplier() {
         Supplier<String> supplierLF = LF.supplier();
@@ -89,6 +110,9 @@ class LineSeparatorTest {
         assertEquals(STRING_CR_LF, supplierCRLF.get());
     }
 
+    /**
+     * Test method for {@link LineSeparator#stream()}.
+     */
     @Test
     void stream() {
         assertEquals(1, LF.stream().count());
@@ -104,6 +128,9 @@ class LineSeparatorTest {
         assertFalse(CR_LF.stream().isParallel());
     }
 
+    /**
+     * Test method for {@link LineSeparator#chars()}.
+     */
     @Test
     void chars() {
         assertEquals(1, LF.chars().count());
@@ -120,6 +147,9 @@ class LineSeparatorTest {
         assertFalse(CR_LF.chars().isParallel());
     }
 
+    /**
+     * Test method for {@link LineSeparator#codePoints()}.
+     */
     @Test
     void codePoints() {
         assertEquals(1, LF.codePoints().count());
@@ -136,6 +166,9 @@ class LineSeparatorTest {
         assertFalse(CR_LF.codePoints().isParallel());
     }
 
+    /**
+     * Test method for {@link LineSeparator#toString()}.
+     */
     @Test
     void testToString() {
         assertEquals(STRING_LF, LF.toString());
@@ -143,6 +176,9 @@ class LineSeparatorTest {
         assertEquals(STRING_CR_LF, CR_LF.toString());
     }
 
+    /**
+     * Test method for {@link LineSeparator#systemLineSeparator()}.
+     */
     @Test
     void systemLineSeparator() {
         assertEquals(System.lineSeparator(), LineSeparator.systemLineSeparator().string());

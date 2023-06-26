@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests for {@link TextField}.
+ */
 class TextFieldTest {
 
     private static final String TEXT_VALUE = "value";
@@ -22,6 +25,9 @@ class TextFieldTest {
     private final TextField textFieldValueMiddle = new TextField(1, 2, TEXT_VALUE);
     private final TextField textFieldValueLast = new TextField(2, 2, TEXT_VALUE);
 
+    /**
+     * Test method for {@link TextField#isFirstField()}.
+     */
     @Test
     void isFirstField() {
         assertTrue(textFieldValue.isFirstField());
@@ -32,6 +38,9 @@ class TextFieldTest {
         assertFalse(textFieldValueLast.isFirstField());
     }
 
+    /**
+     * Test method for {@link TextField#isLastField()}.
+     */
     @Test
     void isLastField() {
         assertTrue(textFieldValue.isLastField());
@@ -42,6 +51,9 @@ class TextFieldTest {
         assertTrue(textFieldValueLast.isLastField());
     }
 
+    /**
+     * Test method for {@link TextField#recordSize()}.
+     */
     @Test
     void recordSize() {
         assertEquals(1, textFieldValue.recordSize());
@@ -52,6 +64,9 @@ class TextFieldTest {
         assertEquals(3, textFieldValueLast.recordSize());
     }
 
+    /**
+     * Test method for {@link TextField#text()}.
+     */
     @Test
     void text() {
         assertEquals(TEXT_VALUE, textFieldValue.text());
@@ -62,6 +77,9 @@ class TextFieldTest {
         assertEquals(TEXT_VALUE, textFieldValueLast.text());
     }
 
+    /**
+     * Test method for {@link TextField#orElse(String)}.
+     */
     @Test
     void orElse() {
         assertEquals(TEXT_VALUE, textFieldValue.orElse("else"));
@@ -72,6 +90,9 @@ class TextFieldTest {
         assertEquals(TEXT_VALUE, textFieldValueLast.orElse("else"));
     }
 
+    /**
+     * Test method for {@link TextField#asOptional()}.
+     */
     @Test
     void asOptional() {
         assertEquals(Optional.of(TEXT_VALUE), textFieldValue.asOptional());
@@ -82,6 +103,9 @@ class TextFieldTest {
         assertEquals(Optional.of(TEXT_VALUE), textFieldValueLast.asOptional());
     }
 
+    /**
+     * Test method for {@link TextField#isNotNull()}.
+     */
     @Test
     void isNotNull() {
         assertTrue(textFieldValue.isNotNull());
@@ -92,6 +116,9 @@ class TextFieldTest {
         assertTrue(textFieldValueLast.isNotNull());
     }
 
+    /**
+     * Test method for {@link TextField#isNull()}.
+     */
     @Test
     void isNull() {
         assertFalse(textFieldValue.isNull());
@@ -102,6 +129,9 @@ class TextFieldTest {
         assertFalse(textFieldValueLast.isNull());
     }
 
+    /**
+     * Test method for {@link TextField#isEmpty()}.
+     */
     @Test
     void isEmpty() {
         assertFalse(textFieldValue.isEmpty());
@@ -112,6 +142,9 @@ class TextFieldTest {
         assertFalse(textFieldValueLast.isEmpty());
     }
 
+    /**
+     * Test method for {@link TextField#isNullOrEmpty()}.
+     */
     @Test
     void isNullOrEmpty() {
         assertFalse(textFieldValue.isNullOrEmpty());
@@ -122,6 +155,9 @@ class TextFieldTest {
         assertFalse(textFieldValueLast.isNullOrEmpty());
     }
 
+    /**
+     * Test method for {@link TextField#length()}.
+     */
     @Test
     void length() {
         assertEquals(TEXT_VALUE.length(), textFieldValue.length());
@@ -132,6 +168,9 @@ class TextFieldTest {
         assertEquals(TEXT_VALUE.length(), textFieldValueLast.length());
     }
 
+    /**
+     * Test method for {@link TextField#stream()}.
+     */
     @Test
     void stream() {
         assertEquals(1, textFieldValue.stream().count());
@@ -156,6 +195,9 @@ class TextFieldTest {
         assertFalse(textFieldValueLast.stream().isParallel());
     }
 
+    /**
+     * Test method for {@link TextField#index()}.
+     */
     @Test
     void index() {
         assertEquals(0, textFieldValue.index());
@@ -166,6 +208,9 @@ class TextFieldTest {
         assertEquals(2, textFieldValueLast.index());
     }
 
+    /**
+     * Test method for {@link TextField#maxIndex()}.
+     */
     @Test
     void maxIndex() {
         assertEquals(0, textFieldValue.maxIndex());
