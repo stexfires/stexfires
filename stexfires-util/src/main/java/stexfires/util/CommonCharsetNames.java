@@ -1,11 +1,14 @@
 package stexfires.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Enum with common charset names.
@@ -220,6 +223,19 @@ public enum CommonCharsetNames {
             return UTF_16;
         }
         throw new IllegalArgumentException("Charset is not a standard charset! " + standardCharset);
+    }
+
+    /**
+     * Returns the {@code CommonCharsetNames} matching the passed canonical name.
+     *
+     * @param canonicalName Optional canonical name for the lookup. Can be {@code null}.
+     * @return {@code CommonCharsetNames} as {@code Optional} matching the passed canonical name.
+     * @see CommonCharsetNames#canonicalName()
+     */
+    public static Optional<CommonCharsetNames> lookup(@Nullable String canonicalName) {
+        return Arrays.stream(CommonCharsetNames.values())
+                     .filter(commonCharsetNames -> commonCharsetNames.canonicalName().equals(canonicalName))
+                     .findFirst();
     }
 
     /**

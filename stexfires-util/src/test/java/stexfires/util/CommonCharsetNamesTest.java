@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,6 +39,25 @@ class CommonCharsetNamesTest {
         assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("windows-1252")));
 
         assertThrows(NullPointerException.class, () -> CommonCharsetNames.ofStandardCharset(null));
+    }
+
+    /**
+     * Test method for {@link CommonCharsetNames#lookup(String)}.
+     */
+    @Test
+    void lookup() {
+        assertEquals(Optional.of(US_ASCII), CommonCharsetNames.lookup("US-ASCII"));
+        assertEquals(Optional.of(ISO_8859_1), CommonCharsetNames.lookup("ISO-8859-1"));
+        assertEquals(Optional.of(UTF_8), CommonCharsetNames.lookup("UTF-8"));
+        assertEquals(Optional.of(UTF_16BE), CommonCharsetNames.lookup("UTF-16BE"));
+        assertEquals(Optional.of(UTF_16LE), CommonCharsetNames.lookup("UTF-16LE"));
+        assertEquals(Optional.of(UTF_16), CommonCharsetNames.lookup("UTF-16"));
+
+        assertEquals(Optional.of(ISO_8859_15), CommonCharsetNames.lookup("ISO-8859-15"));
+        assertEquals(Optional.of(WINDOWS_1252), CommonCharsetNames.lookup("windows-1252"));
+
+        assertEquals(Optional.empty(), CommonCharsetNames.lookup(null));
+        assertEquals(Optional.empty(), CommonCharsetNames.lookup("unknown"));
     }
 
     /**
