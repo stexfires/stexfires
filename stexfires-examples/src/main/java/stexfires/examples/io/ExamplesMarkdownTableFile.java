@@ -106,7 +106,7 @@ public final class ExamplesMarkdownTableFile {
                 MarkdownTableFileSpec.consumerFileSpec(
                         CharsetCoding.UTF_8_REPORTING,
                         lineSeparator,
-                        lineSeparator.string(2) + "Header second table",
+                        lineSeparator.repeat(2) + "Header second table",
                         "Footer second table",
                         Alignment.START, fieldSpecs2
                 );

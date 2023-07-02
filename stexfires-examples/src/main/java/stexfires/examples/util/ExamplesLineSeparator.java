@@ -12,7 +12,7 @@ public final class ExamplesLineSeparator {
         System.out.println("-showLineSeparator---");
 
         System.out.println("systemLineSeparator: " + LineSeparator.systemLineSeparator().name());
-        System.out.println("string count 3: " + LineSeparator.systemLineSeparator().string(3));
+        System.out.println("repeat count 3: " + LineSeparator.systemLineSeparator().repeat(3));
 
         for (var separator : LineSeparator.values()) {
             System.out.println(separator.name() + " (string())             ? " + separator.string());

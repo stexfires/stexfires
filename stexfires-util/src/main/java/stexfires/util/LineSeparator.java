@@ -30,94 +30,18 @@ public enum LineSeparator {
 
     private final String separator;
 
+    /**
+     * Constructs a {@code LineSeparator} with the specified line separator string.
+     *
+     * @param separator line separator as a {@code String} with one or two characters
+     * @see LineSeparator#string()
+     */
     LineSeparator(String separator) {
         this.separator = separator;
     }
 
     /**
-     * Returns the line separator as a {@code String}.
-     *
-     * @return line separator as a {@code String}
-     */
-    public final String string() {
-        return separator;
-    }
-
-    /**
-     * Returns the line separator as a {@code String} repeated {@code count} times.
-     *
-     * @param count number of times to repeat
-     * @return line separator as a {@code String} repeated {@code count} times
-     * @throws IllegalArgumentException if the {@code count} is negative.
-     * @see String#repeat(int)
-     */
-    public final String string(int count) {
-        return separator.repeat(count);
-    }
-
-    /**
-     * Returns the length of the line separator.
-     *
-     * @return length of the line separator
-     * @see String#length()
-     */
-    public final int length() {
-        return separator.length();
-    }
-
-    /**
-     * Returns the line separator as a {@code Supplier}.
-     *
-     * @return line separator as a {@code Supplier}
-     * @see java.util.function.Supplier
-     */
-    public final Supplier<String> supplier() {
-        return () -> separator;
-    }
-
-    /**
-     * Returns the line separator as a {@code Stream} with a single element.
-     *
-     * @return line separator as a {@code Stream} with a single element
-     * @see java.util.stream.Stream#of(Object)
-     */
-    public final Stream<String> stream() {
-        return Stream.of(separator);
-    }
-
-    /**
-     * Returns the line separator as an {@code IntStream} with the chars.
-     *
-     * @return line separator as an {@code IntStream} with the chars
-     * @see String#chars()
-     */
-    public final IntStream chars() {
-        return separator.chars();
-    }
-
-    /**
-     * Returns the line separator as an {@code IntStream} with the codePoints.
-     *
-     * @return line separator as an {@code IntStream} with the codePoints
-     * @see String#codePoints()
-     */
-    public final IntStream codePoints() {
-        return separator.codePoints();
-    }
-
-    /**
-     * Returns the line separator as a {@code String}.
-     *
-     * @return line separator as a {@code String}
-     * @see stexfires.util.LineSeparator#string()
-     */
-    @Override
-    public final String toString() {
-        return separator;
-    }
-
-    /**
-     * Returns the system line separator.
+     * Returns the system line separator as a {@code LineSeparator}.
      * Default return value is {@code LF}.
      *
      * @return system line separator
@@ -128,6 +52,94 @@ public enum LineSeparator {
                      .filter(lineSeparator -> lineSeparator.string().equals(System.lineSeparator()))
                      .findFirst()
                      .orElse(LF);
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as a {@code String} with one or two characters.
+     *
+     * @return {@code LineSeparator} as a {@code String} with one or two characters
+     */
+    public final String string() {
+        return separator;
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as a {@code String} repeated {@code count} times.
+     *
+     * @param count number of times to repeat
+     * @return {@code LineSeparator} as a {@code String} repeated {@code count} times
+     * @throws IllegalArgumentException if the {@code count} is negative.
+     * @see String#repeat(int)
+     * @see LineSeparator#string()
+     */
+    public final String repeat(int count) {
+        return separator.repeat(count);
+    }
+
+    /**
+     * Returns the {@code String} length.
+     *
+     * @return {@code String} length
+     * @see String#length()
+     * @see LineSeparator#string()
+     */
+    public final int length() {
+        return separator.length();
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as an infinite {@code Supplier<String>}.
+     *
+     * @return {@code LineSeparator} as an infinite {@code Supplier<String>}
+     * @see java.util.function.Supplier
+     * @see LineSeparator#string()
+     */
+    public final Supplier<String> supplier() {
+        return () -> separator;
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as a sequential {@code Stream<String>} with a single element.
+     *
+     * @return {@code LineSeparator} as a sequential {@code Stream<String>} with a single element
+     * @see java.util.stream.Stream#of(Object)
+     * @see LineSeparator#string()
+     */
+    public final Stream<String> stream() {
+        return Stream.of(separator);
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as an {@code IntStream} with the char values of the {@code String}.
+     *
+     * @return {@code LineSeparator} as an {@code IntStream} with the char values of the {@code String}
+     * @see String#chars()
+     * @see LineSeparator#string()
+     */
+    public final IntStream chars() {
+        return separator.chars();
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as an {@code IntStream} with the code points of the {@code String}.
+     *
+     * @return {@code LineSeparator} as an {@code IntStream} with the code points of the {@code String}
+     * @see String#codePoints()
+     * @see LineSeparator#string()
+     */
+    public final IntStream codePoints() {
+        return separator.codePoints();
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as a {@code String} with one or two characters.
+     *
+     * @return {@code LineSeparator} as a {@code String} with one or two characters
+     * @see LineSeparator#string()
+     */
+    @Override
+    public final String toString() {
+        return separator;
     }
 
 }

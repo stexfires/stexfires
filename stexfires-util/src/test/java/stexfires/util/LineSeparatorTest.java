@@ -54,29 +54,29 @@ class LineSeparatorTest {
     }
 
     /**
-     * Test method for {@link LineSeparator#string(int)}.
+     * Test method for {@link LineSeparator#repeat(int)}.
      */
     @Test
-    void string_count() {
-        assertEquals("", LF.string(0));
-        assertEquals("", CR.string(0));
-        assertEquals("", CR_LF.string(0));
+    void repeat() {
+        assertEquals("", LF.repeat(0));
+        assertEquals("", CR.repeat(0));
+        assertEquals("", CR_LF.repeat(0));
 
-        assertEquals(STRING_LF, LF.string(1));
-        assertEquals(STRING_CR, CR.string(1));
-        assertEquals(STRING_CR_LF, CR_LF.string(1));
+        assertEquals(STRING_LF, LF.repeat(1));
+        assertEquals(STRING_CR, CR.repeat(1));
+        assertEquals(STRING_CR_LF, CR_LF.repeat(1));
 
-        assertEquals(STRING_LF + STRING_LF, LF.string(2));
-        assertEquals(STRING_CR + STRING_CR, CR.string(2));
-        assertEquals(STRING_CR_LF + STRING_CR_LF, CR_LF.string(2));
+        assertEquals(STRING_LF + STRING_LF, LF.repeat(2));
+        assertEquals(STRING_CR + STRING_CR, CR.repeat(2));
+        assertEquals(STRING_CR_LF + STRING_CR_LF, CR_LF.repeat(2));
 
-        assertEquals(STRING_LF + STRING_LF + STRING_LF, LF.string(3));
-        assertEquals(STRING_CR + STRING_CR + STRING_CR, CR.string(3));
-        assertEquals(STRING_CR_LF + STRING_CR_LF + STRING_CR_LF, CR_LF.string(3));
+        assertEquals(STRING_LF + STRING_LF + STRING_LF, LF.repeat(3));
+        assertEquals(STRING_CR + STRING_CR + STRING_CR, CR.repeat(3));
+        assertEquals(STRING_CR_LF + STRING_CR_LF + STRING_CR_LF, CR_LF.repeat(3));
 
-        assertThrows(IllegalArgumentException.class, () -> LF.string(-1));
-        assertThrows(IllegalArgumentException.class, () -> CR.string(-1));
-        assertThrows(IllegalArgumentException.class, () -> CR_LF.string(-1));
+        assertThrows(IllegalArgumentException.class, () -> LF.repeat(-1));
+        assertThrows(IllegalArgumentException.class, () -> CR.repeat(-1));
+        assertThrows(IllegalArgumentException.class, () -> CR_LF.repeat(-1));
     }
 
     /**
