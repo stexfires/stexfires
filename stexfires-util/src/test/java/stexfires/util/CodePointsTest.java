@@ -3,6 +3,7 @@ package stexfires.util;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests for {@link CodePoints}.
@@ -74,6 +75,7 @@ class CodePointsTest {
     @Test
     void unicodeBlockAsString() {
         assertEquals("", CodePoints.unicodeBlockAsString(-1, ""));
+        assertNull(CodePoints.unicodeBlockAsString(-1, null));
         assertEquals("", CodePoints.unicodeBlockAsString(Integer.MIN_VALUE, ""));
         assertEquals("", CodePoints.unicodeBlockAsString(Integer.MAX_VALUE, ""));
 
@@ -91,6 +93,7 @@ class CodePointsTest {
     @Test
     void toPrintableString() {
         assertEquals("", CodePoints.toPrintableString(-1, ""));
+        assertNull(CodePoints.toPrintableString(-1, null));
         assertEquals("", CodePoints.toPrintableString(Integer.MIN_VALUE, ""));
         assertEquals("", CodePoints.toPrintableString(Integer.MAX_VALUE, ""));
 

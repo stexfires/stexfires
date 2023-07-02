@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.Character.UnicodeBlock;
 
 /**
@@ -16,8 +18,16 @@ public final class CodePoints {
     private CodePoints() {
     }
 
+    /**
+     * Returns the category or type of the code point as a {@code String}.
+     *
+     * @param codePoint    character (Unicode code point)
+     * @param unknownValue an alternative value for unknown code points. Can be {@code null}.
+     * @return the category or type of the code point as a {@code String}.
+     * @see java.lang.Character#getType(int)
+     */
     public static String typeAsString(int codePoint,
-                                      String unknownValue) {
+                                      @Nullable String unknownValue) {
         return switch (Character.getType(codePoint)) {
             case Character.COMBINING_SPACING_MARK -> "COMBINING_SPACING_MARK";
             case Character.CONNECTOR_PUNCTUATION -> "CONNECTOR_PUNCTUATION";
@@ -53,8 +63,16 @@ public final class CodePoints {
         };
     }
 
+    /**
+     * Returns the directionality of the code point as a {@code String}.
+     *
+     * @param codePoint    character (Unicode code point)
+     * @param unknownValue an alternative value for unknown code points. Can be {@code null}.
+     * @return the directionality of the code point as a {@code String}.
+     * @see java.lang.Character#getDirectionality(int)
+     */
     public static String directionalityAsString(int codePoint,
-                                                String unknownValue) {
+                                                @Nullable String unknownValue) {
         return switch (Character.getDirectionality(codePoint)) {
             case Character.DIRECTIONALITY_UNDEFINED -> "DIRECTIONALITY_UNDEFINED";
             case Character.DIRECTIONALITY_LEFT_TO_RIGHT -> "DIRECTIONALITY_LEFT_TO_RIGHT";
@@ -84,8 +102,16 @@ public final class CodePoints {
         };
     }
 
+    /**
+     * Returns the Unicode block containing the given code point as a {@code String}.
+     *
+     * @param codePoint    character (Unicode code point)
+     * @param unknownValue an alternative value for unknown or invalid code points. Can be {@code null}.
+     * @return the Unicode block containing the given code point as a {@code String}.
+     * @see java.lang.Character.UnicodeBlock#of(int)
+     */
     public static String unicodeBlockAsString(int codePoint,
-                                              String unknownValue) {
+                                              @Nullable String unknownValue) {
         try {
             UnicodeBlock unicodeBlock = UnicodeBlock.of(codePoint);
             return (unicodeBlock == null) ? unknownValue : unicodeBlock.toString();
@@ -94,8 +120,23 @@ public final class CodePoints {
         }
     }
 
+    /**
+     * Returns the String representation of the given code point if it is printable.
+     * <p>
+     * A code point is printable if it is valid and defined and its type is not
+     * {@link Character#UNASSIGNED}, {@link Character#CONTROL}, {@link Character#SURROGATE} or
+     * {@link Character#PRIVATE_USE}.
+     *
+     * @param codePoint         character (Unicode code point)
+     * @param notPrintableValue an alternative value for non-printable code points. Can be {@code null}.
+     * @return the String representation of the given code point if it is printable.
+     * @see java.lang.Character#getType(int)
+     * @see java.lang.Character#isValidCodePoint(int)
+     * @see java.lang.Character#isDefined(int)
+     * @see java.lang.Character#toString(int)
+     */
     public static String toPrintableString(int codePoint,
-                                           String notPrintableValue) {
+                                           @Nullable String notPrintableValue) {
         try {
             int characterType = Character.getType(codePoint);
             return characterType == Character.UNASSIGNED
