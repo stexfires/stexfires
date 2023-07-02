@@ -1,6 +1,12 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -52,6 +58,18 @@ public enum LineSeparator {
                      .filter(lineSeparator -> lineSeparator.string().equals(System.lineSeparator()))
                      .findFirst()
                      .orElse(LF);
+    }
+
+    /**
+     * Returns the {@code LineSeparator} matching the passed {@code String}.
+     *
+     * @param string Optional {@code String} for lookup. Can be {@code null}.
+     * @return {@code LineSeparator} as {@code Optional} matching the passed {@code String}
+     */
+    public static Optional<LineSeparator> lookup(@Nullable String string) {
+        return Arrays.stream(LineSeparator.values())
+                     .filter(lineSeparator -> lineSeparator.string().equals(string))
+                     .findFirst();
     }
 
     /**
@@ -129,6 +147,19 @@ public enum LineSeparator {
      */
     public final IntStream codePoints() {
         return separator.codePoints();
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as a {@code byte[]}.
+     *
+     * @param charset The {@code Charset} to be used to encode the String
+     * @return {@code LineSeparator} as a {@code byte[]}
+     * @see String#getBytes(Charset)
+     * @see LineSeparator#string()
+     */
+    public final byte[] bytes(@NotNull Charset charset) {
+        Objects.requireNonNull(charset);
+        return separator.getBytes(charset);
     }
 
     /**

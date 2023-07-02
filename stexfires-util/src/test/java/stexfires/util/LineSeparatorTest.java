@@ -2,10 +2,12 @@ package stexfires.util;
 
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Supplier;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -167,6 +169,21 @@ class LineSeparatorTest {
     }
 
     /**
+     * Test method for {@link LineSeparator#bytes(java.nio.charset.Charset)}.
+     */
+    @SuppressWarnings("MagicNumber")
+    @Test
+    void bytes() {
+        assertArrayEquals(new byte[]{0x0A}, LF.bytes(StandardCharsets.US_ASCII));
+        assertArrayEquals(new byte[]{0x0D}, CR.bytes(StandardCharsets.US_ASCII));
+        assertArrayEquals(new byte[]{0x0D, 0x0A}, CR_LF.bytes(StandardCharsets.US_ASCII));
+
+        assertArrayEquals(new byte[]{0x0A}, LF.bytes(StandardCharsets.UTF_8));
+        assertArrayEquals(new byte[]{0x0D}, CR.bytes(StandardCharsets.UTF_8));
+        assertArrayEquals(new byte[]{0x0D, 0x0A}, CR_LF.bytes(StandardCharsets.UTF_8));
+    }
+
+    /**
      * Test method for {@link LineSeparator#regex()}.
      */
     @Test
@@ -202,6 +219,18 @@ class LineSeparatorTest {
     @Test
     void systemLineSeparator() {
         assertEquals(System.lineSeparator(), LineSeparator.systemLineSeparator().string());
+    }
+
+    /**
+     * Test method for {@link LineSeparator#lookup(String)}.
+     */
+    @Test
+    void lookup() {
+        assertEquals(Optional.of(LF), LineSeparator.lookup(STRING_LF));
+        assertEquals(Optional.of(CR), LineSeparator.lookup(STRING_CR));
+        assertEquals(Optional.of(CR_LF), LineSeparator.lookup(STRING_CR_LF));
+        assertEquals(Optional.empty(), LineSeparator.lookup(""));
+        assertEquals(Optional.empty(), LineSeparator.lookup(null));
     }
 
 }
