@@ -167,6 +167,26 @@ class LineSeparatorTest {
     }
 
     /**
+     * Test method for {@link LineSeparator#regex()}.
+     */
+    @Test
+    void regex() {
+        assertEquals("\\n", LF.regex());
+        assertEquals("\\r", CR.regex());
+        assertEquals("\\r\\n", CR_LF.regex());
+    }
+
+    /**
+     * Test method for {@link LineSeparator#escapedJavaString()}.
+     */
+    @Test
+    void escapedJavaString() {
+        assertEquals("\\n", LF.escapedJavaString());
+        assertEquals("\\r", CR.escapedJavaString());
+        assertEquals("\\r\\n", CR_LF.escapedJavaString());
+    }
+
+    /**
      * Test method for {@link LineSeparator#toString()}.
      */
     @Test

@@ -132,6 +132,45 @@ public enum LineSeparator {
     }
 
     /**
+     * Returns the {@code LineSeparator} as a regular expression.
+     * <p>
+     * {@code LF} is {@code \n}.
+     * <br>
+     * {@code CR} is {@code \r}.
+     * <br>
+     * {@code CR_LF} is {@code \r\n}.
+     *
+     * @return {@code LineSeparator} as a regular expression
+     * @see java.util.regex.Pattern
+     */
+    public final String regex() {
+        return switch (this) {
+            case LF -> "\\n";
+            case CR -> "\\r";
+            case CR_LF -> "\\r\\n";
+        };
+    }
+
+    /**
+     * Returns the {@code LineSeparator} as an escaped Java string.
+     * <p>
+     * {@code LF} is {@code \n}.
+     * <br>
+     * {@code CR} is {@code \r}.
+     * <br>
+     * {@code CR_LF} is {@code \r\n}.
+     *
+     * @return {@code LineSeparator} as an escaped Java string
+     */
+    public final String escapedJavaString() {
+        return switch (this) {
+            case LF -> "\\n";
+            case CR -> "\\r";
+            case CR_LF -> "\\r\\n";
+        };
+    }
+
+    /**
      * Returns the {@code LineSeparator} as a {@code String} with one or two characters.
      *
      * @return {@code LineSeparator} as a {@code String} with one or two characters
