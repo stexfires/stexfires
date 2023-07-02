@@ -19,6 +19,12 @@ class CodePointsTest {
         assertEquals("UNASSIGNED", CodePoints.typeAsString(-1, ""));
         assertEquals("UNASSIGNED", CodePoints.typeAsString(Integer.MIN_VALUE, ""));
         assertEquals("UNASSIGNED", CodePoints.typeAsString(Integer.MAX_VALUE, ""));
+        assertEquals("CONTROL", CodePoints.typeAsString(CodePoints.MIN_ASCII_CODE_POINT, ""));
+        assertEquals("CONTROL", CodePoints.typeAsString(CodePoints.MAX_ASCII_CODE_POINT, ""));
+        assertEquals("CONTROL", CodePoints.typeAsString(Character.MIN_VALUE, ""));
+        assertEquals("UNASSIGNED", CodePoints.typeAsString(Character.MAX_VALUE, ""));
+        assertEquals("CONTROL", CodePoints.typeAsString(Character.MIN_CODE_POINT, ""));
+        assertEquals("UNASSIGNED", CodePoints.typeAsString(Character.MAX_CODE_POINT, ""));
 
         for (int codePoint = 0; codePoint < 32; codePoint++) {
             assertEquals("CONTROL", CodePoints.typeAsString(codePoint, ""));
@@ -50,6 +56,12 @@ class CodePointsTest {
         assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(-1, ""));
         assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(Integer.MIN_VALUE, ""));
         assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(Integer.MAX_VALUE, ""));
+        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", CodePoints.directionalityAsString(CodePoints.MIN_ASCII_CODE_POINT, ""));
+        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", CodePoints.directionalityAsString(CodePoints.MAX_ASCII_CODE_POINT, ""));
+        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", CodePoints.directionalityAsString(Character.MIN_VALUE, ""));
+        assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(Character.MAX_VALUE, ""));
+        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", CodePoints.directionalityAsString(Character.MIN_CODE_POINT, ""));
+        assertEquals("DIRECTIONALITY_UNDEFINED", CodePoints.directionalityAsString(Character.MAX_CODE_POINT, ""));
 
         assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", CodePoints.directionalityAsString(0, ""));
         assertEquals("DIRECTIONALITY_SEGMENT_SEPARATOR", CodePoints.directionalityAsString(9, ""));
@@ -78,6 +90,12 @@ class CodePointsTest {
         assertNull(CodePoints.unicodeBlockAsString(-1, null));
         assertEquals("", CodePoints.unicodeBlockAsString(Integer.MIN_VALUE, ""));
         assertEquals("", CodePoints.unicodeBlockAsString(Integer.MAX_VALUE, ""));
+        assertEquals("BASIC_LATIN", CodePoints.unicodeBlockAsString(CodePoints.MIN_ASCII_CODE_POINT, ""));
+        assertEquals("BASIC_LATIN", CodePoints.unicodeBlockAsString(CodePoints.MAX_ASCII_CODE_POINT, ""));
+        assertEquals("BASIC_LATIN", CodePoints.unicodeBlockAsString(Character.MIN_VALUE, ""));
+        assertEquals("SPECIALS", CodePoints.unicodeBlockAsString(Character.MAX_VALUE, ""));
+        assertEquals("BASIC_LATIN", CodePoints.unicodeBlockAsString(Character.MIN_CODE_POINT, ""));
+        assertEquals("SUPPLEMENTARY_PRIVATE_USE_AREA_B", CodePoints.unicodeBlockAsString(Character.MAX_CODE_POINT, ""));
 
         for (int codePoint = 0; codePoint < 128; codePoint++) {
             assertEquals("BASIC_LATIN", CodePoints.unicodeBlockAsString(codePoint, ""));
@@ -96,6 +114,12 @@ class CodePointsTest {
         assertNull(CodePoints.toPrintableString(-1, null));
         assertEquals("", CodePoints.toPrintableString(Integer.MIN_VALUE, ""));
         assertEquals("", CodePoints.toPrintableString(Integer.MAX_VALUE, ""));
+        assertEquals("", CodePoints.toPrintableString(CodePoints.MIN_ASCII_CODE_POINT, ""));
+        assertEquals("", CodePoints.toPrintableString(CodePoints.MAX_ASCII_CODE_POINT, ""));
+        assertEquals("", CodePoints.toPrintableString(Character.MIN_VALUE, ""));
+        assertEquals("", CodePoints.toPrintableString(Character.MAX_VALUE, ""));
+        assertEquals("", CodePoints.toPrintableString(Character.MIN_CODE_POINT, ""));
+        assertEquals("", CodePoints.toPrintableString(Character.MAX_CODE_POINT, ""));
 
         for (int codePoint = 0; codePoint < 32; codePoint++) {
             assertEquals("", CodePoints.toPrintableString(codePoint, ""));
