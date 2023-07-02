@@ -39,14 +39,56 @@ public final class Strings {
      * A default delimiter for joining strings: {@code ", "}
      */
     public static final String DEFAULT_DELIMITER = ", ";
+
+    /**
+     * A RegEx pattern for the tab character (code point 9 - CHARACTER TABULATION).
+     * <p>
+     * Pattern: {@code "\t"}
+     *
+     * @see java.util.regex.Pattern
+     */
     public static final String REGEX_TAB = "\\t";
+    /**
+     * A RegEx pattern for different whitespace characters ({@code " \t\n\x0B\f\r"}).
+     * <p>
+     * Pattern: {@code "\s"}
+     *
+     * @see java.util.regex.Pattern
+     */
     public static final String REGEX_WHITESPACE = "\\s";
+    /**
+     * A RegEx pattern for the backslash character (code point 92 - REVERSE SOLIDUS).
+     * <p>
+     * Pattern: {@code "\\"}
+     *
+     * @see java.util.regex.Pattern
+     */
     public static final String REGEX_BACKSLASH = "\\\\";
 
+    /**
+     * An empty string.
+     */
     public static final String EMPTY = "";
+    /**
+     * A string with a single tab character (code point 9 - CHARACTER TABULATION).
+     */
+    public static final String TAB = "\t";
+    /**
+     * A string with a single space character (code point 32 - SPACE).
+     */
     public static final String SPACE = " ";
+    /**
+     * A string with a single backslash character (code point 92 - REVERSE SOLIDUS).
+     */
+    public static final String BACKSLASH = "\\";
 
+    /**
+     * The minimum ASCII code point (0).
+     */
     public static final int MIN_ASCII_CODE_POINT = 0;
+    /**
+     * The maximum ASCII code point (127).
+     */
     public static final int MAX_ASCII_CODE_POINT = 127;
 
     private Strings() {
