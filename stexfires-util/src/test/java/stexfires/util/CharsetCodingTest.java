@@ -278,15 +278,67 @@ class CharsetCodingTest {
     /**
      * Test method for {@link stexfires.util.CharsetCoding#newBufferedReader(java.io.InputStream)}.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     @Test
-    void newBufferedReader() {
+    void newBufferedReader() throws IOException {
+        // original text: US-ASCII
+        assertEqualsNewBufferedReader("abcABD012,.-", "abcABD012,.-", StandardCharsets.US_ASCII, CHARSET_CODING_US_ASCII_IGNORE);
+        assertEqualsNewBufferedReader("abcABD012,.-", "abcABD012,.-", StandardCharsets.US_ASCII, CHARSET_CODING_US_ASCII_REPLACE);
+        assertEqualsNewBufferedReader("abcABD012,.-", "abcABD012,.-", StandardCharsets.US_ASCII, CharsetCoding.UTF_8_IGNORING);
+        assertEqualsNewBufferedReader("abcABD012,.-", "abcABD012,.-", StandardCharsets.US_ASCII, CharsetCoding.UTF_8_REPLACING);
+        assertEqualsNewBufferedReader("abcABD012,.-", "abcABD012,.-", StandardCharsets.US_ASCII, CharsetCoding.UTF_8_REPORTING);
+
+        // original text: UTF-8
+        assertEqualsNewBufferedReader("abcä", "abc", StandardCharsets.UTF_8, CHARSET_CODING_US_ASCII_IGNORE);
+        assertEqualsNewBufferedReader("abcä", "abc" + DECODER_REPLACEMENT_US_ASCII_REPLACE.repeat(2), StandardCharsets.UTF_8, CHARSET_CODING_US_ASCII_REPLACE);
+        assertEqualsNewBufferedReader("abcä", "abcä", StandardCharsets.UTF_8, CharsetCoding.UTF_8_IGNORING);
+        assertEqualsNewBufferedReader("abcä", "abcä", StandardCharsets.UTF_8, CharsetCoding.UTF_8_REPLACING);
+        assertEqualsNewBufferedReader("abcä", "abcä", StandardCharsets.UTF_8, CharsetCoding.UTF_8_REPORTING);
+
+        // original text: ISO-8859-15
+        assertEqualsNewBufferedReader("aä€", "a", CommonCharsetNames.ISO_8859_15.charset(), CHARSET_CODING_US_ASCII_IGNORE);
+        assertEqualsNewBufferedReader("aä€", "a" + DECODER_REPLACEMENT_US_ASCII_REPLACE.repeat(2), CommonCharsetNames.ISO_8859_15.charset(), CHARSET_CODING_US_ASCII_REPLACE);
+        assertEqualsNewBufferedReader("aä€", "a", CommonCharsetNames.ISO_8859_15.charset(), CharsetCoding.UTF_8_IGNORING);
+        assertEqualsNewBufferedReader("aä€", "a" + DECODER_REPLACEMENT_DEFAULT.repeat(1), CommonCharsetNames.ISO_8859_15.charset(), CharsetCoding.UTF_8_REPLACING);
+        assertThrows(MalformedInputException.class, () -> assertEqualsNewBufferedReader("aä€", "aä€", CommonCharsetNames.ISO_8859_15.charset(), CharsetCoding.UTF_8_REPORTING));
+
+    }
+
+    @SuppressWarnings("MethodMayBeStatic")
+    private void assertEqualsNewBufferedReader(String sourceText, String expectedText, Charset sourceCharset, CharsetCoding charsetCoding) throws IOException {
+        try (var reader = charsetCoding.newBufferedReader(new ByteArrayInputStream(sourceText.getBytes(sourceCharset)))) {
+            assertEquals(expectedText, reader.readLine());
+        }
     }
 
     /**
      * Test method for {@link stexfires.util.CharsetCoding#newBufferedWriter(java.io.OutputStream)}.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     @Test
-    void newBufferedWriter() {
+    void newBufferedWriter() throws IOException {
+        // original text: US-ASCII
+        assertEqualsNewBufferedWriter("abcABD012,.-", "abcABD012,.-", CHARSET_CODING_US_ASCII_IGNORE);
+        assertEqualsNewBufferedWriter("abcABD012,.-", "abcABD012,.-", CHARSET_CODING_US_ASCII_REPLACE);
+        assertEqualsNewBufferedWriter("abcABD012,.-", "abcABD012,.-", CharsetCoding.UTF_8_IGNORING);
+        assertEqualsNewBufferedWriter("abcABD012,.-", "abcABD012,.-", CharsetCoding.UTF_8_REPLACING);
+        assertEqualsNewBufferedWriter("abcABD012,.-", "abcABD012,.-", CharsetCoding.UTF_8_REPORTING);
+
+        // original text: UTF-8
+        assertEqualsNewBufferedWriter("abcäß€", "abc", CHARSET_CODING_US_ASCII_IGNORE);
+        assertEqualsNewBufferedWriter("abcäß€", "abc" + ENCODER_REPLACEMENT_US_ASCII_REPLACE.repeat(3), CHARSET_CODING_US_ASCII_REPLACE);
+        assertEqualsNewBufferedWriter("abcäß€", "abcäß€", CharsetCoding.UTF_8_IGNORING);
+        assertEqualsNewBufferedWriter("abcäß€", "abcäß€", CharsetCoding.UTF_8_REPLACING);
+        assertEqualsNewBufferedWriter("abcäß€", "abcäß€", CharsetCoding.UTF_8_REPORTING);
+    }
+
+    @SuppressWarnings("MethodMayBeStatic")
+    private void assertEqualsNewBufferedWriter(String sourceText, String expectedText, CharsetCoding charsetCoding) throws IOException {
+        try (var output = new ByteArrayOutputStream(); var writer = charsetCoding.newBufferedWriter(output)) {
+            writer.write(sourceText);
+            writer.flush();
+            assertEquals(expectedText, output.toString(charsetCoding.charset()));
+        }
     }
 
     /**
