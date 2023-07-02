@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import static stexfires.util.Strings.MAX_ASCII_CODE_POINT;
-import static stexfires.util.Strings.MIN_ASCII_CODE_POINT;
+import static stexfires.util.CodePoints.MAX_ASCII_CODE_POINT;
+import static stexfires.util.CodePoints.MIN_ASCII_CODE_POINT;
 
 /**
  * @see java.lang.String

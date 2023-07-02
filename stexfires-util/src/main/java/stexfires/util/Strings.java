@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * This class consists of {@code static} utility methods
+ * This class consists of {@code static} utility methods and constants
  * for operating on {@code String} objects.
  *
  * @see java.lang.String
@@ -81,15 +81,6 @@ public final class Strings {
      * A string with a single backslash character (code point 92 - REVERSE SOLIDUS).
      */
     public static final String BACKSLASH = "\\";
-
-    /**
-     * The minimum ASCII code point (0).
-     */
-    public static final int MIN_ASCII_CODE_POINT = 0;
-    /**
-     * The maximum ASCII code point (127).
-     */
-    public static final int MAX_ASCII_CODE_POINT = 127;
 
     private Strings() {
     }

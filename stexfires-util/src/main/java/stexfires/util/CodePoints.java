@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.Character.UnicodeBlock;
 
 /**
- * This class consists of {@code static} utility methods
+ * This class consists of {@code static} utility methods and constants
  * for operating on CodePoints.
  *
  * @see java.lang.Character
@@ -14,6 +14,15 @@ import java.lang.Character.UnicodeBlock;
  */
 @SuppressWarnings("SpellCheckingInspection")
 public final class CodePoints {
+
+    /**
+     * The minimum ASCII code point (0).
+     */
+    public static final int MIN_ASCII_CODE_POINT = 0;
+    /**
+     * The maximum ASCII code point (127).
+     */
+    public static final int MAX_ASCII_CODE_POINT = 127;
 
     private CodePoints() {
     }
