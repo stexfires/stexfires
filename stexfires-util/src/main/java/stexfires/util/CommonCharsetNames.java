@@ -183,41 +183,21 @@ public enum CommonCharsetNames {
 
     private final String canonicalName;
 
+    /**
+     * Constructs a {@code CommonCharsetNames} with the specified canonical name.
+     *
+     * @param canonicalName canonical name
+     * @see CommonCharsetNames#canonicalName()
+     */
     CommonCharsetNames(String canonicalName) {
         this.canonicalName = canonicalName;
     }
 
     /**
-     * Returns the canonical name for java.nio API.
+     * A static method to get the {@code CommonCharsetNames} from the {@code StandardCharsets} constants.
      *
-     * @return the canonical name for java.nio API
-     */
-    public final String canonicalName() {
-        return canonicalName;
-    }
-
-    /**
-     * Returns a charset object.
-     *
-     * @return a charset object
-     * @throws UnsupportedCharsetException If no support for the named charset is available
-     *                                     in this instance of the Java virtual machine
-     * @see java.nio.charset.StandardCharsets
-     * @see java.nio.charset.Charset#forName(String)
-     */
-    public final Charset charset() throws UnsupportedCharsetException {
-        return switch (this) {
-            case US_ASCII -> StandardCharsets.US_ASCII;
-            case ISO_8859_1 -> StandardCharsets.ISO_8859_1;
-            case UTF_8 -> StandardCharsets.UTF_8;
-            case UTF_16BE -> StandardCharsets.UTF_16BE;
-            case UTF_16LE -> StandardCharsets.UTF_16LE;
-            case UTF_16 -> StandardCharsets.UTF_16;
-            default -> Charset.forName(canonicalName);
-        };
-    }
-
-    /**
+     * @param standardCharset one of the six known constants from {@code StandardCharsets}. Must not be null.
+     * @throws java.lang.IllegalArgumentException if the {@code Charset} is not one of the six known constants from {@code StandardCharsets}.
      * @see java.nio.charset.StandardCharsets
      */
     public static CommonCharsetNames ofStandardCharset(Charset standardCharset) {
@@ -236,6 +216,37 @@ public enum CommonCharsetNames {
             return UTF_16;
         }
         throw new IllegalArgumentException("Charset is not a standard charset! " + standardCharset);
+    }
+
+    /**
+     * Returns the canonical name of the {@code CommonCharsetNames} which can be used for the java.nio API.
+     *
+     * @return the canonical name
+     */
+    public final String canonicalName() {
+        return canonicalName;
+    }
+
+    /**
+     * Returns a charset object for the {@code CommonCharsetNames}.
+     *
+     * @return a charset object
+     * @throws UnsupportedCharsetException If no support for the named charset is available
+     *                                     in this instance of the Java virtual machine
+     * @see java.nio.charset.Charset
+     * @see java.nio.charset.StandardCharsets
+     * @see java.nio.charset.Charset#forName(String)
+     */
+    public final Charset charset() throws UnsupportedCharsetException {
+        return switch (this) {
+            case US_ASCII -> StandardCharsets.US_ASCII;
+            case ISO_8859_1 -> StandardCharsets.ISO_8859_1;
+            case UTF_8 -> StandardCharsets.UTF_8;
+            case UTF_16BE -> StandardCharsets.UTF_16BE;
+            case UTF_16LE -> StandardCharsets.UTF_16LE;
+            case UTF_16 -> StandardCharsets.UTF_16;
+            default -> Charset.forName(canonicalName);
+        };
     }
 
 }
