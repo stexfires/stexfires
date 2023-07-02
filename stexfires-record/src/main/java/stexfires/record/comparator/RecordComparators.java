@@ -40,7 +40,7 @@ public final class RecordComparators {
                                                                 SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(TextRecord::category, sortNulls.wrappedComparator(comparator));
+        return comparing(TextRecord::category, sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator) {
@@ -52,13 +52,13 @@ public final class RecordComparators {
                                                                 SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(TextRecord::recordId, sortNulls.wrappedComparator(comparator));
+        return comparing(TextRecord::recordId, sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(SortNulls sortNulls) {
         Objects.requireNonNull(sortNulls);
         Comparator<Long> naturalOrderComparator = naturalOrder();
-        return comparing(TextRecord::recordId, sortNulls.wrappedComparator(naturalOrderComparator));
+        return comparing(TextRecord::recordId, sortNulls.wrap(naturalOrderComparator));
     }
 
     public static <T extends TextRecord> Comparator<T> size() {
@@ -71,7 +71,7 @@ public final class RecordComparators {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(fieldFunction, sortNulls.wrappedComparator(comparator));
+        return comparing(fieldFunction, sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> fieldAt(int index,
@@ -96,7 +96,7 @@ public final class RecordComparators {
         Objects.requireNonNull(textFunction);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(textFunction, sortNulls.wrappedComparator(comparator));
+        return comparing(textFunction, sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> textAt(int index,
@@ -150,7 +150,7 @@ public final class RecordComparators {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(recordMessage::createMessage, sortNulls.wrappedComparator(comparator));
+        return comparing(recordMessage::createMessage, sortNulls.wrap(comparator));
     }
 
 }

@@ -41,7 +41,7 @@ public final class FieldComparators {
                                              SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(TextField::text, sortNulls.wrappedComparator(comparator));
+        return comparing(TextField::text, sortNulls.wrap(comparator));
     }
 
     public static Comparator<TextField> isFirstField() {
