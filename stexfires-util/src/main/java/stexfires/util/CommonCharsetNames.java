@@ -1,5 +1,7 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
@@ -198,11 +200,11 @@ public enum CommonCharsetNames {
     /**
      * A static method to get the {@code CommonCharsetNames} from the {@code StandardCharsets} constants.
      *
-     * @param standardCharset one of the six known constants from {@code StandardCharsets}. Must not be null.
+     * @param standardCharset one of the six known constants from {@code StandardCharsets}. Must not be {@code null}.
      * @throws java.lang.IllegalArgumentException if the {@code Charset} is not one of the six known constants from {@code StandardCharsets}.
      * @see java.nio.charset.StandardCharsets
      */
-    public static CommonCharsetNames ofStandardCharset(Charset standardCharset) {
+    public static CommonCharsetNames ofStandardCharset(@NotNull Charset standardCharset) {
         Objects.requireNonNull(standardCharset);
         if (StandardCharsets.US_ASCII.equals(standardCharset)) {
             return US_ASCII;

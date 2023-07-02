@@ -51,14 +51,14 @@ class SortNullsTest {
         assertTrue(FIRST.wrap(String::compareTo).compare(null, "a") < 0);
         assertTrue(FIRST.wrap(String::compareTo).compare("a", null) > 0);
         assertTrue(FIRST.wrap(String::compareTo).compare("a", "b") < 0);
-        assertThrows(IllegalArgumentException.class, () -> FIRST.wrap(null));
+        assertThrows(NullPointerException.class, () -> FIRST.wrap(null));
 
         assertEquals(0, LAST.wrap(String::compareTo).compare(null, null));
         assertEquals(0, LAST.wrap(String::compareTo).compare("a", "a"));
         assertTrue(LAST.wrap(String::compareTo).compare(null, "a") > 0);
         assertTrue(LAST.wrap(String::compareTo).compare("a", null) < 0);
         assertTrue(LAST.wrap(String::compareTo).compare("a", "b") < 0);
-        assertThrows(IllegalArgumentException.class, () -> LAST.wrap(null));
+        assertThrows(NullPointerException.class, () -> LAST.wrap(null));
     }
 
     /**

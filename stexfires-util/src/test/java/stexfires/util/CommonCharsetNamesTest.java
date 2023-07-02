@@ -24,6 +24,7 @@ class CommonCharsetNamesTest {
     /**
      * Test method for {@link CommonCharsetNames#ofStandardCharset(Charset)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void ofStandardCharset() {
         assertEquals(US_ASCII, CommonCharsetNames.ofStandardCharset(StandardCharsets.US_ASCII));
