@@ -12,6 +12,8 @@ import java.util.Objects;
  * Example: {@code Charset c = CommonCharsetNames.WINDOWS_1252.charset();}
  * <p>
  * Source: <a href="https://docs.oracle.com/en/java/javase/18/intl/supported-encodings.html#GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205">supported-encodings</a>
+ * <p>
+ * The ordinal of the enum values can change in future versions.
  *
  * @see java.nio.charset.StandardCharsets
  * @see java.nio.charset.Charset
@@ -219,7 +221,7 @@ public enum CommonCharsetNames {
     }
 
     /**
-     * Returns the canonical name of the {@code CommonCharsetNames} which can be used for the java.nio API.
+     * Returns the canonical name of the {@code CommonCharsetNames} which can be used for the {@code java.nio} API.
      *
      * @return the canonical name
      */
@@ -228,9 +230,9 @@ public enum CommonCharsetNames {
     }
 
     /**
-     * Returns a charset object for the {@code CommonCharsetNames}.
+     * Returns a {@code Charset} object for the {@code CommonCharsetNames}.
      *
-     * @return a charset object
+     * @return a {@code Charset} object
      * @throws UnsupportedCharsetException If no support for the named charset is available
      *                                     in this instance of the Java virtual machine
      * @see java.nio.charset.Charset
