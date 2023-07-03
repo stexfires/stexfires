@@ -120,14 +120,19 @@ public final class ExamplesStringComparators {
                      .sorted(StringComparators.collatorComparator(Locale.GERMAN, Collator.IDENTICAL))
                      .forEachOrdered(System.out::println);
 
-        System.out.println("--collatorComparator normalizedComparator trim compareTo");
+        System.out.println("--normalizedComparator trim compareTo");
         STRING_VALUES.stream()
                      .sorted(StringComparators.normalizedComparator(String::trim, String::compareTo))
                      .forEachOrdered(System.out::println);
 
-        System.out.println("--collatorComparator normalizedComparator NORMALIZE_NFKD compareTo");
+        System.out.println("--normalizedComparator NORMALIZE_NFKD compareTo");
         STRING_VALUES.stream()
                      .sorted(StringComparators.normalizedComparator(StringUnaryOperators.normalizeNFKD(), String::compareTo))
+                     .forEachOrdered(System.out::println);
+
+        System.out.println("--lengthComparator");
+        STRING_VALUES.stream()
+                     .sorted(StringComparators.lengthComparator())
                      .forEachOrdered(System.out::println);
     }
 
