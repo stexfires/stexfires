@@ -2,7 +2,7 @@ package stexfires.app.character;
 
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.util.CodePoints;
+import stexfires.util.CodePoint;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -37,20 +37,21 @@ public final class CodePointRecordHelper {
     public static TextRecord generateCodePointRecord(int codePoint,
                                                      String notPrintableValue,
                                                      String unknownValue) {
+        CodePoint cp = new CodePoint(codePoint);
         return new ManyFieldsRecord(
                 // category
-                CodePoints.typeAsString(codePoint, unknownValue),
+                cp.typeAsString(),
                 // recordId
                 (long) codePoint,
                 // text fields
                 String.valueOf(codePoint),
                 Integer.toHexString(codePoint),
-                CodePoints.toPrintableString(codePoint, notPrintableValue),
+                cp.toPrintableString(notPrintableValue),
                 String.valueOf(Character.charCount(codePoint)),
                 Character.isValidCodePoint(codePoint) ? Character.getName(codePoint) : unknownValue,
-                CodePoints.typeAsString(codePoint, unknownValue),
-                CodePoints.unicodeBlockAsString(codePoint, unknownValue),
-                CodePoints.directionalityAsString(codePoint, unknownValue),
+                cp.typeAsString(),
+                cp.unicodeBlockAsString(unknownValue),
+                cp.directionalityAsString(),
                 String.valueOf(Character.isDefined(codePoint)),
                 String.valueOf(Character.isValidCodePoint(codePoint)),
                 String.valueOf(Character.isMirrored(codePoint)),
