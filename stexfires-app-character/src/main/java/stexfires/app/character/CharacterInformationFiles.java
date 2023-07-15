@@ -53,6 +53,8 @@ public final class CharacterInformationFiles {
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Char", Alignment.START));
 
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Count", Alignment.END));
+        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Digit", 7, Alignment.END));
+        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("NumVal", 10, Alignment.END));
 
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Name", 75, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Type", 30, Alignment.START));
@@ -60,15 +62,12 @@ public final class CharacterInformationFiles {
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Directionality", 45, Alignment.START));
 
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Def?", 7, Alignment.START));
-        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Valid?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Mirror?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("ISO?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Alpha?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Letter?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Space?", 7, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Digit?", 7, Alignment.START));
-        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Digit", 7, Alignment.END));
-        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("NumVal", 10, Alignment.END));
 
         MarkdownTableFileSpec consumerFileSpec = MarkdownTableFileSpec.consumerFileSpec(
                 CharsetCoding.UTF_8_REPORTING,
@@ -266,6 +265,8 @@ public final class CharacterInformationFiles {
                                     "13"
                             )),
                     RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
+                                     .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_CHARACTER_COUNT, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.FIRST))
+                                     .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.FIRST))
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_DIRECTIONALITY, String::compareTo, SortNulls.FIRST))
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_BLOCK, String::compareTo, SortNulls.FIRST))
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_TYPE, String::compareTo, SortNulls.FIRST))

@@ -16,20 +16,19 @@ public final class CodePointRecordHelper {
     public static final int INDEX_HEX_STRING = 1;
     public static final int INDEX_PRINTABLE_STRING = 2;
     public static final int INDEX_CHARACTER_COUNT = 3;
-    public static final int INDEX_CHARACTER_NAME = 4;
-    public static final int INDEX_TYPE = 5;
-    public static final int INDEX_BLOCK = 6;
-    public static final int INDEX_DIRECTIONALITY = 7;
-    public static final int INDEX_IS_DEFINED = 8;
-    public static final int INDEX_IS_VALID_CODE_POINT = 9;
-    public static final int INDEX_IS_MIRRORED = 10;
-    public static final int INDEX_IS_ISO_CONTROL = 11;
-    public static final int INDEX_IS_ALPHABETIC = 12;
-    public static final int INDEX_IS_LETTER = 13;
-    public static final int INDEX_IS_SPACE_CHAR = 14;
-    public static final int INDEX_IS_DIGIT = 15;
-    public static final int INDEX_DECIMAL_DIGIT = 16;
-    public static final int INDEX_NUMERIC_VALUE = 17;
+    public static final int INDEX_DECIMAL_DIGIT = 4;
+    public static final int INDEX_NUMERIC_VALUE = 5;
+    public static final int INDEX_CHARACTER_NAME = 6;
+    public static final int INDEX_TYPE = 7;
+    public static final int INDEX_BLOCK = 8;
+    public static final int INDEX_DIRECTIONALITY = 9;
+    public static final int INDEX_IS_DEFINED = 10;
+    public static final int INDEX_IS_MIRRORED = 11;
+    public static final int INDEX_IS_ISO_CONTROL = 12;
+    public static final int INDEX_IS_ALPHABETIC = 13;
+    public static final int INDEX_IS_LETTER = 14;
+    public static final int INDEX_IS_SPACE_CHAR = 15;
+    public static final int INDEX_IS_DIGIT = 16;
 
     private CodePointRecordHelper() {
     }
@@ -48,20 +47,19 @@ public final class CodePointRecordHelper {
                 cp.hexString(),
                 cp.toPrintableString(notPrintableValue),
                 String.valueOf(cp.charCount()),
+                cp.decimalDigit().map(String::valueOf).orElse(unknownValue),
+                cp.numericValue().map(String::valueOf).orElse(unknownValue),
                 cp.name(),
                 cp.typeAsString(),
                 cp.unicodeBlockAsString(unknownValue),
                 cp.directionalityAsString(),
                 String.valueOf(Character.isDefined(cp.value())),
-                String.valueOf(Character.isValidCodePoint(cp.value())),
                 String.valueOf(Character.isMirrored(cp.value())),
                 String.valueOf(Character.isISOControl(cp.value())),
                 String.valueOf(Character.isAlphabetic(cp.value())),
                 String.valueOf(Character.isLetter(cp.value())),
                 String.valueOf(Character.isSpaceChar(cp.value())),
-                String.valueOf(Character.isDigit(cp.value())),
-                cp.decimalDigit().map(String::valueOf).orElse(unknownValue),
-                cp.numericValue().map(String::valueOf).orElse(unknownValue)
+                String.valueOf(Character.isDigit(cp.value()))
         );
     }
 
