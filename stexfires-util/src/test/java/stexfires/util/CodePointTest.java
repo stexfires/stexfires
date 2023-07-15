@@ -67,6 +67,148 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#name()}.
+     */
+    @Test
+    void name() {
+        assertEquals("NULL", new CodePoint(CodePoint.MIN_ASCII_VALUE).name());
+        assertEquals("DELETE", new CodePoint(CodePoint.MAX_ASCII_VALUE).name());
+        assertEquals("NULL", new CodePoint(CodePoint.MIN_VALUE).name());
+        assertNull(new CodePoint(CodePoint.MAX_VALUE).name());
+
+        assertEquals("SPACE", new CodePoint(32).name());
+        assertEquals("EXCLAMATION MARK", new CodePoint(33).name());
+        assertEquals("DOLLAR SIGN", new CodePoint(36).name());
+        assertEquals("RIGHT PARENTHESIS", new CodePoint(41).name());
+        assertEquals("PLUS SIGN", new CodePoint(43).name());
+
+        for (int codePoint = 65; codePoint < 91; codePoint++) {
+            assertEquals("LATIN CAPITAL LETTER " + (char) codePoint, new CodePoint(codePoint).name());
+        }
+        assertEquals("LEFT SQUARE BRACKET", new CodePoint(91).name());
+        assertEquals("CIRCUMFLEX ACCENT", new CodePoint(94).name());
+        assertEquals("LOW LINE", new CodePoint(95).name());
+        for (int codePoint = 97; codePoint < 123; codePoint++) {
+            assertEquals("LATIN SMALL LETTER " + (char) (codePoint - 97 + 65), new CodePoint(codePoint).name());
+        }
+        assertNull(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).name());
+    }
+
+    /**
+     * Test method for {@link CodePoint#hexString()}.
+     */
+    @Test
+    void hexString() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MIN_VALUE; codePoint++) {
+            assertEquals(Integer.toHexString(codePoint), new CodePoint(codePoint).hexString());
+        }
+
+        assertEquals("0", new CodePoint(CodePoint.MIN_ASCII_VALUE).hexString());
+        assertEquals("7f", new CodePoint(CodePoint.MAX_ASCII_VALUE).hexString());
+        assertEquals("0", new CodePoint(CodePoint.MIN_VALUE).hexString());
+        assertEquals("10ffff", new CodePoint(CodePoint.MAX_VALUE).hexString());
+
+        assertEquals("20", new CodePoint(32).hexString());
+        assertEquals("21", new CodePoint(33).hexString());
+        assertEquals("24", new CodePoint(36).hexString());
+        assertEquals("29", new CodePoint(41).hexString());
+        assertEquals("2b", new CodePoint(43).hexString());
+    }
+
+    /**
+     * Test method for {@link CodePoint#charCount()}.
+     */
+    @Test
+    void charCount() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.charCount(codePoint), new CodePoint(codePoint).charCount());
+        }
+        for (int codePoint = CodePoint.MIN_ASCII_VALUE; codePoint <= CodePoint.MAX_ASCII_VALUE; codePoint++) {
+            assertEquals(1, new CodePoint(codePoint).charCount());
+        }
+        assertEquals(2, new CodePoint(129501).charCount());
+    }
+
+    /**
+     * Test method for {@link CodePoint#decimalDigit()}.
+     */
+    @Test
+    void decimalDigit() {
+        // ASCII DIGITs
+        assertEquals(0, new CodePoint('0').decimalDigit().orElse(-1));
+        assertEquals(1, new CodePoint('1').decimalDigit().orElse(-1));
+        assertEquals(2, new CodePoint('2').decimalDigit().orElse(-1));
+        assertEquals(3, new CodePoint('3').decimalDigit().orElse(-1));
+        assertEquals(4, new CodePoint('4').decimalDigit().orElse(-1));
+        assertEquals(5, new CodePoint('5').decimalDigit().orElse(-1));
+        assertEquals(6, new CodePoint('6').decimalDigit().orElse(-1));
+        assertEquals(7, new CodePoint('7').decimalDigit().orElse(-1));
+        assertEquals(8, new CodePoint('8').decimalDigit().orElse(-1));
+        assertEquals(9, new CodePoint('9').decimalDigit().orElse(-1));
+
+        //ARABIC-INDIC DIGITs
+        assertEquals(0, new CodePoint(1632).decimalDigit().orElse(-1));
+        assertEquals(1, new CodePoint(1633).decimalDigit().orElse(-1));
+        assertEquals(2, new CodePoint(1634).decimalDigit().orElse(-1));
+        assertEquals(3, new CodePoint(1635).decimalDigit().orElse(-1));
+        assertEquals(4, new CodePoint(1636).decimalDigit().orElse(-1));
+        assertEquals(5, new CodePoint(1637).decimalDigit().orElse(-1));
+        assertEquals(6, new CodePoint(1638).decimalDigit().orElse(-1));
+        assertEquals(7, new CodePoint(1639).decimalDigit().orElse(-1));
+        assertEquals(8, new CodePoint(1640).decimalDigit().orElse(-1));
+        assertEquals(9, new CodePoint(1641).decimalDigit().orElse(-1));
+
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint < 48; codePoint++) {
+            assertFalse(new CodePoint(codePoint).decimalDigit().isPresent());
+        }
+        for (int codePoint = 58; codePoint < 1632; codePoint++) {
+            assertFalse(new CodePoint(codePoint).decimalDigit().isPresent());
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#numericValue()}.
+     */
+    @SuppressWarnings("CharUsedInArithmeticContext")
+    @Test
+    void numericValue() {
+        assertEquals(0, new CodePoint('0').numericValue().orElse(-1));
+        assertEquals(1, new CodePoint('1').numericValue().orElse(-1));
+        assertEquals(2, new CodePoint('2').numericValue().orElse(-1));
+        assertEquals(3, new CodePoint('3').numericValue().orElse(-1));
+        assertEquals(4, new CodePoint('4').numericValue().orElse(-1));
+        assertEquals(5, new CodePoint('5').numericValue().orElse(-1));
+        assertEquals(6, new CodePoint('6').numericValue().orElse(-1));
+        assertEquals(7, new CodePoint('7').numericValue().orElse(-1));
+        assertEquals(8, new CodePoint('8').numericValue().orElse(-1));
+        assertEquals(9, new CodePoint('9').numericValue().orElse(-1));
+
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint < 48; codePoint++) {
+            assertFalse(new CodePoint(codePoint).numericValue().isPresent());
+        }
+        for (int codePoint = 'A'; codePoint <= 'Z'; codePoint++) {
+            assertEquals(codePoint - 'A' + 10, new CodePoint(codePoint).numericValue().orElse(-1));
+        }
+        for (int codePoint = 'a'; codePoint <= 'z'; codePoint++) {
+            assertEquals(codePoint - 'a' + 10, new CodePoint(codePoint).numericValue().orElse(-1));
+        }
+        for (int codePoint = 'z' + 1; codePoint <= CodePoint.MAX_ASCII_VALUE; codePoint++) {
+            assertFalse(new CodePoint(codePoint).numericValue().isPresent());
+        }
+
+        // ROMAN NUMERAL
+        assertEquals(2, new CodePoint(8545).numericValue().orElse(-1));
+        assertEquals(3, new CodePoint(8562).numericValue().orElse(-1));
+        assertEquals(50, new CodePoint(8556).numericValue().orElse(-1));
+
+        // Large Numbers
+        assertEquals(1000000, new CodePoint(93022).numericValue().orElse(-1));
+        assertEquals(10000000, new CodePoint(126113).numericValue().orElse(-1));
+        assertEquals(20000000, new CodePoint(126114).numericValue().orElse(-1));
+        assertEquals(100000000, new CodePoint(93023).numericValue().orElse(-1));
+    }
+
+    /**
      * Test method for {@link CodePoint#type()}.
      */
     @Test

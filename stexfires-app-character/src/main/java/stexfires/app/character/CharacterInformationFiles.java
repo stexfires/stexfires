@@ -168,7 +168,7 @@ public final class CharacterInformationFiles {
                                     "LETTER_NUMBER",
                                     "OTHER_NUMBER"
                             )),
-                    RecordComparators.textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
+                    RecordComparators.textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
                                      .thenComparing(RecordComparators.textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE, StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST))
                                      .thenComparing(RecordComparators.recordId(SortNulls.FIRST)),
                     "List of Unicode characters with the following types." + LINE_SEPARATOR

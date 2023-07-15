@@ -3,6 +3,7 @@ package stexfires.util;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.Character.UnicodeBlock;
+import java.util.Optional;
 
 /**
  * The record represents a Unicode code point.
@@ -58,6 +59,61 @@ public record CodePoint(int value) {
     public boolean isASCII() {
         // compare with MAX_ASCII_VALUE first because the comparison with MIN_ASCII_VALUE should always be true
         return value <= MAX_ASCII_VALUE && value >= MIN_ASCII_VALUE;
+    }
+
+    /**
+     * Returns the name of the code point,
+     * or null if the code point is unassigned.
+     *
+     * @return the name of the code point, or null if the code point is unassigned.
+     * @see java.lang.Character#getName(int)
+     */
+    public @Nullable String name() {
+        return Character.getName(value);
+    }
+
+    /**
+     * Returns the value of the code point as a hex {@code String}.
+     *
+     * @return the value of the code point as a hex {@code String}.
+     * @see java.lang.Integer#toHexString(int)
+     */
+    public String hexString() {
+        return Integer.toHexString(value);
+    }
+
+    /**
+     * Determines the number of char values needed to represent the code point.
+     *
+     * @return the number of char values needed to represent the code point.
+     * @see java.lang.Character#charCount(int)
+     */
+    public int charCount() {
+        return Character.charCount(value);
+    }
+
+    /**
+     * Returns the numeric value of the code point as an {@code Optional<Integer>},
+     * if it is a decimal digit character.
+     *
+     * @return the numeric value of the code point as an {@code Optional<Integer>}, if it is a decimal digit character.
+     * @see java.lang.Character#digit(int, int)
+     */
+    public Optional<Integer> decimalDigit() {
+        int digit = Character.digit(value, 10);
+        return digit < 0 ? Optional.empty() : Optional.of(digit);
+    }
+
+    /**
+     * Returns the numeric value of the code point as an {@code Optional<Integer>},
+     * if it has a non-negative numeric value.
+     *
+     * @return the numeric value of the code point as an {@code Optional<Integer>}, if it has a non-negative numeric value.
+     * @see java.lang.Character#getNumericValue(int)
+     */
+    public Optional<Integer> numericValue() {
+        int numericValue = Character.getNumericValue(value);
+        return numericValue < 0 ? Optional.empty() : Optional.of(numericValue);
     }
 
     /**

@@ -28,7 +28,7 @@ public final class CodePointRecordHelper {
     public static final int INDEX_IS_LETTER = 13;
     public static final int INDEX_IS_SPACE_CHAR = 14;
     public static final int INDEX_IS_DIGIT = 15;
-    public static final int INDEX_DIGIT_VALUE = 16;
+    public static final int INDEX_DECIMAL_DIGIT = 16;
     public static final int INDEX_NUMERIC_VALUE = 17;
 
     private CodePointRecordHelper() {
@@ -42,29 +42,26 @@ public final class CodePointRecordHelper {
                 // category
                 cp.typeAsString(),
                 // recordId
-                (long) codePoint,
+                (long) cp.value(),
                 // text fields
-                String.valueOf(codePoint),
-                Integer.toHexString(codePoint),
+                String.valueOf(cp.value()),
+                cp.hexString(),
                 cp.toPrintableString(notPrintableValue),
-                String.valueOf(Character.charCount(codePoint)),
-                Character.isValidCodePoint(codePoint) ? Character.getName(codePoint) : unknownValue,
+                String.valueOf(cp.charCount()),
+                cp.name(),
                 cp.typeAsString(),
                 cp.unicodeBlockAsString(unknownValue),
                 cp.directionalityAsString(),
-                String.valueOf(Character.isDefined(codePoint)),
-                String.valueOf(Character.isValidCodePoint(codePoint)),
-                String.valueOf(Character.isMirrored(codePoint)),
-                String.valueOf(Character.isISOControl(codePoint)),
-                String.valueOf(Character.isAlphabetic(codePoint)),
-                String.valueOf(Character.isLetter(codePoint)),
-                String.valueOf(Character.isSpaceChar(codePoint)),
-                String.valueOf(Character.isDigit(codePoint)),
-                Character.digit(codePoint, 10) == -1 ? unknownValue :
-                        String.valueOf(Character.digit(codePoint, 10)),
-                Character.getNumericValue(codePoint) == -2 ? notPrintableValue :
-                        Character.getNumericValue(codePoint) == -1 ? unknownValue :
-                                String.valueOf(Character.getNumericValue(codePoint))
+                String.valueOf(Character.isDefined(cp.value())),
+                String.valueOf(Character.isValidCodePoint(cp.value())),
+                String.valueOf(Character.isMirrored(cp.value())),
+                String.valueOf(Character.isISOControl(cp.value())),
+                String.valueOf(Character.isAlphabetic(cp.value())),
+                String.valueOf(Character.isLetter(cp.value())),
+                String.valueOf(Character.isSpaceChar(cp.value())),
+                String.valueOf(Character.isDigit(cp.value())),
+                cp.decimalDigit().map(String::valueOf).orElse(unknownValue),
+                cp.numericValue().map(String::valueOf).orElse(unknownValue)
         );
     }
 

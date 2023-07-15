@@ -5,11 +5,12 @@ import stexfires.record.TextRecords;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link CodePointRecordHelper}.
  */
-@SuppressWarnings({"MagicNumber", "SpellCheckingInspection"})
+@SuppressWarnings({"MagicNumber"})
 class CodePointRecordHelperTest {
 
     /**
@@ -18,30 +19,7 @@ class CodePointRecordHelperTest {
     @Test
     void generateCodePointRecord_negative() {
         int codePoint = -1;
-        assertEquals("UNASSIGNED", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").category());
-        assertEquals(codePoint, CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").recordId());
-        assertEquals(18, CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").size());
-        assertEquals("-1", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_CODE_POINT));
-        assertEquals("ffffffff", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_HEX_STRING));
-        assertEquals("----", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_PRINTABLE_STRING));
-        assertEquals("1", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_CHARACTER_COUNT));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_CHARACTER_NAME));
-        assertEquals("UNASSIGNED", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_TYPE));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_BLOCK));
-        assertEquals("DIRECTIONALITY_UNDEFINED", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIRECTIONALITY));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DEFINED));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_VALID_CODE_POINT));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_MIRRORED));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_ISO_CONTROL));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_ALPHABETIC));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_LETTER));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_SPACE_CHAR));
-        assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DIGIT));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE));
-
-        assertNull(CodePointRecordHelper.generateCodePointRecord(codePoint, "----", null).textAt(CodePointRecordHelper.INDEX_CHARACTER_NAME));
-        assertNull(CodePointRecordHelper.generateCodePointRecord(codePoint, "----", null).textAt(CodePointRecordHelper.INDEX_BLOCK));
+        assertThrows(IllegalArgumentException.class, () -> CodePointRecordHelper.generateCodePointRecord(codePoint, "----", ""));
     }
 
     /**
@@ -69,7 +47,7 @@ class CodePointRecordHelperTest {
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_LETTER));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_SPACE_CHAR));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DIGIT));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE));
+        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT));
         assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE));
 
         assertNull(CodePointRecordHelper.generateCodePointRecord(codePoint, null, "").textAt(CodePointRecordHelper.INDEX_PRINTABLE_STRING));
@@ -100,7 +78,7 @@ class CodePointRecordHelperTest {
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_LETTER));
         assertEquals("true", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_SPACE_CHAR));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DIGIT));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE));
+        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT));
         assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE));
     }
 
@@ -129,7 +107,7 @@ class CodePointRecordHelperTest {
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_LETTER));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_SPACE_CHAR));
         assertEquals("true", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DIGIT));
-        assertEquals("7", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE));
+        assertEquals("7", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT));
         assertEquals("7", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE));
     }
 
@@ -158,7 +136,7 @@ class CodePointRecordHelperTest {
         assertEquals("true", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_LETTER));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_SPACE_CHAR));
         assertEquals("false", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_IS_DIGIT));
-        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DIGIT_VALUE));
+        assertEquals("", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_DECIMAL_DIGIT));
         assertEquals("10", CodePointRecordHelper.generateCodePointRecord(codePoint, "----", "").textAt(CodePointRecordHelper.INDEX_NUMERIC_VALUE));
     }
 
