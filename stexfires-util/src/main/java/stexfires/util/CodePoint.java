@@ -1,8 +1,10 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.Character.UnicodeBlock;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -50,15 +52,26 @@ public record CodePoint(int value) {
     }
 
     /**
-     * Determines whether the code point is in the ASCII range.
+     * Returns the code point specified by the given character name.
      *
-     * @return {@code true} if the code point is in the ASCII range.
-     * @see CodePoint#MIN_ASCII_VALUE
-     * @see CodePoint#MAX_ASCII_VALUE
+     * @param name the character name
+     * @return the code point specified by the given character name.
+     * @throws java.lang.IllegalArgumentException if the specified name is not a valid character name
+     * @see java.lang.Character#codePointOf(java.lang.String)
      */
-    public boolean isASCII() {
-        // compare with MAX_ASCII_VALUE first because the comparison with MIN_ASCII_VALUE should always be true
-        return value <= MAX_ASCII_VALUE && value >= MIN_ASCII_VALUE;
+    public static CodePoint ofName(@NotNull String name) {
+        Objects.requireNonNull(name);
+        return new CodePoint(Character.codePointOf(name));
+    }
+
+    /**
+     * Returns the code point for the given {@code char}.
+     *
+     * @param character the {@code char}
+     * @return the code point for the given {@code char}.
+     */
+    public static CodePoint ofChar(char character) {
+        return new CodePoint(character);
     }
 
     /**
@@ -73,6 +86,42 @@ public record CodePoint(int value) {
     }
 
     /**
+     * Returns a String object representing this code point.
+     *
+     * @return a String object representing this code point.
+     * @see java.lang.Character#toString(int)
+     */
+    public String string() {
+        return Character.toString(value);
+    }
+
+    /**
+     * Returns the String representation of the given code point if it is printable.
+     * <p>
+     * A code point is printable if its type is not {@link Character#UNASSIGNED}, {@link Character#CONTROL},
+     * {@link Character#SURROGATE} or {@link Character#PRIVATE_USE}.
+     *
+     * @param notPrintableValue an alternative value for non-printable code points. Can be {@code null}.
+     * @return the String representation of the given code point if it is printable. Can be {@code null}.
+     * @see java.lang.Character#getType(int)
+     * @see java.lang.Character#toString(int)
+     */
+    public @Nullable String printableString(@Nullable String notPrintableValue) {
+        try {
+            int characterType = Character.getType(value);
+            return characterType == Character.UNASSIGNED
+                    || characterType == Character.CONTROL
+                    || characterType == Character.SURROGATE
+                    || characterType == Character.PRIVATE_USE
+                    ? notPrintableValue
+                    : Character.toString(value);
+        } catch (IllegalArgumentException e) {
+            // Should not happen
+            return notPrintableValue;
+        }
+    }
+
+    /**
      * Returns the value of the code point as a hex {@code String}.
      *
      * @return the value of the code point as a hex {@code String}.
@@ -80,6 +129,18 @@ public record CodePoint(int value) {
      */
     public String hexString() {
         return Integer.toHexString(value);
+    }
+
+    /**
+     * Determines whether the code point is in the ASCII range.
+     *
+     * @return {@code true} if the code point is in the ASCII range.
+     * @see CodePoint#MIN_ASCII_VALUE
+     * @see CodePoint#MAX_ASCII_VALUE
+     */
+    public boolean isASCII() {
+        // compare with MAX_ASCII_VALUE first because the comparison with MIN_ASCII_VALUE should always be true
+        return value <= MAX_ASCII_VALUE && value >= MIN_ASCII_VALUE;
     }
 
     /**
@@ -272,32 +333,6 @@ public record CodePoint(int value) {
         } catch (IllegalArgumentException e) {
             // Should not happen
             return unknownValue;
-        }
-    }
-
-    /**
-     * Returns the String representation of the given code point if it is printable.
-     * <p>
-     * A code point is printable if its type is not {@link Character#UNASSIGNED}, {@link Character#CONTROL},
-     * {@link Character#SURROGATE} or {@link Character#PRIVATE_USE}.
-     *
-     * @param notPrintableValue an alternative value for non-printable code points. Can be {@code null}.
-     * @return the String representation of the given code point if it is printable. Can be {@code null}.
-     * @see java.lang.Character#getType(int)
-     * @see java.lang.Character#toString(int)
-     */
-    public @Nullable String toPrintableString(@Nullable String notPrintableValue) {
-        try {
-            int characterType = Character.getType(value);
-            return characterType == Character.UNASSIGNED
-                    || characterType == Character.CONTROL
-                    || characterType == Character.SURROGATE
-                    || characterType == Character.PRIVATE_USE
-                    ? notPrintableValue
-                    : Character.toString(value);
-        } catch (IllegalArgumentException e) {
-            // Should not happen
-            return notPrintableValue;
         }
     }
 

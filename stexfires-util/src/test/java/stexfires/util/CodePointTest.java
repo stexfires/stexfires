@@ -52,18 +52,32 @@ class CodePointTest {
     }
 
     /**
-     * Test method for {@link CodePoint#isASCII()}.
+     * Test method for {@link CodePoint#ofName(String)}.
      */
-    @SuppressWarnings("ConstantValue")
+    @SuppressWarnings("DataFlowIssue")
     @Test
-    void isASCII() {
+    void ofName() {
+        assertThrows(NullPointerException.class, () -> CodePoint.ofName(null));
+        assertThrows(IllegalArgumentException.class, () -> CodePoint.ofName(""));
+        assertThrows(IllegalArgumentException.class, () -> CodePoint.ofName("test"));
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
-            if (codePoint >= CodePoint.MIN_ASCII_VALUE && codePoint <= CodePoint.MAX_ASCII_VALUE) {
-                assertTrue(new CodePoint(codePoint).isASCII());
-            } else {
-                assertFalse(new CodePoint(codePoint).isASCII());
+            if (Character.isDefined(codePoint)) {
+                assertEquals(new CodePoint(codePoint), CodePoint.ofName(Character.getName(codePoint)));
+                assertEquals(new CodePoint(codePoint), CodePoint.ofName(Character.getName(codePoint).toUpperCase()));
+                assertEquals(new CodePoint(codePoint), CodePoint.ofName(Character.getName(codePoint).toLowerCase()));
             }
         }
+    }
+
+    /**
+     * Test method for {@link CodePoint#ofChar(char)}.
+     */
+    @Test
+    void ofChar() {
+        for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
+            assertEquals(ch, CodePoint.ofChar(ch).value());
+        }
+        assertEquals(Character.MAX_VALUE, CodePoint.ofChar(Character.MAX_VALUE).value());
     }
 
     /**
@@ -95,6 +109,70 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#string()}.
+     */
+    @SuppressWarnings("HardcodedLineSeparator")
+    @Test
+    void string() {
+        assertEquals("\t", new CodePoint(9).string());
+        assertEquals("\n", new CodePoint(10).string());
+        assertEquals("\r", new CodePoint(13).string());
+        assertEquals(" ", new CodePoint(32).string());
+        assertEquals("!", new CodePoint(33).string());
+        assertEquals("A", new CodePoint(65).string());
+        assertEquals("0", new CodePoint(48).string());
+        assertEquals("a", new CodePoint(97).string());
+        assertEquals("€", new CodePoint(8364).string());
+        assertEquals("𐀀", new CodePoint(65536).string());
+        assertEquals("🀀", new CodePoint(126976).string());
+        assertEquals("🏿", new CodePoint(127999).string());
+
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            String characterString = new CodePoint(codePoint).string();
+            assertNotNull(characterString);
+            assertEquals(Character.charCount(codePoint), characterString.length());
+            assertEquals(Character.toString(codePoint), characterString);
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#printableString(String)}.
+     */
+    @Test
+    void printableString() {
+        assertEquals(" ", new CodePoint(32).printableString("not printable"));
+        assertEquals("!", new CodePoint(33).printableString("not printable"));
+        assertEquals("A", new CodePoint(65).printableString("not printable"));
+        assertEquals("0", new CodePoint(48).printableString("not printable"));
+        assertEquals("a", new CodePoint(97).printableString("not printable"));
+        assertEquals("€", new CodePoint(8364).printableString("not printable"));
+        assertEquals("𐀀", new CodePoint(65536).printableString("not printable"));
+        assertEquals("🀀", new CodePoint(126976).printableString("not printable"));
+        assertEquals("🏿", new CodePoint(127999).printableString("not printable"));
+
+        assertEquals("not printable", new CodePoint(CodePoint.MIN_ASCII_VALUE).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(CodePoint.MAX_ASCII_VALUE).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(CodePoint.MIN_VALUE).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(CodePoint.MAX_VALUE).printableString("not printable"));
+        for (int codePoint = 0; codePoint < 32; codePoint++) {
+            assertEquals("not printable", new CodePoint(codePoint).printableString("not printable"));
+        }
+        assertEquals("not printable", new CodePoint(888).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(42975).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(55317).printableString("not printable"));
+        assertEquals("not printable", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).printableString("not printable"));
+
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            String printableString = new CodePoint(codePoint).printableString("not printable");
+            if (!"not printable".equals(printableString)) {
+                assertNotNull(printableString);
+                assertEquals(Character.charCount(codePoint), printableString.length());
+                assertEquals(Character.toString(codePoint), printableString);
+            }
+        }
+    }
+
+    /**
      * Test method for {@link CodePoint#hexString()}.
      */
     @Test
@@ -113,6 +191,21 @@ class CodePointTest {
         assertEquals("24", new CodePoint(36).hexString());
         assertEquals("29", new CodePoint(41).hexString());
         assertEquals("2b", new CodePoint(43).hexString());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isASCII()}.
+     */
+    @SuppressWarnings("ConstantValue")
+    @Test
+    void isASCII() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            if (codePoint >= CodePoint.MIN_ASCII_VALUE && codePoint <= CodePoint.MAX_ASCII_VALUE) {
+                assertTrue(new CodePoint(codePoint).isASCII());
+            } else {
+                assertFalse(new CodePoint(codePoint).isASCII());
+            }
+        }
     }
 
     /**
@@ -349,28 +442,6 @@ class CodePointTest {
         assertEquals("", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString(""));
         assertEquals("unknown", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString("unknown"));
         assertNull(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString(null));
-    }
-
-    /**
-     * Test method for {@link CodePoint#toPrintableString(String)}.
-     */
-    @Test
-    void toPrintableString() {
-        assertEquals("not printable", new CodePoint(CodePoint.MIN_ASCII_VALUE).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MAX_ASCII_VALUE).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MIN_VALUE).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MAX_VALUE).toPrintableString("not printable"));
-
-        for (int codePoint = 0; codePoint < 32; codePoint++) {
-            assertEquals("not printable", new CodePoint(codePoint).toPrintableString("not printable"));
-        }
-        assertEquals(" ", new CodePoint(32).toPrintableString("not printable"));
-        assertEquals("A", new CodePoint(65).toPrintableString("not printable"));
-        assertEquals("a", new CodePoint(97).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(888).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(42975).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(55317).toPrintableString("not printable"));
-        assertEquals("not printable", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).toPrintableString("not printable"));
     }
 
 }
