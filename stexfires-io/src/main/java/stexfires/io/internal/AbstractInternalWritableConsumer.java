@@ -20,7 +20,8 @@ import static stexfires.io.internal.WritableConsumerState.WRITE_RECORDS;
  * @since 0.1
  */
 @SuppressWarnings("resource")
-public abstract class AbstractInternalWritableConsumer<T extends TextRecord> extends AbstractWritableConsumer<T> {
+public abstract sealed class AbstractInternalWritableConsumer<T extends TextRecord> extends AbstractWritableConsumer<T>
+        permits stexfires.io.config.ConfigConsumer, stexfires.io.delimited.simple.SimpleDelimitedConsumer, stexfires.io.fixedwidth.FixedWidthConsumer, stexfires.io.html.table.HtmlTableConsumer, stexfires.io.markdown.list.MarkdownListConsumer, stexfires.io.markdown.table.MarkdownTableConsumer, stexfires.io.message.RecordMessageConsumer, stexfires.io.properties.PropertiesConsumer, stexfires.io.singlevalue.SingleValueConsumer {
 
     private WritableConsumerState state;
 
