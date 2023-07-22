@@ -21,14 +21,15 @@ public final class CodePointRecordHelper {
     public static final int INDEX_CHARACTER_NAME = 6;
     public static final int INDEX_TYPE = 7;
     public static final int INDEX_BLOCK = 8;
-    public static final int INDEX_DIRECTIONALITY = 9;
-    public static final int INDEX_IS_DEFINED = 10;
-    public static final int INDEX_IS_MIRRORED = 11;
-    public static final int INDEX_IS_ISO_CONTROL = 12;
-    public static final int INDEX_IS_ALPHABETIC = 13;
-    public static final int INDEX_IS_LETTER = 14;
-    public static final int INDEX_IS_SPACE_CHAR = 15;
-    public static final int INDEX_IS_DIGIT = 16;
+    public static final int INDEX_SCRIPT = 9;
+    public static final int INDEX_DIRECTIONALITY = 10;
+    public static final int INDEX_IS_DEFINED = 11;
+    public static final int INDEX_IS_MIRRORED = 12;
+    public static final int INDEX_IS_ISO_CONTROL = 13;
+    public static final int INDEX_IS_ALPHABETIC = 14;
+    public static final int INDEX_IS_LETTER = 15;
+    public static final int INDEX_IS_SPACE_CHAR = 16;
+    public static final int INDEX_IS_DIGIT = 17;
 
     private CodePointRecordHelper() {
     }
@@ -39,20 +40,21 @@ public final class CodePointRecordHelper {
         CodePoint cp = new CodePoint(codePoint);
         return new ManyFieldsRecord(
                 // category
-                cp.typeAsString(),
+                cp.type().name(),
                 // recordId
                 (long) cp.value(),
                 // text fields
                 String.valueOf(cp.value()),
                 cp.hexString(),
-                cp.toPrintableString(notPrintableValue),
+                cp.printableString().orElse(notPrintableValue),
                 String.valueOf(cp.charCount()),
                 cp.decimalDigit().map(String::valueOf).orElse(unknownValue),
                 cp.numericValue().map(String::valueOf).orElse(unknownValue),
-                cp.name(),
-                cp.typeAsString(),
-                cp.unicodeBlockAsString(unknownValue),
-                cp.directionalityAsString(),
+                cp.name().orElse(unknownValue),
+                cp.type().name(),
+                cp.unicodeBlock().map(Character.UnicodeBlock::toString).orElse(unknownValue),
+                cp.unicodeScript().name(),
+                cp.directionality().name(),
                 String.valueOf(Character.isDefined(cp.value())),
                 String.valueOf(Character.isMirrored(cp.value())),
                 String.valueOf(Character.isISOControl(cp.value())),

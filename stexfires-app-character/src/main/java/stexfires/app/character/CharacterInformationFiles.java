@@ -59,6 +59,7 @@ public final class CharacterInformationFiles {
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Name", 75, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Type", 30, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Block", 45, Alignment.START));
+        fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Script", 24, Alignment.START));
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Directionality", 45, Alignment.START));
 
         fieldSpecsConsumer.add(new MarkdownTableFieldSpec("Def?", 7, Alignment.START));

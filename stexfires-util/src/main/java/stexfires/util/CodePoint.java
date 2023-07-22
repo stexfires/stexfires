@@ -1,9 +1,9 @@
 package stexfires.util;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.Character.UnicodeBlock;
+import java.lang.Character.UnicodeScript;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -75,14 +75,14 @@ public record CodePoint(int value) {
     }
 
     /**
-     * Returns the name of the code point,
-     * or null if the code point is unassigned.
+     * Returns the name of the code point as an {@code Optional<String>}.
+     * If the code point is unassigned the {@code Optional} is empty.
      *
-     * @return the name of the code point, or null if the code point is unassigned.
+     * @return the name of the code point as an {@code Optional<String>}.
      * @see java.lang.Character#getName(int)
      */
-    public @Nullable String name() {
-        return Character.getName(value);
+    public Optional<String> name() {
+        return Optional.ofNullable(Character.getName(value));
     }
 
     /**
@@ -96,29 +96,33 @@ public record CodePoint(int value) {
     }
 
     /**
-     * Returns the String representation of the given code point if it is printable.
+     * Returns whether the code point is printable.
      * <p>
      * A code point is printable if its type is not {@link Character#UNASSIGNED}, {@link Character#CONTROL},
      * {@link Character#SURROGATE} or {@link Character#PRIVATE_USE}.
      *
-     * @param notPrintableValue an alternative value for non-printable code points. Can be {@code null}.
-     * @return the String representation of the given code point if it is printable. Can be {@code null}.
+     * @return whether the code point is printable.
      * @see java.lang.Character#getType(int)
-     * @see java.lang.Character#toString(int)
      */
-    public @Nullable String printableString(@Nullable String notPrintableValue) {
-        try {
-            int characterType = Character.getType(value);
-            return characterType == Character.UNASSIGNED
-                    || characterType == Character.CONTROL
-                    || characterType == Character.SURROGATE
-                    || characterType == Character.PRIVATE_USE
-                    ? notPrintableValue
-                    : Character.toString(value);
-        } catch (IllegalArgumentException e) {
-            // Should not happen
-            return notPrintableValue;
-        }
+    public boolean isPrintable() {
+        int characterType = Character.getType(value);
+        return characterType != Character.UNASSIGNED
+                && characterType != Character.CONTROL
+                && characterType != Character.SURROGATE
+                && characterType != Character.PRIVATE_USE;
+    }
+
+    /**
+     * Returns the String representation of the given code point as an {@code Optional<String>}.
+     * If the code point is not printable the {@code Optional} is empty.
+     *
+     * @return the String representation of the given code point as an {@code Optional<String>}.
+     * @see CodePoint#isPrintable()
+     * @see Character#toString(int)
+     * @see CodePoint#string()
+     */
+    public Optional<String> printableString() {
+        return isPrintable() ? Optional.of(Character.toString(value)) : Optional.empty();
     }
 
     /**
@@ -176,6 +180,27 @@ public record CodePoint(int value) {
         int numericValue = Character.getNumericValue(value);
         return numericValue < 0 ? Optional.empty() : Optional.of(numericValue);
     }
+/*
+    public CodePoint toLowerCase() {
+        return new CodePoint(Character.toLowerCase(value));
+    }
+
+    public CodePoint toUpperCase() {
+        return new CodePoint(Character.toUpperCase(value));
+    }
+
+    public CodePoint toTitleCase() {
+        return new CodePoint(Character.toTitleCase(value));
+    }
+
+    public Optional<Character> lowSurrogate() {
+        return Character.isSupplementaryCodePoint(value) ? Optional.of(Character.lowSurrogate(value)) : Optional.empty();
+    }
+
+    public Optional<Character> highSurrogate() {
+        return Character.isSupplementaryCodePoint(value) ? Optional.of(Character.highSurrogate(value)) : Optional.empty();
+    }
+*/
 
     /**
      * Returns the type of the code point as the enum {@link Type}.
@@ -218,27 +243,6 @@ public record CodePoint(int value) {
             default ->
                     throw new IllegalStateException("Unknown type of Unicode code point: " + value + " (" + Character.getType(value) + ")");
         };
-    }
-
-    /**
-     * Returns the type of the code point as an {@code int}.
-     *
-     * @return the type of the code point as an {@code int}.
-     * @see java.lang.Character#getType(int)
-     */
-    public int typeAsInt() {
-        return Character.getType(value);
-    }
-
-    /**
-     * Returns the type of the code point as a {@code String}.
-     *
-     * @return the type of the code point as a {@code String}.
-     * @see java.lang.Character#getType(int)
-     * @see stexfires.util.CodePoint.Type#name()
-     */
-    public String typeAsString() {
-        return type().name();
     }
 
     /**
@@ -288,52 +292,23 @@ public record CodePoint(int value) {
     }
 
     /**
-     * Returns the directionality of the code point as a {@code byte}.
+     * Returns the Unicode block containing the given code point as an {@code Optional<UnicodeBlock>}.
      *
-     * @return the directionality of the code point as a {@code byte}.
-     * @see java.lang.Character#getDirectionality(int)
-     */
-    public byte directionalityAsByte() {
-        return Character.getDirectionality(value);
-    }
-
-    /**
-     * Returns the directionality of the code point as a {@code String}.
-     *
-     * @return the directionality of the code point as a {@code String}.
-     * @see java.lang.Character#getDirectionality(int)
-     * @see stexfires.util.CodePoint.Directionality#name()
-     */
-    public String directionalityAsString() {
-        return directionality().name();
-    }
-
-    /**
-     * Returns the Unicode block containing the given code point,
-     * or {@code null} if the code point is not a member of a defined block.
-     *
-     * @return the Unicode block containing the given code point, or {@code null} if the code point is not a member of a defined block.
+     * @return the Unicode block containing the given code point as an {@code Optional<UnicodeBlock>}.
      * @see java.lang.Character.UnicodeBlock#of(int)
      */
-    public @Nullable UnicodeBlock unicodeBlock() {
-        return UnicodeBlock.of(value);
+    public Optional<UnicodeBlock> unicodeBlock() {
+        return Optional.ofNullable(UnicodeBlock.of(value));
     }
 
     /**
-     * Returns the Unicode block containing the given code point as a {@code String}.
+     * Returns the Unicode script containing the given code point.
      *
-     * @param unknownValue an alternative value for code points that are not a member of a defined block. Can be {@code null}.
-     * @return the Unicode block containing the given code point as a {@code String}. Can be {@code null}.
-     * @see java.lang.Character.UnicodeBlock#of(int)
+     * @return the Unicode script containing the given code point.
+     * @see java.lang.Character.UnicodeScript#of(int)
      */
-    public @Nullable String unicodeBlockAsString(@Nullable String unknownValue) {
-        try {
-            UnicodeBlock unicodeBlock = UnicodeBlock.of(value);
-            return (unicodeBlock == null) ? unknownValue : unicodeBlock.toString();
-        } catch (IllegalArgumentException e) {
-            // Should not happen
-            return unknownValue;
-        }
+    public UnicodeScript unicodeScript() {
+        return UnicodeScript.of(value);
     }
 
     /**

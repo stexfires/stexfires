@@ -2,6 +2,8 @@ package stexfires.util;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for {@link CodePoint}.
  */
-@SuppressWarnings("MagicNumber")
+@SuppressWarnings({"MagicNumber", "SpellCheckingInspection"})
 class CodePointTest {
 
     static final int FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK = 12256;
@@ -85,27 +87,27 @@ class CodePointTest {
      */
     @Test
     void name() {
-        assertEquals("NULL", new CodePoint(CodePoint.MIN_ASCII_VALUE).name());
-        assertEquals("DELETE", new CodePoint(CodePoint.MAX_ASCII_VALUE).name());
-        assertEquals("NULL", new CodePoint(CodePoint.MIN_VALUE).name());
-        assertNull(new CodePoint(CodePoint.MAX_VALUE).name());
+        assertEquals("NULL", new CodePoint(CodePoint.MIN_ASCII_VALUE).name().orElse(null));
+        assertEquals("DELETE", new CodePoint(CodePoint.MAX_ASCII_VALUE).name().orElse(null));
+        assertEquals("NULL", new CodePoint(CodePoint.MIN_VALUE).name().orElse(null));
+        assertTrue(new CodePoint(CodePoint.MAX_VALUE).name().isEmpty());
 
-        assertEquals("SPACE", new CodePoint(32).name());
-        assertEquals("EXCLAMATION MARK", new CodePoint(33).name());
-        assertEquals("DOLLAR SIGN", new CodePoint(36).name());
-        assertEquals("RIGHT PARENTHESIS", new CodePoint(41).name());
-        assertEquals("PLUS SIGN", new CodePoint(43).name());
+        assertEquals("SPACE", new CodePoint(32).name().orElse(null));
+        assertEquals("EXCLAMATION MARK", new CodePoint(33).name().orElse(null));
+        assertEquals("DOLLAR SIGN", new CodePoint(36).name().orElse(null));
+        assertEquals("RIGHT PARENTHESIS", new CodePoint(41).name().orElse(null));
+        assertEquals("PLUS SIGN", new CodePoint(43).name().orElse(null));
 
         for (int codePoint = 65; codePoint < 91; codePoint++) {
-            assertEquals("LATIN CAPITAL LETTER " + (char) codePoint, new CodePoint(codePoint).name());
+            assertEquals("LATIN CAPITAL LETTER " + (char) codePoint, new CodePoint(codePoint).name().orElse(null));
         }
-        assertEquals("LEFT SQUARE BRACKET", new CodePoint(91).name());
-        assertEquals("CIRCUMFLEX ACCENT", new CodePoint(94).name());
-        assertEquals("LOW LINE", new CodePoint(95).name());
+        assertEquals("LEFT SQUARE BRACKET", new CodePoint(91).name().orElse(null));
+        assertEquals("CIRCUMFLEX ACCENT", new CodePoint(94).name().orElse(null));
+        assertEquals("LOW LINE", new CodePoint(95).name().orElse(null));
         for (int codePoint = 97; codePoint < 123; codePoint++) {
-            assertEquals("LATIN SMALL LETTER " + (char) (codePoint - 97 + 65), new CodePoint(codePoint).name());
+            assertEquals("LATIN SMALL LETTER " + (char) (codePoint - 97 + 65), new CodePoint(codePoint).name().orElse(null));
         }
-        assertNull(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).name());
+        assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).name().isEmpty());
     }
 
     /**
@@ -136,38 +138,42 @@ class CodePointTest {
     }
 
     /**
-     * Test method for {@link CodePoint#printableString(String)}.
+     * Test method for {@link CodePoint#printableString()}.
      */
     @Test
     void printableString() {
-        assertEquals(" ", new CodePoint(32).printableString("not printable"));
-        assertEquals("!", new CodePoint(33).printableString("not printable"));
-        assertEquals("A", new CodePoint(65).printableString("not printable"));
-        assertEquals("0", new CodePoint(48).printableString("not printable"));
-        assertEquals("a", new CodePoint(97).printableString("not printable"));
-        assertEquals("€", new CodePoint(8364).printableString("not printable"));
-        assertEquals("𐀀", new CodePoint(65536).printableString("not printable"));
-        assertEquals("🀀", new CodePoint(126976).printableString("not printable"));
-        assertEquals("🏿", new CodePoint(127999).printableString("not printable"));
+        assertEquals(" ", new CodePoint(32).printableString().orElse(null));
+        assertEquals("!", new CodePoint(33).printableString().orElse(null));
+        assertEquals("A", new CodePoint(65).printableString().orElse(null));
+        assertEquals("0", new CodePoint(48).printableString().orElse(null));
+        assertEquals("a", new CodePoint(97).printableString().orElse(null));
+        assertEquals("€", new CodePoint(8364).printableString().orElse(null));
+        assertEquals("𐀀", new CodePoint(65536).printableString().orElse(null));
+        assertEquals("🀀", new CodePoint(126976).printableString().orElse(null));
+        assertEquals("🏿", new CodePoint(127999).printableString().orElse(null));
 
-        assertEquals("not printable", new CodePoint(CodePoint.MIN_ASCII_VALUE).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MAX_ASCII_VALUE).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MIN_VALUE).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(CodePoint.MAX_VALUE).printableString("not printable"));
+        assertTrue(new CodePoint(CodePoint.MIN_ASCII_VALUE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MAX_ASCII_VALUE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MIN_VALUE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MAX_VALUE).printableString().isEmpty());
         for (int codePoint = 0; codePoint < 32; codePoint++) {
-            assertEquals("not printable", new CodePoint(codePoint).printableString("not printable"));
+            assertTrue(new CodePoint(codePoint).printableString().isEmpty());
         }
-        assertEquals("not printable", new CodePoint(888).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(42975).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(55317).printableString("not printable"));
-        assertEquals("not printable", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).printableString("not printable"));
+        assertTrue(new CodePoint(888).printableString().isEmpty());
+        assertTrue(new CodePoint(42975).printableString().isEmpty());
+        assertTrue(new CodePoint(55317).printableString().isEmpty());
+        assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).printableString().isEmpty());
 
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
-            String printableString = new CodePoint(codePoint).printableString("not printable");
-            if (!"not printable".equals(printableString)) {
-                assertNotNull(printableString);
-                assertEquals(Character.charCount(codePoint), printableString.length());
-                assertEquals(Character.toString(codePoint), printableString);
+            CodePoint cp = new CodePoint(codePoint);
+            Optional<String> printableString = cp.printableString();
+            assertNotNull(printableString);
+            if (printableString.isPresent()) {
+                assertTrue(cp.isPrintable());
+                assertEquals(Character.charCount(codePoint), printableString.get().length());
+                assertEquals(Character.toString(codePoint), printableString.get());
+            } else {
+                assertFalse(cp.isPrintable());
             }
         }
     }
@@ -220,6 +226,8 @@ class CodePointTest {
             assertEquals(1, new CodePoint(codePoint).charCount());
         }
         assertEquals(2, new CodePoint(129501).charCount());
+        assertEquals(2, new CodePoint(127820).charCount());
+        assertEquals(2, new CodePoint(128147).charCount());
     }
 
     /**
@@ -309,50 +317,34 @@ class CodePointTest {
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             assertEquals(Character.getType(codePoint), new CodePoint(codePoint).type().intConstant());
         }
-    }
 
-    /**
-     * Test method for {@link CodePoint#typeAsInt()}.
-     */
-    @Test
-    void typeAsInt() {
-        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
-            assertEquals(Character.getType(codePoint), new CodePoint(codePoint).typeAsInt());
-        }
-    }
-
-    /**
-     * Test method for {@link CodePoint#typeAsString()}.
-     */
-    @Test
-    void typeAsString() {
-        assertEquals("CONTROL", new CodePoint(CodePoint.MIN_ASCII_VALUE).typeAsString());
-        assertEquals("CONTROL", new CodePoint(CodePoint.MAX_ASCII_VALUE).typeAsString());
-        assertEquals("CONTROL", new CodePoint(CodePoint.MIN_VALUE).typeAsString());
-        assertEquals("UNASSIGNED", new CodePoint(CodePoint.MAX_VALUE).typeAsString());
+        assertEquals(CodePoint.Type.CONTROL, new CodePoint(CodePoint.MIN_ASCII_VALUE).type());
+        assertEquals(CodePoint.Type.CONTROL, new CodePoint(CodePoint.MAX_ASCII_VALUE).type());
+        assertEquals(CodePoint.Type.CONTROL, new CodePoint(CodePoint.MIN_VALUE).type());
+        assertEquals(CodePoint.Type.UNASSIGNED, new CodePoint(CodePoint.MAX_VALUE).type());
 
         for (int codePoint = 0; codePoint < 32; codePoint++) {
-            assertEquals("CONTROL", new CodePoint(codePoint).typeAsString());
+            assertEquals(CodePoint.Type.CONTROL, new CodePoint(codePoint).type());
         }
-        assertEquals("SPACE_SEPARATOR", new CodePoint(32).typeAsString());
-        assertEquals("OTHER_PUNCTUATION", new CodePoint(33).typeAsString());
-        assertEquals("CURRENCY_SYMBOL", new CodePoint(36).typeAsString());
-        assertEquals("END_PUNCTUATION", new CodePoint(41).typeAsString());
-        assertEquals("MATH_SYMBOL", new CodePoint(43).typeAsString());
+        assertEquals(CodePoint.Type.SPACE_SEPARATOR, new CodePoint(32).type());
+        assertEquals(CodePoint.Type.OTHER_PUNCTUATION, new CodePoint(33).type());
+        assertEquals(CodePoint.Type.CURRENCY_SYMBOL, new CodePoint(36).type());
+        assertEquals(CodePoint.Type.END_PUNCTUATION, new CodePoint(41).type());
+        assertEquals(CodePoint.Type.MATH_SYMBOL, new CodePoint(43).type());
 
         for (int codePoint = 48; codePoint < 58; codePoint++) {
-            assertEquals("DECIMAL_DIGIT_NUMBER", new CodePoint(codePoint).typeAsString());
+            assertEquals(CodePoint.Type.DECIMAL_DIGIT_NUMBER, new CodePoint(codePoint).type());
         }
         for (int codePoint = 65; codePoint < 91; codePoint++) {
-            assertEquals("UPPERCASE_LETTER", new CodePoint(codePoint).typeAsString());
+            assertEquals(CodePoint.Type.UPPERCASE_LETTER, new CodePoint(codePoint).type());
         }
-        assertEquals("START_PUNCTUATION", new CodePoint(91).typeAsString());
-        assertEquals("MODIFIER_SYMBOL", new CodePoint(94).typeAsString());
-        assertEquals("CONNECTOR_PUNCTUATION", new CodePoint(95).typeAsString());
+        assertEquals(CodePoint.Type.START_PUNCTUATION, new CodePoint(91).type());
+        assertEquals(CodePoint.Type.MODIFIER_SYMBOL, new CodePoint(94).type());
+        assertEquals(CodePoint.Type.CONNECTOR_PUNCTUATION, new CodePoint(95).type());
         for (int codePoint = 97; codePoint < 123; codePoint++) {
-            assertEquals("LOWERCASE_LETTER", new CodePoint(codePoint).typeAsString());
+            assertEquals(CodePoint.Type.LOWERCASE_LETTER, new CodePoint(codePoint).type());
         }
-        assertEquals("UNASSIGNED", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).typeAsString());
+        assertEquals(CodePoint.Type.UNASSIGNED, new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).type());
     }
 
     /**
@@ -363,46 +355,30 @@ class CodePointTest {
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             assertEquals(Character.getDirectionality(codePoint), new CodePoint(codePoint).directionality().byteConstant());
         }
-    }
 
-    /**
-     * Test method for {@link CodePoint#directionalityAsByte()}.
-     */
-    @Test
-    void directionalityAsByte() {
-        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
-            assertEquals(Character.getDirectionality(codePoint), new CodePoint(codePoint).directionalityAsByte());
-        }
-    }
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_BOUNDARY_NEUTRAL, new CodePoint(CodePoint.MIN_ASCII_VALUE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_BOUNDARY_NEUTRAL, new CodePoint(CodePoint.MAX_ASCII_VALUE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_BOUNDARY_NEUTRAL, new CodePoint(CodePoint.MIN_VALUE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_UNDEFINED, new CodePoint(CodePoint.MAX_VALUE).directionality());
 
-    /**
-     * Test method for {@link CodePoint#directionalityAsString()}.
-     */
-    @Test
-    void directionalityAsString() {
-        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", new CodePoint(CodePoint.MIN_ASCII_VALUE).directionalityAsString());
-        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", new CodePoint(CodePoint.MAX_ASCII_VALUE).directionalityAsString());
-        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", new CodePoint(CodePoint.MIN_VALUE).directionalityAsString());
-        assertEquals("DIRECTIONALITY_UNDEFINED", new CodePoint(CodePoint.MAX_VALUE).directionalityAsString());
-
-        assertEquals("DIRECTIONALITY_BOUNDARY_NEUTRAL", new CodePoint(0).directionalityAsString());
-        assertEquals("DIRECTIONALITY_SEGMENT_SEPARATOR", new CodePoint(9).directionalityAsString());
-        assertEquals("DIRECTIONALITY_PARAGRAPH_SEPARATOR", new CodePoint(10).directionalityAsString());
-        assertEquals("DIRECTIONALITY_WHITESPACE", new CodePoint(12).directionalityAsString());
-        assertEquals("DIRECTIONALITY_OTHER_NEUTRALS", new CodePoint(33).directionalityAsString());
-        assertEquals("DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR", new CodePoint(35).directionalityAsString());
-        assertEquals("DIRECTIONALITY_COMMON_NUMBER_SEPARATOR", new CodePoint(44).directionalityAsString());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_BOUNDARY_NEUTRAL, new CodePoint(0).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_SEGMENT_SEPARATOR, new CodePoint(9).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_PARAGRAPH_SEPARATOR, new CodePoint(10).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_WHITESPACE, new CodePoint(12).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_OTHER_NEUTRALS, new CodePoint(33).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR, new CodePoint(35).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_COMMON_NUMBER_SEPARATOR, new CodePoint(44).directionality());
 
         for (int codePoint = 48; codePoint < 58; codePoint++) {
-            assertEquals("DIRECTIONALITY_EUROPEAN_NUMBER", new CodePoint(codePoint).directionalityAsString());
+            assertEquals(CodePoint.Directionality.DIRECTIONALITY_EUROPEAN_NUMBER, new CodePoint(codePoint).directionality());
         }
         for (int codePoint = 65; codePoint < 91; codePoint++) {
-            assertEquals("DIRECTIONALITY_LEFT_TO_RIGHT", new CodePoint(codePoint).directionalityAsString());
+            assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(codePoint).directionality());
         }
         for (int codePoint = 97; codePoint < 123; codePoint++) {
-            assertEquals("DIRECTIONALITY_LEFT_TO_RIGHT", new CodePoint(codePoint).directionalityAsString());
+            assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(codePoint).directionality());
         }
-        assertEquals("DIRECTIONALITY_UNDEFINED", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).directionalityAsString());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_UNDEFINED, new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).directionality());
     }
 
     /**
@@ -411,37 +387,37 @@ class CodePointTest {
     @Test
     void unicodeBlock() {
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
-            assertEquals(Character.UnicodeBlock.of(codePoint), new CodePoint(codePoint).unicodeBlock());
+            assertNotNull(new CodePoint(codePoint).unicodeBlock());
+            assertEquals(Character.UnicodeBlock.of(codePoint), new CodePoint(codePoint).unicodeBlock().orElse(null));
         }
         for (int codePoint = CodePoint.MIN_VALUE; codePoint < FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK; codePoint++) {
-            assertNotNull(new CodePoint(codePoint).unicodeBlock());
+            assertTrue(new CodePoint(codePoint).unicodeBlock().isPresent());
         }
-        assertNull(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlock());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlock().isPresent());
         assertNull(Character.UnicodeBlock.of(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK));
+
+        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MIN_ASCII_VALUE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MAX_ASCII_VALUE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MIN_VALUE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("SUPPLEMENTARY_PRIVATE_USE_AREA_B", new CodePoint(CodePoint.MAX_VALUE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        for (int codePoint = 0; codePoint < 128; codePoint++) {
+            assertEquals("BASIC_LATIN", new CodePoint(codePoint).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        }
+        for (int codePoint = 128; codePoint < 256; codePoint++) {
+            assertEquals("LATIN_1_SUPPLEMENT", new CodePoint(codePoint).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        }
+        assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlock().isEmpty());
     }
 
     /**
-     * Test method for {@link CodePoint#unicodeBlockAsString(String)}.
+     * Test method for {@link CodePoint#unicodeScript()}.
      */
     @Test
-    void unicodeBlockAsString() {
-        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MIN_ASCII_VALUE).unicodeBlockAsString(""));
-        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MAX_ASCII_VALUE).unicodeBlockAsString(""));
-        assertEquals("BASIC_LATIN", new CodePoint(CodePoint.MIN_VALUE).unicodeBlockAsString(""));
-        assertEquals("SUPPLEMENTARY_PRIVATE_USE_AREA_B", new CodePoint(CodePoint.MAX_VALUE).unicodeBlockAsString(""));
-        for (int codePoint = 0; codePoint < 128; codePoint++) {
-            assertEquals("BASIC_LATIN", new CodePoint(codePoint).unicodeBlockAsString(""));
+    void unicodeScript() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertNotNull(new CodePoint(codePoint).unicodeScript());
+            assertEquals(Character.UnicodeScript.of(codePoint), new CodePoint(codePoint).unicodeScript());
         }
-        for (int codePoint = 128; codePoint < 256; codePoint++) {
-            assertEquals("LATIN_1_SUPPLEMENT", new CodePoint(codePoint).unicodeBlockAsString(""));
-        }
-        for (int codePoint = CodePoint.MIN_VALUE; codePoint < FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK; codePoint++) {
-            assertNotNull(new CodePoint(codePoint).unicodeBlockAsString(null), "codePoint=" + codePoint);
-        }
-
-        assertEquals("", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString(""));
-        assertEquals("unknown", new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString("unknown"));
-        assertNull(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlockAsString(null));
     }
 
 }
