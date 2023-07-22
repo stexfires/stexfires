@@ -136,6 +136,16 @@ public record CodePoint(int value) {
     }
 
     /**
+     * Determines whether the code point is an alphabetic character.
+     *
+     * @return {@code true} if the code point is an alphabetic character.
+     * @see java.lang.Character#isAlphabetic(int)
+     */
+    public boolean isAlphabetic() {
+        return Character.isAlphabetic(value);
+    }
+
+    /**
      * Determines whether the code point is in the ASCII range.
      *
      * @return {@code true} if the code point is in the ASCII range.
@@ -145,6 +155,188 @@ public record CodePoint(int value) {
     public boolean isASCII() {
         // compare with MAX_ASCII_VALUE first because the comparison with MIN_ASCII_VALUE should always be true
         return value <= MAX_ASCII_VALUE && value >= MIN_ASCII_VALUE;
+    }
+
+    /**
+     * Determines whether the code point is in the Basic Multilingual Plane (BMP).
+     *
+     * @return {@code true} if the code point is in the Basic Multilingual Plane (BMP).
+     * @see java.lang.Character#isBmpCodePoint(int)
+     */
+    public boolean isBmpCodePoint() {
+        return Character.isBmpCodePoint(value);
+    }
+
+    /**
+     * Determines whether the code point is defined in Unicode.
+     *
+     * @return {@code true} if the code point is defined in Unicode.
+     * @see java.lang.Character#isDefined(int)
+     */
+    public boolean isDefined() {
+        return Character.isDefined(value);
+    }
+
+    /**
+     * Determines whether the code point is a digit.
+     *
+     * @return {@code true} if the code point is a digit.
+     * @see java.lang.Character#isDigit(int)
+     */
+    public boolean isDigit() {
+        return Character.isDigit(value);
+    }
+
+    /**
+     * Determines whether the code point should be regarded as an ignorable character in a Java identifier or a Unicode identifier.
+     *
+     * @return {@code true} if the code point should be regarded as an ignorable character in a Java identifier or a Unicode identifier.
+     * @see java.lang.Character#isIdentifierIgnorable(int)
+     */
+    public boolean isIdentifierIgnorable() {
+        return Character.isIdentifierIgnorable(value);
+    }
+
+    /**
+     * Determines whether the code point is CJKV (Chinese, Japanese, Korean and Vietnamese) ideograph.
+     *
+     * @return {@code true} if the code point is CJKV (Chinese, Japanese, Korean and Vietnamese) ideograph.
+     * @see java.lang.Character#isIdeographic(int)
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    public boolean isIdeographic() {
+        return Character.isIdeographic(value);
+    }
+
+    /**
+     * Determines whether the code point is an ISO control character.
+     *
+     * @return {@code true} if the code point is an ISO control character.
+     * @see java.lang.Character#isISOControl(int)
+     */
+    public boolean isISOControl() {
+        return Character.isISOControl(value);
+    }
+
+    /**
+     * Determines whether the code point may be part of a Java identifier as other than the first character.
+     *
+     * @return {@code true} if the code point may be part of a Java identifier as other than the first character.
+     * @see java.lang.Character#isJavaIdentifierPart(int)
+     */
+    public boolean isJavaIdentifierPart() {
+        return Character.isJavaIdentifierPart(value);
+    }
+
+    /**
+     * Determines whether the code point is a letter.
+     *
+     * @return {@code true} if the code point is a letter.
+     * @see java.lang.Character#isLetter(int)
+     */
+    public boolean isLetter() {
+        return Character.isLetter(value);
+    }
+
+    /**
+     * Determines whether the code point is a letter or digit.
+     *
+     * @return {@code true} if the code point is a letter or digit.
+     * @see java.lang.Character#isLetterOrDigit(int)
+     */
+    public boolean isLetterOrDigit() {
+        return Character.isLetterOrDigit(value);
+    }
+
+    /**
+     * Determines whether the code point is a lowercase character.
+     *
+     * @return {@code true} if the code point is a lowercase character.
+     * @see java.lang.Character#isLowerCase(int)
+     */
+    public boolean isLowerCase() {
+        return Character.isLowerCase(value);
+    }
+
+    /**
+     * Determines whether the code point is mirrored according to the Unicode specification.
+     *
+     * @return {@code true} if the code point is mirrored according to the Unicode specification.
+     * @see java.lang.Character#isMirrored(int)
+     */
+    public boolean isMirrored() {
+        return Character.isMirrored(value);
+    }
+
+    /**
+     * Determines whether the code point is a space character.
+     *
+     * @return {@code true} if the code point is a space character.
+     * @see java.lang.Character#isSpaceChar(int)
+     */
+    public boolean isSpaceChar() {
+        return Character.isSpaceChar(value);
+    }
+
+    /**
+     * Determines whether the code point is in the supplementary character range.
+     *
+     * @return {@code true} if the code point is in the supplementary character range.
+     * @see java.lang.Character#isSupplementaryCodePoint(int)
+     */
+    public boolean isSupplementaryCodePoint() {
+        return Character.isSupplementaryCodePoint(value);
+    }
+
+    /**
+     * Determines whether the code point is a titlecase character.
+     *
+     * @return {@code true} if the code point is a titlecase character.
+     * @see java.lang.Character#isTitleCase(int)
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    public boolean isTitleCase() {
+        return Character.isTitleCase(value);
+    }
+
+    /**
+     * Determines whether the code point may be part of a Unicode identifier as other than the first character.
+     *
+     * @return {@code true} if the code point may be part of a Unicode identifier as other than the first character.
+     * @see java.lang.Character#isUnicodeIdentifierPart(int)
+     */
+    public boolean isUnicodeIdentifierPart() {
+        return Character.isUnicodeIdentifierPart(value);
+    }
+
+    /**
+     * Determines whether the code point is permissible as the first character in a Unicode identifier.
+     *
+     * @return {@code true} if the code point is permissible as the first character in a Unicode identifier.
+     * @see java.lang.Character#isUnicodeIdentifierStart(int)
+     */
+    public boolean isUnicodeIdentifierStart() {
+        return Character.isUnicodeIdentifierStart(value);
+    }
+
+    /**
+     * Determines whether the code point is an uppercase character.
+     *
+     * @return {@code true} if the code point is an uppercase character.
+     * @see java.lang.Character#isUpperCase(int)
+     */
+    public boolean isUpperCase() {
+        return Character.isUpperCase(value);
+    }
+
+    /**
+     * Determines whether the code point is white space according to Java.
+     *
+     * @return {@code true} if the code point is white space according to Java.
+     * @see java.lang.Character#isWhitespace(int)
+     */
+    public boolean isWhitespace() {
+        return Character.isWhitespace(value);
     }
 
     /**
@@ -180,27 +372,30 @@ public record CodePoint(int value) {
         int numericValue = Character.getNumericValue(value);
         return numericValue < 0 ? Optional.empty() : Optional.of(numericValue);
     }
-/*
-    public CodePoint toLowerCase() {
-        return new CodePoint(Character.toLowerCase(value));
-    }
 
-    public CodePoint toUpperCase() {
-        return new CodePoint(Character.toUpperCase(value));
-    }
-
-    public CodePoint toTitleCase() {
-        return new CodePoint(Character.toTitleCase(value));
-    }
-
+    /**
+     * Returns the trailing surrogate as an {@code Optional<Character>}.
+     * If the code point is not a supplementary character the {@code Optional} is empty.
+     *
+     * @return the trailing surrogate as an {@code Optional<Character>}.
+     * @see java.lang.Character#lowSurrogate(int)
+     * @see java.lang.Character#isSupplementaryCodePoint(int)
+     */
     public Optional<Character> lowSurrogate() {
         return Character.isSupplementaryCodePoint(value) ? Optional.of(Character.lowSurrogate(value)) : Optional.empty();
     }
 
+    /**
+     * Returns the leading surrogate as an {@code Optional<Character>}.
+     * If the code point is not a supplementary character the {@code Optional} is empty.
+     *
+     * @return the leading surrogate as an {@code Optional<Character>}.
+     * @see java.lang.Character#highSurrogate(int)
+     * @see java.lang.Character#isSupplementaryCodePoint(int)
+     */
     public Optional<Character> highSurrogate() {
         return Character.isSupplementaryCodePoint(value) ? Optional.of(Character.highSurrogate(value)) : Optional.empty();
     }
-*/
 
     /**
      * Returns the type of the code point as the enum {@link Type}.
