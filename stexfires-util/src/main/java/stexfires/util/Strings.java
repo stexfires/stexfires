@@ -66,7 +66,7 @@ public final class Strings {
     public static final String REGEX_BACKSLASH = "\\\\";
 
     /**
-     * An empty string.
+     * An empty string with a length of zero.
      */
     public static final String EMPTY = "";
     /**
