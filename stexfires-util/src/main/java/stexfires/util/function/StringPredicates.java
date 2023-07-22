@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import static stexfires.util.CodePoints.MAX_ASCII_CODE_POINT;
-import static stexfires.util.CodePoints.MIN_ASCII_CODE_POINT;
+import static stexfires.util.CodePoint.MAX_ASCII_VALUE;
+import static stexfires.util.CodePoint.MIN_ASCII_VALUE;
 
 /**
  * @see java.lang.String
@@ -33,7 +33,7 @@ public final class StringPredicates {
     }
 
     public static IntPredicate codePointASCII() {
-        return codePointBetween(MIN_ASCII_CODE_POINT, MAX_ASCII_CODE_POINT);
+        return codePointBetween(MIN_ASCII_VALUE, MAX_ASCII_VALUE);
     }
 
     public static IntPredicate codePointCharacterType(int characterType) {
