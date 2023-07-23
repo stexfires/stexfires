@@ -766,8 +766,19 @@ class CodePointTest {
      */
     @Test
     void charCount() {
+        // all code points
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             assertEquals(Character.charCount(codePoint), new CodePoint(codePoint).charCount());
+            if (Character.isBmpCodePoint(codePoint)) {
+                assertEquals(1, new CodePoint(codePoint).charCount());
+            } else {
+                assertEquals(2, new CodePoint(codePoint).charCount());
+            }
+            if (Character.isSupplementaryCodePoint(codePoint)) {
+                assertEquals(2, new CodePoint(codePoint).charCount());
+            } else {
+                assertEquals(1, new CodePoint(codePoint).charCount());
+            }
         }
 
         for (int codePoint = CodePoint.MIN_ASCII_VALUE; codePoint <= CodePoint.MAX_ASCII_VALUE; codePoint++) {
