@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import stexfires.util.CodePoint;
 import stexfires.util.StringComparators;
 import stexfires.util.Strings;
 import stexfires.util.function.StringPredicates;
@@ -252,17 +253,18 @@ public final class ExamplesStringFunction {
         printStringPredicates(StringPredicates.anyLineMatch(StringPredicates.letterOrDigit(), false), "anyLineMatch letterOrDigit");
         printStringPredicates(StringPredicates.noneLineMatch(StringPredicates.isEmpty(), false), "noneLineMatch isEmpty");
 
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointBetween(64, 127), false), "allCodePointsMatch codePointBetween");
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointASCII(), false), "allCodePointsMatch codePointASCII");
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointCharacterType(Character.DECIMAL_DIGIT_NUMBER), false), "allCodePointsMatch codePointCharacterType");
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointUnicodeBlock(Character.UnicodeBlock.BASIC_LATIN), false), "allCodePointsMatch codePointUnicodeBlock");
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointCharCount1(), false), "allCodePointsMatch codePointCharCount1");
-        printStringPredicates(StringPredicates.allCodePointsMatch(StringPredicates.codePointCharCount2(), false), "allCodePointsMatch codePointCharCount2");
+        printStringPredicates(StringPredicates.allCodePointsMatch(CodePoint::isASCII, false), "allCodePointsMatch isASCII");
+        printStringPredicates(StringPredicates.allCodePointsMatch(CodePoint::isDigit, false), "allCodePointsMatch isDigit");
+        printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.isBetween(64, 127), false), "allCodePointsMatch isBetween 64-127");
+        printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.type() == CodePoint.Type.DECIMAL_DIGIT_NUMBER, false), "allCodePointsMatch type DECIMAL_DIGIT_NUMBER");
+        printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.unicodeBlock().filter(Character.UnicodeBlock.BASIC_LATIN::equals).isPresent(), false), "allCodePointsMatch unicodeBlock BASIC_LATIN");
+        printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.charCount() == 1, false), "allCodePointsMatch charCount 1");
+        printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.charCount() == 2, false), "allCodePointsMatch charCount 2");
 
-        printStringPredicates(StringPredicates.allCodePointsMatch(i -> i >= 32 && i <= 127, false), "allCodePointsMatch 32-127");
-        printStringPredicates(StringPredicates.allCodePointsMatch(Character::isValidCodePoint, false), "allCodePointsMatch Character::isValidCodePoint");
-        printStringPredicates(StringPredicates.anyCodePointMatch(i -> i >= 32 && i <= 127, false), "anyCodePointMatch 32-127");
-        printStringPredicates(StringPredicates.noneCodePointMatch(i -> i < 32, true), "noneCodePointMatch <32");
+        printStringPredicates(StringPredicates.allIntCodePointsMatch(i -> i >= 32 && i <= 127, false), "allIntCodePointsMatch 32-127");
+        printStringPredicates(StringPredicates.allIntCodePointsMatch(Character::isValidCodePoint, false), "allIntCodePointsMatch Character::isValidCodePoint");
+        printStringPredicates(StringPredicates.anyIntCodePointMatch(i -> i >= 32 && i <= 127, false), "anyIntCodePointMatch 32-127");
+        printStringPredicates(StringPredicates.noneIntCodePointMatch(i -> i < 32, true), "noneIntCodePointMatch <32");
 
         printStringPredicates(StringPredicates.isNull(), "isNull");
         printStringPredicates(StringPredicates.isNotNull(), "isNotNull");
@@ -281,7 +283,7 @@ public final class ExamplesStringFunction {
         printStringPredicates(StringPredicates.equalsIgnoreCase(""), "equalsIgnoreCase empty");
         printStringPredicates(StringPredicates.equalsIgnoreCase("ä"), "equalsIgnoreCase ä");
         printStringPredicates(StringPredicates.equalsChar('1'), "equalsChar '1'");
-        printStringPredicates(StringPredicates.equalsCodePoint(32), "equalsCodePoint 32");
+        printStringPredicates(StringPredicates.equalsIntCodePoint(32), "equalsIntCodePoint 32");
         printStringPredicates(StringPredicates.equalsFunction(s -> ""), "equalsFunction empty");
         printStringPredicates(StringPredicates.equalsOperator(s -> ""), "equalsOperator empty");
         printStringPredicates(StringPredicates.equalsSupplier(() -> ""), "equalsSupplier empty");
@@ -312,8 +314,8 @@ public final class ExamplesStringFunction {
         printStringPredicates(StringPredicates.surroundedBy("1", "3"), "surroundedBy");
         printStringPredicates(StringPredicates.containedIn(List.of(" ", "1", "ä")), "containedIn");
         printStringPredicates(StringPredicates.charAt(1, '1'), "charAt");
-        printStringPredicates(StringPredicates.codePointAt(0, 97), "codePointAt");
-        printStringPredicates(StringPredicates.codePointAt(0, 0x0001F600), "codePointAt");
+        printStringPredicates(StringPredicates.intCodePointAt(0, 97), "intCodePointAt");
+        printStringPredicates(StringPredicates.intCodePointAt(0, 0x0001F600), "intCodePointAt");
         printStringPredicates(StringPredicates.matches("[a-i]+"), "matches [a-i]+");
         printStringPredicates(StringPredicates.matches("\\p{Alnum}+"), "matches Alnum");
         printStringPredicates(StringPredicates.matches("\\p{Blank}+"), "matches Blank");
@@ -422,14 +424,14 @@ public final class ExamplesStringFunction {
                 StringUnaryOperators.conditionalOperator(
                         StringPredicates.isNullOrBlank().negate()
                                         .and(StringPredicates.length(len -> len > 3))
-                                        .and(StringPredicates.anyCodePointMatch(Character::isLetter, false)),
+                                        .and(StringPredicates.anyIntCodePointMatch(Character::isLetter, false)),
                         StringUnaryOperators.concat(
                                 StringUnaryOperators.splitMapCollect(
                                         sentence -> Strings.splitTextByWordBreaks(sentence, Locale.ENGLISH),
                                         StringUnaryOperators.conditionalOperator(
                                                 StringPredicates.isNullOrBlank().negate()
                                                                 .and(StringPredicates.length(len -> len > 3))
-                                                                .and(StringPredicates.allCodePointsMatch(Character::isLetter, false)),
+                                                                .and(StringPredicates.allIntCodePointsMatch(Character::isLetter, false)),
                                                 StringUnaryOperators.splitCollect(
                                                         word -> Strings.splitTextByCharacterBreaks(word, Locale.ENGLISH),
                                                         Strings.modifyAndJoinCollector(Strings.modifyListShuffle(), "")),

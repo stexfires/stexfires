@@ -1,5 +1,8 @@
 package stexfires.util.function;
 
+import stexfires.util.CodePoint;
+import stexfires.util.Strings;
+
 import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Objects;
@@ -11,46 +14,19 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import static stexfires.util.CodePoint.MAX_ASCII_VALUE;
-import static stexfires.util.CodePoint.MIN_ASCII_VALUE;
-
 /**
  * @see java.lang.String
  * @see java.lang.Character
  * @see java.text.Normalizer
  * @see java.util.function.Predicate
  * @see java.util.function.IntPredicate
+ * @see stexfires.util.CodePoint
  * @see stexfires.util.Strings
  * @since 0.1
  */
 public final class StringPredicates {
 
     private StringPredicates() {
-    }
-
-    public static IntPredicate codePointBetween(int minCodePoint, int maxCodePoint) {
-        return codePoint -> codePoint >= minCodePoint && codePoint <= maxCodePoint;
-    }
-
-    public static IntPredicate codePointASCII() {
-        return codePointBetween(MIN_ASCII_VALUE, MAX_ASCII_VALUE);
-    }
-
-    public static IntPredicate codePointCharacterType(int characterType) {
-        return codePoint -> Character.getType(codePoint) == characterType;
-    }
-
-    public static IntPredicate codePointUnicodeBlock(Character.UnicodeBlock unicodeBlock) {
-        Objects.requireNonNull(unicodeBlock);
-        return codePoint -> Objects.equals(Character.UnicodeBlock.of(codePoint), unicodeBlock);
-    }
-
-    public static IntPredicate codePointCharCount1() {
-        return codePoint -> Character.charCount(codePoint) == 1;
-    }
-
-    public static IntPredicate codePointCharCount2() {
-        return codePoint -> Character.charCount(codePoint) == 2;
     }
 
     private static boolean checkNullOrEmpty(String s) {
@@ -120,17 +96,32 @@ public final class StringPredicates {
         return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : s.lines().noneMatch(linePredicate);
     }
 
-    public static Predicate<String> allCodePointsMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
+    public static Predicate<String> allCodePointsMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
+        Objects.requireNonNull(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).allMatch(codePointPredicate);
+    }
+
+    public static Predicate<String> anyCodePointMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
+        Objects.requireNonNull(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).anyMatch(codePointPredicate);
+    }
+
+    public static Predicate<String> noneCodePointMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
+        Objects.requireNonNull(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).noneMatch(codePointPredicate);
+    }
+
+    public static Predicate<String> allIntCodePointsMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
         return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : s.codePoints().allMatch(codePointPredicate);
     }
 
-    public static Predicate<String> anyCodePointMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
+    public static Predicate<String> anyIntCodePointMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
         return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : s.codePoints().anyMatch(codePointPredicate);
     }
 
-    public static Predicate<String> noneCodePointMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
+    public static Predicate<String> noneIntCodePointMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
         return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : s.codePoints().noneMatch(codePointPredicate);
     }
@@ -178,11 +169,13 @@ public final class StringPredicates {
     }
 
     public static Predicate<String> equalsChar(char character) {
-        return s -> Character.toString(character).equals(s);
+        String charString = Character.toString(character);
+        return charString::equals;
     }
 
-    public static Predicate<String> equalsCodePoint(int codePoint) {
-        return s -> Character.toString(codePoint).equals(s);
+    public static Predicate<String> equalsIntCodePoint(int codePoint) {
+        String codePointString = Character.toString(codePoint);
+        return codePointString::equals;
     }
 
     public static Predicate<String> equalsFunction(Function<String, String> stringFunction) {
@@ -218,39 +211,39 @@ public final class StringPredicates {
     }
 
     public static Predicate<String> alphabetic() {
-        return allCodePointsMatch(Character::isAlphabetic, false);
+        return allIntCodePointsMatch(Character::isAlphabetic, false);
     }
 
     public static Predicate<String> ascii() {
-        return allCodePointsMatch(codePointASCII(), false);
+        return allCodePointsMatch(CodePoint::isASCII, false);
     }
 
     public static Predicate<String> digit() {
-        return allCodePointsMatch(Character::isDigit, false);
+        return allIntCodePointsMatch(Character::isDigit, false);
     }
 
     public static Predicate<String> letter() {
-        return allCodePointsMatch(Character::isLetter, false);
+        return allIntCodePointsMatch(Character::isLetter, false);
     }
 
     public static Predicate<String> letterOrDigit() {
-        return allCodePointsMatch(Character::isLetterOrDigit, false);
+        return allIntCodePointsMatch(Character::isLetterOrDigit, false);
     }
 
     public static Predicate<String> lowerCase() {
-        return allCodePointsMatch(Character::isLowerCase, false);
+        return allIntCodePointsMatch(Character::isLowerCase, false);
     }
 
     public static Predicate<String> upperCase() {
-        return allCodePointsMatch(Character::isUpperCase, false);
+        return allIntCodePointsMatch(Character::isUpperCase, false);
     }
 
     public static Predicate<String> spaceChar() {
-        return allCodePointsMatch(Character::isSpaceChar, false);
+        return allIntCodePointsMatch(Character::isSpaceChar, false);
     }
 
     public static Predicate<String> whitespace() {
-        return allCodePointsMatch(Character::isWhitespace, false);
+        return allIntCodePointsMatch(Character::isWhitespace, false);
     }
 
     public static Predicate<String> normalizedNFD() {
@@ -299,7 +292,7 @@ public final class StringPredicates {
         return s -> s != null && index >= 0 && index < s.length() && s.charAt(index) == character;
     }
 
-    public static Predicate<String> codePointAt(int index, int codePoint) {
+    public static Predicate<String> intCodePointAt(int index, int codePoint) {
         return s -> s != null && index >= 0 && index < s.length() && s.codePointAt(index) == codePoint;
     }
 
