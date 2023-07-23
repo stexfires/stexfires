@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import stexfires.util.CodePoint;
 import stexfires.util.Strings;
 
 import java.math.BigInteger;
@@ -79,6 +80,23 @@ public final class ExamplesStrings {
         System.out.println(Strings.collect(Strings.streamOfNullable("a")));
         System.out.println(Strings.collect(Strings.streamOfNullable("")));
         System.out.println(Strings.collect(Strings.streamOfNullable(null)));
+    }
+
+    private static void showStringsCodePointStream() {
+        System.out.println("-showStringsCodePointStream---");
+
+        System.out.println(Strings.codePointStream("a").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStream("Hello").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStream("").map(CodePoint::value).toList());
+    }
+
+    private static void showStringsCodePointStreamOfNullable() {
+        System.out.println("-showStringsCodePointStreamOfNullable---");
+
+        System.out.println(Strings.codePointStreamOfNullable("a").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNullable("Hello").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNullable("").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNullable(null).map(CodePoint::value).toList());
     }
 
     private static void showStringsConcat() {
@@ -225,6 +243,8 @@ public final class ExamplesStrings {
         showStringsListOfNullable();
         showStringsStream();
         showStringsStreamOfNullable();
+        showStringsCodePointStream();
+        showStringsCodePointStreamOfNullable();
         showStringsConcat();
         showStringsCollect();
         showStringsToList();

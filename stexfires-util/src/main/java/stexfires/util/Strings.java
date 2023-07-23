@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.BreakIterator;
@@ -122,6 +123,15 @@ public final class Strings {
 
     public static Stream<String> streamOfNullable(@Nullable String stringValue) {
         return Stream.ofNullable(stringValue);
+    }
+
+    public static Stream<CodePoint> codePointStream(@NotNull String stringValue) {
+        Objects.requireNonNull(stringValue);
+        return stringValue.codePoints().mapToObj(CodePoint::new);
+    }
+
+    public static Stream<CodePoint> codePointStreamOfNullable(@Nullable String stringValue) {
+        return stringValue == null ? Stream.empty() : stringValue.codePoints().mapToObj(CodePoint::new);
     }
 
     public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
