@@ -158,6 +158,18 @@ public record CodePoint(int value) {
     }
 
     /**
+     * Determines whether the code point is between the given code points.
+     *
+     * @param minCodePoint the minimum code point
+     * @param maxCodePoint the maximum code point
+     * @return {@code true} if the code point is between the given code points.
+     */
+    public boolean isBetween(int minCodePoint, int maxCodePoint) {
+        // Compare with the maximum first, as this is probably more often the decisive comparison.
+        return value <= maxCodePoint && value >= minCodePoint;
+    }
+
+    /**
      * Determines whether the code point is in the Basic Multilingual Plane (BMP).
      *
      * @return {@code true} if the code point is in the Basic Multilingual Plane (BMP).

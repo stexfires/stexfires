@@ -300,6 +300,31 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#isBetween(int, int)}.
+     */
+    @Test
+    void isBetween() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertTrue(new CodePoint(codePoint).isBetween(CodePoint.MIN_VALUE, CodePoint.MAX_VALUE));
+            assertFalse(new CodePoint(codePoint).isBetween(CodePoint.MAX_VALUE, CodePoint.MIN_VALUE));
+        }
+
+        // individual code points
+        assertFalse(new CodePoint(32).isBetween(31, 31));
+        assertTrue(new CodePoint(32).isBetween(31, 32));
+        assertTrue(new CodePoint(32).isBetween(31, 33));
+
+        assertFalse(new CodePoint(32).isBetween(32, 31));
+        assertTrue(new CodePoint(32).isBetween(32, 32));
+        assertTrue(new CodePoint(32).isBetween(32, 33));
+
+        assertFalse(new CodePoint(32).isBetween(33, 31));
+        assertFalse(new CodePoint(32).isBetween(33, 32));
+        assertFalse(new CodePoint(32).isBetween(33, 33));
+    }
+
+    /**
      * Test method for {@link CodePoint#isBmpCodePoint()}.
      */
     @Test
