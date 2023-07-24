@@ -87,6 +87,48 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#next()}.
+     */
+    @Test
+    void next() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint < CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(codePoint + 1, new CodePoint(codePoint).next().orElseThrow().value());
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#previous()}.
+     */
+    @Test
+    void previous() {
+        for (int codePoint = CodePoint.MIN_VALUE + 1; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(codePoint - 1, new CodePoint(codePoint).previous().orElseThrow().value());
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#hasNext()}.
+     */
+    @Test
+    void hasNext() {
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint < CodePoint.MAX_VALUE; codePoint++) {
+            assertTrue(new CodePoint(codePoint).hasNext());
+        }
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).hasNext());
+    }
+
+    /**
+     * Test method for {@link CodePoint#hasPrevious()}.
+     */
+    @Test
+    void hasPrevious() {
+        for (int codePoint = CodePoint.MIN_VALUE + 1; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertTrue(new CodePoint(codePoint).hasPrevious());
+        }
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).hasPrevious());
+    }
+
+    /**
      * Test method for {@link CodePoint#name()}.
      */
     @Test

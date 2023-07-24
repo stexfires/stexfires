@@ -75,6 +75,46 @@ public record CodePoint(int value) {
     }
 
     /**
+     * Returns the next code point as an {@code Optional<CodePoint>}.
+     * If the code point is the maximum value the {@code Optional} is empty.
+     *
+     * @return the next code point as an {@code Optional<CodePoint>}.
+     */
+    public Optional<CodePoint> next() {
+        return hasNext() ? Optional.of(new CodePoint(value + 1)) : Optional.empty();
+    }
+
+    /**
+     * Returns the previous code point as an {@code Optional<CodePoint>}.
+     * If the code point is the minimum value the {@code Optional} is empty.
+     *
+     * @return the previous code point as an {@code Optional<CodePoint>}.
+     */
+    public Optional<CodePoint> previous() {
+        return hasPrevious() ? Optional.of(new CodePoint(value - 1)) : Optional.empty();
+    }
+
+    /**
+     * Returns {@code true} if the code point has a next code point.
+     * If the code point is the maximum value {@code false} is returned.
+     *
+     * @return {@code true} if the code point has a next code point.
+     */
+    public boolean hasNext() {
+        return value < MAX_VALUE;
+    }
+
+    /**
+     * Returns {@code true} if the code point has a previous code point.
+     * If the code point is the minimum value {@code false} is returned.
+     *
+     * @return {@code true} if the code point has a previous code point.
+     */
+    public boolean hasPrevious() {
+        return value > MIN_VALUE;
+    }
+
+    /**
      * Returns the name of the code point as an {@code Optional<String>}.
      * If the code point is unassigned the {@code Optional} is empty.
      *
