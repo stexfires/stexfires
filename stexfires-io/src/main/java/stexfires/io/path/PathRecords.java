@@ -8,7 +8,6 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -22,24 +21,6 @@ import java.util.stream.Stream;
 public final class PathRecords {
 
     private PathRecords() {
-    }
-
-    public static PathType toPathType(BasicFileAttributes fileAttributes) {
-        Objects.requireNonNull(fileAttributes);
-        if (fileAttributes.isDirectory()) {
-            return PathType.DIRECTORY;
-        } else if (fileAttributes.isRegularFile()) {
-            return PathType.REGULAR_FILE;
-        } else if (fileAttributes.isSymbolicLink()) {
-            return PathType.SYMBOLIC_LINK;
-        }
-        return PathType.OTHER;
-    }
-
-    public static PathType readPathType(Path path) throws IOException {
-        Objects.requireNonNull(path);
-        BasicFileAttributes fileAttributes = Files.readAttributes(path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
-        return toPathType(fileAttributes);
     }
 
     public static DosPathRecord newDosPathRecordFollowLinks(Path path) throws UncheckedIOException, UnsupportedOperationException {

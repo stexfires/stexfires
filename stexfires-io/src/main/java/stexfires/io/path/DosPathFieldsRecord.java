@@ -108,7 +108,7 @@ public record DosPathFieldsRecord(
         Path fileName = path.getFileName();
         Path parent = path.getParent();
         return new DosPathFieldsRecord(
-                PathRecords.toPathType(fileAttributes),
+                PathType.ofAttributes(fileAttributes),
                 new TextField(FILE_NAME_INDEX, MAX_INDEX, (fileName != null ? fileName.toString() : null)),
                 new TextField(PATH_INDEX, MAX_INDEX, path.toString()),
                 new TextField(PARENT_INDEX, MAX_INDEX, (parent != null ? parent.toString() : null)),
