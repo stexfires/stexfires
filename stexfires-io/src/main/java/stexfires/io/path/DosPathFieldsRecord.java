@@ -3,7 +3,6 @@ package stexfires.io.path;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -235,7 +234,7 @@ public record DosPathFieldsRecord(
 
     @Override
     public boolean isValidIndex(int index) {
-        return index >= TextFields.FIRST_FIELD_INDEX && index <= MAX_INDEX;
+        return index >= TextField.FIRST_FIELD_INDEX && index <= MAX_INDEX;
     }
 
 }

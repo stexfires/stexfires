@@ -24,7 +24,6 @@ import java.util.stream.Stream;
  */
 public final class TextFields {
 
-    public static final int FIRST_FIELD_INDEX = 0;
     public static final String DEFAULT_FIELD_TEXT_DELIMITER = ", ";
 
     private static final TextField[] EMPTY_FIELD_ARRAY = new TextField[0];
@@ -39,7 +38,7 @@ public final class TextFields {
     public static @NotNull TextField[] newArray(@NotNull Collection<String> texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.size()];
-        int index = FIRST_FIELD_INDEX;
+        int index = TextField.FIRST_FIELD_INDEX;
         for (String text : texts) {
             fields[index] = new TextField(index, texts.size() - 1, text);
             index++;
@@ -56,7 +55,7 @@ public final class TextFields {
     public static @NotNull TextField[] newArray(String... texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.length];
-        for (int index = FIRST_FIELD_INDEX; index < texts.length; index++) {
+        for (int index = TextField.FIRST_FIELD_INDEX; index < texts.length; index++) {
             fields[index] = new TextField(index, texts.length - 1, texts[index]);
         }
         return fields;
@@ -69,7 +68,7 @@ public final class TextFields {
         }
         Objects.requireNonNull(textSupplier);
         TextField[] fields = new TextField[length];
-        for (int index = FIRST_FIELD_INDEX; index < length; index++) {
+        for (int index = TextField.FIRST_FIELD_INDEX; index < length; index++) {
             fields[index] = new TextField(index, length - 1, textSupplier.get());
         }
         return fields;

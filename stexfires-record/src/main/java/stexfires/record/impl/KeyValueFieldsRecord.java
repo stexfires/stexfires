@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,8 +17,8 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
                                    @NotNull TextField keyField, @NotNull TextField valueField)
         implements KeyValueRecord, Serializable {
 
-    public static final int KEY_INDEX = TextFields.FIRST_FIELD_INDEX;
-    public static final int VALUE_INDEX = TextFields.FIRST_FIELD_INDEX + 1;
+    public static final int KEY_INDEX = TextField.FIRST_FIELD_INDEX;
+    public static final int VALUE_INDEX = TextField.FIRST_FIELD_INDEX + 1;
     public static final int MAX_INDEX = VALUE_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 

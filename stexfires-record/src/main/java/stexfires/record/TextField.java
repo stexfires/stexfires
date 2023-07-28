@@ -20,14 +20,16 @@ import java.util.stream.Stream;
  *
  * @see TextRecord
  * @see TextFields
- * @see TextFields#FIRST_FIELD_INDEX
+ * @see TextField#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public record TextField(int index, int maxIndex, @Nullable String text)
         implements Serializable {
 
+    public static final int FIRST_FIELD_INDEX = 0;
+
     public TextField {
-        if (index < TextFields.FIRST_FIELD_INDEX) {
+        if (index < FIRST_FIELD_INDEX) {
             throw new IllegalArgumentException("Illegal field index! index=" + index + " maxIndex=" + maxIndex);
         }
         if (index > maxIndex) {
@@ -36,7 +38,7 @@ public record TextField(int index, int maxIndex, @Nullable String text)
     }
 
     public boolean isFirstField() {
-        return index == TextFields.FIRST_FIELD_INDEX;
+        return index == FIRST_FIELD_INDEX;
     }
 
     public boolean isLastField() {

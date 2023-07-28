@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  *
  * @see TextField
  * @see TextRecords
- * @see TextFields#FIRST_FIELD_INDEX
+ * @see TextField#FIRST_FIELD_INDEX
  * @since 0.1
  */
 public interface TextRecord {
@@ -130,7 +130,7 @@ public interface TextRecord {
     @Nullable TextField fieldAt(int index);
 
     default @Nullable TextField firstField() {
-        return fieldAt(TextFields.FIRST_FIELD_INDEX);
+        return fieldAt(TextField.FIRST_FIELD_INDEX);
     }
 
     default @Nullable TextField lastField() {

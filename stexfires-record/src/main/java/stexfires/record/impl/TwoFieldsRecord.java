@@ -3,7 +3,6 @@ package stexfires.record.impl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
 import java.io.Serializable;
@@ -18,8 +17,8 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
                               @NotNull TextField firstField, @NotNull TextField secondField)
         implements TextRecord, Serializable {
 
-    public static final int FIRST_INDEX = TextFields.FIRST_FIELD_INDEX;
-    public static final int SECOND_INDEX = TextFields.FIRST_FIELD_INDEX + 1;
+    public static final int FIRST_INDEX = TextField.FIRST_FIELD_INDEX;
+    public static final int SECOND_INDEX = TextField.FIRST_FIELD_INDEX + 1;
     public static final int MAX_INDEX = SECOND_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 

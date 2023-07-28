@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,9 +18,9 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
                                           @NotNull TextField commentField)
         implements KeyValueCommentRecord, Serializable {
 
-    public static final int KEY_INDEX = TextFields.FIRST_FIELD_INDEX;
-    public static final int VALUE_INDEX = TextFields.FIRST_FIELD_INDEX + 1;
-    public static final int COMMENT_INDEX = TextFields.FIRST_FIELD_INDEX + 2;
+    public static final int KEY_INDEX = TextField.FIRST_FIELD_INDEX;
+    public static final int VALUE_INDEX = TextField.FIRST_FIELD_INDEX + 1;
+    public static final int COMMENT_INDEX = TextField.FIRST_FIELD_INDEX + 2;
     public static final int MAX_INDEX = COMMENT_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 

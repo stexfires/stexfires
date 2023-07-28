@@ -3,7 +3,6 @@ package stexfires.record.impl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextField;
-import stexfires.record.TextFields;
 import stexfires.record.ValueRecord;
 
 import java.io.Serializable;
@@ -18,7 +17,7 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
                                @NotNull TextField valueField)
         implements ValueRecord, Serializable {
 
-    public static final int VALUE_INDEX = TextFields.FIRST_FIELD_INDEX;
+    public static final int VALUE_INDEX = TextField.FIRST_FIELD_INDEX;
     public static final int MAX_INDEX = VALUE_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 

@@ -1,6 +1,6 @@
 package stexfires.record.message;
 
-import stexfires.record.TextFields;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
 import java.util.SortedSet;
@@ -58,7 +58,7 @@ public final class CompareMessageBuilder {
     }
 
     public synchronized CompareMessageBuilder textAt(int index) {
-        if (index < TextFields.FIRST_FIELD_INDEX) {
+        if (index < TextField.FIRST_FIELD_INDEX) {
             throw new IllegalArgumentException("Wrong 'index'! " + index);
         }
         textIndex.add(index);

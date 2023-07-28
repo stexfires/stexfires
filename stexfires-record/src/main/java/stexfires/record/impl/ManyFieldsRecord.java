@@ -58,7 +58,7 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
         // Check and copy fields
         this.fields = new TextField[fields.length];
         int maxIndex = fields.length - 1;
-        for (int index = TextFields.FIRST_FIELD_INDEX; index < fields.length; index++) {
+        for (int index = TextField.FIRST_FIELD_INDEX; index < fields.length; index++) {
             var field = fields[index];
             if (field.index() != index) {
                 throw new IllegalArgumentException("Wrong 'index' of field: " + field);
