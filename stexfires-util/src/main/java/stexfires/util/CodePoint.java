@@ -6,6 +6,8 @@ import java.lang.Character.UnicodeBlock;
 import java.lang.Character.UnicodeScript;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 /**
  * The record represents a Unicode code point.
@@ -72,6 +74,37 @@ public record CodePoint(int value) {
      */
     public static CodePoint ofChar(char character) {
         return new CodePoint(character);
+    }
+
+    /**
+     * Finds the first code point that matches the given {@code Predicate}.
+     * The search starts at {@code startCodePoint} and ends at {@code endCodePoint}.
+     * The {@code startCodePoint} can be less than, equal to or greater than {@code endCodePoint}.
+     *
+     * @param startCodePoint     the code point to start the search (inclusive)
+     * @param endCodePoint       the code point to end the search (inclusive)
+     * @param codePointPredicate the predicate to apply to each code point to determine if it should be returned
+     * @return the first code point that matches the given {@code Predicate}.
+     */
+    public static Optional<CodePoint> findFirst(@NotNull CodePoint startCodePoint, @NotNull CodePoint endCodePoint,
+                                                @NotNull Predicate<CodePoint> codePointPredicate) {
+        Objects.requireNonNull(startCodePoint);
+        Objects.requireNonNull(endCodePoint);
+        Objects.requireNonNull(codePointPredicate);
+        if (startCodePoint.value < endCodePoint.value) {
+            return IntStream.rangeClosed(startCodePoint.value, endCodePoint.value)
+                            .mapToObj(CodePoint::new)
+                            .filter(codePointPredicate)
+                            .findFirst();
+        } else if (startCodePoint.value > endCodePoint.value) {
+            return IntStream.rangeClosed(endCodePoint.value, startCodePoint.value)
+                            .map(i -> endCodePoint.value + startCodePoint.value - i)
+                            .mapToObj(CodePoint::new)
+                            .filter(codePointPredicate)
+                            .findFirst();
+        } else {
+            return codePointPredicate.test(startCodePoint) ? Optional.of(startCodePoint) : Optional.empty();
+        }
     }
 
     /**

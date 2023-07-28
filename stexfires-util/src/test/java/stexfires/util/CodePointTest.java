@@ -87,6 +87,42 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#findFirst(CodePoint, CodePoint, java.util.function.Predicate)}.
+     */
+    @Test
+    void findFirst() {
+        // startCodePoint < endCodePoint
+        assertEquals(CodePoint.MIN_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> true).orElseThrow().value());
+        assertTrue(CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> false).isEmpty());
+
+        assertEquals(new CodePoint(2), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> cp.value() == 2).orElseThrow());
+        assertEquals(CodePoint.ofChar('\t'), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isWhitespace).orElseThrow());
+        assertEquals(CodePoint.ofChar(' '), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isSpaceChar).orElseThrow());
+        assertEquals(CodePoint.ofChar('0'), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isDigit).orElseThrow());
+        assertEquals(CodePoint.ofChar('A'), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isLetter).orElseThrow());
+
+        assertEquals(CodePoint.ofChar('A'), CodePoint.findFirst(CodePoint.ofChar('0'), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isLetter).orElseThrow());
+        assertEquals(CodePoint.ofChar('A'), CodePoint.findFirst(CodePoint.ofChar('A'), new CodePoint(CodePoint.MAX_VALUE), CodePoint::isLetter).orElseThrow());
+
+        assertEquals(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK), CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> cp.unicodeBlock().isEmpty()).orElseThrow());
+
+        // startCodePoint > endCodePoint
+        assertEquals(CodePoint.MAX_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> true).orElseThrow().value());
+        assertTrue(CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> false).isEmpty());
+
+        assertEquals(new CodePoint(201546), CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), CodePoint::isLetter).orElseThrow());
+
+        // startCodePoint == endCodePoint
+        assertEquals(CodePoint.MIN_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> true).orElseThrow().value());
+        assertTrue(CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> false).isEmpty());
+        assertEquals(CodePoint.MAX_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> true).orElseThrow().value());
+        assertTrue(CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MAX_VALUE), cp -> false).isEmpty());
+        assertEquals(CodePoint.ofChar('A'), CodePoint.findFirst(CodePoint.ofChar('A'), CodePoint.ofChar('A'), cp -> true).orElseThrow());
+        assertTrue(CodePoint.findFirst(CodePoint.ofChar('A'), CodePoint.ofChar('A'), cp -> false).isEmpty());
+        assertEquals(CodePoint.ofChar('A'), CodePoint.findFirst(CodePoint.ofChar('A'), CodePoint.ofChar('A'), CodePoint::isLetter).orElseThrow());
+    }
+
+    /**
      * Test method for {@link CodePoint#next()}.
      */
     @Test
@@ -204,10 +240,7 @@ class CodePointTest {
         // all code points
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             int characterType = Character.getType(codePoint);
-            if (characterType != Character.UNASSIGNED
-                    && characterType != Character.CONTROL
-                    && characterType != Character.SURROGATE
-                    && characterType != Character.PRIVATE_USE) {
+            if (characterType != Character.UNASSIGNED && characterType != Character.CONTROL && characterType != Character.SURROGATE && characterType != Character.PRIVATE_USE) {
                 assertTrue(new CodePoint(codePoint).isPrintable());
             } else {
                 assertFalse(new CodePoint(codePoint).isPrintable());
