@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -24,7 +25,7 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record TextField(int index, int maxIndex, @Nullable String text)
-        implements Serializable {
+        implements Serializable, Comparable<TextField> {
 
     public static final int FIRST_FIELD_INDEX = 0;
 
@@ -35,6 +36,25 @@ public record TextField(int index, int maxIndex, @Nullable String text)
         if (index > maxIndex) {
             throw new IllegalArgumentException("Illegal field index! index=" + index + " maxIndex=" + maxIndex);
         }
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     * <p>
+     * The comparison is based on the {@code index} of the {@code TextField}.
+     * It returns {@code 0} if the {@code index} of the {@code TextField}s are equal.
+     *
+     * @param o the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     */
+    @Override
+    public int compareTo(@NotNull TextField o) {
+        Objects.requireNonNull(o);
+        return Integer.compare(index, o.index);
     }
 
     public boolean isFirstField() {

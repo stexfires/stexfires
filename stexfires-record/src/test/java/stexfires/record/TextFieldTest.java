@@ -26,6 +26,23 @@ class TextFieldTest {
     private final TextField textFieldValueLast = new TextField(2, 2, TEXT_VALUE);
 
     /**
+     * Test method for {@link TextField#compareTo(TextField)}.
+     */
+    @SuppressWarnings("EqualsWithItself")
+    @Test
+    void compareTo() {
+        assertEquals(0, textFieldValue.compareTo(textFieldValue));
+        assertEquals(0, textFieldValue.compareTo(textFieldNull));
+        assertEquals(0, textFieldValue.compareTo(textFieldEmpty));
+        assertEquals(0, textFieldValue.compareTo(textFieldBlank));
+
+        assertTrue(textFieldValue.compareTo(textFieldValueMiddle) < 0);
+        assertTrue(textFieldValueMiddle.compareTo(textFieldValue) > 0);
+        assertTrue(textFieldValue.compareTo(textFieldValueLast) < 0);
+        assertTrue(textFieldValueLast.compareTo(textFieldValue) > 0);
+    }
+
+    /**
      * Test method for {@link TextField#isFirstField()}.
      */
     @Test
