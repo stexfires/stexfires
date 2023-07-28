@@ -123,6 +123,23 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#compareTo(CodePoint)}.
+     */
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    void compareTo() {
+        assertEquals(0, new CodePoint(0).compareTo(new CodePoint(0)));
+        assertTrue(new CodePoint(0).compareTo(new CodePoint(1)) < 0);
+        assertTrue(new CodePoint(1).compareTo(new CodePoint(0)) > 0);
+
+        assertEquals(0, new CodePoint(48).compareTo(new CodePoint(48)));
+        assertTrue(new CodePoint(48).compareTo(new CodePoint(64)) < 0);
+        assertTrue(new CodePoint(64).compareTo(new CodePoint(48)) > 0);
+
+        assertThrows(NullPointerException.class, () -> new CodePoint(0).compareTo(null));
+    }
+
+    /**
      * Test method for {@link CodePoint#next()}.
      */
     @Test

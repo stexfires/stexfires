@@ -2,6 +2,7 @@ package stexfires.util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.lang.Character.UnicodeBlock;
 import java.lang.Character.UnicodeScript;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import java.util.stream.IntStream;
  * @see java.lang.Character
  * @since 0.1
  */
-public record CodePoint(int value) {
+public record CodePoint(int value) implements Serializable, Comparable<CodePoint> {
 
     /**
      * The minimum value of an ASCII code point (0 = 0x00).
@@ -105,6 +106,22 @@ public record CodePoint(int value) {
         } else {
             return codePointPredicate.test(startCodePoint) ? Optional.of(startCodePoint) : Optional.empty();
         }
+    }
+
+    /**
+     * Compares this object with the specified object for order.  Returns a
+     * negative integer, zero, or a positive integer as this object is less
+     * than, equal to, or greater than the specified object.
+     *
+     * @param o the object to be compared.
+     * @return a negative integer, zero, or a positive integer as this object
+     * is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException if the specified object is null
+     */
+    @Override
+    public int compareTo(@NotNull CodePoint o) {
+        Objects.requireNonNull(o);
+        return Integer.compare(value, o.value);
     }
 
     /**
