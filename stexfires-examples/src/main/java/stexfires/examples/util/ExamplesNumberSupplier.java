@@ -189,12 +189,20 @@ public final class ExamplesNumberSupplier {
         printStream("primitiveIntSelection Array",
                 IntStream.generate(
                         RandomNumberSuppliers.primitiveIntSelection(random, 42, 23, 1024)));
+
         printStream("randomSelection List Integer",
                 Stream.generate(
                         Suppliers.randomSelection(random, List.of(42, 23, 1024))));
         printStream("randomSelection Array Integer",
                 Stream.generate(
                         Suppliers.randomSelection(random, new Integer[]{42, 23, 1024})));
+
+        printStream("intSupplierSelection List Integer always 1",
+                Stream.generate(
+                        Suppliers.intSupplierSelection(() -> 1, List.of(42, 23, 1024))));
+        printStream("intSupplierSelection Array Integer always 1",
+                Stream.generate(
+                        Suppliers.intSupplierSelection(() -> 1, new Integer[]{42, 23, 1024})));
 
         printStream("primitiveLongSelection Array",
                 LongStream.generate(

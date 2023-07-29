@@ -156,6 +156,35 @@ public final class Suppliers {
         }
     }
 
+    public static <T> Supplier<T> intSupplierSelection(IntSupplier indexSupplier,
+                                                       List<T> values) {
+        Objects.requireNonNull(indexSupplier);
+        Objects.requireNonNull(values);
+        int bound = values.size();
+        if (bound == 0) {
+            return constantNull();
+        } else if (bound == 1) {
+            return constant(values.get(0));
+        } else {
+            return () -> values.get(indexSupplier.getAsInt() % bound);
+        }
+    }
+
+    @SuppressWarnings("MethodCanBeVariableArityMethod")
+    public static <T> Supplier<T> intSupplierSelection(IntSupplier indexSupplier,
+                                                       T[] values) {
+        Objects.requireNonNull(indexSupplier);
+        Objects.requireNonNull(values);
+        int bound = values.length;
+        if (bound == 0) {
+            return constantNull();
+        } else if (bound == 1) {
+            return constant(values[0]);
+        } else {
+            return () -> values[indexSupplier.getAsInt() % bound];
+        }
+    }
+
     public static <T> Supplier<T> conditional(BooleanSupplier conditionSupplier,
                                               Supplier<T> trueSupplier, Supplier<T> falseSupplier) {
         Objects.requireNonNull(conditionSupplier);
