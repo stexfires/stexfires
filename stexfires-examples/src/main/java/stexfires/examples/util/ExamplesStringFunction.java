@@ -419,6 +419,11 @@ public final class ExamplesStringFunction {
         printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, StringPredicates.alphabetic(), Collectors.joining("-")), "splitFilterCollect alphabetic joining");
         printUnaryOperator(StringUnaryOperators.splitMapCollect(splitterFunction, StringUnaryOperators.lowerCase(Locale.ENGLISH), Collectors.joining("-")), "splitMapCollect lowerCase joining");
 
+    }
+
+    private static void showStringUnaryOperatorsComplex() {
+        System.out.println("-showStringUnaryOperatorsComplex---");
+
         printUnaryOperator(StringUnaryOperators.splitMapCollect(
                 text -> Strings.splitTextBySentenceBreaks(text, Locale.ENGLISH),
                 StringUnaryOperators.conditionalOperator(
@@ -445,6 +450,7 @@ public final class ExamplesStringFunction {
     public static void main(String... args) {
         showStringPredicates();
         showStringUnaryOperators();
+        showStringUnaryOperatorsComplex();
     }
 
 }
