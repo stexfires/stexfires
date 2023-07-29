@@ -440,4 +440,14 @@ public final class StringUnaryOperators {
                                    .collect(stringCollector);
     }
 
+    /**
+     * @see stexfires.util.function.ByteArrayFunctions
+     */
+    public static UnaryOperator<String> convertUsingByteArray(Function<String, byte[]> stringToBytesFunction,
+                                                              Function<byte[], String> bytesToStringFunction) {
+        Objects.requireNonNull(stringToBytesFunction);
+        Objects.requireNonNull(bytesToStringFunction);
+        return s -> bytesToStringFunction.apply(stringToBytesFunction.apply(s));
+    }
+
 }

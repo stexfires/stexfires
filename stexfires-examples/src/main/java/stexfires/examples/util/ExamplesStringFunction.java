@@ -3,6 +3,7 @@ package stexfires.examples.util;
 import stexfires.util.CodePoint;
 import stexfires.util.StringComparators;
 import stexfires.util.Strings;
+import stexfires.util.function.ByteArrayFunctions;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
 import stexfires.util.function.Suppliers;
@@ -12,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -419,6 +421,15 @@ public final class ExamplesStringFunction {
         printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, StringPredicates.alphabetic(), Collectors.joining("-")), "splitFilterCollect alphabetic joining");
         printUnaryOperator(StringUnaryOperators.splitMapCollect(splitterFunction, StringUnaryOperators.lowerCase(Locale.ENGLISH), Collectors.joining("-")), "splitMapCollect lowerCase joining");
 
+        printUnaryOperator(StringUnaryOperators.convertUsingByteArray(
+                ByteArrayFunctions.fromStringIgnoreErrors(StandardCharsets.US_ASCII),
+                ByteArrayFunctions.toStringIgnoreErrors(StandardCharsets.US_ASCII)), "convertUsingByteArray US_ASCII US_ASCII ignore errors");
+        printUnaryOperator(StringUnaryOperators.convertUsingByteArray(
+                ByteArrayFunctions.fromStringAlternativeForError(StandardCharsets.US_ASCII, new byte[]{(byte) '#', (byte) '?'}),
+                ByteArrayFunctions.toStringAlternativeForError(StandardCharsets.US_ASCII, "**")), "convertUsingByteArray US_ASCII US_ASCII alternative");
+        printUnaryOperator(StringUnaryOperators.convertUsingByteArray(
+                ByteArrayFunctions.fromStringIgnoreErrors(StandardCharsets.US_ASCII),
+                ByteArrayFunctions.toHex(HexFormat.ofDelimiter(" "))), "convertUsingByteArray US_ASCII toHex");
     }
 
     private static void showStringUnaryOperatorsComplex() {
