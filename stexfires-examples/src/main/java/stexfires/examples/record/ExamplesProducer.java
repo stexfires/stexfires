@@ -3,11 +3,13 @@ package stexfires.examples.record;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;
+import stexfires.record.ValueRecord;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.producer.CollectionProducer;
 import stexfires.record.producer.ConstantProducer;
 import stexfires.record.producer.DividingProducer;
 import stexfires.record.producer.KeyValueRecordProducer;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesProducer {
@@ -29,6 +32,19 @@ public final class ExamplesProducer {
 
     private static void printProducer(RecordProducer<? extends TextRecord> recordProducer) {
         TextRecordStreams.printLines(TextRecordStreams.produce(recordProducer));
+    }
+
+    private static void showCollectionProducer() {
+        System.out.println("-showCollectionProducer---");
+
+        printProducer(new CollectionProducer<TextRecord>(Set.of(
+                new ValueFieldRecord("set", 0L, "value0"),
+                new ValueFieldRecord("set", 1L, "value1"),
+                new ValueFieldRecord("set", 2L, "value2"))));
+        printProducer(new CollectionProducer<ValueRecord>(List.of(
+                new ValueFieldRecord("list", 0L, "value0"),
+                new ValueFieldRecord("list", 1L, "value1"),
+                new ValueFieldRecord("list", 2L, "value2"))));
     }
 
     private static void showConstantProducer() {
@@ -92,6 +108,7 @@ public final class ExamplesProducer {
     }
 
     public static void main(String... args) {
+        showCollectionProducer();
         showConstantProducer();
         showDividingProducer();
         showKeyValueProducer();
