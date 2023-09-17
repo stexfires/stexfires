@@ -48,7 +48,7 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
                 yield longResult.intValue();
             }
             case Integer integerResult -> integerResult;
-            case default ->
+            default ->
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number has an unhandled class: " + numberResult.getClass());
         };
     }
@@ -59,7 +59,7 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number is null.");
             case Long longResult -> longResult;
             case Integer integerResult -> integerResult.longValue();
-            case default ->
+            default ->
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number has an unhandled class: " + numberResult.getClass());
         };
     }
@@ -71,7 +71,7 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
             case Double doubleResult -> doubleResult;
             case Long longResult -> longResult.doubleValue();
             case Integer integerResult -> integerResult.doubleValue();
-            case default ->
+            default ->
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number has an unhandled class: " + numberResult.getClass());
         };
     }
@@ -100,7 +100,7 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
             }
             case Long longResult -> BigInteger.valueOf(longResult);
             case Integer integerResult -> BigInteger.valueOf(integerResult);
-            case default ->
+            default ->
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number has an unhandled class: " + numberResult.getClass());
         };
     }
@@ -119,7 +119,7 @@ public final class NumberDataTypeParser<T extends Number> implements DataTypePar
             }
             case Long longResult -> BigDecimal.valueOf(longResult);
             case Integer integerResult -> BigDecimal.valueOf(integerResult);
-            case default ->
+            default ->
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Parsed number has an unhandled class: " + numberResult.getClass());
         };
     }
