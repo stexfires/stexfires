@@ -110,7 +110,7 @@ class CodePointTest {
         assertEquals(CodePoint.MAX_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> true).orElseThrow().value());
         assertTrue(CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> false).isEmpty());
 
-        assertEquals(new CodePoint(201546), CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), CodePoint::isLetter).orElseThrow());
+        assertEquals(new CodePoint(205743), CodePoint.findFirst(new CodePoint(CodePoint.MAX_VALUE), new CodePoint(CodePoint.MIN_VALUE), CodePoint::isLetter).orElseThrow());
 
         // startCodePoint == endCodePoint
         assertEquals(CodePoint.MIN_VALUE, CodePoint.findFirst(new CodePoint(CodePoint.MIN_VALUE), new CodePoint(CodePoint.MIN_VALUE), cp -> true).orElseThrow().value());
