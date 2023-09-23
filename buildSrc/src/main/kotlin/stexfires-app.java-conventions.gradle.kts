@@ -46,7 +46,7 @@ tasks.withType<JavaExec>().configureEach {
 tasks.withType<Javadoc> {
     val javadocOptions = options as CoreJavadocOptions
 
-    javadocOptions.addStringOption("source", "19")
+    javadocOptions.addStringOption("source", "20")
     javadocOptions.addBooleanOption("-enable-preview", true)
 }
 
