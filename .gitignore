@@ -1,11 +1,12 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
-# Ignore Gradle build output directory
+# Ignore different build output directories
 build/
+out/
+bin/
 
 # Ignore IntelliJ IDEA
 .idea/
-out/
 *.iws
 *.iml
