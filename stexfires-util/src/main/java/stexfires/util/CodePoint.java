@@ -65,8 +65,24 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      * @see java.lang.Character#MAX_LOW_SURROGATE
      */
     public static final int MAX_LOW_SURROGATE = Character.MAX_LOW_SURROGATE;
+
+    /**
+     * The minimum value of a Unicode Basic Multilingual Plane (BMP) code point (0 = 0x0000).
+     * It is the same as {@link #MIN_VALUE}.
+     *
+     * @see java.lang.Character#MIN_VALUE
+     */
+    public static final int MIN_BMP_CODE_POINT = Character.MIN_VALUE;
+    /**
+     * The maximum value of a Unicode Basic Multilingual Plane (BMP) code point (65535 = 0xFFFF).
+     * It is one less than {@link #MIN_SUPPLEMENTARY_CODE_POINT} and the largest value of type char.
+     *
+     * @see java.lang.Character#MAX_VALUE
+     */
+    public static final int MAX_BMP_CODE_POINT = Character.MAX_VALUE;
     /**
      * The minimum value of a Unicode supplementary code point (65536 = 0x010000).
+     * It is one greater than {@link #MAX_BMP_CODE_POINT}.
      *
      * @see java.lang.Character#MIN_SUPPLEMENTARY_CODE_POINT
      */
