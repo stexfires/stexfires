@@ -1,10 +1,14 @@
 package stexfires.io.properties;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
+import stexfires.record.producer.ProducerException;
+import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,16 +18,13 @@ import java.util.Optional;
 import static stexfires.io.properties.PropertiesFileSpec.ESCAPE_CHAR;
 import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_LENGTH;
 import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_RADIX;
-// TODO chars and codePoints
 
 /**
  * @since 0.1
  */
-@SuppressWarnings("HardcodedLineSeparator")
 public final class PropertiesProducer extends AbstractInternalReadableProducer<KeyValueRecord> {
 
     private static final int ILLEGAL_INDEX = -1;
-
     private final PropertiesFileSpec fileSpec;
 
     public PropertiesProducer(BufferedReader bufferedReader, PropertiesFileSpec fileSpec) {
@@ -32,27 +33,10 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
         this.fileSpec = fileSpec;
     }
 
-    @Override
-    protected AbstractRecordRawDataIterator createIterator() {
-        return new PropertiesIterator(bufferedReader());
-    }
-
-    @Override
-    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) {
-        String[] keyValue = splitLine(recordRawData.rawData());
-
-        return createRecord(
-                fileSpec.producerCommentAsCategory() ? recordRawData.category() : null,
-                recordRawData.recordId(),
-                decode(keyValue[0]),
-                decode(keyValue[1]),
-                fileSpec.producerNullValueReplacement());
-    }
-
-    private static String[] splitLine(String line) {
+    private static KeyValue splitLineIntoKeyValue(@NotNull String line) {
         Objects.requireNonNull(line);
 
-        final int maxIndex = line.length();
+        int maxIndex = line.length();
 
         boolean escapeFound = false;
         boolean delimiterFound = false;
@@ -106,14 +90,11 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
             value = line.substring(valueStartIndex);
         }
 
-        return new String[]{
-                key,
-                value
-        };
+        return new KeyValue(key, value);
     }
 
-    @SuppressWarnings("NumericCastThatLosesPrecision")
-    private static String decode(String encodedStr) {
+    @SuppressWarnings("HardcodedLineSeparator")
+    private static @Nullable String decode(@Nullable String encodedStr) throws UncheckedProducerException {
         if ((encodedStr == null) || (encodedStr.isEmpty())) {
             return encodedStr;
         }
@@ -128,10 +109,12 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
 
             if (unicodeStartIndex != ILLEGAL_INDEX) {
                 if (unicodeStartIndex + UNICODE_ENCODE_LENGTH - 1 == i) {
-                    // TODO Exception handling
-                    b.append((char) Integer.parseInt(
-                            encodedStr.substring(unicodeStartIndex, unicodeStartIndex + UNICODE_ENCODE_LENGTH),
-                            UNICODE_ENCODE_RADIX));
+                    String unicodeSequence = encodedStr.substring(unicodeStartIndex, unicodeStartIndex + UNICODE_ENCODE_LENGTH);
+                    try {
+                        b.appendCodePoint(Integer.parseInt(unicodeSequence, UNICODE_ENCODE_RADIX));
+                    } catch (NumberFormatException e) {
+                        throw new UncheckedProducerException(new ProducerException("Invalid unicode sequence found! " + unicodeSequence, e));
+                    }
                     unicodeStartIndex = ILLEGAL_INDEX;
                 }
             } else if (escapeFound) {
@@ -151,16 +134,19 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
             }
         }
 
-        if (escapeFound || (unicodeStartIndex != ILLEGAL_INDEX)) {
-            // TODO Exception handling
-            throw new RuntimeException(encodedStr);
+        if (escapeFound) {
+            throw new UncheckedProducerException(new ProducerException("Unhandled or unfinished escape sequence found!"));
+        }
+        if (unicodeStartIndex != ILLEGAL_INDEX) {
+            throw new UncheckedProducerException(new ProducerException("Unhandled or unfinished unicode sequence found! " + unicodeStartIndex));
         }
 
         return b.toString();
     }
 
-    private static Optional<KeyValueRecord> createRecord(String category, Long recordId,
-                                                         String key, String value, String nullValueReplacement) {
+    private static Optional<KeyValueRecord> createKeyValueRecord(@Nullable String category, @Nullable Long recordId,
+                                                                 @Nullable String key, @Nullable String value,
+                                                                 @Nullable String nullValueReplacement) {
         KeyValueRecord record = null;
 
         if (key != null) {
@@ -172,6 +158,33 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
         }
 
         return Optional.ofNullable(record);
+    }
+
+    @Override
+    protected AbstractRecordRawDataIterator createIterator() {
+        return new PropertiesIterator(bufferedReader());
+    }
+
+    @Override
+    protected Optional<KeyValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+        String category = fileSpec.producerCommentAsCategory() ? recordRawData.category() : null;
+        KeyValue keyValue = splitLineIntoKeyValue(recordRawData.rawData());
+
+        return createKeyValueRecord(
+                category,
+                recordRawData.recordId(),
+                decode(keyValue.key()),
+                decode(keyValue.value()),
+                fileSpec.producerNullValueReplacement());
+    }
+
+    /**
+     * A simple record to hold a key and a value.
+     *
+     * @param key   the key, can be {@code null}
+     * @param value the value, can be {@code null}
+     */
+    private record KeyValue(@Nullable String key, @Nullable String value) {
     }
 
     private static final class PropertiesIterator extends AbstractRecordRawDataIterator {
@@ -206,10 +219,12 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
                         if (!multiLine && (keyStartIndex == ILLEGAL_INDEX)
                                 && (character == '#' || character == '!')) {
                             commentFound = true;
+                            // the comment starts after the comment character and extends to the end of the line
                             currentComment = currentLine.substring(i + 1);
                             break;
                         }
 
+                        // ignore leading whitespace (characters space, tab and form feed)
                         if ((keyStartIndex == ILLEGAL_INDEX)
                                 && (character != ' ' && character != '\t' && character != '\f')) {
                             keyStartIndex = i;
