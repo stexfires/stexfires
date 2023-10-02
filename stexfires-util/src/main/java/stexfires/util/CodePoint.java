@@ -42,6 +42,44 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
     public static final int MAX_VALUE = Character.MAX_CODE_POINT;
 
     /**
+     * The minimum value of a Unicode high-surrogate code unit (55296 = 0xD800).
+     *
+     * @see java.lang.Character#MIN_HIGH_SURROGATE
+     */
+    public static final int MIN_HIGH_SURROGATE = Character.MIN_HIGH_SURROGATE;
+    /**
+     * The maximum value of a Unicode high-surrogate code unit (56319 = 0xDBFF).
+     *
+     * @see java.lang.Character#MAX_HIGH_SURROGATE
+     */
+    public static final int MAX_HIGH_SURROGATE = Character.MAX_HIGH_SURROGATE;
+    /**
+     * The minimum value of a Unicode low-surrogate code unit (56320 = 0xDC00).
+     *
+     * @see java.lang.Character#MIN_LOW_SURROGATE
+     */
+    public static final int MIN_LOW_SURROGATE = Character.MIN_LOW_SURROGATE;
+    /**
+     * The maximum value of a Unicode low-surrogate code unit (57343 = 0xDFFF).
+     *
+     * @see java.lang.Character#MAX_LOW_SURROGATE
+     */
+    public static final int MAX_LOW_SURROGATE = Character.MAX_LOW_SURROGATE;
+    /**
+     * The minimum value of a Unicode supplementary code point (65536 = 0x010000).
+     *
+     * @see java.lang.Character#MIN_SUPPLEMENTARY_CODE_POINT
+     */
+    public static final int MIN_SUPPLEMENTARY_CODE_POINT = Character.MIN_SUPPLEMENTARY_CODE_POINT;
+    /**
+     * The maximum value of a Unicode supplementary code point (1114111 = 0x10FFFF).
+     * It is the same as {@link #MAX_VALUE}.
+     *
+     * @see java.lang.Character#MAX_CODE_POINT
+     */
+    public static final int MAX_SUPPLEMENTARY_CODE_POINT = Character.MAX_CODE_POINT;
+
+    /**
      * Constructs a {@code CodePoint} with the given value.
      *
      * @param value the value of the code point

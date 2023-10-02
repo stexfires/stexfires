@@ -36,6 +36,19 @@ class CodePointTest {
         assertEquals(Character.MAX_CODE_POINT, CodePoint.MAX_VALUE);
         assertEquals(1114111, CodePoint.MAX_VALUE);
         assertEquals(0x10FFFF, CodePoint.MAX_VALUE);
+
+        assertEquals(Character.MIN_HIGH_SURROGATE, CodePoint.MIN_HIGH_SURROGATE);
+        assertEquals(0xD800, CodePoint.MIN_HIGH_SURROGATE);
+        assertEquals(Character.MAX_HIGH_SURROGATE, CodePoint.MAX_HIGH_SURROGATE);
+        assertEquals(0xDBFF, CodePoint.MAX_HIGH_SURROGATE);
+        assertEquals(Character.MIN_LOW_SURROGATE, CodePoint.MIN_LOW_SURROGATE);
+        assertEquals(0xDC00, CodePoint.MIN_LOW_SURROGATE);
+        assertEquals(Character.MAX_LOW_SURROGATE, CodePoint.MAX_LOW_SURROGATE);
+        assertEquals(0xDFFF, CodePoint.MAX_LOW_SURROGATE);
+        assertEquals(Character.MIN_SUPPLEMENTARY_CODE_POINT, CodePoint.MIN_SUPPLEMENTARY_CODE_POINT);
+        assertEquals(0x010000, CodePoint.MIN_SUPPLEMENTARY_CODE_POINT);
+        assertEquals(Character.MAX_CODE_POINT, CodePoint.MAX_SUPPLEMENTARY_CODE_POINT);
+        assertEquals(0x10FFFF, CodePoint.MAX_SUPPLEMENTARY_CODE_POINT);
     }
 
     /**
@@ -49,6 +62,7 @@ class CodePointTest {
             assertEquals(codePoint, new CodePoint(codePoint).value());
         }
 
+        // illeagl code points
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(CodePoint.MIN_VALUE - 1));
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(CodePoint.MAX_VALUE + 1));
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(Integer.MIN_VALUE));
@@ -70,6 +84,7 @@ class CodePointTest {
             }
         }
 
+        // illegal names
         assertThrows(NullPointerException.class, () -> CodePoint.ofName(null));
         assertThrows(IllegalArgumentException.class, () -> CodePoint.ofName(""));
         assertThrows(IllegalArgumentException.class, () -> CodePoint.ofName("test"));
@@ -218,6 +233,13 @@ class CodePointTest {
             assertEquals("LATIN SMALL LETTER " + (char) (codePoint - 97 + 65), new CodePoint(codePoint).name().orElse(null));
         }
         assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).name().isEmpty());
+
+        assertEquals("HIGH SURROGATES D800", new CodePoint(CodePoint.MIN_HIGH_SURROGATE).name().orElse(null));
+        assertEquals("HIGH PRIVATE USE SURROGATES DBFF", new CodePoint(CodePoint.MAX_HIGH_SURROGATE).name().orElse(null));
+        assertEquals("LOW SURROGATES DC00", new CodePoint(CodePoint.MIN_LOW_SURROGATE).name().orElse(null));
+        assertEquals("LOW SURROGATES DFFF", new CodePoint(CodePoint.MAX_LOW_SURROGATE).name().orElse(null));
+        assertEquals("LINEAR B SYLLABLE B008 A", new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).name().orElse(null));
+        assertTrue(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).name().isEmpty());
     }
 
     /**
@@ -234,6 +256,7 @@ class CodePointTest {
             assertEquals(Character.toString(codePoint), characterString);
         }
 
+        // individual code points
         assertEquals("\t", new CodePoint(9).string());
         assertEquals("\n", new CodePoint(10).string());
         assertEquals("\r", new CodePoint(13).string());
@@ -246,7 +269,6 @@ class CodePointTest {
         assertEquals("𐀀", new CodePoint(65536).string());
         assertEquals("🀀", new CodePoint(126976).string());
         assertEquals("🏿", new CodePoint(127999).string());
-
     }
 
     /**
@@ -270,6 +292,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isPrintable());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isPrintable());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isPrintable());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isPrintable());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isPrintable());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isPrintable());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isPrintable());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isPrintable());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isPrintable());
 
         // individual code points
         assertFalse(new CodePoint(10).isPrintable());
@@ -328,6 +356,12 @@ class CodePointTest {
         assertTrue(new CodePoint(42975).printableString().isEmpty());
         assertTrue(new CodePoint(55317).printableString().isEmpty());
         assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MIN_LOW_SURROGATE).printableString().isEmpty());
+        assertTrue(new CodePoint(CodePoint.MAX_LOW_SURROGATE).printableString().isEmpty());
+        assertEquals("\uD800\uDC00", new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).printableString().orElse(null));
+        assertTrue(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).printableString().isEmpty());
     }
 
     /**
@@ -341,11 +375,20 @@ class CodePointTest {
             assertEquals(Integer.toHexString(codePoint), new CodePoint(codePoint).hexString());
         }
 
+        // constant code points
         assertEquals("0", new CodePoint(CodePoint.MIN_ASCII_VALUE).hexString());
         assertEquals("7f", new CodePoint(CodePoint.MAX_ASCII_VALUE).hexString());
         assertEquals("0", new CodePoint(CodePoint.MIN_VALUE).hexString());
         assertEquals("10ffff", new CodePoint(CodePoint.MAX_VALUE).hexString());
 
+        assertEquals("d800", new CodePoint(CodePoint.MIN_HIGH_SURROGATE).hexString());
+        assertEquals("dbff", new CodePoint(CodePoint.MAX_HIGH_SURROGATE).hexString());
+        assertEquals("dc00", new CodePoint(CodePoint.MIN_LOW_SURROGATE).hexString());
+        assertEquals("dfff", new CodePoint(CodePoint.MAX_LOW_SURROGATE).hexString());
+        assertEquals("10000", new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).hexString());
+        assertEquals("10ffff", new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).hexString());
+
+        // individual code points
         assertEquals("20", new CodePoint(32).hexString());
         assertEquals("21", new CodePoint(33).hexString());
         assertEquals("24", new CodePoint(36).hexString());
@@ -369,6 +412,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isAlphabetic());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isAlphabetic());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isAlphabetic());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isAlphabetic());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isAlphabetic());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isAlphabetic());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isAlphabetic());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isAlphabetic());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isAlphabetic());
 
         // individual code points
         assertFalse(new CodePoint(32).isAlphabetic());
@@ -432,6 +481,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isBmpCodePoint());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isBmpCodePoint());
         assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isBmpCodePoint());
+        assertTrue(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isBmpCodePoint());
+        assertTrue(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isBmpCodePoint());
+        assertTrue(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isBmpCodePoint());
+        assertTrue(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isBmpCodePoint());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isBmpCodePoint());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isBmpCodePoint());
 
         // individual code points
         assertTrue(new CodePoint(32).isBmpCodePoint());
@@ -457,6 +512,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isDefined());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isDefined());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isDefined());
+        assertTrue(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isDefined());
+        assertTrue(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isDefined());
+        assertTrue(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isDefined());
+        assertTrue(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isDefined());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isDefined());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isDefined());
 
         // individual code points
         assertTrue(new CodePoint(32).isDefined());
@@ -479,6 +540,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isDigit());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isDigit());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isDigit());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isDigit());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isDigit());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isDigit());
 
         // individual code points
         assertFalse(new CodePoint(32).isDigit());
@@ -503,6 +570,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isIdentifierIgnorable());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isIdentifierIgnorable());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isIdentifierIgnorable());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isIdentifierIgnorable());
 
         // individual code points
         assertTrue(new CodePoint(1).isIdentifierIgnorable());
@@ -529,6 +602,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isIdeographic());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isIdeographic());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isIdeographic());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isIdeographic());
 
         // individual code points
         assertFalse(new CodePoint(32).isIdeographic());
@@ -554,6 +633,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isISOControl());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isISOControl());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isISOControl());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isISOControl());
 
         // individual code points
         assertTrue(new CodePoint(0).isISOControl());
@@ -583,6 +668,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isJavaIdentifierPart());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isJavaIdentifierPart());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isJavaIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isJavaIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isJavaIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isJavaIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isJavaIdentifierPart());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isJavaIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isJavaIdentifierPart());
 
         // individual code points
         assertFalse(new CodePoint(32).isJavaIdentifierPart());
@@ -610,6 +701,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isLetter());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isLetter());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isLetter());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isLetter());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isLetter());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isLetter());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isLetter());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isLetter());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isLetter());
 
         // individual code points
         assertFalse(new CodePoint(32).isLetter());
@@ -635,6 +732,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isLetterOrDigit());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isLetterOrDigit());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isLetterOrDigit());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isLetterOrDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isLetterOrDigit());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isLetterOrDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isLetterOrDigit());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isLetterOrDigit());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isLetterOrDigit());
 
         // individual code points
         assertFalse(new CodePoint(32).isLetterOrDigit());
@@ -662,6 +765,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isLowerCase());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isLowerCase());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isLowerCase());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isLowerCase());
 
         // individual code points
         assertFalse(new CodePoint(32).isLowerCase());
@@ -687,6 +796,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isMirrored());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isMirrored());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isMirrored());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isMirrored());
 
         // individual code points
         assertFalse(new CodePoint(32).isMirrored());
@@ -713,6 +828,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isSpaceChar());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isSpaceChar());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isSpaceChar());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isSpaceChar());
 
         // individual code points
         assertTrue(new CodePoint(32).isSpaceChar());
@@ -731,6 +852,10 @@ class CodePointTest {
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             assertEquals(Character.isSupplementaryCodePoint(codePoint), new CodePoint(codePoint).isSupplementaryCodePoint());
         }
+        // supplementary code points
+        for (int codePoint = CodePoint.MIN_SUPPLEMENTARY_CODE_POINT; codePoint <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT; codePoint++) {
+            assertTrue(new CodePoint(codePoint).isSupplementaryCodePoint());
+        }
 
         // constant code points
         assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isSupplementaryCodePoint());
@@ -738,6 +863,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isSupplementaryCodePoint());
         assertTrue(new CodePoint(CodePoint.MAX_VALUE).isSupplementaryCodePoint());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isSupplementaryCodePoint());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isSupplementaryCodePoint());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isSupplementaryCodePoint());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isSupplementaryCodePoint());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isSupplementaryCodePoint());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isSupplementaryCodePoint());
+        assertTrue(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isSupplementaryCodePoint());
 
         // individual code points
         assertFalse(new CodePoint(32).isSupplementaryCodePoint());
@@ -766,6 +897,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isTitleCase());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isTitleCase());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isTitleCase());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isTitleCase());
 
         // individual code points
         assertFalse(new CodePoint(32).isTitleCase());
@@ -790,6 +927,12 @@ class CodePointTest {
         assertTrue(new CodePoint(CodePoint.MIN_VALUE).isUnicodeIdentifierPart());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isUnicodeIdentifierPart());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isUnicodeIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isUnicodeIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isUnicodeIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isUnicodeIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isUnicodeIdentifierPart());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isUnicodeIdentifierPart());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isUnicodeIdentifierPart());
 
         // individual code points
         assertFalse(new CodePoint(32).isUnicodeIdentifierPart());
@@ -817,6 +960,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isUnicodeIdentifierStart());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isUnicodeIdentifierStart());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isUnicodeIdentifierStart());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isUnicodeIdentifierStart());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isUnicodeIdentifierStart());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isUnicodeIdentifierStart());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isUnicodeIdentifierStart());
+        assertTrue(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isUnicodeIdentifierStart());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isUnicodeIdentifierStart());
 
         // individual code points
         assertFalse(new CodePoint(32).isUnicodeIdentifierStart());
@@ -844,6 +993,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isUpperCase());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isUpperCase());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isUpperCase());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isUpperCase());
 
         // individual code points
         assertFalse(new CodePoint(32).isUpperCase());
@@ -869,6 +1024,12 @@ class CodePointTest {
         assertFalse(new CodePoint(CodePoint.MIN_VALUE).isWhitespace());
         assertFalse(new CodePoint(CodePoint.MAX_VALUE).isWhitespace());
         assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isWhitespace());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isWhitespace());
 
         // individual code points
         assertTrue(new CodePoint(32).isWhitespace());
@@ -898,9 +1059,17 @@ class CodePointTest {
             }
         }
 
+        // ascii code points
         for (int codePoint = CodePoint.MIN_ASCII_VALUE; codePoint <= CodePoint.MAX_ASCII_VALUE; codePoint++) {
             assertEquals(1, new CodePoint(codePoint).charCount());
         }
+
+        // supplementary code points
+        for (int codePoint = CodePoint.MIN_SUPPLEMENTARY_CODE_POINT; codePoint <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT; codePoint++) {
+            assertEquals(2, new CodePoint(codePoint).charCount());
+        }
+
+        // individual code points
         assertEquals(2, new CodePoint(129501).charCount());
         assertEquals(2, new CodePoint(127820).charCount());
         assertEquals(2, new CodePoint(128147).charCount());
@@ -999,6 +1168,11 @@ class CodePointTest {
                 assertTrue(new CodePoint(codePoint).lowSurrogate().isEmpty());
             }
         }
+
+        // supplementary code points
+        for (int codePoint = CodePoint.MIN_SUPPLEMENTARY_CODE_POINT; codePoint <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT; codePoint++) {
+            assertTrue(new CodePoint(codePoint).lowSurrogate().isPresent());
+        }
     }
 
     /**
@@ -1014,6 +1188,11 @@ class CodePointTest {
             } else {
                 assertTrue(new CodePoint(codePoint).highSurrogate().isEmpty());
             }
+        }
+
+        // supplementary code points
+        for (int codePoint = CodePoint.MIN_SUPPLEMENTARY_CODE_POINT; codePoint <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT; codePoint++) {
+            assertTrue(new CodePoint(codePoint).highSurrogate().isPresent());
         }
     }
 
@@ -1055,6 +1234,13 @@ class CodePointTest {
             assertEquals(CodePoint.Type.LOWERCASE_LETTER, new CodePoint(codePoint).type());
         }
         assertEquals(CodePoint.Type.UNASSIGNED, new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).type());
+
+        assertEquals(CodePoint.Type.SURROGATE, new CodePoint(CodePoint.MIN_HIGH_SURROGATE).type());
+        assertEquals(CodePoint.Type.SURROGATE, new CodePoint(CodePoint.MAX_HIGH_SURROGATE).type());
+        assertEquals(CodePoint.Type.SURROGATE, new CodePoint(CodePoint.MIN_LOW_SURROGATE).type());
+        assertEquals(CodePoint.Type.SURROGATE, new CodePoint(CodePoint.MAX_LOW_SURROGATE).type());
+        assertEquals(CodePoint.Type.OTHER_LETTER, new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).type());
+        assertEquals(CodePoint.Type.UNASSIGNED, new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).type());
     }
 
     /**
@@ -1091,6 +1277,13 @@ class CodePointTest {
             assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(codePoint).directionality());
         }
         assertEquals(CodePoint.Directionality.DIRECTIONALITY_UNDEFINED, new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).directionality());
+
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(CodePoint.MIN_HIGH_SURROGATE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(CodePoint.MAX_HIGH_SURROGATE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(CodePoint.MIN_LOW_SURROGATE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(CodePoint.MAX_LOW_SURROGATE).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_LEFT_TO_RIGHT, new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).directionality());
+        assertEquals(CodePoint.Directionality.DIRECTIONALITY_UNDEFINED, new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).directionality());
     }
 
     /**
@@ -1120,6 +1313,13 @@ class CodePointTest {
             assertEquals("LATIN_1_SUPPLEMENT", new CodePoint(codePoint).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
         }
         assertTrue(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeBlock().isEmpty());
+
+        assertEquals("HIGH_SURROGATES", new CodePoint(CodePoint.MIN_HIGH_SURROGATE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("HIGH_PRIVATE_USE_SURROGATES", new CodePoint(CodePoint.MAX_HIGH_SURROGATE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("LOW_SURROGATES", new CodePoint(CodePoint.MIN_LOW_SURROGATE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("LOW_SURROGATES", new CodePoint(CodePoint.MAX_LOW_SURROGATE).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("LINEAR_B_SYLLABARY", new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
+        assertEquals("SUPPLEMENTARY_PRIVATE_USE_AREA_B", new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).unicodeBlock().map(Character.UnicodeBlock::toString).orElse(""));
     }
 
     /**
@@ -1132,6 +1332,21 @@ class CodePointTest {
             assertNotNull(new CodePoint(codePoint).unicodeScript());
             assertEquals(Character.UnicodeScript.of(codePoint), new CodePoint(codePoint).unicodeScript());
         }
+
+        // constant code points
+        assertEquals(Character.UnicodeScript.COMMON, new CodePoint(CodePoint.MIN_ASCII_VALUE).unicodeScript());
+        assertEquals(Character.UnicodeScript.COMMON, new CodePoint(CodePoint.MAX_ASCII_VALUE).unicodeScript());
+        assertEquals(Character.UnicodeScript.COMMON, new CodePoint(CodePoint.MIN_VALUE).unicodeScript());
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MAX_VALUE).unicodeScript());
+
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).unicodeScript());
+
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MIN_HIGH_SURROGATE).unicodeScript());
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MAX_HIGH_SURROGATE).unicodeScript());
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MIN_LOW_SURROGATE).unicodeScript());
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MAX_LOW_SURROGATE).unicodeScript());
+        assertEquals(Character.UnicodeScript.LINEAR_B, new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).unicodeScript());
+        assertEquals(Character.UnicodeScript.UNKNOWN, new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).unicodeScript());
     }
 
 }
