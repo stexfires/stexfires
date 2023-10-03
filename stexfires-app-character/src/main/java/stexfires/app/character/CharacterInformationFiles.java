@@ -260,13 +260,15 @@ public final class CharacterInformationFiles {
 
             // Numeric_3
             writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_Numeric_3_or_13.md"),
-                    "List of Unicode characters with a numeric value of '3' or '13'." + LINE_SEPARATOR,
+                            "Character_Markdown_Table_Numeric_3_or_13_or_30_or_300.md"),
+                    "List of Unicode characters with a numeric value of '3', '13', '30' or '300'." + LINE_SEPARATOR,
                     fieldSpecs,
                     TextFilter.containedIn(CodePointRecordFields.NUMERIC_VALUE.ordinal(),
                             List.of(
                                     "3",
-                                    "13"
+                                    "13",
+                                    "30",
+                                    "300"
                             )),
                     RecordComparators.textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal(), StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.LAST)
                                      .thenComparing(RecordComparators.textAt(CodePointRecordFields.CHAR_COUNT.ordinal(), StringComparators.integerComparator(null, null, Comparator.nullsLast(Integer::compare)), SortNulls.FIRST))
