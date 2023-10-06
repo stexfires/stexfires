@@ -3,12 +3,12 @@ package stexfires.examples.io;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFiles;
 import stexfires.io.properties.PropertiesFileSpec;
+import stexfires.io.properties.PropertiesUtil;
 import stexfires.io.singlevalue.SingleValueFileSpec;
-import stexfires.record.KeyRecord;
 import stexfires.record.KeyValueRecord;
-import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.MapConsumer;
+import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.producer.ProducerException;
@@ -19,15 +19,13 @@ import stexfires.util.LineSeparator;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
-import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -152,202 +150,188 @@ public final class ExamplesPropertiesFile {
         RecordFiles.writeRecordIntoFile(consumerValueFileSpec, new ValueFieldRecord("#################"), path, StandardOpenOption.APPEND);
     }
 
-    @SuppressWarnings("CollectionDeclaredAsConcreteClass")
-    private static void compare(Properties properties, SortedMap<String, String> map) {
-
-        SortedMap<String, String> propMap = new TreeMap<>();
-        properties.forEach((key, value) -> propMap.put((String) key, (String) value));
-
-        SortedMap<String, String> propMap2 = new TreeMap<>();
-        properties.forEach((key, value) -> propMap2.put((String) key, (String) value));
-
-        if (propMap.equals(map)) {
+    private static void compare(Properties properties, Map<String, String> map) {
+        if (PropertiesUtil.propertiesAndMapEquals(properties, map)) {
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are equal!");
         } else {
+            SortedMap<String, String> propMap = PropertiesUtil.convertPropertiesToSortedMap(properties, String::compareTo);
+            SortedMap<String, String> propMap2 = PropertiesUtil.convertPropertiesToSortedMap(properties, String::compareTo);
+            SortedMap<String, String> map2 = new TreeMap<>(map);
+
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are NOT equal!");
             System.out.println(" Unique entries at Properties:");
-            map.forEach(propMap2::remove);
+            map2.forEach(propMap2::remove);
             propMap2.forEach((key, value) -> System.out.println("  " + key + " = " + value));
             System.out.println(" Unique entries at Map:");
-            propMap.forEach(map::remove);
-            map.forEach((key, value) -> System.out.println("  " + key + " = " + value));
+            propMap.forEach(map2::remove);
+            map2.forEach((key, value) -> System.out.println("  " + key + " = " + value));
         }
+    }
+
+    private static SortedMap<String, String> readIntoMapAndLog(PropertiesFileSpec fileSpec, Path path) throws ProducerException, IOException {
+        MapConsumer<KeyValueRecord, SortedMap<String, String>> consumer = PropertiesUtil.sortedMapConsumer(String::compareTo);
+        RecordFiles.readAndConsumeFile(fileSpec, RecordConsumer.concat(RecordSystemOutUtil.RECORD_CONSUMER, consumer), path);
+        return consumer.getMap();
+    }
+
+    private static Properties readPropertiesAndLog(Path path, Charset charset) throws IOException {
+        Properties properties = PropertiesUtil.loadFromFile(path, charset);
+        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        return properties;
     }
 
     private static void test1(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test1-----------------------------------------------------------------------------------");
 
-        var fileSpec =
-                new PropertiesFileSpec(
-                        CharsetCoding.UTF_8_REPORTING,
-                        PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
-                        PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
-                        lineSeparator,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_ESCAPE_UNICODE,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_DATE_COMMENT,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
-                );
+        var fileSpec = new PropertiesFileSpec(
+                CharsetCoding.UTF_8_REPORTING,
+                PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
+                PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
+                lineSeparator,
+                PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                PropertiesFileSpec.DEFAULT_CONSUMER_ESCAPE_UNICODE,
+                PropertiesFileSpec.DEFAULT_CONSUMER_DATE_COMMENT,
+                PropertiesFileSpec.DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
+                PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
+        );
 
         // Write
         System.out.println("write: " + path);
         RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
 
-        // Read / log
-        System.out.println("read/log: " + path);
-        RecordFiles.readAndConsumeFile(fileSpec, RecordSystemOutUtil.RECORD_CONSUMER, path);
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(fileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
     }
 
     private static void test2(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test2-----------------------------------------------------------------------------------");
 
-        var fileSpec =
-                new PropertiesFileSpec(
-                        CharsetCoding.UTF_8_REPORTING,
-                        "<null>",
-                        true,
-                        lineSeparator,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
-                        true,
-                        true,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
-                );
+        var fileSpec = new PropertiesFileSpec(
+                CharsetCoding.UTF_8_REPORTING,
+                "<null>",
+                true,
+                lineSeparator,
+                PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                true,
+                true,
+                PropertiesFileSpec.DEFAULT_CONSUMER_CATEGORY_AS_KEY_PREFIX,
+                PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
+        );
 
         // Write
         System.out.println("write: " + path);
         RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
 
-        // Read / log
-        System.out.println("read/log: " + path);
-        RecordFiles.readAndConsumeFile(fileSpec, RecordSystemOutUtil.RECORD_CONSUMER, path);
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(fileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
     }
 
-    private static void test3(Path path, LineSeparator lineSeparator) throws ProducerException, IOException {
+    private static void test3(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test3-----------------------------------------------------------------------------------");
 
-        Properties properties = new Properties();
-        generateStream().filter(record -> record.valueField().isNotNull())
-                        .forEachOrdered(record -> properties.setProperty(record.key(), record.value()));
-        try (Writer writer = new FileWriter(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.store(writer, "Comment from Properties.store");
-        }
-
-        var fileSpec = PropertiesFileSpec.producerFileSpec(CharsetCoding.UTF_8_REPORTING,
-                "",
-                true);
-
-        // Read / log
-        System.out.println("read/log: " + path);
-        RecordFiles.readAndConsumeFile(fileSpec, RecordSystemOutUtil.RECORD_CONSUMER, path);
-
-        // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(fileSpec, consumer, path);
-        compare(properties, consumer.getMap());
-    }
-
-    private static void test4(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
-        System.out.println("-test4-----------------------------------------------------------------------------------");
-
-        var fileSpec =
-                new PropertiesFileSpec(
-                        CharsetCoding.UTF_8_REPORTING,
-                        PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
-                        PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
-                        lineSeparator,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_ESCAPE_UNICODE,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_DATE_COMMENT,
-                        true,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
-                );
+        var fileSpec = new PropertiesFileSpec(
+                CharsetCoding.UTF_8_REPORTING,
+                PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
+                PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
+                lineSeparator,
+                PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                PropertiesFileSpec.DEFAULT_CONSUMER_ESCAPE_UNICODE,
+                PropertiesFileSpec.DEFAULT_CONSUMER_DATE_COMMENT,
+                true,
+                PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
+        );
 
         // Write
         System.out.println("write: " + path);
         RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
 
-        // Read / log
-        System.out.println("read/log: " + path);
-        RecordFiles.readAndConsumeFile(fileSpec, RecordSystemOutUtil.RECORD_CONSUMER, path);
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(fileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
+    }
+
+    private static void test4(Path path, LineSeparator lineSeparator) throws ProducerException, IOException {
+        System.out.println("-test4-----------------------------------------------------------------------------------");
+
+        var fileSpec = PropertiesFileSpec.producerFileSpec(
+                CharsetCoding.UTF_8_REPORTING,
+                "",
+                true
+        );
+
+        Properties propertiesWrite = PropertiesUtil.consumeIntoProperties(generateStream());
+
+        // Write
+        System.out.println("write with Properties: " + path);
+        PropertiesUtil.storeToFile(propertiesWrite, path, StandardCharsets.UTF_8, "Comment from Properties.store");
+
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
+
+        // Read with Properties
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
+
+        // Compare
+        compare(propertiesWrite, map);
+        compare(properties, map);
     }
 
     @SuppressWarnings("OverlyBroadThrowsClause")
-    private static void test5(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
+    private static void test5(Path path, LineSeparator lineSeparator) throws ProducerException, IOException, ConsumerException {
         System.out.println("-test5-----------------------------------------------------------------------------------");
 
-        var fileSpec =
-                new PropertiesFileSpec(
-                        CharsetCoding.reportingErrors(CommonCharsetNames.ISO_8859_1),
-                        PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
-                        PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
-                        lineSeparator,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
-                        true,
-                        true,
-                        true,
-                        PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
-                );
+        var fileSpec = new PropertiesFileSpec(
+                CharsetCoding.reportingErrors(CommonCharsetNames.ISO_8859_1),
+                PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
+                PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
+                lineSeparator,
+                PropertiesFileSpec.DEFAULT_CONSUMER_NULL_VALUE_REPLACEMENT,
+                true,
+                true,
+                true,
+                PropertiesFileSpec.DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER
+        );
 
         // Write
-        System.out.println("write: " + path);
+        System.out.println("write ISO_8859_1: " + path);
         RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
 
-        // Read / log
-        System.out.println("read/log: " + path);
-        RecordFiles.readAndConsumeFile(fileSpec, RecordSystemOutUtil.RECORD_CONSUMER, path);
+        // Read
+        System.out.println("read ISO_8859_1: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.ISO_8859_1)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties ISO_8859_1: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.ISO_8859_1);
 
-        System.out.println("read with Properties.load(InputStream): " + path);
+        System.out.println("read with Properties InputStream: " + path);
         Properties properties2 = new Properties();
         try (InputStream inputStream = new FileInputStream(path.toFile())) {
             properties2.load(inputStream);
@@ -355,17 +339,15 @@ public final class ExamplesPropertiesFile {
         properties2.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(fileSpec, consumer, path);
-        compare(properties, consumer.getMap());
-        compare(properties2, consumer.getMap());
+        compare(properties, map);
+        compare(properties2, map);
     }
 
     @SuppressWarnings("OverlyBroadThrowsClause")
     private static void test6(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test6-----------------------------------------------------------------------------------");
 
-        SingleValueFileSpec consumerValueFileSpec = SingleValueFileSpec.consumerFileSpec(
+        var consumerSingleValueFileSpec = SingleValueFileSpec.consumerFileSpec(
                 CharsetCoding.reportingErrors(ISO_8859_1),
                 null,
                 lineSeparator,
@@ -373,15 +355,22 @@ public final class ExamplesPropertiesFile {
                 null,
                 true
         );
-        writePreparedPropertiesFile(path, consumerValueFileSpec, false);
+        var fileSpec = PropertiesFileSpec.producerFileSpec(
+                CharsetCoding.reportingErrors(StandardCharsets.ISO_8859_1),
+                "",
+                false
+        );
 
-        var producerFileSpec =
-                PropertiesFileSpec.producerFileSpec(CharsetCoding.reportingErrors(StandardCharsets.ISO_8859_1),
-                        "",
-                        false);
+        // Write
+        System.out.println("write SingleValueFileSpec ISO_8859_1: " + path);
+        writePreparedPropertiesFile(path, consumerSingleValueFileSpec, false);
+
+        // Read
+        System.out.println("read ISO_8859_1: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
+        System.out.println("read with Properties InputStream: " + path);
         Properties properties = new Properties();
         try (InputStream inputStream = new FileInputStream(path.toFile())) {
             properties.load(inputStream);
@@ -389,15 +378,13 @@ public final class ExamplesPropertiesFile {
         properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(producerFileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
     }
 
     private static void test7(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test7-----------------------------------------------------------------------------------");
 
-        SingleValueFileSpec consumerValueFileSpec = SingleValueFileSpec.consumerFileSpec(
+        var consumerSingleValueFileSpec = SingleValueFileSpec.consumerFileSpec(
                 CharsetCoding.reportingErrors(UTF_8),
                 null,
                 lineSeparator,
@@ -405,31 +392,32 @@ public final class ExamplesPropertiesFile {
                 null,
                 true
         );
-        writePreparedPropertiesFile(path, consumerValueFileSpec, true);
+        var fileSpec = PropertiesFileSpec.producerFileSpec(
+                CharsetCoding.reportingErrors(StandardCharsets.UTF_8),
+                "",
+                false
+        );
 
-        var producerFileSpec =
-                PropertiesFileSpec.producerFileSpec(CharsetCoding.reportingErrors(StandardCharsets.UTF_8),
-                        "",
-                        false);
+        // Write
+        System.out.println("write SingleValueFileSpec: " + path);
+        writePreparedPropertiesFile(path, consumerSingleValueFileSpec, true);
+
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(producerFileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
     }
 
     private static void test8(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test8-----------------------------------------------------------------------------------");
 
-        SingleValueFileSpec consumerValueFileSpec = SingleValueFileSpec.consumerFileSpec(
+        var consumerSingleValueFileSpec = SingleValueFileSpec.consumerFileSpec(
                 CharsetCoding.reportingErrors(UTF_8),
                 null,
                 lineSeparator,
@@ -437,25 +425,26 @@ public final class ExamplesPropertiesFile {
                 null,
                 true
         );
-        writePreparedPropertiesFileLong(path, consumerValueFileSpec);
+        var fileSpec = PropertiesFileSpec.producerFileSpec(
+                CharsetCoding.reportingErrors(StandardCharsets.UTF_8),
+                "",
+                false
+        );
 
-        var producerFileSpec =
-                PropertiesFileSpec.producerFileSpec(CharsetCoding.reportingErrors(StandardCharsets.UTF_8),
-                        "",
-                        false);
+        // Write
+        System.out.println("write SingleValueFileSpec: " + path);
+        writePreparedPropertiesFileLong(path, consumerSingleValueFileSpec);
+
+        // Read
+        System.out.println("read: " + path);
+        var map = readIntoMapAndLog(fileSpec, path);
 
         // Read with Properties
-        System.out.println("read with Properties.load: " + path);
-        Properties properties = new Properties();
-        try (Reader reader = new FileReader(path.toFile(), StandardCharsets.UTF_8)) {
-            properties.load(reader);
-        }
-        properties.forEach((key, value) -> System.out.println("[" + key + "]=[" + value + "]"));
+        System.out.println("read with Properties: " + path);
+        Properties properties = readPropertiesAndLog(path, StandardCharsets.UTF_8);
 
         // Compare
-        MapConsumer<KeyValueRecord, TreeMap<String, String>> consumer = new MapConsumer<>(new TreeMap<>(), KeyRecord::key, ValueRecord::value);
-        RecordFiles.readAndConsumeFile(producerFileSpec, consumer, path);
-        compare(properties, consumer.getMap());
+        compare(properties, map);
     }
 
     public static void main(String... args) {
