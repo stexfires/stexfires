@@ -240,6 +240,7 @@ class LineSeparatorTest {
     /**
      * Test method for {@link LineSeparator#chars()}.
      */
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void chars() {
         assertEquals(1, LF.chars().count());
@@ -263,6 +264,7 @@ class LineSeparatorTest {
     /**
      * Test method for {@link LineSeparator#codePoints()}.
      */
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void codePoints() {
         assertEquals(1, LF.codePoints().count());
