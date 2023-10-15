@@ -19,20 +19,20 @@ import java.util.Objects;
  */
 public record MarkdownListFileSpec(
         @NotNull CharsetCoding charsetCoding,
-        @NotNull MarkdownListMarker listMarker,
         int producerSkipFirstLines,
         @NotNull ProducerReadLineHandling producerReadLineHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerTrimValueToEmpty,
         boolean producerSkipEmptyValue,
+        boolean producerLinePrefixAsCategory,
         @NotNull LineSeparator consumerLineSeparator,
+        @NotNull MarkdownListMarker consumerListMarker,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        boolean consumerSkipNullValueLines
+        boolean consumerSkipNullValue
 ) implements ReadableRecordFileSpec<ValueRecord, MarkdownListProducer>, WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
 
-    public static final MarkdownListMarker DEFAULT_LIST_MARKER = MarkdownListMarker.BULLET_ASTERISK;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     /**
      * Default for Markdown is {@code ProducerReadLineHandling.SKIP_BLANK_LINE}.
@@ -42,16 +42,17 @@ public record MarkdownListFileSpec(
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY = false;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_VALUE = false;
+    public static final boolean DEFAULT_PRODUCER_LINE_PREFIX_AS_CATEGORY = false;
+    public static final MarkdownListMarker DEFAULT_CONSUMER_LIST_MARKER = MarkdownListMarker.BULLET_ASTERISK;
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
     public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
-    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
+    public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
 
     public static final long ORDERED_LIST_START_NUMBER = 1L;
     public static final String LIST_MARKER_SEPARATOR = Strings.SPACE;
 
     public MarkdownListFileSpec {
         Objects.requireNonNull(charsetCoding);
-        Objects.requireNonNull(listMarker);
         if (producerSkipFirstLines < 0) {
             throw new IllegalArgumentException("producerSkipFirstLines < 0");
         }
@@ -63,88 +64,92 @@ public record MarkdownListFileSpec(
             throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
         }
         Objects.requireNonNull(consumerLineSeparator);
+        Objects.requireNonNull(consumerListMarker);
     }
 
-    public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull MarkdownListMarker listMarker) {
+    public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
         return new MarkdownListFileSpec(
                 charsetCoding,
-                listMarker,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
                 DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
+                DEFAULT_PRODUCER_LINE_PREFIX_AS_CATEGORY,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_LIST_MARKER,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
-                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE
         );
     }
 
     public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull MarkdownListMarker listMarker,
                                                         int producerSkipFirstLines,
                                                         @NotNull ProducerReadLineHandling producerReadLineHandling,
                                                         int producerIgnoreFirstRecords,
                                                         int producerIgnoreLastRecords,
                                                         boolean producerTrimValueToEmpty,
-                                                        boolean producerSkipEmptyValue) {
+                                                        boolean producerSkipEmptyValue,
+                                                        boolean producerLinePrefixAsCategory) {
         return new MarkdownListFileSpec(
                 charsetCoding,
-                listMarker,
                 producerSkipFirstLines,
                 producerReadLineHandling,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
                 producerTrimValueToEmpty,
                 producerSkipEmptyValue,
+                producerLinePrefixAsCategory,
                 DEFAULT_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_LIST_MARKER,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
-                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE
         );
     }
 
     public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull MarkdownListMarker listMarker,
-                                                        @NotNull LineSeparator consumerLineSeparator) {
+                                                        @NotNull LineSeparator consumerLineSeparator,
+                                                        @NotNull MarkdownListMarker consumerListMarker) {
         return new MarkdownListFileSpec(
                 charsetCoding,
-                listMarker,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
                 DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
+                DEFAULT_PRODUCER_LINE_PREFIX_AS_CATEGORY,
                 consumerLineSeparator,
+                consumerListMarker,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
-                DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES
+                DEFAULT_CONSUMER_SKIP_NULL_VALUE
         );
     }
 
     public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull MarkdownListMarker listMarker,
                                                         @NotNull LineSeparator consumerLineSeparator,
+                                                        @NotNull MarkdownListMarker consumerListMarker,
                                                         @Nullable String consumerTextBefore,
                                                         @Nullable String consumerTextAfter,
-                                                        boolean consumerSkipNullValueLines) {
+                                                        boolean consumerSkipNullValue) {
         return new MarkdownListFileSpec(
                 charsetCoding,
-                listMarker,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY,
                 DEFAULT_PRODUCER_SKIP_EMPTY_VALUE,
+                DEFAULT_PRODUCER_LINE_PREFIX_AS_CATEGORY,
                 consumerLineSeparator,
+                consumerListMarker,
                 consumerTextBefore,
                 consumerTextAfter,
-                consumerSkipNullValueLines
+                consumerSkipNullValue
         );
     }
 

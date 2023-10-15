@@ -69,8 +69,8 @@ public final class WikiTesting {
 
     private static MarkdownListFileSpec createListConsumerFileSpec(String title) {
         return MarkdownListFileSpec.consumerFileSpec(CharsetCoding.UTF_8_REPORTING,
-                MarkdownListFileSpec.DEFAULT_LIST_MARKER,
                 LineSeparator.CR_LF,
+                MarkdownListFileSpec.DEFAULT_CONSUMER_LIST_MARKER,
                 title,
                 "",
                 true);

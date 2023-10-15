@@ -47,7 +47,7 @@ public final class MarkdownListConsumer extends AbstractInternalWritableConsumer
 
         TextField valueField = record.valueField();
 
-        if (!fileSpec.consumerSkipNullValueLines() || valueField.isNotNull()) {
+        if (!fileSpec.consumerSkipNullValue() || valueField.isNotNull()) {
             writeLinePrefix();
             if (valueField.isNotNull()) {
                 writeString(valueField.text());
@@ -69,7 +69,7 @@ public final class MarkdownListConsumer extends AbstractInternalWritableConsumer
     }
 
     private void writeLinePrefix() throws IOException {
-        writeString(fileSpec.listMarker().linePrefix(currentNumber));
+        writeString(fileSpec.consumerListMarker().linePrefix(currentNumber));
     }
 
 }

@@ -46,21 +46,26 @@ public final class MarkdownListProducer extends AbstractInternalReadableProducer
 
     @Override
     protected Optional<ValueRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
-        ValueRecord record;
-
-        // TODO Check listMarker and remove listMarker
-
-        String valueText = recordRawData.rawData();
-        if (fileSpec.producerTrimValueToEmpty()) {
-            valueText = StringUnaryOperators.trimToEmpty().apply(valueText);
+        var splitResult = MarkdownListMarker.split(recordRawData.rawData());
+        if (splitResult.isEmpty()) {
+            throw new UncheckedProducerException(new ProducerException("Line is not a valid markdown list item! index=" + recordRawData.recordId()));
         }
 
-        boolean skipEmptyValue = fileSpec.producerSkipEmptyValue() && valueText.isEmpty();
+        String value;
+        if (fileSpec.producerTrimValueToEmpty()) {
+            // trim to empty
+            value = StringUnaryOperators.trimToEmpty().apply(splitResult.get().value());
+        } else {
+            value = splitResult.get().value();
+        }
 
-        if (skipEmptyValue) {
+        ValueRecord record;
+        if (fileSpec.producerSkipEmptyValue() && value.isEmpty()) {
+            // skip empty
             record = null;
         } else {
-            record = new ValueFieldRecord(recordRawData.category(), recordRawData.recordId(), valueText);
+            String category = fileSpec.producerLinePrefixAsCategory() ? splitResult.get().linePrefix() : null;
+            record = new ValueFieldRecord(category, recordRawData.recordId(), value);
         }
 
         return Optional.ofNullable(record);
