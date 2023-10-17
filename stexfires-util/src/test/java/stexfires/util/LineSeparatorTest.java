@@ -342,4 +342,15 @@ class LineSeparatorTest {
         assertEquals(STRING_CR_LF, CR_LF.toString());
     }
 
+    @SuppressWarnings("StringBufferReplaceableByString")
+    @Test
+    void charSequence() {
+        assertEquals(STRING_LF, new StringBuilder(LF).toString());
+        assertEquals(STRING_LF, new StringBuilder().append(LF).toString());
+        assertEquals(STRING_CR, new StringBuilder(CR).toString());
+        assertEquals(STRING_CR, new StringBuilder().append(CR).toString());
+        assertEquals(STRING_CR_LF, new StringBuilder(CR_LF).toString());
+        assertEquals(STRING_CR_LF, new StringBuilder().append(CR_LF).toString());
+    }
+
 }
