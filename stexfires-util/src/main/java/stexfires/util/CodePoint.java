@@ -179,6 +179,34 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
     }
 
     /**
+     * Returns the value of the code point as a {@code char} if it is a BmpCodePoint.
+     *
+     * @return the value of the code point as a {@code char} if it is a BmpCodePoint.
+     * @throws ArithmeticException if the value is not a BmpCodePoint
+     * @see CodePoint#MAX_BMP_CODE_POINT
+     */
+    public char valueAsChar() throws ArithmeticException {
+        if (value > CodePoint.MAX_BMP_CODE_POINT || value < CodePoint.MIN_BMP_CODE_POINT) {
+            throw new ArithmeticException("Not a BmpCodePoint: " + value);
+        }
+        return (char) value;
+    }
+
+    /**
+     * Returns the value of the code point as an {@code Optional<Character>}.
+     * If the code point is not a BmpCodePoint the {@code Optional} is empty.
+     *
+     * @return the value of the code point as an {@code Optional<Character>}.
+     * @see CodePoint#MAX_BMP_CODE_POINT
+     */
+    public Optional<Character> valueAsOptionalCharacter() {
+        if (value > CodePoint.MAX_BMP_CODE_POINT || value < CodePoint.MIN_BMP_CODE_POINT) {
+            return Optional.empty();
+        }
+        return Optional.of((char) value);
+    }
+
+    /**
      * Returns the next code point as an {@code Optional<CodePoint>}.
      * If the code point is the maximum value the {@code Optional} is empty.
      *

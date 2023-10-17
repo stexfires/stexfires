@@ -56,11 +56,11 @@ class CodePointTest {
     }
 
     /**
-     * Test method for {@link CodePoint#CodePoint(int)}.
+     * Test method for {@link CodePoint#CodePoint(int)} and {@link CodePoint#value()}.
      */
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     @Test
-    void constructor() {
+    void constructorAndValue() {
         // all code points
         for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
             assertEquals(codePoint, new CodePoint(codePoint).value());
@@ -71,6 +71,54 @@ class CodePointTest {
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(CodePoint.MAX_VALUE + 1));
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(Integer.MIN_VALUE));
         assertThrows(IllegalArgumentException.class, () -> new CodePoint(Integer.MAX_VALUE));
+    }
+
+    /**
+     * Test method for {@link CodePoint#valueAsChar()}.
+     */
+    @Test
+    void valueAsChar() {
+        // all characters
+        for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
+            assertEquals(ch, new CodePoint(ch).valueAsChar());
+            assertEquals(ch, CodePoint.ofChar(ch).valueAsChar());
+        }
+        assertEquals(Character.MAX_VALUE, new CodePoint(Character.MAX_VALUE).valueAsChar());
+        assertEquals(Character.MAX_VALUE, CodePoint.ofChar(Character.MAX_VALUE).valueAsChar());
+
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            CodePoint cp = new CodePoint(codePoint);
+            if (cp.isBmpCodePoint() && codePoint <= Character.MAX_VALUE) {
+                assertEquals((char) codePoint, cp.valueAsChar());
+            } else {
+                assertThrows(ArithmeticException.class, cp::valueAsChar);
+            }
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#valueAsOptionalCharacter()}.
+     */
+    @Test
+    void valueAsOptionalCharacter() {
+        // all characters
+        for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
+            assertEquals(Optional.of(ch), new CodePoint(ch).valueAsOptionalCharacter());
+            assertEquals(Optional.of(ch), CodePoint.ofChar(ch).valueAsOptionalCharacter());
+        }
+        assertEquals(Optional.of(Character.MAX_VALUE), new CodePoint(Character.MAX_VALUE).valueAsOptionalCharacter());
+        assertEquals(Optional.of(Character.MAX_VALUE), CodePoint.ofChar(Character.MAX_VALUE).valueAsOptionalCharacter());
+
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            CodePoint cp = new CodePoint(codePoint);
+            if (cp.isBmpCodePoint() && codePoint <= Character.MAX_VALUE) {
+                assertEquals(Optional.of((char) codePoint), cp.valueAsOptionalCharacter());
+            } else {
+                assertEquals(Optional.empty(), cp.valueAsOptionalCharacter());
+            }
+        }
     }
 
     /**
