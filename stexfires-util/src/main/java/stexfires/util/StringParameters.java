@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -125,6 +126,26 @@ public final class StringParameters {
      */
     public int size() {
         return parameters.size();
+    }
+
+    /**
+     * Returns {@code true} if this StringParameters contains no key-value mappings.
+     *
+     * @return {@code true} if this StringParameters contains no key-value mappings
+     */
+    public boolean isEmpty() {
+        return parameters.isEmpty();
+    }
+
+    /**
+     * Returns a new {@code Properties} object with the parameters.
+     *
+     * @return a new {@code Properties} object with the parameters
+     */
+    public Properties toProperties() {
+        Properties properties = new Properties();
+        parameters.forEach(properties::setProperty);
+        return properties;
     }
 
     /**

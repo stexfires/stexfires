@@ -206,4 +206,41 @@ class StringParametersTest {
         assertEquals(System.getenv().size(), stringParameters03.size());
     }
 
+    /**
+     * Test method for {@link StringParameters#isEmpty()}.
+     */
+    @Test
+    void isEmpty() {
+        // empty
+        assertTrue(new StringParameters.Builder().build().isEmpty());
+
+        // stringParameters01
+        assertFalse(stringParameters01.isEmpty());
+        // stringParameters02
+        assertFalse(stringParameters02.isEmpty());
+        // stringParameters03
+        assertFalse(stringParameters03.isEmpty());
+    }
+
+    /**
+     * Test method for {@link StringParameters#toProperties()}.
+     */
+    @Test
+    void toProperties() {
+        // stringParameters01
+        assertEquals(3, stringParameters01.toProperties().size());
+        assertEquals("value1", stringParameters01.toProperties().getProperty("key1"));
+        assertEquals("value2", stringParameters01.toProperties().getProperty("key2"));
+        assertEquals("value3b", stringParameters01.toProperties().getProperty("key3"));
+        // stringParameters02
+        assertEquals(System.getProperties().size(), stringParameters02.toProperties().size());
+        System.getProperties().forEach((k, v) -> assertEquals(String.valueOf(v), stringParameters02.toProperties().getProperty(String.valueOf(k))));
+        assertEquals(System.getProperty("java.version"), stringParameters02.toProperties().getProperty("java.version"));
+        assertEquals(System.getProperty("user.name"), stringParameters02.toProperties().getProperty("user.name"));
+        assertEquals(System.getProperty("java.home"), stringParameters02.toProperties().getProperty("java.home"));
+        // stringParameters03
+        assertEquals(System.getenv().size(), stringParameters03.toProperties().size());
+        System.getenv().forEach((k, v) -> assertEquals(v, stringParameters03.toProperties().getProperty(k)));
+    }
+
 }
