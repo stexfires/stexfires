@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.lang.Character.UnicodeBlock;
 import java.lang.Character.UnicodeScript;
+import java.util.HexFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -305,6 +306,24 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public String hexString() {
         return Integer.toHexString(value);
+    }
+
+    /**
+     * Returns the value of the code point as a {@code String} with Unicode escapes.
+     *
+     * @return the value of the code point as a {@code String} with Unicode escapes.
+     * @see java.util.HexFormat#toHexDigits(char)
+     */
+    public String unicodeEscapes() {
+        var hexFormat = HexFormat.of();
+        if (value >= CodePoint.MIN_BMP_CODE_POINT && value <= CodePoint.MAX_BMP_CODE_POINT) {
+            return "\\u" + hexFormat.toHexDigits((char) value);
+        } else if (value >= CodePoint.MIN_SUPPLEMENTARY_CODE_POINT && value <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT) {
+            return "\\u" + hexFormat.toHexDigits(Character.highSurrogate(value)) + "\\u" + hexFormat.toHexDigits(Character.lowSurrogate(value));
+        } else {
+            // Should never happen
+            throw new IllegalStateException("Not a valid code point: " + value);
+        }
     }
 
     /**

@@ -457,6 +457,52 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#unicodeEscapes()}.
+     */
+    @Test
+    void unicodeEscapes() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            var cp = new CodePoint(codePoint);
+            assertNotNull(cp.unicodeEscapes());
+            if (Character.isBmpCodePoint(codePoint)) {
+                assertEquals(6, cp.unicodeEscapes().length());
+            } else {
+                assertEquals(12, cp.unicodeEscapes().length());
+            }
+        }
+
+        // constant code points
+        assertEquals("\\u0000", new CodePoint(CodePoint.MIN_ASCII_VALUE).unicodeEscapes());
+        assertEquals("\\u007f", new CodePoint(CodePoint.MAX_ASCII_VALUE).unicodeEscapes());
+        assertEquals("\\u0000", new CodePoint(CodePoint.MIN_VALUE).unicodeEscapes());
+        assertEquals("\\udbff\\udfff", new CodePoint(CodePoint.MAX_VALUE).unicodeEscapes());
+
+        assertEquals("\\ud800", new CodePoint(CodePoint.MIN_HIGH_SURROGATE).unicodeEscapes());
+        assertEquals("\\udbff", new CodePoint(CodePoint.MAX_HIGH_SURROGATE).unicodeEscapes());
+        assertEquals("\\udc00", new CodePoint(CodePoint.MIN_LOW_SURROGATE).unicodeEscapes());
+        assertEquals("\\udfff", new CodePoint(CodePoint.MAX_LOW_SURROGATE).unicodeEscapes());
+        assertEquals("\\u0000", new CodePoint(CodePoint.MIN_BMP_CODE_POINT).unicodeEscapes());
+        assertEquals("\\uffff", new CodePoint(CodePoint.MAX_BMP_CODE_POINT).unicodeEscapes());
+        assertEquals("\\ud800\\udc00", new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).unicodeEscapes());
+        assertEquals("\\udbff\\udfff", new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).unicodeEscapes());
+
+        // individual code points
+        assertEquals("\\u0020", new CodePoint(32).unicodeEscapes());
+        assertEquals("\\u0021", new CodePoint(33).unicodeEscapes());
+        assertEquals("\\u0024", new CodePoint(36).unicodeEscapes());
+        assertEquals("\\u0029", new CodePoint(41).unicodeEscapes());
+        assertEquals("\\u002b", new CodePoint(43).unicodeEscapes());
+        assertEquals("\\u0041", new CodePoint(65).unicodeEscapes());
+
+        assertEquals("\\u0061", new CodePoint(97).unicodeEscapes());
+        assertEquals("\\u20ac", new CodePoint(8364).unicodeEscapes());
+        assertEquals("\\ud800\\udc00", new CodePoint(65536).unicodeEscapes());
+        assertEquals("\\ud83c\\udc00", new CodePoint(126976).unicodeEscapes());
+        assertEquals("\\ud83c\\udfff", new CodePoint(127999).unicodeEscapes());
+    }
+
+    /**
      * Test method for {@link CodePoint#isAlphabetic()}.
      */
     @Test

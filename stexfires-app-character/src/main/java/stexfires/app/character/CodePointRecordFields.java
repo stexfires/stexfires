@@ -8,7 +8,6 @@ import stexfires.util.Alignment;
 import stexfires.util.CodePoint;
 
 import java.util.Arrays;
-import java.util.HexFormat;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -20,16 +19,7 @@ public enum CodePointRecordFields {
     PRINTABLE_STRING("Char", 5, Alignment.START, (codePoint, alternativeValue) -> codePoint.printableString().orElse(alternativeValue)),
     CODE_POINT("Decimal", 7, Alignment.END, (codePoint, alternativeValue) -> String.valueOf(codePoint.value())),
     HEX_STRING("Hex", 5, Alignment.END, (codePoint, alternativeValue) -> codePoint.hexString()),
-    UNICODE_ESCAPES("Unicode Escapes", 15, Alignment.END, (codePoint, alternativeValue) -> {
-        var hex = HexFormat.of();
-        if (codePoint.isBmpCodePoint()) {
-            return "\\u" + hex.toHexDigits(codePoint.valueAsChar());
-        } else if (codePoint.isSupplementaryCodePoint()) {
-            return "\\u" + hex.toHexDigits(codePoint.highSurrogate().orElseThrow()) + "\\u" + hex.toHexDigits(codePoint.lowSurrogate().orElseThrow());
-        } else {
-            return alternativeValue;
-        }
-    }),
+    UNICODE_ESCAPES("Unicode Escapes", 15, Alignment.START, (codePoint, alternativeValue) -> codePoint.unicodeEscapes()),
     CHAR_COUNT("Count", 5, Alignment.END, (codePoint, alternativeValue) -> String.valueOf(codePoint.charCount())),
     NUMERIC_VALUE("NumVal", 10, Alignment.END, (codePoint, alternativeValue) -> codePoint.numericValue().map(String::valueOf).orElse(alternativeValue)),
     DECIMAL_DIGIT("Digit", 7, Alignment.END, (codePoint, alternativeValue) -> codePoint.decimalDigit().map(String::valueOf).orElse(alternativeValue)),
