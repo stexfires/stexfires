@@ -66,6 +66,7 @@ public final class ExamplesFixedWidthFile {
         );
     }
 
+    @SuppressWarnings("ExtractMethodRecommender")
     private static void test1(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test1---");
 

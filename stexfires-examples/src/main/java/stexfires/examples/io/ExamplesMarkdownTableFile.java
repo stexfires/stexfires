@@ -25,6 +25,7 @@ public final class ExamplesMarkdownTableFile {
     private ExamplesMarkdownTableFile() {
     }
 
+    @SuppressWarnings("ExtractMethodRecommender")
     private static void test1(Path path, LineSeparator lineSeparator) throws ConsumerException, IOException {
         System.out.println("-test1---");
 

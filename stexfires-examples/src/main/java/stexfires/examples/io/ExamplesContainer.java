@@ -111,6 +111,7 @@ public final class ExamplesContainer {
         System.out.println(recordContainerMedium.unpack(new ManyFieldsRecord("category", 1L, "stexfires.record.impl.ValueFieldRecord")).errorMessage().orElse(""));
     }
 
+    @SuppressWarnings("ExtractMethodRecommender")
     private static void showRecordOfRecords() {
         System.out.println("-showRecordOfRecords---");
 
