@@ -3,6 +3,7 @@ package stexfires.util;
 import org.junit.jupiter.api.Test;
 
 import java.text.Collator;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for {@link StringComparators}.
  */
-@SuppressWarnings("EqualsWithItself")
+@SuppressWarnings({"EqualsWithItself", "MagicNumber"})
 class StringComparatorsTest {
 
     /**
@@ -242,6 +243,32 @@ class StringComparatorsTest {
      */
     @Test
     void primitiveIntComparator() {
+        // null
+        assertEquals(1, StringComparators.primitiveIntComparator(2, 3).compare(null, "1"));
+        assertEquals(-1, StringComparators.primitiveIntComparator(2, 3).compare("1", null));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare(null, "2"));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("1", "1"));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("2", "2"));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("3", "3"));
+        // not parsable
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("a", "b"));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("a", "3"));
+        assertEquals(0, StringComparators.primitiveIntComparator(2, 3).compare("3", "a"));
+        assertEquals(1, StringComparators.primitiveIntComparator(2, 3).compare("a", "1"));
+        assertEquals(-1, StringComparators.primitiveIntComparator(2, 3).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.primitiveIntComparator(2, 3).compare("1", "2"));
+        assertEquals(-1, StringComparators.primitiveIntComparator(2, 3).compare("2", "3"));
+        assertEquals(-1, StringComparators.primitiveIntComparator(2, 3).compare("1", "3"));
+        assertEquals(1, StringComparators.primitiveIntComparator(2, 3).compare("2", "1"));
+        assertEquals(1, StringComparators.primitiveIntComparator(2, 3).compare("3", "2"));
+        assertEquals(1, StringComparators.primitiveIntComparator(2, 3).compare("3", "1"));
+        // min and max
+        assertEquals(1, StringComparators.primitiveIntComparator(1, 1).compare("1", String.valueOf(Integer.MIN_VALUE)));
+        assertEquals(-1, StringComparators.primitiveIntComparator(1, 1).compare("1", String.valueOf(Integer.MAX_VALUE)));
+        assertEquals(-1, StringComparators.primitiveIntComparator(1, 1).compare(String.valueOf(Integer.MIN_VALUE), String.valueOf(Integer.MAX_VALUE)));
     }
 
     /**
@@ -249,6 +276,32 @@ class StringComparatorsTest {
      */
     @Test
     void primitiveLongComparator() {
+        // null
+        assertEquals(1, StringComparators.primitiveLongComparator(2L, 3L).compare(null, "1"));
+        assertEquals(-1, StringComparators.primitiveLongComparator(2L, 3L).compare("1", null));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare(null, "2"));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("1", "1"));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("2", "2"));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("3", "3"));
+        // not parsable
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("a", "b"));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("a", "3"));
+        assertEquals(0, StringComparators.primitiveLongComparator(2L, 3L).compare("3", "a"));
+        assertEquals(1, StringComparators.primitiveLongComparator(2L, 3L).compare("a", "1"));
+        assertEquals(-1, StringComparators.primitiveLongComparator(2L, 3L).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.primitiveLongComparator(2L, 3L).compare("1", "2"));
+        assertEquals(-1, StringComparators.primitiveLongComparator(2L, 3L).compare("2", "3"));
+        assertEquals(-1, StringComparators.primitiveLongComparator(2L, 3L).compare("1", "3"));
+        assertEquals(1, StringComparators.primitiveLongComparator(2L, 3L).compare("2", "1"));
+        assertEquals(1, StringComparators.primitiveLongComparator(2L, 3L).compare("3", "2"));
+        assertEquals(1, StringComparators.primitiveLongComparator(2L, 3L).compare("3", "1"));
+        // min and max
+        assertEquals(1, StringComparators.primitiveLongComparator(1L, 1L).compare("1", String.valueOf(Long.MIN_VALUE)));
+        assertEquals(-1, StringComparators.primitiveLongComparator(1L, 1L).compare("1", String.valueOf(Long.MAX_VALUE)));
+        assertEquals(-1, StringComparators.primitiveLongComparator(1L, 1L).compare(String.valueOf(Long.MIN_VALUE), String.valueOf(Long.MAX_VALUE)));
     }
 
     /**
@@ -256,6 +309,33 @@ class StringComparatorsTest {
      */
     @Test
     void primitiveDoubleComparator() {
+        // null
+        assertEquals(1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare(null, "1"));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("1", null));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare(null, "2"));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("1", "1"));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("2", "2"));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("3.45678", "3.45678"));
+        // not parsable
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("a", "b"));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("a", "3"));
+        assertEquals(0, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("3", "a"));
+        assertEquals(1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("a", "1"));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("1", "2"));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("2", "3.45678"));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("1", "3.45678"));
+        assertEquals(1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("2", "1"));
+        assertEquals(1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("3.45678", "2"));
+        assertEquals(1, StringComparators.primitiveDoubleComparator(2.0d, 3.0d).compare("3.45678", "1"));
+        // min and max
+        assertEquals(1, StringComparators.primitiveDoubleComparator(1.0d, 1.0d).compare("3.45678", String.valueOf(Double.MIN_VALUE)));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(1.0d, 1.0d).compare("3.45678", String.valueOf(Double.MAX_VALUE)));
+        assertEquals(-1, StringComparators.primitiveDoubleComparator(1.0d, 1.0d).compare(String.valueOf(Double.MIN_VALUE), String.valueOf(Double.MAX_VALUE)));
+
     }
 
     /**
@@ -263,6 +343,38 @@ class StringComparatorsTest {
      */
     @Test
     void integerComparator() {
+        // null
+        assertEquals(1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare(null, "1"));
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("1", null));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare(null, "2"));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("1", "1"));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("2", "2"));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("3", "3"));
+        // not parsable
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("a", "b"));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("a", "3"));
+        assertEquals(0, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("3", "a"));
+        assertEquals(1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("a", "1"));
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("1", "2"));
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("2", "3"));
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("1", "3"));
+        assertEquals(1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("2", "1"));
+        assertEquals(1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("3", "2"));
+        assertEquals(1, StringComparators.integerComparator(2, 3, Integer::compareTo).compare("3", "1"));
+        // min and max
+        assertEquals(1, StringComparators.integerComparator(1, 1, Integer::compareTo).compare("1", String.valueOf(Integer.MIN_VALUE)));
+        assertEquals(-1, StringComparators.integerComparator(1, 1, Integer::compareTo).compare("1", String.valueOf(Integer.MAX_VALUE)));
+        assertEquals(-1, StringComparators.integerComparator(1, 1, Integer::compareTo).compare(String.valueOf(Integer.MIN_VALUE), String.valueOf(Integer.MAX_VALUE)));
+        // natural order
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Comparator.naturalOrder()).compare("1", "2"));
+        assertEquals(1, StringComparators.integerComparator(2, 3, Comparator.naturalOrder()).compare("2", "1"));
+        // reverseOrder
+        assertEquals(1, StringComparators.integerComparator(2, 3, Comparator.reverseOrder()).compare("1", "2"));
+        assertEquals(-1, StringComparators.integerComparator(2, 3, Comparator.reverseOrder()).compare("2", "1"));
     }
 
     /**
@@ -270,6 +382,40 @@ class StringComparatorsTest {
      */
     @Test
     void longComparator() {
+        // null
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare(null, "1"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("1", null));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare(null, "2"));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("1", "1"));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("2", "2"));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("3", "3"));
+        // not parsable
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("a", "b"));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("a", "3"));
+        assertEquals(0, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("3", "a"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("a", "1"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("1", "2"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("2", "3"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("1", "3"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("2", "1"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("3", "2"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Long::compareTo).compare("3", "1"));
+        // min and max
+        assertEquals(1, StringComparators.longComparator(1L, 1L, Long::compareTo).compare("1", String.valueOf(Long.MIN_VALUE)));
+        assertEquals(-1, StringComparators.longComparator(1L, 1L, Long::compareTo).compare("1", String.valueOf(Long.MAX_VALUE)));
+        assertEquals(-1, StringComparators.longComparator(1L, 1L, Long::compareTo).compare(String.valueOf(Long.MIN_VALUE), String.valueOf(Long.MAX_VALUE)));
+        // natural order
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Comparator.naturalOrder()).compare("1", "2"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Comparator.naturalOrder()).compare("2", "1"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Comparator.naturalOrder()).compare("1000000000000", "2000000000000"));
+        // reverseOrder
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Comparator.reverseOrder()).compare("1", "2"));
+        assertEquals(-1, StringComparators.longComparator(2L, 3L, Comparator.reverseOrder()).compare("2", "1"));
+        assertEquals(1, StringComparators.longComparator(2L, 3L, Comparator.reverseOrder()).compare("1000000000000", "2000000000000"));
     }
 
     /**
@@ -277,6 +423,40 @@ class StringComparatorsTest {
      */
     @Test
     void doubleComparator() {
+        // null
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare(null, "1"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("1", null));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare(null, "2"));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("2", null));
+        // equal strings
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("1", "1"));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("2", "2"));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("3.45678", "3.45678"));
+        // not parsable
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("a", "b"));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("a", "3"));
+        assertEquals(0, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("3", "a"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("a", "1"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("1", "a"));
+        // different strings
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("1", "2"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("2", "3.45678"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("1", "3.45678"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("2", "1"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("3.45678", "2"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Double::compareTo).compare("3.45678", "1"));
+        // min and max
+        assertEquals(1, StringComparators.doubleComparator(1.0d, 1.0d, Double::compareTo).compare("3.45678", String.valueOf(Double.MIN_VALUE)));
+        assertEquals(-1, StringComparators.doubleComparator(1.0d, 1.0d, Double::compareTo).compare("3.45678", String.valueOf(Double.MAX_VALUE)));
+        assertEquals(-1, StringComparators.doubleComparator(1.0d, 1.0d, Double::compareTo).compare(String.valueOf(Double.MIN_VALUE), String.valueOf(Double.MAX_VALUE)));
+        // natural order
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.naturalOrder()).compare("1", "2"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.naturalOrder()).compare("2", "1"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.naturalOrder()).compare("3.45678", "3.456789"));
+        // reverseOrder
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.reverseOrder()).compare("1", "2"));
+        assertEquals(-1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.reverseOrder()).compare("2", "1"));
+        assertEquals(1, StringComparators.doubleComparator(2.0d, 3.0d, Comparator.reverseOrder()).compare("3.45678", "3.456789"));
     }
 
     /**
