@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -464,6 +465,23 @@ class StringComparatorsTest {
      */
     @Test
     void extractorComparator() {
+        // String and Function.identity() with null
+        assertThrows(NullPointerException.class, () -> StringComparators.extractorComparator(Function.identity(), String::compareTo).compare(null, "a"));
+        // String and Function.identity() with equal strings
+        assertEquals(0, StringComparators.extractorComparator(Function.identity(), String::compareTo).compare("a", "a"));
+        // String and Function.identity() with different strings
+        assertTrue(StringComparators.extractorComparator(Function.identity(), String::compareTo).compare("a", "b") < 0);
+        assertTrue(StringComparators.extractorComparator(Function.identity(), String::compareTo).compare("b", "a") > 0);
+
+        // String and last character with equal strings
+        assertEquals(0, StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("a", "a"));
+        assertEquals(0, StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("abc", "abc"));
+        // String and last character with different strings but equal last character
+        assertEquals(0, StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("abc", "ABc"));
+        assertEquals(0, StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("abc", "c"));
+        // String and last character with different strings
+        assertTrue(StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("abc", "abd") < 0);
+        assertTrue(StringComparators.extractorComparator(s -> s.substring(s.length() - 1), String::compareTo).compare("abd", "abc") > 0);
     }
 
 }
