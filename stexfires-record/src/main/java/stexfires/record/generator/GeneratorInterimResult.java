@@ -9,7 +9,7 @@ import java.util.function.IntFunction;
 
 /**
  * A GeneratorInterimResult contains the interim result of a {@link stexfires.record.TextRecord} generation.
- * It is created by a {@link stexfires.record.generator.RecordGenerator} and passed to the value functions.
+ * It is created by a {@link stexfires.record.generator.RecordGenerator} and passed to the text functions.
  *
  * @see stexfires.record.generator.RecordGenerator
  * @since 0.1
@@ -18,7 +18,7 @@ public record GeneratorInterimResult<T extends TextRecord>(
         @NotNull GeneratorContext<T> context,
         @Nullable String category,
         @Nullable Long recordId,
-        @Nullable IntFunction<String> valueFunction
+        @Nullable IntFunction<String> textFunction
 ) {
 
     public GeneratorInterimResult {
@@ -26,8 +26,8 @@ public record GeneratorInterimResult<T extends TextRecord>(
     }
 
     @Nullable
-    public String value(int index) {
-        return valueFunction == null ? null : valueFunction.apply(index);
+    public String textAt(int index) {
+        return textFunction == null ? null : textFunction.apply(index);
     }
 
 }

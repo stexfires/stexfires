@@ -98,7 +98,7 @@ public final class ExamplesGenerator {
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> "Key_" + interimResult.context().recordIndex() % 2,
-                    (interimResult) -> "Value for " + interimResult.value(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY));
+                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
@@ -109,8 +109,8 @@ public final class ExamplesGenerator {
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> "Key_" + interimResult.context().recordIndex(),
-                    (interimResult) -> "Value for " + interimResult.value(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY),
-                    (interimResult) -> "Comment for " + interimResult.value(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_KEY) + " with value: " + interimResult.value(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_VALUE));
+                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY),
+                    (interimResult) -> "Comment for " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_KEY) + " with value: " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_VALUE));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
