@@ -33,9 +33,9 @@ public interface RecordGenerator<T extends TextRecord> {
     int KEY_VALUE_COMMENT_RECORD_INDEX_KEY = 0;
     int KEY_VALUE_COMMENT_RECORD_INDEX_VALUE = 1;
 
-    static RecordGenerator<ValueRecord> valueRecord(CategoryGenerator<ValueRecord> categoryGenerator,
-                                                    RecordIdGenerator<ValueRecord> recordIdGenerator,
-                                                    Function<GeneratorInterimResult<ValueRecord>, String> valueFunction) {
+    static RecordGenerator<ValueRecord> valueRecord(@NotNull CategoryGenerator<ValueRecord> categoryGenerator,
+                                                    @NotNull RecordIdGenerator<ValueRecord> recordIdGenerator,
+                                                    @NotNull Function<GeneratorInterimResult<ValueRecord>, String> valueFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(valueFunction);
@@ -48,10 +48,10 @@ public interface RecordGenerator<T extends TextRecord> {
     }
 
     @SuppressWarnings("ReturnOfNull")
-    static RecordGenerator<KeyValueRecord> keyValueRecord(CategoryGenerator<KeyValueRecord> categoryGenerator,
-                                                          RecordIdGenerator<KeyValueRecord> recordIdGenerator,
-                                                          Function<GeneratorInterimResult<KeyValueRecord>, String> keyFunction,
-                                                          Function<GeneratorInterimResult<KeyValueRecord>, String> valueFunction) {
+    static RecordGenerator<KeyValueRecord> keyValueRecord(@NotNull CategoryGenerator<KeyValueRecord> categoryGenerator,
+                                                          @NotNull RecordIdGenerator<KeyValueRecord> recordIdGenerator,
+                                                          @NotNull Function<GeneratorInterimResult<KeyValueRecord>, String> keyFunction,
+                                                          @NotNull Function<GeneratorInterimResult<KeyValueRecord>, String> valueFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(keyFunction);
@@ -70,11 +70,11 @@ public interface RecordGenerator<T extends TextRecord> {
     }
 
     @SuppressWarnings("ReturnOfNull")
-    static RecordGenerator<KeyValueCommentRecord> keyValueCommentRecord(CategoryGenerator<KeyValueCommentRecord> categoryGenerator,
-                                                                        RecordIdGenerator<KeyValueCommentRecord> recordIdGenerator,
-                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, String> keyFunction,
-                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, String> valueFunction,
-                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, String> commentFunction) {
+    static RecordGenerator<KeyValueCommentRecord> keyValueCommentRecord(@NotNull CategoryGenerator<KeyValueCommentRecord> categoryGenerator,
+                                                                        @NotNull RecordIdGenerator<KeyValueCommentRecord> recordIdGenerator,
+                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> keyFunction,
+                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> valueFunction,
+                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> commentFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(keyFunction);
