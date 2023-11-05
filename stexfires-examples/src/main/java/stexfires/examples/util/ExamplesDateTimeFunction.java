@@ -94,11 +94,23 @@ public final class ExamplesDateTimeFunction {
                                 localTimeNow,
                                 localTimeNow.plusHours(1))));
 
+        generateAndPrintStream("localTimeOfSecondOfDay randomSecondOfDayInclusive - LocalTime.MIN - LocalTime.MAX",
+                DateTimeSuppliers.localTimeOfSecondOfDay(
+                        DateTimeSuppliers.randomSecondOfDayInclusive(random,
+                                LocalTime.MIN,
+                                LocalTime.MAX)));
+
         generateAndPrintStream("localTimeOfNanoOfDay randomNanoOfDay - localTimeNow + 1 hour",
                 DateTimeSuppliers.localTimeOfNanoOfDay(
                         DateTimeSuppliers.randomNanoOfDay(random,
                                 localTimeNow,
                                 localTimeNow.plusHours(1))));
+
+        generateAndPrintStream("localTimeOfNanoOfDay randomNanoOfDayInclusive - LocalTime.MIN - LocalTime.MAX",
+                DateTimeSuppliers.localTimeOfNanoOfDay(
+                        DateTimeSuppliers.randomNanoOfDayInclusive(random,
+                                LocalTime.MIN,
+                                LocalTime.MAX)));
     }
 
     private static void showRandomLocalDateTimeSuppliers() {

@@ -172,6 +172,15 @@ public final class DateTimeSuppliers {
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toSecondOfDay(), endExclusive.toSecondOfDay());
     }
 
+    public static LongSupplier randomSecondOfDayInclusive(@NotNull RandomGenerator random,
+                                                          @NotNull LocalTime startInclusive,
+                                                          @NotNull LocalTime endInclusive) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(startInclusive);
+        Objects.requireNonNull(endInclusive);
+        return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toSecondOfDay(), endInclusive.toSecondOfDay() + 1);
+    }
+
     public static LongSupplier randomNanoOfDay(@NotNull RandomGenerator random,
                                                @NotNull LocalTime startInclusive,
                                                @NotNull LocalTime endExclusive) {
@@ -179,6 +188,15 @@ public final class DateTimeSuppliers {
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toNanoOfDay(), endExclusive.toNanoOfDay());
+    }
+
+    public static LongSupplier randomNanoOfDayInclusive(@NotNull RandomGenerator random,
+                                                        @NotNull LocalTime startInclusive,
+                                                        @NotNull LocalTime endInclusive) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(startInclusive);
+        Objects.requireNonNull(endInclusive);
+        return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toNanoOfDay(), endInclusive.toNanoOfDay() + 1);
     }
 
     public static IntSupplier randomMonthInclusive(@NotNull RandomGenerator random,
