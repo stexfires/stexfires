@@ -27,7 +27,7 @@ public record GeneratorInterimResult<T extends TextRecord>(
 
     @Nullable
     public String textAt(int index) {
-        return textFunction == null ? null : textFunction.apply(index);
+        return ((textFunction == null) || (index < 0)) ? null : textFunction.apply(index);
     }
 
 }

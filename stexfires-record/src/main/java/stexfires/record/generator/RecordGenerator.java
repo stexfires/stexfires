@@ -134,7 +134,7 @@ public interface RecordGenerator<T extends TextRecord> {
                     context,
                     category,
                     recordId,
-                    index -> ((index >= 0) && (index < texts.size())) ? texts.get(index) : null);
+                    index -> index < texts.size() ? texts.get(index) : null);
             for (Function<GeneratorInterimResult<TextRecord>, String> textGenerator : textFunctions) {
                 texts.add(textGenerator.apply(interimResult));
             }

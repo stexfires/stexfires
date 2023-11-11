@@ -82,7 +82,7 @@ public final class ExamplesGenerator {
                 GeneratorProducer.unknownSize(generator0), firstSize);
     }
 
-    @SuppressWarnings({"ReturnOfNull", "DataFlowIssue"})
+    @SuppressWarnings({"ReturnOfNull"})
     private static void showRecordGenerator() {
         System.out.println("-showRecordGenerator---");
 
@@ -203,7 +203,7 @@ public final class ExamplesGenerator {
         {
             List<Function<GeneratorInterimResult<TextRecord>, String>> textFunctions = new ArrayList<>(3);
             textFunctions.add(interimResult -> "A");
-            textFunctions.add(interimResult -> "B" + interimResult.textFunction().apply(0));
+            textFunctions.add(interimResult -> "B" + interimResult.textAt(0));
             textFunctions.add(interimResult -> String.valueOf(interimResult.context().recordIndex()));
 
             RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfFunctions(
