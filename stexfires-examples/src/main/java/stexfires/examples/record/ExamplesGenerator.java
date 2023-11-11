@@ -3,6 +3,7 @@ package stexfires.examples.record;
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
+import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.ValueRecord;
 import stexfires.record.comparator.RecordComparators;
@@ -20,11 +21,13 @@ import stexfires.util.function.Suppliers;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber"})
 public final class ExamplesGenerator {
@@ -33,11 +36,14 @@ public final class ExamplesGenerator {
     }
 
     private static void produceAndPrint(@NotNull GeneratorProducer<?> producer) {
-        TextRecordStreams.printLines(TextRecordStreams.produce(producer));
+        TextRecordStreams.produce(producer)
+                         .forEachOrdered(RecordSystemOutUtil::printlnRecord);
     }
 
     private static void produceAndPrint(@NotNull GeneratorProducer<?> producer, long maxSize) {
-        TextRecordStreams.printLines(TextRecordStreams.produce(producer).limit(maxSize));
+        TextRecordStreams.produce(producer)
+                         .limit(maxSize)
+                         .forEachOrdered(RecordSystemOutUtil::printlnRecord);
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -76,7 +82,7 @@ public final class ExamplesGenerator {
                 GeneratorProducer.unknownSize(generator0), firstSize);
     }
 
-    @SuppressWarnings("ReturnOfNull")
+    @SuppressWarnings({"ReturnOfNull", "DataFlowIssue"})
     private static void showRecordGenerator() {
         System.out.println("-showRecordGenerator---");
 
@@ -178,6 +184,35 @@ public final class ExamplesGenerator {
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
 
+        System.out.println("--- textRecordOfSuppliers");
+        {
+            Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction =
+                    interimResult -> interimResult.context().first() ?
+                            Stream.of(() -> "A", () -> "B", () -> "000") :
+                            Stream.of(() -> "aa", () -> "bb", () -> String.valueOf(interimResult.context().recordIndex()));
+
+            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfSuppliers(
+                    CategoryGenerator.constantNull(),
+                    RecordIdGenerator.constantNull(),
+                    textFunction);
+
+            produceAndPrint(GeneratorProducer.knownSize(generator, size));
+        }
+
+        System.out.println("--- textRecordOfFunctions");
+        {
+            List<Function<GeneratorInterimResult<TextRecord>, String>> textFunctions = new ArrayList<>(3);
+            textFunctions.add(interimResult -> "A");
+            textFunctions.add(interimResult -> "B" + interimResult.textFunction().apply(0));
+            textFunctions.add(interimResult -> String.valueOf(interimResult.context().recordIndex()));
+
+            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfFunctions(
+                    CategoryGenerator.constantNull(),
+                    RecordIdGenerator.constantNull(),
+                    textFunctions);
+
+            produceAndPrint(GeneratorProducer.knownSize(generator, size));
+        }
     }
 
     private static void measureTime() {
