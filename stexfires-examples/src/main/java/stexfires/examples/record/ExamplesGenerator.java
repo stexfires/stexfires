@@ -104,7 +104,18 @@ public final class ExamplesGenerator {
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> "Key_" + interimResult.context().recordIndex() % 2,
-                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY));
+                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY).orElse(""));
+
+            produceAndPrint(GeneratorProducer.knownSize(generator, size));
+        }
+
+        System.out.println("--- keyValueRecord parsedTextAt");
+        {
+            RecordGenerator<KeyValueRecord> generator = RecordGenerator.keyValueRecord(
+                    CategoryGenerator.constantNull(),
+                    RecordIdGenerator.constantNull(),
+                    (interimResult) -> String.valueOf(interimResult.context().recordIndex() * 10),
+                    (interimResult) -> String.valueOf(interimResult.parsedTextAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY, Long::parseLong).orElseThrow() * 2));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
@@ -115,8 +126,8 @@ public final class ExamplesGenerator {
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> "Key_" + interimResult.context().recordIndex(),
-                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY),
-                    (interimResult) -> "Comment for " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_KEY) + " with value: " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_VALUE));
+                    (interimResult) -> "Value for " + interimResult.textAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY).orElse(""),
+                    (interimResult) -> "Comment for " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_KEY).orElse("") + " with value: " + interimResult.textAt(RecordGenerator.KEY_VALUE_COMMENT_RECORD_INDEX_VALUE).orElse(""));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
@@ -203,7 +214,7 @@ public final class ExamplesGenerator {
         {
             List<Function<GeneratorInterimResult<TextRecord>, String>> textFunctions = new ArrayList<>(3);
             textFunctions.add(interimResult -> "A");
-            textFunctions.add(interimResult -> "B" + interimResult.textAt(0));
+            textFunctions.add(interimResult -> "B" + interimResult.textAt(0).orElse(""));
             textFunctions.add(interimResult -> String.valueOf(interimResult.context().recordIndex()));
 
             RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfFunctions(

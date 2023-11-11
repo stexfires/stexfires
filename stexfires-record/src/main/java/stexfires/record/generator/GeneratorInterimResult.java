@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.IntFunction;
 
 /**
@@ -25,9 +27,13 @@ public record GeneratorInterimResult<T extends TextRecord>(
         Objects.requireNonNull(context);
     }
 
-    @Nullable
-    public String textAt(int index) {
-        return ((textFunction == null) || (index < 0)) ? null : textFunction.apply(index);
+    public @NotNull Optional<String> textAt(int index) {
+        return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textFunction.apply(index));
+    }
+
+    public <D> @NotNull Optional<D> parsedTextAt(int index, @NotNull Function<String, D> textParser) {
+        Objects.requireNonNull(textParser);
+        return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textParser.apply(textFunction.apply(index)));
     }
 
 }
