@@ -4,10 +4,10 @@ import org.jetbrains.annotations.NotNull;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
+import stexfires.record.TextRecords;
 import stexfires.record.ValueRecord;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 
 import java.util.ArrayList;
@@ -105,17 +105,32 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
+    @SafeVarargs
     static RecordGenerator<TextRecord> textRecordOfSuppliers(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
                                                              @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                             @NotNull Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction) {
+                                                             @NotNull Supplier<String>... textSuppliers) {
+        Objects.requireNonNull(categoryGenerator);
+        Objects.requireNonNull(recordIdGenerator);
+        Objects.requireNonNull(textSuppliers);
+        return textRecordOfStreamFunction(categoryGenerator, recordIdGenerator,
+                (interimResult) -> Stream.of(textSuppliers));
+    }
+
+    static RecordGenerator<TextRecord> textRecordOfStreamFunction(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
+                                                                  @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
+                                                                  @NotNull Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textFunction);
         return (GeneratorContext<TextRecord> context) -> {
             String category = categoryGenerator.generateCategory(context);
             Long recordId = recordIdGenerator.generateRecordId(context);
-            Stream<Supplier<String>> textSupplierStream = textFunction.apply(new GeneratorInterimResult<>(context, category, recordId, null));
-            return new ManyFieldsRecord(category, recordId, textSupplierStream.map(Supplier::get));
+            GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
+                    context, category, recordId, null);
+            List<String> texts = textFunction.apply(interimResult)
+                                             .map(Supplier::get)
+                                             .toList();
+            return TextRecords.ofNullable(category, recordId, texts);
         };
     }
 
@@ -131,14 +146,11 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             List<String> texts = new ArrayList<>(textFunctions.size());
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
-                    context,
-                    category,
-                    recordId,
-                    index -> index < texts.size() ? texts.get(index) : null);
-            for (Function<GeneratorInterimResult<TextRecord>, String> textGenerator : textFunctions) {
-                texts.add(textGenerator.apply(interimResult));
-            }
-            return new ManyFieldsRecord(category, recordId, texts);
+                    context, category, recordId, index -> index < texts.size() ? texts.get(index) : null);
+            textFunctions.stream()
+                         .map(textFunction -> textFunction.apply(interimResult))
+                         .forEachOrdered(texts::add);
+            return TextRecords.ofNullable(category, recordId, texts);
         };
     }
 
