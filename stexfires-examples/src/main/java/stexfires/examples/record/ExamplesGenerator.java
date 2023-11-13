@@ -205,14 +205,29 @@ public final class ExamplesGenerator {
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
 
-        System.out.println("--- textRecordOfStreamFunction");
+        System.out.println("--- textRecordOfSupplierStreamFunction");
         {
             Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction =
                     interimResult -> interimResult.context().first() ?
                             Stream.of(() -> "A", () -> "B", () -> "000") :
                             Stream.of(() -> "aa", () -> "bb", () -> String.valueOf(interimResult.context().recordIndex()));
 
-            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfStreamFunction(
+            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfSupplierStreamFunction(
+                    CategoryGenerator.constantNull(),
+                    RecordIdGenerator.constantNull(),
+                    textFunction);
+
+            produceAndPrint(GeneratorProducer.knownSize(generator, size));
+        }
+
+        System.out.println("--- textRecordOfListFunction");
+        {
+            Function<GeneratorInterimResult<TextRecord>, List<String>> textFunction =
+                    interimResult -> interimResult.context().first() ?
+                            List.of("A", "B", "000") :
+                            List.of("aa", "bb", String.valueOf(interimResult.context().recordIndex()));
+
+            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfListFunction(
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     textFunction);
