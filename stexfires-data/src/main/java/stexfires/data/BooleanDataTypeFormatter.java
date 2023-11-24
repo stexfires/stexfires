@@ -25,6 +25,20 @@ public final class BooleanDataTypeFormatter implements DataTypeFormatter<Boolean
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
+    public static BooleanDataTypeFormatter of(@NotNull String trueValue,
+                                              @NotNull String falseValue,
+                                              @Nullable String nullValue) {
+        Objects.requireNonNull(trueValue);
+        Objects.requireNonNull(falseValue);
+        if (trueValue.equals(falseValue)) {
+            throw new IllegalArgumentException("trueValue and falseValue must be different");
+        }
+        return new BooleanDataTypeFormatter(
+                () -> trueValue,
+                () -> falseValue,
+                () -> nullValue);
+    }
+
     @Override
     public @Nullable String format(@Nullable Boolean source) throws DataTypeConverterException {
         if (source == null) {

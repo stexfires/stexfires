@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.NavigableSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Supplier;
 
@@ -30,6 +31,28 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
         this.falseValues = new TreeSet<>(falseValues);
         this.nullSourceSupplier = nullSourceSupplier;
         this.emptySourceSupplier = emptySourceSupplier;
+    }
+
+    public static BooleanDataTypeParser of(@NotNull String trueValue,
+                                           @NotNull String falseValue,
+                                           @Nullable Boolean nullOrEmptyValue) {
+        return of(trueValue, falseValue, nullOrEmptyValue, nullOrEmptyValue);
+    }
+
+    public static BooleanDataTypeParser of(@NotNull String trueValue,
+                                           @NotNull String falseValue,
+                                           @Nullable Boolean nullValue,
+                                           @Nullable Boolean emptyValue) {
+        Objects.requireNonNull(trueValue);
+        Objects.requireNonNull(falseValue);
+        if (trueValue.equals(falseValue)) {
+            throw new IllegalArgumentException("trueValue and falseValue must be different");
+        }
+        return new BooleanDataTypeParser(
+                Set.of(trueValue),
+                Set.of(falseValue),
+                () -> nullValue,
+                () -> emptyValue);
     }
 
     @Override

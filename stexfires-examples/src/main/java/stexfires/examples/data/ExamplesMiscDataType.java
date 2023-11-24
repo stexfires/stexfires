@@ -150,6 +150,11 @@ public final class ExamplesMiscDataType {
         testFormatBoolean(Boolean.TRUE, new BooleanDataTypeFormatter(() -> "TRUE", () -> "FALSE", () -> "NULL"));
         testFormatBoolean(Boolean.FALSE, new BooleanDataTypeFormatter(() -> "TRUE", () -> "FALSE", () -> "NULL"));
 
+        testFormatBoolean(null, BooleanDataTypeFormatter.of("TRUE", "FALSE", null));
+        testFormatBoolean(null, BooleanDataTypeFormatter.of("TRUE", "FALSE", "NULL"));
+        testFormatBoolean(Boolean.TRUE, BooleanDataTypeFormatter.of("TRUE", "FALSE", "NULL"));
+        testFormatBoolean(Boolean.FALSE, BooleanDataTypeFormatter.of("TRUE", "FALSE", "NULL"));
+
         System.out.println("---BooleanDataTypeParser");
         Set<String> trueValues = Set.of("true", "TRUE");
         Set<String> falseValues = Set.of("false", "FALSE");
@@ -162,6 +167,16 @@ public final class ExamplesMiscDataType {
         testParseBoolean("false", new BooleanDataTypeParser(trueValues, falseValues, null, null));
         testParseBoolean("FALSE", new BooleanDataTypeParser(trueValues, falseValues, null, null));
         testParseBoolean("test", new BooleanDataTypeParser(trueValues, falseValues, null, null));
+
+        testParseBoolean(null, BooleanDataTypeParser.of("TRUE", "FALSE", null));
+        testParseBoolean(null, BooleanDataTypeParser.of("TRUE", "FALSE", Boolean.TRUE));
+        testParseBoolean("TRUE", BooleanDataTypeParser.of("TRUE", "FALSE", null));
+        testParseBoolean("FALSE", BooleanDataTypeParser.of("TRUE", "FALSE", null));
+
+        testParseBoolean(null, BooleanDataTypeParser.of("TRUE", "FALSE", Boolean.TRUE, Boolean.FALSE));
+        testParseBoolean("", BooleanDataTypeParser.of("TRUE", "FALSE", Boolean.TRUE, Boolean.FALSE));
+        testParseBoolean("TRUE", BooleanDataTypeParser.of("TRUE", "FALSE", Boolean.TRUE, Boolean.FALSE));
+        testParseBoolean("FALSE", BooleanDataTypeParser.of("TRUE", "FALSE", Boolean.TRUE, Boolean.FALSE));
 
         System.out.println("---GenericDataTypeFormatter Locale");
         testFormatLocale(null, GenericDataTypeFormatter.forLocaleWithSupplier(null));
