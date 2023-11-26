@@ -7,6 +7,7 @@ import stexfires.record.generator.GeneratorInterimResult;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * @since 0.1
@@ -111,6 +112,50 @@ public record DataType<T>(
 
     public Function<String, T> parserAsFunction() {
         return parser.asFunction();
+    }
+
+    public UnaryOperator<String> textModifier(@NotNull UnaryOperator<T> typeOperator) {
+        Objects.requireNonNull(typeOperator);
+        return (String s) -> format(typeOperator.apply(parse(s)));
+    }
+
+    public UnaryOperator<String> textModifier(@NotNull DataType<T> targetDataType) {
+        Objects.requireNonNull(targetDataType);
+        return (String s) -> targetDataType.format(parse(s));
+    }
+
+    public UnaryOperator<String> textModifier(@NotNull DataType<T> targetDataType,
+                                              @NotNull UnaryOperator<T> typeOperator) {
+        Objects.requireNonNull(targetDataType);
+        Objects.requireNonNull(typeOperator);
+        return (String s) -> targetDataType.format(typeOperator.apply(parse(s)));
+    }
+
+    public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
+                                                                @NotNull Function<T, R> convertFunction) {
+        Objects.requireNonNull(targetDataType);
+        Objects.requireNonNull(convertFunction);
+        return (String s) -> targetDataType.format(convertFunction.apply(parse(s)));
+    }
+
+    public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
+                                                                @NotNull Function<T, R> convertFunction,
+                                                                @NotNull UnaryOperator<R> targetOperator) {
+        Objects.requireNonNull(targetDataType);
+        Objects.requireNonNull(convertFunction);
+        Objects.requireNonNull(targetOperator);
+        return (String s) -> targetDataType.format(targetOperator.apply(convertFunction.apply(parse(s))));
+    }
+
+    public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
+                                                                @NotNull UnaryOperator<T> sourceOperator,
+                                                                @NotNull Function<T, R> convertFunction,
+                                                                @NotNull UnaryOperator<R> targetOperator) {
+        Objects.requireNonNull(targetDataType);
+        Objects.requireNonNull(sourceOperator);
+        Objects.requireNonNull(convertFunction);
+        Objects.requireNonNull(targetOperator);
+        return (String s) -> targetDataType.format(targetOperator.apply(convertFunction.apply(sourceOperator.apply(parse(s)))));
     }
 
     public DataType<T> withSupplier(@NotNull Supplier<T> newSupplier) {
