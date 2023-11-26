@@ -74,8 +74,26 @@ public record DataType<T>(
         return new DataType<>(typeClass, defaultValue, formatter, (String source) -> defaultValue, () -> defaultValue);
     }
 
-    public String defaultTextValue() {
+    public T cast(@NotNull Object value) throws ClassCastException {
+        Objects.requireNonNull(value);
+        return typeClass.cast(value);
+    }
+
+    public boolean isInstance(@NotNull Object value) {
+        Objects.requireNonNull(value);
+        return typeClass.isInstance(value);
+    }
+
+    public String defaultTextValue() throws DataTypeConverterException {
         return formatter.format(defaultValue);
+    }
+
+    public String format(T dataValue) throws DataTypeConverterException {
+        return formatter.format(dataValue);
+    }
+
+    public T parse(String textValue) throws DataTypeConverterException {
+        return parser.parse(textValue);
     }
 
     public Supplier<String> newTextSupplier() {
