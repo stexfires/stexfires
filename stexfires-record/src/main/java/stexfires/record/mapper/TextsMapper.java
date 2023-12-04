@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +40,16 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .map(field -> recordFieldFunction.apply(record, field))
+                      .collect(Collectors.toList()));
+    }
+
+    @SafeVarargs
+    public static <T extends TextRecord> TextsMapper<T> applyTextOperators(UnaryOperator<String>... unaryOperators) {
+        return new TextsMapper<>(record ->
+                record.streamOfFields()
+                      .map(field -> unaryOperators.length > field.index()
+                              ? unaryOperators[field.index()].apply(field.text())
+                              : field.text())
                       .collect(Collectors.toList()));
     }
 
