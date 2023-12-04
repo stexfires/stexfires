@@ -3,6 +3,8 @@ package stexfires.data;
 import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.generator.GeneratorInterimResult;
+import stexfires.record.mapper.field.FieldTextMapper;
+import stexfires.record.mapper.field.StringOperationFieldTextMapper;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -119,9 +121,17 @@ public record DataType<T>(
         return (String s) -> format(typeOperator.apply(parse(s)));
     }
 
+    public FieldTextMapper fieldTextMapper(@NotNull UnaryOperator<T> typeOperator) {
+        return new StringOperationFieldTextMapper(textModifier(typeOperator));
+    }
+
     public UnaryOperator<String> textModifier(@NotNull DataType<T> targetDataType) {
         Objects.requireNonNull(targetDataType);
         return (String s) -> targetDataType.format(parse(s));
+    }
+
+    public FieldTextMapper fieldTextMapper(@NotNull DataType<T> targetDataType) {
+        return new StringOperationFieldTextMapper(textModifier(targetDataType));
     }
 
     public UnaryOperator<String> textModifier(@NotNull DataType<T> targetDataType,
@@ -131,11 +141,21 @@ public record DataType<T>(
         return (String s) -> targetDataType.format(typeOperator.apply(parse(s)));
     }
 
+    public FieldTextMapper fieldTextMapper(@NotNull DataType<T> targetDataType,
+                                           @NotNull UnaryOperator<T> typeOperator) {
+        return new StringOperationFieldTextMapper(textModifier(targetDataType, typeOperator));
+    }
+
     public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
                                                                 @NotNull Function<T, R> convertFunction) {
         Objects.requireNonNull(targetDataType);
         Objects.requireNonNull(convertFunction);
         return (String s) -> targetDataType.format(convertFunction.apply(parse(s)));
+    }
+
+    public <R> FieldTextMapper fieldTextMapperDifferentClass(@NotNull DataType<R> targetDataType,
+                                                             @NotNull Function<T, R> convertFunction) {
+        return new StringOperationFieldTextMapper(textModifierDifferentClass(targetDataType, convertFunction));
     }
 
     public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
@@ -147,6 +167,12 @@ public record DataType<T>(
         return (String s) -> targetDataType.format(targetOperator.apply(convertFunction.apply(parse(s))));
     }
 
+    public <R> FieldTextMapper fieldTextMapperDifferentClass(@NotNull DataType<R> targetDataType,
+                                                             @NotNull Function<T, R> convertFunction,
+                                                             @NotNull UnaryOperator<R> targetOperator) {
+        return new StringOperationFieldTextMapper(textModifierDifferentClass(targetDataType, convertFunction, targetOperator));
+    }
+
     public <R> UnaryOperator<String> textModifierDifferentClass(@NotNull DataType<R> targetDataType,
                                                                 @NotNull UnaryOperator<T> sourceOperator,
                                                                 @NotNull Function<T, R> convertFunction,
@@ -156,6 +182,13 @@ public record DataType<T>(
         Objects.requireNonNull(convertFunction);
         Objects.requireNonNull(targetOperator);
         return (String s) -> targetDataType.format(targetOperator.apply(convertFunction.apply(sourceOperator.apply(parse(s)))));
+    }
+
+    public <R> FieldTextMapper fieldTextMapperDifferentClass(@NotNull DataType<R> targetDataType,
+                                                             @NotNull UnaryOperator<T> sourceOperator,
+                                                             @NotNull Function<T, R> convertFunction,
+                                                             @NotNull UnaryOperator<R> targetOperator) {
+        return new StringOperationFieldTextMapper(textModifierDifferentClass(targetDataType, sourceOperator, convertFunction, targetOperator));
     }
 
     public DataType<T> withSupplier(@NotNull Supplier<T> newSupplier) {
