@@ -5,7 +5,6 @@ import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;
 import stexfires.record.ValueRecord;
-import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.filter.CategoryFilter;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
@@ -35,6 +34,7 @@ import stexfires.util.function.Suppliers;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -66,12 +66,12 @@ public final class ExamplesMapper {
 
     private static void printMapper(String title, RecordMapper<TextRecord, ? extends TextRecord> recordMapper) {
         System.out.println("--" + title);
-        TextRecordStreams.mapAndConsume(generateStream(), recordMapper, new SystemOutConsumer<>());
+        TextRecordStreams.mapAndConsume(generateStream(), recordMapper, RecordSystemOutUtil.RECORD_CONSUMER);
     }
 
     private static void printMapperValueRecord(String title, RecordMapper<? super ValueRecord, ? extends TextRecord> recordMapper) {
         System.out.println("--" + title);
-        TextRecordStreams.mapAndConsume(generateStreamValueRecord(), recordMapper, new SystemOutConsumer<>());
+        TextRecordStreams.mapAndConsume(generateStreamValueRecord(), recordMapper, RecordSystemOutUtil.RECORD_CONSUMER);
     }
 
     private static void showAddValueMapper() {
@@ -215,14 +215,16 @@ public final class ExamplesMapper {
         printMapper("constructor", new SupplierMapper<>(() -> new ValueFieldRecord("value")));
     }
 
-    private static void showValuesMapper() {
-        System.out.println("-showValuesMapper---");
+    private static void showTextsMapper() {
+        System.out.println("-showTextsMapper---");
 
         printMapper("constructor", new TextsMapper<>(record -> Strings.list("new value 0", "new value 1", "new value 2")));
         printMapper("identity", TextsMapper.identity());
         printMapper("recordFieldFunction", TextsMapper.recordFieldFunction((record, field) -> String.valueOf(10L * record.recordIdAsOptional().orElse(0L) + field.index())));
         printMapper("mapAllFields", TextsMapper.mapAllFields(new AddPrefixFieldTextMapper("new: ")));
-        printMapperValueRecord("mapOneField", TextsMapper.mapOneField(ValueRecord::valueField, new AddPrefixFieldTextMapper("new: ")));
+        printMapperValueRecord("mapOneField valueField", TextsMapper.mapOneField(ValueRecord::valueField, new AddPrefixFieldTextMapper("new: ")));
+        printMapperValueRecord("mapOneField index 0", TextsMapper.mapOneField(0, new AddPrefixFieldTextMapper("new: ")));
+        printMapperValueRecord("mapOneField index 1", TextsMapper.mapOneField(1, new AddPrefixFieldTextMapper("new: ")));
         printMapper("size 0", TextsMapper.size(0, "<NULL>"));
         printMapper("size 1", TextsMapper.size(1, "<NULL>"));
         printMapper("size 2", TextsMapper.size(2, "<NULL>"));
@@ -234,10 +236,20 @@ public final class ExamplesMapper {
         printMapper("createMessages list", TextsMapper.createMessages(
                 Collections.singletonList(new SizeMessage<>())
         ));
-        printMapper("applyFunctions array", TextsMapper.applyRecordFunctions(
+        printMapper("applyTextOperators array", TextsMapper.applyTextOperators(
+                StringUnaryOperators.upperCase(Locale.GERMANY),
+                StringUnaryOperators.duplicate(),
+                StringUnaryOperators.identity(),
+                StringUnaryOperators.prefix("-")
+        ));
+        printMapper("applyTextOperators list", TextsMapper.applyTextOperators(
+                List.of(StringUnaryOperators.upperCase(Locale.GERMANY),
+                        StringUnaryOperators.duplicate())
+        ));
+        printMapper("applyRecordFunctions array", TextsMapper.applyRecordFunctions(
                 TextRecord::category, TextRecord::lastText
         ));
-        printMapper("applyFunctions list", TextsMapper.applyRecordFunctions(
+        printMapper("applyRecordFunctions list", TextsMapper.applyRecordFunctions(
                 Collections.singletonList(TextRecord::toString)
         ));
         printMapper("add", TextsMapper.add(record -> "new value"));
@@ -257,7 +269,7 @@ public final class ExamplesMapper {
         showRecordIdMapper();
         showRecordMapper();
         showSupplierMapper();
-        showValuesMapper();
+        showTextsMapper();
     }
 
 }

@@ -62,6 +62,13 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                 Strings.list(fieldTextMapper.mapToText(fieldFunction.apply(record))));
     }
 
+    public static <T extends TextRecord> TextsMapper<T> mapOneField(int index,
+                                                                    FieldTextMapper fieldTextMapper) {
+        Objects.requireNonNull(fieldTextMapper);
+        return new TextsMapper<>(record -> record.isValidIndex(index) ?
+                Strings.list(fieldTextMapper.mapToText(Objects.requireNonNull(record.fieldAt(index)))) : Strings.list());
+    }
+
     public static <T extends TextRecord> TextsMapper<T> size(int size, String fillingText) {
         if (size < 0) {
             throw new IllegalArgumentException("Illegal size! size=" + size);
@@ -112,12 +119,22 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                                                     .collect(Collectors.toList()));
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends TextRecord> TextsMapper<T> applyTextOperators(UnaryOperator<String>... unaryOperators) {
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .map(field -> unaryOperators.length > field.index()
                               ? unaryOperators[field.index()].apply(field.text())
+                              : field.text())
+                      .collect(Collectors.toList()));
+    }
+
+    public static <T extends TextRecord> TextsMapper<T> applyTextOperators(List<UnaryOperator<String>> unaryOperators) {
+        return new TextsMapper<>(record ->
+                record.streamOfFields()
+                      .map(field -> unaryOperators.size() > field.index()
+                              ? unaryOperators.get(field.index()).apply(field.text())
                               : field.text())
                       .collect(Collectors.toList()));
     }
