@@ -4,9 +4,14 @@ import stexfires.data.DataType;
 import stexfires.data.DataTypes;
 import stexfires.data.NumberDataTypeFormatter;
 import stexfires.examples.record.RecordSystemOutUtil;
+import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.ValueRecord;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.mapper.TextsMapper;
+import stexfires.record.mapper.field.FieldTextMapper;
+import stexfires.record.mapper.field.IndexedFieldTextMapper;
+import stexfires.record.mapper.field.StringOperationFieldTextMapper;
 import stexfires.record.producer.ConstantProducer;
 
 import java.math.BigDecimal;
@@ -23,7 +28,7 @@ public final class ExamplesDataTypeModification {
 
     public static void main(String... args) {
         // Integer
-        DataType<Integer> integerDataTypeGermany = DataTypes.integerDataType(0, Locale.GERMANY);
+        DataType<Integer> integerDataTypeDE = DataTypes.integerDataType(0, Locale.GERMANY);
         DataType<Integer> integerDataTypeUS = DataTypes.integerDataType(0, Locale.US);
 
         // BigDecimal
@@ -33,44 +38,74 @@ public final class ExamplesDataTypeModification {
                 new NumberDataTypeFormatter<>(NumberFormat.getNumberInstance(Locale.US), null));
 
         // Boolean
-        DataType<Boolean> booleanDataType = DataTypes.booleanDataType(false, "TRUE", "FALSE");
+        DataType<Boolean> booleanDataType0 = DataTypes.booleanDataType(false, "TRUE", "FALSE");
+        DataType<Boolean> booleanDataType1 = DataTypes.booleanDataType(false, "yes", "no");
 
         String textValue0 = "1.234";
         ValueRecord valueRecord = TextRecords.ofText(textValue0);
-        ConstantProducer<ValueRecord> constantProducer = new ConstantProducer<>(3, valueRecord);
+        TextRecord textRecord = TextRecords.ofTexts(textValue0, "TRUE");
+        ConstantProducer<ValueRecord> constantProducerValueRecord = new ConstantProducer<>(3, valueRecord);
+        ConstantProducer<TextRecord> constantProducerTextRecord = new ConstantProducer<>(3, textRecord);
 
         {
             System.out.println("--- convert same class");
 
-            Function<String, String> convertFunction = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeGermany.parser().parse(s));
-            UnaryOperator<String> convertOperator0 = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeGermany.parser().parse(s));
-            UnaryOperator<String> convertOperator1 = integerDataTypeGermany.textModifier(integerDataTypeUS);
+            Function<String, String> integerDE2USFunction = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
+            UnaryOperator<String> integerDE2USOperator0 = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
+            UnaryOperator<String> integerDE2US1 = integerDataTypeDE.textModifier(integerDataTypeUS);
+            FieldTextMapper integerDE2USMapper1 = integerDataTypeDE.fieldTextMapper(integerDataTypeUS);
 
-            System.out.println(integerDataTypeUS.formatter().format(integerDataTypeGermany.parser().parse(textValue0)));
-            System.out.println(convertFunction.apply(textValue0));
-            System.out.println(convertOperator0.apply(textValue0));
-            System.out.println(convertOperator1.apply(textValue0));
+            System.out.println(integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(textValue0)));
+            System.out.println(integerDE2USFunction.apply(textValue0));
+            System.out.println(integerDE2USOperator0.apply(textValue0));
+            System.out.println(integerDE2US1.apply(textValue0));
 
-            System.out.println(integerDataTypeUS.formatter().format(integerDataTypeGermany.parser().parse(valueRecord.value())));
-            System.out.println(convertFunction.apply(valueRecord.value()));
-            System.out.println(convertOperator0.apply(valueRecord.value()));
-            System.out.println(convertOperator1.apply(valueRecord.value()));
+            System.out.println(integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(valueRecord.value())));
+            System.out.println(integerDE2USFunction.apply(valueRecord.value()));
+            System.out.println(integerDE2USOperator0.apply(valueRecord.value()));
+            System.out.println(integerDE2US1.apply(valueRecord.value()));
 
-            RecordMapper<ValueRecord, ValueRecord> recordMapper0 = (ValueRecord r) -> r.withValue(integerDataTypeUS.formatter().format(integerDataTypeGermany.parser().parse(r.value())));
-            RecordMapper<ValueRecord, ValueRecord> recordMapper1 = (ValueRecord r) -> r.withValue(convertOperator1.apply(r.value()));
+            RecordMapper<ValueRecord, ValueRecord> recordMapper0 = (ValueRecord r) -> r.withValue(integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(r.value())));
+            RecordMapper<ValueRecord, ValueRecord> recordMapper1 = (ValueRecord r) -> r.withValue(integerDE2US1.apply(r.value()));
             System.out.println(recordMapper0.map(valueRecord));
-            constantProducer.produceStream().map(recordMapper0::map).forEach(RecordSystemOutUtil::printlnRecord);
+            constantProducerValueRecord.produceStream().map(recordMapper0::map).forEach(RecordSystemOutUtil::printlnRecord);
             System.out.println(recordMapper1.map(valueRecord));
-            constantProducer.produceStream().map(recordMapper1::map).forEach(RecordSystemOutUtil::printlnRecord);
+            constantProducerValueRecord.produceStream().map(recordMapper1::map).forEach(RecordSystemOutUtil::printlnRecord);
+
+            TextsMapper<ValueRecord> valueRecordTextsMapper = TextsMapper.applyTextOperators(
+                    integerDE2US1
+            );
+            TextsMapper<TextRecord> textRecordMapper0 = TextsMapper.mapAllFields(IndexedFieldTextMapper.byArray(
+                    integerDE2USMapper1,
+                    new StringOperationFieldTextMapper(booleanDataType0.textModifier(booleanDataType1))
+            ));
+            TextsMapper<TextRecord> textRecordMapper1 = TextsMapper.applyTextOperators(
+                    UnaryOperator.identity(),
+                    booleanDataType0.textModifier(booleanDataType1)
+            );
+            TextsMapper<TextRecord> textRecordMapper2 = TextsMapper.mapOneField(record -> record.fieldAt(0), integerDE2USMapper1);
+
+            constantProducerValueRecord.produceStream()
+                                       .map(valueRecordTextsMapper::map)
+                                       .forEach(RecordSystemOutUtil::printlnRecord);
+            constantProducerTextRecord.produceStream()
+                                      .map(textRecordMapper0::map)
+                                      .forEach(RecordSystemOutUtil::printlnRecord);
+            constantProducerTextRecord.produceStream()
+                                      .map(textRecordMapper1::map)
+                                      .forEach(RecordSystemOutUtil::printlnRecord);
+            constantProducerTextRecord.produceStream()
+                                      .map(textRecordMapper2::map)
+                                      .forEach(RecordSystemOutUtil::printlnRecord);
         }
 
         {
             System.out.println("--- apply operator");
 
             UnaryOperator<Integer> integerUnaryOperator = (Integer i) -> i * i;
-            UnaryOperator<String> convertOperator0 = (String s) -> integerDataTypeGermany.formatter().format(integerUnaryOperator.apply(integerDataTypeGermany.parser().parse(s)));
-            UnaryOperator<String> convertOperator1 = integerDataTypeGermany.textModifier(integerUnaryOperator);
-            UnaryOperator<String> convertOperator2 = integerDataTypeGermany.textModifier(integerDataTypeGermany, (i) -> i * 2);
+            UnaryOperator<String> convertOperator0 = (String s) -> integerDataTypeDE.formatter().format(integerUnaryOperator.apply(integerDataTypeDE.parser().parse(s)));
+            UnaryOperator<String> convertOperator1 = integerDataTypeDE.textModifier(integerUnaryOperator);
+            UnaryOperator<String> convertOperator2 = integerDataTypeDE.textModifier(integerDataTypeDE, (i) -> i * 2);
 
             System.out.println(convertOperator0.apply(textValue0));
             System.out.println(convertOperator1.apply(textValue0));
@@ -82,11 +117,11 @@ public final class ExamplesDataTypeModification {
 
             // BigDecimal
             //noinspection TrivialFunctionalExpressionUsage
-            UnaryOperator<String> convertOperator0 = (String s) -> bigDecimalDataTypeUS.formatter().format(((Function<Integer, BigDecimal>) BigDecimal::valueOf).apply(integerDataTypeGermany.parser().parse(s)));
-            UnaryOperator<String> convertOperator1 = integerDataTypeGermany.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf);
+            UnaryOperator<String> convertOperator0 = (String s) -> bigDecimalDataTypeUS.formatter().format(((Function<Integer, BigDecimal>) BigDecimal::valueOf).apply(integerDataTypeDE.parser().parse(s)));
+            UnaryOperator<String> convertOperator1 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf);
             // area of circle
-            UnaryOperator<String> convertOperator2 = integerDataTypeGermany.textModifierDifferentClass(bigDecimalDataTypeUS, (i) -> BigDecimal.valueOf(i).pow(2).multiply(BigDecimal.valueOf(Math.PI)));
-            UnaryOperator<String> convertOperator3 = integerDataTypeGermany.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf, (b) -> b.pow(2).multiply(BigDecimal.valueOf(Math.PI)));
+            UnaryOperator<String> convertOperator2 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, (i) -> BigDecimal.valueOf(i).pow(2).multiply(BigDecimal.valueOf(Math.PI)));
+            UnaryOperator<String> convertOperator3 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf, (b) -> b.pow(2).multiply(BigDecimal.valueOf(Math.PI)));
 
             System.out.println(convertOperator0.apply(textValue0));
             System.out.println(convertOperator1.apply(textValue0));
@@ -95,7 +130,7 @@ public final class ExamplesDataTypeModification {
 
             // Boolean
             // is even
-            UnaryOperator<String> convertOperator4 = integerDataTypeGermany.textModifierDifferentClass(booleanDataType, (Integer i) -> i % 2 == 0);
+            UnaryOperator<String> convertOperator4 = integerDataTypeDE.textModifierDifferentClass(booleanDataType0, (Integer i) -> i % 2 == 0);
 
             System.out.println(convertOperator4.apply(textValue0));
         }
