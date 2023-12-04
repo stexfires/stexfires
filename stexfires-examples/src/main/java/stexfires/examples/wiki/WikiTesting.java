@@ -82,7 +82,7 @@ public final class WikiTesting {
             throws ProducerException, ConsumerException, IOException {
         MarkdownTableFileSpec consumerFileSpec = createTableConsumerFileSpec(title);
         MarkdownTableConsumer consumer = consumerFileSpec.consumer(outputStream);
-        RecordMapper<TextRecord, TextRecord> mapper = TextsMapper.applyFunctions(
+        RecordMapper<TextRecord, TextRecord> mapper = TextsMapper.applyRecordFunctions(
                 r -> "[" + r.textAt(0) + "]" + "(" + r.textAt(1) + ")",
                 r -> "[" + r.textAt(1).replace("http://", "").replace("https://", "")
                         + "]" + "(" + r.textAt(1) + ")");
@@ -95,7 +95,7 @@ public final class WikiTesting {
             throws ProducerException, ConsumerException, IOException {
         MarkdownListFileSpec consumerFileSpec = createListConsumerFileSpec(title);
         MarkdownListConsumer consumer = consumerFileSpec.consumer(outputStream);
-        RecordMapper<TextRecord, ValueRecord> mapper = TextsMapper.applyFunctions(
+        RecordMapper<TextRecord, ValueRecord> mapper = TextsMapper.applyRecordFunctions(
                                                                           r -> "[" + r.textAt(0) + "]" + "(" + r.textAt(1) + ")")
                                                                   .andThen(new ToValueFieldRecordMapper<>(new TextMessage<>(0)));
 

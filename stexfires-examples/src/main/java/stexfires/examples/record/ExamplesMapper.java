@@ -234,10 +234,10 @@ public final class ExamplesMapper {
         printMapper("createMessages list", TextsMapper.createMessages(
                 Collections.singletonList(new SizeMessage<>())
         ));
-        printMapper("applyFunctions array", TextsMapper.applyFunctions(
+        printMapper("applyFunctions array", TextsMapper.applyRecordFunctions(
                 TextRecord::category, TextRecord::lastText
         ));
-        printMapper("applyFunctions list", TextsMapper.applyFunctions(
+        printMapper("applyFunctions list", TextsMapper.applyRecordFunctions(
                 Collections.singletonList(TextRecord::toString)
         ));
         printMapper("add", TextsMapper.add(record -> "new value"));

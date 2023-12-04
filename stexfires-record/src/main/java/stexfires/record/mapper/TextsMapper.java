@@ -43,16 +43,6 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                       .collect(Collectors.toList()));
     }
 
-    @SafeVarargs
-    public static <T extends TextRecord> TextsMapper<T> applyTextOperators(UnaryOperator<String>... unaryOperators) {
-        return new TextsMapper<>(record ->
-                record.streamOfFields()
-                      .map(field -> unaryOperators.length > field.index()
-                              ? unaryOperators[field.index()].apply(field.text())
-                              : field.text())
-                      .collect(Collectors.toList()));
-    }
-
     /**
      * @see stexfires.record.mapper.field.IndexedFieldTextMapper
      */
@@ -122,16 +112,26 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                                                     .collect(Collectors.toList()));
     }
 
+    @SafeVarargs
+    public static <T extends TextRecord> TextsMapper<T> applyTextOperators(UnaryOperator<String>... unaryOperators) {
+        return new TextsMapper<>(record ->
+                record.streamOfFields()
+                      .map(field -> unaryOperators.length > field.index()
+                              ? unaryOperators[field.index()].apply(field.text())
+                              : field.text())
+                      .collect(Collectors.toList()));
+    }
+
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <T extends TextRecord> TextsMapper<T> applyFunctions(Function<? super T, String>... textFunctions) {
+    public static <T extends TextRecord> TextsMapper<T> applyRecordFunctions(Function<? super T, String>... textFunctions) {
         Objects.requireNonNull(textFunctions);
         return new TextsMapper<>(r -> Arrays.stream(textFunctions)
                                             .map(stringFunction -> stringFunction.apply(r))
                                             .collect(Collectors.toList()));
     }
 
-    public static <T extends TextRecord> TextsMapper<T> applyFunctions(Collection<Function<? super T, String>> textFunctions) {
+    public static <T extends TextRecord> TextsMapper<T> applyRecordFunctions(Collection<Function<? super T, String>> textFunctions) {
         Objects.requireNonNull(textFunctions);
         return new TextsMapper<>(r -> textFunctions.stream()
                                                    .map(stringFunction -> stringFunction.apply(r))
