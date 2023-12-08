@@ -13,7 +13,7 @@ repositories {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(20))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.ADOPTIUM)
     }
 }
@@ -29,25 +29,25 @@ testing {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.compilerArgs.add("--enable-preview")
+    // options.compilerArgs.add("--enable-preview")
     // options.compilerArgs.add("-Xlint:preview")
-    //options.compilerArgs.add("-Xlint:unchecked")
-    //options.compilerArgs.add("-Xlint:deprecation")
+    // options.compilerArgs.add("-Xlint:unchecked")
+    // options.compilerArgs.add("-Xlint:deprecation")
 }
 
 tasks.withType<Test>().configureEach {
-    jvmArgs("--enable-preview")
+    // jvmArgs("--enable-preview")
 }
 
 tasks.withType<JavaExec>().configureEach {
-    jvmArgs("--enable-preview")
+    // jvmArgs("--enable-preview")
 }
 
 tasks.withType<Javadoc> {
     val javadocOptions = options as CoreJavadocOptions
 
-    javadocOptions.addStringOption("source", "20")
-    javadocOptions.addBooleanOption("-enable-preview", true)
+    javadocOptions.addStringOption("source", "21")
+    // javadocOptions.addBooleanOption("-enable-preview", true)
 }
 
 tasks.withType<Jar> {
