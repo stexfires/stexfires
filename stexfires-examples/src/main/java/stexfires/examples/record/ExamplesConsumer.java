@@ -178,7 +178,7 @@ public final class ExamplesConsumer {
     private static void showMapConsumer() {
         System.out.println("-showMapConsumer---");
 
-        Map<String, String> keyValueMap = new HashMap<>();
+        Map<String, String> keyValueMap = HashMap.newHashMap(1);
         printConsumerKeyValueRecord("constructor",
                 new MapConsumer<>(keyValueMap, KeyValueRecord::key, KeyValueRecord::value));
         System.out.println(keyValueMap);

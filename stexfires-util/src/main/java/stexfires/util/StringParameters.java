@@ -171,13 +171,15 @@ public final class StringParameters {
      */
     public static final class Builder {
 
+        private static final int NUM_MAPPINGS = 64;
+
         private Map<String, String> parameters;
 
         /**
          * Constructs a new {@code Builder} for {@code StringParameters}.
          */
         public Builder() {
-            parameters = new HashMap<>();
+            parameters = HashMap.newHashMap(NUM_MAPPINGS);
         }
 
         private synchronized void checkAndAddParameterInternal(@NotNull String key, @NotNull String value) {
