@@ -100,7 +100,7 @@ public final class RecordIOStreams {
         return map;
     }
 
-    @SuppressWarnings("SizeReplaceableByIsEmpty")
+    @SuppressWarnings({"SizeReplaceableByIsEmpty", "SequencedCollectionMethodCanBeUsed"})
     public static TextRecord restoreFromList(List<String> list) throws NumberFormatException {
         Objects.requireNonNull(list);
         String category = (list.size() > CATEGORY_INDEX)
