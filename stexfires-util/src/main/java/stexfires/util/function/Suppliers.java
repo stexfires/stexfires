@@ -135,7 +135,7 @@ public final class Suppliers {
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values.get(0));
+            return constant(values.getFirst());
         } else {
             return () -> values.get(random.nextInt(0, bound));
         }
@@ -164,7 +164,7 @@ public final class Suppliers {
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values.get(0));
+            return constant(values.getFirst());
         } else {
             return () -> values.get(indexSupplier.getAsInt() % bound);
         }
