@@ -35,7 +35,8 @@ public enum CodePointRecordFields {
     IS_LETTER("Letter", 6, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isLetter())),
     IS_ALPHABETIC("Alphabetic", 10, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isAlphabetic())),
     IS_SPACE_CHAR("SpaceChar", 9, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isSpaceChar())),
-    IS_DIGIT("Digit", 5, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isDigit()));
+    IS_DIGIT("Digit", 5, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isDigit())),
+    IS_EMOJI("Emoji", 5, Alignment.START, (codePoint, alternativeValue) -> String.valueOf(codePoint.isEmoji()));
 
     private final String fieldName;
     private final int minWidth;

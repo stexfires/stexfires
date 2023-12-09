@@ -258,6 +258,15 @@ public final class CharacterInformationFiles {
                                      .thenComparing(RecordComparators.recordId(SortNulls.FIRST))
             );
 
+            // Emoji
+            writeFile(new File(outputDirectory,
+                            "Character_Markdown_Table_isEmoji.md"),
+                    "List of emojii Unicode characters." + LINE_SEPARATOR,
+                    fieldSpecs,
+                    new TextFilter<>(CodePointRecordFields.IS_EMOJI.ordinal(), StringPredicates.equals("true")),
+                    RecordComparators.recordId(SortNulls.FIRST)
+            );
+
             // Numeric_3
             writeFile(new File(outputDirectory,
                             "Character_Markdown_Table_Numeric_3_or_13_or_30_or_300.md"),
