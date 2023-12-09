@@ -147,7 +147,7 @@ public final class NumberUnaryOperators {
 
         public static IntUnaryOperator clamp(int min, int max) {
             return n ->
-                    Math.max(min, Math.min(max, n));
+                    Math.clamp(n, min, max);
         }
 
     }
@@ -285,7 +285,7 @@ public final class NumberUnaryOperators {
 
         public static LongUnaryOperator clamp(long min, long max) {
             return n ->
-                    Math.max(min, Math.min(max, n));
+                    Math.clamp(n, min, max);
         }
 
     }
