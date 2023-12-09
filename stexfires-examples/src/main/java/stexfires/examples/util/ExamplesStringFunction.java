@@ -105,10 +105,12 @@ public final class ExamplesStringFunction {
         values.add("\ufb03");
         values.add("ffi");
 
-        // two chars for one codePoint
+        // two or more chars for one codePoint/grapheme
         values.add("\uD83D\uDE00");
         values.add("\uD83D\uDE01");
         values.add("\uD83D\uDE00\uD83D\uDE00");
+        values.add("\uD83C\uDDFA\uD83C\uDDF8");
+        values.add("\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66");
 
         // symbols, punctuations, signs
         values.add("\u20ac");
@@ -147,6 +149,7 @@ public final class ExamplesStringFunction {
         values.add("world!");
         values.add("!");
         values.add("Special characters: \uD83D\uDE00, o\u0308, A\u030a.");
+        values.add(ExamplesStrings.SPECIAL_CHARACTERS);
         values.add("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.");
         values.add("Dorothy lived in the midst of the great Kansas prairies, with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer's wife. "
                 + "Their house was small, for the lumber to build it had to be carried by wagon many miles. "

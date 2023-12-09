@@ -67,7 +67,7 @@ public final class ExamplesByteArrayFunction {
         stringValues.add("A");
         stringValues.add("\t");
         stringValues.add("Aä²ß");
-        stringValues.add("[€] [\uD83D\uDE00] [o\u0308] [A\u030a]");
+        stringValues.add("[€] [\uD83D\uDE00] [o\u0308] [A\u030a] [\uD83C\uDDFA\uD83C\uDDF8] [\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66]");
         // Base64
         stringValues.add("QQ==");
         stringValues.add("QeSy3w==");

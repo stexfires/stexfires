@@ -115,6 +115,22 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    public static Supplier<String> stringConcatenation(RandomGenerator random, IntSupplier number,
+                                                       List<String> strings) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(number);
+        Objects.requireNonNull(strings);
+        if (strings.isEmpty()) {
+            throw new IllegalArgumentException("At least one string must be passed.");
+        }
+        return () -> random.ints(0, strings.size())
+                           .mapToObj(strings::get)
+                           .filter(Objects::nonNull)
+                           .limit(number.getAsInt())
+                           .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                           .toString();
+    }
+
     public static Supplier<String> stringCutting(IntSupplier beginIndex, IntSupplier length,
                                                  String completeString) {
         Objects.requireNonNull(beginIndex);

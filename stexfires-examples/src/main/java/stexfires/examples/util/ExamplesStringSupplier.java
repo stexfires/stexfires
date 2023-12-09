@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import stexfires.util.Strings;
 import stexfires.util.function.RandomBooleanSupplier;
 import stexfires.util.function.RandomNumberSuppliers;
 import stexfires.util.function.RandomStringSuppliers;
@@ -7,6 +8,7 @@ import stexfires.util.function.Suppliers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 import java.util.stream.Stream;
@@ -68,6 +70,10 @@ public final class ExamplesStringSupplier {
         printStream("randomSelection Array 3",
                 Stream.generate(
                         Suppliers.randomSelection(randomGenerator, new String[]{"Aaa", "Bbb", "Ccc"})));
+        printStream("randomSelection List splitTextByCharacterBreaks",
+                Stream.generate(
+                        Suppliers.randomSelection(randomGenerator,
+                                Strings.splitTextByCharacterBreaks(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
 
         // intSupplierSelection
         printStream("intSupplierSelection List 0",
@@ -136,8 +142,11 @@ public final class ExamplesStringSupplier {
         printStream("codePointConcatenation String",
                 Stream.generate(
                         RandomStringSuppliers.codePointConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
-                                "Hello world! \uD83D\uDE00")));
-
+                                "AbcdEfghIjklmnOpqrstUvwxyz")));
+        printStream("codePointConcatenation String special",
+                Stream.generate(
+                        RandomStringSuppliers.codePointConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
+                                ExamplesStrings.SPECIAL_CHARACTERS)));
         printStream("characterConcatenation List 3",
                 Stream.generate(
                         RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
@@ -161,6 +170,15 @@ public final class ExamplesStringSupplier {
                 Stream.generate(
                         RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
                                 'a', null, 'c')));
+
+        printStream("stringConcatenation List",
+                Stream.generate(
+                        RandomStringSuppliers.stringConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
+                                List.of("A", "Bb", "Ccc"))));
+        printStream("stringConcatenation splitTextByCharacterBreaks",
+                Stream.generate(
+                        RandomStringSuppliers.stringConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
+                                Strings.splitTextByCharacterBreaks(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
 
         printStream("stringCutting",
                 Stream.generate(

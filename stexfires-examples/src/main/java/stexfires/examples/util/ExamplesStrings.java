@@ -10,8 +10,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedLineSeparator", "SpellCheckingInspection"})
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedLineSeparator", "SpellCheckingInspection", "UnnecessaryUnicodeEscape"})
 public final class ExamplesStrings {
+
+    public static final String SPECIAL_CHARACTERS = "\uD83D\uDE00 üo\u0308A\u030a \uD83C\uDDFA\uD83C\uDDF8 \uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
 
     private ExamplesStrings() {
     }
@@ -193,13 +195,12 @@ public final class ExamplesStrings {
         System.out.println(Strings.stream("a", "b", "c", "d", "e", "f", "E", "e").collect(Strings.modifyAndJoinCollector(Strings.modifyListSwap(2, 4), "-")));
     }
 
-    @SuppressWarnings("UnnecessaryUnicodeEscape")
     private static void showStringsSplit() {
         System.out.println("-showStringsSplit---");
 
         System.out.println(Strings.collect(Strings.splitTextByLines("First line\nSecond Line\r\nThird line")));
-        System.out.println(Strings.collect(Strings.splitTextByChars("ABC\uD83D\uDE00o\u0308A\u030a")));
-        System.out.println(Strings.collect(Strings.splitTextByCodePoints("ABC\uD83D\uDE00o\u0308A\u030a")));
+        System.out.println(Strings.collect(Strings.splitTextByChars("ABC" + SPECIAL_CHARACTERS)));
+        System.out.println(Strings.collect(Strings.splitTextByCodePoints("ABC" + SPECIAL_CHARACTERS)));
 
         System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", -1)));
         System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 0)));
@@ -209,7 +210,7 @@ public final class ExamplesStrings {
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghij", 3)));
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghijk", 3)));
 
-        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: \uD83D\uDE00, o\u0308, A\u030a.";
+        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: " + SPECIAL_CHARACTERS + ".";
 
         System.out.println(Strings.collect(Strings.splitTextBySentenceBreaks(text, Locale.ENGLISH)));
         System.out.println(Strings.collect(Strings.splitTextByWordBreaks(text, Locale.ENGLISH)));
@@ -217,11 +218,10 @@ public final class ExamplesStrings {
         System.out.println(Strings.collect(Strings.splitTextByCharacterBreaks(text, Locale.ENGLISH)));
     }
 
-    @SuppressWarnings("UnnecessaryUnicodeEscape")
     private static void showStringsSplitFunction() {
         System.out.println("-showStringsSplitFunction---");
 
-        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: \uD83D\uDE00, o\u0308, A\u030a.";
+        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: " + SPECIAL_CHARACTERS + ".";
 
         Function<String, String> mapFunction = s -> "(" + s + ")";
 

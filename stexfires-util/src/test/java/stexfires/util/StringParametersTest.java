@@ -104,6 +104,8 @@ class StringParametersTest {
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("!"));
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("ä"));
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("\uD83D\uDE00"));
+        assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("\uD83C\uDDFA\uD83C\uDDF8"));
+        assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66"));
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("o\u0308"));
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("€"));
         assertDoesNotThrow(() -> StringParameters.checkValidityOfKey("𐀀"));
