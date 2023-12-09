@@ -26,8 +26,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Properties;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
@@ -155,9 +155,9 @@ public final class ExamplesPropertiesFile {
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are equal!");
         } else {
-            SortedMap<String, String> propMap = PropertiesUtil.convertPropertiesToSortedMap(properties, String::compareTo);
-            SortedMap<String, String> propMap2 = PropertiesUtil.convertPropertiesToSortedMap(properties, String::compareTo);
-            SortedMap<String, String> map2 = new TreeMap<>(map);
+            NavigableMap<String, String> propMap = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
+            NavigableMap<String, String> propMap2 = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
+            NavigableMap<String, String> map2 = new TreeMap<>(map);
 
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are NOT equal!");
@@ -170,8 +170,8 @@ public final class ExamplesPropertiesFile {
         }
     }
 
-    private static SortedMap<String, String> readIntoMapAndLog(PropertiesFileSpec fileSpec, Path path) throws ProducerException, IOException {
-        MapConsumer<KeyValueRecord, SortedMap<String, String>> consumer = PropertiesUtil.sortedMapConsumer(String::compareTo);
+    private static Map<String, String> readIntoMapAndLog(PropertiesFileSpec fileSpec, Path path) throws ProducerException, IOException {
+        MapConsumer<KeyValueRecord, NavigableMap<String, String>> consumer = PropertiesUtil.navigableMapConsumer(String::compareTo);
         RecordFiles.readAndConsumeFile(fileSpec, RecordConsumer.concat(RecordSystemOutUtil.RECORD_CONSUMER, consumer), path);
         return consumer.getMap();
     }

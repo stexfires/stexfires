@@ -20,10 +20,10 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
@@ -81,7 +81,7 @@ public final class PropertiesUtil {
         return keys.stream().allMatch(key -> Objects.equals(properties.getProperty(key), map.get(key)));
     }
 
-    public static <T extends KeyValueRecord> MapConsumer<T, SortedMap<String, String>> sortedMapConsumer(@NotNull Comparator<String> stringComparator) {
+    public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, String>> navigableMapConsumer(@NotNull Comparator<String> stringComparator) {
         Objects.requireNonNull(stringComparator);
         return new MapConsumer<>(new TreeMap<>(stringComparator), KeyRecord::key, ValueRecord::value);
     }
@@ -93,10 +93,10 @@ public final class PropertiesUtil {
         return properties;
     }
 
-    public static SortedMap<String, String> convertPropertiesToSortedMap(@NotNull Properties properties, @NotNull Comparator<String> stringComparator) {
+    public static NavigableMap<String, String> convertPropertiesToNavigableMap(@NotNull Properties properties, @NotNull Comparator<String> stringComparator) {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(stringComparator);
-        SortedMap<String, String> map = new TreeMap<>(stringComparator);
+        NavigableMap<String, String> map = new TreeMap<>(stringComparator);
         Set<String> keys = properties.stringPropertyNames();
         for (String key : keys) {
             String value = properties.getProperty(key);
