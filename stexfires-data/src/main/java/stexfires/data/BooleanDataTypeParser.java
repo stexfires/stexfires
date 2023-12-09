@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,8 +14,8 @@ import java.util.function.Supplier;
  */
 public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
 
-    private final NavigableSet<String> trueValues;
-    private final NavigableSet<String> falseValues;
+    private final Collection<String> trueValues;
+    private final Collection<String> falseValues;
     private final Supplier<Boolean> nullSourceSupplier;
     private final Supplier<Boolean> emptySourceSupplier;
 
@@ -26,7 +25,7 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
                                  @Nullable Supplier<Boolean> emptySourceSupplier) {
         Objects.requireNonNull(trueValues);
         Objects.requireNonNull(falseValues);
-        // Use TreeSet so that duplicate values are removed and 'null' is prevented.
+        // Use TreeSet (with natural ordering) so that duplicate values are removed and 'null' is prevented.
         this.trueValues = new TreeSet<>(trueValues);
         this.falseValues = new TreeSet<>(falseValues);
         this.nullSourceSupplier = nullSourceSupplier;
