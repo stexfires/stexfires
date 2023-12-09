@@ -71,9 +71,9 @@ public final class TextRecords {
             if (texts == null || texts.isEmpty()) {
                 return empty();
             } else if (texts.size() == 1) {
-                return new ValueFieldRecord(texts.get(0));
+                return new ValueFieldRecord(texts.getFirst());
             } else if (texts.size() == 2) {
-                return new TwoFieldsRecord(texts.get(0), texts.get(1));
+                return new TwoFieldsRecord(texts.getFirst(), texts.getLast());
             } else {
                 return new ManyFieldsRecord(texts);
             }
@@ -81,9 +81,9 @@ public final class TextRecords {
             if (texts == null || texts.isEmpty()) {
                 return new ManyFieldsRecord(category, recordId);
             } else if (texts.size() == 1) {
-                return new ValueFieldRecord(category, recordId, texts.get(0));
+                return new ValueFieldRecord(category, recordId, texts.getFirst());
             } else if (texts.size() == 2) {
-                return new TwoFieldsRecord(category, recordId, texts.get(0), texts.get(1));
+                return new TwoFieldsRecord(category, recordId, texts.getFirst(), texts.getLast());
             } else {
                 return new ManyFieldsRecord(category, recordId, texts);
             }
