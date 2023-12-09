@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.SequencedCollection;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
@@ -66,7 +67,7 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    public static @NotNull TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable List<String> texts) {
+    public static @NotNull TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<String> texts) {
         if (category == null && recordId == null) {
             if (texts == null || texts.isEmpty()) {
                 return empty();

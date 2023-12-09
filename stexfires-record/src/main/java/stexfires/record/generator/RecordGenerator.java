@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.SequencedCollection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -133,7 +134,7 @@ public interface RecordGenerator<T extends TextRecord> {
 
     static RecordGenerator<TextRecord> textRecordOfListFunction(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
                                                                 @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                                @NotNull Function<GeneratorInterimResult<TextRecord>, List<String>> textFunction) {
+                                                                @NotNull Function<GeneratorInterimResult<TextRecord>, SequencedCollection<String>> textFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textFunction);
@@ -142,7 +143,7 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
                     context, category, recordId, null);
-            List<String> texts = textFunction.apply(interimResult);
+            SequencedCollection<String> texts = textFunction.apply(interimResult);
 
             return TextRecords.ofNullable(category, recordId, texts);
         };

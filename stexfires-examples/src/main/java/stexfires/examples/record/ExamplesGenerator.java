@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.SequencedCollection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -222,7 +223,7 @@ public final class ExamplesGenerator {
 
         System.out.println("--- textRecordOfListFunction");
         {
-            Function<GeneratorInterimResult<TextRecord>, List<String>> textFunction =
+            Function<GeneratorInterimResult<TextRecord>, SequencedCollection<String>> textFunction =
                     interimResult -> interimResult.context().first() ?
                             List.of("A", "B", "000") :
                             List.of("aa", "bb", String.valueOf(interimResult.context().recordIndex()));
