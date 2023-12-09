@@ -127,19 +127,19 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                                                                                    RecordMessage<? super T> textMessage) {
         Objects.requireNonNull(categoryMessage);
         Objects.requireNonNull(textMessage);
-        return list -> new ManyFieldsRecord(categoryMessage.createMessage(list.get(0)), null,
+        return list -> new ManyFieldsRecord(categoryMessage.createMessage(list.getFirst()), null,
                 list.stream()
                     .map(textMessage.asFunction())
                     .collect(Collectors.toList()));
     }
 
     public static <T extends TextRecord> Function<List<T>, String> categoryOfFirstElement() {
-        return list -> list.get(0).category();
+        return list -> list.getFirst().category();
     }
 
     public static <T extends TextRecord> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordMessage);
-        return list -> recordMessage.createMessage(list.get(0));
+        return list -> recordMessage.createMessage(list.getFirst());
     }
 
     public static <T extends TextRecord> Function<List<T>, List<String>> collectTexts(Collector<String, ?, Optional<String>> textCollector,

@@ -19,7 +19,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                          Function<List<T>, List<String>> pivotTextsFunction) {
         super(groupByFunction,
                 GroupModifier.aggregateToTexts(
-                        list -> newCategoryFunction.apply(list.get(0)),
+                        list -> newCategoryFunction.apply(list.getFirst()),
                         pivotTextsFunction));
         Objects.requireNonNull(newCategoryFunction);
     }
@@ -132,7 +132,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                .orElse(nullText));
         return list ->
                 Stream.concat(
-                              newFirstTextsFunction.apply(list.get(0)),
+                              newFirstTextsFunction.apply(list.getFirst()),
                               newTextsFunction.apply(list))
                       .collect(Collectors.toList());
     }
@@ -153,7 +153,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                              .map(i -> r.textAtOrElse(i, nullText)));
         return list ->
                 Stream.concat(Stream.concat(
-                                      newFirstTextsFunction.apply(list.get(0)),
+                                      newFirstTextsFunction.apply(list.getFirst()),
                                       newTextsFunction.apply(list)),
                               Stream.generate(() -> nullText))
                       .limit(newRecordSize)

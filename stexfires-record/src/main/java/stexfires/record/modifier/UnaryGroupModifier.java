@@ -30,13 +30,13 @@ public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T
 
     public static <T extends TextRecord> UnaryGroupModifier<T> first(Function<? super T, ?> groupByFunction) {
         // The list contains always at least one record.
-        Function<List<T>, T> aggregateFunction = list -> list.get(0);
+        Function<List<T>, T> aggregateFunction = List::getFirst;
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
     public static <T extends TextRecord> UnaryGroupModifier<T> last(Function<? super T, ?> groupByFunction) {
         // The list contains always at least one record.
-        Function<List<T>, T> aggregateFunction = list -> list.get(list.size() - 1);
+        Function<List<T>, T> aggregateFunction = List::getLast;
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
