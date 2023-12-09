@@ -391,6 +391,66 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
     }
 
     /**
+     * Determines whether the code point is an Emoji.
+     *
+     * @return {@code true} if the code point is an Emoji.
+     * @see java.lang.Character#isEmoji(int)
+     */
+    public boolean isEmoji() {
+        return Character.isEmoji(value);
+    }
+
+    /**
+     * Determines whether the code point is an Emoji Component.
+     *
+     * @return {@code true} if the code point is an Emoji Component.
+     * @see java.lang.Character#isEmojiComponent(int)
+     */
+    public boolean isEmojiComponent() {
+        return Character.isEmojiComponent(value);
+    }
+
+    /**
+     * Determines whether the code point is an Emoji Modifier.
+     *
+     * @return {@code true} if the code point is an Emoji Modifier.
+     * @see java.lang.Character#isEmojiModifier(int)
+     */
+    public boolean isEmojiModifier() {
+        return Character.isEmojiModifier(value);
+    }
+
+    /**
+     * Determines whether the code point is an Emoji Modifier Base.
+     *
+     * @return {@code true} if the code point is an Emoji Modifier Base.
+     * @see java.lang.Character#isEmojiModifierBase(int)
+     */
+    public boolean isEmojiModifierBase() {
+        return Character.isEmojiModifierBase(value);
+    }
+
+    /**
+     * Determines whether the code point has the Emoji Presentation property.
+     *
+     * @return {@code true} if the code point has the Emoji Presentation property.
+     * @see java.lang.Character#isEmojiPresentation(int)
+     */
+    public boolean isEmojiPresentation() {
+        return Character.isEmojiPresentation(value);
+    }
+
+    /**
+     * Determines whether the code point is an Extended Pictographic.
+     *
+     * @return {@code true} if the code point is an Extended Pictographic.
+     * @see java.lang.Character#isExtendedPictographic(int)
+     */
+    public boolean isExtendedPictographic() {
+        return Character.isExtendedPictographic(value);
+    }
+
+    /**
      * Determines whether the code point should be regarded as an ignorable character in a Java identifier or a Unicode identifier.
      *
      * @return {@code true} if the code point should be regarded as an ignorable character in a Java identifier or a Unicode identifier.

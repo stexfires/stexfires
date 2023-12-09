@@ -669,6 +669,270 @@ class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#isEmoji()}.
+     */
+    @Test
+    void isEmoji() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isEmoji(codePoint), new CodePoint(codePoint).isEmoji());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isEmoji());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isEmoji());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isEmoji());
+
+        // emojis
+        assertTrue(new CodePoint(35).isEmoji());
+        assertTrue(new CodePoint(42).isEmoji());
+        assertTrue(new CodePoint(48).isEmoji());
+        assertTrue(new CodePoint(169).isEmoji());
+        assertTrue(new CodePoint(174).isEmoji());
+
+        assertFalse(new CodePoint(8205).isEmoji());
+        assertTrue(new CodePoint(8252).isEmoji());
+        assertTrue(new CodePoint(8986).isEmoji());
+        assertTrue(new CodePoint(9757).isEmoji());
+
+        assertTrue(new CodePoint(127820).isEmoji());
+        assertTrue(new CodePoint(127995).isEmoji());
+        assertTrue(new CodePoint(128147).isEmoji());
+        assertTrue(new CodePoint(129501).isEmoji());
+        assertTrue(new CodePoint(129784).isEmoji());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isEmojiComponent()}.
+     */
+    @Test
+    void isEmojiComponent() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isEmojiComponent(codePoint), new CodePoint(codePoint).isEmojiComponent());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isEmojiComponent());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isEmojiComponent());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isEmojiComponent());
+
+        // emojis
+        assertTrue(new CodePoint(35).isEmojiComponent());
+        assertTrue(new CodePoint(42).isEmojiComponent());
+        assertTrue(new CodePoint(48).isEmojiComponent());
+        assertFalse(new CodePoint(169).isEmojiComponent());
+        assertFalse(new CodePoint(174).isEmojiComponent());
+
+        assertTrue(new CodePoint(8205).isEmojiComponent());
+        assertFalse(new CodePoint(8252).isEmojiComponent());
+        assertFalse(new CodePoint(8986).isEmojiComponent());
+        assertFalse(new CodePoint(9757).isEmojiComponent());
+
+        assertFalse(new CodePoint(127820).isEmojiComponent());
+        assertTrue(new CodePoint(127995).isEmojiComponent());
+        assertFalse(new CodePoint(128147).isEmojiComponent());
+        assertFalse(new CodePoint(129501).isEmojiComponent());
+        assertFalse(new CodePoint(129784).isEmojiComponent());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isEmojiModifier()}.
+     */
+    @Test
+    void isEmojiModifier() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isEmojiModifier(codePoint), new CodePoint(codePoint).isEmojiModifier());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isEmojiModifier());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isEmojiModifier());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isEmojiModifier());
+
+        // emojis
+        assertFalse(new CodePoint(35).isEmojiModifier());
+        assertFalse(new CodePoint(42).isEmojiModifier());
+        assertFalse(new CodePoint(48).isEmojiModifier());
+        assertFalse(new CodePoint(169).isEmojiModifier());
+        assertFalse(new CodePoint(174).isEmojiModifier());
+
+        assertFalse(new CodePoint(8205).isEmojiModifier());
+        assertFalse(new CodePoint(8252).isEmojiModifier());
+        assertFalse(new CodePoint(8986).isEmojiModifier());
+        assertFalse(new CodePoint(9757).isEmojiModifier());
+
+        assertFalse(new CodePoint(127820).isEmojiModifier());
+        assertTrue(new CodePoint(127995).isEmojiModifier());
+        assertFalse(new CodePoint(128147).isEmojiModifier());
+        assertFalse(new CodePoint(129501).isEmojiModifier());
+        assertFalse(new CodePoint(129784).isEmojiModifier());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isEmojiModifierBase()}.
+     */
+    @Test
+    void isEmojiModifierBase() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isEmojiModifierBase(codePoint), new CodePoint(codePoint).isEmojiModifierBase());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isEmojiModifierBase());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isEmojiModifierBase());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isEmojiModifierBase());
+
+        // emojis
+        assertFalse(new CodePoint(35).isEmojiModifierBase());
+        assertFalse(new CodePoint(42).isEmojiModifierBase());
+        assertFalse(new CodePoint(48).isEmojiModifierBase());
+        assertFalse(new CodePoint(169).isEmojiModifierBase());
+        assertFalse(new CodePoint(174).isEmojiModifierBase());
+
+        assertFalse(new CodePoint(8205).isEmojiModifierBase());
+        assertFalse(new CodePoint(8252).isEmojiModifierBase());
+        assertFalse(new CodePoint(8986).isEmojiModifierBase());
+        assertTrue(new CodePoint(9757).isEmojiModifierBase());
+
+        assertFalse(new CodePoint(127820).isEmojiModifierBase());
+        assertFalse(new CodePoint(127995).isEmojiModifierBase());
+        assertFalse(new CodePoint(128147).isEmojiModifierBase());
+        assertTrue(new CodePoint(129501).isEmojiModifierBase());
+        assertTrue(new CodePoint(129784).isEmojiModifierBase());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isEmojiPresentation()}.
+     */
+    @Test
+    void isEmojiPresentation() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isEmojiPresentation(codePoint), new CodePoint(codePoint).isEmojiPresentation());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isEmojiPresentation());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isEmojiPresentation());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isEmojiPresentation());
+
+        // emojis
+        assertFalse(new CodePoint(35).isEmojiPresentation());
+        assertFalse(new CodePoint(42).isEmojiPresentation());
+        assertFalse(new CodePoint(48).isEmojiPresentation());
+        assertFalse(new CodePoint(169).isEmojiPresentation());
+        assertFalse(new CodePoint(174).isEmojiPresentation());
+
+        assertFalse(new CodePoint(8205).isEmojiPresentation());
+        assertFalse(new CodePoint(8252).isEmojiPresentation());
+        assertTrue(new CodePoint(8986).isEmojiPresentation());
+        assertFalse(new CodePoint(9757).isEmojiPresentation());
+
+        assertTrue(new CodePoint(127820).isEmojiPresentation());
+        assertTrue(new CodePoint(127995).isEmojiPresentation());
+        assertTrue(new CodePoint(128147).isEmojiPresentation());
+        assertTrue(new CodePoint(129501).isEmojiPresentation());
+        assertTrue(new CodePoint(129784).isEmojiPresentation());
+    }
+
+    /**
+     * Test method for {@link CodePoint#isExtendedPictographic()}.
+     */
+    @Test
+    void isExtendedPictographic() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertEquals(Character.isExtendedPictographic(codePoint), new CodePoint(codePoint).isExtendedPictographic());
+        }
+
+        // constant code points
+        assertFalse(new CodePoint(CodePoint.MIN_ASCII_VALUE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_ASCII_VALUE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MIN_VALUE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_VALUE).isExtendedPictographic());
+        assertFalse(new CodePoint(FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MIN_HIGH_SURROGATE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_HIGH_SURROGATE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MIN_LOW_SURROGATE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_LOW_SURROGATE).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MIN_BMP_CODE_POINT).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_BMP_CODE_POINT).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MIN_SUPPLEMENTARY_CODE_POINT).isExtendedPictographic());
+        assertFalse(new CodePoint(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT).isExtendedPictographic());
+
+        // emojis
+        assertFalse(new CodePoint(35).isExtendedPictographic());
+        assertFalse(new CodePoint(42).isExtendedPictographic());
+        assertFalse(new CodePoint(48).isExtendedPictographic());
+        assertTrue(new CodePoint(169).isExtendedPictographic());
+        assertTrue(new CodePoint(174).isExtendedPictographic());
+
+        assertFalse(new CodePoint(8205).isExtendedPictographic());
+        assertTrue(new CodePoint(8252).isExtendedPictographic());
+        assertTrue(new CodePoint(8986).isExtendedPictographic());
+        assertTrue(new CodePoint(9757).isExtendedPictographic());
+
+        assertTrue(new CodePoint(127820).isExtendedPictographic());
+        assertFalse(new CodePoint(127995).isExtendedPictographic());
+        assertTrue(new CodePoint(128147).isExtendedPictographic());
+        assertTrue(new CodePoint(129501).isExtendedPictographic());
+        assertTrue(new CodePoint(129784).isExtendedPictographic());
+    }
+
+    /**
      * Test method for {@link CodePoint#isIdentifierIgnorable()}.
      */
     @Test
