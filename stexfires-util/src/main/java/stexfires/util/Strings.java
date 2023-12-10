@@ -20,6 +20,7 @@ import java.util.Spliterators;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -369,6 +370,23 @@ public final class Strings {
      */
     public static Function<String, Stream<String>> splitTextByCodePointsFunction() {
         return Strings::splitTextByCodePoints;
+    }
+
+    /**
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Stream<String> splitTextByPattern(@Nullable String text, Pattern pattern) {
+        Objects.requireNonNull(pattern);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                pattern.splitAsStream(text);
+    }
+
+    /**
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Function<String, Stream<String>> splitTextByPatternFunction(Pattern pattern) {
+        Objects.requireNonNull(pattern);
+        return s -> Strings.splitTextByPattern(s, pattern);
     }
 
     /**

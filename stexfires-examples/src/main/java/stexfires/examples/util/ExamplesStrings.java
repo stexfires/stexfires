@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -199,20 +200,22 @@ public final class ExamplesStrings {
         System.out.println("-showStringsSplit---");
 
         System.out.println(Strings.collect(Strings.splitTextByLines("First line\nSecond Line\r\nThird line")));
-        System.out.println(Strings.collect(Strings.splitTextByChars("ABC" + SPECIAL_CHARACTERS)));
-        System.out.println(Strings.collect(Strings.splitTextByCodePoints("ABC" + SPECIAL_CHARACTERS)));
+        System.out.println(Strings.collect(Strings.splitTextByChars("ABC01" + SPECIAL_CHARACTERS)));
+        System.out.println(Strings.collect(Strings.splitTextByCodePoints("ABC02" + SPECIAL_CHARACTERS)));
 
-        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", -1)));
-        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 0)));
-        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 1)));
-        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 2)));
-        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 3)));
+        System.out.println(Strings.collect(Strings.splitTextByPattern("ABC03-def--GHI-", Pattern.compile("-"))));
 
-        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", -1)));
-        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 0)));
-        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 1)));
-        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 2)));
-        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 3)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC04-def--GHI-", "-", -1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC05-def--GHI-", "-", 0)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC06-def--GHI-", "-", 1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC07-def--GHI-", "-", 2)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC08-def--GHI-", "-", 3)));
+
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC09-def--GHI-", "-", -1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC10-def--GHI-", "-", 0)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC11-def--GHI-", "-", 1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC12-def--GHI-", "-", 2)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC13-def--GHI-", "-", 3)));
 
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghi", 3)));
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghij", 3)));
@@ -236,6 +239,7 @@ public final class ExamplesStrings {
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByLinesFunction()).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByCharsFunction()).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByCodePointsFunction()).map(mapFunction).collect(Collectors.joining()));
+        System.out.println(Stream.of(text).flatMap(Strings.splitTextByPatternFunction(Pattern.compile(Strings.REGEX_WHITESPACE))).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByRegexFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByRegexWithDelimitersFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByLengthFunction(3)).map(mapFunction).collect(Collectors.joining()));
