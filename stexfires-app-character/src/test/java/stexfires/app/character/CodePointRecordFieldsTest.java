@@ -22,7 +22,7 @@ class CodePointRecordFieldsTest {
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("CONTROL", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
-        assertEquals(20, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
+        assertEquals(21, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
         assertEquals("0", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.CODE_POINT.ordinal()));
         assertEquals("0", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.HEX_STRING.ordinal()));
         assertEquals("\\u0000", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.UNICODE_ESCAPES.ordinal()));
@@ -41,6 +41,7 @@ class CodePointRecordFieldsTest {
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_LETTER.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_SPACE_CHAR.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_DIGIT.ordinal()));
+        assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
 
@@ -56,7 +57,7 @@ class CodePointRecordFieldsTest {
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("SPACE_SEPARATOR", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
-        assertEquals(20, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
+        assertEquals(21, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
         assertEquals("32", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.CODE_POINT.ordinal()));
         assertEquals("20", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.HEX_STRING.ordinal()));
         assertEquals("\\u0020", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.UNICODE_ESCAPES.ordinal()));
@@ -75,6 +76,7 @@ class CodePointRecordFieldsTest {
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_LETTER.ordinal()));
         assertEquals("true", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_SPACE_CHAR.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_DIGIT.ordinal()));
+        assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
     }
@@ -88,7 +90,7 @@ class CodePointRecordFieldsTest {
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("DECIMAL_DIGIT_NUMBER", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
-        assertEquals(20, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
+        assertEquals(21, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
         assertEquals("55", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.CODE_POINT.ordinal()));
         assertEquals("37", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.HEX_STRING.ordinal()));
         assertEquals("\\u0037", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.UNICODE_ESCAPES.ordinal()));
@@ -107,6 +109,7 @@ class CodePointRecordFieldsTest {
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_LETTER.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_SPACE_CHAR.ordinal()));
         assertEquals("true", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_DIGIT.ordinal()));
+        assertEquals("true", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("7", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("7", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
     }
@@ -120,7 +123,7 @@ class CodePointRecordFieldsTest {
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("UPPERCASE_LETTER", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
-        assertEquals(20, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
+        assertEquals(21, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
         assertEquals("65", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.CODE_POINT.ordinal()));
         assertEquals("41", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.HEX_STRING.ordinal()));
         assertEquals("\\u0041", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.UNICODE_ESCAPES.ordinal()));
@@ -139,6 +142,7 @@ class CodePointRecordFieldsTest {
         assertEquals("true", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_LETTER.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_SPACE_CHAR.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_DIGIT.ordinal()));
+        assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("10", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
     }
@@ -152,7 +156,7 @@ class CodePointRecordFieldsTest {
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("OTHER_SYMBOL", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
-        assertEquals(20, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
+        assertEquals(21, CodePointRecordFields.generateCodePointRecord(codePoint, "").size());
         assertEquals("127794", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.CODE_POINT.ordinal()));
         assertEquals("1f332", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.HEX_STRING.ordinal()));
         assertEquals("\\ud83c\\udf32", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.UNICODE_ESCAPES.ordinal()));
@@ -171,6 +175,7 @@ class CodePointRecordFieldsTest {
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_LETTER.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_SPACE_CHAR.ordinal()));
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_DIGIT.ordinal()));
+        assertEquals("true", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
     }
