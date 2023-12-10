@@ -87,11 +87,6 @@ public final class Strings {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
-    @SuppressWarnings("SameReturnValue")
-    public static String empty() {
-        return EMPTY;
-    }
-
     public static List<String> list(@Nullable String stringValue) {
         return Collections.singletonList(stringValue);
     }

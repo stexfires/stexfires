@@ -36,8 +36,6 @@ public final class ExamplesStrings {
         System.out.println(Strings.toOptionalString(Boolean.TRUE));
         System.out.println(Strings.toOptionalString(BigInteger.TWO));
         System.out.println(Strings.toOptionalString(ten));
-
-        System.out.println(Strings.empty());
     }
 
     private static void showStringsList() {
