@@ -2,17 +2,12 @@ package stexfires.examples.util;
 
 import stexfires.util.CodePoint;
 import stexfires.util.Strings;
-import stexfires.util.TextSplitters;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Locale;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedLineSeparator", "SpellCheckingInspection", "UnnecessaryUnicodeEscape"})
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection", "UnnecessaryUnicodeEscape"})
 public final class ExamplesStrings {
 
     public static final String SPECIAL_CHARACTERS = "\uD83D\uDE00 üo\u0308A\u030a \uD83C\uDDFA\uD83C\uDDF8 \uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
@@ -195,66 +190,6 @@ public final class ExamplesStrings {
         System.out.println(Strings.stream("a", "b", "c", "d", "e", "f", "E", "e").collect(Strings.modifyAndJoinCollector(Strings.modifyListSwap(2, 4), "-")));
     }
 
-    private static void showStringsSplit() {
-        System.out.println("-showStringsSplit---");
-
-        System.out.println(Strings.collect(TextSplitters.splitByLines("First line\nSecond Line\r\nThird line")));
-        System.out.println(Strings.collect(TextSplitters.splitByChars("ABC01" + SPECIAL_CHARACTERS)));
-        System.out.println(Strings.collect(TextSplitters.splitByCodePoints("ABC02" + SPECIAL_CHARACTERS)));
-
-        System.out.println(Strings.collect(TextSplitters.splitByPattern("ABC10.def..GHI.", Pattern.compile(Pattern.quote(".")))));
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC11.def..GHI.", Pattern.quote("."))));
-        System.out.println(Strings.collect(TextSplitters.splitBySeparator("ABC12.def..GHI.", ".")));
-
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC20-def--GHI-", "-", -1)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC21-def--GHI-", "-", 0)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC22-def--GHI-", "-", 1)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC23-def--GHI-", "-", 2)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegex("ABC24-def--GHI-", "-", 3)));
-
-        System.out.println(Strings.collect(TextSplitters.splitByRegexWithDelimiters("ABC30-def--GHI-", "-", -1)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegexWithDelimiters("ABC31-def--GHI-", "-", 0)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegexWithDelimiters("ABC32-def--GHI-", "-", 1)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegexWithDelimiters("ABC33-def--GHI-", "-", 2)));
-        System.out.println(Strings.collect(TextSplitters.splitByRegexWithDelimiters("ABC34-def--GHI-", "-", 3)));
-
-        System.out.println(Strings.collect(TextSplitters.splitByLength("abcdefghi", 3)));
-        System.out.println(Strings.collect(TextSplitters.splitByLength("abcdefghij", 3)));
-        System.out.println(Strings.collect(TextSplitters.splitByLength("abcdefghijk", 3)));
-
-        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: " + SPECIAL_CHARACTERS + ".";
-
-        System.out.println(Strings.collect(TextSplitters.breakBySentence(text, Locale.ENGLISH)));
-        System.out.println(Strings.collect(TextSplitters.breakByWord(text, Locale.ENGLISH)));
-        System.out.println(Strings.collect(TextSplitters.breakByLine(text, Locale.ENGLISH)));
-        System.out.println(Strings.collect(TextSplitters.breakByCharacter(text, Locale.ENGLISH)));
-    }
-
-    private static void showStringsSplitFunction() {
-        System.out.println("-showStringsSplitFunction---");
-
-        String text = "Hello world! This is a sentence. Is this also a sentence? He said: \"Hello world\".\nSpecial characters: " + SPECIAL_CHARACTERS + ".";
-
-        Function<String, String> mapFunction = s -> "(" + s + ")";
-
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByLinesFunction()).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByCharsFunction()).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByCodePointsFunction()).map(mapFunction).collect(Collectors.joining()));
-
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByPatternFunction(Pattern.compile(Strings.REGEX_WHITESPACE))).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitRegexFunction(Strings.REGEX_WHITESPACE)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitBySeparatorFunction(Strings.SPACE)).map(mapFunction).collect(Collectors.joining()));
-
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByRegexFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByRegexWithDelimitersFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.splitByLengthFunction(3)).map(mapFunction).collect(Collectors.joining()));
-
-        System.out.println(Stream.of(text).flatMap(TextSplitters.breakBySentenceFunction(Locale.ENGLISH)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.breakByWordFunction(Locale.ENGLISH)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.breakByLineFunction(Locale.ENGLISH)).map(mapFunction).collect(Collectors.joining()));
-        System.out.println(Stream.of(text).flatMap(TextSplitters.breakByCharacterFunction(Locale.ENGLISH)).map(mapFunction).collect(Collectors.joining()));
-    }
-
     public static void main(String... args) {
         showStringsMisc();
         showStringsList();
@@ -270,8 +205,6 @@ public final class ExamplesStrings {
         showStringsPrintLine();
         showStringsPrintLines();
         showStringsModifyList();
-        showStringsSplit();
-        showStringsSplitFunction();
     }
 
 }
