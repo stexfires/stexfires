@@ -389,6 +389,23 @@ public final class Strings {
     }
 
     /**
+     * @see String#splitWithDelimiters(String, int)
+     */
+    public static Stream<String> splitTextByRegexWithDelimiters(@Nullable String text, String regex, int limit) {
+        Objects.requireNonNull(regex);
+        return (text == null || text.isEmpty()) ? Stream.empty() :
+                Arrays.stream(text.splitWithDelimiters(regex, limit));
+    }
+
+    /**
+     * @see String#splitWithDelimiters(String, int)
+     */
+    public static Function<String, Stream<String>> splitTextByRegexWithDelimitersFunction(String regex, int limit) {
+        Objects.requireNonNull(regex);
+        return s -> Strings.splitTextByRegexWithDelimiters(s, regex, limit);
+    }
+
+    /**
      * @see String#substring(int, int)
      */
     public static Stream<String> splitTextByLength(@Nullable String text, int length) {

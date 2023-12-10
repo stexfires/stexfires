@@ -204,7 +204,15 @@ public final class ExamplesStrings {
 
         System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", -1)));
         System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 0)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 1)));
         System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 2)));
+        System.out.println(Strings.collect(Strings.splitTextByRegex("ABC-def--GHI-", "-", 3)));
+
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", -1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 0)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 1)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 2)));
+        System.out.println(Strings.collect(Strings.splitTextByRegexWithDelimiters("ABC-def--GHI-", "-", 3)));
 
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghi", 3)));
         System.out.println(Strings.collect(Strings.splitTextByLength("abcdefghij", 3)));
@@ -229,6 +237,7 @@ public final class ExamplesStrings {
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByCharsFunction()).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByCodePointsFunction()).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByRegexFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
+        System.out.println(Stream.of(text).flatMap(Strings.splitTextByRegexWithDelimitersFunction(Strings.REGEX_WHITESPACE, 0)).map(mapFunction).collect(Collectors.joining()));
         System.out.println(Stream.of(text).flatMap(Strings.splitTextByLengthFunction(3)).map(mapFunction).collect(Collectors.joining()));
 
         System.out.println(Stream.of(text).flatMap(Strings.splitTextBySentenceBreaksFunction(Locale.ENGLISH)).map(mapFunction).collect(Collectors.joining()));
