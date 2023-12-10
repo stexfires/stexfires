@@ -8,14 +8,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static stexfires.util.CommonCharsetNames.ISO_8859_1;
-import static stexfires.util.CommonCharsetNames.ISO_8859_15;
-import static stexfires.util.CommonCharsetNames.US_ASCII;
-import static stexfires.util.CommonCharsetNames.UTF_16;
-import static stexfires.util.CommonCharsetNames.UTF_16BE;
-import static stexfires.util.CommonCharsetNames.UTF_16LE;
-import static stexfires.util.CommonCharsetNames.UTF_8;
-import static stexfires.util.CommonCharsetNames.WINDOWS_1252;
+import static stexfires.util.CommonCharsetNames.*;
 
 /**
  * Tests for {@link CommonCharsetNames}.
@@ -37,6 +30,7 @@ class CommonCharsetNamesTest {
 
         assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("ISO-8859-15")));
         assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("windows-1252")));
+        assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("GB18030")));
 
         assertThrows(NullPointerException.class, () -> CommonCharsetNames.ofStandardCharset(null));
     }
@@ -55,6 +49,7 @@ class CommonCharsetNamesTest {
 
         assertEquals(Optional.of(ISO_8859_15), CommonCharsetNames.lookup("ISO-8859-15"));
         assertEquals(Optional.of(WINDOWS_1252), CommonCharsetNames.lookup("windows-1252"));
+        assertEquals(Optional.of(GB18030), CommonCharsetNames.lookup("GB18030"));
 
         assertEquals(Optional.empty(), CommonCharsetNames.lookup(null));
         assertEquals(Optional.empty(), CommonCharsetNames.lookup("unknown"));
@@ -74,6 +69,7 @@ class CommonCharsetNamesTest {
 
         assertEquals("ISO_8859_15", ISO_8859_15.name());
         assertEquals("WINDOWS_1252", WINDOWS_1252.name());
+        assertEquals("GB18030", GB18030.name());
     }
 
     /**
@@ -90,6 +86,7 @@ class CommonCharsetNamesTest {
 
         assertEquals("ISO_8859_15", ISO_8859_15.toString());
         assertEquals("WINDOWS_1252", WINDOWS_1252.toString());
+        assertEquals("GB18030", GB18030.toString());
     }
 
     /**
@@ -106,6 +103,7 @@ class CommonCharsetNamesTest {
 
         assertEquals("ISO-8859-15", ISO_8859_15.canonicalName());
         assertEquals("windows-1252", WINDOWS_1252.canonicalName());
+        assertEquals("GB18030", GB18030.canonicalName());
     }
 
     /**
@@ -122,6 +120,7 @@ class CommonCharsetNamesTest {
 
         assertEquals(Charset.forName("ISO-8859-15"), ISO_8859_15.charset());
         assertEquals(Charset.forName("windows-1252"), WINDOWS_1252.charset());
+        assertEquals(Charset.forName("GB18030"), GB18030.charset());
     }
 
 }
