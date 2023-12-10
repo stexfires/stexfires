@@ -2,7 +2,7 @@ package stexfires.data;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import stexfires.util.Strings;
+import stexfires.util.TextSplitters;
 
 import java.util.Collection;
 import java.util.List;
@@ -89,7 +89,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
             throw new IllegalArgumentException("delimiter is empty");
         }
         return new CollectionDataTypeParser<>(prefix, suffix,
-                Strings.splitTextByRegexFunction(Pattern.quote(delimiter), REGEX_SPLIT_LIMIT),
+                TextSplitters.splitByRegexFunction(Pattern.quote(delimiter), REGEX_SPLIT_LIMIT),
                 dataTypeParser,
                 streamToListConverter(),
                 nullSourceSupplier, emptySourceSupplier);
@@ -106,7 +106,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
             throw new IllegalArgumentException("length < 1");
         }
         return new CollectionDataTypeParser<>(prefix, suffix,
-                Strings.splitTextByLengthFunction(length),
+                TextSplitters.splitByLengthFunction(length),
                 dataTypeParser,
                 streamToListConverter(),
                 nullSourceSupplier, emptySourceSupplier);

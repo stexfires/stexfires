@@ -1,6 +1,6 @@
 package stexfires.examples.util;
 
-import stexfires.util.Strings;
+import stexfires.util.TextSplitters;
 import stexfires.util.function.RandomBooleanSupplier;
 import stexfires.util.function.RandomNumberSuppliers;
 import stexfires.util.function.RandomStringSuppliers;
@@ -73,7 +73,7 @@ public final class ExamplesStringSupplier {
         printStream("randomSelection List splitTextByCharacterBreaks",
                 Stream.generate(
                         Suppliers.randomSelection(randomGenerator,
-                                Strings.splitTextByCharacterBreaks(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
+                                TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
 
         // intSupplierSelection
         printStream("intSupplierSelection List 0",
@@ -178,7 +178,7 @@ public final class ExamplesStringSupplier {
         printStream("stringConcatenation splitTextByCharacterBreaks",
                 Stream.generate(
                         RandomStringSuppliers.stringConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
-                                Strings.splitTextByCharacterBreaks(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
+                                TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
 
         printStream("stringCutting",
                 Stream.generate(

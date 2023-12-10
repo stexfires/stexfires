@@ -3,6 +3,7 @@ package stexfires.examples.util;
 import stexfires.util.CodePoint;
 import stexfires.util.StringComparators;
 import stexfires.util.Strings;
+import stexfires.util.TextSplitters;
 import stexfires.util.function.ByteArrayFunctions;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
@@ -408,7 +409,7 @@ public final class ExamplesStringFunction {
         printUnaryOperator(StringUnaryOperators.encodeBase64(Base64.getEncoder(), StandardCharsets.UTF_8), "encodeBase64");
         printUnaryOperator(StringUnaryOperators.concat(StringUnaryOperators.encodeBase64(Base64.getEncoder(), StandardCharsets.UTF_8), StringUnaryOperators.decodeBase64(Base64.getDecoder(), StandardCharsets.UTF_8)), "encodeBase64 and decodeBase64");
 
-        Function<String, Stream<String>> splitterFunction = s -> Strings.splitTextByCharacterBreaks(s, Locale.ENGLISH);
+        Function<String, Stream<String>> splitterFunction = s -> TextSplitters.breakByCharacter(s, Locale.ENGLISH);
         printUnaryOperator(StringUnaryOperators.splitCollect(splitterFunction, Strings.modifyAndJoinCollector(Strings.modifyListRemoveAll(List.of("a", "A", "1", "e", "\n", "\r", "\r\n", "\t", "\\", " ")), "")), "splitCollect modifyAndJoinCollector modifyListRemoveAll");
         printUnaryOperator(StringUnaryOperators.splitCollect(splitterFunction, Strings.modifyAndJoinCollector(Strings.modifyListRemoveIf(StringPredicates.countCodePoints(2).or(StringPredicates.length(2))), "")), "splitCollect modifyAndJoinCollector modifyListRemoveIf");
         printUnaryOperator(StringUnaryOperators.splitCollect(splitterFunction, Strings.modifyAndJoinCollector(Strings.modifyListReplaceAll("e", "(E)"), "")), "splitCollect modifyAndJoinCollector modifyListReplaceAll");
@@ -439,20 +440,20 @@ public final class ExamplesStringFunction {
         System.out.println("-showStringUnaryOperatorsComplex---");
 
         printUnaryOperator(StringUnaryOperators.splitMapCollect(
-                text -> Strings.splitTextBySentenceBreaks(text, Locale.ENGLISH),
+                text -> TextSplitters.breakBySentence(text, Locale.ENGLISH),
                 StringUnaryOperators.conditionalOperator(
                         StringPredicates.isNullOrBlank().negate()
                                         .and(StringPredicates.length(len -> len > 3))
                                         .and(StringPredicates.anyIntCodePointMatch(Character::isLetter, false)),
                         StringUnaryOperators.concat(
                                 StringUnaryOperators.splitMapCollect(
-                                        sentence -> Strings.splitTextByWordBreaks(sentence, Locale.ENGLISH),
+                                        sentence -> TextSplitters.breakByWord(sentence, Locale.ENGLISH),
                                         StringUnaryOperators.conditionalOperator(
                                                 StringPredicates.isNullOrBlank().negate()
                                                                 .and(StringPredicates.length(len -> len > 3))
                                                                 .and(StringPredicates.allIntCodePointsMatch(Character::isLetter, false)),
                                                 StringUnaryOperators.splitCollect(
-                                                        word -> Strings.splitTextByCharacterBreaks(word, Locale.ENGLISH),
+                                                        word -> TextSplitters.breakByCharacter(word, Locale.ENGLISH),
                                                         Strings.modifyAndJoinCollector(Strings.modifyListShuffle(), "")),
                                                 StringUnaryOperators.identity()),
                                         Collectors.joining()),
