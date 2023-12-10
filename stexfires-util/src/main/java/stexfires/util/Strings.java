@@ -21,6 +21,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -386,6 +387,48 @@ public final class Strings {
      */
     public static Function<String, Stream<String>> splitTextByPatternFunction(Pattern pattern) {
         Objects.requireNonNull(pattern);
+        return s -> Strings.splitTextByPattern(s, pattern);
+    }
+
+    /**
+     * @see java.util.regex.Pattern#compile(String)
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Stream<String> splitTextByRegex(@Nullable String text, String regex) throws PatternSyntaxException {
+        Objects.requireNonNull(regex);
+        Pattern pattern = Pattern.compile(regex);
+        return splitTextByPattern(text, pattern);
+    }
+
+    /**
+     * @see java.util.regex.Pattern#compile(String)
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Function<String, Stream<String>> splitTextByRegexFunction(String regex) throws PatternSyntaxException {
+        Objects.requireNonNull(regex);
+        Pattern pattern = Pattern.compile(regex);
+        return s -> Strings.splitTextByPattern(s, pattern);
+    }
+
+    /**
+     * @see java.util.regex.Pattern#quote(String)
+     * @see java.util.regex.Pattern#compile(String)
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Stream<String> splitTextByString(@Nullable String text, String string) throws PatternSyntaxException {
+        Objects.requireNonNull(string);
+        Pattern pattern = Pattern.compile(Pattern.quote(string));
+        return splitTextByPattern(text, pattern);
+    }
+
+    /**
+     * @see java.util.regex.Pattern#quote(String)
+     * @see java.util.regex.Pattern#compile(String)
+     * @see java.util.regex.Pattern#splitAsStream(CharSequence)
+     */
+    public static Function<String, Stream<String>> splitTextByStringFunction(String string) throws PatternSyntaxException {
+        Objects.requireNonNull(string);
+        Pattern pattern = Pattern.compile(Pattern.quote(string));
         return s -> Strings.splitTextByPattern(s, pattern);
     }
 
