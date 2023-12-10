@@ -16,7 +16,7 @@ import java.util.Optional;
  * <p>
  * Example: {@code Charset c = CommonCharsetNames.WINDOWS_1252.charset();}
  * <p>
- * Source: <a href="https://docs.oracle.com/en/java/javase/18/intl/supported-encodings.html#GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205">supported-encodings</a>
+ * Source: <a href="https://docs.oracle.com/en/java/javase/21/intl/supported-encodings.html#GUID-E20951E6-C420-4D2F-A6BE-1470B4D55B3B">supported-encodings</a>
  * <p>
  * The ordinal of the enum values can change in future versions.
  *
@@ -31,6 +31,10 @@ public enum CommonCharsetNames {
      * CESU-8 or CESU8 : Unicode CESU-8
      */
     CESU_8("CESU-8"),
+    /**
+     * GB18030 or GB18030 : Simplified Chinese, PRC standard
+     */
+    GB18030("GB18030"),
     /**
      * IBM00858 or Cp858 : Variant of Cp850 with Euro character
      */
