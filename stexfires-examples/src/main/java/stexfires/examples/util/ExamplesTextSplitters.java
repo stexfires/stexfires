@@ -18,7 +18,7 @@ public final class ExamplesTextSplitters {
     }
 
     private static void printExample(Stream<String> stream) {
-        System.out.println(Strings.collect(stream));
+        System.out.println(stream.toList());
     }
 
     private static void printExample(Function<String, Stream<String>> function) {

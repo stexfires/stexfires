@@ -135,16 +135,6 @@ public final class Strings {
         return Stream.of(streams).flatMap(Function.identity());
     }
 
-    public static List<String> collect(Stream<String> stream) {
-        Objects.requireNonNull(stream);
-        return stream.collect(Collectors.toList());
-    }
-
-    public static List<String> toList(Stream<String> stream) {
-        Objects.requireNonNull(stream);
-        return stream.toList();
-    }
-
     public static String join(Stream<String> stream) {
         Objects.requireNonNull(stream);
         return join(stream, DEFAULT_DELIMITER);
