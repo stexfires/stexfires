@@ -1,6 +1,8 @@
 package stexfires.app.character;
 
 import stexfires.io.RecordIOStreams;
+import stexfires.io.html.table.HtmlTableFieldSpec;
+import stexfires.io.html.table.HtmlTableFileSpec;
 import stexfires.io.markdown.table.MarkdownTableFieldSpec;
 import stexfires.io.markdown.table.MarkdownTableFileSpec;
 import stexfires.record.TextRecord;
@@ -27,6 +29,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
+@SuppressWarnings("HardcodedLineSeparator")
 public final class CharacterInformationFiles {
 
     public static final String ALTERNATIVE_VALUE = "";
@@ -37,30 +40,30 @@ public final class CharacterInformationFiles {
     }
 
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "OverlyBroadThrowsClause"})
-    private static void writeFile(File outputMarkdownFile,
-                                  String textBefore,
-                                  List<MarkdownTableFieldSpec> fieldSpecs,
-                                  RecordFilter<TextRecord> recordFilter,
-                                  Comparator<TextRecord> recordComparator)
+    private static void writeMarkdownFile(File outputFile,
+                                          String textBefore,
+                                          List<MarkdownTableFieldSpec> fieldSpecs,
+                                          RecordFilter<TextRecord> recordFilter,
+                                          Comparator<TextRecord> recordComparator)
             throws IOException {
-        Objects.requireNonNull(outputMarkdownFile);
+        Objects.requireNonNull(outputFile);
         Objects.requireNonNull(textBefore);
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(recordFilter);
         Objects.requireNonNull(recordComparator);
 
-        System.out.println("Generate MarkdownTable file: " + outputMarkdownFile);
+        System.out.println("Generate MarkdownTable file: " + outputFile);
 
         var consumerFileSpec = MarkdownTableFileSpec.consumerFileSpec(
                 CharsetCoding.UTF_8_REPORTING,
                 LINE_SEPARATOR,
-                textBefore,
+                textBefore + LINE_SEPARATOR,
                 null,
                 Alignment.CENTER,
                 fieldSpecs
         );
 
-        try (var consumer = consumerFileSpec.consumer(new FileOutputStream(outputMarkdownFile))) {
+        try (var consumer = consumerFileSpec.consumer(new FileOutputStream(outputFile))) {
             RecordIOStreams.writeStream(consumer,
                     CodePointRecordFields.generateCodePointRecordStream(
                                                  CodePoint.MIN_VALUE,
@@ -71,7 +74,97 @@ public final class CharacterInformationFiles {
         }
     }
 
-    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "StringConcatenationMissingWhitespace", "SpellCheckingInspection"})
+    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "OverlyBroadThrowsClause", "SpellCheckingInspection"})
+    private static void writeHtmlFile(File outputFile,
+                                      String textBefore,
+                                      List<HtmlTableFieldSpec> fieldSpecs,
+                                      RecordFilter<TextRecord> recordFilter,
+                                      Comparator<TextRecord> recordComparator)
+            throws IOException {
+        Objects.requireNonNull(outputFile);
+        Objects.requireNonNull(textBefore);
+        Objects.requireNonNull(fieldSpecs);
+        Objects.requireNonNull(recordFilter);
+        Objects.requireNonNull(recordComparator);
+
+        System.out.println("Generate HtmlTable file: " + outputFile);
+
+        var consumerFileSpec = HtmlTableFileSpec.consumerFileSpec(
+                CharsetCoding.UTF_8_REPORTING,
+                LINE_SEPARATOR,
+                "<!DOCTYPE html>\n" +
+                        "<html lang=\"en\">\n" +
+                        "    <head>\n" +
+                        "        <meta charset=\"UTF-8\" />\n" +
+                        "        <title>" + textBefore + "</title>\n" +
+                        "        <style>\n" +
+                        "            body {\n" +
+                        "                font-family: Arial, Helvetica, sans-serif;\n" +
+                        "            }\n" +
+                        "            th {\n" +
+                        "                white-space: nowrap;\n" +
+                        "                padding: 8px 8px;\n" +
+                        "                background: #dddddd;\n" +
+                        "            }\n" +
+                        "            td {\n" +
+                        "                white-space: nowrap;\n" +
+                        "                padding: 4px 6pxx;\n" +
+                        "                border: 1px solid #000000;\n" +
+                        "            }\n" +
+                        "        </style>\n" +
+                        "    </head>\n" +
+                        "    <body>\n" +
+                        "        <h1>" + textBefore + "</h1>",
+                "    </body>\n" +
+                        "</html>",
+                "    ",
+                fieldSpecs
+        );
+
+        try (var consumer = consumerFileSpec.consumer(new FileOutputStream(outputFile))) {
+            RecordIOStreams.writeStream(consumer,
+                    CodePointRecordFields.generateCodePointRecordStream(
+                                                 CodePoint.MIN_VALUE,
+                                                 CodePoint.MAX_VALUE,
+                                                 ALTERNATIVE_VALUE)
+                                         .filter(recordFilter.asPredicate())
+                                         .sorted(recordComparator));
+        }
+    }
+
+    private static void writeFiles(File outputDirectory,
+                                   String fileName,
+                                   String textBefore,
+                                   RecordFilter<TextRecord> recordFilter,
+                                   Comparator<TextRecord> recordComparator) throws IOException {
+        // Markdown small
+        var fieldSpecsMarkdownSmall = Arrays.stream(CodePointRecordFields.values())
+                                            .limit(8) // only the first 8 fields
+                                            .map(field -> new MarkdownTableFieldSpec(
+                                                    field.fieldName(),
+                                                    field.minWidth(),
+                                                    field.alignment()))
+                                            .toList();
+        writeMarkdownFile(new File(outputDirectory, fileName + "_small.md"), textBefore, fieldSpecsMarkdownSmall, recordFilter, recordComparator);
+
+        // Markdown
+        var fieldSpecsMarkdown = Arrays.stream(CodePointRecordFields.values())
+                                       .map(field -> new MarkdownTableFieldSpec(
+                                               field.fieldName(),
+                                               field.minWidth(),
+                                               field.alignment()))
+                                       .toList();
+        writeMarkdownFile(new File(outputDirectory, fileName + ".md"), textBefore, fieldSpecsMarkdown, recordFilter, recordComparator);
+
+        // Html
+        var fieldSpecsHtml = Arrays.stream(CodePointRecordFields.values())
+                                   .map(field -> new HtmlTableFieldSpec(
+                                           field.fieldName()))
+                                   .toList();
+        writeHtmlFile(new File(outputDirectory, fileName + ".html"), textBefore, fieldSpecsHtml, recordFilter, recordComparator);
+    }
+
+    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
     public static void main(String... args) {
         if (args.length != 1) {
             throw new IllegalArgumentException("Missing valid output directory parameter!");
@@ -82,6 +175,7 @@ public final class CharacterInformationFiles {
         }
 
         var fieldSpecs = Arrays.stream(CodePointRecordFields.values())
+                               .limit(8)
                                .map(field -> new MarkdownTableFieldSpec(
                                        field.fieldName(),
                                        field.minWidth(),
@@ -90,11 +184,9 @@ public final class CharacterInformationFiles {
 
         try {
             // LETTER_LEFT_TO_RIGHT
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_LETTER_LEFT_TO_RIGHT.md"),
-                    "List of Unicode characters with the following types and directionality 'left to right'." + LINE_SEPARATOR
-                            + "LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_LETTER_LEFT_TO_RIGHT",
+                    "List of Unicode characters with the following types and directionality 'left to right': LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                                       List.of(
                                               "LOWERCASE_LETTER",
@@ -112,11 +204,9 @@ public final class CharacterInformationFiles {
             );
 
             // LETTER_NOT_LEFT_TO_RIGHT
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_LETTER_NOT_LEFT_TO_RIGHT.md"),
-                    "List of Unicode characters with the following types and directionality NOT 'left to right'." + LINE_SEPARATOR
-                            + "LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_LETTER_NOT_LEFT_TO_RIGHT",
+                    "List of Unicode characters with the following types and directionality NOT 'left to right': LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                                       List.of(
                                               "LOWERCASE_LETTER",
@@ -134,11 +224,9 @@ public final class CharacterInformationFiles {
             );
 
             // NUMBER
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_NUMBER.md"),
-                    "List of Unicode characters with the following types." + LINE_SEPARATOR
-                            + "DECIMAL_DIGIT_NUMBER, LETTER_NUMBER, OTHER_NUMBER" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_NUMBER",
+                    "List of Unicode characters with the following types: DECIMAL_DIGIT_NUMBER, LETTER_NUMBER, OTHER_NUMBER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
                                     "DECIMAL_DIGIT_NUMBER",
@@ -151,11 +239,9 @@ public final class CharacterInformationFiles {
             );
 
             // SYMBOL_FORMAT
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_SYMBOL_FORMAT.md"),
-                    "List of Unicode characters with the following types." + LINE_SEPARATOR
-                            + "CURRENCY_SYMBOL, MATH_SYMBOL, MODIFIER_SYMBOL, OTHER_SYMBOL, FORMAT" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_SYMBOL_FORMAT",
+                    "List of Unicode characters with the following types: CURRENCY_SYMBOL, MATH_SYMBOL, MODIFIER_SYMBOL, OTHER_SYMBOL, FORMAT",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
                                     "CURRENCY_SYMBOL",
@@ -169,11 +255,9 @@ public final class CharacterInformationFiles {
             );
 
             // PUNCTUATION
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_PUNCTUATION.md"),
-                    "List of Unicode characters with the following types." + LINE_SEPARATOR
-                            + "CONNECTOR_PUNCTUATION, DASH_PUNCTUATION, END_PUNCTUATION, FINAL_QUOTE_PUNCTUATION, INITIAL_QUOTE_PUNCTUATION, OTHER_PUNCTUATION, START_PUNCTUATION" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_PUNCTUATION",
+                    "List of Unicode characters with the following types: CONNECTOR_PUNCTUATION, DASH_PUNCTUATION, END_PUNCTUATION, FINAL_QUOTE_PUNCTUATION, INITIAL_QUOTE_PUNCTUATION, OTHER_PUNCTUATION, START_PUNCTUATION",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
                                     "CONNECTOR_PUNCTUATION",
@@ -190,11 +274,9 @@ public final class CharacterInformationFiles {
             );
 
             // CONTROL
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_CONTROL.md"),
-                    "List of Unicode characters with the following types." + LINE_SEPARATOR
-                            + "CONTROL" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_CONTROL",
+                    "List of Unicode characters with the following types: CONTROL",
                     TextFilter.equalTo(CodePointRecordFields.TYPE.ordinal(),
                             "CONTROL"
                     ),
@@ -202,11 +284,9 @@ public final class CharacterInformationFiles {
             );
 
             // SEPARATOR_MARK
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_SEPARATOR_MARK.md"),
-                    "List of Unicode characters with the following types." + LINE_SEPARATOR
-                            + "LINE_SEPARATOR, PARAGRAPH_SEPARATOR, SPACE_SEPARATOR, COMBINING_SPACING_MARK, ENCLOSING_MARK, NON_SPACING_MARK" + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_SEPARATOR_MARK",
+                    "List of Unicode characters with the following types: LINE_SEPARATOR, PARAGRAPH_SEPARATOR, SPACE_SEPARATOR, COMBINING_SPACING_MARK, ENCLOSING_MARK, NON_SPACING_MARK",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
                                     "LINE_SEPARATOR",
@@ -221,10 +301,9 @@ public final class CharacterInformationFiles {
             );
 
             // Block_LATIN
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_Block_LATIN.md"),
-                    "List of Unicode characters whose block contains the word \"LATIN\"." + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_Block_LATIN",
+                    "List of Unicode characters whose block contains the word \"LATIN\"",
                     new TextFilter<>(CodePointRecordFields.UNICODE_BLOCK.ordinal(),
                             StringPredicates.contains(
                                     "LATIN"
@@ -233,10 +312,9 @@ public final class CharacterInformationFiles {
             );
 
             // IsMirrored
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_IsMirrored.md"),
-                    "List of mirrored Unicode characters." + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_IsMirrored",
+                    "List of mirrored Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_MIRRORED.ordinal(),
                             StringPredicates.equals(
                                     "true"
@@ -246,10 +324,9 @@ public final class CharacterInformationFiles {
             );
 
             // IsIdeographic
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_IsIdeographic.md"),
-                    "List of ideographic Unicode characters." + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_IsIdeographic",
+                    "List of ideographic Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_IDEOGRAPHIC.ordinal(),
                             StringPredicates.equals(
                                     "true"
@@ -259,19 +336,17 @@ public final class CharacterInformationFiles {
             );
 
             // Emoji
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_isEmoji.md"),
-                    "List of emojii Unicode characters." + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_isEmoji",
+                    "List of emoji Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_EMOJI.ordinal(), StringPredicates.equals("true")),
                     RecordComparators.recordId(SortNulls.FIRST)
             );
 
             // Numeric_3
-            writeFile(new File(outputDirectory,
-                            "Character_Markdown_Table_Numeric_3_or_13_or_30_or_300.md"),
-                    "List of Unicode characters with a numeric value of '3', '13', '30' or '300'." + LINE_SEPARATOR,
-                    fieldSpecs,
+            writeFiles(outputDirectory,
+                    "Character_Markdown_Table_Numeric_3_or_13_or_30_or_300",
+                    "List of Unicode characters with a numeric value of '3', '13', '30' or '300'",
                     TextFilter.containedIn(CodePointRecordFields.NUMERIC_VALUE.ordinal(),
                             List.of(
                                     "3",
