@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api(project(":stexfires-record"))
-    implementation(project(":stexfires-util"))
+    api(project(":stexfires-util"))
+    implementation("org.jetbrains:annotations:24.0.1")
 }
 

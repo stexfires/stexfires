@@ -1,7 +1,7 @@
 module stexfires.app.character {
     requires org.jetbrains.annotations;
-    requires stexfires.io;
-    requires stexfires.record;
-    requires stexfires.util;
+    requires transitive stexfires.io;
+    requires transitive stexfires.record;
+    requires transitive stexfires.util;
     exports stexfires.app.character;
 }

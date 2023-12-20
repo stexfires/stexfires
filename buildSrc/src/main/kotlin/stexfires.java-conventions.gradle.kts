@@ -11,10 +11,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("org.jetbrains:annotations:24.0.1")
-}
-
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
