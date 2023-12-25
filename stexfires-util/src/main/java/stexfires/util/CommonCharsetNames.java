@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -293,7 +292,7 @@ public enum CommonCharsetNames {
      * @throws java.lang.IllegalArgumentException if the {@code Charset} is not one of the six known constants from {@code StandardCharsets}.
      * @see java.nio.charset.StandardCharsets
      */
-    public static CommonCharsetNames ofStandardCharset(@NotNull Charset standardCharset) {
+    public static CommonCharsetNames ofStandardCharset(Charset standardCharset) {
         Objects.requireNonNull(standardCharset);
         if (StandardCharsets.US_ASCII.equals(standardCharset)) {
             return US_ASCII;

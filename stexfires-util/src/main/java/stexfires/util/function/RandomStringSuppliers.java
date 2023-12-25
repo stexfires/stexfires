@@ -1,5 +1,7 @@
 package stexfires.util.function;
 
+import org.jspecify.annotations.Nullable;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,7 +39,7 @@ public final class RandomStringSuppliers {
     }
 
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
-                                                          List<Integer> codePoints) {
+                                                          List<@Nullable Integer> codePoints) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePoints);
@@ -53,7 +55,7 @@ public final class RandomStringSuppliers {
     }
 
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
-                                                          Integer... codePoints) {
+                                                          @Nullable Integer... codePoints) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePoints);
@@ -84,7 +86,7 @@ public final class RandomStringSuppliers {
     }
 
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
-                                                          List<Character> characters) {
+                                                          List<@Nullable Character> characters) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(characters);
@@ -100,7 +102,7 @@ public final class RandomStringSuppliers {
     }
 
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
-                                                          Character... characters) {
+                                                          @Nullable Character... characters) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(characters);
@@ -116,7 +118,7 @@ public final class RandomStringSuppliers {
     }
 
     public static Supplier<String> stringConcatenation(RandomGenerator random, IntSupplier number,
-                                                       List<String> strings) {
+                                                       List<@Nullable String> strings) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(number);
         Objects.requireNonNull(strings);

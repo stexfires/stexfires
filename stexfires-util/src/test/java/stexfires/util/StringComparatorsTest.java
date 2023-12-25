@@ -21,6 +21,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#compareTo()}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void compareTo() {
         // null
@@ -45,6 +46,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#compareToIgnoreCase()}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void compareToIgnoreCase() {
         // null
@@ -69,6 +71,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#collatorComparator(java.text.Collator)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void collatorComparator_Collator() {
         Collator collator = Collator.getInstance(Locale.GERMAN);
@@ -94,6 +97,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#collatorComparator(java.util.Locale)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void collatorComparator_Locale() {
         Locale locale = Locale.GERMAN;
@@ -119,6 +123,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#collatorComparator(java.util.Locale, int)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void collatorComparator_Locale_Strength() {
         Locale locale = Locale.GERMAN;
@@ -206,6 +211,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#normalizedComparator(java.util.function.UnaryOperator, java.util.Comparator)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void normalizedComparator() {
         UnaryOperator<String> unaryOperator = s -> s.toUpperCase(Locale.GERMAN).trim(); // Converts to upper case and removes leading and trailing spaces
@@ -221,6 +227,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#lengthComparator()}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void lengthComparator() {
         // null
@@ -342,6 +349,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#integerComparator(Integer, Integer, java.util.Comparator)}
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void integerComparator() {
         // null
@@ -381,6 +389,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#longComparator(Long, Long, java.util.Comparator)}
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void longComparator() {
         // null
@@ -422,6 +431,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#doubleComparator(Double, Double, java.util.Comparator)}
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void doubleComparator() {
         // null
@@ -463,6 +473,7 @@ class StringComparatorsTest {
     /**
      * Test method for {@link StringComparators#extractorComparator(java.util.function.Function, java.util.Comparator)}
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void extractorComparator() {
         // String and Function.identity() with null

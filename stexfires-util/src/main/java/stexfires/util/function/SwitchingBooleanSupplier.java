@@ -1,7 +1,5 @@
 package stexfires.util.function;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntPredicate;
@@ -42,7 +40,7 @@ public final class SwitchingBooleanSupplier implements Supplier<Boolean> {
     }
 
     @Override
-    public synchronized @NotNull Boolean get() {
+    public synchronized Boolean get() {
         if (switchPredicate.test(currentIndex)) {
             currentValue = currentValue ? Boolean.FALSE : Boolean.TRUE;
         }

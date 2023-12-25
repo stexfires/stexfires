@@ -119,9 +119,8 @@ public final class ExamplesBooleanSupplier {
         List<Boolean> booleanList = new ArrayList<>();
         booleanList.add(Boolean.TRUE);
         booleanList.add(Boolean.TRUE);
-        booleanList.add(null);
         booleanList.add(Boolean.FALSE);
-        printStream("Pattern: List [TRUE, TRUE, null, FALSE]",
+        printStream("Pattern: List [TRUE, TRUE, FALSE]",
                 Stream.generate(
                         new RepeatingPatternBooleanSupplier(booleanList)));
 

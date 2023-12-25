@@ -1,6 +1,6 @@
 package stexfires.util.function;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.function.Function;
@@ -71,23 +71,23 @@ public final class NumberToNumberFunctions {
         return BigInteger::valueOf;
     }
 
-    public static ToIntFunction<Integer> integerToPrimitiveInt(int nullValue) {
+    public static ToIntFunction<@Nullable Integer> integerToPrimitiveInt(int nullValue) {
         return n -> n == null ? nullValue : n;
     }
 
-    public static ToLongFunction<Integer> integerToPrimitiveLong(long nullValue) {
+    public static ToLongFunction<@Nullable Integer> integerToPrimitiveLong(long nullValue) {
         return n -> n == null ? nullValue : n.longValue();
     }
 
-    public static Function<Integer, Long> integerToLong(@Nullable Long nullValue) {
+    public static Function<@Nullable Integer, @Nullable Long> integerToLong(@Nullable Long nullValue) {
         return n -> n == null ? nullValue : (Long) n.longValue();
     }
 
-    public static Function<Integer, BigInteger> integerToBigInteger(@Nullable BigInteger nullValue) {
+    public static Function<@Nullable Integer, @Nullable BigInteger> integerToBigInteger(@Nullable BigInteger nullValue) {
         return n -> n == null ? nullValue : BigInteger.valueOf(n.longValue());
     }
 
-    public static ToIntFunction<Long> longToPrimitiveInt(int nullValue) {
+    public static ToIntFunction<@Nullable Long> longToPrimitiveInt(int nullValue) {
         return n -> {
             if (n == null) {
                 return nullValue;
@@ -99,11 +99,11 @@ public final class NumberToNumberFunctions {
         };
     }
 
-    public static ToLongFunction<Long> longToPrimitiveLong(long nullValue) {
+    public static ToLongFunction<@Nullable Long> longToPrimitiveLong(long nullValue) {
         return n -> n == null ? nullValue : n;
     }
 
-    public static Function<Long, Integer> longToInteger(@Nullable Integer nullValue) {
+    public static Function<@Nullable Long, @Nullable Integer> longToInteger(@Nullable Integer nullValue) {
         return n -> {
             if (n == null) {
                 return nullValue;
@@ -115,23 +115,23 @@ public final class NumberToNumberFunctions {
         };
     }
 
-    public static Function<Long, BigInteger> longToBigInteger(@Nullable BigInteger nullValue) {
+    public static Function<@Nullable Long, @Nullable BigInteger> longToBigInteger(@Nullable BigInteger nullValue) {
         return n -> n == null ? nullValue : BigInteger.valueOf(n);
     }
 
-    public static ToIntFunction<BigInteger> bigIntegerToPrimitiveInt(int nullValue) {
+    public static ToIntFunction<@Nullable BigInteger> bigIntegerToPrimitiveInt(int nullValue) {
         return n -> n == null ? nullValue : n.intValueExact();
     }
 
-    public static ToLongFunction<BigInteger> bigIntegerToPrimitiveLong(long nullValue) {
+    public static ToLongFunction<@Nullable BigInteger> bigIntegerToPrimitiveLong(long nullValue) {
         return n -> n == null ? nullValue : n.longValueExact();
     }
 
-    public static Function<BigInteger, Integer> bigIntegerToInteger(@Nullable Integer nullValue) {
+    public static Function<@Nullable BigInteger, @Nullable Integer> bigIntegerToInteger(@Nullable Integer nullValue) {
         return n -> n == null ? nullValue : (Integer) n.intValueExact();
     }
 
-    public static Function<BigInteger, Long> bigIntegerToLong(@Nullable Long nullValue) {
+    public static Function<@Nullable BigInteger, @Nullable Long> bigIntegerToLong(@Nullable Long nullValue) {
         return n -> n == null ? nullValue : (Long) n.longValueExact();
     }
 

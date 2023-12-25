@@ -135,53 +135,40 @@ public final class NumberToStringFunctions {
         private BigIntegerToStringFunctions() {
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> binary() {
-            return n -> n == null ? null :
-                    n.toString(RADIX_BINARY);
+            return n -> n.toString(RADIX_BINARY);
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> decimal() {
-            return n -> n == null ? null :
-                    n.toString();
+            return BigInteger::toString;
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> hex() {
-            return n -> n == null ? null :
-                    n.toString(RADIX_HEX);
+            return n -> n.toString(RADIX_HEX);
         }
 
         /**
          * @see java.util.HexFormat
          */
-        @SuppressWarnings("ReturnOfNull")
+
         public static Function<BigInteger, String> hexFormat(HexFormat hexFormat) {
             Objects.requireNonNull(hexFormat);
-            return n -> n == null ? null :
-                    hexFormat.formatHex(n.toByteArray());
+            return n -> hexFormat.formatHex(n.toByteArray());
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> octal() {
-            return n -> n == null ? null :
-                    n.toString(RADIX_OCTAL);
+            return n -> n.toString(RADIX_OCTAL);
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> formatted(Locale locale, String format) {
             Objects.requireNonNull(locale);
             Objects.requireNonNull(format);
-            return n -> n == null ? null :
-                    String.format(locale, format, n);
+            return n -> String.format(locale, format, n);
         }
 
-        @SuppressWarnings("ReturnOfNull")
         public static Function<BigInteger, String> numberFormat(NumberFormat numberFormat) {
             Objects.requireNonNull(numberFormat);
-            return n -> n == null ? null :
-                    numberFormat.format(n);
+            return numberFormat::format;
         }
 
         public static Function<BigInteger, String> constant(String constant) {

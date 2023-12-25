@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +86,7 @@ public final class Strings {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
-    public static List<String> list(@Nullable String stringValue) {
+    public static List<String> list(String stringValue) {
         return Collections.singletonList(stringValue);
     }
 
@@ -100,7 +99,7 @@ public final class Strings {
         return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
-    public static Stream<String> stream(@Nullable String stringValue) {
+    public static Stream<String> stream(String stringValue) {
         return Stream.of(stringValue);
     }
 
@@ -113,7 +112,7 @@ public final class Strings {
         return Stream.ofNullable(stringValue);
     }
 
-    public static Stream<CodePoint> codePointStream(@NotNull String stringValue) {
+    public static Stream<CodePoint> codePointStream(String stringValue) {
         Objects.requireNonNull(stringValue);
         return stringValue.codePoints().mapToObj(CodePoint::new);
     }
@@ -179,7 +178,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRemoveAll(Collection<String> stringCollection) {
         Objects.requireNonNull(stringCollection);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.removeAll(stringCollection);
             }
             return list;
@@ -192,7 +191,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRemoveIf(Predicate<? super String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.removeIf(stringPredicate);
             }
             return list;
@@ -205,7 +204,7 @@ public final class Strings {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static UnaryOperator<List<String>> modifyListReplaceAll(@Nullable String oldVal, @Nullable String newVal) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.replaceAll(list, oldVal, newVal);
             }
             return list;
@@ -218,7 +217,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListReplaceAll(UnaryOperator<String> stringOperator) {
         Objects.requireNonNull(stringOperator);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.replaceAll(stringOperator);
             }
             return list;
@@ -231,7 +230,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRetainAll(Collection<String> stringCollection) {
         Objects.requireNonNull(stringCollection);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.retainAll(stringCollection);
             }
             return list;
@@ -243,7 +242,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListReverse() {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.reverse(list);
             }
             return list;
@@ -255,7 +254,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListRotate(int distance) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.rotate(list, distance);
             }
             return list;
@@ -267,7 +266,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListShuffle() {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.shuffle(list);
             }
             return list;
@@ -280,7 +279,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListSort(Comparator<? super String> stringComparator) {
         Objects.requireNonNull(stringComparator);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.sort(stringComparator);
             }
             return list;
@@ -292,7 +291,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListSwap(int firstIndex, int secondIndex) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 if (firstIndex != secondIndex
                         && firstIndex >= 0 && secondIndex >= 0
                         && firstIndex < list.size() && secondIndex < list.size()) {

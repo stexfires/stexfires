@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.text.Collator;
 import java.util.Comparator;
@@ -56,7 +55,7 @@ public final class StringComparators {
      * @return a comparator that compares {@link String} values using a {@link Collator}
      * @see Collator#compare(String, String)
      */
-    public static Comparator<String> collatorComparator(@NotNull Collator collator) {
+    public static Comparator<String> collatorComparator(Collator collator) {
         Objects.requireNonNull(collator);
         return collator::compare;
     }
@@ -69,7 +68,7 @@ public final class StringComparators {
      * @see Collator#getInstance(Locale)
      * @see Collator#compare(String, String)
      */
-    public static Comparator<String> collatorComparator(@NotNull Locale locale) {
+    public static Comparator<String> collatorComparator(Locale locale) {
         Objects.requireNonNull(locale);
         Collator collator = Collator.getInstance(locale);
         return collator::compare;
@@ -85,7 +84,7 @@ public final class StringComparators {
      * @see Collator#setStrength(int)
      * @see Collator#compare(String, String)
      */
-    public static Comparator<String> collatorComparator(@NotNull Locale locale,
+    public static Comparator<String> collatorComparator(Locale locale,
                                                         int collatorStrength) {
         Objects.requireNonNull(locale);
         Collator collator = Collator.getInstance(locale);
@@ -101,8 +100,8 @@ public final class StringComparators {
      * @return a comparator that compares {@link String} values using a {@link UnaryOperator} for normalization and a {@link java.util.Comparator}
      * @see java.util.Comparator#comparing(Function, Comparator)
      */
-    public static Comparator<String> normalizedComparator(@NotNull UnaryOperator<String> normalizeFunction,
-                                                          @NotNull Comparator<String> comparator) {
+    public static Comparator<@Nullable String> normalizedComparator(UnaryOperator<@Nullable String> normalizeFunction,
+                                                                    Comparator<@Nullable String> comparator) {
         Objects.requireNonNull(normalizeFunction);
         Objects.requireNonNull(comparator);
         return comparing(normalizeFunction, comparator);
@@ -128,8 +127,8 @@ public final class StringComparators {
      * @see Integer#parseInt(String)
      * @see Comparator#comparingInt(ToIntFunction)
      */
-    public static Comparator<String> primitiveIntComparator(int nullOrEmptyValue, int notParsableValue) {
-        ToIntFunction<String> extractor = s -> {
+    public static Comparator<@Nullable String> primitiveIntComparator(int nullOrEmptyValue, int notParsableValue) {
+        ToIntFunction<@Nullable String> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -151,8 +150,8 @@ public final class StringComparators {
      * @see Long#parseLong(String)
      * @see Comparator#comparingLong(ToLongFunction)
      */
-    public static Comparator<String> primitiveLongComparator(long nullOrEmptyValue, long notParsableValue) {
-        ToLongFunction<String> extractor = s -> {
+    public static Comparator<@Nullable String> primitiveLongComparator(long nullOrEmptyValue, long notParsableValue) {
+        ToLongFunction<@Nullable String> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -174,8 +173,8 @@ public final class StringComparators {
      * @see Double#parseDouble(String)
      * @see Comparator#comparingDouble(ToDoubleFunction)
      */
-    public static Comparator<String> primitiveDoubleComparator(double nullOrEmptyValue, double notParsableValue) {
-        ToDoubleFunction<String> extractor = s -> {
+    public static Comparator<@Nullable String> primitiveDoubleComparator(double nullOrEmptyValue, double notParsableValue) {
+        ToDoubleFunction<@Nullable String> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -198,10 +197,10 @@ public final class StringComparators {
      * @see Integer#parseInt(String)
      * @see StringComparators#extractorComparator(Function, Comparator)
      */
-    public static Comparator<String> integerComparator(@Nullable Integer nullOrEmptyValue,
-                                                       @Nullable Integer notParsableValue,
-                                                       @NotNull Comparator<Integer> integerComparator) {
-        return extractorComparator(s -> {
+    public static Comparator<@Nullable String> integerComparator(@Nullable Integer nullOrEmptyValue,
+                                                                 @Nullable Integer notParsableValue,
+                                                                 Comparator<@Nullable Integer> integerComparator) {
+        Function<@Nullable String, @Nullable Integer> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -210,7 +209,8 @@ public final class StringComparators {
             } catch (NumberFormatException e) {
                 return notParsableValue;
             }
-        }, integerComparator);
+        };
+        return extractorComparator(extractor, integerComparator);
     }
 
     /**
@@ -223,10 +223,10 @@ public final class StringComparators {
      * @see Long#parseLong(String)
      * @see StringComparators#extractorComparator(Function, Comparator)
      */
-    public static Comparator<String> longComparator(@Nullable Long nullOrEmptyValue,
-                                                    @Nullable Long notParsableValue,
-                                                    @NotNull Comparator<Long> longComparator) {
-        return extractorComparator(s -> {
+    public static Comparator<@Nullable String> longComparator(@Nullable Long nullOrEmptyValue,
+                                                              @Nullable Long notParsableValue,
+                                                              Comparator<@Nullable Long> longComparator) {
+        Function<@Nullable String, @Nullable Long> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -235,7 +235,8 @@ public final class StringComparators {
             } catch (NumberFormatException e) {
                 return notParsableValue;
             }
-        }, longComparator);
+        };
+        return extractorComparator(extractor, longComparator);
     }
 
     /**
@@ -248,10 +249,10 @@ public final class StringComparators {
      * @see Double#parseDouble(String)
      * @see StringComparators#extractorComparator(Function, Comparator)
      */
-    public static Comparator<String> doubleComparator(@Nullable Double nullOrEmptyValue,
-                                                      @Nullable Double notParsableValue,
-                                                      @NotNull Comparator<Double> doubleComparator) {
-        return extractorComparator(s -> {
+    public static Comparator<@Nullable String> doubleComparator(@Nullable Double nullOrEmptyValue,
+                                                                @Nullable Double notParsableValue,
+                                                                Comparator<@Nullable Double> doubleComparator) {
+        Function<@Nullable String, @Nullable Double> extractor = s -> {
             if (s == null || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
@@ -260,7 +261,8 @@ public final class StringComparators {
             } catch (NumberFormatException e) {
                 return notParsableValue;
             }
-        }, doubleComparator);
+        };
+        return extractorComparator(extractor, doubleComparator);
     }
 
     /**
@@ -271,8 +273,8 @@ public final class StringComparators {
      * @return a comparator that converts the {@link String} values with the given {@code keyExtractor} and then compares them with the given {@code keyComparator}
      * @see Comparator#comparing(Function, Comparator)
      */
-    public static <T> Comparator<String> extractorComparator(@NotNull Function<String, T> keyExtractor,
-                                                             @NotNull Comparator<T> keyComparator) {
+    public static <T> Comparator<@Nullable String> extractorComparator(Function<@Nullable String, @Nullable T> keyExtractor,
+                                                                       Comparator<@Nullable T> keyComparator) {
         Objects.requireNonNull(keyExtractor);
         Objects.requireNonNull(keyComparator);
         return Comparator.comparing(keyExtractor, keyComparator);

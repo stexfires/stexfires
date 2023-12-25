@@ -95,6 +95,8 @@ public final class ExamplesNumberFunction {
 
     @SuppressWarnings("StaticCollection")
     private static final List<BigInteger> BIG_INTEGER_VALUES;
+    @SuppressWarnings("StaticCollection")
+    private static final List<BigInteger> BIG_INTEGER_PARAMETER;
 
     static {
         List<BigInteger> values = new ArrayList<>();
@@ -141,12 +143,8 @@ public final class ExamplesNumberFunction {
         values.add(BigInteger.valueOf(Long.MAX_VALUE));
         values.add(BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE));
         values.add(new BigInteger("9999999999999999999999"));
-        values.add(null);
         BIG_INTEGER_VALUES = Collections.unmodifiableList(values);
     }
-
-    @SuppressWarnings("StaticCollection")
-    private static final List<BigInteger> BIG_INTEGER_PARAMETER;
 
     static {
         List<BigInteger> values = new ArrayList<>();

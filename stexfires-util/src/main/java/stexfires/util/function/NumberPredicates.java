@@ -1,5 +1,7 @@
 package stexfires.util.function;
 
+import org.jspecify.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
@@ -413,23 +415,23 @@ public final class NumberPredicates {
             return predicates.reduce(x -> false, Predicate::or);
         }
 
-        public static Predicate<BigInteger> isNullOr(Predicate<BigInteger> predicate) {
+        public static Predicate<@Nullable BigInteger> isNullOr(Predicate<BigInteger> predicate) {
             Objects.requireNonNull(predicate);
             return n -> n == null || predicate.test(n);
         }
 
-        public static Predicate<BigInteger> isNotNullAnd(Predicate<BigInteger> predicate) {
+        public static Predicate<@Nullable BigInteger> isNotNullAnd(Predicate<BigInteger> predicate) {
             Objects.requireNonNull(predicate);
             return n -> n != null && predicate.test(n);
         }
 
         @SuppressWarnings("Convert2MethodRef")
-        public static Predicate<BigInteger> isNull() {
+        public static Predicate<@Nullable BigInteger> isNull() {
             return n -> n == null;
         }
 
         @SuppressWarnings("Convert2MethodRef")
-        public static Predicate<BigInteger> isNotNull() {
+        public static Predicate<@Nullable BigInteger> isNotNull() {
             return n -> n != null;
         }
 
@@ -451,94 +453,78 @@ public final class NumberPredicates {
         }
 
         public static Predicate<BigInteger> negative() {
-            return n -> n != null &&
-                    n.signum() == -1;
+            return n -> n.signum() == -1;
         }
 
         public static Predicate<BigInteger> positive() {
-            return n -> n != null &&
-                    n.signum() == 1;
+            return n -> n.signum() == 1;
         }
 
         public static Predicate<BigInteger> zero() {
-            return n -> n != null &&
-                    n.signum() == 0;
+            return n -> n.signum() == 0;
         }
 
         public static Predicate<BigInteger> notZero() {
-            return n -> n != null &&
-                    n.signum() != 0;
+            return n -> n.signum() != 0;
         }
 
         public static Predicate<BigInteger> odd() {
-            return n -> n != null &&
-                    n.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0;
+            return n -> n.and(BigInteger.ONE).compareTo(BigInteger.ONE) == 0;
         }
 
         public static Predicate<BigInteger> even() {
-            return n -> n != null &&
-                    n.and(BigInteger.ONE).compareTo(BigInteger.ZERO) == 0;
+            return n -> n.and(BigInteger.ONE).compareTo(BigInteger.ZERO) == 0;
         }
 
         public static Predicate<BigInteger> equalTo(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) == 0;
+            return n -> n.compareTo(compareNumber) == 0;
         }
 
         public static Predicate<BigInteger> notEqualTo(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) != 0;
+            return n -> n.compareTo(compareNumber) != 0;
         }
 
         public static Predicate<BigInteger> lessThan(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) < 0;
+            return n -> n.compareTo(compareNumber) < 0;
         }
 
         public static Predicate<BigInteger> lessThanOrEqualTo(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) <= 0;
+            return n -> n.compareTo(compareNumber) <= 0;
         }
 
         public static Predicate<BigInteger> greaterThanOrEqualTo(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) >= 0;
+            return n -> n.compareTo(compareNumber) >= 0;
         }
 
         public static Predicate<BigInteger> greaterThan(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.compareTo(compareNumber) > 0;
+            return n -> n.compareTo(compareNumber) > 0;
         }
 
         public static Predicate<BigInteger> multipleOf(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    (compareNumber.signum() != 0) && (n.remainder(compareNumber).compareTo(BigInteger.ZERO) == 0);
+            return n -> (compareNumber.signum() != 0) && (n.remainder(compareNumber).compareTo(BigInteger.ZERO) == 0);
         }
 
         public static Predicate<BigInteger> sameSign(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.signum() == compareNumber.signum();
+            return n -> n.signum() == compareNumber.signum();
         }
 
         public static Predicate<BigInteger> sameAbsoluteValue(BigInteger compareNumber) {
             Objects.requireNonNull(compareNumber);
-            return n -> n != null &&
-                    n.abs().compareTo(compareNumber.abs()) == 0;
+            return n -> n.abs().compareTo(compareNumber.abs()) == 0;
         }
 
         public static Predicate<BigInteger> between(BigInteger lowNumber, BigInteger highNumber) {
             Objects.requireNonNull(lowNumber);
             Objects.requireNonNull(highNumber);
-            return n -> n != null &&
-                    n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
+            return n -> n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
         }
 
         public static Predicate<BigInteger> rangeOfByte() {
@@ -563,7 +549,7 @@ public final class NumberPredicates {
 
         public static Predicate<BigInteger> containedIn(Collection<BigInteger> numbers) {
             Objects.requireNonNull(numbers);
-            return s -> s != null && numbers.contains(s);
+            return numbers::contains;
         }
 
     }

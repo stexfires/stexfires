@@ -176,7 +176,6 @@ public final class ExamplesStringComparators {
         }
     }
 
-    @SuppressWarnings("ReturnOfNull")
     private static void showStringNumberComparators() {
         System.out.println("-showStringNumberComparators---");
 

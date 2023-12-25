@@ -1,5 +1,6 @@
 package stexfires.util.function;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
 
 import java.io.ByteArrayInputStream;
@@ -69,12 +70,12 @@ public final class ByteArrayFunctions {
         return b -> b != null && b.length > 0;
     }
 
-    public static Function<String, byte[]> fromStringStandard(Charset charset) {
+    public static Function<@Nullable String, byte[]> fromStringStandard(Charset charset) {
         Objects.requireNonNull(charset);
         return s -> s == null ? null : s.getBytes(charset);
     }
 
-    public static Function<String, byte[]> fromStringIgnoreErrors(Charset charset) {
+    public static Function<@Nullable String, byte[]> fromStringIgnoreErrors(Charset charset) {
         Objects.requireNonNull(charset);
 
         CharsetEncoder charsetEncoder = charset.newEncoder()
@@ -101,7 +102,7 @@ public final class ByteArrayFunctions {
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static Function<String, byte[]> fromStringReplaceErrors(Charset charset, byte[] newReplacement) {
+    public static Function<@Nullable String, byte[]> fromStringReplaceErrors(Charset charset, byte[] newReplacement) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(newReplacement);
 
@@ -129,7 +130,7 @@ public final class ByteArrayFunctions {
         };
     }
 
-    public static Function<String, byte[]> fromStringReplaceErrors(Charset charset, String newReplacement) {
+    public static Function<@Nullable String, byte[]> fromStringReplaceErrors(Charset charset, String newReplacement) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(newReplacement);
 
@@ -137,7 +138,7 @@ public final class ByteArrayFunctions {
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static Function<String, byte[]> fromStringAlternativeForError(Charset charset, byte[] errorAlternative) {
+    public static Function<@Nullable String, byte[]> fromStringAlternativeForError(Charset charset, byte[] errorAlternative) {
         Objects.requireNonNull(charset);
 
         CharsetEncoder charsetEncoder = charset.newEncoder()
@@ -163,17 +164,17 @@ public final class ByteArrayFunctions {
         };
     }
 
-    public static Function<String, byte[]> fromBase64(Base64.Decoder decoder) {
+    public static Function<@Nullable String, byte[]> fromBase64(Base64.Decoder decoder) {
         Objects.requireNonNull(decoder);
         return s -> s == null ? null : decoder.decode(s);
     }
 
-    public static Function<String, byte[]> fromHex(HexFormat hexFormat) {
+    public static Function<@Nullable String, byte[]> fromHex(HexFormat hexFormat) {
         Objects.requireNonNull(hexFormat);
         return s -> s == null ? null : hexFormat.parseHex(s);
     }
 
-    public static Function<String, byte[]> fromHex() {
+    public static Function<@Nullable String, byte[]> fromHex() {
         return fromHex(HexFormat.of());
     }
 
@@ -185,28 +186,28 @@ public final class ByteArrayFunctions {
         return n -> BigInteger.valueOf(n).toByteArray();
     }
 
-    public static Function<Integer, byte[]> fromInteger() {
+    public static Function<@Nullable Integer, byte[]> fromInteger() {
         return n -> n == null ? null : BigInteger.valueOf(n).toByteArray();
     }
 
-    public static Function<Long, byte[]> fromLong() {
+    public static Function<@Nullable Long, byte[]> fromLong() {
         return n -> n == null ? null : BigInteger.valueOf(n).toByteArray();
     }
 
-    public static Function<BigInteger, byte[]> fromBigInteger() {
+    public static Function<@Nullable BigInteger, byte[]> fromBigInteger() {
         return n -> n == null ? null : n.toByteArray();
     }
 
-    public static Function<byte[], String> toStringRepresentation() {
+    public static Function<byte[], @Nullable String> toStringRepresentation() {
         return Arrays::toString;
     }
 
-    public static Function<byte[], String> toStringStandard(Charset charset) {
+    public static Function<byte[], @Nullable String> toStringStandard(Charset charset) {
         Objects.requireNonNull(charset);
         return b -> b == null ? null : new String(b, charset);
     }
 
-    public static Function<byte[], String> toStringIgnoreErrors(Charset charset) {
+    public static Function<byte[], @Nullable String> toStringIgnoreErrors(Charset charset) {
         Objects.requireNonNull(charset);
 
         CharsetDecoder charsetDecoder = charset.newDecoder()
@@ -230,7 +231,7 @@ public final class ByteArrayFunctions {
         };
     }
 
-    public static Function<byte[], String> toStringReplaceErrors(Charset charset, String newReplacement) {
+    public static Function<byte[], @Nullable String> toStringReplaceErrors(Charset charset, String newReplacement) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(newReplacement);
 
@@ -256,7 +257,7 @@ public final class ByteArrayFunctions {
         };
     }
 
-    public static Function<byte[], String> toStringAlternativeForError(Charset charset, String errorAlternative) {
+    public static Function<byte[], @Nullable String> toStringAlternativeForError(Charset charset, String errorAlternative) {
         Objects.requireNonNull(charset);
 
         CharsetDecoder charsetDecoder = charset.newDecoder()
@@ -280,29 +281,29 @@ public final class ByteArrayFunctions {
         };
     }
 
-    public static Function<byte[], String> toBase64(Base64.Encoder encoder) {
+    public static Function<byte[], @Nullable String> toBase64(Base64.Encoder encoder) {
         Objects.requireNonNull(encoder);
         return b -> b == null ? null : encoder.encodeToString(b);
     }
 
-    public static Function<byte[], String> toHex(HexFormat hexFormat) {
+    public static Function<byte[], @Nullable String> toHex(HexFormat hexFormat) {
         Objects.requireNonNull(hexFormat);
         return b -> b == null ? null : hexFormat.formatHex(b);
     }
 
-    public static Function<byte[], String> toHex() {
+    public static Function<byte[], @Nullable String> toHex() {
         return toHex(HexFormat.of());
     }
 
-    public static Function<byte[], Integer> toInteger() {
+    public static Function<byte[], @Nullable Integer> toInteger() {
         return b -> b == null || b.length == 0 ? null : new BigInteger(b).intValueExact();
     }
 
-    public static Function<byte[], Long> toLong() {
+    public static Function<byte[], @Nullable Long> toLong() {
         return b -> b == null || b.length == 0 ? null : new BigInteger(b).longValueExact();
     }
 
-    public static Function<byte[], BigInteger> toBigInteger() {
+    public static Function<byte[], @Nullable BigInteger> toBigInteger() {
         return b -> b == null || b.length == 0 ? null : new BigInteger(b);
     }
 

@@ -1,5 +1,7 @@
 package stexfires.util.function;
 
+import org.jspecify.annotations.Nullable;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -38,11 +40,11 @@ public final class Suppliers {
     }
 
     public static <T> Supplier<T> constant(T constant) {
+        Objects.requireNonNull(constant);
         return () -> constant;
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    public static <T> Supplier<T> constantNull() {
+    public static <T> Supplier<@Nullable T> constantNull() {
         return () -> null;
     }
 
@@ -127,8 +129,8 @@ public final class Suppliers {
         return () -> function.applyAsDouble(supplier.get());
     }
 
-    public static <T> Supplier<T> randomSelection(RandomGenerator random,
-                                                  List<T> values) {
+    public static <T> Supplier<@Nullable T> randomSelection(RandomGenerator random,
+                                                            List<T> values) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(values);
         int bound = values.size();
@@ -142,8 +144,8 @@ public final class Suppliers {
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static <T> Supplier<T> randomSelection(RandomGenerator random,
-                                                  T[] values) {
+    public static <T> Supplier<@Nullable T> randomSelection(RandomGenerator random,
+                                                            T[] values) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(values);
         int bound = values.length;
@@ -156,8 +158,8 @@ public final class Suppliers {
         }
     }
 
-    public static <T> Supplier<T> intSupplierSelection(IntSupplier indexSupplier,
-                                                       List<T> values) {
+    public static <T> Supplier<@Nullable T> intSupplierSelection(IntSupplier indexSupplier,
+                                                                 List<T> values) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(values);
         int bound = values.size();
@@ -171,8 +173,8 @@ public final class Suppliers {
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static <T> Supplier<T> intSupplierSelection(IntSupplier indexSupplier,
-                                                       T[] values) {
+    public static <T> Supplier<@Nullable T> intSupplierSelection(IntSupplier indexSupplier,
+                                                                 T[] values) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(values);
         int bound = values.length;

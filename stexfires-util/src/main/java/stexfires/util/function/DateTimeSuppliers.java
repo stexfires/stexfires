@@ -1,7 +1,5 @@
 package stexfires.util.function;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
@@ -28,189 +26,189 @@ public final class DateTimeSuppliers {
     private DateTimeSuppliers() {
     }
 
-    public static Supplier<Instant> instantOfEpochSecond(@NotNull LongSupplier epochSecondSupplier) {
+    public static Supplier<Instant> instantOfEpochSecond(LongSupplier epochSecondSupplier) {
         Objects.requireNonNull(epochSecondSupplier);
         return () -> Instant.ofEpochSecond(epochSecondSupplier.getAsLong());
     }
 
-    public static Supplier<Instant> instantOfEpochMilli(@NotNull LongSupplier epochMilliSupplier) {
+    public static Supplier<Instant> instantOfEpochMilli(LongSupplier epochMilliSupplier) {
         Objects.requireNonNull(epochMilliSupplier);
         return () -> Instant.ofEpochMilli(epochMilliSupplier.getAsLong());
     }
 
-    public static Supplier<LocalDate> localDateOfInstant(@NotNull Supplier<Instant> instantSupplier,
-                                                         @NotNull ZoneId zone) {
+    public static Supplier<LocalDate> localDateOfInstant(Supplier<Instant> instantSupplier,
+                                                         ZoneId zone) {
         Objects.requireNonNull(instantSupplier);
         Objects.requireNonNull(zone);
         return () -> LocalDate.ofInstant(instantSupplier.get(), zone);
     }
 
-    public static Supplier<LocalDate> localDateOfEpochDay(@NotNull LongSupplier epochDaySupplier) {
+    public static Supplier<LocalDate> localDateOfEpochDay(LongSupplier epochDaySupplier) {
         Objects.requireNonNull(epochDaySupplier);
         return () -> LocalDate.ofEpochDay(epochDaySupplier.getAsLong());
     }
 
-    public static Supplier<LocalTime> localTimeOfInstant(@NotNull Supplier<Instant> instantSupplier,
-                                                         @NotNull ZoneId zone) {
+    public static Supplier<LocalTime> localTimeOfInstant(Supplier<Instant> instantSupplier,
+                                                         ZoneId zone) {
         Objects.requireNonNull(instantSupplier);
         Objects.requireNonNull(zone);
         return () -> LocalTime.ofInstant(instantSupplier.get(), zone);
     }
 
-    public static Supplier<LocalTime> localTimeOfSecondOfDay(@NotNull LongSupplier secondOfDaySupplier) {
+    public static Supplier<LocalTime> localTimeOfSecondOfDay(LongSupplier secondOfDaySupplier) {
         Objects.requireNonNull(secondOfDaySupplier);
         return () -> LocalTime.ofSecondOfDay(secondOfDaySupplier.getAsLong());
     }
 
-    public static Supplier<LocalTime> localTimeOfNanoOfDay(@NotNull LongSupplier nanoOfDaySupplier) {
+    public static Supplier<LocalTime> localTimeOfNanoOfDay(LongSupplier nanoOfDaySupplier) {
         Objects.requireNonNull(nanoOfDaySupplier);
         return () -> LocalTime.ofNanoOfDay(nanoOfDaySupplier.getAsLong());
     }
 
-    public static Supplier<LocalDateTime> localDateTimeOfInstant(@NotNull Supplier<Instant> instantSupplier,
-                                                                 @NotNull ZoneId zone) {
+    public static Supplier<LocalDateTime> localDateTimeOfInstant(Supplier<Instant> instantSupplier,
+                                                                 ZoneId zone) {
         Objects.requireNonNull(instantSupplier);
         Objects.requireNonNull(zone);
         return () -> LocalDateTime.ofInstant(instantSupplier.get(), zone);
     }
 
-    public static Supplier<LocalDateTime> localDateTimeOfLocaleDateAndLocalTime(@NotNull Supplier<LocalDate> localDateSupplier,
-                                                                                @NotNull Supplier<LocalTime> localTimeSupplier) {
+    public static Supplier<LocalDateTime> localDateTimeOfLocaleDateAndLocalTime(Supplier<LocalDate> localDateSupplier,
+                                                                                Supplier<LocalTime> localTimeSupplier) {
         Objects.requireNonNull(localDateSupplier);
         Objects.requireNonNull(localTimeSupplier);
         return () -> LocalDateTime.of(localDateSupplier.get(), localTimeSupplier.get());
     }
 
-    public static Supplier<ZonedDateTime> zonedDateTimeOfInstant(@NotNull Supplier<Instant> instantSupplier,
-                                                                 @NotNull ZoneId zone) {
+    public static Supplier<ZonedDateTime> zonedDateTimeOfInstant(Supplier<Instant> instantSupplier,
+                                                                 ZoneId zone) {
         Objects.requireNonNull(instantSupplier);
         Objects.requireNonNull(zone);
         return () -> ZonedDateTime.ofInstant(instantSupplier.get(), zone);
     }
 
-    public static Supplier<ZonedDateTime> zonedDateTimeOfLocalDateTime(@NotNull Supplier<LocalDateTime> localDateTimeSupplier,
-                                                                       @NotNull ZoneId zone) {
+    public static Supplier<ZonedDateTime> zonedDateTimeOfLocalDateTime(Supplier<LocalDateTime> localDateTimeSupplier,
+                                                                       ZoneId zone) {
         Objects.requireNonNull(localDateTimeSupplier);
         Objects.requireNonNull(zone);
         return () -> ZonedDateTime.of(localDateTimeSupplier.get(), zone);
     }
 
-    public static Supplier<ZonedDateTime> zonedDateTimeOfLocalDateAndLocalTime(@NotNull Supplier<LocalDate> localDateSupplier,
-                                                                               @NotNull Supplier<LocalTime> localTimeSupplier,
-                                                                               @NotNull ZoneId zone) {
+    public static Supplier<ZonedDateTime> zonedDateTimeOfLocalDateAndLocalTime(Supplier<LocalDate> localDateSupplier,
+                                                                               Supplier<LocalTime> localTimeSupplier,
+                                                                               ZoneId zone) {
         Objects.requireNonNull(localDateSupplier);
         Objects.requireNonNull(localTimeSupplier);
         Objects.requireNonNull(zone);
         return () -> ZonedDateTime.of(localDateSupplier.get(), localTimeSupplier.get(), zone);
     }
 
-    public static Supplier<Year> year(@NotNull IntSupplier yearSupplier) {
+    public static Supplier<Year> year(IntSupplier yearSupplier) {
         Objects.requireNonNull(yearSupplier);
         return () -> Year.of(yearSupplier.getAsInt());
     }
 
-    public static Supplier<Month> month(@NotNull IntSupplier monthSupplier) {
+    public static Supplier<Month> month(IntSupplier monthSupplier) {
         Objects.requireNonNull(monthSupplier);
         return () -> Month.of(monthSupplier.getAsInt());
     }
 
-    public static Supplier<YearMonth> yearMonth(@NotNull IntSupplier yearSupplier,
-                                                @NotNull IntSupplier monthSupplier) {
+    public static Supplier<YearMonth> yearMonth(IntSupplier yearSupplier,
+                                                IntSupplier monthSupplier) {
         Objects.requireNonNull(yearSupplier);
         Objects.requireNonNull(monthSupplier);
         return () -> YearMonth.of(yearSupplier.getAsInt(), monthSupplier.getAsInt());
     }
 
-    public static Supplier<DayOfWeek> dayOfWeek(@NotNull IntSupplier dayOfWeekSupplier) {
+    public static Supplier<DayOfWeek> dayOfWeek(IntSupplier dayOfWeekSupplier) {
         Objects.requireNonNull(dayOfWeekSupplier);
         return () -> DayOfWeek.of(dayOfWeekSupplier.getAsInt());
     }
 
-    public static Supplier<Duration> durationOfSeconds(@NotNull LongSupplier secondsSupplier) {
+    public static Supplier<Duration> durationOfSeconds(LongSupplier secondsSupplier) {
         Objects.requireNonNull(secondsSupplier);
         return () -> Duration.ofSeconds(secondsSupplier.getAsLong());
     }
 
-    public static Supplier<Period> periodOfDays(@NotNull IntSupplier daysSupplier) {
+    public static Supplier<Period> periodOfDays(IntSupplier daysSupplier) {
         Objects.requireNonNull(daysSupplier);
         return () -> Period.ofDays(daysSupplier.getAsInt());
     }
 
-    public static LongSupplier randomEpochSecond(@NotNull RandomGenerator random,
-                                                 @NotNull Instant startInclusive,
-                                                 @NotNull Instant endExclusive) {
+    public static LongSupplier randomEpochSecond(RandomGenerator random,
+                                                 Instant startInclusive,
+                                                 Instant endExclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.getEpochSecond(), endExclusive.getEpochSecond());
     }
 
-    public static LongSupplier randomEpochMilli(@NotNull RandomGenerator random,
-                                                @NotNull Instant startInclusive,
-                                                @NotNull Instant endExclusive) {
+    public static LongSupplier randomEpochMilli(RandomGenerator random,
+                                                Instant startInclusive,
+                                                Instant endExclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toEpochMilli(), endExclusive.toEpochMilli());
     }
 
-    public static LongSupplier randomEpochDay(@NotNull RandomGenerator random,
-                                              @NotNull LocalDate startInclusive,
-                                              @NotNull LocalDate endExclusive) {
+    public static LongSupplier randomEpochDay(RandomGenerator random,
+                                              LocalDate startInclusive,
+                                              LocalDate endExclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toEpochDay(), endExclusive.toEpochDay());
     }
 
-    public static LongSupplier randomSecondOfDay(@NotNull RandomGenerator random,
-                                                 @NotNull LocalTime startInclusive,
-                                                 @NotNull LocalTime endExclusive) {
+    public static LongSupplier randomSecondOfDay(RandomGenerator random,
+                                                 LocalTime startInclusive,
+                                                 LocalTime endExclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toSecondOfDay(), endExclusive.toSecondOfDay());
     }
 
-    public static LongSupplier randomSecondOfDayInclusive(@NotNull RandomGenerator random,
-                                                          @NotNull LocalTime startInclusive,
-                                                          @NotNull LocalTime endInclusive) {
+    public static LongSupplier randomSecondOfDayInclusive(RandomGenerator random,
+                                                          LocalTime startInclusive,
+                                                          LocalTime endInclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endInclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toSecondOfDay(), endInclusive.toSecondOfDay() + 1);
     }
 
-    public static LongSupplier randomNanoOfDay(@NotNull RandomGenerator random,
-                                               @NotNull LocalTime startInclusive,
-                                               @NotNull LocalTime endExclusive) {
+    public static LongSupplier randomNanoOfDay(RandomGenerator random,
+                                               LocalTime startInclusive,
+                                               LocalTime endExclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endExclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toNanoOfDay(), endExclusive.toNanoOfDay());
     }
 
-    public static LongSupplier randomNanoOfDayInclusive(@NotNull RandomGenerator random,
-                                                        @NotNull LocalTime startInclusive,
-                                                        @NotNull LocalTime endInclusive) {
+    public static LongSupplier randomNanoOfDayInclusive(RandomGenerator random,
+                                                        LocalTime startInclusive,
+                                                        LocalTime endInclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endInclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toNanoOfDay(), endInclusive.toNanoOfDay() + 1);
     }
 
-    public static IntSupplier randomMonthInclusive(@NotNull RandomGenerator random,
-                                                   @NotNull Month startInclusive,
-                                                   @NotNull Month endInclusive) {
+    public static IntSupplier randomMonthInclusive(RandomGenerator random,
+                                                   Month startInclusive,
+                                                   Month endInclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endInclusive);
         return RandomNumberSuppliers.randomPrimitiveInt(random, startInclusive.getValue(), endInclusive.getValue() + 1);
     }
 
-    public static IntSupplier randomDayOfWeekInclusive(@NotNull RandomGenerator random,
-                                                       @NotNull DayOfWeek startInclusive,
-                                                       @NotNull DayOfWeek endInclusive) {
+    public static IntSupplier randomDayOfWeekInclusive(RandomGenerator random,
+                                                       DayOfWeek startInclusive,
+                                                       DayOfWeek endInclusive) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endInclusive);

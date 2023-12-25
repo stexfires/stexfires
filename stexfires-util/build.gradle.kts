@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:24.0.1")
+    implementation("org.jspecify:jspecify:0.3.0")
 }

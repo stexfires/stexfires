@@ -1,7 +1,5 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.lang.Character.UnicodeBlock;
 import java.lang.Character.UnicodeScript;
@@ -112,12 +110,12 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
     /**
      * Returns the code point specified by the given character name.
      *
-     * @param name the character name
+     * @param name the character name. Must not be {@code null}.
      * @return the code point specified by the given character name.
      * @throws java.lang.IllegalArgumentException if the specified name is not a valid character name
      * @see java.lang.Character#codePointOf(java.lang.String)
      */
-    public static CodePoint ofName(@NotNull String name) {
+    public static CodePoint ofName(String name) {
         Objects.requireNonNull(name);
         return new CodePoint(Character.codePointOf(name));
     }
@@ -137,13 +135,14 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      * The search starts at {@code startCodePoint} and ends at {@code endCodePoint}.
      * The {@code startCodePoint} can be less than, equal to or greater than {@code endCodePoint}.
      *
-     * @param startCodePoint     the code point to start the search (inclusive)
-     * @param endCodePoint       the code point to end the search (inclusive)
-     * @param codePointPredicate the predicate to apply to each code point to determine if it should be returned
+     * @param startCodePoint     the code point to start the search (inclusive). Must not be {@code null}.
+     * @param endCodePoint       the code point to end the search (inclusive). Must not be {@code null}.
+     * @param codePointPredicate the predicate to apply to each code point to determine if it should be returned. Must not be {@code null}.
      * @return the first code point that matches the given {@code Predicate}.
      */
-    public static Optional<CodePoint> findFirst(@NotNull CodePoint startCodePoint, @NotNull CodePoint endCodePoint,
-                                                @NotNull Predicate<CodePoint> codePointPredicate) {
+    public static Optional<CodePoint> findFirst(CodePoint startCodePoint,
+                                                CodePoint endCodePoint,
+                                                Predicate<CodePoint> codePointPredicate) {
         Objects.requireNonNull(startCodePoint);
         Objects.requireNonNull(endCodePoint);
         Objects.requireNonNull(codePointPredicate);
@@ -168,13 +167,13 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
      *
-     * @param o the object to be compared.
+     * @param o the object to be compared. Must not be {@code null}.
      * @return a negative integer, zero, or a positive integer as this object
      * is less than, equal to, or greater than the specified object.
      * @throws NullPointerException if the specified object is null
      */
     @Override
-    public int compareTo(@NotNull CodePoint o) {
+    public int compareTo(CodePoint o) {
         Objects.requireNonNull(o);
         return Integer.compare(value, o.value);
     }
