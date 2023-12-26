@@ -30,9 +30,37 @@ public final class NumberPredicates {
     private NumberPredicates() {
     }
 
+    public static <T extends Number> Predicate<@Nullable T> isNull() {
+        return Objects::isNull;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> isNotNull() {
+        return Objects::nonNull;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> isNullOr(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate);
+        return n -> n == null || predicate.test(n);
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> isNotNullAnd(Predicate<T> predicate) {
+        Objects.requireNonNull(predicate);
+        return n -> n != null && predicate.test(n);
+    }
+
     public static final class PrimitiveIntPredicates {
 
         private PrimitiveIntPredicates() {
+        }
+
+        public static Predicate<@Nullable Integer> isNullOr(IntPredicate predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n == null || predicate.test(n);
+        }
+
+        public static Predicate<@Nullable Integer> isNotNullAnd(IntPredicate predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n != null && predicate.test(n);
         }
 
         public static IntPredicate applyOperatorAndTest(IntUnaryOperator operator,
@@ -202,6 +230,16 @@ public final class NumberPredicates {
     public static final class PrimitiveLongPredicates {
 
         private PrimitiveLongPredicates() {
+        }
+
+        public static Predicate<@Nullable Long> isNullOr(LongPredicate predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n == null || predicate.test(n);
+        }
+
+        public static Predicate<@Nullable Long> isNotNullAnd(LongPredicate predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n != null && predicate.test(n);
         }
 
         public static LongPredicate applyOperatorAndTest(LongUnaryOperator operator,
@@ -377,6 +415,16 @@ public final class NumberPredicates {
         private BigIntegerPredicates() {
         }
 
+        public static Predicate<@Nullable BigInteger> isNullOr(Predicate<BigInteger> predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n == null || predicate.test(n);
+        }
+
+        public static Predicate<@Nullable BigInteger> isNotNullAnd(Predicate<BigInteger> predicate) {
+            Objects.requireNonNull(predicate);
+            return n -> n != null && predicate.test(n);
+        }
+
         public static Predicate<BigInteger> applyOperatorAndTest(UnaryOperator<BigInteger> operator,
                                                                  Predicate<BigInteger> predicate) {
             Objects.requireNonNull(operator);
@@ -413,26 +461,6 @@ public final class NumberPredicates {
         public static Predicate<BigInteger> concatOr(Stream<Predicate<BigInteger>> predicates) {
             Objects.requireNonNull(predicates);
             return predicates.reduce(x -> false, Predicate::or);
-        }
-
-        public static Predicate<@Nullable BigInteger> isNullOr(Predicate<BigInteger> predicate) {
-            Objects.requireNonNull(predicate);
-            return n -> n == null || predicate.test(n);
-        }
-
-        public static Predicate<@Nullable BigInteger> isNotNullAnd(Predicate<BigInteger> predicate) {
-            Objects.requireNonNull(predicate);
-            return n -> n != null && predicate.test(n);
-        }
-
-        @SuppressWarnings("Convert2MethodRef")
-        public static Predicate<@Nullable BigInteger> isNull() {
-            return n -> n == null;
-        }
-
-        @SuppressWarnings("Convert2MethodRef")
-        public static Predicate<@Nullable BigInteger> isNotNull() {
-            return n -> n != null;
         }
 
         public static Predicate<@Nullable BigInteger> constantTrue() {
