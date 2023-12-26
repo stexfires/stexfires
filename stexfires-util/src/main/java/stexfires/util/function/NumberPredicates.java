@@ -46,6 +46,23 @@ public final class NumberPredicates {
         return n -> n != null && predicate.test(n);
     }
 
+    public static <T extends Number> Predicate<@Nullable T> constantTrue() {
+        return n -> true;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> constantFalse() {
+        return n -> false;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> constant(boolean constant) {
+        return n -> constant;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> supplier(BooleanSupplier booleanSupplier) {
+        Objects.requireNonNull(booleanSupplier);
+        return s -> booleanSupplier.getAsBoolean();
+    }
+
     public static <T extends Number> Predicate<T> applyOperatorAndTest(UnaryOperator<T> operator,
                                                                        Predicate<T> predicate) {
         Objects.requireNonNull(operator);
@@ -84,21 +101,9 @@ public final class NumberPredicates {
         return predicates.reduce(x -> false, Predicate::or);
     }
 
-    public static <T extends Number> Predicate<@Nullable T> constantTrue() {
-        return n -> true;
-    }
-
-    public static <T extends Number> Predicate<@Nullable T> constantFalse() {
-        return n -> false;
-    }
-
-    public static <T extends Number> Predicate<@Nullable T> constant(boolean constant) {
-        return n -> constant;
-    }
-
-    public static <T extends Number> Predicate<@Nullable T> supplier(BooleanSupplier booleanSupplier) {
-        Objects.requireNonNull(booleanSupplier);
-        return s -> booleanSupplier.getAsBoolean();
+    public static <T extends Number> Predicate<T> containedIn(Collection<T> numbers) {
+        Objects.requireNonNull(numbers);
+        return numbers::contains;
     }
 
     public static final class PrimitiveIntPredicates {
@@ -114,6 +119,23 @@ public final class NumberPredicates {
         public static Predicate<@Nullable Integer> isNotNullAnd(IntPredicate predicate) {
             Objects.requireNonNull(predicate);
             return n -> n != null && predicate.test(n);
+        }
+
+        public static IntPredicate constantTrue() {
+            return n -> true;
+        }
+
+        public static IntPredicate constantFalse() {
+            return n -> false;
+        }
+
+        public static IntPredicate constant(boolean constant) {
+            return n -> constant;
+        }
+
+        public static IntPredicate supplier(BooleanSupplier booleanSupplier) {
+            Objects.requireNonNull(booleanSupplier);
+            return s -> booleanSupplier.getAsBoolean();
         }
 
         public static IntPredicate applyOperatorAndTest(IntUnaryOperator operator,
@@ -147,21 +169,9 @@ public final class NumberPredicates {
             return predicates.reduce(x -> false, IntPredicate::or);
         }
 
-        public static IntPredicate constantTrue() {
-            return n -> true;
-        }
-
-        public static IntPredicate constantFalse() {
-            return n -> false;
-        }
-
-        public static IntPredicate constant(boolean constant) {
-            return n -> constant;
-        }
-
-        public static IntPredicate supplier(BooleanSupplier booleanSupplier) {
-            Objects.requireNonNull(booleanSupplier);
-            return s -> booleanSupplier.getAsBoolean();
+        public static IntPredicate containedIn(Collection<Integer> numbers) {
+            Objects.requireNonNull(numbers);
+            return numbers::contains;
         }
 
         public static IntPredicate negative() {
@@ -254,11 +264,6 @@ public final class NumberPredicates {
                     n >= lowNumber && n <= highNumber;
         }
 
-        public static IntPredicate containedIn(Collection<Integer> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
-        }
-
         public static IntPredicate rangeOfByte() {
             return between(Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
@@ -286,6 +291,23 @@ public final class NumberPredicates {
         public static Predicate<@Nullable Long> isNotNullAnd(LongPredicate predicate) {
             Objects.requireNonNull(predicate);
             return n -> n != null && predicate.test(n);
+        }
+
+        public static LongPredicate constantTrue() {
+            return n -> true;
+        }
+
+        public static LongPredicate constantFalse() {
+            return n -> false;
+        }
+
+        public static LongPredicate constant(boolean constant) {
+            return n -> constant;
+        }
+
+        public static LongPredicate supplier(BooleanSupplier booleanSupplier) {
+            Objects.requireNonNull(booleanSupplier);
+            return s -> booleanSupplier.getAsBoolean();
         }
 
         public static LongPredicate applyOperatorAndTest(LongUnaryOperator operator,
@@ -319,21 +341,9 @@ public final class NumberPredicates {
             return predicates.reduce(x -> false, LongPredicate::or);
         }
 
-        public static LongPredicate constantTrue() {
-            return n -> true;
-        }
-
-        public static LongPredicate constantFalse() {
-            return n -> false;
-        }
-
-        public static LongPredicate constant(boolean constant) {
-            return n -> constant;
-        }
-
-        public static LongPredicate supplier(BooleanSupplier booleanSupplier) {
-            Objects.requireNonNull(booleanSupplier);
-            return s -> booleanSupplier.getAsBoolean();
+        public static LongPredicate containedIn(Collection<Long> numbers) {
+            Objects.requireNonNull(numbers);
+            return numbers::contains;
         }
 
         public static LongPredicate negative() {
@@ -424,11 +434,6 @@ public final class NumberPredicates {
         public static LongPredicate between(long lowNumber, long highNumber) {
             return n ->
                     n >= lowNumber && n <= highNumber;
-        }
-
-        public static LongPredicate containedIn(Collection<Long> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
         }
 
         public static LongPredicate rangeOfByte() {
@@ -527,11 +532,6 @@ public final class NumberPredicates {
             Objects.requireNonNull(lowNumber);
             Objects.requireNonNull(highNumber);
             return n -> n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
-        }
-
-        public static Predicate<BigInteger> containedIn(Collection<BigInteger> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
         }
 
         public static Predicate<BigInteger> rangeOfByte() {
