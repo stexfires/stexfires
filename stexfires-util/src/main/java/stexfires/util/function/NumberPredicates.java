@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongPredicate;
@@ -50,6 +51,13 @@ public final class NumberPredicates {
         Objects.requireNonNull(operator);
         Objects.requireNonNull(predicate);
         return n -> predicate.test(operator.apply(n));
+    }
+
+    public static <T extends Number> Predicate<T> applyFunctionAndTest(Function<T, T> function,
+                                                                       Predicate<T> predicate) {
+        Objects.requireNonNull(function);
+        Objects.requireNonNull(predicate);
+        return n -> predicate.test(function.apply(n));
     }
 
     public static <T extends Number> Predicate<T> concatAnd(Predicate<T> firstPredicate,
