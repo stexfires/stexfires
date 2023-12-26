@@ -180,6 +180,11 @@ public final class NumberPredicates {
                     n >= lowNumber && n <= highNumber;
         }
 
+        public static IntPredicate containedIn(Collection<Integer> numbers) {
+            Objects.requireNonNull(numbers);
+            return numbers::contains;
+        }
+
         public static IntPredicate rangeOfByte() {
             return between(Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
@@ -190,11 +195,6 @@ public final class NumberPredicates {
 
         public static IntPredicate rangeOfCharacter() {
             return between(Character.MIN_VALUE, Character.MAX_VALUE);
-        }
-
-        public static IntPredicate containedIn(Collection<Integer> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
         }
 
     }
@@ -349,6 +349,11 @@ public final class NumberPredicates {
                     n >= lowNumber && n <= highNumber;
         }
 
+        public static LongPredicate containedIn(Collection<Long> numbers) {
+            Objects.requireNonNull(numbers);
+            return numbers::contains;
+        }
+
         public static LongPredicate rangeOfByte() {
             return between(Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
@@ -363,11 +368,6 @@ public final class NumberPredicates {
 
         public static LongPredicate rangeOfInteger() {
             return between(Integer.MIN_VALUE, Integer.MAX_VALUE);
-        }
-
-        public static LongPredicate containedIn(Collection<Long> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
         }
 
     }
@@ -435,15 +435,15 @@ public final class NumberPredicates {
             return n -> n != null;
         }
 
-        public static Predicate<String> constantTrue() {
+        public static Predicate<@Nullable BigInteger> constantTrue() {
             return n -> true;
         }
 
-        public static Predicate<String> constantFalse() {
+        public static Predicate<@Nullable BigInteger> constantFalse() {
             return n -> false;
         }
 
-        public static Predicate<BigInteger> constant(boolean constant) {
+        public static Predicate<@Nullable BigInteger> constant(boolean constant) {
             return n -> constant;
         }
 
@@ -527,6 +527,11 @@ public final class NumberPredicates {
             return n -> n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
         }
 
+        public static Predicate<BigInteger> containedIn(Collection<BigInteger> numbers) {
+            Objects.requireNonNull(numbers);
+            return numbers::contains;
+        }
+
         public static Predicate<BigInteger> rangeOfByte() {
             return between(BigInteger.valueOf(Byte.MIN_VALUE), BigInteger.valueOf(Byte.MAX_VALUE));
         }
@@ -545,11 +550,6 @@ public final class NumberPredicates {
 
         public static Predicate<BigInteger> rangeOfLong() {
             return between(BigInteger.valueOf(Long.MIN_VALUE), BigInteger.valueOf(Long.MAX_VALUE));
-        }
-
-        public static Predicate<BigInteger> containedIn(Collection<BigInteger> numbers) {
-            Objects.requireNonNull(numbers);
-            return numbers::contains;
         }
 
     }
