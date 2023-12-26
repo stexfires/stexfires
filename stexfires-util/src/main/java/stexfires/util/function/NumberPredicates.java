@@ -6,11 +6,8 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.function.IntUnaryOperator;
-import java.util.function.LongFunction;
 import java.util.function.LongPredicate;
 import java.util.function.LongUnaryOperator;
 import java.util.function.Predicate;
@@ -48,6 +45,54 @@ public final class NumberPredicates {
         return n -> n != null && predicate.test(n);
     }
 
+    public static <T extends Number> Predicate<T> applyOperatorAndTest(UnaryOperator<T> operator,
+                                                                       Predicate<T> predicate) {
+        Objects.requireNonNull(operator);
+        Objects.requireNonNull(predicate);
+        return n -> predicate.test(operator.apply(n));
+    }
+
+    public static <T extends Number> Predicate<T> concatAnd(Predicate<T> firstPredicate,
+                                                            Predicate<T> secondPredicate) {
+        Objects.requireNonNull(firstPredicate);
+        Objects.requireNonNull(secondPredicate);
+        return n -> firstPredicate.test(n) && secondPredicate.test(n);
+    }
+
+    public static <T extends Number> Predicate<T> concatAnd(Stream<Predicate<T>> predicates) {
+        Objects.requireNonNull(predicates);
+        return predicates.reduce(x -> true, Predicate::and);
+    }
+
+    public static <T extends Number> Predicate<T> concatOr(Predicate<T> firstPredicate,
+                                                           Predicate<T> secondPredicate) {
+        Objects.requireNonNull(firstPredicate);
+        Objects.requireNonNull(secondPredicate);
+        return n -> firstPredicate.test(n) || secondPredicate.test(n);
+    }
+
+    public static <T extends Number> Predicate<T> concatOr(Stream<Predicate<T>> predicates) {
+        Objects.requireNonNull(predicates);
+        return predicates.reduce(x -> false, Predicate::or);
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> constantTrue() {
+        return n -> true;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> constantFalse() {
+        return n -> false;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> constant(boolean constant) {
+        return n -> constant;
+    }
+
+    public static <T extends Number> Predicate<@Nullable T> supplier(BooleanSupplier booleanSupplier) {
+        Objects.requireNonNull(booleanSupplier);
+        return s -> booleanSupplier.getAsBoolean();
+    }
+
     public static final class PrimitiveIntPredicates {
 
         private PrimitiveIntPredicates() {
@@ -68,13 +113,6 @@ public final class NumberPredicates {
             Objects.requireNonNull(operator);
             Objects.requireNonNull(predicate);
             return n -> predicate.test(operator.applyAsInt(n));
-        }
-
-        public static <T> IntPredicate applyFunctionAndTest(IntFunction<T> function,
-                                                            Predicate<? super T> predicate) {
-            Objects.requireNonNull(function);
-            Objects.requireNonNull(predicate);
-            return n -> predicate.test(function.apply(n));
         }
 
         public static IntPredicate concatAnd(IntPredicate firstPredicate,
@@ -249,13 +287,6 @@ public final class NumberPredicates {
             return n -> predicate.test(operator.applyAsLong(n));
         }
 
-        public static <T> LongPredicate applyFunctionAndTest(LongFunction<T> function,
-                                                             Predicate<? super T> predicate) {
-            Objects.requireNonNull(function);
-            Objects.requireNonNull(predicate);
-            return n -> predicate.test(function.apply(n));
-        }
-
         public static LongPredicate concatAnd(LongPredicate firstPredicate,
                                               LongPredicate secondPredicate) {
             Objects.requireNonNull(firstPredicate);
@@ -413,71 +444,6 @@ public final class NumberPredicates {
     public static final class BigIntegerPredicates {
 
         private BigIntegerPredicates() {
-        }
-
-        public static Predicate<@Nullable BigInteger> isNullOr(Predicate<BigInteger> predicate) {
-            Objects.requireNonNull(predicate);
-            return n -> n == null || predicate.test(n);
-        }
-
-        public static Predicate<@Nullable BigInteger> isNotNullAnd(Predicate<BigInteger> predicate) {
-            Objects.requireNonNull(predicate);
-            return n -> n != null && predicate.test(n);
-        }
-
-        public static Predicate<BigInteger> applyOperatorAndTest(UnaryOperator<BigInteger> operator,
-                                                                 Predicate<BigInteger> predicate) {
-            Objects.requireNonNull(operator);
-            Objects.requireNonNull(predicate);
-            return n -> predicate.test(operator.apply(n));
-        }
-
-        public static <T> Predicate<BigInteger> applyFunctionAndTest(Function<BigInteger, T> function,
-                                                                     Predicate<? super T> predicate) {
-            Objects.requireNonNull(function);
-            Objects.requireNonNull(predicate);
-            return n -> predicate.test(function.apply(n));
-        }
-
-        public static Predicate<BigInteger> concatAnd(Predicate<BigInteger> firstPredicate,
-                                                      Predicate<BigInteger> secondPredicate) {
-            Objects.requireNonNull(firstPredicate);
-            Objects.requireNonNull(secondPredicate);
-            return n -> firstPredicate.test(n) && secondPredicate.test(n);
-        }
-
-        public static Predicate<BigInteger> concatAnd(Stream<Predicate<BigInteger>> predicates) {
-            Objects.requireNonNull(predicates);
-            return predicates.reduce(x -> true, Predicate::and);
-        }
-
-        public static Predicate<BigInteger> concatOr(Predicate<BigInteger> firstPredicate,
-                                                     Predicate<BigInteger> secondPredicate) {
-            Objects.requireNonNull(firstPredicate);
-            Objects.requireNonNull(secondPredicate);
-            return n -> firstPredicate.test(n) || secondPredicate.test(n);
-        }
-
-        public static Predicate<BigInteger> concatOr(Stream<Predicate<BigInteger>> predicates) {
-            Objects.requireNonNull(predicates);
-            return predicates.reduce(x -> false, Predicate::or);
-        }
-
-        public static Predicate<@Nullable BigInteger> constantTrue() {
-            return n -> true;
-        }
-
-        public static Predicate<@Nullable BigInteger> constantFalse() {
-            return n -> false;
-        }
-
-        public static Predicate<@Nullable BigInteger> constant(boolean constant) {
-            return n -> constant;
-        }
-
-        public static Predicate<BigInteger> supplier(BooleanSupplier booleanSupplier) {
-            Objects.requireNonNull(booleanSupplier);
-            return s -> booleanSupplier.getAsBoolean();
         }
 
         public static Predicate<BigInteger> negative() {
