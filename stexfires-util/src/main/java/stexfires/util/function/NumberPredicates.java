@@ -175,93 +175,75 @@ public final class NumberPredicates {
         }
 
         public static IntPredicate negative() {
-            return n ->
-                    n < 0;
+            return n -> n < 0;
         }
 
         public static IntPredicate positive() {
-            return n ->
-                    n > 0;
+            return n -> n > 0;
         }
 
         public static IntPredicate zero() {
-            return n ->
-                    n == 0;
+            return n -> n == 0;
         }
 
         public static IntPredicate notZero() {
-            return n ->
-                    n != 0;
+            return n -> n != 0;
         }
 
         public static IntPredicate odd() {
-            return n ->
-                    (n & 1) == 1;
+            return n -> (n & 1) == 1;
         }
 
         public static IntPredicate even() {
-            return n ->
-                    (n & 1) == 0;
+            return n -> (n & 1) == 0;
         }
 
         public static IntPredicate maxValue() {
-            return n ->
-                    n == Integer.MAX_VALUE;
+            return n -> n == Integer.MAX_VALUE;
         }
 
         public static IntPredicate minValue() {
-            return n ->
-                    n == Integer.MIN_VALUE;
+            return n -> n == Integer.MIN_VALUE;
         }
 
         public static IntPredicate equalTo(int compareNumber) {
-            return n ->
-                    n == compareNumber;
+            return n -> n == compareNumber;
         }
 
         public static IntPredicate notEqualTo(int compareNumber) {
-            return n ->
-                    n != compareNumber;
+            return n -> n != compareNumber;
         }
 
         public static IntPredicate lessThan(int compareNumber) {
-            return n ->
-                    n < compareNumber;
+            return n -> n < compareNumber;
         }
 
         public static IntPredicate lessThanOrEqualTo(int compareNumber) {
-            return n ->
-                    n <= compareNumber;
+            return n -> n <= compareNumber;
         }
 
         public static IntPredicate greaterThanOrEqualTo(int compareNumber) {
-            return n ->
-                    n >= compareNumber;
+            return n -> n >= compareNumber;
         }
 
         public static IntPredicate greaterThan(int compareNumber) {
-            return n ->
-                    n > compareNumber;
+            return n -> n > compareNumber;
         }
 
         public static IntPredicate multipleOf(int compareNumber) {
-            return n ->
-                    (compareNumber != 0) && (n % compareNumber == 0);
+            return n -> (compareNumber != 0) && (n % compareNumber == 0);
         }
 
         public static IntPredicate sameSign(int compareNumber) {
-            return n ->
-                    (n > 0 && compareNumber > 0) || (n == 0 && compareNumber == 0) || (n < 0 && compareNumber < 0);
+            return n -> (n > 0 && compareNumber > 0) || (n == 0 && compareNumber == 0) || (n < 0 && compareNumber < 0);
         }
 
         public static IntPredicate sameAbsoluteValue(int compareNumber) {
-            return n ->
-                    Math.abs(n) == Math.abs(compareNumber);
+            return n -> Math.abs(n) == Math.abs(compareNumber);
         }
 
         public static IntPredicate between(int lowNumber, int highNumber) {
-            return n ->
-                    n >= lowNumber && n <= highNumber;
+            return n -> n >= lowNumber && n <= highNumber;
         }
 
         public static IntPredicate rangeOfByte() {
@@ -347,93 +329,75 @@ public final class NumberPredicates {
         }
 
         public static LongPredicate negative() {
-            return n ->
-                    n < 0L;
+            return n -> n < 0L;
         }
 
         public static LongPredicate positive() {
-            return n ->
-                    n > 0L;
+            return n -> n > 0L;
         }
 
         public static LongPredicate zero() {
-            return n ->
-                    n == 0L;
+            return n -> n == 0L;
         }
 
         public static LongPredicate notZero() {
-            return n ->
-                    n != 0L;
+            return n -> n != 0L;
         }
 
         public static LongPredicate odd() {
-            return n ->
-                    (n & 1L) == 1L;
+            return n -> (n & 1L) == 1L;
         }
 
         public static LongPredicate even() {
-            return n ->
-                    (n & 1L) == 0L;
+            return n -> (n & 1L) == 0L;
         }
 
         public static LongPredicate maxValue() {
-            return n ->
-                    n == Long.MAX_VALUE;
+            return n -> n == Long.MAX_VALUE;
         }
 
         public static LongPredicate minValue() {
-            return n ->
-                    n == Long.MIN_VALUE;
+            return n -> n == Long.MIN_VALUE;
         }
 
         public static LongPredicate equalTo(long compareNumber) {
-            return n ->
-                    n == compareNumber;
+            return n -> n == compareNumber;
         }
 
         public static LongPredicate notEqualTo(long compareNumber) {
-            return n ->
-                    n != compareNumber;
+            return n -> n != compareNumber;
         }
 
         public static LongPredicate lessThan(long compareNumber) {
-            return n ->
-                    n < compareNumber;
+            return n -> n < compareNumber;
         }
 
         public static LongPredicate lessThanOrEqualTo(long compareNumber) {
-            return n ->
-                    n <= compareNumber;
+            return n -> n <= compareNumber;
         }
 
         public static LongPredicate greaterThanOrEqualTo(long compareNumber) {
-            return n ->
-                    n >= compareNumber;
+            return n -> n >= compareNumber;
         }
 
         public static LongPredicate greaterThan(long compareNumber) {
-            return n ->
-                    n > compareNumber;
+            return n -> n > compareNumber;
         }
 
         public static LongPredicate multipleOf(long compareNumber) {
-            return n ->
-                    (compareNumber != 0L) && (n % compareNumber == 0L);
+            return n -> (compareNumber != 0L) && (n % compareNumber == 0L);
         }
 
         public static LongPredicate sameSign(long compareNumber) {
-            return n ->
-                    (n > 0L && compareNumber > 0L) || (n == 0L && compareNumber == 0L) || (n < 0L && compareNumber < 0L);
+            return n -> (n > 0L && compareNumber > 0L) || (n == 0L && compareNumber == 0L) || (n < 0L && compareNumber < 0L);
         }
 
         public static LongPredicate sameAbsoluteValue(long compareNumber) {
-            return n ->
-                    Math.abs(n) == Math.abs(compareNumber);
+            return n -> Math.abs(n) == Math.abs(compareNumber);
         }
 
         public static LongPredicate between(long lowNumber, long highNumber) {
-            return n ->
-                    n >= lowNumber && n <= highNumber;
+            return n -> n >= lowNumber && n <= highNumber;
         }
 
         public static LongPredicate rangeOfByte() {
