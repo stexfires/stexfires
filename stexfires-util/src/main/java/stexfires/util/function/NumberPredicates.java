@@ -174,6 +174,14 @@ public final class NumberPredicates {
             return numbers::contains;
         }
 
+        public static IntPredicate maxValue() {
+            return n -> n == Integer.MAX_VALUE;
+        }
+
+        public static IntPredicate minValue() {
+            return n -> n == Integer.MIN_VALUE;
+        }
+
         public static IntPredicate negative() {
             return n -> n < 0;
         }
@@ -190,20 +198,16 @@ public final class NumberPredicates {
             return n -> n != 0;
         }
 
+        public static IntPredicate one() {
+            return n -> n == 1;
+        }
+
         public static IntPredicate odd() {
             return n -> (n & 1) == 1;
         }
 
         public static IntPredicate even() {
             return n -> (n & 1) == 0;
-        }
-
-        public static IntPredicate maxValue() {
-            return n -> n == Integer.MAX_VALUE;
-        }
-
-        public static IntPredicate minValue() {
-            return n -> n == Integer.MIN_VALUE;
         }
 
         public static IntPredicate equalTo(int compareNumber) {
@@ -328,6 +332,14 @@ public final class NumberPredicates {
             return numbers::contains;
         }
 
+        public static LongPredicate maxValue() {
+            return n -> n == Long.MAX_VALUE;
+        }
+
+        public static LongPredicate minValue() {
+            return n -> n == Long.MIN_VALUE;
+        }
+
         public static LongPredicate negative() {
             return n -> n < 0L;
         }
@@ -344,20 +356,16 @@ public final class NumberPredicates {
             return n -> n != 0L;
         }
 
+        public static LongPredicate one() {
+            return n -> n == 1L;
+        }
+
         public static LongPredicate odd() {
             return n -> (n & 1L) == 1L;
         }
 
         public static LongPredicate even() {
             return n -> (n & 1L) == 0L;
-        }
-
-        public static LongPredicate maxValue() {
-            return n -> n == Long.MAX_VALUE;
-        }
-
-        public static LongPredicate minValue() {
-            return n -> n == Long.MIN_VALUE;
         }
 
         public static LongPredicate equalTo(long compareNumber) {
@@ -437,6 +445,10 @@ public final class NumberPredicates {
 
         public static Predicate<BigInteger> notZero() {
             return n -> n.signum() != 0;
+        }
+
+        public static Predicate<BigInteger> one() {
+            return n -> BigInteger.ONE.compareTo(n) == 0;
         }
 
         public static Predicate<BigInteger> odd() {
