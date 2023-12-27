@@ -4,6 +4,7 @@ import stexfires.util.function.NumberPredicates.BigIntegerPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
 import stexfires.util.function.NumberToNumberFunctions;
+import stexfires.util.function.NumberToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.BigIntegerToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.PrimitiveIntToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.PrimitiveLongToStringFunctions;
@@ -144,26 +145,24 @@ public final class ExamplesNumberFunction {
         values.add(BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE));
         values.add(new BigInteger("9999999999999999999999"));
         BIG_INTEGER_VALUES = Collections.unmodifiableList(values);
-    }
 
-    static {
-        List<BigInteger> values = new ArrayList<>();
-        values.add(new BigInteger("-9999999999999999999999"));
-        values.add(BigInteger.valueOf(-12L));
-        values.add(BigInteger.valueOf(-10L));
-        values.add(BigInteger.valueOf(-4L));
-        values.add(BigInteger.valueOf(-3L));
-        values.add(BigInteger.valueOf(-2L));
-        values.add(BigInteger.valueOf(-1L));
-        values.add(BigInteger.ZERO);
-        values.add(BigInteger.ONE);
-        values.add(BigInteger.TWO);
-        values.add(BigInteger.valueOf(3L));
-        values.add(BigInteger.valueOf(4L));
-        values.add(BigInteger.TEN);
-        values.add(BigInteger.valueOf(12L));
-        values.add(new BigInteger("9999999999999999999999"));
-        BIG_INTEGER_PARAMETER = Collections.unmodifiableList(values);
+        List<BigInteger> parameters = new ArrayList<>();
+        parameters.add(new BigInteger("-9999999999999999999999"));
+        parameters.add(BigInteger.valueOf(-12L));
+        parameters.add(BigInteger.valueOf(-10L));
+        parameters.add(BigInteger.valueOf(-4L));
+        parameters.add(BigInteger.valueOf(-3L));
+        parameters.add(BigInteger.valueOf(-2L));
+        parameters.add(BigInteger.valueOf(-1L));
+        parameters.add(BigInteger.ZERO);
+        parameters.add(BigInteger.ONE);
+        parameters.add(BigInteger.TWO);
+        parameters.add(BigInteger.valueOf(3L));
+        parameters.add(BigInteger.valueOf(4L));
+        parameters.add(BigInteger.TEN);
+        parameters.add(BigInteger.valueOf(12L));
+        parameters.add(new BigInteger("9999999999999999999999"));
+        BIG_INTEGER_PARAMETER = Collections.unmodifiableList(parameters);
     }
 
     private ExamplesNumberFunction() {
@@ -462,11 +461,11 @@ public final class ExamplesNumberFunction {
         applyBigIntegerToStringFunction("hexFormat", BigIntegerToStringFunctions.hexFormat(HexFormat.ofDelimiter(" ").withPrefix("#").withUpperCase()), "space delimiter, prefix #, uppercase");
         applyBigIntegerToStringFunction("octal", BigIntegerToStringFunctions.octal(), null);
 
-        applyBigIntegerToStringFunction("formatted", BigIntegerToStringFunctions.formatted(Locale.GERMANY, "%05d"), "%05d");
-        applyBigIntegerToStringFunction("numberFormat", BigIntegerToStringFunctions.numberFormat(NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT)), "Compact US Short");
-        applyBigIntegerToStringFunction("numberFormat", BigIntegerToStringFunctions.numberFormat(NumberFormat.getIntegerInstance(Locale.GERMANY)), "Integer GERMANY");
-        applyBigIntegerToStringFunction("constant", BigIntegerToStringFunctions.constant("***"), "***");
-        applyBigIntegerToStringFunction("supplier", BigIntegerToStringFunctions.supplier(() -> "#"), "-> #");
+        applyBigIntegerToStringFunction("formatted", NumberToStringFunctions.formatted(Locale.GERMANY, "%05d"), "%05d");
+        applyBigIntegerToStringFunction("numberFormat", NumberToStringFunctions.numberFormat(NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT)), "Compact US Short");
+        applyBigIntegerToStringFunction("numberFormat", NumberToStringFunctions.numberFormat(NumberFormat.getIntegerInstance(Locale.GERMANY)), "Integer GERMANY");
+        applyBigIntegerToStringFunction("constant", NumberToStringFunctions.constant("***"), "***");
+        applyBigIntegerToStringFunction("supplier", NumberToStringFunctions.supplier(() -> "#"), "-> #");
     }
 
     private static void showNumberToNumberFunctions() {
