@@ -1,6 +1,5 @@
 package stexfires.examples.record;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
@@ -36,12 +35,12 @@ public final class ExamplesGenerator {
     private ExamplesGenerator() {
     }
 
-    private static void produceAndPrint(@NotNull GeneratorProducer<?> producer) {
+    private static void produceAndPrint(GeneratorProducer<?> producer) {
         TextRecordStreams.produce(producer)
                          .forEachOrdered(RecordSystemOutUtil::printlnRecord);
     }
 
-    private static void produceAndPrint(@NotNull GeneratorProducer<?> producer, long maxSize) {
+    private static void produceAndPrint(GeneratorProducer<?> producer, long maxSize) {
         TextRecordStreams.produce(producer)
                          .limit(maxSize)
                          .forEachOrdered(RecordSystemOutUtil::printlnRecord);

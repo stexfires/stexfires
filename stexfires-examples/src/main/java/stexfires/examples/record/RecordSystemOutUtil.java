@@ -1,7 +1,5 @@
 package stexfires.examples.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.SystemOutConsumer;
@@ -33,15 +31,15 @@ public final class RecordSystemOutUtil {
     private RecordSystemOutUtil() {
     }
 
-    public static void printlnRecord(@Nullable TextRecord record) {
+    public static void printlnRecord(TextRecord record) {
         RECORD_LOGGER.log(record);
     }
 
-    public static void printlnOptionalRecord(@NotNull Optional<? extends TextRecord> record) {
+    public static void printlnOptionalRecord(Optional<? extends TextRecord> record) {
         record.ifPresentOrElse(RECORD_LOGGER::log, () -> System.out.println("Optional TextRecord is NULL!"));
     }
 
-    public static void printlnRecordList(@Nullable List<? extends TextRecord> records) {
+    public static void printlnRecordList(List<? extends TextRecord> records) {
         if (records == null) {
             System.out.println("<<<List<TextRecord> is NULL!");
         } else {
@@ -51,7 +49,7 @@ public final class RecordSystemOutUtil {
         System.out.println(">>>");
     }
 
-    public static void printlnRecordStream(@Nullable Stream<? extends TextRecord> records) {
+    public static void printlnRecordStream(Stream<? extends TextRecord> records) {
         if (records == null) {
             System.out.println("<<<Stream<TextRecord> is NULL!");
         } else {
@@ -62,7 +60,7 @@ public final class RecordSystemOutUtil {
     }
 
     @SuppressWarnings("UnnecessaryToStringCall")
-    public static void printlnRecordExtended(@NotNull TextRecord record) {
+    public static void printlnRecordExtended(TextRecord record) {
         Objects.requireNonNull(record);
         System.out.println("RecordMessage              " + RECORD_MESSAGE.createMessage(record));
         System.out.println("arrayOfFields:             " + Arrays.toString(record.arrayOfFields()));

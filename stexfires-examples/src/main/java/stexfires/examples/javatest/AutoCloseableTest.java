@@ -3,10 +3,6 @@ package stexfires.examples.javatest;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class AutoCloseableTest {
 
-    private enum ThrowRuntimeExceptionType {
-        NONE, CONSTRUCTOR, METHOD, CLOSE, METHOD_AND_CLOSE
-    }
-
     private AutoCloseableTest() {
     }
 
@@ -77,6 +73,10 @@ public final class AutoCloseableTest {
         testWithoutTryWithResource(ThrowRuntimeExceptionType.METHOD);
         testWithoutTryWithResource(ThrowRuntimeExceptionType.CLOSE);
         testWithoutTryWithResource(ThrowRuntimeExceptionType.METHOD_AND_CLOSE);
+    }
+
+    private enum ThrowRuntimeExceptionType {
+        NONE, CONSTRUCTOR, METHOD, CLOSE, METHOD_AND_CLOSE
     }
 
     @SuppressWarnings({"ClassCanBeRecord", "UseOfSystemOutOrSystemErr"})

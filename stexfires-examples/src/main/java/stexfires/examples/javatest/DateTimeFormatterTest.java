@@ -10,9 +10,6 @@ import java.util.Locale;
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber", "StaticCollection", "SpellCheckingInspection"})
 public final class DateTimeFormatterTest {
 
-    private DateTimeFormatterTest() {
-    }
-
     private static final List<String> PATTERN = List.of("yyyyMMddHHmmss", "dd.MM.yyyy HH:mm:ss.SSS", "QQQQ yyyy", "QQ/yy MMM",
             "VV",
             "v - vvvv",
@@ -21,6 +18,9 @@ public final class DateTimeFormatterTest {
             "z - zzzz",
             "Z - ZZZZ");
     private static final List<String> LOCALIZED_PATTERN = List.of("Gy", "y", "yyyy", "yMMMM", "yMd", "yMEd", "yMdHms", "yMdHmsv");
+
+    private DateTimeFormatterTest() {
+    }
 
     private static void showDateTimeFormatterOfPattern() {
         System.out.println("-showDateTimeFormatterOfPattern---");
