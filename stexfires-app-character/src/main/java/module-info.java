@@ -1,5 +1,6 @@
+@org.jspecify.annotations.NullMarked
 module stexfires.app.character {
-    requires org.jetbrains.annotations;
+    requires org.jspecify;
     requires transitive stexfires.io;
     requires transitive stexfires.record;
     requires transitive stexfires.util;

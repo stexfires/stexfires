@@ -1,7 +1,5 @@
 package stexfires.app.character;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Alignment;
@@ -47,15 +45,25 @@ public enum CodePointRecordFields {
                           int minWidth,
                           Alignment alignment,
                           BiFunction<CodePoint, String, String> convertFunction) {
+        Objects.requireNonNull(fieldName);
+        if (fieldName.isEmpty() || fieldName.isBlank()) {
+            throw new IllegalArgumentException("fieldName must not be empty or blank! fieldName=" + fieldName);
+        }
+        if (minWidth < 5) {
+            throw new IllegalArgumentException("minWidth must be >= 5! minWidth=" + minWidth);
+        }
+        Objects.requireNonNull(alignment);
+        Objects.requireNonNull(convertFunction);
         this.fieldName = fieldName;
         this.minWidth = minWidth;
         this.alignment = alignment;
         this.convertFunction = convertFunction;
     }
 
-    public static TextRecord generateCodePointRecord(@NotNull CodePoint codePoint,
-                                                     @Nullable String alternativeValue) {
+    public static TextRecord generateCodePointRecord(CodePoint codePoint,
+                                                     String alternativeValue) {
         Objects.requireNonNull(codePoint);
+        Objects.requireNonNull(alternativeValue);
         return new ManyFieldsRecord(
                 // category
                 codePoint.type().name(),
@@ -68,9 +76,18 @@ public enum CodePointRecordFields {
 
     public static Stream<TextRecord> generateCodePointRecordStream(int lowestCodePoint,
                                                                    int highestCodePoint,
-                                                                   @Nullable String alternativeValue) {
+                                                                   String alternativeValue) {
+        if (lowestCodePoint > highestCodePoint) {
+            throw new IllegalArgumentException("lowestCodePoint must be <= highestCodePoint! lowestCodePoint=" + lowestCodePoint + " highestCodePoint=" + highestCodePoint);
+        }
+        if (!Character.isValidCodePoint(lowestCodePoint)) {
+            throw new IllegalArgumentException("lowestCodePoint must be a valid code point! lowestCodePoint=" + lowestCodePoint);
+        }
+        if (!Character.isValidCodePoint(highestCodePoint)) {
+            throw new IllegalArgumentException("highestCodePoint must be a valid code point! highestCodePoint=" + highestCodePoint);
+        }
+        Objects.requireNonNull(alternativeValue);
         return IntStream.rangeClosed(lowestCodePoint, highestCodePoint)
-                        .filter(Character::isValidCodePoint)
                         .mapToObj(codePoint ->
                                 generateCodePointRecord(new CodePoint(codePoint), alternativeValue));
     }
@@ -87,8 +104,10 @@ public enum CodePointRecordFields {
         return alignment;
     }
 
-    public String convert(@NotNull CodePoint codePoint, @Nullable String alternativeValue) {
+    public String convert(CodePoint codePoint,
+                          String alternativeValue) {
         Objects.requireNonNull(codePoint);
+        Objects.requireNonNull(alternativeValue);
         return convertFunction.apply(codePoint, alternativeValue);
     }
 
