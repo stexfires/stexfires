@@ -1,6 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -9,9 +9,9 @@ import java.util.function.Supplier;
  */
 public final class EnumDataTypeFormatter<T extends Enum<T>> implements DataTypeFormatter<T> {
 
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
-    public EnumDataTypeFormatter(@Nullable Supplier<String> nullSourceSupplier) {
+    public EnumDataTypeFormatter(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         this.nullSourceSupplier = nullSourceSupplier;
     }
 

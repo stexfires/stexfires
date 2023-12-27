@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,12 +12,12 @@ import java.util.function.Supplier;
 public final class MappingDataTypeParser<T> implements DataTypeParser<T> {
 
     private final List<MappingDataTypePair<T>> pairList;
-    private final Supplier<T> nullSourceSupplier;
-    private final Supplier<T> emptySourceSupplier;
+    private final @Nullable Supplier<@Nullable T> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable T> emptySourceSupplier;
 
-    public MappingDataTypeParser(@NotNull List<MappingDataTypePair<T>> pairList,
-                                 @Nullable Supplier<T> nullSourceSupplier,
-                                 @Nullable Supplier<T> emptySourceSupplier) {
+    public MappingDataTypeParser(List<MappingDataTypePair<T>> pairList,
+                                 @Nullable Supplier<@Nullable T> nullSourceSupplier,
+                                 @Nullable Supplier<@Nullable T> emptySourceSupplier) {
         Objects.requireNonNull(pairList);
         this.pairList = pairList;
         this.nullSourceSupplier = nullSourceSupplier;

@@ -1,15 +1,13 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.charset.CodingErrorAction;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public record MappingDataTypePair<T>(@NotNull T dataValue,
-                                     @NotNull String stringValue) {
+public record MappingDataTypePair<T>(T dataValue,
+                                     String stringValue) {
     public MappingDataTypePair {
         Objects.requireNonNull(dataValue);
         Objects.requireNonNull(stringValue);

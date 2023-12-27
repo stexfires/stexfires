@@ -1,5 +1,7 @@
 package stexfires.data;
 
+import org.jspecify.annotations.Nullable;
+
 import java.io.Serial;
 
 /**
@@ -10,23 +12,23 @@ public class DataTypeConverterException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public DataTypeConverterException(Type type) {
+    public DataTypeConverterException(@Nullable Type type) {
         super(buildMessage(type, null, null));
     }
 
-    public DataTypeConverterException(Type type, String message) {
+    public DataTypeConverterException(@Nullable Type type, @Nullable String message) {
         super(buildMessage(type, message, null));
     }
 
-    public DataTypeConverterException(Type type, Throwable cause) {
+    public DataTypeConverterException(@Nullable Type type, @Nullable Throwable cause) {
         super(buildMessage(type, null, cause), cause);
     }
 
-    public DataTypeConverterException(Type type, String message, Throwable cause) {
+    public DataTypeConverterException(@Nullable Type type, @Nullable String message, @Nullable Throwable cause) {
         super(buildMessage(type, message, cause), cause);
     }
 
-    protected static String buildMessage(Type type, String message, Throwable cause) {
+    protected static String buildMessage(@Nullable Type type, @Nullable String message, @Nullable Throwable cause) {
         if (message == null && cause == null) {
             return switch (type) {
                 case null -> "The data type cannot be converted.";

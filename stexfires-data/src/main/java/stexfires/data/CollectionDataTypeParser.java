@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.TextSplitters;
 
 import java.util.Collection;
@@ -20,21 +19,21 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
 
     private static final int REGEX_SPLIT_LIMIT = -1;
 
-    private final String prefix;
-    private final String suffix;
+    private final @Nullable String prefix;
+    private final @Nullable String suffix;
     private final Function<String, Stream<String>> stringSplitter;
     private final DataTypeParser<T> dataTypeParser;
     private final Function<Stream<T>, C> streamConverter;
-    private final Supplier<C> nullSourceSupplier;
-    private final Supplier<C> emptySourceSupplier;
+    private final @Nullable Supplier<@Nullable C> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable C> emptySourceSupplier;
 
     public CollectionDataTypeParser(@Nullable String prefix,
                                     @Nullable String suffix,
-                                    @NotNull Function<String, Stream<String>> stringSplitter,
-                                    @NotNull DataTypeParser<T> dataTypeParser,
-                                    @NotNull Function<Stream<T>, C> streamConverter,
-                                    @Nullable Supplier<C> nullSourceSupplier,
-                                    @Nullable Supplier<C> emptySourceSupplier) {
+                                    Function<String, Stream<String>> stringSplitter,
+                                    DataTypeParser<T> dataTypeParser,
+                                    Function<Stream<T>, C> streamConverter,
+                                    @Nullable Supplier<@Nullable C> nullSourceSupplier,
+                                    @Nullable Supplier<@Nullable C> emptySourceSupplier) {
         Objects.requireNonNull(stringSplitter);
         Objects.requireNonNull(dataTypeParser);
         Objects.requireNonNull(streamConverter);
@@ -77,12 +76,12 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         };
     }
 
-    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(@NotNull String delimiter,
+    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(String delimiter,
                                                                                @Nullable String prefix,
                                                                                @Nullable String suffix,
-                                                                               @NotNull DataTypeParser<T> dataTypeParser,
-                                                                               @Nullable Supplier<List<T>> nullSourceSupplier,
-                                                                               @Nullable Supplier<List<T>> emptySourceSupplier) {
+                                                                               DataTypeParser<T> dataTypeParser,
+                                                                               @Nullable Supplier<@Nullable List<T>> nullSourceSupplier,
+                                                                               @Nullable Supplier<@Nullable List<T>> emptySourceSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(dataTypeParser);
         if (delimiter.isEmpty()) {
@@ -98,9 +97,9 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
     public static <T> CollectionDataTypeParser<T, List<T>> withLengthAsList(int length,
                                                                             @Nullable String prefix,
                                                                             @Nullable String suffix,
-                                                                            @NotNull DataTypeParser<T> dataTypeParser,
-                                                                            @Nullable Supplier<List<T>> nullSourceSupplier,
-                                                                            @Nullable Supplier<List<T>> emptySourceSupplier) {
+                                                                            DataTypeParser<T> dataTypeParser,
+                                                                            @Nullable Supplier<@Nullable List<T>> nullSourceSupplier,
+                                                                            @Nullable Supplier<@Nullable List<T>> emptySourceSupplier) {
         Objects.requireNonNull(dataTypeParser);
         if (length < 1) {
             throw new IllegalArgumentException("length < 1");
@@ -112,7 +111,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
                 nullSourceSupplier, emptySourceSupplier);
     }
 
-    private @NotNull String removePrefixAndSuffix(@NotNull String source) {
+    private String removePrefixAndSuffix(String source) {
         int beginIndex = 0;
         int endIndex = source.length();
         boolean subString = false;

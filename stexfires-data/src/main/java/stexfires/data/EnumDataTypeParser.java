@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -15,13 +14,13 @@ public final class EnumDataTypeParser<T extends Enum<T>> implements DataTypePars
     private final Class<T> enumClass;
     private final UnaryOperator<String> sourceOperator;
 
-    private final Supplier<T> nullSourceSupplier;
-    private final Supplier<T> emptySourceSupplier;
+    private final @Nullable Supplier<@Nullable T> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable T> emptySourceSupplier;
 
-    public EnumDataTypeParser(@NotNull Class<T> enumClass,
-                              @NotNull UnaryOperator<String> sourceOperator,
-                              @Nullable Supplier<T> nullSourceSupplier,
-                              @Nullable Supplier<T> emptySourceSupplier) {
+    public EnumDataTypeParser(Class<T> enumClass,
+                              UnaryOperator<String> sourceOperator,
+                              @Nullable Supplier<@Nullable T> nullSourceSupplier,
+                              @Nullable Supplier<@Nullable T> emptySourceSupplier) {
         Objects.requireNonNull(enumClass);
         Objects.requireNonNull(sourceOperator);
         this.enumClass = enumClass;

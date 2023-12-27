@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -16,13 +15,13 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
 
     private final Collection<String> trueValues;
     private final Collection<String> falseValues;
-    private final Supplier<Boolean> nullSourceSupplier;
-    private final Supplier<Boolean> emptySourceSupplier;
+    private final @Nullable Supplier<@Nullable Boolean> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable Boolean> emptySourceSupplier;
 
-    public BooleanDataTypeParser(@NotNull Collection<String> trueValues,
-                                 @NotNull Collection<String> falseValues,
-                                 @Nullable Supplier<Boolean> nullSourceSupplier,
-                                 @Nullable Supplier<Boolean> emptySourceSupplier) {
+    public BooleanDataTypeParser(Collection<String> trueValues,
+                                 Collection<String> falseValues,
+                                 @Nullable Supplier<@Nullable Boolean> nullSourceSupplier,
+                                 @Nullable Supplier<@Nullable Boolean> emptySourceSupplier) {
         Objects.requireNonNull(trueValues);
         Objects.requireNonNull(falseValues);
         // Use TreeSet (with natural ordering) so that duplicate values are removed and 'null' is prevented.
@@ -32,14 +31,14 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static BooleanDataTypeParser of(@NotNull String trueValue,
-                                           @NotNull String falseValue,
+    public static BooleanDataTypeParser of(String trueValue,
+                                           String falseValue,
                                            @Nullable Boolean nullOrEmptyValue) {
         return of(trueValue, falseValue, nullOrEmptyValue, nullOrEmptyValue);
     }
 
-    public static BooleanDataTypeParser of(@NotNull String trueValue,
-                                           @NotNull String falseValue,
+    public static BooleanDataTypeParser of(String trueValue,
+                                           String falseValue,
                                            @Nullable Boolean nullValue,
                                            @Nullable Boolean emptyValue) {
         Objects.requireNonNull(trueValue);

@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
 
 import java.math.BigDecimal;
@@ -19,15 +18,15 @@ import java.util.function.Supplier;
 public final class NumberDataTypeParser<T extends Number> implements DataTypeParser<T> {
 
     private final NumberFormat numberFormat;
-    private final Function<Number, T> convertNumberFunction;
-    private final Supplier<T> nullSourceSupplier;
-    private final Supplier<T> emptySourceSupplier;
+    private final Function<Number, @Nullable T> convertNumberFunction;
+    private final @Nullable Supplier<@Nullable T> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable T> emptySourceSupplier;
     private final Object lock = new Object();
 
-    public NumberDataTypeParser(@NotNull NumberFormat numberFormat,
-                                @NotNull Function<Number, T> convertNumberFunction,
-                                @Nullable Supplier<T> nullSourceSupplier,
-                                @Nullable Supplier<T> emptySourceSupplier) {
+    public NumberDataTypeParser(NumberFormat numberFormat,
+                                Function<Number, @Nullable T> convertNumberFunction,
+                                @Nullable Supplier<@Nullable T> nullSourceSupplier,
+                                @Nullable Supplier<@Nullable T> emptySourceSupplier) {
         Objects.requireNonNull(numberFormat);
         Objects.requireNonNull(convertNumberFunction);
         this.numberFormat = numberFormat;

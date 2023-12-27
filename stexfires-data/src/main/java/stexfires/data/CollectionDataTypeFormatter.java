@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -13,19 +12,19 @@ import java.util.function.Supplier;
  */
 public final class CollectionDataTypeFormatter<T, C extends Collection<T>> implements DataTypeFormatter<C> {
 
-    private final String prefix;
-    private final String suffix;
-    private final String delimiter;
-    private final Predicate<String> formattedElementValidator;
+    private final @Nullable String prefix;
+    private final @Nullable String suffix;
+    private final @Nullable String delimiter;
     private final DataTypeFormatter<T> dataTypeFormatter;
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable Predicate<String> formattedElementValidator;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
     public CollectionDataTypeFormatter(@Nullable String prefix,
                                        @Nullable String suffix,
                                        @Nullable String delimiter,
-                                       @NotNull DataTypeFormatter<T> dataTypeFormatter,
+                                       DataTypeFormatter<T> dataTypeFormatter,
                                        @Nullable Predicate<String> formattedElementValidator,
-                                       @Nullable Supplier<String> nullSourceSupplier) {
+                                       @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(dataTypeFormatter);
         this.prefix = prefix;
         this.suffix = suffix;
@@ -35,11 +34,11 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static <T, C extends Collection<T>> CollectionDataTypeFormatter<T, C> withDelimiter(@NotNull String delimiter,
+    public static <T, C extends Collection<T>> CollectionDataTypeFormatter<T, C> withDelimiter(String delimiter,
                                                                                                @Nullable String prefix,
                                                                                                @Nullable String suffix,
-                                                                                               @NotNull DataTypeFormatter<T> dataTypeFormatter,
-                                                                                               @Nullable Supplier<String> nullSourceSupplier) {
+                                                                                               DataTypeFormatter<T> dataTypeFormatter,
+                                                                                               @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(dataTypeFormatter);
         if (delimiter.isEmpty()) {
@@ -54,8 +53,8 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
     public static <T, C extends Collection<T>> CollectionDataTypeFormatter<T, C> withLength(int length,
                                                                                             @Nullable String prefix,
                                                                                             @Nullable String suffix,
-                                                                                            @NotNull DataTypeFormatter<T> dataTypeFormatter,
-                                                                                            @Nullable Supplier<String> nullSourceSupplier) {
+                                                                                            DataTypeFormatter<T> dataTypeFormatter,
+                                                                                            @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(dataTypeFormatter);
         if (length < 1) {
             throw new IllegalArgumentException("length < 1");
@@ -66,13 +65,13 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<T>> imple
                 nullSourceSupplier);
     }
 
-    private static void appendNullSafe(@Nullable String text, @NotNull StringBuilder b) {
+    private static void appendNullSafe(@Nullable String text, StringBuilder b) {
         if (text != null && !text.isEmpty()) {
             b.append(text);
         }
     }
 
-    private void appendCollectionElements(@NotNull C source, @NotNull StringBuilder b) throws DataTypeConverterException {
+    private void appendCollectionElements(C source, StringBuilder b) throws DataTypeConverterException {
         boolean firstElement = true;
         for (T element : source) {
             // Format element to string

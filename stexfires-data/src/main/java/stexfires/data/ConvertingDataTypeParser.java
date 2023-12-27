@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.nio.file.FileSystemNotFoundException;
@@ -17,17 +16,17 @@ import java.util.function.UnaryOperator;
  */
 public final class ConvertingDataTypeParser<T, V> implements DataTypeParser<T> {
 
-    private final UnaryOperator<String> preparatoryAdjustment;
+    private final @Nullable UnaryOperator<String> preparatoryAdjustment;
     private final DataTypeParser<V> dataTypeParser;
-    private final Function<V, T> dataTypeConverter;
-    private final Supplier<T> nullSourceSupplier;
-    private final Supplier<T> emptySourceSupplier;
+    private final Function<@Nullable V, @Nullable T> dataTypeConverter;
+    private final @Nullable Supplier<@Nullable T> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable T> emptySourceSupplier;
 
     public ConvertingDataTypeParser(@Nullable UnaryOperator<String> preparatoryAdjustment,
-                                    @NotNull DataTypeParser<V> dataTypeParser,
-                                    @NotNull Function<V, T> dataTypeConverter,
-                                    @Nullable Supplier<T> nullSourceSupplier,
-                                    @Nullable Supplier<T> emptySourceSupplier) {
+                                    DataTypeParser<V> dataTypeParser,
+                                    Function<@Nullable V, @Nullable T> dataTypeConverter,
+                                    @Nullable Supplier<@Nullable T> nullSourceSupplier,
+                                    @Nullable Supplier<@Nullable T> emptySourceSupplier) {
         Objects.requireNonNull(dataTypeParser);
         Objects.requireNonNull(dataTypeConverter);
         this.preparatoryAdjustment = preparatoryAdjustment;
