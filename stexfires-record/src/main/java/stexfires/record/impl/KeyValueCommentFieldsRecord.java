@@ -12,8 +12,10 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                          TextField keyField, TextField valueField,
+public record KeyValueCommentFieldsRecord(@Nullable String category,
+                                          @Nullable Long recordId,
+                                          TextField keyField,
+                                          TextField valueField,
                                           TextField commentField)
         implements KeyValueCommentRecord, Serializable {
 
@@ -27,9 +29,13 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         this(null, null, key, value, comment);
     }
 
-    public KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                       String key, @Nullable String value, @Nullable String comment) {
-        this(category, recordId,
+    public KeyValueCommentFieldsRecord(@Nullable String category,
+                                       @Nullable Long recordId,
+                                       String key,
+                                       @Nullable String value,
+                                       @Nullable String comment) {
+        this(category,
+                recordId,
                 new TextField(KEY_INDEX, MAX_INDEX, key),
                 new TextField(VALUE_INDEX, MAX_INDEX, value),
                 new TextField(COMMENT_INDEX, MAX_INDEX, comment));
@@ -158,7 +164,17 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
+    public TextField firstFieldOrElseThrow() {
+        return keyField;
+    }
+
+    @Override
     public TextField lastField() {
+        return commentField;
+    }
+
+    @Override
+    public TextField lastFieldOrElseThrow() {
         return commentField;
     }
 
@@ -178,6 +194,31 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
+    public String firstText() {
+        return keyField.orElseThrow();
+    }
+
+    @Override
+    public @Nullable String lastText() {
+        return commentField.text();
+    }
+
+    @Override
+    public String key() {
+        return keyField.orElseThrow();
+    }
+
+    @Override
+    public @Nullable String value() {
+        return valueField.text();
+    }
+
+    @Override
+    public @Nullable String comment() {
+        return commentField.text();
+    }
+
+    @Override
     public int keyIndex() {
         return KEY_INDEX;
     }
@@ -190,31 +231,6 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     @Override
     public int commentIndex() {
         return COMMENT_INDEX;
-    }
-
-    @Override
-    public String firstText() {
-        return keyField.text();
-    }
-
-    @Override
-    public @Nullable String lastText() {
-        return commentField.text();
-    }
-
-    @Override
-    public String key() {
-        return keyField.text();
-    }
-
-    @Override
-    public @Nullable String value() {
-        return valueField.text();
-    }
-
-    @Override
-    public @Nullable String comment() {
-        return commentField.text();
     }
 
 }

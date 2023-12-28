@@ -1,7 +1,6 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -11,9 +10,9 @@ import java.util.stream.Stream;
  */
 public interface CommentRecord extends TextRecord {
 
-    @NotNull CommentRecord withComment(@Nullable String comment);
+    CommentRecord withComment(@Nullable String comment);
 
-    @NotNull TextField commentField();
+    TextField commentField();
 
     @SuppressWarnings("SameReturnValue")
     int commentIndex();
@@ -22,11 +21,11 @@ public interface CommentRecord extends TextRecord {
         return commentField().text();
     }
 
-    default @NotNull Optional<String> commentAsOptional() {
+    default Optional<String> commentAsOptional() {
         return commentField().asOptional();
     }
 
-    default @NotNull Stream<String> commentAsStream() {
+    default Stream<String> commentAsStream() {
         return commentField().stream();
     }
 

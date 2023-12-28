@@ -85,7 +85,7 @@ public record DosPathFieldsRecord(
         checkField(fileExtensionField, FILE_EXTENSION_INDEX, true, "fileExtensionField");
     }
 
-    static String extractDosFileNameExtension(@Nullable Path fileName, boolean regularFile) {
+    static @Nullable String extractDosFileNameExtension(@Nullable Path fileName, boolean regularFile) {
         String fileExtension;
         if ((fileName != null) && regularFile) {
             String strFileName = fileName.toString();

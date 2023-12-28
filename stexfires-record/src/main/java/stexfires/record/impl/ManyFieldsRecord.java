@@ -16,7 +16,8 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordId,
+public record ManyFieldsRecord(@Nullable String category,
+                               @Nullable Long recordId,
                                TextField[] fields)
         implements TextRecord, Serializable {
 
@@ -24,11 +25,11 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
         this(null, null, TextFields.emptyArray());
     }
 
-    public ManyFieldsRecord(Collection<String> texts) {
+    public ManyFieldsRecord(Collection<@Nullable String> texts) {
         this(null, null, TextFields.newArray(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Collection<String> texts) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Collection<@Nullable String> texts) {
         this(category, recordId, TextFields.newArray(texts));
     }
 

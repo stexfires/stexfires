@@ -145,7 +145,7 @@ public final class TextRecordStreams {
 
     public static <T extends TextRecord> List<T> collect(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
-        return recordStream.collect(Collectors.toList());
+        return recordStream.toList();
     }
 
     public static <T extends TextRecord> List<String> collectMessages(Stream<T> recordStream,

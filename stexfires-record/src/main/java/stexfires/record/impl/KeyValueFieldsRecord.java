@@ -12,8 +12,10 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                   TextField keyField, TextField valueField)
+public record KeyValueFieldsRecord(@Nullable String category,
+                                   @Nullable Long recordId,
+                                   TextField keyField,
+                                   TextField valueField)
         implements KeyValueRecord, Serializable {
 
     public static final int KEY_INDEX = TextField.FIRST_FIELD_INDEX;
@@ -25,9 +27,12 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
         this(null, null, key, value);
     }
 
-    public KeyValueFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                String key, @Nullable String value) {
-        this(category, recordId,
+    public KeyValueFieldsRecord(@Nullable String category,
+                                @Nullable Long recordId,
+                                String key,
+                                @Nullable String value) {
+        this(category,
+                recordId,
                 new TextField(KEY_INDEX, MAX_INDEX, key),
                 new TextField(VALUE_INDEX, MAX_INDEX, value));
     }
@@ -136,7 +141,17 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
     }
 
     @Override
+    public TextField firstFieldOrElseThrow() {
+        return keyField;
+    }
+
+    @Override
     public TextField lastField() {
+        return valueField;
+    }
+
+    @Override
+    public TextField lastFieldOrElseThrow() {
         return valueField;
     }
 
@@ -151,18 +166,8 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
     }
 
     @Override
-    public int keyIndex() {
-        return KEY_INDEX;
-    }
-
-    @Override
-    public int valueIndex() {
-        return VALUE_INDEX;
-    }
-
-    @Override
     public String firstText() {
-        return keyField.text();
+        return keyField.orElseThrow();
     }
 
     @Override
@@ -172,12 +177,22 @@ public record KeyValueFieldsRecord(@Nullable String category, @Nullable Long rec
 
     @Override
     public String key() {
-        return keyField.text();
+        return keyField.orElseThrow();
     }
 
     @Override
     public @Nullable String value() {
         return valueField.text();
+    }
+
+    @Override
+    public int keyIndex() {
+        return KEY_INDEX;
+    }
+
+    @Override
+    public int valueIndex() {
+        return VALUE_INDEX;
     }
 
 }

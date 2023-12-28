@@ -45,8 +45,18 @@ public record EmptyRecord()
     }
 
     @Override
+    public boolean hasCategory() {
+        return false;
+    }
+
+    @Override
     public @Nullable Long recordId() {
         return null;
+    }
+
+    @Override
+    public boolean hasRecordId() {
+        return false;
     }
 
     @Override
@@ -90,7 +100,7 @@ public record EmptyRecord()
     }
 
     @Override
-    public @Nullable String textAtOrElse(int index, @Nullable String otherText) {
+    public String textAtOrElse(int index, String otherText) {
         return otherText;
     }
 

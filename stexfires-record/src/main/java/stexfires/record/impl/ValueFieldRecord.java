@@ -12,7 +12,8 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record ValueFieldRecord(@Nullable String category, @Nullable Long recordId,
+public record ValueFieldRecord(@Nullable String category,
+                               @Nullable Long recordId,
                                TextField valueField)
         implements ValueRecord, Serializable {
 
@@ -25,7 +26,8 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     }
 
     public ValueFieldRecord(@Nullable String category, @Nullable Long recordId, @Nullable String value) {
-        this(category, recordId,
+        this(category,
+                recordId,
                 new TextField(VALUE_INDEX, MAX_INDEX, value));
     }
 
@@ -106,18 +108,23 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
+    public TextField firstFieldOrElseThrow() {
+        return valueField;
+    }
+
+    @Override
     public TextField lastField() {
+        return valueField;
+    }
+
+    @Override
+    public TextField lastFieldOrElseThrow() {
         return valueField;
     }
 
     @Override
     public TextField valueField() {
         return valueField;
-    }
-
-    @Override
-    public int valueIndex() {
-        return VALUE_INDEX;
     }
 
     @Override
@@ -133,6 +140,11 @@ public record ValueFieldRecord(@Nullable String category, @Nullable Long recordI
     @Override
     public @Nullable String value() {
         return valueField.text();
+    }
+
+    @Override
+    public int valueIndex() {
+        return VALUE_INDEX;
     }
 
 }

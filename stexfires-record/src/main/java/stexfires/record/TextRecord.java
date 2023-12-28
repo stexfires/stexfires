@@ -1,11 +1,11 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.LongStream;
@@ -26,21 +26,21 @@ import java.util.stream.Stream;
  */
 public interface TextRecord {
 
-    @NotNull TextField[] arrayOfFields();
+    TextField[] arrayOfFields();
 
-    default @NotNull List<TextField> listOfFields() {
+    default List<TextField> listOfFields() {
         return switch (size()) {
             case 0 -> Collections.emptyList();
-            case 1 -> Collections.singletonList(firstField());
+            case 1 -> Collections.singletonList(fieldAtOrElseThrow(TextField.FIRST_FIELD_INDEX));
             default -> Arrays.asList(arrayOfFields());
         };
     }
 
-    default @NotNull List<TextField> listOfFieldsReversed() {
+    default List<TextField> listOfFieldsReversed() {
         if (size() == 0) {
             return Collections.emptyList();
         } else if (size() == 1) {
-            return Collections.singletonList(firstField());
+            return Collections.singletonList(fieldAtOrElseThrow(TextField.FIRST_FIELD_INDEX));
         } else {
             var fieldList = Arrays.asList(arrayOfFields());
             Collections.reverse(fieldList);
@@ -48,19 +48,19 @@ public interface TextRecord {
         }
     }
 
-    default @NotNull Stream<TextField> streamOfFields() {
+    default Stream<TextField> streamOfFields() {
         return switch (size()) {
             case 0 -> Stream.empty();
-            case 1 -> Stream.of(firstField());
+            case 1 -> Stream.of(fieldAtOrElseThrow(TextField.FIRST_FIELD_INDEX));
             default -> Arrays.stream(arrayOfFields());
         };
     }
 
-    default @NotNull Stream<String> streamOfTexts() {
+    default Stream<@Nullable String> streamOfTexts() {
         return streamOfFields().map(TextField::text);
     }
 
-    default @NotNull Stream<Optional<String>> streamOfTextsAsOptional() {
+    default Stream<Optional<String>> streamOfTextsAsOptional() {
         return streamOfFields().map(TextField::asOptional);
     }
 
@@ -70,11 +70,19 @@ public interface TextRecord {
         return category() != null;
     }
 
-    default @NotNull Optional<String> categoryAsOptional() {
+    default String categoryOrElseThrow() throws NullPointerException {
+        String category = category();
+        if (category == null) {
+            throw new NullPointerException("No category! " + this);
+        }
+        return category;
+    }
+
+    default Optional<String> categoryAsOptional() {
         return Optional.ofNullable(category());
     }
 
-    default @NotNull Stream<String> categoryAsStream() {
+    default Stream<String> categoryAsStream() {
         return Stream.ofNullable(category());
     }
 
@@ -84,27 +92,35 @@ public interface TextRecord {
         return recordId() != null;
     }
 
-    default @NotNull Optional<Long> recordIdAsOptional() {
+    default Long recordIdOrElseThrow() throws NullPointerException {
+        Long recordId = recordId();
+        if (recordId == null) {
+            throw new NullPointerException("No recordId! " + this);
+        }
+        return recordId;
+    }
+
+    default Optional<Long> recordIdAsOptional() {
         return Optional.ofNullable(recordId());
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    default @NotNull OptionalLong recordIdAsOptionalLong() {
-        return hasRecordId() ? OptionalLong.of(recordId()) : OptionalLong.empty();
+    default OptionalLong recordIdAsOptionalLong() {
+        Long recordId = recordId();
+        return recordId != null ? OptionalLong.of(recordId) : OptionalLong.empty();
     }
 
-    default @NotNull Stream<Long> recordIdAsStream() {
+    default Stream<Long> recordIdAsStream() {
         return Stream.ofNullable(recordId());
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    default @NotNull LongStream recordIdAsLongStream() {
-        return hasRecordId() ? LongStream.of(recordId()) : LongStream.empty();
+    default LongStream recordIdAsLongStream() {
+        Long recordId = recordId();
+        return recordId != null ? LongStream.of(recordId) : LongStream.empty();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     default @Nullable String recordIdAsString() {
-        return hasRecordId() ? recordId().toString() : null;
+        Long recordId = recordId();
+        return recordId != null ? recordId.toString() : null;
     }
 
     /**
@@ -127,34 +143,67 @@ public interface TextRecord {
         return (index >= 0) && (index < size());
     }
 
+    /**
+     * Returns the field at the specified index.
+     * If the index is out of range, {@code null} is returned.
+     *
+     * @param index index of the field to return
+     * @return the field at the specified index. If the index is out of range, {@code null} is returned
+     */
     @Nullable TextField fieldAt(int index);
+
+    default TextField fieldAtOrElseThrow(int index) throws NullPointerException {
+        TextField field = fieldAt(index);
+        if (field == null) {
+            throw new NullPointerException("No field at index " + index + "! " + this);
+        }
+        return field;
+    }
+
+    default Optional<TextField> fieldAtAsOptional(int index) {
+        return Optional.ofNullable(fieldAt(index));
+    }
 
     default @Nullable TextField firstField() {
         return fieldAt(TextField.FIRST_FIELD_INDEX);
+    }
+
+    default TextField firstFieldOrElseThrow() throws NullPointerException {
+        return fieldAtOrElseThrow(TextField.FIRST_FIELD_INDEX);
     }
 
     default @Nullable TextField lastField() {
         return fieldAt(size() - 1);
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    default @Nullable String textAt(int index) {
-        return isValidIndex(index) ? fieldAt(index).text() : null;
+    default TextField lastFieldOrElseThrow() throws NullPointerException {
+        return fieldAtOrElseThrow(size() - 1);
     }
 
-    default @Nullable String textAtOrElse(int index, @Nullable String otherText) {
+    default @Nullable String textAt(int index) {
+        TextField field = fieldAt(index);
+        if (field == null) {
+            return null;
+        }
+        return field.text();
+    }
+
+    default String textAtOrElse(int index, String otherText) {
+        Objects.requireNonNull(otherText);
         String textAt = textAt(index);
         return textAt != null ? textAt : otherText;
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    default @Nullable String firstText() {
-        return isNotEmpty() ? firstField().text() : null;
+    default Optional<String> textAtAsOptional(int index) {
+        return Optional.ofNullable(textAt(index));
     }
 
-    @SuppressWarnings("DataFlowIssue")
+    default @Nullable String firstText() {
+        return textAt(TextField.FIRST_FIELD_INDEX);
+    }
+
     default @Nullable String lastText() {
-        return isNotEmpty() ? lastField().text() : null;
+        return textAt(size() - 1);
     }
 
 }

@@ -12,8 +12,10 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                              TextField firstField, TextField secondField)
+public record TwoFieldsRecord(@Nullable String category,
+                              @Nullable Long recordId,
+                              TextField firstField,
+                              TextField secondField)
         implements TextRecord, Serializable {
 
     public static final int FIRST_INDEX = TextField.FIRST_FIELD_INDEX;
@@ -21,13 +23,17 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
     public static final int MAX_INDEX = SECOND_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public TwoFieldsRecord(@Nullable String firstText, @Nullable String secondText) {
+    public TwoFieldsRecord(@Nullable String firstText,
+                           @Nullable String secondText) {
         this(null, null, firstText, secondText);
     }
 
-    public TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                           @Nullable String firstText, @Nullable String secondText) {
-        this(category, recordId,
+    public TwoFieldsRecord(@Nullable String category,
+                           @Nullable Long recordId,
+                           @Nullable String firstText,
+                           @Nullable String secondText) {
+        this(category,
+                recordId,
                 new TextField(FIRST_INDEX, MAX_INDEX, firstText),
                 new TextField(SECOND_INDEX, MAX_INDEX, secondText));
     }
@@ -121,7 +127,17 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
     }
 
     @Override
+    public TextField firstFieldOrElseThrow() {
+        return firstField;
+    }
+
+    @Override
     public TextField lastField() {
+        return secondField;
+    }
+
+    @Override
+    public TextField lastFieldOrElseThrow() {
         return secondField;
     }
 

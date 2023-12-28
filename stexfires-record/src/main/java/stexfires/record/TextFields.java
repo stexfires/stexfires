@@ -1,5 +1,6 @@
 package stexfires.record;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.mapper.field.IdentityFieldTextMapper;
 
@@ -34,7 +35,7 @@ public final class TextFields {
         return EMPTY_FIELD_ARRAY;
     }
 
-    public static TextField[] newArray(Collection<String> texts) {
+    public static TextField[] newArray(Collection<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.size()];
         int index = TextField.FIRST_FIELD_INDEX;
@@ -47,7 +48,7 @@ public final class TextFields {
 
     public static TextField[] newArray(Stream<String> texts) {
         Objects.requireNonNull(texts);
-        return newArray(texts.collect(Collectors.toList()));
+        return newArray(texts.toList());
     }
 
     @SuppressWarnings({"Convert2streamapi"})
@@ -104,12 +105,12 @@ public final class TextFields {
     public static List<String> collectTexts(Stream<TextField> fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
-        return fields.map(fieldTextMapper::mapToText).collect(Collectors.toList());
+        return fields.map(fieldTextMapper::mapToText).toList();
     }
 
     public static List<TextField> collectFields(Stream<TextField> fields) {
         Objects.requireNonNull(fields);
-        return fields.collect(Collectors.toList());
+        return fields.toList();
     }
 
     public static String joinTexts(TextRecord record) {

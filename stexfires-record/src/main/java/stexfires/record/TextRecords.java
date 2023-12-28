@@ -1,16 +1,10 @@
 package stexfires.record;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.consumer.RecordConsumer;
-import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.record.filter.RecordFilter;
 import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
-import stexfires.record.logger.RecordLogger;
-import stexfires.record.mapper.RecordMapper;
-import stexfires.record.message.RecordMessage;
 import stexfires.util.function.Suppliers;
 
 import java.util.ArrayList;
@@ -23,7 +17,6 @@ import java.util.SequencedCollection;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -51,7 +44,7 @@ public final class TextRecords {
         return new ValueFieldRecord(text);
     }
 
-    public static TextRecord ofTexts(Collection<String> texts) {
+    public static TextRecord ofTexts(Collection<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
@@ -66,7 +59,7 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<String> texts) {
+    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<@Nullable String> texts) {
         if (category == null && recordId == null) {
             if (texts == null || texts.isEmpty()) {
                 return empty();
@@ -99,7 +92,7 @@ public final class TextRecords {
     @SafeVarargs
     public static <T extends TextRecord> List<T> list(T... records) {
         Objects.requireNonNull(records);
-        return Arrays.stream(records).collect(Collectors.toList());
+        return Arrays.stream(records).toList();
     }
 
     public static <T extends TextRecord> Stream<T> stream(T record) {
@@ -130,53 +123,16 @@ public final class TextRecords {
         return Suppliers.sequenceAsPrimitiveLong(initialValue);
     }
 
-    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(T record,
-                                                                                RecordConsumer<P> recordConsumer)
-            throws UncheckedConsumerException {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordConsumer);
-        recordConsumer.consume(record);
-        return recordConsumer;
-    }
-
-    public static <P extends TextRecord, T extends P> boolean isValid(T record,
-                                                                      RecordFilter<P> recordFilter) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordFilter);
-        return recordFilter.isValid(record);
-    }
-
-    public static <P extends TextRecord, T extends P> RecordLogger<P> log(T record,
-                                                                          RecordLogger<P> recordLogger) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordLogger);
-        recordLogger.log(record);
-        return recordLogger;
-    }
-
-    public static <R extends TextRecord, T extends TextRecord> R map(T record,
-                                                                     RecordMapper<T, R> recordMapper) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordMapper);
-        return recordMapper.map(record);
-    }
-
-    public static <P extends TextRecord, T extends P> String createMessage(T record,
-                                                                           RecordMessage<P> recordMessage) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordMessage);
-        return recordMessage.createMessage(record);
-    }
-
     public static Builder builder() {
         return new Builder();
     }
 
     @SuppressWarnings("ParameterHidesMemberVariable")
     public static final class Builder implements Consumer<String> {
-        private String category;
-        private Long recordId;
-        private List<String> textList;
+
+        private @Nullable String category;
+        private @Nullable Long recordId;
+        private @Nullable List<@Nullable String> textList;
 
         private Builder() {
             textList = new ArrayList<>();
@@ -214,7 +170,7 @@ public final class TextRecords {
             return this;
         }
 
-        public synchronized Builder addAll(Collection<String> texts) {
+        public synchronized Builder addAll(Collection<@Nullable String> texts) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -227,13 +183,7 @@ public final class TextRecords {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            TextRecord record =
-                    switch (textList.size()) {
-                        case ValueFieldRecord.FIELD_SIZE -> new ValueFieldRecord(category, recordId, textList.get(0));
-                        case TwoFieldsRecord.FIELD_SIZE ->
-                                new TwoFieldsRecord(category, recordId, textList.get(0), textList.get(1));
-                        default -> new ManyFieldsRecord(category, recordId, textList);
-                    };
+            TextRecord record = ofNullable(category, recordId, textList);
             category = null;
             recordId = null;
             textList = null;
