@@ -58,10 +58,9 @@ public interface RecordFilter<T extends TextRecord> {
         return recordFilters.reduce(r -> false, RecordFilter::or);
     }
 
-    @SuppressWarnings("unchecked")
     static <T extends TextRecord> RecordFilter<T> not(RecordFilter<? super T> recordFilter) {
         Objects.requireNonNull(recordFilter);
-        return (RecordFilter<T>) recordFilter.negate();
+        return record -> !recordFilter.isValid(record);
     }
 
     static <T extends TextRecord> RecordFilter<T> isEmpty() {

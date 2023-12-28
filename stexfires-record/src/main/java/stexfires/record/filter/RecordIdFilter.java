@@ -44,10 +44,10 @@ public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
         return new RecordIdFilter<>(PrimitiveLongPredicates.between(from, to));
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public final boolean isValid(T record) {
-        return record.hasRecordId() && recordIdPredicate.test(record.recordId());
+        Long recordId = record.recordId();
+        return recordId != null && recordIdPredicate.test(recordId);
     }
 
 }

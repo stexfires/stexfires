@@ -1,5 +1,6 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.util.function.StringPredicates;
 
@@ -13,9 +14,9 @@ import java.util.function.Predicate;
  */
 public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
 
-    private final Predicate<String> categoryPredicate;
+    private final Predicate<@Nullable String> categoryPredicate;
 
-    public CategoryFilter(Predicate<String> categoryPredicate) {
+    public CategoryFilter(Predicate<@Nullable String> categoryPredicate) {
         Objects.requireNonNull(categoryPredicate);
         this.categoryPredicate = categoryPredicate;
     }

@@ -1,5 +1,6 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.util.function.StringPredicates;
@@ -17,29 +18,29 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public static final boolean DEFAULT_NULL_FIELD_VALIDITY = false;
 
-    private final Function<? super T, TextField> fieldFunction;
+    private final Function<? super T, @Nullable TextField> fieldFunction;
     private final boolean nullFieldValidity;
-    private final Predicate<String> textPredicate;
+    private final Predicate<@Nullable String> textPredicate;
 
     public TextFilter(int index,
-                      Predicate<String> textPredicate) {
+                      Predicate<@Nullable String> textPredicate) {
         this(record -> record.fieldAt(index), DEFAULT_NULL_FIELD_VALIDITY, textPredicate);
     }
 
     public TextFilter(int index,
                       boolean nullFieldValidity,
-                      Predicate<String> textPredicate) {
+                      Predicate<@Nullable String> textPredicate) {
         this(record -> record.fieldAt(index), nullFieldValidity, textPredicate);
     }
 
     public TextFilter(Function<? super T, TextField> fieldFunction,
-                      Predicate<String> textPredicate) {
+                      Predicate<@Nullable String> textPredicate) {
         this(fieldFunction, DEFAULT_NULL_FIELD_VALIDITY, textPredicate);
     }
 
-    public TextFilter(Function<? super T, TextField> fieldFunction,
+    public TextFilter(Function<? super T, @Nullable TextField> fieldFunction,
                       boolean nullFieldValidity,
-                      Predicate<String> textPredicate) {
+                      Predicate<@Nullable String> textPredicate) {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(textPredicate);
         this.fieldFunction = fieldFunction;
@@ -52,7 +53,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return new TextFilter<>(index, StringPredicates.equals(compareText));
     }
 
-    public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, TextField> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, @Nullable TextField> fieldFunction,
                                                                String compareText) {
         return new TextFilter<>(fieldFunction, StringPredicates.equals(compareText));
     }
@@ -61,7 +62,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return new TextFilter<>(index, StringPredicates.isNotNull());
     }
 
-    public static <T extends TextRecord> TextFilter<T> isNotNull(Function<? super T, TextField> fieldFunction) {
+    public static <T extends TextRecord> TextFilter<T> isNotNull(Function<? super T, @Nullable TextField> fieldFunction) {
         return new TextFilter<>(fieldFunction, StringPredicates.isNotNull());
     }
 
@@ -70,7 +71,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return new TextFilter<>(index, texts::contains);
     }
 
-    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, TextField> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, @Nullable TextField> fieldFunction,
                                                                    Collection<String> texts) {
         return new TextFilter<>(fieldFunction, texts::contains);
     }
@@ -80,7 +81,7 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
         return containedIn(index, Arrays.asList(texts));
     }
 
-    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, TextField> fieldFunction,
+    public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, @Nullable TextField> fieldFunction,
                                                                    String... texts) {
         return containedIn(fieldFunction, Arrays.asList(texts));
     }
