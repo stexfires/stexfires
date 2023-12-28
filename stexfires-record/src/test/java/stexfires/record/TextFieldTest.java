@@ -7,6 +7,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -97,6 +98,7 @@ class TextFieldTest {
     /**
      * Test method for {@link TextField#orElse(String)}.
      */
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void orElse() {
         assertEquals(TEXT_VALUE, textFieldValue.orElse("else"));
@@ -105,6 +107,21 @@ class TextFieldTest {
         assertEquals(TEXT_BLANK, textFieldBlank.orElse("else"));
         assertEquals(TEXT_VALUE, textFieldValueMiddle.orElse("else"));
         assertEquals(TEXT_VALUE, textFieldValueLast.orElse("else"));
+
+        assertThrows(NullPointerException.class, () -> textFieldNull.orElse(null));
+    }
+
+    /**
+     * Test method for {@link TextField#orElseThrow()}.
+     */
+    @Test
+    void orElseThrow() {
+        assertEquals(TEXT_VALUE, textFieldValue.orElseThrow());
+        assertThrows(NullPointerException.class, textFieldNull::orElseThrow);
+        assertEquals(TEXT_EMPTY, textFieldEmpty.orElseThrow());
+        assertEquals(TEXT_BLANK, textFieldBlank.orElseThrow());
+        assertEquals(TEXT_VALUE, textFieldValueMiddle.orElseThrow());
+        assertEquals(TEXT_VALUE, textFieldValueLast.orElseThrow());
     }
 
     /**
