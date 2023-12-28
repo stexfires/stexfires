@@ -1,7 +1,6 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -42,7 +41,7 @@ public final class TextRecordStreams {
         return Stream.empty();
     }
 
-    public static <T extends TextRecord> Stream<T> of(@NotNull T record) {
+    public static <T extends TextRecord> Stream<T> of(T record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
     }
@@ -58,13 +57,13 @@ public final class TextRecordStreams {
         return Stream.ofNullable(record);
     }
 
-    public static <T extends TextRecord> Stream<T> produce(@NotNull RecordProducer<T> recordProducer)
+    public static <T extends TextRecord> Stream<T> produce(RecordProducer<T> recordProducer)
             throws UncheckedProducerException {
         Objects.requireNonNull(recordProducer);
         return recordProducer.produceStream();
     }
 
-    public static <T extends TextRecord> Stream<T> produceAndRestrict(@NotNull RecordProducer<T> recordProducer,
+    public static <T extends TextRecord> Stream<T> produceAndRestrict(RecordProducer<T> recordProducer,
                                                                       long skipFirst,
                                                                       long limitMaxSize)
             throws UncheckedProducerException {
@@ -72,13 +71,13 @@ public final class TextRecordStreams {
         return recordProducer.produceStream().skip(skipFirst).limit(limitMaxSize);
     }
 
-    public static <T extends TextRecord> Stream<T> generate(@NotNull Supplier<T> recordSupplier) {
+    public static <T extends TextRecord> Stream<T> generate(Supplier<T> recordSupplier) {
         Objects.requireNonNull(recordSupplier);
         return Stream.generate(recordSupplier);
     }
 
-    public static <R extends TextRecord> Stream<R> concat(@NotNull Stream<? extends R> firstRecordStream,
-                                                          @NotNull Stream<? extends R> secondRecordStream) {
+    public static <R extends TextRecord> Stream<R> concat(Stream<? extends R> firstRecordStream,
+                                                          Stream<? extends R> secondRecordStream) {
         Objects.requireNonNull(firstRecordStream);
         Objects.requireNonNull(secondRecordStream);
         return Stream.concat(firstRecordStream, secondRecordStream);
@@ -91,8 +90,8 @@ public final class TextRecordStreams {
         return Stream.of(recordStreams).flatMap(Function.identity());
     }
 
-    public static <R extends TextRecord, T extends R> RecordConsumer<R> consume(@NotNull Stream<T> recordStream,
-                                                                                @NotNull RecordConsumer<R> recordConsumer)
+    public static <R extends TextRecord, T extends R> RecordConsumer<R> consume(Stream<T> recordStream,
+                                                                                RecordConsumer<R> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordConsumer);
@@ -100,9 +99,9 @@ public final class TextRecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends TextRecord, T extends R> RecordConsumer<R> sortAndConsume(@NotNull Stream<T> recordStream,
-                                                                                       @NotNull Comparator<? super T> recordComparator,
-                                                                                       @NotNull RecordConsumer<R> recordConsumer)
+    public static <R extends TextRecord, T extends R> RecordConsumer<R> sortAndConsume(Stream<T> recordStream,
+                                                                                       Comparator<? super T> recordComparator,
+                                                                                       RecordConsumer<R> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordComparator);
@@ -111,9 +110,9 @@ public final class TextRecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> modifyAndConsume(@NotNull Stream<T> recordStream,
-                                                                                                  @NotNull RecordStreamModifier<T, ? extends R> recordStreamModifier,
-                                                                                                  @NotNull RecordConsumer<R> recordConsumer)
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> modifyAndConsume(Stream<T> recordStream,
+                                                                                                  RecordStreamModifier<T, ? extends R> recordStreamModifier,
+                                                                                                  RecordConsumer<R> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordStreamModifier);
@@ -122,9 +121,9 @@ public final class TextRecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends TextRecord, T extends R> RecordConsumer<R> logAndConsume(@NotNull Stream<T> recordStream,
-                                                                                      @NotNull RecordLogger<? super T> recordLogger,
-                                                                                      @NotNull RecordConsumer<R> recordConsumer)
+    public static <R extends TextRecord, T extends R> RecordConsumer<R> logAndConsume(Stream<T> recordStream,
+                                                                                      RecordLogger<? super T> recordLogger,
+                                                                                      RecordConsumer<R> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordLogger);
@@ -133,9 +132,9 @@ public final class TextRecordStreams {
         return recordConsumer;
     }
 
-    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> mapAndConsume(@NotNull Stream<T> recordStream,
-                                                                                               @NotNull RecordMapper<? super T, ? extends R> recordMapper,
-                                                                                               @NotNull RecordConsumer<R> recordConsumer)
+    public static <R extends TextRecord, T extends TextRecord> RecordConsumer<R> mapAndConsume(Stream<T> recordStream,
+                                                                                               RecordMapper<? super T, ? extends R> recordMapper,
+                                                                                               RecordConsumer<R> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMapper);
@@ -144,21 +143,21 @@ public final class TextRecordStreams {
         return recordConsumer;
     }
 
-    public static <T extends TextRecord> List<T> collect(@NotNull Stream<T> recordStream) {
+    public static <T extends TextRecord> List<T> collect(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
         return recordStream.collect(Collectors.toList());
     }
 
-    public static <T extends TextRecord> List<String> collectMessages(@NotNull Stream<T> recordStream,
-                                                                      @NotNull RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> List<String> collectMessages(Stream<T> recordStream,
+                                                                      RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage).toList();
     }
 
-    public static <T extends TextRecord> Map<String, List<String>> groupAndCollectMessages(@NotNull Stream<T> recordStream,
-                                                                                           @NotNull RecordMessage<? super T> keyMessage,
-                                                                                           @NotNull RecordMessage<? super T> valueMessage) {
+    public static <T extends TextRecord> Map<String, List<String>> groupAndCollectMessages(Stream<T> recordStream,
+                                                                                           RecordMessage<? super T> keyMessage,
+                                                                                           RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(keyMessage);
         Objects.requireNonNull(valueMessage);
@@ -166,57 +165,57 @@ public final class TextRecordStreams {
                 Collectors.mapping(valueMessage::createMessage, Collectors.toList())));
     }
 
-    public static <T extends TextRecord> String joinMessages(@NotNull Stream<T> recordStream,
-                                                             @NotNull RecordMessage<? super T> recordMessage,
-                                                             @NotNull String delimiter) {
+    public static <T extends TextRecord> String joinMessages(Stream<T> recordStream,
+                                                             RecordMessage<? super T> recordMessage,
+                                                             String delimiter) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(delimiter);
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
-    public static <T extends TextRecord> Stream<String> mapToMessage(@NotNull Stream<T> recordStream,
-                                                                     @NotNull RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Stream<String> mapToMessage(Stream<T> recordStream,
+                                                                     RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage);
     }
 
-    public static <T extends TextRecord> void printLines(@NotNull Stream<T> recordStream) {
+    public static <T extends TextRecord> void printLines(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
         consume(recordStream, new SystemOutConsumer<>());
     }
 
-    public static <T extends TextRecord> Stream<T> log(@NotNull Stream<T> recordStream,
-                                                       @NotNull RecordLogger<? super T> recordLogger) {
+    public static <T extends TextRecord> Stream<T> log(Stream<T> recordStream,
+                                                       RecordLogger<? super T> recordLogger) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordLogger);
         return recordStream.peek(recordLogger::log);
     }
 
-    public static <T extends TextRecord> Stream<T> filter(@NotNull Stream<T> recordStream,
-                                                          @NotNull RecordFilter<? super T> recordFilter) {
+    public static <T extends TextRecord> Stream<T> filter(Stream<T> recordStream,
+                                                          RecordFilter<? super T> recordFilter) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordFilter);
         return recordStream.filter(recordFilter::isValid);
     }
 
-    public static <R extends TextRecord, T extends TextRecord> Stream<R> map(@NotNull Stream<T> recordStream,
-                                                                             @NotNull RecordMapper<? super T, ? extends R> recordMapper) {
+    public static <R extends TextRecord, T extends TextRecord> Stream<R> map(Stream<T> recordStream,
+                                                                             RecordMapper<? super T, ? extends R> recordMapper) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMapper);
         return recordStream.map(recordMapper::map);
     }
 
-    public static <T extends TextRecord> Stream<T> sort(@NotNull Stream<T> recordStream,
-                                                        @NotNull Comparator<? super T> recordComparator) {
+    public static <T extends TextRecord> Stream<T> sort(Stream<T> recordStream,
+                                                        Comparator<? super T> recordComparator) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordComparator);
         return recordStream.sorted(recordComparator);
     }
 
-    public static <T extends TextRecord, R extends TextRecord> Stream<R> modify(@NotNull Stream<T> recordStream,
-                                                                                @NotNull RecordStreamModifier<T, R> recordStreamModifier) {
+    public static <T extends TextRecord, R extends TextRecord> Stream<R> modify(Stream<T> recordStream,
+                                                                                RecordStreamModifier<T, R> recordStreamModifier) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordStreamModifier);
         return recordStreamModifier.modify(recordStream);

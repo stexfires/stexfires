@@ -1,7 +1,6 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
@@ -52,12 +51,12 @@ public final class TextRecords {
         return new ValueFieldRecord(text);
     }
 
-    public static TextRecord ofTexts(@NotNull Collection<String> texts) {
+    public static TextRecord ofTexts(Collection<String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(@NotNull Stream<String> texts) {
+    public static TextRecord ofTexts(Stream<String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
@@ -67,7 +66,7 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    public static @NotNull TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<String> texts) {
+    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<String> texts) {
         if (category == null && recordId == null) {
             if (texts == null || texts.isEmpty()) {
                 return empty();
@@ -91,7 +90,7 @@ public final class TextRecords {
         }
     }
 
-    public static <T extends TextRecord> List<T> list(@NotNull T record) {
+    public static <T extends TextRecord> List<T> list(T record) {
         Objects.requireNonNull(record);
         return Collections.singletonList(record);
     }
@@ -103,7 +102,7 @@ public final class TextRecords {
         return Arrays.stream(records).collect(Collectors.toList());
     }
 
-    public static <T extends TextRecord> Stream<T> stream(@NotNull T record) {
+    public static <T extends TextRecord> Stream<T> stream(T record) {
         Objects.requireNonNull(record);
         return Stream.of(record);
     }
@@ -131,8 +130,8 @@ public final class TextRecords {
         return Suppliers.sequenceAsPrimitiveLong(initialValue);
     }
 
-    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(@NotNull T record,
-                                                                                @NotNull RecordConsumer<P> recordConsumer)
+    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(T record,
+                                                                                RecordConsumer<P> recordConsumer)
             throws UncheckedConsumerException {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordConsumer);
@@ -140,30 +139,30 @@ public final class TextRecords {
         return recordConsumer;
     }
 
-    public static <P extends TextRecord, T extends P> boolean isValid(@NotNull T record,
-                                                                      @NotNull RecordFilter<P> recordFilter) {
+    public static <P extends TextRecord, T extends P> boolean isValid(T record,
+                                                                      RecordFilter<P> recordFilter) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordFilter);
         return recordFilter.isValid(record);
     }
 
-    public static <P extends TextRecord, T extends P> RecordLogger<P> log(@NotNull T record,
-                                                                          @NotNull RecordLogger<P> recordLogger) {
+    public static <P extends TextRecord, T extends P> RecordLogger<P> log(T record,
+                                                                          RecordLogger<P> recordLogger) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordLogger);
         recordLogger.log(record);
         return recordLogger;
     }
 
-    public static <R extends TextRecord, T extends TextRecord> R map(@NotNull T record,
-                                                                     @NotNull RecordMapper<T, R> recordMapper) {
+    public static <R extends TextRecord, T extends TextRecord> R map(T record,
+                                                                     RecordMapper<T, R> recordMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMapper);
         return recordMapper.map(record);
     }
 
-    public static <P extends TextRecord, T extends P> String createMessage(@NotNull T record,
-                                                                           @NotNull RecordMessage<P> recordMessage) {
+    public static <P extends TextRecord, T extends P> String createMessage(T record,
+                                                                           RecordMessage<P> recordMessage) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(recordMessage);
         return recordMessage.createMessage(record);
@@ -215,7 +214,7 @@ public final class TextRecords {
             return this;
         }
 
-        public synchronized Builder addAll(@NotNull Collection<String> texts) {
+        public synchronized Builder addAll(Collection<String> texts) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
