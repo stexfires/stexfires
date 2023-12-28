@@ -1,6 +1,5 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -50,7 +49,7 @@ public interface RecordMapper<T extends TextRecord, R extends TextRecord> {
         return record -> thirdRecordMapper.map(secondRecordMapper.map(firstRecordMapper.map(record)));
     }
 
-    @NotNull R map(@NotNull T record);
+    R map(T record);
 
     default Function<T, R> asFunction() {
         return this::map;

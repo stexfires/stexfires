@@ -1,5 +1,6 @@
+@org.jspecify.annotations.NullMarked
 module stexfires.record {
-    requires org.jetbrains.annotations;
+    requires org.jspecify;
     requires transitive stexfires.util;
     exports stexfires.record;
     exports stexfires.record.comparator;

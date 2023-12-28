@@ -1,6 +1,5 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -28,7 +27,7 @@ public interface FieldTextMapper {
         return function::apply;
     }
 
-    String mapToText(@NotNull TextField field);
+    String mapToText(TextField field);
 
     default Function<TextField, String> asFunction() {
         return this::mapToText;

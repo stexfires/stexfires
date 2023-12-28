@@ -1,7 +1,6 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -34,11 +33,11 @@ public interface RecordIdGenerator<T extends TextRecord> {
         return (context) -> null;
     }
 
-    static <T extends TextRecord> RecordIdGenerator<T> longSupplier(@NotNull Supplier<Long> recordIdSupplier) {
+    static <T extends TextRecord> RecordIdGenerator<T> longSupplier(Supplier<Long> recordIdSupplier) {
         return (context) -> recordIdSupplier.get();
     }
 
-    static <T extends TextRecord> RecordIdGenerator<T> primitiveLongSupplier(@NotNull LongSupplier recordIdSupplier) {
+    static <T extends TextRecord> RecordIdGenerator<T> primitiveLongSupplier(LongSupplier recordIdSupplier) {
         return (context) -> recordIdSupplier.getAsLong();
     }
 
@@ -46,14 +45,13 @@ public interface RecordIdGenerator<T extends TextRecord> {
         return GeneratorContext::recordIndex;
     }
 
-    static <T extends TextRecord> RecordIdGenerator<T> recordIndexAdjusted(@NotNull LongUnaryOperator recordIndexOperator) {
+    static <T extends TextRecord> RecordIdGenerator<T> recordIndexAdjusted(LongUnaryOperator recordIndexOperator) {
         Objects.requireNonNull(recordIndexOperator);
         return (context) -> recordIndexOperator.applyAsLong(context.recordIndex());
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    static <T extends TextRecord> RecordIdGenerator<T> previousAdjusted(@NotNull LongSupplier firstRecordIdSupplier,
-                                                                        @NotNull LongUnaryOperator previousRecordIdOperator) {
+    static <T extends TextRecord> RecordIdGenerator<T> previousAdjusted(LongSupplier firstRecordIdSupplier,
+                                                                        LongUnaryOperator previousRecordIdOperator) {
         Objects.requireNonNull(firstRecordIdSupplier);
         Objects.requireNonNull(previousRecordIdOperator);
         return (context) -> {
@@ -64,6 +62,6 @@ public interface RecordIdGenerator<T extends TextRecord> {
         };
     }
 
-    @Nullable Long generateRecordId(@NotNull GeneratorContext<T> context);
+    @Nullable Long generateRecordId(GeneratorContext<T> context);
 
 }

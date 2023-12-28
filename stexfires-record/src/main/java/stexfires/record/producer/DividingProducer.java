@@ -1,7 +1,6 @@
 package stexfires.record.producer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.impl.ManyFieldsRecord;
@@ -23,7 +22,7 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
         this(null, TextRecords.recordIdSequence(), recordSize, texts);
     }
 
-    public DividingProducer(@Nullable String category, @NotNull Supplier<Long> recordIdSupplier,
+    public DividingProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
                             int recordSize, String... texts) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
@@ -49,7 +48,7 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
     }
 
     @Override
-    public @NotNull Stream<TextRecord> produceStream() {
+    public Stream<TextRecord> produceStream() {
         return records.stream();
     }
 

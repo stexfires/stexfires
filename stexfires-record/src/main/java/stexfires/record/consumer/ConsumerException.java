@@ -1,6 +1,6 @@
 package stexfires.record.consumer;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.io.Serial;

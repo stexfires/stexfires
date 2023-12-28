@@ -1,6 +1,5 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 /**
@@ -12,7 +11,7 @@ public class ShortMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     @Override
-    public final @NotNull String createMessage(T record) {
+    public final String createMessage(T record) {
         return record.getClass().getSimpleName()
                 + "[" + record.size()
                 + (record.hasCategory() ? ", '" + record.category() + "'" : "")

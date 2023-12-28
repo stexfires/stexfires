@@ -1,7 +1,6 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.producer.RecordProducer;
 import stexfires.record.producer.UncheckedProducerException;
@@ -32,7 +31,7 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
     private final long size;
     private final BiPredicate<GeneratorContext<T>, T> lastPredicate;
 
-    private GeneratorProducer(@NotNull RecordGenerator<T> generator,
+    private GeneratorProducer(RecordGenerator<T> generator,
                               boolean knownSize,
                               long size,
                               @Nullable BiPredicate<GeneratorContext<T>, T> lastPredicate) {
@@ -46,14 +45,14 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
         this.lastPredicate = lastPredicate;
     }
 
-    public static <T extends TextRecord> GeneratorProducer<T> knownSize(@NotNull RecordGenerator<T> generator,
+    public static <T extends TextRecord> GeneratorProducer<T> knownSize(RecordGenerator<T> generator,
                                                                         long size) {
         Objects.requireNonNull(generator);
         return new GeneratorProducer<>(generator, true, size, null);
     }
 
-    public static <T extends TextRecord> GeneratorProducer<T> knownSizeConcatenated(@NotNull RecordGenerator<T> firstGenerator,
-                                                                                    @NotNull RecordGenerator<T> secondGenerator,
+    public static <T extends TextRecord> GeneratorProducer<T> knownSizeConcatenated(RecordGenerator<T> firstGenerator,
+                                                                                    RecordGenerator<T> secondGenerator,
                                                                                     long firstSize,
                                                                                     long secondSize) {
         Objects.requireNonNull(firstGenerator);
@@ -74,20 +73,20 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
         return new GeneratorProducer<>(generator, true, firstSize + secondSize, null);
     }
 
-    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(@NotNull RecordGenerator<T> generator) {
+    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(RecordGenerator<T> generator) {
         Objects.requireNonNull(generator);
         return new GeneratorProducer<>(generator, false, Long.MAX_VALUE, null);
     }
 
-    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(@NotNull RecordGenerator<T> generator,
-                                                                          @NotNull BiPredicate<GeneratorContext<T>, T> lastPredicate) {
+    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(RecordGenerator<T> generator,
+                                                                          BiPredicate<GeneratorContext<T>, T> lastPredicate) {
         Objects.requireNonNull(generator);
         Objects.requireNonNull(lastPredicate);
         return new GeneratorProducer<>(generator, false, Long.MAX_VALUE, lastPredicate);
     }
 
-    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(@NotNull RecordGenerator<T> generator,
-                                                                          @NotNull Predicate<T> lastPredicate) {
+    public static <T extends TextRecord> GeneratorProducer<T> unknownSize(RecordGenerator<T> generator,
+                                                                          Predicate<T> lastPredicate) {
         Objects.requireNonNull(generator);
         Objects.requireNonNull(lastPredicate);
         return new GeneratorProducer<>(generator, false, Long.MAX_VALUE,
@@ -95,7 +94,7 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
     }
 
     @Override
-    public @NotNull Stream<T> produceStream() throws UncheckedProducerException {
+    public Stream<T> produceStream() throws UncheckedProducerException {
         GeneratorIterator<T> iterator = new GeneratorIterator<>(generator, size, lastPredicate);
         Spliterator<T> spliterator;
         if (knownSize) {
@@ -124,7 +123,7 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
         private T firstRecord;
         private T previousRecord;
 
-        private GeneratorIterator(@NotNull RecordGenerator<T> generator,
+        private GeneratorIterator(RecordGenerator<T> generator,
                                   long maxSize,
                                   @Nullable BiPredicate<GeneratorContext<T>, T> lastPredicate) {
             Objects.requireNonNull(generator);

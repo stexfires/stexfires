@@ -1,6 +1,5 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -22,7 +21,7 @@ public class SupplierMapper<T extends TextRecord, R extends TextRecord> implemen
     }
 
     @Override
-    public final @NotNull R map(@NotNull T record) {
+    public final R map(T record) {
         return recordSupplier.get();
     }
 

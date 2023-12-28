@@ -1,7 +1,6 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
@@ -29,7 +28,7 @@ public class ExtendedTextsMessage<T extends TextRecord> implements RecordMessage
     }
 
     @Override
-    public final @NotNull String createMessage(T record) {
+    public final String createMessage(T record) {
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (TextField field : record.listOfFields()) {

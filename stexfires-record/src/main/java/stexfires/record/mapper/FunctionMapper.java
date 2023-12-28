@@ -1,6 +1,5 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 
@@ -55,7 +54,7 @@ public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, Tex
     }
 
     @Override
-    public final @NotNull TextRecord map(@NotNull T record) {
+    public final TextRecord map(T record) {
         return new ManyFieldsRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),

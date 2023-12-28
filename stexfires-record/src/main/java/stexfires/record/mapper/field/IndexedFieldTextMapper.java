@@ -1,6 +1,5 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class IndexedFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(@NotNull TextField field) {
+    public final String mapToText(TextField field) {
         return fieldTextMapperFunction.apply(field.index())
                                       .orElse(orElseFieldTextMapper)
                                       .mapToText(field);

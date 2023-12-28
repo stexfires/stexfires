@@ -1,6 +1,5 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.CommentRecord;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextField;
@@ -170,7 +169,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     }
 
     @Override
-    public final @NotNull Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream
                 .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByFunction), r -> r.values().stream()))
                 .filter(havingPredicate)

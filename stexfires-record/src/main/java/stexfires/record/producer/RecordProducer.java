@@ -1,6 +1,5 @@
 package stexfires.record.producer;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -23,7 +22,7 @@ public interface RecordProducer<T extends TextRecord> {
         return supplier::get;
     }
 
-    @NotNull Stream<T> produceStream() throws UncheckedProducerException;
+    Stream<T> produceStream() throws UncheckedProducerException;
 
     default Supplier<Stream<T>> asSupplier() {
         return this::produceStream;

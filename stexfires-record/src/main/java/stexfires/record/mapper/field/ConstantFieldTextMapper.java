@@ -1,7 +1,6 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 /**
@@ -23,7 +22,7 @@ public class ConstantFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(@NotNull TextField field) {
+    public final String mapToText(TextField field) {
         return constantText;
     }
 

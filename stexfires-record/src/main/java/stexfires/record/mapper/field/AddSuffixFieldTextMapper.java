@@ -1,6 +1,5 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -18,7 +17,7 @@ public class AddSuffixFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final @NotNull String mapToText(@NotNull TextField field) {
+    public final String mapToText(TextField field) {
         String text = field.text();
         return (text == null) ? suffix : text + suffix;
     }

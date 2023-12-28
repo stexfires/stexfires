@@ -1,7 +1,6 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -33,13 +32,13 @@ public interface CategoryGenerator<T extends TextRecord> {
         return (context) -> null;
     }
 
-    static <T extends TextRecord> CategoryGenerator<T> stringSupplier(@NotNull Supplier<String> categorySupplier) {
+    static <T extends TextRecord> CategoryGenerator<T> stringSupplier(Supplier<String> categorySupplier) {
         Objects.requireNonNull(categorySupplier);
         return (context) -> categorySupplier.get();
     }
 
-    static <T extends TextRecord> CategoryGenerator<T> previousAdjusted(@NotNull Supplier<String> firstCategorySupplier,
-                                                                        @NotNull UnaryOperator<String> previousCategoryOperator) {
+    static <T extends TextRecord> CategoryGenerator<T> previousAdjusted(Supplier<String> firstCategorySupplier,
+                                                                        UnaryOperator<String> previousCategoryOperator) {
         Objects.requireNonNull(firstCategorySupplier);
         Objects.requireNonNull(previousCategoryOperator);
         return (context) -> {
@@ -50,6 +49,6 @@ public interface CategoryGenerator<T extends TextRecord> {
         };
     }
 
-    @Nullable String generateCategory(@NotNull GeneratorContext<T> context);
+    @Nullable String generateCategory(GeneratorContext<T> context);
 
 }

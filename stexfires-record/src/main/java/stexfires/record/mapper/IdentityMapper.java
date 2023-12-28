@@ -1,6 +1,5 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 /**
@@ -12,7 +11,7 @@ public class IdentityMapper<T extends TextRecord> implements RecordMapper<T, T> 
     }
 
     @Override
-    public final @NotNull T map(@NotNull T record) {
+    public final T map(T record) {
         return record;
     }
 

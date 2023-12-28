@@ -1,7 +1,6 @@
 package stexfires.record.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;
 
@@ -14,8 +13,8 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                          @NotNull TextField keyField, @NotNull TextField valueField,
-                                          @NotNull TextField commentField)
+                                          TextField keyField, TextField valueField,
+                                          TextField commentField)
         implements KeyValueCommentRecord, Serializable {
 
     public static final int KEY_INDEX = TextField.FIRST_FIELD_INDEX;
@@ -24,12 +23,12 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     public static final int MAX_INDEX = COMMENT_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public KeyValueCommentFieldsRecord(@NotNull String key, @Nullable String value, @Nullable String comment) {
+    public KeyValueCommentFieldsRecord(String key, @Nullable String value, @Nullable String comment) {
         this(null, null, key, value, comment);
     }
 
     public KeyValueCommentFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                                       @NotNull String key, @Nullable String value, @Nullable String comment) {
+                                       String key, @Nullable String value, @Nullable String comment) {
         this(category, recordId,
                 new TextField(KEY_INDEX, MAX_INDEX, key),
                 new TextField(VALUE_INDEX, MAX_INDEX, value),
@@ -67,49 +66,49 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord withKey(@NotNull String key) {
+    public KeyValueCommentFieldsRecord withKey(String key) {
         Objects.requireNonNull(key);
         return new KeyValueCommentFieldsRecord(category, recordId, key, value(), comment());
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord withValue(@Nullable String value) {
+    public KeyValueCommentFieldsRecord withValue(@Nullable String value) {
         return new KeyValueCommentFieldsRecord(category, recordId, key(), value, comment());
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord withComment(@Nullable String comment) {
+    public KeyValueCommentFieldsRecord withComment(@Nullable String comment) {
         return new KeyValueCommentFieldsRecord(category, recordId, key(), value(), comment);
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord withKeyAndValue(@NotNull String key, @Nullable String value) {
+    public KeyValueCommentFieldsRecord withKeyAndValue(String key, @Nullable String value) {
         Objects.requireNonNull(key);
         return new KeyValueCommentFieldsRecord(category, recordId, key, value, comment());
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord withValueAndComment(@Nullable String value, @Nullable String comment) {
+    public KeyValueCommentFieldsRecord withValueAndComment(@Nullable String value, @Nullable String comment) {
         return new KeyValueCommentFieldsRecord(category, recordId, key(), value, comment);
     }
 
     @Override
-    public @NotNull TextField[] arrayOfFields() {
+    public TextField[] arrayOfFields() {
         return new TextField[]{keyField, valueField, commentField};
     }
 
     @Override
-    public @NotNull List<TextField> listOfFields() {
+    public List<TextField> listOfFields() {
         return List.of(keyField, valueField, commentField);
     }
 
     @Override
-    public @NotNull List<TextField> listOfFieldsReversed() {
+    public List<TextField> listOfFieldsReversed() {
         return List.of(commentField, valueField, keyField);
     }
 
     @Override
-    public @NotNull Stream<TextField> streamOfFields() {
+    public Stream<TextField> streamOfFields() {
         return Stream.of(keyField, valueField, commentField);
     }
 
@@ -154,27 +153,27 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
     }
 
     @Override
-    public @NotNull TextField firstField() {
+    public TextField firstField() {
         return keyField;
     }
 
     @Override
-    public @NotNull TextField lastField() {
+    public TextField lastField() {
         return commentField;
     }
 
     @Override
-    public @NotNull TextField keyField() {
+    public TextField keyField() {
         return keyField;
     }
 
     @Override
-    public @NotNull TextField valueField() {
+    public TextField valueField() {
         return valueField;
     }
 
     @Override
-    public @NotNull TextField commentField() {
+    public TextField commentField() {
         return commentField;
     }
 
@@ -193,9 +192,8 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         return COMMENT_INDEX;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
-    public @NotNull String firstText() {
+    public String firstText() {
         return keyField.text();
     }
 
@@ -204,9 +202,8 @@ public record KeyValueCommentFieldsRecord(@Nullable String category, @Nullable L
         return commentField.text();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
-    public @NotNull String key() {
+    public String key() {
         return keyField.text();
     }
 

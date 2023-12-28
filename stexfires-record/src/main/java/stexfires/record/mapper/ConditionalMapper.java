@@ -1,6 +1,5 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
@@ -27,7 +26,7 @@ public class ConditionalMapper<T extends TextRecord, R extends TextRecord> imple
     }
 
     @Override
-    public final @NotNull R map(@NotNull T record) {
+    public final R map(T record) {
         return condition.isValid(record) ? trueMapper.map(record) : falseMapper.map(record);
     }
 

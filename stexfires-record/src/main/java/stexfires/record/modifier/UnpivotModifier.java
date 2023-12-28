@@ -1,6 +1,5 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Strings;
@@ -104,7 +103,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
     }
 
     @Override
-    public final @NotNull Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream.flatMap(unpivotFunction);
     }
 

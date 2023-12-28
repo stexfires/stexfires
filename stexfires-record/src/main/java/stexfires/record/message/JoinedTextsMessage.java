@@ -1,6 +1,5 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
@@ -23,7 +22,7 @@ public class JoinedTextsMessage<T extends TextRecord> implements RecordMessage<T
     }
 
     @Override
-    public final @NotNull String createMessage(T record) {
+    public final String createMessage(T record) {
         return TextFields.joinTexts(record, delimiter);
     }
 
