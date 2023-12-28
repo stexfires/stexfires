@@ -29,7 +29,7 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
     private final RecordGenerator<T> generator;
     private final boolean knownSize;
     private final long size;
-    private final BiPredicate<GeneratorContext<T>, T> lastPredicate;
+    private final @Nullable BiPredicate<GeneratorContext<T>, T> lastPredicate;
 
     private GeneratorProducer(RecordGenerator<T> generator,
                               boolean knownSize,
@@ -115,13 +115,13 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
     private static final class GeneratorIterator<T extends TextRecord> implements Iterator<T> {
 
         private final RecordGenerator<T> generator;
-        private final BiPredicate<GeneratorContext<T>, T> lastPredicate;
+        private final @Nullable BiPredicate<GeneratorContext<T>, T> lastPredicate;
         private final long maxRecordIndex;
 
         private long recordIndex;
         private boolean finished;
-        private T firstRecord;
-        private T previousRecord;
+        private @Nullable T firstRecord;
+        private @Nullable T previousRecord;
 
         private GeneratorIterator(RecordGenerator<T> generator,
                                   long maxSize,

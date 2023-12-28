@@ -32,6 +32,7 @@ import java.util.stream.Stream;
  * @see stexfires.record.generator.RecordIdGenerator
  * @since 0.1
  */
+@SuppressWarnings("ReturnOfNull")
 @FunctionalInterface
 public interface RecordGenerator<T extends TextRecord> {
 

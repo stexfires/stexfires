@@ -19,7 +19,7 @@ public record GeneratorInterimResult<T extends TextRecord>(
         GeneratorContext<T> context,
         @Nullable String category,
         @Nullable Long recordId,
-        @Nullable IntFunction<String> textFunction
+        @Nullable IntFunction<@Nullable String> textFunction
 ) {
 
     public GeneratorInterimResult {
@@ -30,7 +30,7 @@ public record GeneratorInterimResult<T extends TextRecord>(
         return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textFunction.apply(index));
     }
 
-    public <D> Optional<D> parsedTextAt(int index, Function<String, D> textParser) {
+    public <D> Optional<D> parsedTextAt(int index, Function<@Nullable String, @Nullable D> textParser) {
         Objects.requireNonNull(textParser);
         return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textParser.apply(textFunction.apply(index)));
     }

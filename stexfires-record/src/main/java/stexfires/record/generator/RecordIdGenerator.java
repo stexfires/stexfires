@@ -58,7 +58,7 @@ public interface RecordIdGenerator<T extends TextRecord> {
             if (context.first()) {
                 return firstRecordIdSupplier.getAsLong();
             }
-            return previousRecordIdOperator.applyAsLong(context.previousRecord().orElseThrow().recordId());
+            return previousRecordIdOperator.applyAsLong(context.previousRecord().orElseThrow().recordIdOrElseThrow());
         };
     }
 

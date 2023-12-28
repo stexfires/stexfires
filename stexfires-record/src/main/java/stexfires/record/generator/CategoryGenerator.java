@@ -38,7 +38,7 @@ public interface CategoryGenerator<T extends TextRecord> {
     }
 
     static <T extends TextRecord> CategoryGenerator<T> previousAdjusted(Supplier<String> firstCategorySupplier,
-                                                                        UnaryOperator<String> previousCategoryOperator) {
+                                                                        UnaryOperator<@Nullable String> previousCategoryOperator) {
         Objects.requireNonNull(firstCategorySupplier);
         Objects.requireNonNull(previousCategoryOperator);
         return (context) -> {
