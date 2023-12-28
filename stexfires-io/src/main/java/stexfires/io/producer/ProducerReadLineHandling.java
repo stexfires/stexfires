@@ -1,6 +1,6 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
 import stexfires.util.Strings;

@@ -1,7 +1,6 @@
 package stexfires.io.message;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
@@ -15,11 +14,11 @@ import java.util.Objects;
  * @since 0.1
  */
 public record RecordMessageFileSpec(
-        @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
+        CharsetCoding charsetCoding,
+        LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull RecordMessage<TextRecord> consumerRecordMessage,
+        RecordMessage<TextRecord> consumerRecordMessage,
         boolean consumerSkipNullOrEmptyMessages
 ) implements WritableRecordFileSpec<TextRecord, RecordMessageConsumer> {
 
@@ -33,9 +32,9 @@ public record RecordMessageFileSpec(
         Objects.requireNonNull(consumerRecordMessage);
     }
 
-    public static RecordMessageFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                         @NotNull LineSeparator consumerLineSeparator,
-                                                         @NotNull RecordMessage<TextRecord> consumerRecordMessage) {
+    public static RecordMessageFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         LineSeparator consumerLineSeparator,
+                                                         RecordMessage<TextRecord> consumerRecordMessage) {
         return new RecordMessageFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
@@ -46,11 +45,11 @@ public record RecordMessageFileSpec(
         );
     }
 
-    public static RecordMessageFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                         @NotNull LineSeparator consumerLineSeparator,
+    public static RecordMessageFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         LineSeparator consumerLineSeparator,
                                                          @Nullable String consumerTextBefore,
                                                          @Nullable String consumerTextAfter,
-                                                         @NotNull RecordMessage<TextRecord> consumerRecordMessage,
+                                                         RecordMessage<TextRecord> consumerRecordMessage,
                                                          boolean consumerSkipNullOrEmptyMessages) {
         return new RecordMessageFileSpec(
                 charsetCoding,

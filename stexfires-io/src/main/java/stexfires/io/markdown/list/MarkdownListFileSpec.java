@@ -1,7 +1,6 @@
 package stexfires.io.markdown.list;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.io.producer.ReadableRecordFileSpec;
@@ -18,16 +17,16 @@ import java.util.Objects;
  * @since 0.1
  */
 public record MarkdownListFileSpec(
-        @NotNull CharsetCoding charsetCoding,
+        CharsetCoding charsetCoding,
         int producerSkipFirstLines,
-        @NotNull ProducerReadLineHandling producerReadLineHandling,
+        ProducerReadLineHandling producerReadLineHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerTrimValueToEmpty,
         boolean producerSkipEmptyValue,
         boolean producerLinePrefixAsCategory,
-        @NotNull LineSeparator consumerLineSeparator,
-        @NotNull MarkdownListMarker consumerListMarker,
+        LineSeparator consumerLineSeparator,
+        MarkdownListMarker consumerListMarker,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         boolean consumerSkipNullValue
@@ -67,7 +66,7 @@ public record MarkdownListFileSpec(
         Objects.requireNonNull(consumerListMarker);
     }
 
-    public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+    public static MarkdownListFileSpec producerFileSpec(CharsetCoding charsetCoding) {
         return new MarkdownListFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
@@ -85,9 +84,9 @@ public record MarkdownListFileSpec(
         );
     }
 
-    public static MarkdownListFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+    public static MarkdownListFileSpec producerFileSpec(CharsetCoding charsetCoding,
                                                         int producerSkipFirstLines,
-                                                        @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                        ProducerReadLineHandling producerReadLineHandling,
                                                         int producerIgnoreFirstRecords,
                                                         int producerIgnoreLastRecords,
                                                         boolean producerTrimValueToEmpty,
@@ -110,9 +109,9 @@ public record MarkdownListFileSpec(
         );
     }
 
-    public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull LineSeparator consumerLineSeparator,
-                                                        @NotNull MarkdownListMarker consumerListMarker) {
+    public static MarkdownListFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                        LineSeparator consumerLineSeparator,
+                                                        MarkdownListMarker consumerListMarker) {
         return new MarkdownListFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
@@ -130,9 +129,9 @@ public record MarkdownListFileSpec(
         );
     }
 
-    public static MarkdownListFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                        @NotNull LineSeparator consumerLineSeparator,
-                                                        @NotNull MarkdownListMarker consumerListMarker,
+    public static MarkdownListFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                        LineSeparator consumerLineSeparator,
+                                                        MarkdownListMarker consumerListMarker,
                                                         @Nullable String consumerTextBefore,
                                                         @Nullable String consumerTextAfter,
                                                         boolean consumerSkipNullValue) {

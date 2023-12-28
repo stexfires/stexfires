@@ -1,7 +1,6 @@
 package stexfires.io.config;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.KeyValueCommentRecord;
@@ -17,10 +16,10 @@ import java.util.Objects;
  * @since 0.1
  */
 public record ConfigFileSpec(
-        @NotNull CharsetCoding charsetCoding,
-        @NotNull String valueDelimiter,
-        @NotNull String commentLinePrefix,
-        @NotNull LineSeparator consumerLineSeparator,
+        CharsetCoding charsetCoding,
+        String valueDelimiter,
+        String commentLinePrefix,
+        LineSeparator consumerLineSeparator,
         boolean consumerSeparateCategoriesByLine,
         boolean consumerSeparateByWhitespace,
         @Nullable String consumerCommentLinesBefore
@@ -50,7 +49,7 @@ public record ConfigFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static ConfigFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+    public static ConfigFileSpec producerFileSpec(CharsetCoding charsetCoding) {
         return new ConfigFileSpec(
                 charsetCoding,
                 DEFAULT_VALUE_DELIMITER,
@@ -62,9 +61,9 @@ public record ConfigFileSpec(
         );
     }
 
-    public static ConfigFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                  @NotNull String valueDelimiter,
-                                                  @NotNull String commentLinePrefix) {
+    public static ConfigFileSpec producerFileSpec(CharsetCoding charsetCoding,
+                                                  String valueDelimiter,
+                                                  String commentLinePrefix) {
         return new ConfigFileSpec(
                 charsetCoding,
                 valueDelimiter,
@@ -76,8 +75,8 @@ public record ConfigFileSpec(
         );
     }
 
-    public static ConfigFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                  @NotNull LineSeparator consumerLineSeparator) {
+    public static ConfigFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                  LineSeparator consumerLineSeparator) {
         return new ConfigFileSpec(
                 charsetCoding,
                 DEFAULT_VALUE_DELIMITER,
@@ -89,10 +88,10 @@ public record ConfigFileSpec(
         );
     }
 
-    public static ConfigFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                  @NotNull String valueDelimiter,
-                                                  @NotNull String commentLinePrefix,
-                                                  @NotNull LineSeparator consumerLineSeparator,
+    public static ConfigFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                  String valueDelimiter,
+                                                  String commentLinePrefix,
+                                                  LineSeparator consumerLineSeparator,
                                                   boolean consumerSeparateCategoriesByLine,
                                                   boolean consumerSeparateByWhitespace,
                                                   @Nullable String consumerCommentLinesBefore) {

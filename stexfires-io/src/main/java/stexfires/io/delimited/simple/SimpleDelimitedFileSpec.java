@@ -1,7 +1,6 @@
 package stexfires.io.delimited.simple;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.io.producer.ReadableRecordFileSpec;
@@ -21,17 +20,17 @@ import java.util.stream.Stream;
  * @since 0.1
  */
 public record SimpleDelimitedFileSpec(
-        @NotNull CharsetCoding charsetCoding,
-        @NotNull String fieldDelimiter,
+        CharsetCoding charsetCoding,
+        String fieldDelimiter,
         int producerSkipFirstLines,
-        @NotNull ProducerReadLineHandling producerReadLineHandling,
+        ProducerReadLineHandling producerReadLineHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerSkipAllNullOrEmpty,
-        @NotNull LineSeparator consumerLineSeparator,
+        LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs
+        List<SimpleDelimitedFieldSpec> fieldSpecs
 ) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
@@ -70,9 +69,9 @@ public record SimpleDelimitedFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static SimpleDelimitedFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                           @NotNull String fieldDelimiter,
-                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+    public static SimpleDelimitedFileSpec producerFileSpec(CharsetCoding charsetCoding,
+                                                           String fieldDelimiter,
+                                                           List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
@@ -88,14 +87,14 @@ public record SimpleDelimitedFileSpec(
         );
     }
 
-    public static SimpleDelimitedFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                           @NotNull String fieldDelimiter,
+    public static SimpleDelimitedFileSpec producerFileSpec(CharsetCoding charsetCoding,
+                                                           String fieldDelimiter,
                                                            int producerSkipFirstLines,
-                                                           @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                           ProducerReadLineHandling producerReadLineHandling,
                                                            int producerIgnoreFirstRecords,
                                                            int producerIgnoreLastRecords,
                                                            boolean producerSkipAllNullOrEmpty,
-                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+                                                           List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
@@ -111,10 +110,10 @@ public record SimpleDelimitedFileSpec(
         );
     }
 
-    public static SimpleDelimitedFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                           @NotNull String fieldDelimiter,
-                                                           @NotNull LineSeparator consumerLineSeparator,
-                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+    public static SimpleDelimitedFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                           String fieldDelimiter,
+                                                           LineSeparator consumerLineSeparator,
+                                                           List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
@@ -130,12 +129,12 @@ public record SimpleDelimitedFileSpec(
         );
     }
 
-    public static SimpleDelimitedFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                           @NotNull String fieldDelimiter,
-                                                           @NotNull LineSeparator consumerLineSeparator,
+    public static SimpleDelimitedFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                           String fieldDelimiter,
+                                                           LineSeparator consumerLineSeparator,
                                                            @Nullable String consumerTextBefore,
                                                            @Nullable String consumerTextAfter,
-                                                           @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs) {
+                                                           List<SimpleDelimitedFieldSpec> fieldSpecs) {
         return new SimpleDelimitedFileSpec(
                 charsetCoding,
                 fieldDelimiter,
@@ -151,7 +150,7 @@ public record SimpleDelimitedFileSpec(
         );
     }
 
-    public static @NotNull List<SimpleDelimitedFieldSpec> newFieldSpecs(int number) {
+    public static List<SimpleDelimitedFieldSpec> newFieldSpecs(int number) {
         if (number < 0) {
             throw new IllegalArgumentException("number < 0");
         }
@@ -172,7 +171,7 @@ public record SimpleDelimitedFileSpec(
     }
 
     @Override
-    public @NotNull List<SimpleDelimitedFieldSpec> fieldSpecs() {
+    public List<SimpleDelimitedFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

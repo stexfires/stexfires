@@ -1,7 +1,6 @@
 package stexfires.io.path;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -14,15 +13,15 @@ public interface DosPathRecord extends PathRecord {
 
     String EXTENSION_SEPARATOR = ".";
 
-    @NotNull TextField archiveField();
+    TextField archiveField();
 
-    @NotNull TextField readOnlyField();
+    TextField readOnlyField();
 
-    @NotNull TextField hiddenField();
+    TextField hiddenField();
 
-    @NotNull TextField systemField();
+    TextField systemField();
 
-    @NotNull TextField fileExtensionField();
+    TextField fileExtensionField();
 
     default boolean isArchive() {
         return Boolean.parseBoolean(Objects.requireNonNull(archiveField().text()));

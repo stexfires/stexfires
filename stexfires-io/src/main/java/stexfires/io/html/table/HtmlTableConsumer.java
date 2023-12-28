@@ -1,7 +1,6 @@
 package stexfires.io.html.table;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -103,7 +102,7 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
         return b;
     }
 
-    private static @NotNull String convertHtml(@Nullable String value) {
+    private static String convertHtml(@Nullable String value) {
         String convertedValue;
         if (value == null || value.isEmpty()) {
             convertedValue = NON_BREAKING_SPACE;

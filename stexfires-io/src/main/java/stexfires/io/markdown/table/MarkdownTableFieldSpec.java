@@ -1,7 +1,6 @@
 package stexfires.io.markdown.table;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Alignment;
 
 import java.util.Objects;
@@ -12,7 +11,7 @@ import static stexfires.io.markdown.table.MarkdownTableFileSpec.COLUMN_MIN_WIDTH
  * @since 0.1
  */
 public record MarkdownTableFieldSpec(
-        @NotNull String name,
+        String name,
         int minWidth,
         @Nullable Alignment alignment
 ) {
@@ -27,13 +26,13 @@ public record MarkdownTableFieldSpec(
         }
     }
 
-    public MarkdownTableFieldSpec(@NotNull String name, @Nullable Alignment alignment) {
+    public MarkdownTableFieldSpec(String name, @Nullable Alignment alignment) {
         this(Objects.requireNonNull(name),
                 Math.max(COLUMN_MIN_WIDTH, Objects.requireNonNull(name).length()),
                 alignment);
     }
 
-    public MarkdownTableFieldSpec(@NotNull String name) {
+    public MarkdownTableFieldSpec(String name) {
         this(Objects.requireNonNull(name),
                 Math.max(COLUMN_MIN_WIDTH, Objects.requireNonNull(name).length()),
                 null);

@@ -1,6 +1,6 @@
 package stexfires.io.html.table;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @since 0.1

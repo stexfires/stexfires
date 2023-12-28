@@ -1,6 +1,6 @@
 package stexfires.io.fixedwidth;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Alignment;
 
 /**

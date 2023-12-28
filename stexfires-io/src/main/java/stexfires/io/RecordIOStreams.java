@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.data.CollectionDataTypeFormatter;
 import stexfires.data.CollectionDataTypeParser;
 import stexfires.data.ConvertingDataTypeFormatter;

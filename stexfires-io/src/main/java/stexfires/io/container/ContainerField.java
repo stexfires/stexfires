@@ -1,7 +1,6 @@
 package stexfires.io.container;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 
@@ -11,9 +10,9 @@ import java.util.Objects;
  * @since 0.1
  */
 public record ContainerField(
-        @NotNull String name,
+        String name,
         int index,
-        @NotNull RecordMessage<TextRecord> recordMessage) {
+        RecordMessage<TextRecord> recordMessage) {
 
     public ContainerField {
         Objects.requireNonNull(name);

@@ -1,6 +1,5 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.RecordProducer;
@@ -18,12 +17,12 @@ public interface ReadableRecordProducer<PTR extends TextRecord> extends RecordPr
 
     void readBefore() throws ProducerException, UncheckedProducerException, IOException;
 
-    @NotNull Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException;
+    Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException;
 
     void readAfter() throws ProducerException, UncheckedProducerException, IOException;
 
     @Override
-    default @NotNull Stream<PTR> produceStream() throws UncheckedProducerException {
+    default Stream<PTR> produceStream() throws UncheckedProducerException {
         try {
             return readRecords();
         } catch (ProducerException e) {

@@ -1,6 +1,6 @@
 package stexfires.io.container;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.path.DosPathFieldsRecord;
 import stexfires.io.path.PathType;
 import stexfires.record.TextField;

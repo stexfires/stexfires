@@ -1,7 +1,6 @@
 package stexfires.io.singlevalue;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.io.producer.ReadableRecordFileSpec;
@@ -17,15 +16,15 @@ import java.util.Objects;
  * @since 0.1
  */
 public record SingleValueFileSpec(
-        @NotNull CharsetCoding charsetCoding,
+        CharsetCoding charsetCoding,
         @Nullable String linePrefix,
         int producerSkipFirstLines,
-        @NotNull ProducerReadLineHandling producerReadLineHandling,
+        ProducerReadLineHandling producerReadLineHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         boolean producerTrimValueToEmpty,
         boolean producerSkipEmptyValue,
-        @NotNull LineSeparator consumerLineSeparator,
+        LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         boolean consumerSkipNullValueLines
@@ -57,7 +56,7 @@ public record SingleValueFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
     }
 
-    public static SingleValueFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+    public static SingleValueFileSpec producerFileSpec(CharsetCoding charsetCoding) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 DEFAULT_LINE_PREFIX,
@@ -74,10 +73,10 @@ public record SingleValueFileSpec(
         );
     }
 
-    public static SingleValueFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+    public static SingleValueFileSpec producerFileSpec(CharsetCoding charsetCoding,
                                                        @Nullable String linePrefix,
                                                        int producerSkipFirstLines,
-                                                       @NotNull ProducerReadLineHandling producerReadLineHandling,
+                                                       ProducerReadLineHandling producerReadLineHandling,
                                                        int producerIgnoreFirstRecords,
                                                        int producerIgnoreLastRecords,
                                                        boolean producerTrimValueToEmpty,
@@ -98,8 +97,8 @@ public record SingleValueFileSpec(
         );
     }
 
-    public static SingleValueFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                       @NotNull LineSeparator consumerLineSeparator) {
+    public static SingleValueFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                       LineSeparator consumerLineSeparator) {
         return new SingleValueFileSpec(
                 charsetCoding,
                 DEFAULT_LINE_PREFIX,
@@ -116,9 +115,9 @@ public record SingleValueFileSpec(
         );
     }
 
-    public static SingleValueFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
+    public static SingleValueFileSpec consumerFileSpec(CharsetCoding charsetCoding,
                                                        @Nullable String linePrefix,
-                                                       @NotNull LineSeparator consumerLineSeparator,
+                                                       LineSeparator consumerLineSeparator,
                                                        @Nullable String consumerTextBefore,
                                                        @Nullable String consumerTextAfter,
                                                        boolean consumerSkipNullValueLines) {

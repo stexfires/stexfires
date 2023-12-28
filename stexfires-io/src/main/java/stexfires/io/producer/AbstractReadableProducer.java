@@ -1,7 +1,6 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
@@ -56,7 +55,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     }
 
     @Override
-    public @NotNull Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
+    public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         Stream<T> recordStream;
         if (iterator != null && iterator.hasNext()) {
             Stream<RecordRawData> rawStream = StreamSupport.stream(

@@ -1,7 +1,6 @@
 package stexfires.io.properties;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
@@ -39,13 +38,13 @@ public final class PropertiesUtil {
     private PropertiesUtil() {
     }
 
-    public static Properties loadFromFile(@NotNull Path path, @NotNull Charset charset) throws IOException {
+    public static Properties loadFromFile(Path path, Charset charset) throws IOException {
         Objects.requireNonNull(path);
         Objects.requireNonNull(charset);
         return loadFromFile(new Properties(), path, charset);
     }
 
-    public static Properties loadFromFile(@NotNull Properties properties, @NotNull Path path, @NotNull Charset charset) throws IOException {
+    public static Properties loadFromFile(Properties properties, Path path, Charset charset) throws IOException {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(path);
         Objects.requireNonNull(charset);
@@ -55,14 +54,14 @@ public final class PropertiesUtil {
         return properties;
     }
 
-    public static void storeToFile(@NotNull Properties properties, @NotNull Path path, @NotNull Charset charset) throws IOException {
+    public static void storeToFile(Properties properties, Path path, Charset charset) throws IOException {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(path);
         Objects.requireNonNull(charset);
         storeToFile(properties, path, charset, null);
     }
 
-    public static void storeToFile(@NotNull Properties properties, @NotNull Path path, @NotNull Charset charset, @Nullable String comments) throws IOException {
+    public static void storeToFile(Properties properties, Path path, Charset charset, @Nullable String comments) throws IOException {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(path);
         Objects.requireNonNull(charset);
@@ -71,7 +70,7 @@ public final class PropertiesUtil {
         }
     }
 
-    public static boolean propertiesAndMapEquals(@NotNull Properties properties, @NotNull Map<String, String> map) {
+    public static boolean propertiesAndMapEquals(Properties properties, Map<String, String> map) {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(map);
         Set<String> keys = properties.stringPropertyNames();
@@ -81,19 +80,19 @@ public final class PropertiesUtil {
         return keys.stream().allMatch(key -> Objects.equals(properties.getProperty(key), map.get(key)));
     }
 
-    public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, String>> navigableMapConsumer(@NotNull Comparator<String> stringComparator) {
+    public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, String>> navigableMapConsumer(Comparator<String> stringComparator) {
         Objects.requireNonNull(stringComparator);
         return new MapConsumer<>(new TreeMap<>(stringComparator), KeyRecord::key, ValueRecord::value);
     }
 
-    public static Properties convertMapToProperties(@NotNull Map<String, String> map) {
+    public static Properties convertMapToProperties(Map<String, String> map) {
         Objects.requireNonNull(map);
         Properties properties = new Properties();
         properties.putAll(map);
         return properties;
     }
 
-    public static NavigableMap<String, String> convertPropertiesToNavigableMap(@NotNull Properties properties, @NotNull Comparator<String> stringComparator) {
+    public static NavigableMap<String, String> convertPropertiesToNavigableMap(Properties properties, Comparator<String> stringComparator) {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(stringComparator);
         NavigableMap<String, String> map = new TreeMap<>(stringComparator);
@@ -105,9 +104,9 @@ public final class PropertiesUtil {
         return map;
     }
 
-    public static <T extends TextRecord> Properties consumeIntoProperties(@NotNull Stream<T> recordStream,
-                                                                          @NotNull RecordMessage<? super T> keyMessage,
-                                                                          @NotNull RecordMessage<? super T> valueMessage) {
+    public static <T extends TextRecord> Properties consumeIntoProperties(Stream<T> recordStream,
+                                                                          RecordMessage<? super T> keyMessage,
+                                                                          RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(keyMessage);
         Objects.requireNonNull(valueMessage);
@@ -123,7 +122,7 @@ public final class PropertiesUtil {
         return properties;
     }
 
-    public static <T extends KeyValueRecord> Properties consumeIntoProperties(@NotNull Stream<T> recordStream) {
+    public static <T extends KeyValueRecord> Properties consumeIntoProperties(Stream<T> recordStream) {
         Objects.requireNonNull(recordStream);
         Properties properties = new Properties();
         RecordConsumer<T> recordConsumer = (T record) -> {

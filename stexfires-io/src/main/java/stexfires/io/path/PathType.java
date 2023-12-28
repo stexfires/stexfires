@@ -1,7 +1,5 @@
 package stexfires.io.path;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -21,7 +19,7 @@ public enum PathType {
     SYMBOLIC_LINK,
     OTHER;
 
-    public static PathType ofAttributes(@NotNull BasicFileAttributes fileAttributes) {
+    public static PathType ofAttributes(BasicFileAttributes fileAttributes) {
         Objects.requireNonNull(fileAttributes);
         if (fileAttributes.isDirectory()) {
             return DIRECTORY;
@@ -33,7 +31,7 @@ public enum PathType {
         return OTHER;
     }
 
-    public static PathType ofPath(@NotNull Path path) throws IOException {
+    public static PathType ofPath(Path path) throws IOException {
         Objects.requireNonNull(path);
         return ofAttributes(Files.readAttributes(path, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS));
     }

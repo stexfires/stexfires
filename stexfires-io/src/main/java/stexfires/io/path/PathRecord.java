@@ -1,7 +1,6 @@
 package stexfires.io.path;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
@@ -21,28 +20,28 @@ import java.util.Optional;
  */
 public interface PathRecord extends TextRecord {
 
-    @NotNull PathType pathType();
+    PathType pathType();
 
-    @NotNull TextField fileNameField();
+    TextField fileNameField();
 
-    @NotNull TextField pathField();
+    TextField pathField();
 
-    @NotNull TextField parentField();
+    TextField parentField();
 
-    @NotNull TextField pathNameCountField();
+    TextField pathNameCountField();
 
-    @NotNull TextField fileSizeField();
+    TextField fileSizeField();
 
-    @NotNull TextField creationTimeField();
+    TextField creationTimeField();
 
-    @NotNull TextField lastModifiedTimeField();
+    TextField lastModifiedTimeField();
 
-    @NotNull TextField lastAccessTimeField();
+    TextField lastAccessTimeField();
 
-    @NotNull TextField absoluteField();
+    TextField absoluteField();
 
     @Override
-    default @NotNull String category() {
+    default String category() {
         return pathType().name();
     }
 

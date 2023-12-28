@@ -1,6 +1,6 @@
 package stexfires.io.config;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;

@@ -1,7 +1,6 @@
 package stexfires.io.markdown.table;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.Alignment;
@@ -21,12 +20,12 @@ import static stexfires.util.Alignment.START;
  * @since 0.1
  */
 public record MarkdownTableFileSpec(
-        @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
+        CharsetCoding charsetCoding,
+        LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
-        @NotNull Alignment consumerAlignment,
-        @NotNull List<MarkdownTableFieldSpec> fieldSpecs
+        Alignment consumerAlignment,
+        List<MarkdownTableFieldSpec> fieldSpecs
 ) implements WritableRecordFileSpec<TextRecord, MarkdownTableConsumer> {
 
     public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
@@ -50,9 +49,9 @@ public record MarkdownTableFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static MarkdownTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                         @NotNull LineSeparator consumerLineSeparator,
-                                                         @NotNull List<MarkdownTableFieldSpec> fieldSpecs) {
+    public static MarkdownTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         LineSeparator consumerLineSeparator,
+                                                         List<MarkdownTableFieldSpec> fieldSpecs) {
         return new MarkdownTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
@@ -63,12 +62,12 @@ public record MarkdownTableFileSpec(
         );
     }
 
-    public static MarkdownTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                         @NotNull LineSeparator consumerLineSeparator,
+    public static MarkdownTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         LineSeparator consumerLineSeparator,
                                                          @Nullable String consumerTextBefore,
                                                          @Nullable String consumerTextAfter,
-                                                         @NotNull Alignment consumerAlignment,
-                                                         @NotNull List<MarkdownTableFieldSpec> fieldSpecs) {
+                                                         Alignment consumerAlignment,
+                                                         List<MarkdownTableFieldSpec> fieldSpecs) {
         return new MarkdownTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
@@ -86,7 +85,7 @@ public record MarkdownTableFileSpec(
     }
 
     @Override
-    public @NotNull List<MarkdownTableFieldSpec> fieldSpecs() {
+    public List<MarkdownTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

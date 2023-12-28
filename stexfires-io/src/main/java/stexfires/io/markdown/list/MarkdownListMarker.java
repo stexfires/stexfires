@@ -1,7 +1,6 @@
 package stexfires.io.markdown.list;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
 
 import java.util.Objects;
@@ -37,7 +36,7 @@ public enum MarkdownListMarker {
         this.ordered = ordered;
     }
 
-    public static @NotNull Optional<MarkdownListMarker> of(char character) {
+    public static Optional<MarkdownListMarker> of(char character) {
         return switch (character) {
             case '*' -> Optional.of(BULLET_ASTERISK);
             case '-' -> Optional.of(BULLET_HYPHEN_MINUS);
@@ -48,7 +47,7 @@ public enum MarkdownListMarker {
         };
     }
 
-    public static @NotNull Optional<SplitResult> split(@Nullable String line) {
+    public static Optional<SplitResult> split(@Nullable String line) {
         if (line == null || line.isEmpty()) {
             return Optional.empty();
         }
@@ -116,11 +115,11 @@ public enum MarkdownListMarker {
         return markerCharacter;
     }
 
-    public final @NotNull String markerWithSeparator() {
+    public final String markerWithSeparator() {
         return markerCharacter + MarkdownListFileSpec.LIST_MARKER_SEPARATOR;
     }
 
-    public final @NotNull String linePrefix(long lineNumber) {
+    public final String linePrefix(long lineNumber) {
         if (this.ordered) {
             return lineNumber + markerWithSeparator();
         } else {
@@ -129,11 +128,11 @@ public enum MarkdownListMarker {
     }
 
     public record SplitResult(
-            @NotNull String linePrefix,
-            @NotNull String indentation,
+            String linePrefix,
+            String indentation,
             @Nullable Long number,
-            @NotNull MarkdownListMarker marker,
-            @NotNull String value) {
+            MarkdownListMarker marker,
+            String value) {
 
         public SplitResult {
             Objects.requireNonNull(linePrefix);

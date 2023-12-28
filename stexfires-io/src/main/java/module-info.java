@@ -1,5 +1,6 @@
+@org.jspecify.annotations.NullMarked
 module stexfires.io {
-    requires org.jetbrains.annotations;
+    requires org.jspecify;
     requires transitive stexfires.data;
     requires transitive stexfires.record;
     requires transitive stexfires.util;
