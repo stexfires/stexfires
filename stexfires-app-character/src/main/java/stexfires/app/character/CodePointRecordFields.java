@@ -8,7 +8,6 @@ import stexfires.util.CodePoint;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -70,7 +69,7 @@ public enum CodePointRecordFields {
                 // recordId
                 (long) codePoint.value(),
                 // text fields
-                Arrays.stream(values()).map(field -> field.convert(codePoint, alternativeValue)).collect(Collectors.toList())
+                Arrays.stream(values()).map(field -> field.convert(codePoint, alternativeValue)).toList()
         );
     }
 
