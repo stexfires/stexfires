@@ -66,6 +66,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     }
 
     public static <T extends TextRecord> AddTextMapper<T> constant(String text) {
+        Objects.requireNonNull(text);
         return new AddTextMapper<>(record -> text);
     }
 
