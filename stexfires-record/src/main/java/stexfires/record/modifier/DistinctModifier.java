@@ -3,7 +3,7 @@ package stexfires.record.modifier;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.CompareMessageBuilder;
-import stexfires.record.message.RecordMessage;
+import stexfires.record.message.NotNullRecordMessage;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -16,13 +16,13 @@ import java.util.stream.Stream;
  */
 public class DistinctModifier<T extends TextRecord> implements RecordStreamModifier<T, T> {
 
-    private final RecordMessage<? super T> recordCompareMessage;
+    private final NotNullRecordMessage<? super T> recordCompareMessage;
 
     public DistinctModifier(CompareMessageBuilder compareMessageBuilder) {
         this(compareMessageBuilder.build());
     }
 
-    public DistinctModifier(RecordMessage<? super T> recordCompareMessage) {
+    public DistinctModifier(NotNullRecordMessage<? super T> recordCompareMessage) {
         Objects.requireNonNull(recordCompareMessage);
         this.recordCompareMessage = recordCompareMessage;
     }
@@ -55,13 +55,10 @@ public class DistinctModifier<T extends TextRecord> implements RecordStreamModif
 
         @Override
         public boolean equals(@Nullable Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null || getClass() != obj.getClass())
-                return false;
-
-            DistinctRecordWrapper<?> wrapper = (DistinctRecordWrapper<?>) obj;
-            return Objects.equals(equalsString, wrapper.equalsString);
+            if (obj instanceof DistinctRecordWrapper<?> wrapper) {
+                return equalsString.equals(wrapper.equalsString);
+            }
+            return false;
         }
 
         @Override

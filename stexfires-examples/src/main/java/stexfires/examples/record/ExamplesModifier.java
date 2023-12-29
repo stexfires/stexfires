@@ -16,6 +16,7 @@ import stexfires.record.mapper.impl.ToTwoFieldsRecordMapper;
 import stexfires.record.message.CategoryMessage;
 import stexfires.record.message.CompareMessageBuilder;
 import stexfires.record.message.JoinedTextsMessage;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordIdMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.record.message.TextMessage;
@@ -143,11 +144,11 @@ public final class ExamplesModifier {
         System.out.println("-showDistinctModifier---");
 
         printModifierOneValueRecord("constructor category",
-                new DistinctModifier<>(new CategoryMessage<>()));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing")));
         printModifierOneValueRecord("constructor recordId",
-                new DistinctModifier<>(new RecordIdMessage<>()));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new RecordIdMessage<>(), "recordId is missing")));
         printModifierOneValueRecord("constructor valueField",
-                new DistinctModifier<>(new TextMessage<>(ValueRecord::valueField)));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(ValueRecord::valueField), "valueField is missing")));
         printModifierOneValueRecord("constructor CompareMessageBuilder",
                 new DistinctModifier<>(new CompareMessageBuilder().category().texts()));
     }
@@ -359,18 +360,18 @@ public final class ExamplesModifier {
         printModifierOneValueRecord("concat 2",
                 RecordStreamModifier.concat(
                         new FilterModifier<>(CategoryFilter.equalTo("C1")),
-                        new DistinctModifier<>(new CategoryMessage<>())));
+                        new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))));
         printModifierOneValueRecord("concat 3",
                 RecordStreamModifier.concat(
                         new FilterModifier<>(CategoryFilter.equalTo("C1")),
                         new IdentityModifier<>(),
                         new SkipLimitModifier<>(1L, 1L)));
         printModifierOneValueRecord("compose",
-                new DistinctModifier<ValueRecord>(new CategoryMessage<>())
+                new DistinctModifier<ValueRecord>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))
                         .compose(new FilterModifier<>(CategoryFilter.equalTo("C1"))));
         printModifierOneValueRecord("andThen",
                 new FilterModifier<ValueRecord>(CategoryFilter.equalTo("C1"))
-                        .andThen(new DistinctModifier<>(new CategoryMessage<>())));
+                        .andThen(new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))));
     }
 
     private static void showSkipLimitModifier() {

@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Strings;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -64,7 +64,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                 Collections.singleton(keyIndex),
                 valueIndexToIdentifier,
                 onlyExistingValues,
-                Arrays.stream(valueIndexes).boxed().collect(Collectors.toList())
+                Arrays.stream(valueIndexes).boxed().toList()
         );
     }
 
@@ -84,7 +84,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
     @SafeVarargs
     public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValues(Collection<Integer> keyIndexes,
                                                                                            IntFunction<String> recordIndexToIdentifier,
-                                                                                           Collection<Integer>... valueIndexes) {
+                                                                                           Collection<@Nullable Integer>... valueIndexes) {
         Objects.requireNonNull(keyIndexes);
         Objects.requireNonNull(recordIndexToIdentifier);
         Objects.requireNonNull(valueIndexes);
