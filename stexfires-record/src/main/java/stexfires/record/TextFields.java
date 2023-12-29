@@ -74,35 +74,35 @@ public final class TextFields {
         return fields;
     }
 
-    public static List<String> collectTexts(TextRecord record) {
+    public static List<@Nullable String> collectTexts(TextRecord record) {
         Objects.requireNonNull(record);
         return collectTexts(record.streamOfFields(), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(TextRecord record, FieldTextMapper fieldTextMapper) {
+    public static List<@Nullable String> collectTexts(TextRecord record, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(fieldTextMapper);
         return collectTexts(record.streamOfFields(), fieldTextMapper);
     }
 
     @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static List<String> collectTexts(TextField[] fields) {
+    public static List<@Nullable String> collectTexts(TextField[] fields) {
         Objects.requireNonNull(fields);
         return collectTexts(Arrays.stream(fields), new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(TextField[] fields, FieldTextMapper fieldTextMapper) {
+    public static List<@Nullable String> collectTexts(TextField[] fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return collectTexts(Arrays.stream(fields), fieldTextMapper);
     }
 
-    public static List<String> collectTexts(Stream<TextField> fields) {
+    public static List<@Nullable String> collectTexts(Stream<TextField> fields) {
         Objects.requireNonNull(fields);
         return collectTexts(fields, new IdentityFieldTextMapper());
     }
 
-    public static List<String> collectTexts(Stream<TextField> fields, FieldTextMapper fieldTextMapper) {
+    public static List<@Nullable String> collectTexts(Stream<TextField> fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return fields.map(fieldTextMapper::mapToText).toList();
