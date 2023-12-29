@@ -1,12 +1,12 @@
 package stexfires.record.modifier;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRecord> {
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
-                         Function<? super T, String> newCategoryFunction,
-                         Function<List<T>, List<String>> pivotTextsFunction) {
+                         Function<? super T, @Nullable String> newCategoryFunction,
+                         Function<List<T>, List<@Nullable String>> pivotTextsFunction) {
         super(groupByFunction,
                 GroupModifier.aggregateToTexts(
                         list -> newCategoryFunction.apply(list.getFirst()),
@@ -25,11 +25,11 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
-                         Function<? super T, String> newCategoryFunction,
+                         Function<? super T, @Nullable String> newCategoryFunction,
                          Function<? super T, Stream<String>> newFirstTextsFunction,
-                         Function<? super T, String> textFunction,
+                         Function<? super T, @Nullable String> textFunction,
                          String nullText,
-                         Function<? super T, String> textClassificationFunction,
+                         Function<? super T, @Nullable String> textClassificationFunction,
                          List<String> textClassifications) {
         this(groupByFunction,
                 newCategoryFunction,
@@ -42,7 +42,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
-                         Function<? super T, String> newCategoryFunction,
+                         Function<? super T, @Nullable String> newCategoryFunction,
                          Function<? super T, Stream<String>> newFirstTextsFunction,
                          int newRecordSize,
                          String nullText,
@@ -56,8 +56,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                         textIndexes));
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    public static <T extends TextRecord> Function<? super T, String> withoutCategory() {
+    public static <T extends TextRecord> Function<? super T, @Nullable String> withoutCategory() {
         return r -> null;
     }
 
@@ -79,7 +78,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
     public static <T extends TextRecord> PivotModifier<T> pivotWithClassifications(Function<? super T, String> keyFunction,
                                                                                    Function<? super T, String> textFunction,
                                                                                    String nullText,
-                                                                                   Function<? super T, String> textClassificationFunction,
+                                                                                   Function<? super T, @Nullable String> textClassificationFunction,
                                                                                    List<String> textClassifications) {
         return new PivotModifier<>(keyFunction,
                 withoutCategory(),
@@ -111,11 +110,11 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                 textIndexes);
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> pivotTextsFunctionWithClassifications(
+    public static <T extends TextRecord> Function<List<T>, List<@Nullable String>> pivotTextsFunctionWithClassifications(
             Function<? super T, Stream<String>> newFirstTextsFunction,
-            Function<? super T, String> textFunction,
+            Function<? super T, @Nullable String> textFunction,
             String nullText,
-            Function<? super T, String> textClassificationFunction,
+            Function<? super T, @Nullable String> textClassificationFunction,
             List<String> textClassifications) {
         Objects.requireNonNull(newFirstTextsFunction);
         Objects.requireNonNull(textFunction);
@@ -134,10 +133,10 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                 Stream.concat(
                               newFirstTextsFunction.apply(list.getFirst()),
                               newTextsFunction.apply(list))
-                      .collect(Collectors.toList());
+                      .toList();
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> pivotTextsFunctionWithIndexes(
+    public static <T extends TextRecord> Function<List<T>, List<@Nullable String>> pivotTextsFunctionWithIndexes(
             Function<? super T, Stream<String>> newFirstTextsFunction,
             int newRecordSize,
             String nullText,
@@ -157,7 +156,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                       newTextsFunction.apply(list)),
                               Stream.generate(() -> nullText))
                       .limit(newRecordSize)
-                      .collect(Collectors.toList());
+                      .toList();
     }
 
 }

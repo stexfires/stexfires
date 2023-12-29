@@ -175,7 +175,7 @@ public final class ExamplesModifier {
                         )));
         printModifierOneValueRecordGroup("constructor CategoryMessage; size < 4; aggregateToValues",
                 new GroupModifier<>(
-                        groupByMessage(new CategoryMessage<>()),
+                        groupByMessage(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing")),
                         havingSize(NumberPredicates.PrimitiveIntPredicates.lessThan(4)),
                         aggregateToTexts(
                                 messageOfFirstElement(new CategoryMessage<>()),

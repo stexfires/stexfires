@@ -1,5 +1,6 @@
 package stexfires.record.modifier;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Comparator;
@@ -14,7 +15,6 @@ import java.util.stream.Collector;
 /**
  * @since 0.1
  */
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T> {
 
     public UnaryGroupModifier(Function<? super T, ?> groupByFunction,
@@ -45,7 +45,7 @@ public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T
         Objects.requireNonNull(recordComparator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
-                                                             .max(recordComparator).get();
+                                                             .max(recordComparator).orElseThrow();
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
@@ -54,7 +54,7 @@ public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T
         Objects.requireNonNull(recordComparator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
-                                                             .min(recordComparator).get();
+                                                             .min(recordComparator).orElseThrow();
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
@@ -63,7 +63,7 @@ public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T
         Objects.requireNonNull(accumulator);
         // The list contains always at least one record.
         Function<List<T>, T> aggregateFunction = list -> list.stream()
-                                                             .reduce(accumulator).get();
+                                                             .reduce(accumulator).orElseThrow();
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
@@ -78,11 +78,11 @@ public class UnaryGroupModifier<T extends TextRecord> extends GroupModifier<T, T
 
     public static <T extends TextRecord, R extends T> UnaryGroupModifier<T> collect(Function<? super T, ?> groupByFunction,
                                                                                     Collector<? super T, ?, Optional<R>> collector,
-                                                                                    R nullValue) {
+                                                                                    @Nullable R nullValue) {
         Objects.requireNonNull(collector);
         // The list contains always at least one record.
-        Function<List<T>, R> aggregateFunction = list -> list.stream()
-                                                             .collect(collector).orElse(nullValue);
+        Function<List<T>, @Nullable R> aggregateFunction = list -> list.stream()
+                                                                       .collect(collector).orElse(nullValue);
         return new UnaryGroupModifier<>(groupByFunction, aggregateFunction);
     }
 
