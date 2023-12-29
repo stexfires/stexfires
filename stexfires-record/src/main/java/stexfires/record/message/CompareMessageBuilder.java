@@ -1,5 +1,6 @@
 package stexfires.record.message;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
@@ -17,7 +18,7 @@ public final class CompareMessageBuilder {
     private final SortedSet<Integer> textIndex;
     private boolean className;
     private boolean category;
-    private String categoryOther;
+    private @Nullable String categoryOther;
     private boolean recordId;
     private boolean size;
     private boolean texts;
@@ -36,7 +37,7 @@ public final class CompareMessageBuilder {
         return this;
     }
 
-    public synchronized CompareMessageBuilder category(String other) {
+    public synchronized CompareMessageBuilder category(@Nullable String other) {
         category = true;
         categoryOther = other;
         return this;
@@ -65,7 +66,7 @@ public final class CompareMessageBuilder {
         return this;
     }
 
-    public synchronized RecordMessage<TextRecord> build() {
+    public synchronized NotNullRecordMessage<TextRecord> build() {
         boolean buildClassName = className;
         boolean buildCategory = category;
         String buildCategoryOther = categoryOther;

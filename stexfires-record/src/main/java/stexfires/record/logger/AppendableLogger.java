@@ -29,6 +29,7 @@ public class AppendableLogger<T extends TextRecord, R extends Appendable> implem
         try {
             String message = recordMessage.createMessage(record);
             synchronized (lock) {
+                // append is null-safe
                 appendable.append(message);
             }
         } catch (IOException | NullPointerException | UnsupportedOperationException | ClassCastException |

@@ -8,7 +8,7 @@ import stexfires.record.TextRecord;
  */
 public class CategoryMessage<T extends TextRecord> implements RecordMessage<T> {
 
-    private final String nullCategory;
+    private final @Nullable String nullCategory;
 
     public CategoryMessage() {
         this(null);

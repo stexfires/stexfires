@@ -11,8 +11,8 @@ public class RecordIdMessage<T extends TextRecord> implements RecordMessage<T> {
     public static final String DEFAULT_PREFIX = "#";
     public static final String DEFAULT_MISSING_RECORD_ID_MESSAGE = "";
 
-    private final String prefix;
-    private final String missingRecordIdMessage;
+    private final @Nullable String prefix;
+    private final @Nullable String missingRecordIdMessage;
 
     public RecordIdMessage() {
         this(DEFAULT_PREFIX, DEFAULT_MISSING_RECORD_ID_MESSAGE);
@@ -23,14 +23,13 @@ public class RecordIdMessage<T extends TextRecord> implements RecordMessage<T> {
         this.missingRecordIdMessage = missingRecordIdMessage;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public final @Nullable String createMessage(T record) {
         if (record.hasRecordId()) {
             if (prefix != null) {
-                return prefix + record.recordId().toString();
+                return prefix + record.recordIdAsString();
             } else {
-                return record.recordId().toString();
+                return record.recordIdAsString();
             }
         } else {
             return missingRecordIdMessage;

@@ -1,7 +1,7 @@
 package stexfires.record.mapper;
 
 import stexfires.record.TextRecord;
-import stexfires.record.message.RecordMessage;
+import stexfires.record.message.NotNullRecordMessage;
 
 import java.util.Map;
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class LookupMapper<T extends TextRecord, R extends TextRecord, K> impleme
         this.defaultMapper = defaultMapper;
     }
 
-    public static <T extends TextRecord> LookupMapper<T, TextRecord, String> messageMap(RecordMessage<? super T> recordMessage,
+    public static <T extends TextRecord> LookupMapper<T, TextRecord, String> messageMap(NotNullRecordMessage<? super T> recordMessage,
                                                                                         Map<String, RecordMapper<? super T, TextRecord>> recordMapperMap) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(recordMapperMap);

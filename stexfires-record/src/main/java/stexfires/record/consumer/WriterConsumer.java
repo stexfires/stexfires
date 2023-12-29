@@ -1,7 +1,7 @@
 package stexfires.record.consumer;
 
 import stexfires.record.TextRecord;
-import stexfires.record.message.RecordMessage;
+import stexfires.record.message.NotNullRecordMessage;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -15,9 +15,9 @@ public class WriterConsumer<T extends TextRecord, R extends Writer> implements C
     protected final Object lock = new Object();
 
     private final R writer;
-    private final RecordMessage<? super T> recordMessage;
+    private final NotNullRecordMessage<? super T> recordMessage;
 
-    public WriterConsumer(R writer, RecordMessage<? super T> recordMessage) {
+    public WriterConsumer(R writer, NotNullRecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(writer);
         Objects.requireNonNull(recordMessage);
         this.writer = writer;

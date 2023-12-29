@@ -28,6 +28,7 @@ public class AppendableConsumer<T extends TextRecord, R extends Appendable> impl
         String message = recordMessage.createMessage(record);
         synchronized (lock) {
             try {
+                // append is null-safe
                 appendable.append(message);
             } catch (IOException e) {
                 throw new UncheckedConsumerException(new ConsumerException(record, e));

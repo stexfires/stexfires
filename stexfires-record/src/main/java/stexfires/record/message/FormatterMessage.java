@@ -15,12 +15,12 @@ import java.util.stream.Stream;
  * @see java.util.Formatter
  * @since 0.1
  */
-public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> {
+public class FormatterMessage<T extends TextRecord> implements NotNullRecordMessage<T> {
 
     private final String format;
     private final Locale locale;
     private final int numberOfFieldTexts;
-    private final String fillUpText;
+    private final @Nullable String fillUpText;
 
     public FormatterMessage(String format, Locale locale, int numberOfFieldTexts, @Nullable String fillUpText) {
         Objects.requireNonNull(format);
@@ -40,7 +40,7 @@ public class FormatterMessage<T extends TextRecord> implements RecordMessage<T> 
 
     @Override
     public final String createMessage(T record) {
-        List<Object> args = new ArrayList<>(4 + numberOfFieldTexts);
+        List<@Nullable Object> args = new ArrayList<>(4 + numberOfFieldTexts);
 
         // add 4 standard arguments
         args.add(record.getClass().getName());

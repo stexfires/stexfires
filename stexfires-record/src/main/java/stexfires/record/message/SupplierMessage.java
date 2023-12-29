@@ -1,6 +1,5 @@
 package stexfires.record.message;
 
-import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.function.Supplier;
 /**
  * @since 0.1
  */
-public class SupplierMessage<T extends TextRecord> implements RecordMessage<T> {
+public class SupplierMessage<T extends TextRecord> implements NotNullRecordMessage<T> {
 
     private final Supplier<String> messageSupplier;
 
@@ -22,7 +21,7 @@ public class SupplierMessage<T extends TextRecord> implements RecordMessage<T> {
     }
 
     @Override
-    public final @Nullable String createMessage(T record) {
+    public final String createMessage(T record) {
         return messageSupplier.get();
     }
 

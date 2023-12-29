@@ -5,7 +5,7 @@ import stexfires.record.TextRecord;
 /**
  * @since 0.1
  */
-public class ClassNameMessage<T extends TextRecord> implements RecordMessage<T> {
+public class ClassNameMessage<T extends TextRecord> implements NotNullRecordMessage<T> {
 
     public static final boolean DEFAULT_WITH_HASH_CODE = false;
     public static final char HASH_CODE_PREFIX = '@';

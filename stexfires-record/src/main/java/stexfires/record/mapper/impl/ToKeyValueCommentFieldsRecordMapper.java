@@ -3,6 +3,7 @@ package stexfires.record.mapper.impl;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
 import java.util.Objects;
@@ -12,11 +13,11 @@ import java.util.Objects;
  */
 public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueCommentFieldsRecord> {
 
-    private final RecordMessage<? super T> keyMessage;
+    private final NotNullRecordMessage<? super T> keyMessage;
     private final RecordMessage<? super T> valueMessage;
     private final RecordMessage<? super T> commentMessage;
 
-    public ToKeyValueCommentFieldsRecordMapper(RecordMessage<? super T> keyMessage,
+    public ToKeyValueCommentFieldsRecordMapper(NotNullRecordMessage<? super T> keyMessage,
                                                RecordMessage<? super T> valueMessage,
                                                RecordMessage<? super T> commentMessage) {
         Objects.requireNonNull(keyMessage);

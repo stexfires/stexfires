@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public class JoinedTextsMessage<T extends TextRecord> implements RecordMessage<T> {
+public class JoinedTextsMessage<T extends TextRecord> implements NotNullRecordMessage<T> {
 
     private final CharSequence delimiter;
 

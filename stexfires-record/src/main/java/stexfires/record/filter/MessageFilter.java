@@ -1,5 +1,6 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.function.StringPredicates;
@@ -15,10 +16,10 @@ import java.util.function.Predicate;
 public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final RecordMessage<? super T> recordMessage;
-    private final Predicate<String> messagePredicate;
+    private final Predicate<@Nullable String> messagePredicate;
 
     public MessageFilter(RecordMessage<? super T> recordMessage,
-                         Predicate<String> messagePredicate) {
+                         Predicate<@Nullable String> messagePredicate) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(messagePredicate);
         this.recordMessage = recordMessage;

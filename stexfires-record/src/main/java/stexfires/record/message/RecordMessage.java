@@ -1,5 +1,6 @@
 package stexfires.record.message;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 /**
- * A RecordMessage creates a text message from a {@link stexfires.record.TextRecord}.
+ * A RecordMessage creates a nullable text message from a {@link stexfires.record.TextRecord}.
  * <p>
  * It must be {@code thread-safe} and {@code non-interfering}.
  * It should be {@code immutable} and {@code stateless}.
@@ -16,6 +17,7 @@ import java.util.function.UnaryOperator;
  * This is a {@code functional interface} whose functional method is {@link #createMessage(stexfires.record.TextRecord)}.
  *
  * @see java.util.function.Function
+ * @see stexfires.record.message.NotNullRecordMessage
  * @see stexfires.record.logger.RecordLogger
  * @see stexfires.record.consumer.RecordConsumer
  * @since 0.1
@@ -23,7 +25,7 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface RecordMessage<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordMessage<T> ofFunction(Function<T, String> function) {
+    static <T extends TextRecord> RecordMessage<T> ofFunction(Function<T, @Nullable String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
@@ -40,9 +42,9 @@ public interface RecordMessage<T extends TextRecord> {
         return TextRecord::lastText;
     }
 
-    String createMessage(T record);
+    @Nullable String createMessage(T record);
 
-    default Function<T, String> asFunction() {
+    default Function<T, @Nullable String> asFunction() {
         return this::createMessage;
     }
 
@@ -89,7 +91,7 @@ public interface RecordMessage<T extends TextRecord> {
         return record -> createMessage(record) + delimiter + recordMessage.createMessage(record);
     }
 
-    default RecordMessage<T> andThen(UnaryOperator<String> stringUnaryOperator) {
+    default RecordMessage<T> andThen(UnaryOperator<@Nullable String> stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
         return record -> stringUnaryOperator.apply(createMessage(record));
     }

@@ -1,5 +1,6 @@
 package stexfires.record.logger;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public class CollectionLogger<T extends TextRecord, R extends Collection<String>> implements RecordLogger<T> {
+public class CollectionLogger<T extends TextRecord, R extends Collection<@Nullable String>> implements RecordLogger<T> {
 
     protected final Object lock = new Object();
 

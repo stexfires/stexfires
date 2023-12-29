@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public class ToIdentityStringMessage<T extends TextRecord> implements RecordMessage<T> {
+public class ToIdentityStringMessage<T extends TextRecord> implements NotNullRecordMessage<T> {
 
     public ToIdentityStringMessage() {
     }

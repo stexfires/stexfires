@@ -7,6 +7,7 @@ import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.logger.RecordLogger;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.RecordProducer;
@@ -148,16 +149,16 @@ public final class TextRecordStreams {
         return recordStream.toList();
     }
 
-    public static <T extends TextRecord> List<String> collectMessages(Stream<T> recordStream,
-                                                                      RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> List<@Nullable String> collectMessages(Stream<T> recordStream,
+                                                                                RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage).toList();
     }
 
-    public static <T extends TextRecord> Map<String, List<String>> groupAndCollectMessages(Stream<T> recordStream,
-                                                                                           RecordMessage<? super T> keyMessage,
-                                                                                           RecordMessage<? super T> valueMessage) {
+    public static <T extends TextRecord> Map<String, List<@Nullable String>> groupAndCollectMessages(Stream<T> recordStream,
+                                                                                                     NotNullRecordMessage<? super T> keyMessage,
+                                                                                                     RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(keyMessage);
         Objects.requireNonNull(valueMessage);
@@ -174,8 +175,8 @@ public final class TextRecordStreams {
         return recordStream.map(recordMessage::createMessage).collect(Collectors.joining(delimiter));
     }
 
-    public static <T extends TextRecord> Stream<String> mapToMessage(Stream<T> recordStream,
-                                                                     RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Stream<@Nullable String> mapToMessage(Stream<T> recordStream,
+                                                                               RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(recordMessage);
         return recordStream.map(recordMessage::createMessage);

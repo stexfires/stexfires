@@ -24,6 +24,7 @@ import stexfires.record.mapper.TextsMapper;
 import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
 import stexfires.record.mapper.impl.ToValueFieldRecordMapper;
 import stexfires.record.message.ConstantMessage;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.record.message.SizeMessage;
 import stexfires.record.message.TextMessage;
@@ -173,7 +174,7 @@ public final class ExamplesMapper {
         recordMapperMap.put("value1", AddTextMapper.constant("lookup value1"));
         recordMapperMap.put("value2", AddTextMapper.constant("lookup value2"));
         recordMapperMap.put("key", AddTextMapper.constant("lookup key"));
-        printMapper("messageMap", LookupMapper.messageMap(new TextMessage<>(0), recordMapperMap));
+        printMapper("messageMap", LookupMapper.messageMap(NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(0), "missing key"), recordMapperMap));
     }
 
     @SuppressWarnings("VariableNotUsedInsideIf")
