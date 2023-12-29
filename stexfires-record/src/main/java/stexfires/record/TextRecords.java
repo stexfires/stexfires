@@ -127,7 +127,6 @@ public final class TextRecords {
         return new Builder();
     }
 
-    @SuppressWarnings("ParameterHidesMemberVariable")
     public static final class Builder implements Consumer<String> {
 
         private @Nullable String category;
@@ -138,6 +137,7 @@ public final class TextRecords {
             textList = new ArrayList<>();
         }
 
+        @SuppressWarnings("ParameterHidesMemberVariable")
         public synchronized Builder category(@Nullable String category) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
@@ -146,6 +146,7 @@ public final class TextRecords {
             return this;
         }
 
+        @SuppressWarnings("ParameterHidesMemberVariable")
         public synchronized Builder recordId(@Nullable Long recordId) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
