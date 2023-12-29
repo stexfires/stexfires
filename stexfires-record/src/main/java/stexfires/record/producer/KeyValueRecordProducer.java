@@ -30,15 +30,17 @@ public final class KeyValueRecordProducer implements RecordProducer<KeyValueReco
         this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::toNullableString, Strings::toNullableString);
     }
 
-    public <K, V> KeyValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
+    public <K, V> KeyValueRecordProducer(@Nullable String category,
+                                         Supplier<@Nullable Long> recordIdSupplier,
                                          Map<K, V> keyValueMap) {
         this(category, recordIdSupplier, keyValueMap, Strings::toNullableString, Strings::toNullableString);
     }
 
-    public <K, V> KeyValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
+    public <K, V> KeyValueRecordProducer(@Nullable String category,
+                                         Supplier<@Nullable Long> recordIdSupplier,
                                          Map<K, V> keyValueMap,
                                          Function<? super K, String> keyToStringFunction,
-                                         Function<? super V, String> valueToStringFunction) {
+                                         Function<? super V, @Nullable String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(keyValueMap);
         Objects.requireNonNull(keyToStringFunction);
@@ -46,7 +48,8 @@ public final class KeyValueRecordProducer implements RecordProducer<KeyValueReco
         records = keyValueMap.entrySet()
                              .stream()
                              .map(entry ->
-                                     new KeyValueFieldsRecord(category, recordIdSupplier.get(),
+                                     new KeyValueFieldsRecord(category,
+                                             recordIdSupplier.get(),
                                              keyToStringFunction.apply(entry.getKey()),
                                              valueToStringFunction.apply(entry.getValue())))
                              .collect(Collectors.toList());

@@ -26,25 +26,28 @@ public final class ValueRecordProducer implements RecordProducer<ValueRecord> {
     }
 
     public <V> ValueRecordProducer(@Nullable String category,
-                                   Collection<V> values) {
+                                   Collection<@Nullable V> values) {
         this(category, TextRecords.recordIdSequence(), values, Strings::toNullableString);
     }
 
-    public <V> ValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
-                                   Collection<V> values) {
+    public <V> ValueRecordProducer(@Nullable String category,
+                                   Supplier<@Nullable Long> recordIdSupplier,
+                                   Collection<@Nullable V> values) {
         this(category, recordIdSupplier, values, Strings::toNullableString);
     }
 
-    public <V> ValueRecordProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
-                                   Collection<V> values,
-                                   Function<? super V, String> valueToStringFunction) {
+    public <V> ValueRecordProducer(@Nullable String category,
+                                   Supplier<@Nullable Long> recordIdSupplier,
+                                   Collection<@Nullable V> values,
+                                   Function<? super V, @Nullable String> valueToStringFunction) {
         Objects.requireNonNull(recordIdSupplier);
         Objects.requireNonNull(values);
         Objects.requireNonNull(valueToStringFunction);
         records = values
                 .stream()
                 .map(value ->
-                        new ValueFieldRecord(category, recordIdSupplier.get(),
+                        new ValueFieldRecord(category,
+                                recordIdSupplier.get(),
                                 valueToStringFunction.apply(value)))
                 .collect(Collectors.toList());
     }

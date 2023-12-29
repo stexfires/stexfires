@@ -22,8 +22,10 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
         this(null, TextRecords.recordIdSequence(), recordSize, texts);
     }
 
-    public DividingProducer(@Nullable String category, Supplier<Long> recordIdSupplier,
-                            int recordSize, String... texts) {
+    public DividingProducer(@Nullable String category,
+                            Supplier<@Nullable Long> recordIdSupplier,
+                            int recordSize,
+                            String... texts) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
@@ -33,7 +35,7 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
         records = new ArrayList<>(capacity);
 
         for (int recordIndex = 0; recordIndex < capacity; recordIndex++) {
-            List<String> newRecordTexts = new ArrayList<>(recordSize);
+            List<@Nullable String> newRecordTexts = new ArrayList<>(recordSize);
             for (int newTextIndex = 0; newTextIndex < recordSize; newTextIndex++) {
                 int originalTextIndex = recordIndex * recordSize + newTextIndex;
                 if (originalTextIndex < texts.length) {
