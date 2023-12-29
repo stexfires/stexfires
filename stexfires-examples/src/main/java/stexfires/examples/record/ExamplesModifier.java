@@ -178,7 +178,7 @@ public final class ExamplesModifier {
                         havingSize(NumberPredicates.PrimitiveIntPredicates.lessThan(4)),
                         aggregateToTexts(
                                 messageOfFirstElement(new CategoryMessage<>()),
-                                list -> list.stream().map(ValueRecord::value).collect(Collectors.toList())
+                                list -> list.stream().map(ValueRecord::value).toList()
                         )));
         printModifierOneValueRecordGroup("constructor category; aggregateToValuesWithMessage",
                 new GroupModifier<>(

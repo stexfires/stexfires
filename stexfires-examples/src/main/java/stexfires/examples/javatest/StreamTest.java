@@ -130,7 +130,7 @@ public final class StreamTest {
                               .forEachOrdered(System.out::println);
         System.out.println("-- ints boxed");
         System.out.println(new SplittableRandom().ints(5L, 1, 4).boxed()
-                                                 .collect(Collectors.toList()));
+                                                 .toList());
     }
 
     private static void showConcat() {
