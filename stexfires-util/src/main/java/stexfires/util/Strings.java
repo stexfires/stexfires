@@ -92,7 +92,7 @@ public final class Strings {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public static List<String> list(String... stringValues) {
-        return Arrays.stream(stringValues).collect(Collectors.toList());
+        return Arrays.stream(stringValues).toList();
     }
 
     public static List<String> listOfNullable(@Nullable String stringValue) {
