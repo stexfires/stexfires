@@ -1,5 +1,6 @@
 package stexfires.record.logger;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
@@ -45,7 +46,7 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 
-    public static <T extends TextRecord> DispatcherLogger<T> byCategory(Function<String, Integer> categoryIndexFunction,
+    public static <T extends TextRecord> DispatcherLogger<T> byCategory(Function<@Nullable String, Integer> categoryIndexFunction,
                                                                         List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordLoggers);
@@ -54,7 +55,7 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 
-    public static <T extends TextRecord> DispatcherLogger<T> byRecordId(Function<Long, Integer> recordIdIndexFunction,
+    public static <T extends TextRecord> DispatcherLogger<T> byRecordId(Function<@Nullable Long, Integer> recordIdIndexFunction,
                                                                         List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordIdIndexFunction);
         Objects.requireNonNull(recordLoggers);

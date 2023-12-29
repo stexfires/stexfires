@@ -9,7 +9,6 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 public class CollectionLogger<T extends TextRecord, R extends Collection<String>> implements RecordLogger<T> {
 
     protected final Object lock = new Object();
