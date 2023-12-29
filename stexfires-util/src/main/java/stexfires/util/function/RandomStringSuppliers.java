@@ -38,8 +38,9 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
-                                                          List<@Nullable Integer> codePoints) {
+                                                          List<Integer> codePoints) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePoints);
@@ -54,8 +55,9 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
-                                                          @Nullable Integer... codePoints) {
+                                                          Integer... codePoints) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePoints);
@@ -85,8 +87,9 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
-                                                          List<@Nullable Character> characters) {
+                                                          List<Character> characters) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(characters);
@@ -101,8 +104,9 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
-                                                          @Nullable Character... characters) {
+                                                          Character... characters) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(characters);

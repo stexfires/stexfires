@@ -87,7 +87,12 @@ public final class Strings {
     }
 
     public static List<String> list(String stringValue) {
+        Objects.requireNonNull(stringValue);
         return Collections.singletonList(stringValue);
+    }
+
+    public static List<String> listOfNullable(@Nullable String stringValue) {
+        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
@@ -95,21 +100,18 @@ public final class Strings {
         return Arrays.stream(stringValues).toList();
     }
 
-    public static List<String> listOfNullable(@Nullable String stringValue) {
-        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
+    public static Stream<String> stream(String stringValue) {
+        Objects.requireNonNull(stringValue);
+        return Stream.of(stringValue);
     }
 
-    public static Stream<String> stream(String stringValue) {
-        return Stream.of(stringValue);
+    public static Stream<String> streamOfNullable(@Nullable String stringValue) {
+        return Stream.ofNullable(stringValue);
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
     public static Stream<String> stream(String... stringValues) {
         return Stream.of(stringValues);
-    }
-
-    public static Stream<String> streamOfNullable(@Nullable String stringValue) {
-        return Stream.ofNullable(stringValue);
     }
 
     public static Stream<CodePoint> codePointStream(String stringValue) {
@@ -129,7 +131,7 @@ public final class Strings {
 
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static Stream<String> concat(Stream<String>... streams) {
+    public static Stream<String> concat(Stream<String>... streams) { // TODO
         Objects.requireNonNull(streams);
         return Stream.of(streams).flatMap(Function.identity());
     }

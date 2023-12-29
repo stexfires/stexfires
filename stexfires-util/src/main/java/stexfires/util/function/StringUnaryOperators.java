@@ -280,7 +280,7 @@ public final class StringUnaryOperators {
         return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : String.valueOf(s.charAt(index));
     }
 
-    public static UnaryOperator<@Nullable String> formattedWithArguments(@Nullable Locale locale, Object... args) {
+    public static UnaryOperator<@Nullable String> formattedWithArguments(@Nullable Locale locale, @Nullable Object... args) {
         return s -> nullOrEmpty(s) ? s : String.format(locale, s, args);
     }
 

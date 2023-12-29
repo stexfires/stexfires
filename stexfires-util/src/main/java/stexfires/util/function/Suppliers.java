@@ -44,6 +44,10 @@ public final class Suppliers {
         return () -> constant;
     }
 
+    public static <T> Supplier<@Nullable T> constantOfNullable(@Nullable T constant) {
+        return () -> constant;
+    }
+
     public static <T> Supplier<@Nullable T> constantNull() {
         return () -> null;
     }
@@ -130,14 +134,14 @@ public final class Suppliers {
     }
 
     public static <T> Supplier<@Nullable T> randomSelection(RandomGenerator random,
-                                                            List<T> values) {
+                                                            List<@Nullable T> values) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(values);
         int bound = values.size();
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values.getFirst());
+            return constantOfNullable(values.getFirst());
         } else {
             return () -> values.get(random.nextInt(0, bound));
         }
@@ -152,21 +156,21 @@ public final class Suppliers {
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values[0]);
+            return constantOfNullable(values[0]);
         } else {
             return () -> values[random.nextInt(0, bound)];
         }
     }
 
     public static <T> Supplier<@Nullable T> intSupplierSelection(IntSupplier indexSupplier,
-                                                                 List<T> values) {
+                                                                 List<@Nullable T> values) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(values);
         int bound = values.size();
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values.getFirst());
+            return constantOfNullable(values.getFirst());
         } else {
             return () -> values.get(indexSupplier.getAsInt() % bound);
         }
@@ -181,7 +185,7 @@ public final class Suppliers {
         if (bound == 0) {
             return constantNull();
         } else if (bound == 1) {
-            return constant(values[0]);
+            return constantOfNullable(values[0]);
         } else {
             return () -> values[indexSupplier.getAsInt() % bound];
         }
