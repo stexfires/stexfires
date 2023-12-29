@@ -19,7 +19,6 @@ import stexfires.record.message.ConstantMessage;
 import stexfires.record.message.ExtendedTextsMessage;
 import stexfires.record.message.FormatterMessage;
 import stexfires.record.message.JoinedTextsMessage;
-import stexfires.record.message.NullSafeMessage;
 import stexfires.record.message.RecordIdMessage;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.message.ShortMessage;
@@ -185,13 +184,6 @@ public final class ExamplesMessage {
                 new JoinedTextsMessage<>("="));
     }
 
-    private static void showNullSafeMessage() {
-        System.out.println("-showNullSafeMessage---");
-
-        System.out.println(new NullSafeMessage<>(new ToStringMessage<>()).createMessage(null));
-        System.out.println(new NullSafeMessage<>(new ToStringMessage<>(), "<NULL>").createMessage(null));
-    }
-
     private static void showRecordIdMessage() {
         System.out.println("-showRecordIdMessage---");
 
@@ -296,7 +288,6 @@ public final class ExamplesMessage {
         showExtendedValuesMessage();
         showFormatterMessage();
         showJoinedValuesMessage();
-        showNullSafeMessage();
         showRecordIdMessage();
         showRecordMessage();
         showShortMessage();

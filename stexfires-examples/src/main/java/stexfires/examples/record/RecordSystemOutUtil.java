@@ -6,7 +6,6 @@ import stexfires.record.TextRecord;
 import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.logger.SystemOutLogger;
 import stexfires.record.message.JoinedTextsMessage;
-import stexfires.record.message.NullSafeMessage;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.util.Strings;
@@ -21,11 +20,10 @@ import java.util.stream.Stream;
 public final class RecordSystemOutUtil {
 
     public static final RecordMessage<TextRecord> RECORD_MESSAGE =
-            new NullSafeMessage<>(
-                    new ShortMessage<>()
-                            .append(" [",
-                                    new JoinedTextsMessage<>(", "))
-                            .append("]"));
+            new ShortMessage<>()
+                    .append(" [",
+                            new JoinedTextsMessage<>(", "))
+                    .append("]");
     public static final SystemOutLogger<TextRecord> RECORD_LOGGER = new SystemOutLogger<>(RECORD_MESSAGE);
     public static final SystemOutConsumer<TextRecord> RECORD_CONSUMER = new SystemOutConsumer<>(RECORD_MESSAGE);
 
