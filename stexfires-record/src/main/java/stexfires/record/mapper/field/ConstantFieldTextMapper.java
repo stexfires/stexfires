@@ -8,7 +8,7 @@ import stexfires.record.TextField;
  */
 public class ConstantFieldTextMapper implements FieldTextMapper {
 
-    private final String constantText;
+    private final @Nullable String constantText;
 
     public ConstantFieldTextMapper() {
         this(null);
@@ -22,7 +22,7 @@ public class ConstantFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(TextField field) {
+    public final @Nullable String mapToText(TextField field) {
         return constantText;
     }
 

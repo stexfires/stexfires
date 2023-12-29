@@ -1,5 +1,6 @@
 package stexfires.record.mapper;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
  */
 public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
 
-    public RecordIdMapper(Function<? super T, Long> recordIdFunction) {
+    public RecordIdMapper(Function<? super T, @Nullable Long> recordIdFunction) {
         super(TextRecord::category, recordIdFunction, TextFields::collectTexts);
     }
 
@@ -29,7 +30,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param recordIdSupplier must be thread-safe
      */
-    public static <T extends TextRecord> RecordIdMapper<T> supplier(Supplier<Long> recordIdSupplier) {
+    public static <T extends TextRecord> RecordIdMapper<T> supplier(Supplier<@Nullable Long> recordIdSupplier) {
         Objects.requireNonNull(recordIdSupplier);
         return new RecordIdMapper<>(record -> recordIdSupplier.get());
     }
@@ -51,6 +52,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> constant(Long recordId) {
+        Objects.requireNonNull(recordId);
         return new RecordIdMapper<>(record -> recordId);
     }
 
@@ -59,12 +61,12 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new RecordIdMapper<>(record -> null);
     }
 
-    public static <T extends TextRecord> RecordIdMapper<T> categoryFunction(Function<String, Long> categoryFunction) {
+    public static <T extends TextRecord> RecordIdMapper<T> categoryFunction(Function<@Nullable String, @Nullable Long> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
         return new RecordIdMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
-    public static <T extends TextRecord> RecordIdMapper<T> categoryAsOptionalFunction(Function<Optional<String>, Long> categoryAsOptionalFunction) {
+    public static <T extends TextRecord> RecordIdMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable Long> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
         return new RecordIdMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
@@ -73,7 +75,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new RecordIdMapper<>(TextRecord::recordId);
     }
 
-    public static <T extends TextRecord> RecordIdMapper<T> textAt(int index, Function<String, Long> textFunction) {
+    public static <T extends TextRecord> RecordIdMapper<T> textAt(int index, Function<@Nullable String, @Nullable Long> textFunction) {
         Objects.requireNonNull(textFunction);
         return new RecordIdMapper<>(record -> textFunction.apply(record.textAt(index)));
     }

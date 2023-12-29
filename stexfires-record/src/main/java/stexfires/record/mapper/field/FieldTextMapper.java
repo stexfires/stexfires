@@ -1,5 +1,6 @@
 package stexfires.record.mapper.field;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -22,14 +23,14 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface FieldTextMapper {
 
-    static FieldTextMapper ofFunction(Function<TextField, String> function) {
+    static FieldTextMapper ofFunction(Function<TextField, @Nullable String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
 
-    String mapToText(TextField field);
+    @Nullable String mapToText(TextField field);
 
-    default Function<TextField, String> asFunction() {
+    default Function<TextField, @Nullable String> asFunction() {
         return this::mapToText;
     }
 
@@ -38,12 +39,12 @@ public interface FieldTextMapper {
         return field -> text + mapToText(field);
     }
 
-    default FieldTextMapper prepend(Supplier<String> textSupplier) {
+    default FieldTextMapper prepend(Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         return field -> textSupplier.get() + mapToText(field);
     }
 
-    default FieldTextMapper prepend(Supplier<String> textSupplier, String delimiter) {
+    default FieldTextMapper prepend(Supplier<@Nullable String> textSupplier, String delimiter) {
         Objects.requireNonNull(textSupplier);
         Objects.requireNonNull(delimiter);
         return field -> textSupplier.get() + delimiter + mapToText(field);
@@ -54,12 +55,12 @@ public interface FieldTextMapper {
         return field -> mapToText(field) + text;
     }
 
-    default FieldTextMapper append(Supplier<String> textSupplier) {
+    default FieldTextMapper append(Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         return field -> mapToText(field) + textSupplier.get();
     }
 
-    default FieldTextMapper append(String delimiter, Supplier<String> textSupplier) {
+    default FieldTextMapper append(String delimiter, Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(textSupplier);
         return field -> mapToText(field) + delimiter + textSupplier.get();
@@ -76,7 +77,7 @@ public interface FieldTextMapper {
         return field -> mapToText(field) + delimiter + fieldTextMapper.mapToText(field);
     }
 
-    default FieldTextMapper andThen(UnaryOperator<String> stringUnaryOperator) {
+    default FieldTextMapper andThen(UnaryOperator<@Nullable String> stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
         return field -> stringUnaryOperator.apply(mapToText(field));
     }

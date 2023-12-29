@@ -1,10 +1,11 @@
 package stexfires.record.mapper;
 
+import org.jspecify.annotations.Nullable;
+import stexfires.record.TextField;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.Strings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ import java.util.function.UnaryOperator;
  */
 public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
 
-    public AddTextMapper(Function<? super T, String> textFunction) {
+    public AddTextMapper(Function<? super T, @Nullable String> textFunction) {
         super(record -> {
-            List<String> newTexts = new ArrayList<>(record.size() + 1);
+            List<@Nullable String> newTexts = new ArrayList<>(record.size() + 1);
             newTexts.addAll(TextFields.collectTexts(record));
             newTexts.add(textFunction.apply(record));
             return newTexts;
@@ -38,7 +39,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
     /**
      * @param textSupplier must be thread-safe
      */
-    public static <T extends TextRecord> AddTextMapper<T> supplier(Supplier<String> textSupplier) {
+    public static <T extends TextRecord> AddTextMapper<T> supplier(Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         return new AddTextMapper<>(record -> textSupplier.get());
     }
@@ -81,23 +82,23 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         return new AddTextMapper<>(record -> record.categoryAsOptional().orElse(other));
     }
 
-    public static <T extends TextRecord> AddTextMapper<T> categoryFunction(Function<String, String> categoryFunction) {
+    public static <T extends TextRecord> AddTextMapper<T> categoryFunction(Function<@Nullable String, @Nullable String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
         return new AddTextMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
-    public static <T extends TextRecord> AddTextMapper<T> categoryOperator(UnaryOperator<String> categoryOperator) {
+    public static <T extends TextRecord> AddTextMapper<T> categoryOperator(UnaryOperator<@Nullable String> categoryOperator) {
         Objects.requireNonNull(categoryOperator);
         return new AddTextMapper<>(record -> categoryOperator.apply(record.category()));
     }
 
-    public static <T extends TextRecord> AddTextMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
+    public static <T extends TextRecord> AddTextMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
         return new AddTextMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> recordId() {
-        return new AddTextMapper<>(record -> Strings.toNullableString(record.recordId()));
+        return new AddTextMapper<>(TextRecord::recordIdAsString);
     }
 
     public static <T extends TextRecord> AddTextMapper<T> textAt(int index) {
@@ -108,10 +109,12 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         return new AddTextMapper<>(record -> record.textAtOrElse(index, other));
     }
 
-    @SuppressWarnings("DataFlowIssue")
     public static <T extends TextRecord> AddTextMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, String other) {
         Objects.requireNonNull(fieldTextMapper);
-        return new AddTextMapper<>(record -> record.isValidIndex(index) ? fieldTextMapper.mapToText(record.fieldAt(index)) : other);
+        return new AddTextMapper<>(record -> {
+            TextField field = record.fieldAt(index);
+            return field != null ? fieldTextMapper.mapToText(field) : other;
+        });
     }
 
     public static <T extends TextRecord> AddTextMapper<T> fileName(Path path) {

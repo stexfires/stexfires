@@ -1,5 +1,6 @@
 package stexfires.record.mapper.field;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 /**
@@ -11,7 +12,7 @@ public class IdentityFieldTextMapper implements FieldTextMapper {
     }
 
     @Override
-    public final String mapToText(TextField field) {
+    public final @Nullable String mapToText(TextField field) {
         return field.text();
     }
 

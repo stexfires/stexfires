@@ -1,5 +1,6 @@
 package stexfires.record.mapper.field;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -10,15 +11,15 @@ import java.util.function.UnaryOperator;
  */
 public class StringOperationFieldTextMapper implements FieldTextMapper {
 
-    private final UnaryOperator<String> fieldTextFunction;
+    private final UnaryOperator<@Nullable String> fieldTextFunction;
 
-    public StringOperationFieldTextMapper(UnaryOperator<String> fieldTextFunction) {
+    public StringOperationFieldTextMapper(UnaryOperator<@Nullable String> fieldTextFunction) {
         Objects.requireNonNull(fieldTextFunction);
         this.fieldTextFunction = fieldTextFunction;
     }
 
     @Override
-    public final String mapToText(TextField field) {
+    public final @Nullable String mapToText(TextField field) {
         return fieldTextFunction.apply(field.text());
     }
 
