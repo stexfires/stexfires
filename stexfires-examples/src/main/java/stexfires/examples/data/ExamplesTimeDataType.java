@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.ConvertingDataTypeFormatter;
 import stexfires.data.ConvertingDataTypeParser;
 import stexfires.data.DataTypeConverterException;
@@ -40,7 +41,7 @@ public final class ExamplesTimeDataType {
     private ExamplesTimeDataType() {
     }
 
-    private static <T extends TemporalAccessor> void testParse(String source, DataTypeParser<T> parser, DateTimeFormatter formatter) {
+    private static <T extends @Nullable TemporalAccessor> void testParse(@Nullable String source, DataTypeParser<T> parser, DateTimeFormatter formatter) {
         try {
             T parseResult = parser.parse(source);
             String formattedResult = null;
@@ -57,7 +58,7 @@ public final class ExamplesTimeDataType {
         }
     }
 
-    private static void testParseDate(String source, DataTypeParser<Date> parser, DateTimeFormatter formatter) {
+    private static void testParseDate(@Nullable String source, DataTypeParser<Date> parser, DateTimeFormatter formatter) {
         try {
             Date parseResult = parser.parse(source);
             String formattedResult = null;
@@ -74,7 +75,7 @@ public final class ExamplesTimeDataType {
         }
     }
 
-    private static <T> void testFormat(T source, DataTypeFormatter<T> formatter) {
+    private static <T extends @Nullable Object> void testFormat(@Nullable T source, DataTypeFormatter<T> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {

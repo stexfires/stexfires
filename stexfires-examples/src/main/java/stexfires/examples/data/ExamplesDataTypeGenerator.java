@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataType;
 import stexfires.data.DataTypes;
 import stexfires.data.NumberDataTypeFormatter;
@@ -87,7 +88,7 @@ public final class ExamplesDataTypeGenerator {
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.recordIndex(),
                     (interimResult) -> {
-                        List<String> texts = new ArrayList<>();
+                        List<@Nullable String> texts = new ArrayList<>();
                         texts.add(String.valueOf(interimResult.context()
                                                               .recordIndex()));
                         if (!interimResult.context().first()) {

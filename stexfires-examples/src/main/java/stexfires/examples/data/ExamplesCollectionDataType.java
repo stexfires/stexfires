@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.CollectionDataTypeFormatter;
 import stexfires.data.CollectionDataTypeParser;
 import stexfires.data.DataTypeConverterException;
@@ -25,7 +26,7 @@ public final class ExamplesCollectionDataType {
     private ExamplesCollectionDataType() {
     }
 
-    private static <T, C extends Collection<T>> void testFormat(C source, CollectionDataTypeFormatter<T, C> formatter) {
+    private static <T extends @Nullable Object, C extends @Nullable Collection<@Nullable T>> void testFormat(@Nullable C source, CollectionDataTypeFormatter<T, C> formatter) {
         try {
             String formatResult = formatter.format(source);
             if (source == null) {
@@ -40,7 +41,7 @@ public final class ExamplesCollectionDataType {
         }
     }
 
-    private static <T, C extends Collection<T>> void testParse(String source, CollectionDataTypeParser<T, C> parser) {
+    private static <T extends @Nullable Object, C extends @Nullable Collection<@Nullable T>> void testParse(@Nullable String source, CollectionDataTypeParser<T, C> parser) {
         try {
             C parseResult = parser.parse(source);
             if (parseResult == null) {
@@ -57,7 +58,7 @@ public final class ExamplesCollectionDataType {
 
     public static void main(String... args) {
         System.out.println("---CollectionDataTypeFormatter withDelimiter stringDelimitedList");
-        List<String> stringDelimitedList = null;
+        List<@Nullable String> stringDelimitedList = null;
         testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", StringDataTypeFormatter.identity(), null));
         stringDelimitedList = new ArrayList<>();
         testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", StringDataTypeFormatter.identity(), null));
@@ -81,7 +82,7 @@ public final class ExamplesCollectionDataType {
         testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(";", null, ";", new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
 
         System.out.println("---CollectionDataTypeFormatter withDelimiter integerDelimitedList");
-        List<Integer> integerDelimitedList = new ArrayList<>();
+        List<@Nullable Integer> integerDelimitedList = new ArrayList<>();
         integerDelimitedList.add(42);
         testFormat(integerDelimitedList, CollectionDataTypeFormatter.withDelimiter("; ", null, null, GenericDataTypeFormatter.forInteger(10, null), null));
         integerDelimitedList.add(7);
@@ -92,7 +93,7 @@ public final class ExamplesCollectionDataType {
         testFormat(integerDelimitedList, CollectionDataTypeFormatter.withDelimiter("; ", null, null, GenericDataTypeFormatter.forInteger(10, null), null));
 
         System.out.println("---CollectionDataTypeFormatter withLength stringLengthList");
-        List<String> stringLengthList = new ArrayList<>();
+        List<@Nullable String> stringLengthList = new ArrayList<>();
         stringLengthList.add("He");
         stringLengthList.add("ll");
         stringLengthList.add("o ");
@@ -104,11 +105,11 @@ public final class ExamplesCollectionDataType {
         testFormat(stringLengthList, CollectionDataTypeFormatter.withLength(2, "\"", "\"", StringDataTypeFormatter.identity(), null));
 
         System.out.println("---CollectionDataTypeFormatter withLength stringBitLengthList");
-        List<String> stringBitLengthList = TextSplitters.splitByLength("1001101100", 1).toList();
+        List<@Nullable String> stringBitLengthList = TextSplitters.splitByLength("1001101100", 1).toList();
         testFormat(stringBitLengthList, CollectionDataTypeFormatter.withLength(1, null, null, StringDataTypeFormatter.identity(), null));
 
         System.out.println("---CollectionDataTypeFormatter withLength integerLengthList");
-        List<Integer> integerLengthList = new ArrayList<>();
+        List<@Nullable Integer> integerLengthList = new ArrayList<>();
         integerLengthList.add(2);
         testFormat(integerLengthList, CollectionDataTypeFormatter.withLength(1, null, null, GenericDataTypeFormatter.forInteger(10, null), null));
         integerLengthList.add(8);

@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.DataTypeFormatter;
 import stexfires.data.DataTypeParser;
@@ -20,7 +21,7 @@ public final class ExamplesStringDataType {
     private ExamplesStringDataType() {
     }
 
-    private static void testParse(String source, DataTypeParser<String> parser) {
+    private static void testParse(@Nullable String source, DataTypeParser<String> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -28,7 +29,7 @@ public final class ExamplesStringDataType {
         }
     }
 
-    private static void testFormat(String source, DataTypeFormatter<String> formatter) {
+    private static void testFormat(@Nullable String source, DataTypeFormatter<String> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {

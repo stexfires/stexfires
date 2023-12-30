@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.BooleanDataTypeFormatter;
 import stexfires.data.BooleanDataTypeParser;
 import stexfires.data.ConvertingDataTypeFormatter;
@@ -37,7 +38,7 @@ public final class ExamplesMiscDataType {
     private ExamplesMiscDataType() {
     }
 
-    private static void testParseBoolean(String source, BooleanDataTypeParser parser) {
+    private static void testParseBoolean(@Nullable String source, BooleanDataTypeParser parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -45,7 +46,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testParseLocale(String source, GenericDataTypeParser<Locale> parser) {
+    private static void testParseLocale(@Nullable String source, GenericDataTypeParser<Locale> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + localeAsString(parser.parse(source)));
         } catch (DataTypeConverterException e) {
@@ -53,7 +54,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testFormatBoolean(Boolean source, BooleanDataTypeFormatter formatter) {
+    private static void testFormatBoolean(@Nullable Boolean source, BooleanDataTypeFormatter formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -61,7 +62,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testFormatLocale(Locale source, GenericDataTypeFormatter<Locale> formatter) {
+    private static void testFormatLocale(@Nullable Locale source, GenericDataTypeFormatter<Locale> formatter) {
         try {
             System.out.println("Format: " + localeAsString(source) + ". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -69,14 +70,14 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static String localeAsString(Locale locale) {
+    private static String localeAsString(@Nullable Locale locale) {
         if (locale == null) {
             return "<NULL>";
         }
         return "\"" + locale.toLanguageTag() + "\" (" + locale + " - " + locale.hashCode() + ")";
     }
 
-    private static void testParseCharset(String source, GenericDataTypeParser<Charset> parser) {
+    private static void testParseCharset(@Nullable String source, GenericDataTypeParser<Charset> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -84,7 +85,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testFormatCharset(Charset source, GenericDataTypeFormatter<Charset> formatter) {
+    private static void testFormatCharset(@Nullable Charset source, GenericDataTypeFormatter<Charset> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -93,7 +94,7 @@ public final class ExamplesMiscDataType {
     }
 
     @SuppressWarnings("rawtypes")
-    private static void testParseClass(String source, GenericDataTypeParser<Class> parser) {
+    private static void testParseClass(@Nullable String source, GenericDataTypeParser<Class> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -102,7 +103,7 @@ public final class ExamplesMiscDataType {
     }
 
     @SuppressWarnings("rawtypes")
-    private static void testFormatClass(Class source, GenericDataTypeFormatter<Class> formatter) {
+    private static void testFormatClass(@Nullable Class source, GenericDataTypeFormatter<Class> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -110,7 +111,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testParseByteArray(String source, GenericDataTypeParser<byte[]> parser) {
+    private static void testParseByteArray(@Nullable String source, GenericDataTypeParser<byte[]> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + Arrays.toString(parser.parse(source)));
         } catch (DataTypeConverterException e) {
@@ -118,7 +119,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static void testFormatByteArray(byte[] source, GenericDataTypeFormatter<byte[]> formatter) {
+    private static void testFormatByteArray(byte @Nullable [] source, GenericDataTypeFormatter<byte[]> formatter) {
         try {
             System.out.println("Format: \"" + Arrays.toString(source) + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -126,7 +127,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static <T> void testParse(String source, DataTypeParser<T> parser) {
+    private static <T> void testParse(@Nullable String source, DataTypeParser<T> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -134,7 +135,7 @@ public final class ExamplesMiscDataType {
         }
     }
 
-    private static <T> void testFormat(T source, DataTypeFormatter<T> formatter) {
+    private static <T> void testFormat(@Nullable T source, DataTypeFormatter<T> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
