@@ -86,7 +86,7 @@ public final class Strings {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
-    public static List<String> list(String stringValue) {
+    public static List<String> listOfNotNull(String stringValue) {
         Objects.requireNonNull(stringValue);
         return Collections.singletonList(stringValue);
     }
@@ -95,12 +95,12 @@ public final class Strings {
         return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static List<String> list(String... stringValues) {
+    public static List<@Nullable String> list(@Nullable String... stringValues) {
+        Objects.requireNonNull(stringValues);
         return Arrays.stream(stringValues).toList();
     }
 
-    public static Stream<String> stream(String stringValue) {
+    public static Stream<String> streamOfNotNull(String stringValue) {
         Objects.requireNonNull(stringValue);
         return Stream.of(stringValue);
     }
@@ -109,12 +109,11 @@ public final class Strings {
         return Stream.ofNullable(stringValue);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Stream<String> stream(String... stringValues) {
+    public static Stream<@Nullable String> stream(@Nullable String... stringValues) {
         return Stream.of(stringValues);
     }
 
-    public static Stream<CodePoint> codePointStream(String stringValue) {
+    public static Stream<CodePoint> codePointStreamOfNotNull(String stringValue) {
         Objects.requireNonNull(stringValue);
         return stringValue.codePoints().mapToObj(CodePoint::new);
     }
@@ -123,39 +122,38 @@ public final class Strings {
         return stringValue == null ? Stream.empty() : stringValue.codePoints().mapToObj(CodePoint::new);
     }
 
-    public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
+    public static Stream<@Nullable String> concatTwoStreams(Stream<@Nullable String> firstStream, Stream<@Nullable String> secondStream) {
         Objects.requireNonNull(firstStream);
         Objects.requireNonNull(secondStream);
         return Stream.concat(firstStream, secondStream);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static Stream<String> concat(Stream<String>... streams) { // TODO
+    public static Stream<@Nullable String> concatManyStreams(Stream<@Nullable String>... streams) {
         Objects.requireNonNull(streams);
         return Stream.of(streams).flatMap(Function.identity());
     }
 
-    public static String join(Stream<String> stream) {
+    public static String join(Stream<@Nullable String> stream) {
         Objects.requireNonNull(stream);
         return join(stream, DEFAULT_DELIMITER);
     }
 
-    public static String join(Stream<String> stream, CharSequence delimiter) {
+    public static String join(Stream<@Nullable String> stream, CharSequence delimiter) {
         Objects.requireNonNull(stream);
         Objects.requireNonNull(delimiter);
         return stream.collect(Collectors.joining(delimiter));
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void printLine(Stream<String> stream, CharSequence delimiter) {
+    public static void printLine(Stream<@Nullable String> stream, CharSequence delimiter) {
         Objects.requireNonNull(stream);
         Objects.requireNonNull(delimiter);
         System.out.println(join(stream, delimiter));
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void printLines(Stream<String> stream) {
+    public static void printLines(Stream<@Nullable String> stream) {
         Objects.requireNonNull(stream);
         stream.forEachOrdered(System.out::println);
     }

@@ -99,17 +99,17 @@ public final class StringPredicates {
 
     public static Predicate<@Nullable String> allCodePointsMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
-        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).allMatch(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStreamOfNotNull(s).allMatch(codePointPredicate);
     }
 
     public static Predicate<@Nullable String> anyCodePointMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
-        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).anyMatch(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStreamOfNotNull(s).anyMatch(codePointPredicate);
     }
 
     public static Predicate<@Nullable String> noneCodePointMatch(Predicate<CodePoint> codePointPredicate, boolean resultForNullOrEmpty) {
         Objects.requireNonNull(codePointPredicate);
-        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStream(s).noneMatch(codePointPredicate);
+        return s -> checkNullOrEmpty(s) ? resultForNullOrEmpty : Strings.codePointStreamOfNotNull(s).noneMatch(codePointPredicate);
     }
 
     public static Predicate<@Nullable String> allIntCodePointsMatch(IntPredicate codePointPredicate, boolean resultForNullOrEmpty) {
