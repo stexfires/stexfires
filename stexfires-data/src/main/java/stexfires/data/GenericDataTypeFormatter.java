@@ -145,12 +145,12 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forInetAddressHostNameWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<byte[]> forByteArrayWithSupplier(Function<byte[], String> formatFunction,
+    public static GenericDataTypeFormatter<byte[]> forByteArrayWithSupplier(Function<byte[], @Nullable String> formatFunction,
                                                                             @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(formatFunction, nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<byte[]> forByteArray(Function<byte[], String> formatFunction,
+    public static GenericDataTypeFormatter<byte[]> forByteArray(Function<byte[], @Nullable String> formatFunction,
                                                                 @Nullable String nullSource) {
         return forByteArrayWithSupplier(formatFunction, () -> nullSource);
     }

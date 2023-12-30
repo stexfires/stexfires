@@ -177,13 +177,13 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         return forInetAddressWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    public static GenericDataTypeParser<byte[]> forByteArrayWithSuppliers(Function<String, byte[]> parseFunction,
+    public static GenericDataTypeParser<byte[]> forByteArrayWithSuppliers(Function<String, byte @Nullable []> parseFunction,
                                                                           @Nullable Supplier<byte[]> nullSourceSupplier,
                                                                           @Nullable Supplier<byte[]> emptySourceSupplier) {
         return new GenericDataTypeParser<>(parseFunction, nullSourceSupplier, emptySourceSupplier);
     }
 
-    public static GenericDataTypeParser<byte[]> forByteArray(Function<String, byte[]> parseFunction,
+    public static GenericDataTypeParser<byte[]> forByteArray(Function<String, byte @Nullable []> parseFunction,
                                                              byte @Nullable [] nullOrEmptySource) {
         return forByteArrayWithSuppliers(parseFunction, () -> nullOrEmptySource, () -> nullOrEmptySource);
     }
