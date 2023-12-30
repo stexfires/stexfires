@@ -39,7 +39,7 @@ public final class Suppliers {
     private Suppliers() {
     }
 
-    public static <T> Supplier<T> constant(T constant) {
+    public static <T> Supplier<T> constantOfNotNull(T constant) {
         Objects.requireNonNull(constant);
         return () -> constant;
     }
@@ -133,59 +133,63 @@ public final class Suppliers {
         return () -> function.applyAsDouble(supplier.get());
     }
 
-    public static <T> Supplier<@Nullable T> randomSelection(RandomGenerator random,
-                                                            List<@Nullable T> values) {
+    public static <T> Supplier<T> randomListSelection(RandomGenerator random,
+                                                      List<T> values) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(values);
+        if (values.isEmpty()) {
+            throw new IllegalArgumentException("At least one value must be passed.");
+        }
         int bound = values.size();
-        if (bound == 0) {
-            return constantNull();
-        } else if (bound == 1) {
-            return constantOfNullable(values.getFirst());
+        if (bound == 1) {
+            return constantOfNotNull(values.getFirst());
         } else {
             return () -> values.get(random.nextInt(0, bound));
         }
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static <T> Supplier<@Nullable T> randomSelection(RandomGenerator random,
-                                                            T[] values) {
+    @SafeVarargs
+    public static <T> Supplier<T> randomSelection(RandomGenerator random,
+                                                  T... values) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(values);
+        if (values.length == 0) {
+            throw new IllegalArgumentException("At least one value must be passed.");
+        }
         int bound = values.length;
-        if (bound == 0) {
-            return constantNull();
-        } else if (bound == 1) {
-            return constantOfNullable(values[0]);
+        if (bound == 1) {
+            return constantOfNotNull(values[0]);
         } else {
             return () -> values[random.nextInt(0, bound)];
         }
     }
 
-    public static <T> Supplier<@Nullable T> intSupplierSelection(IntSupplier indexSupplier,
-                                                                 List<@Nullable T> values) {
+    public static <T> Supplier<T> intSupplierListSelection(IntSupplier indexSupplier,
+                                                           List<T> values) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(values);
+        if (values.isEmpty()) {
+            throw new IllegalArgumentException("At least one value must be passed.");
+        }
         int bound = values.size();
-        if (bound == 0) {
-            return constantNull();
-        } else if (bound == 1) {
-            return constantOfNullable(values.getFirst());
+        if (bound == 1) {
+            return constantOfNotNull(values.getFirst());
         } else {
             return () -> values.get(indexSupplier.getAsInt() % bound);
         }
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
-    public static <T> Supplier<@Nullable T> intSupplierSelection(IntSupplier indexSupplier,
-                                                                 T[] values) {
+    @SafeVarargs
+    public static <T> Supplier<T> intSupplierSelection(IntSupplier indexSupplier,
+                                                       T... values) {
         Objects.requireNonNull(indexSupplier);
         Objects.requireNonNull(values);
+        if (values.length == 0) {
+            throw new IllegalArgumentException("At least one value must be passed.");
+        }
         int bound = values.length;
-        if (bound == 0) {
-            return constantNull();
-        } else if (bound == 1) {
-            return constantOfNullable(values[0]);
+        if (bound == 1) {
+            return constantOfNotNull(values[0]);
         } else {
             return () -> values[indexSupplier.getAsInt() % bound];
         }

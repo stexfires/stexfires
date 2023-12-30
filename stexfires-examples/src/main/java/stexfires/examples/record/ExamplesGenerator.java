@@ -174,7 +174,7 @@ public final class ExamplesGenerator {
 
         System.out.println("--- valueRecord random");
         {
-            Supplier<String> randomCategorySupplier = Suppliers.randomSelection(new Random(0L), List.of("cat1", "cat2", "cat3", "cat4", "cat5"));
+            Supplier<String> randomCategorySupplier = Suppliers.randomListSelection(new Random(0L), List.of("cat1", "cat2", "cat3", "cat4", "cat5"));
             CategoryGenerator<ValueRecord> categoryGenerator = (context) -> randomCategorySupplier.get();
             Supplier<Long> recordIdSupplier = RandomNumberSuppliers.randomLong(new Random(0L), 100L, 200L);
             RecordIdGenerator<ValueRecord> recordIdGenerator = (context) -> recordIdSupplier.get();

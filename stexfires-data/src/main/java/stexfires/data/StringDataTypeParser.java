@@ -38,7 +38,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 null,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
     public static StringDataTypeParser withCheck(Predicate<String> checkPredicate) {
@@ -46,7 +46,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
         return new StringDataTypeParser(checkPredicate,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
     public static StringDataTypeParser withEqualityCheck(UnaryOperator<String> operatorForEqualityCheck,
@@ -65,7 +65,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
         return withEqualityCheck(operatorForEqualityCheck,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
     @Override

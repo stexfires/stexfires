@@ -26,7 +26,7 @@ public final class ExamplesStringSupplier {
     private static void showSuppliers() {
         System.out.println("-showSuppliers---");
 
-        printStream("constant", Stream.generate(Suppliers.constant("Test")).limit(2));
+        printStream("constant", Stream.generate(Suppliers.constantOfNotNull("Test")).limit(2));
         printStream("constantNull", Stream.generate(Suppliers.<String>constantNull()).limit(2));
         printStream("combine", Stream.generate(Suppliers.combine(() -> "X", () -> "Y", (x, y) -> x + "-" + y)).limit(2));
 
@@ -37,7 +37,7 @@ public final class ExamplesStringSupplier {
         printStream("sequenceAsString 1.000", Stream.generate(Suppliers.sequenceAsString(1_000L)));
 
         printStream("conditional", Stream.generate(Suppliers.conditional(new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
-                Suppliers.constant("Test"), Suppliers.constantNull())));
+                Suppliers.constantOfNotNull("Test"), Suppliers.constantNull())));
     }
 
     @SuppressWarnings("CharUsedInArithmeticContext")
@@ -51,54 +51,42 @@ public final class ExamplesStringSupplier {
                         RandomStringSuppliers.uuid()));
 
         // randomSelection
-        printStream("randomSelection List 0",
+        printStream("randomListSelection 1",
                 Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, List.of())));
-        printStream("randomSelection List 1",
+                        Suppliers.randomListSelection(randomGenerator, List.of("Aaa"))));
+        printStream("randomListSelection 3",
                 Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, List.of("Aaa"))));
-        printStream("randomSelection List 3",
+                        Suppliers.randomListSelection(randomGenerator, List.of("Aaa", "Bbb", "Ccc"))));
+        printStream("randomSelection Varargs 1",
                 Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, List.of("Aaa", "Bbb", "Ccc"))));
-        printStream("randomSelection Array 0",
+                        Suppliers.randomSelection(randomGenerator, "Aaa")));
+        printStream("randomSelection Varargs 3",
                 Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, new String[]{})));
-        printStream("randomSelection Array 1",
+                        Suppliers.randomSelection(randomGenerator, "Aaa", "Bbb", "Ccc")));
+        printStream("randomListSelection splitTextByCharacterBreaks",
                 Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, new String[]{"Aaa"})));
-        printStream("randomSelection Array 3",
-                Stream.generate(
-                        Suppliers.randomSelection(randomGenerator, new String[]{"Aaa", "Bbb", "Ccc"})));
-        printStream("randomSelection List splitTextByCharacterBreaks",
-                Stream.generate(
-                        Suppliers.randomSelection(randomGenerator,
+                        Suppliers.randomListSelection(randomGenerator,
                                 TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList())));
 
         // intSupplierSelection
-        printStream("intSupplierSelection List 0",
+        printStream("intSupplierListSelection 1",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 0, List.of())));
-        printStream("intSupplierSelection List 1",
+                        Suppliers.intSupplierListSelection(() -> 0, List.of("Aaa"))));
+        printStream("intSupplierListSelection 3 always 2",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 0, List.of("Aaa"))));
-        printStream("intSupplierSelection List 3 always 2",
+                        Suppliers.intSupplierListSelection(() -> 2, List.of("Aaa", "Bbb", "Ccc"))));
+        printStream("intSupplierListSelection 3 random",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 2, List.of("Aaa", "Bbb", "Ccc"))));
-        printStream("intSupplierSelection List 3 random",
+                        Suppliers.intSupplierListSelection(RandomNumberSuppliers.primitiveIntSelection(randomGenerator, 1, 1, 1, 2), List.of("Aaa", "Bbb", "Ccc"))));
+        printStream("intSupplierSelection Varargs 1",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(RandomNumberSuppliers.primitiveIntSelection(randomGenerator, 1, 1, 1, 2), List.of("Aaa", "Bbb", "Ccc"))));
-        printStream("intSupplierSelection Array 0",
+                        Suppliers.intSupplierSelection(() -> 0, "Aaa")));
+        printStream("intSupplierSelection Varargs 3 always 2",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 0, new String[]{})));
-        printStream("intSupplierSelection Array 1",
+                        Suppliers.intSupplierSelection(() -> 2, "Aaa", "Bbb", "Ccc")));
+        printStream("intSupplierSelection Varargs 3 random",
                 Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 0, new String[]{"Aaa"})));
-        printStream("intSupplierSelection Array 3 always 2",
-                Stream.generate(
-                        Suppliers.intSupplierSelection(() -> 2, new String[]{"Aaa", "Bbb", "Ccc"})));
-        printStream("intSupplierSelection Array 3 random",
-                Stream.generate(
-                        Suppliers.intSupplierSelection(RandomNumberSuppliers.primitiveIntSelection(randomGenerator, 1, 1, 1, 2), new String[]{"Aaa", "Bbb", "Ccc"})));
+                        Suppliers.intSupplierSelection(RandomNumberSuppliers.primitiveIntSelection(randomGenerator, 1, 1, 1, 2), "Aaa", "Bbb", "Ccc")));
 
         printStream("codePointConcatenation Boundary A-z isAlphabetic",
                 Stream.generate(

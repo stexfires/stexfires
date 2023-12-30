@@ -72,13 +72,13 @@ public final class ExamplesCollectionDataType {
         stringDelimitedList.add(null);
         testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", StringDataTypeFormatter.identity(), null));
         testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", new StringDataTypeFormatter(null, null), null));
-        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", new StringDataTypeFormatter(null, Suppliers.constant("<null>")), null));
+        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
         stringDelimitedList.add(", ");
-        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", new StringDataTypeFormatter(null, Suppliers.constant("<null>")), null));
-        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter("|", null, null, new StringDataTypeFormatter(null, Suppliers.constant("<null>")), null));
+        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(", ", "[", "]", new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
+        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter("|", null, null, new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
         stringDelimitedList.add("g");
-        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter("|", null, null, new StringDataTypeFormatter(null, Suppliers.constant("<null>")), null));
-        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(";", null, ";", new StringDataTypeFormatter(null, Suppliers.constant("<null>")), null));
+        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter("|", null, null, new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
+        testFormat(stringDelimitedList, CollectionDataTypeFormatter.withDelimiter(";", null, ";", new StringDataTypeFormatter(null, Suppliers.constantOfNotNull("<null>")), null));
 
         System.out.println("---CollectionDataTypeFormatter withDelimiter integerDelimitedList");
         List<Integer> integerDelimitedList = new ArrayList<>();
