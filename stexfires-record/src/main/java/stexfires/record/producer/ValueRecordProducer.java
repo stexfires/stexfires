@@ -21,7 +21,7 @@ public final class ValueRecordProducer implements RecordProducer<ValueRecord> {
 
     private final List<ValueRecord> records;
 
-    public <V> ValueRecordProducer(Collection<V> values) {
+    public <V> ValueRecordProducer(Collection<@Nullable V> values) {
         this(null, TextRecords.recordIdSequence(), values, Strings::toNullableString);
     }
 

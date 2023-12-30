@@ -18,14 +18,14 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
 
     private final List<TextRecord> records;
 
-    public DividingProducer(int recordSize, String... texts) {
+    public DividingProducer(int recordSize, @Nullable String... texts) {
         this(null, TextRecords.recordIdSequence(), recordSize, texts);
     }
 
     public DividingProducer(@Nullable String category,
                             Supplier<@Nullable Long> recordIdSupplier,
                             int recordSize,
-                            String... texts) {
+                            @Nullable String... texts) {
         Objects.requireNonNull(recordIdSupplier);
         if (recordSize <= 0) {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
