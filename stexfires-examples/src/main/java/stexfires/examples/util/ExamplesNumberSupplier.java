@@ -186,7 +186,10 @@ public final class ExamplesNumberSupplier {
 
         RandomGenerator random = new Random();
 
-        printStream("primitiveIntSelection Array",
+        printStream("primitiveIntSelection Array 1",
+                IntStream.generate(
+                        RandomNumberSuppliers.primitiveIntSelection(random, 42)));
+        printStream("primitiveIntSelection Array 3",
                 IntStream.generate(
                         RandomNumberSuppliers.primitiveIntSelection(random, 42, 23, 1024)));
 
@@ -204,7 +207,10 @@ public final class ExamplesNumberSupplier {
                 Stream.generate(
                         Suppliers.intSupplierSelection(() -> 1, new Integer[]{42, 23, 1024})));
 
-        printStream("primitiveLongSelection Array",
+        printStream("primitiveLongSelection Array 1",
+                LongStream.generate(
+                        RandomNumberSuppliers.primitiveLongSelection(random, 42L)));
+        printStream("primitiveLongSelection Array 3",
                 LongStream.generate(
                         RandomNumberSuppliers.primitiveLongSelection(random, 42L, 23L, 1024L)));
         printStream("randomSelection List Long",
@@ -214,7 +220,10 @@ public final class ExamplesNumberSupplier {
                 Stream.generate(
                         Suppliers.randomSelection(random, new Long[]{42L, 23L, 1024L})));
 
-        printStream("primitiveDoubleSelection Array",
+        printStream("primitiveDoubleSelection Array 1",
+                DoubleStream.generate(
+                        RandomNumberSuppliers.primitiveDoubleSelection(random, 42.0d)));
+        printStream("primitiveDoubleSelection Array 3",
                 DoubleStream.generate(
                         RandomNumberSuppliers.primitiveDoubleSelection(random, 42.0d, 23.0d, 1024.0d)));
         printStream("randomSelection List Double",
