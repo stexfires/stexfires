@@ -6,7 +6,6 @@ import stexfires.util.function.RandomNumberSuppliers;
 import stexfires.util.function.RandomStringSuppliers;
 import stexfires.util.function.Suppliers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -152,24 +151,10 @@ public final class ExamplesStringSupplier {
                         RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
                                 List.of('A', 'B', 'C'))));
 
-        List<Character> charactersWithNull = new ArrayList<>(3);
-        charactersWithNull.add('A');
-        charactersWithNull.add(null);
-        charactersWithNull.add('C');
-        printStream("characterConcatenation List 3 with null",
+        printStream("characterConcatenation Array 4",
                 Stream.generate(
                         RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
-                                charactersWithNull)));
-
-        printStream("characterConcatenation Array 3",
-                Stream.generate(
-                        RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
-                                'a', 'b', 'c')));
-
-        printStream("characterConcatenation Array 3 with null",
-                Stream.generate(
-                        RandomStringSuppliers.characterConcatenation(randomGenerator, () -> randomGenerator.nextInt(5, 20),
-                                'a', null, 'c')));
+                                'a', 'b', 'c', '€')));
 
         printStream("stringConcatenation List",
                 Stream.generate(
