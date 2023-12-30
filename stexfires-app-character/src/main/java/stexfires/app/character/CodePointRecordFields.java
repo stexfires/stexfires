@@ -67,10 +67,9 @@ public enum CodePointRecordFields {
                 // category
                 codePoint.type().name(),
                 // recordId
-                (long) codePoint.value(),
+                Long.valueOf(codePoint.value()),
                 // text fields
-                Arrays.stream(values()).map(field -> field.convert(codePoint, alternativeValue)).toList()
-        );
+                Arrays.stream(values()).map(field -> field.convert(codePoint, alternativeValue)));
     }
 
     public static Stream<TextRecord> generateCodePointRecordStream(int lowestCodePoint,
