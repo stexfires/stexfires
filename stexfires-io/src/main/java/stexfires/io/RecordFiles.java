@@ -39,7 +39,7 @@ public final class RecordFiles {
         Objects.requireNonNull(readableRecordFileSpec);
         Objects.requireNonNull(streamFunction);
         Objects.requireNonNull(path);
-
+        Objects.requireNonNull(readOptions);
         R result;
         try (ReadableRecordProducer<PTR> readableProducer = readableRecordFileSpec.openFileAsProducer(path, readOptions)) {
             result = RecordIOStreams.read(readableProducer, streamFunction);
@@ -59,7 +59,7 @@ public final class RecordFiles {
         Objects.requireNonNull(readableRecordFileSpec);
         Objects.requireNonNull(recordConsumer);
         Objects.requireNonNull(path);
-
+        Objects.requireNonNull(readOptions);
         return readFile(readableRecordFileSpec, RecordIOStreams.andConsume(recordConsumer), path, readOptions);
     }
 
@@ -72,7 +72,7 @@ public final class RecordFiles {
         Objects.requireNonNull(writableRecordFileSpec);
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(path);
-
+        Objects.requireNonNull(writeOptions);
         try (WritableRecordConsumer<CTR> writableConsumer = writableRecordFileSpec.openFileAsConsumer(path, writeOptions)) {
             RecordIOStreams.writeStream(writableConsumer, recordStream);
         } catch (UncheckedConsumerException e) {
@@ -89,7 +89,7 @@ public final class RecordFiles {
         Objects.requireNonNull(writableRecordFileSpec);
         Objects.requireNonNull(textRecord);
         Objects.requireNonNull(path);
-
+        Objects.requireNonNull(writeOptions);
         try (WritableRecordConsumer<CTR> writableConsumer = writableRecordFileSpec.openFileAsConsumer(path, writeOptions)) {
             RecordIOStreams.writeRecord(writableConsumer, textRecord);
         } catch (UncheckedConsumerException e) {
