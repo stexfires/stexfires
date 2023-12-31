@@ -21,7 +21,9 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                 GroupModifier.aggregateToTexts(
                         list -> newCategoryFunction.apply(list.getFirst()),
                         pivotTextsFunction));
+        Objects.requireNonNull(groupByFunction);
         Objects.requireNonNull(newCategoryFunction);
+        Objects.requireNonNull(pivotTextsFunction);
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
@@ -39,6 +41,13 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                         nullText,
                         textClassificationFunction,
                         textClassifications));
+        Objects.requireNonNull(groupByFunction);
+        Objects.requireNonNull(newCategoryFunction);
+        Objects.requireNonNull(newFirstTextsFunction);
+        Objects.requireNonNull(textFunction);
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textClassificationFunction);
+        Objects.requireNonNull(textClassifications);
     }
 
     public PivotModifier(Function<? super T, ?> groupByFunction,
@@ -54,6 +63,9 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                         newRecordSize,
                         nullText,
                         textIndexes));
+        Objects.requireNonNull(groupByFunction);
+        Objects.requireNonNull(newCategoryFunction);
+        Objects.requireNonNull(newFirstTextsFunction);
     }
 
     public static <T extends TextRecord> Function<? super T, @Nullable String> withoutCategory() {
@@ -65,6 +77,8 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                                                    String nullText,
                                                                                    int textClassificationIndex,
                                                                                    List<String> textClassifications) {
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textClassifications);
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
@@ -80,6 +94,11 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                                                                    String nullText,
                                                                                    Function<? super T, @Nullable String> textClassificationFunction,
                                                                                    List<String> textClassifications) {
+        Objects.requireNonNull(keyFunction);
+        Objects.requireNonNull(textFunction);
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textClassificationFunction);
+        Objects.requireNonNull(textClassifications);
         return new PivotModifier<>(keyFunction,
                 withoutCategory(),
                 r -> Stream.of(keyFunction.apply(r)),
@@ -92,15 +111,19 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
     public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                            int recordsPerKey,
                                                                            String nullText,
-                                                                           Integer... textIndexes) {
+                                                                           int... textIndexes) {
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textIndexes);
         return pivotWithIndexes(keyIndex, recordsPerKey, nullText,
-                Arrays.asList(textIndexes));
+                Arrays.stream(textIndexes).boxed().toList());
     }
 
     public static <T extends TextRecord> PivotModifier<T> pivotWithIndexes(int keyIndex,
                                                                            int recordsPerKey,
                                                                            String nullText,
                                                                            List<Integer> textIndexes) {
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textIndexes);
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
@@ -118,6 +141,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
             List<String> textClassifications) {
         Objects.requireNonNull(newFirstTextsFunction);
         Objects.requireNonNull(textFunction);
+        Objects.requireNonNull(nullText);
         Objects.requireNonNull(textClassificationFunction);
         Objects.requireNonNull(textClassifications);
         Function<List<T>, Stream<String>> newTextsFunction = list ->
@@ -142,6 +166,8 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
             String nullText,
             List<Integer> textIndexes) {
         Objects.requireNonNull(newFirstTextsFunction);
+        Objects.requireNonNull(nullText);
+        Objects.requireNonNull(textIndexes);
         if (newRecordSize < 0) {
             throw new IllegalArgumentException("newRecordSize=" + newRecordSize);
         }

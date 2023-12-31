@@ -146,6 +146,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
 
     public static <T extends TextRecord> Function<List<T>, List<String>> collectTexts(Collector<String, ?, Optional<String>> textCollector,
                                                                                       @Nullable String nullText) {
+        Objects.requireNonNull(textCollector);
         return list -> list.stream()
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
