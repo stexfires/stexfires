@@ -19,6 +19,7 @@ public interface DataTypeParser<T> {
         return function::apply;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Nullable T parse(@Nullable String source) throws DataTypeConverterException;
 
     default Optional<T> parseToOptional(@Nullable String source) throws DataTypeConverterException {
