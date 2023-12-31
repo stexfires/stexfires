@@ -35,7 +35,7 @@ public final class TextFields {
         return EMPTY_FIELD_ARRAY;
     }
 
-    public static TextField[] newArray(Collection<@Nullable String> texts) {
+    public static TextField[] newArrayOfCollection(Collection<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.size()];
         int index = TextField.FIRST_FIELD_INDEX;
@@ -46,13 +46,13 @@ public final class TextFields {
         return fields;
     }
 
-    public static TextField[] newArray(Stream<String> texts) {
+    public static TextField[] newArrayOfStream(Stream<@Nullable String> texts) {
         Objects.requireNonNull(texts);
-        return newArray(texts.toList());
+        return newArrayOfCollection(texts.toList());
     }
 
-    @SuppressWarnings({"Convert2streamapi"})
-    public static TextField[] newArray(String... texts) {
+    @SuppressWarnings("Convert2streamapi")
+    public static TextField[] newArrayOfStrings(@Nullable String... texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.length];
         for (int index = TextField.FIRST_FIELD_INDEX; index < texts.length; index++) {
@@ -62,7 +62,7 @@ public final class TextFields {
     }
 
     @SuppressWarnings({"Convert2streamapi", "ExplicitArrayFilling"})
-    public static TextField[] newArray(int length, Supplier<String> textSupplier) {
+    public static TextField[] newArrayOfSupplier(int length, Supplier<@Nullable String> textSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);
         }
@@ -108,11 +108,6 @@ public final class TextFields {
         return fields.map(fieldTextMapper::mapToText).toList();
     }
 
-    public static List<TextField> collectFields(Stream<TextField> fields) {
-        Objects.requireNonNull(fields);
-        return fields.toList();
-    }
-
     public static String joinTexts(TextRecord record) {
         Objects.requireNonNull(record);
         return joinTexts(record.streamOfFields(), DEFAULT_FIELD_TEXT_DELIMITER);
@@ -147,7 +142,7 @@ public final class TextFields {
         return fields.map(TextField::text).collect(Collectors.joining(delimiter));
     }
 
-    public static Stream<String> mapToTexts(Stream<TextField> fields, FieldTextMapper fieldTextMapper) {
+    public static Stream<@Nullable String> mapToTexts(Stream<TextField> fields, FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fields);
         Objects.requireNonNull(fieldTextMapper);
         return fields.map(fieldTextMapper::mapToText);

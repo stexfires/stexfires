@@ -38,26 +38,6 @@ public final class TextRecordStreams {
     private TextRecordStreams() {
     }
 
-    public static <T extends TextRecord> Stream<T> empty() {
-        return Stream.empty();
-    }
-
-    public static <T extends TextRecord> Stream<T> of(T record) {
-        Objects.requireNonNull(record);
-        return Stream.of(record);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    @SafeVarargs
-    public static <T extends TextRecord> Stream<T> of(T... records) {
-        Objects.requireNonNull(records);
-        return Stream.of(records);
-    }
-
-    public static <T extends TextRecord> Stream<T> ofNullable(@Nullable T record) {
-        return Stream.ofNullable(record);
-    }
-
     public static <T extends TextRecord> Stream<T> produce(RecordProducer<T> recordProducer)
             throws UncheckedProducerException {
         Objects.requireNonNull(recordProducer);
@@ -77,16 +57,15 @@ public final class TextRecordStreams {
         return Stream.generate(recordSupplier);
     }
 
-    public static <R extends TextRecord> Stream<R> concat(Stream<? extends R> firstRecordStream,
-                                                          Stream<? extends R> secondRecordStream) {
+    public static <R extends TextRecord> Stream<R> concatTwoStreams(Stream<? extends R> firstRecordStream,
+                                                                    Stream<? extends R> secondRecordStream) {
         Objects.requireNonNull(firstRecordStream);
         Objects.requireNonNull(secondRecordStream);
         return Stream.concat(firstRecordStream, secondRecordStream);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static <R extends TextRecord> Stream<R> concat(Stream<? extends R>... recordStreams) {
+    public static <R extends TextRecord> Stream<R> concatManyStreams(Stream<? extends R>... recordStreams) {
         Objects.requireNonNull(recordStreams);
         return Stream.of(recordStreams).flatMap(Function.identity());
     }
@@ -142,11 +121,6 @@ public final class TextRecordStreams {
         Objects.requireNonNull(recordConsumer);
         recordStream.map(recordMapper::map).forEachOrdered(recordConsumer::consume);
         return recordConsumer;
-    }
-
-    public static <T extends TextRecord> List<T> collect(Stream<T> recordStream) {
-        Objects.requireNonNull(recordStream);
-        return recordStream.toList();
     }
 
     public static <T extends TextRecord> List<@Nullable String> collectMessages(Stream<T> recordStream,

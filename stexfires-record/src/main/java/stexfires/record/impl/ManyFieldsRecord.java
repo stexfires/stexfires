@@ -26,28 +26,28 @@ public record ManyFieldsRecord(@Nullable String category,
     }
 
     public ManyFieldsRecord(Collection<@Nullable String> texts) {
-        this(null, null, TextFields.newArray(texts));
+        this(null, null, TextFields.newArrayOfCollection(texts));
     }
 
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Collection<@Nullable String> texts) {
-        this(category, recordId, TextFields.newArray(texts));
+        this(category, recordId, TextFields.newArrayOfCollection(texts));
     }
 
-    public ManyFieldsRecord(Stream<String> texts) {
-        this(null, null, TextFields.newArray(texts));
+    public ManyFieldsRecord(Stream<@Nullable String> texts) {
+        this(null, null, TextFields.newArrayOfStream(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Stream<String> texts) {
-        this(category, recordId, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Stream<@Nullable String> texts) {
+        this(category, recordId, TextFields.newArrayOfStream(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public ManyFieldsRecord(String... texts) {
-        this(null, null, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String... texts) {
+        this(null, null, TextFields.newArrayOfStrings(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
-        this(category, recordId, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @Nullable String... texts) {
+        this(category, recordId, TextFields.newArrayOfStrings(texts));
     }
 
     public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, TextField[] fields) {

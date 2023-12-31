@@ -8,9 +8,7 @@ import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.function.Suppliers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.SequencedCollection;
@@ -44,17 +42,17 @@ public final class TextRecords {
         return new ValueFieldRecord(text);
     }
 
-    public static TextRecord ofTexts(Collection<@Nullable String> texts) {
+    public static TextRecord ofTextCollection(Collection<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(Stream<String> texts) {
+    public static TextRecord ofTextStream(Stream<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(String... texts) {
+    public static TextRecord ofTexts(@Nullable String... texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
@@ -81,30 +79,6 @@ public final class TextRecords {
                 return new ManyFieldsRecord(category, recordId, texts);
             }
         }
-    }
-
-    public static <T extends TextRecord> List<T> list(T record) {
-        Objects.requireNonNull(record);
-        return Collections.singletonList(record);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    @SafeVarargs
-    public static <T extends TextRecord> List<T> list(T... records) {
-        Objects.requireNonNull(records);
-        return Arrays.stream(records).toList();
-    }
-
-    public static <T extends TextRecord> Stream<T> stream(T record) {
-        Objects.requireNonNull(record);
-        return Stream.of(record);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    @SafeVarargs
-    public static <T extends TextRecord> Stream<T> stream(T... records) {
-        Objects.requireNonNull(records);
-        return Stream.of(records);
     }
 
     public static Supplier<Long> recordIdSequence() {
