@@ -29,7 +29,7 @@ public record ConfigFileSpec(
     public static final String DEFAULT_COMMENT_LINE_PREFIX = ";";
     public static final boolean DEFAULT_CONSUMER_SEPARATE_CATEGORIES_BY_LINE = false;
     public static final boolean DEFAULT_CONSUMER_SEPARATE_BY_WHITESPACE = false;
-    public static final String DEFAULT_CONSUMER_COMMENT_LINES_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_COMMENT_LINES_BEFORE = null;
 
     public static final String ALTERNATIVE_VALUE_DELIMITER_COLON = ":";
     public static final String ALTERNATIVE_VALUE_DELIMITER_WHITE_SPACE = " ";

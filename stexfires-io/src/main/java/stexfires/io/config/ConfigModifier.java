@@ -113,6 +113,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
 
     @Override
     public Stream<KeyValueCommentRecord> modify(Stream<T> recordStream) {
+        Objects.requireNonNull(recordStream);
         return modifier.modify(recordStream);
     }
 
