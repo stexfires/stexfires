@@ -1,5 +1,6 @@
 package stexfires.record.comparator;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.util.SortNulls;
 
@@ -32,7 +33,7 @@ public final class FieldComparators {
         return comparingInt(TextField::maxIndex);
     }
 
-    public static Comparator<TextField> text(Comparator<String> comparator) {
+    public static Comparator<TextField> text(Comparator<@Nullable String> comparator) {
         Objects.requireNonNull(comparator);
         return comparing(TextField::text, comparator);
     }
