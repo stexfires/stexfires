@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates.BigIntegerPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
@@ -162,13 +163,14 @@ public final class ExamplesNumberFunction {
         parameters.add(BigInteger.TEN);
         parameters.add(BigInteger.valueOf(12L));
         parameters.add(new BigInteger("9999999999999999999999"));
+        //noinspection Java9CollectionFactory
         BIG_INTEGER_PARAMETER = Collections.unmodifiableList(parameters);
     }
 
     private ExamplesNumberFunction() {
     }
 
-    private static void printMethodInfo(String className, String methodeName, String parameter) {
+    private static void printMethodInfo(String className, String methodeName, @Nullable String parameter) {
         StringBuilder b = new StringBuilder();
         b.append("---");
         b.append(className);
@@ -182,7 +184,7 @@ public final class ExamplesNumberFunction {
         System.out.println(b);
     }
 
-    private static String createResultString(Boolean result) {
+    private static String createResultString(@Nullable Boolean result) {
         if (result == null) {
             return " <NULL> ";
         } else if (result) {
@@ -192,19 +194,19 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void printResult(Boolean result, Number value, String exceptionMessage) {
+    private static void printResult(@Nullable Boolean result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(createResultString(result) + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(Number result, Number value, String exceptionMessage) {
+    private static void printResult(@Nullable Number result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result.toString() : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(String result, Number value, String exceptionMessage) {
+    private static void printResult(@Nullable String result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void testPrimitiveIntPredicate(String methodName, IntPredicate predicate, String parameter) {
+    private static void testPrimitiveIntPredicate(String methodName, IntPredicate predicate, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntPredicates", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -219,7 +221,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void testPrimitiveLongPredicate(String methodName, LongPredicate predicate, String parameter) {
+    private static void testPrimitiveLongPredicate(String methodName, LongPredicate predicate, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongPredicates", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -234,7 +236,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void testBigIntegerPredicate(String methodName, Predicate<BigInteger> predicate, String parameter) {
+    private static void testBigIntegerPredicate(String methodName, Predicate<BigInteger> predicate, @Nullable String parameter) {
         printMethodInfo("BigIntegerPredicates", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -249,7 +251,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveIntUnaryOperator(String methodName, IntUnaryOperator operator, String parameter) {
+    private static void applyPrimitiveIntUnaryOperator(String methodName, IntUnaryOperator operator, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntUnaryOperators", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -264,7 +266,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveLongUnaryOperator(String methodName, LongUnaryOperator operator, String parameter) {
+    private static void applyPrimitiveLongUnaryOperator(String methodName, LongUnaryOperator operator, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongUnaryOperators", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -279,7 +281,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyBigIntegerUnaryOperator(String methodName, UnaryOperator<BigInteger> operator, String parameter) {
+    private static void applyBigIntegerUnaryOperator(String methodName, UnaryOperator<BigInteger> operator, @Nullable String parameter) {
         printMethodInfo("BigIntegerUnaryOperators", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -294,7 +296,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveIntToStringFunction(String methodName, IntFunction<String> function, String parameter) {
+    private static void applyPrimitiveIntToStringFunction(String methodName, IntFunction<@Nullable String> function, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntToStringFunctions", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -309,7 +311,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveLongToStringFunction(String methodName, LongFunction<String> function, String parameter) {
+    private static void applyPrimitiveLongToStringFunction(String methodName, LongFunction<@Nullable String> function, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongToStringFunctions", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -324,7 +326,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyBigIntegerToStringFunction(String methodName, Function<BigInteger, String> function, String parameter) {
+    private static void applyBigIntegerToStringFunction(String methodName, Function<BigInteger, @Nullable String> function, @Nullable String parameter) {
         printMethodInfo("BigIntegerToStringFunctions", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {

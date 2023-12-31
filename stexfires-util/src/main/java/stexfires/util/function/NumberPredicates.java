@@ -3,6 +3,7 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -106,6 +107,13 @@ public final class NumberPredicates {
         return numbers::contains;
     }
 
+    @SuppressWarnings("OverloadedVarargsMethod")
+    @SafeVarargs
+    public static <T extends Number> Predicate<T> containedIn(T... numbers) {
+        Objects.requireNonNull(numbers);
+        return n -> Arrays.stream(numbers).anyMatch(Predicate.isEqual(n));
+    }
+
     public static final class PrimitiveIntPredicates {
 
         private PrimitiveIntPredicates() {
@@ -172,6 +180,11 @@ public final class NumberPredicates {
         public static IntPredicate containedIn(Collection<Integer> numbers) {
             Objects.requireNonNull(numbers);
             return numbers::contains;
+        }
+
+        public static IntPredicate containedIn(int... numbers) {
+            Objects.requireNonNull(numbers);
+            return n -> Arrays.stream(numbers).anyMatch(number -> n == number);
         }
 
         public static IntPredicate maxValue() {
@@ -330,6 +343,11 @@ public final class NumberPredicates {
         public static LongPredicate containedIn(Collection<Long> numbers) {
             Objects.requireNonNull(numbers);
             return numbers::contains;
+        }
+
+        public static LongPredicate containedIn(long... numbers) {
+            Objects.requireNonNull(numbers);
+            return n -> Arrays.stream(numbers).anyMatch(number -> n == number);
         }
 
         public static LongPredicate maxValue() {
