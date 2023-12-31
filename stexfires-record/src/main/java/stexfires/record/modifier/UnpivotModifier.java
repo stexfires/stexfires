@@ -80,7 +80,6 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
         );
     }
 
-    @SuppressWarnings("ReturnOfNull")
     @SafeVarargs
     public static <T extends TextRecord> UnpivotModifier<T, TextRecord> oneRecordPerValues(Collection<Integer> keyIndexes,
                                                                                            IntFunction<String> recordIndexToIdentifier,
