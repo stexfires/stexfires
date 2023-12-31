@@ -59,14 +59,14 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
         Objects.requireNonNull(fieldFunction);
         Objects.requireNonNull(fieldTextMapper);
         return new TextsMapper<>(record ->
-                Strings.listOfNullable(fieldTextMapper.mapToText(fieldFunction.apply(record))));
+                Strings.listOfNullable(fieldTextMapper.mapToText(Objects.requireNonNull(fieldFunction.apply(record)))));
     }
 
     public static <T extends TextRecord> TextsMapper<T> mapOneField(int index,
                                                                     FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fieldTextMapper);
         return new TextsMapper<>(record -> record.isValidIndex(index) ?
-                Strings.listOfNullable(fieldTextMapper.mapToText(Objects.requireNonNull(record.fieldAt(index)))) : Strings.list());
+                Strings.listOfNullable(fieldTextMapper.mapToText(Objects.requireNonNull(record.fieldAt(index)))) : Collections.emptyList());
     }
 
     public static <T extends TextRecord> TextsMapper<T> size(int size, @Nullable String fillingText) {
@@ -96,11 +96,14 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> TextsMapper<T> reverseTexts() {
-        return new TextsMapper<>(record -> {
-            List<@Nullable String> newTexts = TextFields.collectTexts(record);
-            Collections.reverse(newTexts);
-            return newTexts;
-        });
+        return new TextsMapper<>(record ->
+                record.listOfFieldsReversed().stream().map(TextField::text).toList());
+    }
+
+    public static <T extends TextRecord> TextsMapper<T> createMessage(RecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordMessage);
+        return new TextsMapper<>(record ->
+                Strings.listOfNullable(recordMessage.createMessage(record)));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
@@ -122,6 +125,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
     public static <T extends TextRecord> TextsMapper<T> applyTextOperators(UnaryOperator<@Nullable String>... unaryOperators) {
+        Objects.requireNonNull(unaryOperators);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .map(field -> unaryOperators.length > field.index()
@@ -131,6 +135,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> TextsMapper<T> applyTextOperators(List<UnaryOperator<@Nullable String>> unaryOperators) {
+        Objects.requireNonNull(unaryOperators);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
                       .map(field -> unaryOperators.size() > field.index()

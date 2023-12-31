@@ -39,12 +39,12 @@ public interface FieldTextMapper {
         return field -> text + mapToText(field);
     }
 
-    default FieldTextMapper prepend(Supplier<@Nullable String> textSupplier) {
+    default FieldTextMapper prepend(Supplier<String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         return field -> textSupplier.get() + mapToText(field);
     }
 
-    default FieldTextMapper prepend(Supplier<@Nullable String> textSupplier, String delimiter) {
+    default FieldTextMapper prepend(Supplier<String> textSupplier, String delimiter) {
         Objects.requireNonNull(textSupplier);
         Objects.requireNonNull(delimiter);
         return field -> textSupplier.get() + delimiter + mapToText(field);
@@ -55,12 +55,12 @@ public interface FieldTextMapper {
         return field -> mapToText(field) + text;
     }
 
-    default FieldTextMapper append(Supplier<@Nullable String> textSupplier) {
+    default FieldTextMapper append(Supplier<String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         return field -> mapToText(field) + textSupplier.get();
     }
 
-    default FieldTextMapper append(String delimiter, Supplier<@Nullable String> textSupplier) {
+    default FieldTextMapper append(String delimiter, Supplier<String> textSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(textSupplier);
         return field -> mapToText(field) + delimiter + textSupplier.get();

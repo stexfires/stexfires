@@ -10,12 +10,12 @@ import java.util.function.Supplier;
  */
 public class SupplierMapper<T extends TextRecord, R extends TextRecord> implements RecordMapper<T, R> {
 
-    private final Supplier<? extends R> recordSupplier;
+    private final Supplier<R> recordSupplier;
 
     /**
      * @param recordSupplier must be thread-safe
      */
-    public SupplierMapper(Supplier<? extends R> recordSupplier) {
+    public SupplierMapper(Supplier<R> recordSupplier) {
         Objects.requireNonNull(recordSupplier);
         this.recordSupplier = recordSupplier;
     }

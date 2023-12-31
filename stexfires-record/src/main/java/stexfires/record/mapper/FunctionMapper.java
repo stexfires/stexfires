@@ -35,6 +35,9 @@ public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, Tex
     public static <T extends TextRecord> FunctionMapper<T> functionMappers(FunctionMapper<? super T> categoryMapper,
                                                                            FunctionMapper<? super T> recordIdMapper,
                                                                            FunctionMapper<? super T> textsMapper) {
+        Objects.requireNonNull(categoryMapper);
+        Objects.requireNonNull(recordIdMapper);
+        Objects.requireNonNull(textsMapper);
         return new FunctionMapper<>(
                 categoryMapper.getCategoryFunction(),
                 recordIdMapper.getRecordIdFunction(),

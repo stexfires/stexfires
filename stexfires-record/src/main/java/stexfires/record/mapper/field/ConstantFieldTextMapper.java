@@ -10,10 +10,6 @@ public class ConstantFieldTextMapper implements FieldTextMapper {
 
     private final @Nullable String constantText;
 
-    public ConstantFieldTextMapper() {
-        this(null);
-    }
-
     /**
      * @param constantText can be {@code null}
      */
