@@ -25,7 +25,7 @@ public final class ConfigConsumer extends AbstractInternalWritableConsumer<KeyVa
     private final ConfigFileSpec fileSpec;
 
     private boolean categoryFound;
-    private String currentCategory;
+    private @Nullable String currentCategory;
 
     public ConfigConsumer(BufferedWriter bufferedWriter, ConfigFileSpec fileSpec) {
         super(bufferedWriter);
