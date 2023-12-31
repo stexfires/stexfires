@@ -24,7 +24,8 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface CategoryGenerator<T extends TextRecord> {
 
-    static <T extends TextRecord> CategoryGenerator<T> constant(@Nullable String category) {
+    static <T extends TextRecord> CategoryGenerator<T> constant(String category) {
+        Objects.requireNonNull(category);
         return (context) -> category;
     }
 
@@ -32,12 +33,12 @@ public interface CategoryGenerator<T extends TextRecord> {
         return (context) -> null;
     }
 
-    static <T extends TextRecord> CategoryGenerator<T> stringSupplier(Supplier<String> categorySupplier) {
+    static <T extends TextRecord> CategoryGenerator<T> stringSupplier(Supplier<@Nullable String> categorySupplier) {
         Objects.requireNonNull(categorySupplier);
         return (context) -> categorySupplier.get();
     }
 
-    static <T extends TextRecord> CategoryGenerator<T> previousAdjusted(Supplier<String> firstCategorySupplier,
+    static <T extends TextRecord> CategoryGenerator<T> previousAdjusted(Supplier<@Nullable String> firstCategorySupplier,
                                                                         UnaryOperator<@Nullable String> previousCategoryOperator) {
         Objects.requireNonNull(firstCategorySupplier);
         Objects.requireNonNull(previousCategoryOperator);
@@ -45,6 +46,7 @@ public interface CategoryGenerator<T extends TextRecord> {
             if (context.first()) {
                 return firstCategorySupplier.get();
             }
+            // if it is not the first record a previous record always exists
             return previousCategoryOperator.apply(context.previousRecord().orElseThrow().category());
         };
     }

@@ -25,7 +25,8 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface RecordIdGenerator<T extends TextRecord> {
 
-    static <T extends TextRecord> RecordIdGenerator<T> constant(@Nullable Long recordId) {
+    static <T extends TextRecord> RecordIdGenerator<T> constant(Long recordId) {
+        Objects.requireNonNull(recordId);
         return (context) -> recordId;
     }
 
@@ -33,11 +34,13 @@ public interface RecordIdGenerator<T extends TextRecord> {
         return (context) -> null;
     }
 
-    static <T extends TextRecord> RecordIdGenerator<T> longSupplier(Supplier<Long> recordIdSupplier) {
+    static <T extends TextRecord> RecordIdGenerator<T> longSupplier(Supplier<@Nullable Long> recordIdSupplier) {
+        Objects.requireNonNull(recordIdSupplier);
         return (context) -> recordIdSupplier.get();
     }
 
     static <T extends TextRecord> RecordIdGenerator<T> primitiveLongSupplier(LongSupplier recordIdSupplier) {
+        Objects.requireNonNull(recordIdSupplier);
         return (context) -> recordIdSupplier.getAsLong();
     }
 
