@@ -21,7 +21,7 @@ public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
         this.categoryPredicate = categoryPredicate;
     }
 
-    public static <T extends TextRecord> CategoryFilter<T> equalTo(String compareCategory) {
+    public static <T extends TextRecord> CategoryFilter<T> equalTo(@Nullable String compareCategory) {
         return new CategoryFilter<>(StringPredicates.equals(compareCategory));
     }
 
@@ -34,10 +34,12 @@ public class CategoryFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> CategoryFilter<T> containedIn(Collection<String> categories) {
+        Objects.requireNonNull(categories);
         return new CategoryFilter<>(categories::contains);
     }
 
     public static <T extends TextRecord> CategoryFilter<T> containedIn(String... categories) {
+        Objects.requireNonNull(categories);
         return containedIn(Arrays.asList(categories));
     }
 

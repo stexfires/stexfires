@@ -19,10 +19,12 @@ public class ClassFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> ClassFilter<T> equalTo(Class<? extends TextRecord> compareClass) {
+        Objects.requireNonNull(compareClass);
         return new ClassFilter<>(Predicate.isEqual(compareClass));
     }
 
     public static <T extends TextRecord> ClassFilter<T> containedIn(Collection<Class<? extends TextRecord>> classes) {
+        Objects.requireNonNull(classes);
         return new ClassFilter<>(classes::contains);
     }
 

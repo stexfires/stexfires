@@ -49,12 +49,12 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> TextFilter<T> equalTo(int index,
-                                                               String compareText) {
+                                                               @Nullable String compareText) {
         return new TextFilter<>(index, StringPredicates.equals(compareText));
     }
 
     public static <T extends TextRecord> TextFilter<T> equalTo(Function<? super T, @Nullable TextField> fieldFunction,
-                                                               String compareText) {
+                                                               @Nullable String compareText) {
         return new TextFilter<>(fieldFunction, StringPredicates.equals(compareText));
     }
 
@@ -68,21 +68,25 @@ public class TextFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public static <T extends TextRecord> TextFilter<T> containedIn(int index,
                                                                    Collection<String> texts) {
+        Objects.requireNonNull(texts);
         return new TextFilter<>(index, texts::contains);
     }
 
     public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, @Nullable TextField> fieldFunction,
                                                                    Collection<String> texts) {
+        Objects.requireNonNull(texts);
         return new TextFilter<>(fieldFunction, texts::contains);
     }
 
     public static <T extends TextRecord> TextFilter<T> containedIn(int index,
                                                                    String... texts) {
+        Objects.requireNonNull(texts);
         return containedIn(index, Arrays.asList(texts));
     }
 
     public static <T extends TextRecord> TextFilter<T> containedIn(Function<? super T, @Nullable TextField> fieldFunction,
                                                                    String... texts) {
+        Objects.requireNonNull(texts);
         return containedIn(fieldFunction, Arrays.asList(texts));
     }
 
