@@ -47,7 +47,7 @@ import java.util.stream.Stream;
 import static stexfires.examples.record.RecordSystemOutUtil.RECORD_CONSUMER;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnOptionalRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnRecord;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordList;
+import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordCollection;
 import static stexfires.io.RecordIOStreams.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator", "ReturnOfNull"})
@@ -92,15 +92,15 @@ public final class ExamplesIO {
         SortModifier<ValueRecord> sortModifier = new SortModifier<>(RecordComparators.recordId(SortNulls.FIRST).reversed());
 
         System.out.println("---producer(sourceString) read andCollect");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollect(Collectors.toList())));
 
         System.out.println("---producer(sourceString) read andCollectMapped");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollectMapped(Collectors.toList(), categoryMapper)));
 
         System.out.println("---producer(sourceString) read andCollectModified");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollectModified(Collectors.toList(), sortModifier)));
 
         System.out.println("---producer(sourceString) read andConsume");
@@ -128,7 +128,7 @@ public final class ExamplesIO {
         readAndConsume(fileSpec.producer(sourceString), RECORD_CONSUMER);
 
         System.out.println("---readFromString andCollect");
-        printlnRecordList(
+        printlnRecordCollection(
                 readFromString(fileSpec, sourceString, andCollect(Collectors.toList())));
 
         System.out.println("---newRecordDataTypeParser");
@@ -165,9 +165,9 @@ public final class ExamplesIO {
         System.out.println(writeStreamIntoString(fileSpec,
                 true, listValueRecords.stream()));
         System.out.println(writeStreamIntoString(fileSpec,
-                false, TextRecordStreams.of(keyValueFieldsRecord10)));
+                false, Stream.of(keyValueFieldsRecord10)));
         System.out.println(writeStreamIntoString(fileSpec,
-                true, TextRecordStreams.of(valueFieldRecord1, keyValueFieldsRecord10)));
+                true, Stream.of(valueFieldRecord1, keyValueFieldsRecord10)));
 
         System.out.println("---writeRecordIntoString");
         System.out.println(writeRecordIntoString(fileSpec,
@@ -357,9 +357,9 @@ public final class ExamplesIO {
         splitIntoKeyValueCommentRecords.apply(record).forEachOrdered(RECORD_CONSUMER::consume);
 
         System.out.println("-split stream flatMap");
-        TextRecordStreams.of(record).flatMap(splitIntoValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
-        TextRecordStreams.of(record).flatMap(splitIntoKeyValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
-        TextRecordStreams.of(record).flatMap(splitIntoKeyValueCommentRecords).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(record).flatMap(splitIntoValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(record).flatMap(splitIntoKeyValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(record).flatMap(splitIntoKeyValueCommentRecords).forEachOrdered(RECORD_CONSUMER::consume);
 
         System.out.println("-collect empty");
         printlnRecord(Stream.<ValueRecord>empty().collect(
@@ -372,17 +372,17 @@ public final class ExamplesIO {
                         list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
                         list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
         System.out.println("-collect ValueRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoValueRecords).collect(
+        printlnRecord(Stream.of(record).flatMap(splitIntoValueRecords).collect(
                 collectValueRecords(
                         list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
                         list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
         System.out.println("-collect KeyValueRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoKeyValueRecords).collect(
+        printlnRecord(Stream.of(record).flatMap(splitIntoKeyValueRecords).collect(
                 collectKeyValueRecords(
                         list -> null,
                         list -> null)));
         System.out.println("-collect KeyValueCommentRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoKeyValueCommentRecords).collect(
+        printlnRecord(Stream.of(record).flatMap(splitIntoKeyValueCommentRecords).collect(
                 collectKeyValueCommentRecords(
                         list -> "new category",
                         list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));

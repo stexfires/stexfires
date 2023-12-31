@@ -7,7 +7,6 @@ import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.io.singlevalue.SingleValueConsumer;
 import stexfires.io.singlevalue.SingleValueFileSpec;
 import stexfires.io.singlevalue.SingleValueProducer;
-import stexfires.record.TextRecordStreams;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
@@ -215,7 +214,7 @@ public final class ExamplesSingleValueFile {
         // Write
         System.out.println("write: " + path);
         try (SingleValueConsumer singleValueConsumer = fileSpec.consumer(new FileOutputStream(path.toFile()))) {
-            RecordIOStreams.writeStream(singleValueConsumer, TextRecordStreams.empty());
+            RecordIOStreams.writeStream(singleValueConsumer, Stream.empty());
         }
 
         // Read / log

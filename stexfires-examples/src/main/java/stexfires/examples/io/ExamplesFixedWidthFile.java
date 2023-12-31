@@ -146,7 +146,7 @@ public final class ExamplesFixedWidthFile {
 
         // Write
         System.out.println("write: " + path);
-        RecordFiles.writeStreamIntoFile(fileSpec, TextRecordStreams.concat(generateStream1(), generateStream2()), path);
+        RecordFiles.writeStreamIntoFile(fileSpec, TextRecordStreams.concatTwoStreams(generateStream1(), generateStream2()), path);
 
         // Read / log
         System.out.println("read/log: " + path);
