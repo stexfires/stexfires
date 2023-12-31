@@ -44,7 +44,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                             .filter(valueIndex -> !onlyExistingValues || record.isValidIndex(valueIndex))
                             .map(valueIndex ->
                                     new ManyFieldsRecord(record.category(), record.recordId(),
-                                            Strings.concat(
+                                            Strings.concatManyStreams(
                                                     // keys
                                                     keyIndexes.stream().map(record::textAt),
                                                     // identifier
@@ -92,7 +92,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                 IntStream.range(0, valueIndexes.length)
                          .mapToObj(recordIndex ->
                                  new ManyFieldsRecord(record.category(), record.recordId(),
-                                         Strings.concat(
+                                         Strings.concatManyStreams(
                                                  // keys
                                                  keyIndexes.stream().map(record::textAt),
                                                  // identifier
