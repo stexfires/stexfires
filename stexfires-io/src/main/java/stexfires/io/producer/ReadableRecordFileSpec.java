@@ -43,6 +43,7 @@ public interface ReadableRecordFileSpec<PTR extends TextRecord, RRP extends Read
      */
     default RRP openFileAsProducer(Path filePath, OpenOption... readOptions) throws IOException {
         Objects.requireNonNull(filePath);
+        Objects.requireNonNull(readOptions);
         return producer(Files.newInputStream(filePath, readOptions));
     }
 

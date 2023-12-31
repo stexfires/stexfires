@@ -67,6 +67,9 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
         }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
+        }
         return getIterator().currentRecordIndex();
     }
 
@@ -74,12 +77,18 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
         }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
+        }
         return getIterator().first();
     }
 
     protected final List<RecordRawData> lastIgnored() {
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
+        }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
         }
         return getIterator().last();
     }

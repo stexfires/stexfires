@@ -39,6 +39,7 @@ public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends Writ
      */
     default WRC openFileAsConsumer(Path filePath, OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(filePath);
+        Objects.requireNonNull(writeOptions);
         return consumer(Files.newOutputStream(filePath, writeOptions));
     }
 

@@ -93,7 +93,11 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
         if (!hasNext()) {
             throw new NoSuchElementException("queue size = " + queue.size());
         }
-        return queue.poll();
+        RecordRawData recordRawData = queue.poll();
+        if (recordRawData == null) {
+            throw new NoSuchElementException("queue size = " + queue.size());
+        }
+        return recordRawData;
     }
 
     public final int ignoreFirst() {

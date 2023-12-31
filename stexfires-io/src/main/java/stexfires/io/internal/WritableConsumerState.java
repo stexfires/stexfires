@@ -1,5 +1,7 @@
 package stexfires.io.internal;
 
+import java.util.Objects;
+
 /**
  * @since 0.1
  */
@@ -11,6 +13,8 @@ enum WritableConsumerState {
     CLOSE;
 
     private static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
+        Objects.requireNonNull(currentState);
+        Objects.requireNonNull(newState);
         if (currentState.ordinal() + 1 != newState.ordinal()) {
             if (newState != CLOSE
                     && !(currentState == WRITE_BEFORE && newState == WRITE_AFTER)

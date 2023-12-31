@@ -21,9 +21,9 @@ import java.util.stream.StreamSupport;
 public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
     private final BufferedReader bufferedReader;
-    private final Consumer<RecordRawData> recordRawDataLogger;
+    private final @Nullable Consumer<RecordRawData> recordRawDataLogger;
 
-    private AbstractRecordRawDataIterator iterator;
+    private @Nullable AbstractRecordRawDataIterator iterator;
 
     protected AbstractReadableProducer(BufferedReader bufferedReader,
                                        @Nullable Consumer<RecordRawData> recordRawDataLogger) {
@@ -40,7 +40,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
         return recordRawDataLogger;
     }
 
-    protected final AbstractRecordRawDataIterator getIterator() {
+    protected final @Nullable AbstractRecordRawDataIterator getIterator() {
         return iterator;
     }
 
