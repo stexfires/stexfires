@@ -103,6 +103,7 @@ public record DosPathFieldsRecord(
 
     public static DosPathFieldsRecord newDosPathFieldsRecord(Path path, LinkOption... linkOptions) throws IOException, UnsupportedOperationException {
         Objects.requireNonNull(path);
+        Objects.requireNonNull(linkOptions);
         DosFileAttributes fileAttributes = Files.readAttributes(path, DosFileAttributes.class, linkOptions);
         Path fileName = path.getFileName();
         Path parent = path.getParent();
