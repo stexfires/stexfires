@@ -56,6 +56,7 @@ public abstract sealed class AbstractInternalWritableConsumer<T extends TextReco
 
     @Override
     public void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException {
+        Objects.requireNonNull(record);
         state = WRITE_RECORDS.validate(state);
     }
 
