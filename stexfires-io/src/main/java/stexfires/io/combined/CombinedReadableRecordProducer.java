@@ -36,7 +36,7 @@ public final class CombinedReadableRecordProducer<PTR extends TextRecord> implem
     public Stream<PTR> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         Stream<? extends PTR> firstRecordStream = firstProducer.readRecords();
         Stream<? extends PTR> secondRecordStream = secondProducer.readRecords();
-        return TextRecordStreams.concat(firstRecordStream, secondRecordStream);
+        return TextRecordStreams.concatTwoStreams(firstRecordStream, secondRecordStream);
     }
 
     @Override
