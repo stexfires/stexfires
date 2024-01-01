@@ -31,7 +31,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     private final @Nullable Supplier<@Nullable T> nullSourceSupplier;
     private final @Nullable Supplier<@Nullable T> emptySourceSupplier;
 
-    public GenericDataTypeParser(Function<String, T> parseFunction,
+    public GenericDataTypeParser(Function<String, @Nullable T> parseFunction,
                                  @Nullable Supplier<@Nullable T> nullSourceSupplier,
                                  @Nullable Supplier<@Nullable T> emptySourceSupplier) {
         Objects.requireNonNull(parseFunction);
