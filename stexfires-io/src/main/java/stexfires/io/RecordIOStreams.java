@@ -36,11 +36,10 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
-import stexfires.util.function.StringPredicates;
+import stexfires.util.Strings;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,15 +73,16 @@ public final class RecordIOStreams {
 
     public static ArrayList<@Nullable String> storeInArrayList(TextRecord record) {
         Objects.requireNonNull(record);
-        return storeInCollection(record, new ArrayList<@Nullable String>(2 + record.size()));
+        return storeInList(record, new ArrayList<@Nullable String>(2 + record.size()));
     }
 
-    public static <T extends Collection<@Nullable String>> T storeInCollection(TextRecord record, T collection) {
+    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+    public static <T extends List<@Nullable String>> T storeInList(TextRecord record, T collection) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(collection);
-        collection.add(record.category());
-        collection.add(record.recordIdAsString());
-        collection.addAll(record.streamOfTexts().toList());
+        collection.add(CATEGORY_INDEX, record.category());
+        collection.add(RECORD_ID_INDEX, record.recordIdAsString());
+        collection.addAll(TEXTS_INDEX_START, record.streamOfTexts().toList());
         return collection;
     }
 
@@ -101,25 +101,41 @@ public final class RecordIOStreams {
     }
 
     @SuppressWarnings({"SizeReplaceableByIsEmpty", "SequencedCollectionMethodCanBeUsed"})
-    public static TextRecord restoreFromList(List<@Nullable String> list) throws NumberFormatException {
+    public static TextRecord restoreFromList(List<@Nullable String> list) {
         Objects.requireNonNull(list);
-        String category = (list.size() > CATEGORY_INDEX)
-                ? list.get(CATEGORY_INDEX) : null;
-        Long recordId = (list.size() > RECORD_ID_INDEX) && StringPredicates.isNotNullAndNotEmpty().test(list.get(RECORD_ID_INDEX))
-                ? Long.valueOf(list.get(RECORD_ID_INDEX)) : null;
-        List<String> texts = (list.size() > TEXTS_INDEX_START)
-                ? list.subList(TEXTS_INDEX_START, list.size()) : null;
+        String category = null;
+        if ((list.size() > CATEGORY_INDEX) && (list.get(CATEGORY_INDEX) instanceof String categoryOfList)) {
+            category = categoryOfList;
+        }
+        Long recordId = null;
+        if ((list.size() > RECORD_ID_INDEX) && (list.get(RECORD_ID_INDEX) instanceof String recordIdOfList)) {
+            try {
+                recordId = Long.valueOf(recordIdOfList);
+            } catch (NumberFormatException e) {
+                // ignore
+            }
+        }
+        List<@Nullable String> texts = null;
+        if (list.size() > TEXTS_INDEX_START) {
+            texts = list.subList(TEXTS_INDEX_START, list.size());
+        }
         return TextRecords.ofNullable(category, recordId, texts);
     }
 
-    public static TextRecord restoreFromMap(Map<String, @Nullable Object> map) throws ClassCastException {
+    public static TextRecord restoreFromMap(Map<String, @Nullable Object> map) {
         Objects.requireNonNull(map);
-        String category = map.containsKey(CATEGORY_KEY) && (map.get(CATEGORY_KEY) != null)
-                ? String.valueOf(map.get(CATEGORY_KEY)) : null;
-        Long recordId = map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Number)
-                ? ((Number) map.get(RECORD_ID_KEY)).longValue() : null;
-        List<String> texts = map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof Collection)
-                ? ((Collection<?>) map.get(TEXTS_KEY)).stream().map(String::valueOf).toList() : null;
+        String category = null;
+        if (map.containsKey(CATEGORY_KEY) && (map.get(CATEGORY_KEY) instanceof String categoryOfMap)) {
+            category = categoryOfMap;
+        }
+        Long recordId = null;
+        if (map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Long recordIdOfMap)) {
+            recordId = recordIdOfMap;
+        }
+        List<@Nullable String> texts = null;
+        if (map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof List<?> textsOfMap)) {
+            texts = textsOfMap.stream().map(Strings::toNullableString).toList();
+        }
         return TextRecords.ofNullable(category, recordId, texts);
     }
 
