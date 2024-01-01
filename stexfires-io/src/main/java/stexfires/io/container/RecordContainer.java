@@ -49,6 +49,7 @@ public interface RecordContainer {
         Objects.requireNonNull(readableRecordFileSpec);
         Objects.requireNonNull(recordOfRecords);
         return recordOfRecords.streamOfTexts()
+                              .filter(Objects::nonNull)
                               .flatMap(text -> readFromString(readableRecordFileSpec, text, andFindFirstAsStream()))
                               .flatMap(this::unpackAsStream);
     }
