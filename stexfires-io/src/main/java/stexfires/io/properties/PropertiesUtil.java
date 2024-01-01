@@ -8,6 +8,7 @@ import stexfires.record.TextRecordStreams;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.MapConsumer;
 import stexfires.record.consumer.RecordConsumer;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
 import java.io.FileReader;
@@ -70,7 +71,7 @@ public final class PropertiesUtil {
         }
     }
 
-    public static boolean propertiesAndMapEquals(Properties properties, Map<String, String> map) {
+    public static boolean propertiesAndMapEquals(Properties properties, Map<String, @Nullable String> map) {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(map);
         Set<String> keys = properties.stringPropertyNames();
@@ -80,22 +81,22 @@ public final class PropertiesUtil {
         return keys.stream().allMatch(key -> Objects.equals(properties.getProperty(key), map.get(key)));
     }
 
-    public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, String>> navigableMapConsumer(Comparator<String> stringComparator) {
+    public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, @Nullable String>> navigableMapConsumer(Comparator<String> stringComparator) {
         Objects.requireNonNull(stringComparator);
         return new MapConsumer<>(new TreeMap<>(stringComparator), KeyRecord::key, ValueRecord::value);
     }
 
-    public static Properties convertMapToProperties(Map<String, String> map) {
+    public static Properties convertMapToProperties(Map<String, @Nullable String> map) {
         Objects.requireNonNull(map);
         Properties properties = new Properties();
         properties.putAll(map);
         return properties;
     }
 
-    public static NavigableMap<String, String> convertPropertiesToNavigableMap(Properties properties, Comparator<String> stringComparator) {
+    public static NavigableMap<String, @Nullable String> convertPropertiesToNavigableMap(Properties properties, Comparator<String> stringComparator) {
         Objects.requireNonNull(properties);
         Objects.requireNonNull(stringComparator);
-        NavigableMap<String, String> map = new TreeMap<>(stringComparator);
+        NavigableMap<String, @Nullable String> map = new TreeMap<>(stringComparator);
         Set<String> keys = properties.stringPropertyNames();
         for (String key : keys) {
             String value = properties.getProperty(key);
@@ -105,7 +106,7 @@ public final class PropertiesUtil {
     }
 
     public static <T extends TextRecord> Properties consumeIntoProperties(Stream<T> recordStream,
-                                                                          RecordMessage<? super T> keyMessage,
+                                                                          NotNullRecordMessage<? super T> keyMessage,
                                                                           RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(keyMessage);
@@ -114,7 +115,7 @@ public final class PropertiesUtil {
         RecordConsumer<T> recordConsumer = (T record) -> {
             String key = keyMessage.createMessage(record);
             String value = valueMessage.createMessage(record);
-            if (key != null && !key.isEmpty() && value != null) {
+            if (!key.isEmpty() && value != null) {
                 properties.setProperty(key, value);
             }
         };
