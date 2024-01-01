@@ -22,8 +22,8 @@ public record RecordMessageFileSpec(
         boolean consumerSkipNullOrEmptyMessages
 ) implements WritableRecordFileSpec<TextRecord, RecordMessageConsumer> {
 
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final boolean DEFAULT_CONSUMER_SKIP_NULL_OR_EMPTY_MESSAGES = false;
 
     public RecordMessageFileSpec {
