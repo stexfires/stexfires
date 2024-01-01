@@ -43,7 +43,6 @@ public final class PropertiesConsumer extends AbstractInternalWritableConsumer<K
         }
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public void writeRecord(KeyValueRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
@@ -94,12 +93,14 @@ public final class PropertiesConsumer extends AbstractInternalWritableConsumer<K
     }
 
     private static String convertKey(String key, boolean escapeUnicode) {
+        Objects.requireNonNull(key);
         return IntStream.range(0, key.length())
                         .mapToObj(i -> mapCharacter(key.charAt(i), true, escapeUnicode))
                         .collect(Collectors.joining());
     }
 
     private static String convertValue(String value, boolean escapeUnicode) {
+        Objects.requireNonNull(value);
         return IntStream.range(0, value.length())
                         .mapToObj(i -> mapCharacter(value.charAt(i), i == 0, escapeUnicode))
                         .collect(Collectors.joining());

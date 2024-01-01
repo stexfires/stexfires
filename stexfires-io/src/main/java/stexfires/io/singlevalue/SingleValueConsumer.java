@@ -43,7 +43,7 @@ public final class SingleValueConsumer extends AbstractInternalWritableConsumer<
         if (!fileSpec.consumerSkipNullValueLines() || valueField.isNotNull()) {
             writeLinePrefix();
             if (valueField.isNotNull()) {
-                writeString(valueField.text());
+                writeString(valueField.orElseThrow());
             }
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
