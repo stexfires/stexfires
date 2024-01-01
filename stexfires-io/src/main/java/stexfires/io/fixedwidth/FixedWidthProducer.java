@@ -1,5 +1,6 @@
 package stexfires.io.fixedwidth;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -26,7 +27,7 @@ import static stexfires.util.Alignment.START;
  */
 public final class FixedWidthProducer extends AbstractInternalReadableProducer<TextRecord> {
 
-    private static final String NO_TEXT = null;
+    private static final @Nullable String NO_TEXT = null;
 
     private final FixedWidthFileSpec fileSpec;
     private final List<FixedWidthFieldSpec> fieldSpecs;
@@ -64,7 +65,7 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
 
         boolean skipEmptyLine = fileSpec.producerSkipEmptyLines() && rawData.isEmpty();
         if (!skipEmptyLine) {
-            List<String> texts = convertRawDataIntoTexts(rawData);
+            List<@Nullable String> texts = convertRawDataIntoTexts(rawData);
 
             boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
                     && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
@@ -101,9 +102,9 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
         return (beginIndex < endIndex) ? text.substring(beginIndex, endIndex) : Strings.EMPTY;
     }
 
-    private List<String> convertRawDataIntoTexts(String rawData) {
+    private List<@Nullable String> convertRawDataIntoTexts(String rawData) {
         Objects.requireNonNull(rawData);
-        List<String> texts = new ArrayList<>(fieldSpecs.size());
+        List<@Nullable String> texts = new ArrayList<>(fieldSpecs.size());
         int beginIndex;
         int endIndex;
         int dataLength = Math.min(rawData.length(), fileSpec.recordWidth());
