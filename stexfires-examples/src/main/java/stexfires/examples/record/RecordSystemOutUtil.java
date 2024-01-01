@@ -34,6 +34,14 @@ public final class RecordSystemOutUtil {
         RECORD_LOGGER.log(record);
     }
 
+    public static void printlnNullableRecord(@Nullable TextRecord nullableRecord) {
+        if (nullableRecord == null) {
+            System.out.println("TextRecord is NULL!");
+        } else {
+            RECORD_LOGGER.log(nullableRecord);
+        }
+    }
+
     public static void printlnOptionalRecord(Optional<? extends TextRecord> optionalRecord) {
         Objects.requireNonNull(optionalRecord);
         optionalRecord.ifPresentOrElse(RECORD_LOGGER::log, () -> System.out.println("Optional TextRecord is NULL!"));
