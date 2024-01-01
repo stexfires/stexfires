@@ -1,5 +1,6 @@
 package stexfires.examples.io;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.CollectionDataTypeFormatter;
 import stexfires.data.CollectionDataTypeParser;
 import stexfires.data.StringDataTypeFormatter;
@@ -45,6 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static stexfires.examples.record.RecordSystemOutUtil.RECORD_CONSUMER;
+import static stexfires.examples.record.RecordSystemOutUtil.printlnNullableRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnOptionalRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordCollection;
@@ -132,7 +134,7 @@ public final class ExamplesIO {
                 readFromString(fileSpec, sourceString, andCollect(Collectors.toList())));
 
         System.out.println("---newRecordDataTypeParser");
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(fileSpec, null, null).parse(sourceString));
     }
 
@@ -222,7 +224,7 @@ public final class ExamplesIO {
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
 
         System.out.println("-restoreFromList (special list)");
-        List<String> list0 = new ArrayList<>();
+        List<@Nullable String> list0 = new ArrayList<>();
         list0.add("");
         list0.add("");
         list0.add("value0");
@@ -282,7 +284,7 @@ public final class ExamplesIO {
         TextRecord record = generateRecord();
 
         // to String List
-        List<String> stringList = storeInArrayList(generateRecord());
+        List<@Nullable String> stringList = storeInArrayList(generateRecord());
         System.out.println(stringList);
 
         // from String List
@@ -296,7 +298,11 @@ public final class ExamplesIO {
         // Parse String List
         List<String> parsedStringList = CollectionDataTypeParser.withDelimiterAsList(";", "[", "]", StringDataTypeParser.identity(), () -> null, () -> null)
                                                                 .parse(formattedStringList);
-        printlnRecord(restoreFromList(parsedStringList));
+        if (parsedStringList != null) {
+            printlnRecord(restoreFromList(parsedStringList));
+        } else {
+            System.out.println("parsedStringList is NULL!");
+        }
     }
 
     private static void showRecordContainer() {
@@ -321,13 +327,13 @@ public final class ExamplesIO {
                 newRecordDataTypeFormatter(";", "[", "]", null)
                         .format(record));
 
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(";", "[", "]", null, null)
                         .parse("[sampleCategory;42;value0;value1;value2]"));
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(";", "[", "]", null, null)
                         .parse("[category_ValueFieldRecord;1;value_ValueFieldRecord]"));
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(", ", null, null, null, null)
                         .parse(", , value0, value1, value2"));
     }
