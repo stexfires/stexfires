@@ -43,8 +43,8 @@ public record MarkdownListFileSpec(
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_VALUE = false;
     public static final boolean DEFAULT_PRODUCER_LINE_PREFIX_AS_CATEGORY = false;
     public static final MarkdownListMarker DEFAULT_CONSUMER_LIST_MARKER = MarkdownListMarker.BULLET_ASTERISK;
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE = false;
 
     public static final long ORDERED_LIST_START_NUMBER = 1L;

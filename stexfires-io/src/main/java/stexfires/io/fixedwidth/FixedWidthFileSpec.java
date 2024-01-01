@@ -41,8 +41,8 @@ public record FixedWidthFileSpec(
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_LINES = false;
     public static final boolean DEFAULT_PRODUCER_SKIP_ALL_NULL_OR_EMPTY = false;
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
 
     public FixedWidthFileSpec {
         Objects.requireNonNull(charsetCoding);

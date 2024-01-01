@@ -28,8 +28,8 @@ public record MarkdownTableFileSpec(
         List<MarkdownTableFieldSpec> fieldSpecs
 ) implements WritableRecordFileSpec<TextRecord, MarkdownTableConsumer> {
 
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final Alignment DEFAULT_CONSUMER_ALIGNMENT = START;
 
     public static final String ESCAPE_TARGET = "|";

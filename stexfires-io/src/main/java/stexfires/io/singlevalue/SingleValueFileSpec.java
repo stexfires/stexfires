@@ -30,15 +30,15 @@ public record SingleValueFileSpec(
         boolean consumerSkipNullValueLines
 ) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
 
-    public static final String DEFAULT_LINE_PREFIX = null;
+    public static final @Nullable String DEFAULT_LINE_PREFIX = null;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     public static final ProducerReadLineHandling DEFAULT_PRODUCER_READ_LINE_HANDLING = ProducerReadLineHandling.NO_HANDLING;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
     public static final boolean DEFAULT_PRODUCER_TRIM_VALUE_TO_EMPTY = false;
     public static final boolean DEFAULT_PRODUCER_SKIP_EMPTY_VALUE = false;
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
     public static final boolean DEFAULT_CONSUMER_SKIP_NULL_VALUE_LINES = false;
 
     public SingleValueFileSpec {

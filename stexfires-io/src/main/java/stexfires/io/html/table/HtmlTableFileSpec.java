@@ -24,9 +24,9 @@ public record HtmlTableFileSpec(
         List<HtmlTableFieldSpec> fieldSpecs
 ) implements WritableRecordFileSpec<TextRecord, HtmlTableConsumer> {
 
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
-    public static final String DEFAULT_CONSUMER_INDENTATION = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_INDENTATION = null;
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
