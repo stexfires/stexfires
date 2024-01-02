@@ -246,7 +246,7 @@ public final class ExamplesStringFunction {
         System.out.println("-showStringPredicates---");
 
         printStringPredicates(StringPredicates.applyOperatorAndTest(StringUnaryOperators.trimToEmpty(), StringPredicates.isEmpty()), "applyOperatorAndTest");
-        printStringPredicates(StringPredicates.applyFunctionAndTest(String::length, length -> length > 2 && length < 6), "applyFunctionAndTest");
+        printStringPredicates(StringPredicates.applyFunctionAndTest((@Nullable String string) -> string != null ? string.length() : 0, (Integer length) -> length > 2 && length < 6), "applyFunctionAndTest");
 
         printStringPredicates(StringPredicates.concatAnd(StringPredicates.isNullOrEmpty(), StringPredicates.isNullOrBlank()), "concatAnd");
         printStringPredicates(StringPredicates.concatAnd(Stream.of(StringPredicates.isNotNull(), StringPredicates.letterOrDigit(), StringPredicates.digit(), StringPredicates.length(s -> s < 4))), "concatAnd Stream");
