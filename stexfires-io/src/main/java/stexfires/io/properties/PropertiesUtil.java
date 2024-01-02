@@ -1,11 +1,9 @@
 package stexfires.io.properties;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.KeyRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
-import stexfires.record.ValueRecord;
 import stexfires.record.consumer.MapConsumer;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.message.NotNullRecordMessage;
@@ -83,7 +81,7 @@ public final class PropertiesUtil {
 
     public static <T extends KeyValueRecord> MapConsumer<T, NavigableMap<String, @Nullable String>> navigableMapConsumer(Comparator<String> stringComparator) {
         Objects.requireNonNull(stringComparator);
-        return new MapConsumer<>(new TreeMap<>(stringComparator), KeyRecord::key, ValueRecord::value);
+        return new MapConsumer<>(new TreeMap<>(stringComparator), KeyValueRecord::key, KeyValueRecord::value);
     }
 
     public static Properties convertMapToProperties(Map<String, @Nullable String> map) {
