@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.CodePoint;
 import stexfires.util.StringComparators;
 import stexfires.util.Strings;
@@ -28,10 +29,10 @@ import java.util.stream.Stream;
 public final class ExamplesStringFunction {
 
     @SuppressWarnings("StaticCollection")
-    private static final List<String> VALUES;
+    private static final List<@Nullable String> VALUES;
 
     static {
-        List<String> values = new ArrayList<>();
+        List<@Nullable String> values = new ArrayList<>();
 
         // null, empty, blank, spaces, escapes
         values.add(null);
@@ -195,14 +196,14 @@ public final class ExamplesStringFunction {
         return lengthString;
     }
 
-    private static String printValue(String value) {
+    private static String printValue(@Nullable String value) {
         if (value == null) {
             return "(<null>) \t [-] \t ";
         }
         return "('" + value + "') \t " + generateLengthString(value) + " \t ";
     }
 
-    private static String printResult(String value, String result) {
+    private static String printResult(@Nullable String value, @Nullable String result) {
         String eq = Objects.equals(value, result) ? "==" : "!=";
         if (result == null) {
             return eq + " (<null>) \t [-]";
@@ -211,7 +212,7 @@ public final class ExamplesStringFunction {
                 + String.format("%04x", new BigInteger(1, result.getBytes(StandardCharsets.UTF_16BE)));
     }
 
-    private static void printStringPredicates(Predicate<String> predicate, String name) {
+    private static void printStringPredicates(Predicate<@Nullable String> predicate, String name) {
         System.out.println("---- " + name);
         for (String value : VALUES) {
             String result;
@@ -226,7 +227,7 @@ public final class ExamplesStringFunction {
         System.out.println("-------------------------------------------------");
     }
 
-    private static void printUnaryOperator(UnaryOperator<String> operator, String name) {
+    private static void printUnaryOperator(UnaryOperator<@Nullable String> operator, String name) {
         System.out.println("---- " + name);
         for (String value : VALUES) {
             String result;

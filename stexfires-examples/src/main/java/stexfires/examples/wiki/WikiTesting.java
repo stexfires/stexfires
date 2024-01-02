@@ -130,6 +130,9 @@ public final class WikiTesting {
         try (OutputStream outputStream = new FileOutputStream(outputFileTable)) {
             for (int i = 0; i < resources.size(); i++) {
                 try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(resources.get(i))) {
+                    if (inputStream == null) {
+                        throw new IOException("Cannot find resource! " + resources.get(i));
+                    }
                     SimpleDelimitedProducer producer = producerFileSpec.producer(inputStream);
                     convertToMarkdownTable(headers.get(i), producer, outputStream);
                 }
@@ -146,6 +149,9 @@ public final class WikiTesting {
         try (OutputStream outputStream = new FileOutputStream(outputFileList)) {
             for (int i = 0; i < resources.size(); i++) {
                 try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(resources.get(i))) {
+                    if (inputStream == null) {
+                        throw new IOException("Cannot find resource! " + resources.get(i));
+                    }
                     SimpleDelimitedProducer producer = producerFileSpec.producer(inputStream);
                     convertToMarkdownList(headers.get(i), producer, outputStream);
                 }

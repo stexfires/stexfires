@@ -157,7 +157,7 @@ public final class ExamplesConfigFile {
         var recordStream = new ConfigModifier<>(ConfigModifier.categoryTrimAndLowercase(Locale.ENGLISH),
                 true, true, 0, 1, 2)
                 .modify(generateStream()
-                        .filter(record -> StringPredicates.isNullOrBlank().negate().test(record.category()))
+                        .filter(record -> StringPredicates.isNotNullAndNotBlank().test(record.category()))
                 );
         RecordFiles.writeStreamIntoFile(fileSpec, recordStream, path);
 
