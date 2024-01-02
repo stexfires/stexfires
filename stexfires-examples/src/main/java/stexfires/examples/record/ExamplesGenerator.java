@@ -82,7 +82,6 @@ public final class ExamplesGenerator {
                 GeneratorProducer.unknownSize(generator0), firstSize);
     }
 
-    @SuppressWarnings({"ReturnOfNull"})
     private static void showRecordGenerator() {
         System.out.println("-showRecordGenerator---");
 
@@ -109,13 +108,13 @@ public final class ExamplesGenerator {
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
 
-        System.out.println("--- keyValueRecord parsedTextAt");
+        System.out.println("--- keyValueRecord parsedTextAtOrElseThrow");
         {
             RecordGenerator<KeyValueRecord> generator = RecordGenerator.keyValueRecord(
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> String.valueOf(interimResult.context().recordIndex() * 10),
-                    (interimResult) -> String.valueOf(interimResult.parsedTextAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY, Long::parseLong).orElseThrow() * 2));
+                    (interimResult) -> String.valueOf(interimResult.parsedTextAtOrElseThrow(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY, Long::parseLong) * 2));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
@@ -190,7 +189,7 @@ public final class ExamplesGenerator {
             RecordGenerator<ValueRecord> generator = RecordGenerator.valueRecord(
                     CategoryGenerator.previousAdjusted(() -> "", s -> s + "-"),
                     RecordIdGenerator.previousAdjusted(() -> 1, id -> id * 2),
-                    (interimResult) -> null);
+                    interimResult -> null);
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }

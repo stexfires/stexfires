@@ -35,4 +35,10 @@ public record GeneratorInterimResult<T extends TextRecord>(
         return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textParser.apply(textFunction.apply(index)));
     }
 
+    public <D> D parsedTextAtOrElseThrow(int index, Function<String, D> textParser) throws NullPointerException {
+        Objects.requireNonNull(textParser);
+        // throws NullPointerException if any value is null
+        return Objects.requireNonNull(textParser.apply(Objects.requireNonNull(Objects.requireNonNull(textFunction).apply(index))));
+    }
+
 }
