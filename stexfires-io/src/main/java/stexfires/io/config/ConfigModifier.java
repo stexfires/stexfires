@@ -1,5 +1,6 @@
 package stexfires.io.config;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.comparator.RecordComparators;
@@ -34,13 +35,12 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
 
     private final RecordStreamModifier<T, KeyValueCommentRecord> modifier;
 
-    public ConfigModifier(UnaryOperator<String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
+    public ConfigModifier(UnaryOperator<@Nullable String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
                           int keyIndex, int valueIndex) {
         this(categoryOperator, removeNullOrBlankKey, removeDuplicates, keyIndex, valueIndex, ILLEGAL_COMMENT_INDEX);
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    public ConfigModifier(UnaryOperator<String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
+    public ConfigModifier(UnaryOperator<@Nullable String> categoryOperator, boolean removeNullOrBlankKey, boolean removeDuplicates,
                           int keyIndex, int valueIndex, int commentIndex) {
         Objects.requireNonNull(categoryOperator);
 
@@ -95,7 +95,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
         modifier = combinedModifier;
     }
 
-    public static UnaryOperator<String> categoryTrimAndUppercase(Locale locale) {
+    public static UnaryOperator<@Nullable String> categoryTrimAndUppercase(Locale locale) {
         Objects.requireNonNull(locale);
         return StringUnaryOperators.concat(
                 StringUnaryOperators.removeVerticalWhitespaces(),
@@ -103,7 +103,7 @@ public final class ConfigModifier<T extends TextRecord> implements RecordStreamM
                 StringUnaryOperators.upperCase(locale));
     }
 
-    public static UnaryOperator<String> categoryTrimAndLowercase(Locale locale) {
+    public static UnaryOperator<@Nullable String> categoryTrimAndLowercase(Locale locale) {
         Objects.requireNonNull(locale);
         return StringUnaryOperators.concat(
                 StringUnaryOperators.removeVerticalWhitespaces(),
