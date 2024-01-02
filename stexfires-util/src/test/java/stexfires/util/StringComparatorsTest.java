@@ -1,5 +1,6 @@
 package stexfires.util;
 
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.Test;
 
 import java.text.Collator;
@@ -209,19 +210,23 @@ class StringComparatorsTest {
     }
 
     /**
-     * Test method for {@link StringComparators#normalizedComparator(java.util.function.UnaryOperator, java.util.Comparator)}.
+     * Test method for {@link StringComparators#normalizedComparator(java.util.function.UnaryOperator, java.util.Comparator, SortNulls)}
      */
-    @SuppressWarnings("DataFlowIssue")
     @Test
     void normalizedComparator() {
-        UnaryOperator<String> unaryOperator = s -> s.toUpperCase(Locale.GERMAN).trim(); // Converts to upper case and removes leading and trailing spaces
-        assertThrows(NullPointerException.class, () -> StringComparators.normalizedComparator(unaryOperator, String::compareTo).compare(null, "a"));
+        UnaryOperator<@Nullable String> unaryOperator = s -> s == null ? null : s.toUpperCase(Locale.GERMAN).trim(); // Converts to upper case and removes leading and trailing spaces
+        // null
+        assertEquals(0, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare(null, null));
+        assertEquals(-1, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare(null, "a"));
+        assertEquals(-1, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.LAST).compare("a", null));
+        assertEquals(1, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare("a", null));
+        assertEquals(1, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.LAST).compare(null, "a"));
         // equal strings
-        assertEquals(0, StringComparators.normalizedComparator(unaryOperator, String::compareTo).compare("a", "a"));
+        assertEquals(0, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare("a", "a"));
         // different strings
-        assertTrue(StringComparators.normalizedComparator(unaryOperator, String::compareTo).compare("a", "b") < 0);
-        assertEquals(0, StringComparators.normalizedComparator(unaryOperator, String::compareTo).compare("a ", " A"));
-        assertTrue(StringComparators.normalizedComparator(unaryOperator, String::compareTo).compare("a ", " B") < 0);
+        assertTrue(StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare("a", "b") < 0);
+        assertEquals(0, StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare("a ", " A"));
+        assertTrue(StringComparators.normalizedComparator(unaryOperator, String::compareTo, SortNulls.FIRST).compare("a ", " B") < 0);
     }
 
     /**

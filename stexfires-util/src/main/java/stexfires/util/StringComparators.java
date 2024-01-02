@@ -93,18 +93,22 @@ public final class StringComparators {
     }
 
     /**
-     * Returns a comparator that compares {@link String} values using a {@link UnaryOperator} for normalization and a {@link java.util.Comparator}.
+     * Returns a comparator that compares nullable {@link String} values using a {@link UnaryOperator} for normalization
+     * and comparing the resulting nullable {@link String} values using {@link stexfires.util.SortNulls} and {@link java.util.Comparator}.
      *
      * @param normalizeFunction the {@link UnaryOperator} for normalization. Must not be {@code null}.
      * @param comparator        the {@link java.util.Comparator} for comparing normalized {@link String} values. Must not be {@code null}.
-     * @return a comparator that compares {@link String} values using a {@link UnaryOperator} for normalization and a {@link java.util.Comparator}
+     * @param sortNulls         the {@link stexfires.util.SortNulls} for comparing {@code null} values. Must not be {@code null}.
+     * @return a comparator that compares nullable {@link String} values using a {@link UnaryOperator} for normalization and comparing the resulting nullable {@link String} values using {@link stexfires.util.SortNulls} and {@link java.util.Comparator}
      * @see java.util.Comparator#comparing(Function, Comparator)
      */
     public static Comparator<@Nullable String> normalizedComparator(UnaryOperator<@Nullable String> normalizeFunction,
-                                                                    Comparator<@Nullable String> comparator) {
+                                                                    Comparator<String> comparator,
+                                                                    SortNulls sortNulls) {
         Objects.requireNonNull(normalizeFunction);
         Objects.requireNonNull(comparator);
-        return comparing(normalizeFunction, comparator);
+        Objects.requireNonNull(sortNulls);
+        return comparing(normalizeFunction, sortNulls.wrap(comparator));
     }
 
     /**

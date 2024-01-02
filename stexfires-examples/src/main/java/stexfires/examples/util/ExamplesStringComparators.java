@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import stexfires.util.SortNulls;
 import stexfires.util.StringComparators;
 import stexfires.util.function.StringUnaryOperators;
 
@@ -122,12 +123,12 @@ public final class ExamplesStringComparators {
 
         System.out.println("--normalizedComparator trim compareTo");
         STRING_VALUES.stream()
-                     .sorted(StringComparators.normalizedComparator(String::trim, String::compareTo))
+                     .sorted(StringComparators.normalizedComparator(String::trim, String::compareTo, SortNulls.FIRST))
                      .forEachOrdered(System.out::println);
 
         System.out.println("--normalizedComparator NORMALIZE_NFKD compareTo");
         STRING_VALUES.stream()
-                     .sorted(StringComparators.normalizedComparator(StringUnaryOperators.normalizeNFKD(), String::compareTo))
+                     .sorted(StringComparators.normalizedComparator(StringUnaryOperators.normalizeNFKD(), String::compareTo, SortNulls.FIRST))
                      .forEachOrdered(System.out::println);
 
         System.out.println("--lengthComparator");
