@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.RandomBooleanSupplier;
 import stexfires.util.function.RepeatingPatternBooleanSupplier;
@@ -109,6 +110,7 @@ public final class ExamplesBooleanSupplier {
                 new RandomBooleanSupplier(50, randomGenerator).asPrimitiveBooleanSupplier().getAsBoolean());
     }
 
+    @SuppressWarnings({"ThrowablePrintedToSystemOut", "NullableProblems"})
     private static void showRepeatingPatternBooleanSupplier() {
         System.out.println("-showRepeatingPatternBooleanSupplier---");
 
@@ -134,6 +136,20 @@ public final class ExamplesBooleanSupplier {
 
         printBoolean("Pattern: List [FALSE]  primitive boolean",
                 new RepeatingPatternBooleanSupplier(List.of(Boolean.FALSE)).asPrimitiveBooleanSupplier().getAsBoolean());
+
+        List<@Nullable Boolean> nullBooleanList = new ArrayList<>();
+        nullBooleanList.add(null);
+        try {
+            var supplier = new RepeatingPatternBooleanSupplier(nullBooleanList);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            var supplier = new RepeatingPatternBooleanSupplier(List.of());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
     }
 
     private static void showSwitchingBooleanSupplier() {
