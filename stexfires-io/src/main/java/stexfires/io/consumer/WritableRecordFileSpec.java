@@ -15,7 +15,6 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-@SuppressWarnings("SameReturnValue")
 public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
 
     LineSeparator DEFAULT_CONSUMER_LINE_SEPARATOR = LineSeparator.LF;
