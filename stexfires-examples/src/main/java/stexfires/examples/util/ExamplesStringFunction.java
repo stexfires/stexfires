@@ -424,6 +424,8 @@ public final class ExamplesStringFunction {
 
         printUnaryOperator(StringUnaryOperators.splitCollect(splitterFunction, Collectors.joining("-")), "splitCollect joining");
         printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, StringPredicates.alphabetic(), Collectors.joining("-")), "splitFilterCollect alphabetic joining");
+        Predicate<CharSequence> charSequencePredicate = cs -> cs.length() > 2;
+        printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, charSequencePredicate, Collectors.joining("-")), "splitFilterCollect length>2 joining");
         printUnaryOperator(StringUnaryOperators.splitMapCollect(splitterFunction, StringUnaryOperators.lowerCase(Locale.ENGLISH), Collectors.joining("-")), "splitMapCollect lowerCase joining");
 
         printUnaryOperator(StringUnaryOperators.convertUsingByteArray(
