@@ -405,7 +405,7 @@ public final class StringUnaryOperators {
     }
 
     public static UnaryOperator<@Nullable String> splitCollect(Function<? super String, Stream<String>> splitStringFunction,
-                                                               Collector<? super String, ?, String> stringCollector) {
+                                                               Collector<? super String, ?, @Nullable String> stringCollector) {
         Objects.requireNonNull(splitStringFunction);
         Objects.requireNonNull(stringCollector);
         return s -> nullOrEmpty(s) ? s :
@@ -415,7 +415,7 @@ public final class StringUnaryOperators {
 
     public static UnaryOperator<@Nullable String> splitFilterCollect(Function<? super String, Stream<String>> splitStringFunction,
                                                                      Predicate<? super String> filterStringPredicate,
-                                                                     Collector<? super String, ?, String> stringCollector) {
+                                                                     Collector<? super String, ?, @Nullable String> stringCollector) {
         Objects.requireNonNull(splitStringFunction);
         Objects.requireNonNull(filterStringPredicate);
         Objects.requireNonNull(stringCollector);
@@ -427,7 +427,7 @@ public final class StringUnaryOperators {
 
     public static UnaryOperator<@Nullable String> splitMapCollect(Function<? super String, Stream<String>> splitStringFunction,
                                                                   UnaryOperator<String> stringUnaryOperator,
-                                                                  Collector<? super String, ?, String> stringCollector) {
+                                                                  Collector<? super String, ?, @Nullable String> stringCollector) {
         Objects.requireNonNull(splitStringFunction);
         Objects.requireNonNull(stringUnaryOperator);
         Objects.requireNonNull(stringCollector);
