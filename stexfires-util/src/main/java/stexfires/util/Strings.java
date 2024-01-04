@@ -163,8 +163,8 @@ public final class Strings {
      * @see java.util.stream.Collectors#collectingAndThen(java.util.stream.Collector, java.util.function.Function)
      * @see java.lang.String#join(CharSequence, Iterable)
      */
-    public static Collector<? super String, ?, String> modifyAndJoinCollector(UnaryOperator<List<String>> modifyListOperator,
-                                                                              String joinDelimiter) {
+    public static Collector<String, ?, String> modifyAndJoinCollector(UnaryOperator<List<String>> modifyListOperator,
+                                                                      CharSequence joinDelimiter) {
         Objects.requireNonNull(modifyListOperator);
         Objects.requireNonNull(joinDelimiter);
         // Use ArrayList because of its mutability.
