@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -448,31 +449,32 @@ public final class ExamplesIO {
         Stream.of(manyFieldsRecord).flatMap(splitIntoKeyValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
         Stream.of(manyFieldsRecord).flatMap(splitIntoKeyValueCommentRecords1).forEachOrdered(RECORD_CONSUMER::consume);
 
+        // Collectors
+        Collector<ValueRecord, ?, TextRecord> valueCollector = collectValueRecords(
+                list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
+                list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null));
+        Collector<KeyValueCommentRecord, ?, TextRecord> keyValueCommentRecordTextRecordCollector = collectValueRecords(
+                list -> list.stream().findFirst().map(KeyValueCommentRecord::comment).orElse(null),
+                list -> list.stream().findFirst().map(KeyValueCommentRecord::recordId).orElse(null));
+
         System.out.println("-collect empty");
-        printlnRecord(Stream.<ValueRecord>empty().collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.<ValueRecord>empty()
+                            .collect(valueCollector));
         System.out.println("-collect ValueFieldRecord");
-        printlnRecord(Stream.of(new ValueFieldRecord("c", 1L, "v0")).collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(new ValueFieldRecord("c", 1L, "v0"))
+                            .collect(valueCollector));
         System.out.println("-collect ValueRecord");
-        printlnRecord(Stream.of(textRecord).flatMap(splitIntoValueRecords1).collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoValueRecords1)
+                            .collect(valueCollector));
         System.out.println("-collect KeyValueRecord");
-        printlnRecord(Stream.of(textRecord).flatMap(splitIntoKeyValueRecords1).collect(
-                collectKeyValueRecords(
-                        list -> null,
-                        list -> null)));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoKeyValueRecords1)
+                            .collect(valueCollector));
         System.out.println("-collect KeyValueCommentRecord");
-        printlnRecord(Stream.of(textRecord).flatMap(splitIntoKeyValueCommentRecords1).collect(
-                collectKeyValueCommentRecords(
-                        list -> "new category",
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoKeyValueCommentRecords1)
+                            .collect(keyValueCommentRecordTextRecordCollector));
     }
 
     public static void main(String... args) {
