@@ -139,14 +139,14 @@ public final class RecordIOStreams {
         return TextRecords.ofNullable(category, recordId, texts);
     }
 
-    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords() {
+    public static <T extends TextRecord> Function<T, Stream<ValueRecord>> splitIntoValueRecords() {
         return textRecord -> textRecord.streamOfFields().map(textField ->
                 new ValueFieldRecord(
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords(BiFunction<TextRecord, TextField, @Nullable String> categoryFunction,
-                                                                                  BiFunction<TextRecord, TextField, @Nullable Long> recordIdFunction) {
+    public static <T extends TextRecord> Function<T, Stream<ValueRecord>> splitIntoValueRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                BiFunction<T, TextField, @Nullable Long> recordIdFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
@@ -156,7 +156,7 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, String> keyFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<T, TextField, String> keyFunction) {
         Objects.requireNonNull(keyFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
                 new KeyValueFieldsRecord(
@@ -164,9 +164,9 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, @Nullable String> categoryFunction,
-                                                                                        BiFunction<TextRecord, TextField, @Nullable Long> recordIdFunction,
-                                                                                        BiFunction<TextRecord, TextField, String> keyFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                      BiFunction<T, TextField, @Nullable Long> recordIdFunction,
+                                                                                                      BiFunction<T, TextField, String> keyFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         Objects.requireNonNull(keyFunction);
@@ -178,8 +178,8 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, String> keyFunction,
-                                                                                                      BiFunction<TextRecord, TextField, @Nullable String> commentFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<T, TextField, String> keyFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable String> commentFunction) {
         Objects.requireNonNull(keyFunction);
         Objects.requireNonNull(commentFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
@@ -189,10 +189,10 @@ public final class RecordIOStreams {
                         commentFunction.apply(textRecord, textField)));
     }
 
-    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, @Nullable String> categoryFunction,
-                                                                                                      BiFunction<TextRecord, TextField, @Nullable Long> recordIdFunction,
-                                                                                                      BiFunction<TextRecord, TextField, String> keyFunction,
-                                                                                                      BiFunction<TextRecord, TextField, @Nullable String> commentFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable Long> recordIdFunction,
+                                                                                                                    BiFunction<T, TextField, String> keyFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable String> commentFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         Objects.requireNonNull(keyFunction);
