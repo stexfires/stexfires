@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -211,17 +212,29 @@ public final class ExamplesIO {
                         TextFilter.isNotNull(ValueRecord::valueField))));
     }
 
+    @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private static void showList() {
         System.out.println("-showList---");
 
-        System.out.println("-storeInList");
+        System.out.println("-storeInArrayList");
         generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .forEachOrdered(System.out::println);
 
-        System.out.println("-restoreFromList (storeInList)");
+        System.out.println("-restoreFromList (storeInArrayList)");
         generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .map(RecordIOStreams::restoreFromList)
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
+
+        System.out.println("-storeInList / restoreFromList");
+        LinkedList<@Nullable String> arrayList0 = RecordIOStreams.storeInList(new ValueFieldRecord("cat0", 0L, "value0"), new LinkedList<>());
+        System.out.println(arrayList0);
+        ArrayList<@Nullable String> arrayList1 = RecordIOStreams.storeInList(new ValueFieldRecord("value1"), new ArrayList<>(6));
+        System.out.println(arrayList1);
+        RecordIOStreams.storeInList(new ValueFieldRecord("cat2", 2L, "value2"), arrayList1);
+        System.out.println(arrayList1);
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList0));
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(0, 3)));
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(3, 6)));
 
         System.out.println("-restoreFromList (special list)");
         List<@Nullable String> list0 = new ArrayList<>();
