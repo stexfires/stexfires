@@ -27,7 +27,7 @@ public interface RecordContainer {
         return recordStream.map(this::pack);
     }
 
-    default <T extends TextRecord> Stream<TextRecord> unpackAsStream(T packedTextRecord) {
+    default Stream<TextRecord> unpackAsStream(TextRecord packedTextRecord) {
         Objects.requireNonNull(packedTextRecord);
         return unpack(packedTextRecord).recordStream();
     }
