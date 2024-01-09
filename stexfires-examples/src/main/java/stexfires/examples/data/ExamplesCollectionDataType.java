@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber", "UnnecessaryUnicodeEscape", "ReuseOfLocalVariable", "ConstantValue", "HardcodedLineSeparator", "SpellCheckingInspection"})
@@ -103,6 +104,9 @@ public final class ExamplesCollectionDataType {
         testFormat(stringLengthList, CollectionDataTypeFormatter.withLength(2, "\"", "\"", StringDataTypeFormatter.identity(), null));
         stringLengthList.add("!");
         testFormat(stringLengthList, CollectionDataTypeFormatter.withLength(2, "\"", "\"", StringDataTypeFormatter.identity(), null));
+        stringLengthList.removeLast();
+        stringLengthList.add(null);
+        testFormat(stringLengthList, CollectionDataTypeFormatter.withLength(2, "\"", "\"", StringDataTypeFormatter.identity(), null));
 
         System.out.println("---CollectionDataTypeFormatter withLength stringBitLengthList");
         List<@Nullable String> stringBitLengthList = TextSplitters.splitByLength("1001101100", 1).toList();
@@ -172,7 +176,7 @@ public final class ExamplesCollectionDataType {
 
         System.out.println("---CollectionDataTypeParser String splitTextByCodePointsFunction");
         Comparator<String> stringComparator = StringComparators.collatorComparator(Locale.GERMAN);
-        testParse("a\uD83D\uDE00o\u0308äAaA", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.INITIALLY_EMPTY), null, Suppliers.constantNull()));
+        testParse("a\uD83D\uDE00o\u0308äAaA", new CollectionDataTypeParser<String, Set<String>>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.INITIALLY_EMPTY), null, Suppliers.constantNull()));
         testParse("aa", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.IDENTICAL_SIZE), null, Suppliers.constantNull()));
         testParse("abcd", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.SAME_ORDER), null, Suppliers.constantNull()));
         testParse("abdc", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.SAME_ORDER), null, Suppliers.constantNull()));
