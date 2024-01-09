@@ -11,6 +11,9 @@ import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * @since 0.1
+ */
 public enum CodePointRecordFields {
 
     PRINTABLE_STRING("Char", 5, Alignment.START, (codePoint, alternativeValue) -> codePoint.printableString().orElse(alternativeValue)),
