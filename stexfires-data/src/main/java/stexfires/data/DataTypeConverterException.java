@@ -7,7 +7,7 @@ import java.io.Serial;
 /**
  * @since 0.1
  */
-public class DataTypeConverterException extends RuntimeException {
+public final class DataTypeConverterException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -28,7 +28,7 @@ public class DataTypeConverterException extends RuntimeException {
         super(buildMessage(type, message, cause), cause);
     }
 
-    protected static String buildMessage(@Nullable Type type, @Nullable String message, @Nullable Throwable cause) {
+    private static String buildMessage(@Nullable Type type, @Nullable String message, @Nullable Throwable cause) {
         if (message == null && cause == null) {
             return switch (type) {
                 case null -> "The data type cannot be converted.";
