@@ -109,10 +109,12 @@ public final class RecordIOStreams {
         }
         Long recordId = null;
         if ((list.size() > RECORD_ID_INDEX) && (list.get(RECORD_ID_INDEX) instanceof String recordIdOfList)) {
-            try {
-                recordId = Long.valueOf(recordIdOfList);
-            } catch (NumberFormatException e) {
-                // ignore
+            if (!recordIdOfList.isEmpty()) {
+                try {
+                    recordId = Long.valueOf(recordIdOfList);
+                } catch (NumberFormatException e) {
+                    // ignore
+                }
             }
         }
         List<@Nullable String> texts = null;

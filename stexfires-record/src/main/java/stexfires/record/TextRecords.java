@@ -57,7 +57,8 @@ public final class TextRecords {
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<@Nullable String> texts) {
+    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId,
+                                        @Nullable SequencedCollection<@Nullable String> texts) {
         if (category == null && recordId == null) {
             if (texts == null || texts.isEmpty()) {
                 return empty();

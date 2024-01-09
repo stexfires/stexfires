@@ -297,27 +297,33 @@ public final class ExamplesIO {
     private static void showFormattedStringList() {
         System.out.println("-showFormattedStringList---");
 
-        TextRecord record = generateRecord();
+        List<List<@Nullable String>> stringLists = List.of(
+                storeInArrayList(generateRecord()),
+                storeInArrayList(TextRecords.empty()),
+                storeInArrayList(new ManyFieldsRecord(null, 1L, "A", null, "C"))
+        );
+        for (List<@Nullable String> stringList : stringLists) {
+            // to String List
+            System.out.println("StringList: " + stringList);
 
-        // to String List
-        List<@Nullable String> stringList = storeInArrayList(generateRecord());
-        System.out.println(stringList);
+            // from String List
+            printlnRecord(restoreFromList(stringList));
 
-        // from String List
-        printlnRecord(restoreFromList(stringList));
+            // format String List
+            String formattedStringList = CollectionDataTypeFormatter.withDelimiter(";", "[", "]", StringDataTypeFormatter.identity(), () -> null)
+                                                                    .format(stringList);
+            System.out.println(formattedStringList);
 
-        // format String List
-        String formattedStringList = CollectionDataTypeFormatter.withDelimiter(";", "[", "]", StringDataTypeFormatter.identity(), () -> null)
-                                                                .format(stringList);
-        System.out.println(formattedStringList);
-
-        // Parse String List
-        List<String> parsedStringList = CollectionDataTypeParser.withDelimiterAsList(";", "[", "]", StringDataTypeParser.identity(), () -> null, () -> null)
-                                                                .parse(formattedStringList);
-        if (parsedStringList != null) {
-            printlnRecord(restoreFromList(parsedStringList));
-        } else {
-            System.out.println("parsedStringList is NULL!");
+            // Parse String List
+            List<String> parsedStringList = CollectionDataTypeParser.withDelimiterAsList(";", "[", "]", StringDataTypeParser.identity(), () -> null, () -> null)
+                                                                    .parse(formattedStringList);
+            if (parsedStringList != null) {
+                System.out.println(parsedStringList);
+                printlnRecord(restoreFromList(parsedStringList));
+            } else {
+                System.out.println("parsedStringList is NULL!");
+            }
+            System.out.println("----------");
         }
     }
 
