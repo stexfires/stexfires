@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests for {@link StringComparators}.
  */
 @SuppressWarnings({"EqualsWithItself", "MagicNumber"})
-class StringComparatorsTest {
+final class StringComparatorsTest {
 
     /**
      * Test method for {@link StringComparators#compareTo()}.

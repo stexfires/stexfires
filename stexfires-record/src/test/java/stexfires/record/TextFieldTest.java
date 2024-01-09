@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Tests for {@link TextField}.
  */
-class TextFieldTest {
+final class TextFieldTest {
 
     private static final String TEXT_VALUE = "value";
     private static final String TEXT_EMPTY = "";

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Tests for {@link CodePointRecordFields}.
  */
 @SuppressWarnings({"MagicNumber", "DataFlowIssue"})
-class CodePointRecordFieldsTest {
+final class CodePointRecordFieldsTest {
 
     /**
      * Test method for {@link CodePointRecordFields#generateCodePointRecord(stexfires.util.CodePoint, String)}.

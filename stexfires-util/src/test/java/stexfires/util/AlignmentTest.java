@@ -10,7 +10,7 @@ import static stexfires.util.Alignment.START;
 /**
  * Tests for {@link Alignment}.
  */
-class AlignmentTest {
+final class AlignmentTest {
 
     /**
      * Test method for {@link Alignment#name()}.

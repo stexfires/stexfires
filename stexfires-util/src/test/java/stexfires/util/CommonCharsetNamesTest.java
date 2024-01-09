@@ -13,7 +13,7 @@ import static stexfires.util.CommonCharsetNames.*;
 /**
  * Tests for {@link CommonCharsetNames}.
  */
-class CommonCharsetNamesTest {
+final class CommonCharsetNamesTest {
 
     /**
      * Test method for {@link CommonCharsetNames#ofStandardCharset(Charset)}.

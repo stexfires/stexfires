@@ -20,7 +20,7 @@ import static stexfires.util.LineSeparator.LF;
  * Tests for {@link LineSeparator}.
  */
 @SuppressWarnings({"HardcodedLineSeparator", "MagicNumber"})
-class LineSeparatorTest {
+final class LineSeparatorTest {
 
     private static final String STRING_LF = "\n";
     private static final String STRING_CR = "\r";

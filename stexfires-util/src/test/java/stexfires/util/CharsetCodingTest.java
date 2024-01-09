@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Tests for {@link CharsetCoding}.
  */
-class CharsetCodingTest {
+final class CharsetCodingTest {
 
     private static final String DECODER_REPLACEMENT_US_ASCII_REPLACE = "*";
     private static final String DECODER_REPLACEMENT_DEFAULT = "\uFFFD";
