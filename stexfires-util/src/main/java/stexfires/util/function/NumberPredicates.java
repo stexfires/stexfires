@@ -256,7 +256,7 @@ public final class NumberPredicates {
         }
 
         public static IntPredicate sameAbsoluteValue(int compareNumber) {
-            return n -> Math.abs(n) == Math.abs(compareNumber);
+            return n -> (n == compareNumber) || (Math.abs(n) == Math.abs(compareNumber));
         }
 
         public static IntPredicate between(int lowNumber, int highNumber) {
@@ -419,7 +419,7 @@ public final class NumberPredicates {
         }
 
         public static LongPredicate sameAbsoluteValue(long compareNumber) {
-            return n -> Math.abs(n) == Math.abs(compareNumber);
+            return n -> (n == compareNumber) || (Math.abs(n) == Math.abs(compareNumber));
         }
 
         public static LongPredicate between(long lowNumber, long highNumber) {
