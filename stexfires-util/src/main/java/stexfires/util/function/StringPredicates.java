@@ -72,12 +72,12 @@ public final class StringPredicates {
         return stringPredicates.reduce(s -> false, Predicate::or);
     }
 
-    public static Predicate<@Nullable String> isNullOr(Predicate<@Nullable String> stringPredicate) {
+    public static Predicate<@Nullable String> isNullOr(Predicate<String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
         return s -> s == null || stringPredicate.test(s);
     }
 
-    public static Predicate<@Nullable String> isNotNullAnd(Predicate<@Nullable String> stringPredicate) {
+    public static Predicate<@Nullable String> isNotNullAnd(Predicate<String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
         return s -> s != null && stringPredicate.test(s);
     }
