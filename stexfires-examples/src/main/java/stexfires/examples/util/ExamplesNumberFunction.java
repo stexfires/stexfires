@@ -1,6 +1,7 @@
 package stexfires.examples.util;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.NumberPredicates.BigIntegerPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
@@ -29,6 +30,7 @@ import java.util.function.LongPredicate;
 import java.util.function.LongUnaryOperator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesNumberFunction {
@@ -194,16 +196,32 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void printResult(@Nullable Boolean result, @Nullable Number value, @Nullable String exceptionMessage) {
+    private static void printBooleanResult(@Nullable Boolean result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(createResultString(result) + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(@Nullable Number result, @Nullable Number value, @Nullable String exceptionMessage) {
+    private static void printResult(@Nullable Object result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result.toString() : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(@Nullable String result, @Nullable Number value, @Nullable String exceptionMessage) {
+    private static void printStringResult(@Nullable String result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
+    }
+
+    @SafeVarargs
+    private static <T extends Number> void testNumberPredicate(String methodName, Predicate<@Nullable T> predicate, @Nullable String parameter, @Nullable T... values) {
+        printMethodInfo("NumberPredicates", methodName, parameter);
+
+        for (T value : values) {
+            Boolean result = null;
+            String exceptionMessage = null;
+            try {
+                result = predicate.test(value);
+            } catch (ArithmeticException e) {
+                exceptionMessage = e.getMessage();
+            }
+            printBooleanResult(result, value, exceptionMessage);
+        }
     }
 
     private static void testPrimitiveIntPredicate(String methodName, IntPredicate predicate, @Nullable String parameter) {
@@ -217,7 +235,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
@@ -232,7 +250,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
@@ -247,7 +265,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
@@ -307,7 +325,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
     }
 
@@ -322,7 +340,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
     }
 
@@ -337,14 +355,41 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
+    }
+
+    private static void showNumberPredicates() {
+        System.out.println("-showNumberPredicates---");
+
+        testNumberPredicate("isNull", NumberPredicates.isNull(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNull", NumberPredicates.isNotNull(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("isNullOr", NumberPredicates.isNullOr(NumberPredicates.containedIn(1.0d)), "containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.containedIn(1.0d)), "containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.applyOperatorAndTest((Double d) -> d + 1.0d, NumberPredicates.containedIn(1.0d))), "applyOperatorAndTest containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.applyFunctionAndTest((Double d) -> d + 1.0d, NumberPredicates.containedIn(List.of(1.0d)))), "applyFunctionAndTest containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatAnd((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d)), "concatAnd", 0.0d, null, 1.0d);
+        Stream<Predicate<Double>> predicatesAnd = Stream.of((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d, (Double d) -> d == 0.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatAnd(predicatesAnd)), "concatAnd Stream", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatOr((Double d) -> d > 0.0d, (Double d) -> d < 1.0d)), "concatOr", 0.0d, null, 1.0d);
+        Stream<Predicate<Double>> predicatesOr = Stream.of((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d, (Double d) -> d == 0.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatOr(predicatesOr)), "concatOr Stream", 0.0d, null, 1.0d);
+        testNumberPredicate("constantTrue", NumberPredicates.constantTrue(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("constantFalse", NumberPredicates.constantFalse(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("constant", NumberPredicates.constant(true), "true", 0.0d, null, 1.0d);
+        testNumberPredicate("supplier", NumberPredicates.supplier(() -> true), "() -> true", 0.0d, null, 1.0d);
+
+        testNumberPredicate("PrimitiveIntPredicates.isNullOr", NumberPredicates.PrimitiveIntPredicates.isNullOr(NumberPredicates.PrimitiveIntPredicates.even()), "PrimitiveIntPredicates.even", 0, null, 1, 2, 3);
+        testNumberPredicate("PrimitiveIntPredicates.isNotNullAnd", NumberPredicates.PrimitiveIntPredicates.isNotNullAnd(NumberPredicates.PrimitiveIntPredicates.even()), "PrimitiveIntPredicates.even", 0, null, 1, 2, 3);
+        testNumberPredicate("PrimitiveLongPredicates.isNullOr", NumberPredicates.PrimitiveLongPredicates.isNullOr(NumberPredicates.PrimitiveLongPredicates.odd()), "PrimitiveLongPredicates.odd", 0L, null, 1L, 2L, 3L);
+        testNumberPredicate("PrimitiveLongPredicates.isNotNullAnd", NumberPredicates.PrimitiveLongPredicates.isNotNullAnd(NumberPredicates.PrimitiveLongPredicates.odd()), "PrimitiveLongPredicates.odd", 0L, null, 1L, 2L, 3L);
     }
 
     private static void showPrimitiveIntPredicates() {
         System.out.println("-showPrimitiveIntPredicates---");
 
         testPrimitiveIntPredicate("zero", PrimitiveIntPredicates.zero(), null);
+        testPrimitiveIntPredicate("odd", PrimitiveIntPredicates.odd(), null);
 
         testPrimitiveIntPredicate("rangeOfByte", PrimitiveIntPredicates.rangeOfByte(), null);
         testPrimitiveIntPredicate("rangeOfShort", PrimitiveIntPredicates.rangeOfShort(), null);
@@ -359,6 +404,7 @@ public final class ExamplesNumberFunction {
         System.out.println("-showPrimitiveLongPredicates---");
 
         testPrimitiveLongPredicate("zero", PrimitiveLongPredicates.zero(), null);
+        testPrimitiveLongPredicate("odd", PrimitiveLongPredicates.odd(), null);
 
         testPrimitiveLongPredicate("rangeOfByte", PrimitiveLongPredicates.rangeOfByte(), null);
         testPrimitiveLongPredicate("rangeOfShort", PrimitiveLongPredicates.rangeOfShort(), null);
@@ -374,6 +420,7 @@ public final class ExamplesNumberFunction {
         System.out.println("-showBigIntegerPredicates---");
 
         testBigIntegerPredicate("zero", BigIntegerPredicates.zero(), null);
+        testBigIntegerPredicate("odd", BigIntegerPredicates.odd(), null);
 
         testBigIntegerPredicate("rangeOfByte", BigIntegerPredicates.rangeOfByte(), null);
         testBigIntegerPredicate("rangeOfShort", BigIntegerPredicates.rangeOfShort(), null);
@@ -483,7 +530,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToPrimitiveLong");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -494,7 +541,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToLong");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -505,7 +552,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToBigInteger");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -516,7 +563,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Integer
@@ -529,7 +576,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToPrimitiveLong");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -540,7 +587,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToLong");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -551,7 +598,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToBigInteger");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -562,7 +609,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Primitive long
@@ -575,7 +622,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToInteger");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -586,7 +633,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToLong");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -597,7 +644,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToBigInteger");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -608,7 +655,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Long
@@ -621,7 +668,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToInteger");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -632,7 +679,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToPrimitiveLong");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -643,7 +690,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToBigInteger");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -654,7 +701,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // BigInteger
@@ -667,7 +714,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToPrimitiveLong");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -678,7 +725,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToInteger");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -689,7 +736,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToLong");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -700,13 +747,14 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
     }
 
     public static void main(String... args) {
         // Predicates
+        showNumberPredicates();
         showPrimitiveIntPredicates();
         showPrimitiveLongPredicates();
         showBigIntegerPredicates();
