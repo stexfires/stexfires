@@ -1,7 +1,6 @@
 package stexfires.record.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
@@ -17,40 +16,41 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                               @NotNull TextField[] fields)
+public record ManyFieldsRecord(@Nullable String category,
+                               @Nullable Long recordId,
+                               TextField[] fields)
         implements TextRecord, Serializable {
 
     public ManyFieldsRecord() {
         this(null, null, TextFields.emptyArray());
     }
 
-    public ManyFieldsRecord(@NotNull Collection<String> texts) {
-        this(null, null, TextFields.newArray(texts));
+    public ManyFieldsRecord(Collection<@Nullable String> texts) {
+        this(null, null, TextFields.newArrayOfCollection(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Collection<String> texts) {
-        this(category, recordId, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Collection<@Nullable String> texts) {
+        this(category, recordId, TextFields.newArrayOfCollection(texts));
     }
 
-    public ManyFieldsRecord(@NotNull Stream<String> texts) {
-        this(null, null, TextFields.newArray(texts));
+    public ManyFieldsRecord(Stream<@Nullable String> texts) {
+        this(null, null, TextFields.newArrayOfStream(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull Stream<String> texts) {
-        this(category, recordId, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, Stream<@Nullable String> texts) {
+        this(category, recordId, TextFields.newArrayOfStream(texts));
     }
 
     @SuppressWarnings("OverloadedVarargsMethod")
-    public ManyFieldsRecord(String... texts) {
-        this(null, null, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String... texts) {
+        this(null, null, TextFields.newArrayOfStrings(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, String... texts) {
-        this(category, recordId, TextFields.newArray(texts));
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @Nullable String... texts) {
+        this(category, recordId, TextFields.newArrayOfStrings(texts));
     }
 
-    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, @NotNull TextField[] fields) {
+    public ManyFieldsRecord(@Nullable String category, @Nullable Long recordId, TextField[] fields) {
         Objects.requireNonNull(fields);
         this.category = category;
         this.recordId = recordId;
@@ -72,26 +72,26 @@ public record ManyFieldsRecord(@Nullable String category, @Nullable Long recordI
     }
 
     @Override
-    public @NotNull TextField[] arrayOfFields() {
+    public TextField[] arrayOfFields() {
         synchronized (fields) {
             return Arrays.copyOf(fields, fields.length);
         }
     }
 
     @Override
-    public @NotNull List<TextField> listOfFields() {
+    public List<TextField> listOfFields() {
         return Arrays.asList(arrayOfFields());
     }
 
     @Override
-    public @NotNull List<TextField> listOfFieldsReversed() {
+    public List<TextField> listOfFieldsReversed() {
         var fieldList = listOfFields();
         Collections.reverse(fieldList);
         return fieldList;
     }
 
     @Override
-    public @NotNull Stream<TextField> streamOfFields() {
+    public Stream<TextField> streamOfFields() {
         return Arrays.stream(arrayOfFields());
     }
 

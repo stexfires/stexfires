@@ -1,6 +1,6 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
@@ -12,12 +12,12 @@ import java.util.Objects;
 public class ConditionalMessage<T extends TextRecord> implements RecordMessage<T> {
 
     private final RecordFilter<? super T> condition;
-    private final RecordMessage<? super TextRecord> trueMessage;
-    private final RecordMessage<? super TextRecord> falseMessage;
+    private final RecordMessage<? super T> trueMessage;
+    private final RecordMessage<? super T> falseMessage;
 
     public ConditionalMessage(RecordFilter<? super T> condition,
-                              RecordMessage<? super TextRecord> trueMessage,
-                              RecordMessage<? super TextRecord> falseMessage) {
+                              RecordMessage<? super T> trueMessage,
+                              RecordMessage<? super T> falseMessage) {
         Objects.requireNonNull(condition);
         Objects.requireNonNull(trueMessage);
         Objects.requireNonNull(falseMessage);

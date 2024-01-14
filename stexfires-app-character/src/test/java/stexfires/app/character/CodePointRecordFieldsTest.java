@@ -1,17 +1,31 @@
 package stexfires.app.character;
 
 import org.junit.jupiter.api.Test;
+import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.util.CodePoint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link CodePointRecordFields}.
  */
-@SuppressWarnings({"MagicNumber"})
-class CodePointRecordFieldsTest {
+@SuppressWarnings({"MagicNumber", "DataFlowIssue"})
+final class CodePointRecordFieldsTest {
+
+    /**
+     * Test method for {@link CodePointRecordFields#generateCodePointRecord(stexfires.util.CodePoint, String)}.
+     */
+    @Test
+    void generateCodePointRecord_throws() {
+        int codePointValue = 0;
+        CodePoint codePoint = new CodePoint(codePointValue);
+        assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(null, ""));
+        assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(codePoint, null));
+        assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(null, null));
+    }
 
     /**
      * Test method for {@link CodePointRecordFields#generateCodePointRecord(stexfires.util.CodePoint, String)}.
@@ -44,8 +58,6 @@ class CodePointRecordFieldsTest {
         assertEquals("false", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.IS_EMOJI.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.DECIMAL_DIGIT.ordinal()));
         assertEquals("", CodePointRecordFields.generateCodePointRecord(codePoint, "").textAt(CodePointRecordFields.NUMERIC_VALUE.ordinal()));
-
-        assertNull(CodePointRecordFields.generateCodePointRecord(codePoint, null).textAt(CodePointRecordFields.PRINTABLE_STRING.ordinal()));
     }
 
     /**
@@ -184,20 +196,22 @@ class CodePointRecordFieldsTest {
      * Test method for {@link CodePointRecordFields#generateCodePointRecordStream(int, int, String)}.
      */
     @Test
-    void generateCodePointRecordStream_count() {
+    void generateCodePointRecordStream() {
+        // constructor
+        assertInstanceOf(TextRecord.class, CodePointRecordFields.generateCodePointRecordStream(0, 0, "").findFirst().orElseThrow());
+        assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(1, 0, ""));
+        assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(-1, 1, ""));
+        assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(0, Integer.MAX_VALUE, ""));
+        assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecordStream(0, 1, null));
+
+        // count
         assertEquals(1, CodePointRecordFields.generateCodePointRecordStream(0, 0, "").count());
         assertEquals(2, CodePointRecordFields.generateCodePointRecordStream(0, 1, "").count());
         assertEquals(3, CodePointRecordFields.generateCodePointRecordStream(0, 2, "").count());
-        assertEquals(0, CodePointRecordFields.generateCodePointRecordStream(1, 0, "").count());
         assertEquals(1, CodePointRecordFields.generateCodePointRecordStream(2, 2, "").count());
         assertEquals(128, CodePointRecordFields.generateCodePointRecordStream(0, 127, "").count());
-    }
 
-    /**
-     * Test method for {@link CodePointRecordFields#generateCodePointRecordStream(int, int, String)}.
-     */
-    @Test
-    void generateCodePointRecordStream_findFirst() {
+        // findFirst
         for (int codePointValue = 0; codePointValue < 256; codePointValue++) {
             assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue, "").findFirst().orElseGet(TextRecords::empty).recordId());
             assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 2, "").findFirst().orElseGet(TextRecords::empty).recordId());

@@ -7,10 +7,10 @@ import java.util.Locale;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class CompactNumberFormatTest {
 
+    private static final int[] INT_VALUES = new int[]{-1000000, 1000, 1499, 1500, 5000, 10000, 100000, 999999, 1000000};
+
     private CompactNumberFormatTest() {
     }
-
-    private static final int[] INT_VALUES = new int[]{-1000000, 1000, 1499, 1500, 5000, 10000, 100000, 999999, 1000000};
 
     private static void showCompactNumberFormatTest() {
         System.out.println("-showCompactNumberFormatTest---");

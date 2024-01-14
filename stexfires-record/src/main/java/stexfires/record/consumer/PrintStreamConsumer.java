@@ -35,7 +35,7 @@ public class PrintStreamConsumer<T extends TextRecord> implements RecordConsumer
     @Override
     public final void consume(T record) {
         String message = recordMessage.createMessage(record);
-        // println() and print() are both 'synchronized'
+        // println() and print() are both 'synchronized' and null-safe
         if (terminateLine) {
             printStream.println(message);
         } else {

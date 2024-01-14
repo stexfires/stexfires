@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.DataTypeFormatter;
 import stexfires.data.DataTypeParser;
@@ -20,7 +21,7 @@ public final class ExamplesStringDataType {
     private ExamplesStringDataType() {
     }
 
-    private static void testParse(String source, DataTypeParser<String> parser) {
+    private static void testParse(@Nullable String source, DataTypeParser<String> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -28,7 +29,7 @@ public final class ExamplesStringDataType {
         }
     }
 
-    private static void testFormat(String source, DataTypeFormatter<String> formatter) {
+    private static void testFormat(@Nullable String source, DataTypeFormatter<String> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -86,11 +87,11 @@ public final class ExamplesStringDataType {
         testParse("ä ä ß s ss", StringDataTypeParser.withEqualityCheck(StringUnaryOperators.lowerCase(Locale.GERMAN)));
 
         System.out.println("---StringDataTypeFormatter surround");
-        testFormat(null, new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constant("''")));
-        testFormat("", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constant("''")));
-        testFormat("    ", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constant("''")));
-        testFormat("''", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constant("''")));
-        testFormat("Test", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constant("''")));
+        testFormat(null, new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constantOfNotNull("''")));
+        testFormat("", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constantOfNotNull("''")));
+        testFormat("    ", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constantOfNotNull("''")));
+        testFormat("''", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constantOfNotNull("''")));
+        testFormat("Test", new StringDataTypeFormatter(StringUnaryOperators.surround("'", "'"), Suppliers.constantOfNotNull("''")));
 
         System.out.println("---StringDataTypeParser surroundedBy strict");
         testParse(null, new StringDataTypeParser(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringDataTypeParser.THROW_ERROR_FOR_NULL, StringDataTypeParser.THROW_ERROR_FOR_EMPTY));
@@ -102,13 +103,13 @@ public final class ExamplesStringDataType {
         testParse("'Test'", new StringDataTypeParser(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringDataTypeParser.THROW_ERROR_FOR_NULL, StringDataTypeParser.THROW_ERROR_FOR_EMPTY));
 
         System.out.println("---StringDataTypeParser surroundedBy optional");
-        testParse(null, new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("Test", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("''", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("'    '", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("''''", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
-        testParse("'Test'", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constant(Strings.EMPTY)));
+        testParse(null, new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("Test", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("''", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("'    '", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("''''", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
+        testParse("'Test'", new StringDataTypeParser(null, StringUnaryOperators.conditionalOperator(StringPredicates.surroundedBy("'", "'"), StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")), StringUnaryOperators.identity()), Suppliers.constantNull(), Suppliers.constantOfNotNull(Strings.EMPTY)));
 
         System.out.println("---StringDataTypeFormatter Base64");
         testFormat("Test", StringDataTypeFormatter.passingNull(StringUnaryOperators.encodeBase64(Base64.getEncoder(), StandardCharsets.US_ASCII)));

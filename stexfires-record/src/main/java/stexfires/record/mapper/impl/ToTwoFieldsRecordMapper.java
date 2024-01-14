@@ -1,6 +1,5 @@
 package stexfires.record.mapper.impl;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
@@ -25,7 +24,7 @@ public final class ToTwoFieldsRecordMapper<T extends TextRecord> implements Reco
     }
 
     @Override
-    public @NotNull TwoFieldsRecord map(@NotNull T record) {
+    public TwoFieldsRecord map(T record) {
         return new TwoFieldsRecord(record.category(), record.recordId(),
                 firstTextMessage.createMessage(record),
                 secondTextMessage.createMessage(record));

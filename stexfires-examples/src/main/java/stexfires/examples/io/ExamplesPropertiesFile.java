@@ -1,5 +1,6 @@
 package stexfires.examples.io;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFiles;
 import stexfires.io.properties.PropertiesFileSpec;
@@ -150,14 +151,14 @@ public final class ExamplesPropertiesFile {
         RecordFiles.writeRecordIntoFile(consumerValueFileSpec, new ValueFieldRecord("#################"), path, StandardOpenOption.APPEND);
     }
 
-    private static void compare(Properties properties, Map<String, String> map) {
+    private static void compare(Properties properties, Map<String, @Nullable String> map) {
         if (PropertiesUtil.propertiesAndMapEquals(properties, map)) {
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are equal!");
         } else {
-            NavigableMap<String, String> propMap = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
-            NavigableMap<String, String> propMap2 = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
-            NavigableMap<String, String> map2 = new TreeMap<>(map);
+            NavigableMap<String, @Nullable String> propMap = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
+            NavigableMap<String, @Nullable String> propMap2 = PropertiesUtil.convertPropertiesToNavigableMap(properties, String::compareTo);
+            NavigableMap<String, @Nullable String> map2 = new TreeMap<>(map);
 
             System.out.println("---------------------------------");
             System.out.println("Properties and Map are NOT equal!");
@@ -170,8 +171,8 @@ public final class ExamplesPropertiesFile {
         }
     }
 
-    private static Map<String, String> readIntoMapAndLog(PropertiesFileSpec fileSpec, Path path) throws ProducerException, IOException {
-        MapConsumer<KeyValueRecord, NavigableMap<String, String>> consumer = PropertiesUtil.navigableMapConsumer(String::compareTo);
+    private static Map<String, @Nullable String> readIntoMapAndLog(PropertiesFileSpec fileSpec, Path path) throws ProducerException, IOException {
+        MapConsumer<KeyValueRecord, NavigableMap<String, @Nullable String>> consumer = PropertiesUtil.navigableMapConsumer(String::compareTo);
         RecordFiles.readAndConsumeFile(fileSpec, RecordConsumer.concat(RecordSystemOutUtil.RECORD_CONSUMER, consumer), path);
         return consumer.getMap();
     }

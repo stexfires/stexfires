@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
@@ -26,17 +25,17 @@ import java.util.function.Supplier;
  */
 public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
-    private final Function<T, String> formatFunction;
-    private final Supplier<String> nullSourceSupplier;
+    private final Function<T, @Nullable String> formatFunction;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
-    public GenericDataTypeFormatter(@NotNull Function<T, String> formatFunction,
-                                    @Nullable Supplier<String> nullSourceSupplier) {
+    public GenericDataTypeFormatter(Function<T, @Nullable String> formatFunction,
+                                    @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(formatFunction);
         this.formatFunction = formatFunction;
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static GenericDataTypeFormatter<Locale> forLocaleWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Locale> forLocaleWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Locale::toLanguageTag, nullSourceSupplier);
     }
 
@@ -44,7 +43,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forLocaleWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Charset> forCharsetWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Charset> forCharsetWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Charset::name, nullSourceSupplier);
     }
 
@@ -53,7 +52,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     }
 
     @SuppressWarnings("rawtypes")
-    public static GenericDataTypeFormatter<Class> forClassWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Class> forClassWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Class::getName, nullSourceSupplier);
     }
 
@@ -62,7 +61,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forClassWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Instant> forInstantEpochSecondWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Instant> forInstantEpochSecondWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> String.valueOf(source.getEpochSecond()), nullSourceSupplier);
     }
 
@@ -70,7 +69,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forInstantEpochSecondWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Instant> forInstantEpochMilliWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Instant> forInstantEpochMilliWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> String.valueOf(source.toEpochMilli()), nullSourceSupplier);
     }
 
@@ -78,7 +77,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forInstantEpochMilliWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Character> forCharacterWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Character> forCharacterWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Object::toString, nullSourceSupplier);
     }
 
@@ -86,7 +85,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forCharacterWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Currency> forCurrencyWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Currency> forCurrencyWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Currency::getCurrencyCode, nullSourceSupplier);
     }
 
@@ -96,7 +95,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static GenericDataTypeFormatter<URI> forUriWithSupplier(boolean parseServerAuthority,
-                                                                   @Nullable Supplier<String> nullSourceSupplier) {
+                                                                   @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> {
             try {
                 if (parseServerAuthority) {
@@ -114,7 +113,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forUriWithSupplier(parseServerAuthority, () -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<UUID> forUuidWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<UUID> forUuidWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(UUID::toString, nullSourceSupplier);
     }
 
@@ -122,7 +121,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forUuidWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Path> forPathWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Path> forPathWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(Path::toString, nullSourceSupplier);
     }
 
@@ -130,7 +129,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forPathWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<InetAddress> forInetAddressHostAddressWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<InetAddress> forInetAddressHostAddressWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(InetAddress::getHostAddress, nullSourceSupplier);
     }
 
@@ -138,7 +137,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forInetAddressHostAddressWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<InetAddress> forInetAddressHostNameWithSupplier(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<InetAddress> forInetAddressHostNameWithSupplier(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(InetAddress::getHostName, nullSourceSupplier);
     }
 
@@ -146,68 +145,68 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forInetAddressHostNameWithSupplier(() -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<byte[]> forByteArrayWithSupplier(@NotNull Function<byte[], String> formatFunction,
-                                                                            @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<byte[]> forByteArrayWithSupplier(Function<byte[], @Nullable String> formatFunction,
+                                                                            @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(formatFunction, nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<byte[]> forByteArray(@NotNull Function<byte[], String> formatFunction,
+    public static GenericDataTypeFormatter<byte[]> forByteArray(Function<byte[], @Nullable String> formatFunction,
                                                                 @Nullable String nullSource) {
         return forByteArrayWithSupplier(formatFunction, () -> nullSource);
     }
 
-    public static GenericDataTypeFormatter<Long> forLong(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Long> forLong(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Long.toString(source, radix), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Integer> forInteger(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Integer> forInteger(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source, radix), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Short> forShort(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Short> forShort(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Byte> forByte(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Byte> forByte(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Double> forDouble(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Double> forDouble(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> Double.toString(source), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<Float> forFloat(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<Float> forFloat(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> Float.toString(source), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<BigInteger> forBigInteger(int radix, @Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<BigInteger> forBigInteger(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> source.toString(radix), nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<BigDecimal> forBigDecimal(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimal(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(BigDecimal::toString, nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalPlain(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalPlain(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(BigDecimal::toPlainString, nullSourceSupplier);
     }
 
-    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalEngineering(@Nullable Supplier<String> nullSourceSupplier) {
+    public static GenericDataTypeFormatter<BigDecimal> forBigDecimalEngineering(@Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(BigDecimal::toEngineeringString, nullSourceSupplier);
     }
 

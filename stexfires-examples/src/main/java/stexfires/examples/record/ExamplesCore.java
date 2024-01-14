@@ -9,7 +9,6 @@ import stexfires.record.impl.ValueFieldRecord;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
@@ -42,7 +41,12 @@ public final class ExamplesCore {
 
     private static void printFieldStream(String title, Function<Stream<TextField>, Stream<Object>> fieldStreamFunction) {
         System.out.println("--" + title);
-        System.out.println(fieldStreamFunction.apply(generateFieldStream()).collect(Collectors.toList()));
+        try {
+            System.out.println(fieldStreamFunction.apply(generateFieldStream()).toList());
+        } catch (NullPointerException e) {
+            System.out.println("Caught NullPointerException: " + e.getMessage());
+            System.out.println("Filtered result: " + fieldStreamFunction.apply(generateFieldStream().filter(TextField::isNotNull)).toList());
+        }
     }
 
     private static void printRecord(String title, TextRecord record) {
@@ -61,6 +65,7 @@ public final class ExamplesCore {
 
         printFieldStream("text", stream -> stream.map(TextField::text));
         printFieldStream("orElse", stream -> stream.map(field -> field.orElse("<NULL>")));
+        printFieldStream("orElseThrow", stream -> stream.map(TextField::orElseThrow));
         printFieldStream("asOptional", stream -> stream.map(TextField::asOptional).map(optional -> optional.orElse("<NULL>")));
         printFieldStream("isNotNull", stream -> stream.map(TextField::isNotNull));
         printFieldStream("isNull", stream -> stream.map(TextField::isNull));

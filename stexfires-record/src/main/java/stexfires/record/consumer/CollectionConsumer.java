@@ -1,5 +1,6 @@
 package stexfires.record.consumer;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public class CollectionConsumer<T extends TextRecord, R extends Collection<String>> implements RecordConsumer<T> {
+public class CollectionConsumer<T extends TextRecord, R extends Collection<@Nullable String>> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 

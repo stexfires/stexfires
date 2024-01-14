@@ -1,6 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public enum SortNulls {
      * @see java.util.Comparator#nullsFirst(Comparator)
      * @see java.util.Comparator#nullsLast(Comparator)
      */
-    public final <T> Comparator<T> wrap(@NotNull Comparator<T> comparator) {
+    public final <T> Comparator<@Nullable T> wrap(Comparator<T> comparator) {
         Objects.requireNonNull(comparator);
         return this == SortNulls.FIRST ?
                 Comparator.nullsFirst(comparator) :

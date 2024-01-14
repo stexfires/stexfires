@@ -1,7 +1,6 @@
 package stexfires.io.properties;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.KeyValueRecord;
@@ -16,15 +15,15 @@ import java.util.Objects;
  * @since 0.1
  */
 public record PropertiesFileSpec(
-        @NotNull CharsetCoding charsetCoding,
+        CharsetCoding charsetCoding,
         @Nullable String producerNullValueReplacement,
         boolean producerCommentAsCategory,
-        @NotNull LineSeparator consumerLineSeparator,
-        @NotNull String consumerNullValueReplacement,
+        LineSeparator consumerLineSeparator,
+        String consumerNullValueReplacement,
         boolean consumerEscapeUnicode,
         boolean consumerDateComment,
         boolean consumerCategoryAsKeyPrefix,
-        @NotNull String consumerKeyPrefixDelimiter
+        String consumerKeyPrefixDelimiter
 ) implements ReadableRecordFileSpec<KeyValueRecord, PropertiesProducer>, WritableRecordFileSpec<KeyValueRecord, PropertiesConsumer> {
 
     public static final String DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT = "";
@@ -50,7 +49,7 @@ public record PropertiesFileSpec(
         Objects.requireNonNull(consumerKeyPrefixDelimiter);
     }
 
-    public static PropertiesFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding) {
+    public static PropertiesFileSpec producerFileSpec(CharsetCoding charsetCoding) {
         return new PropertiesFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
@@ -63,7 +62,7 @@ public record PropertiesFileSpec(
                 DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
     }
 
-    public static PropertiesFileSpec producerFileSpec(@NotNull CharsetCoding charsetCoding,
+    public static PropertiesFileSpec producerFileSpec(CharsetCoding charsetCoding,
                                                       @Nullable String producerNullValueReplacement,
                                                       boolean producerCommentAsCategory) {
         return new PropertiesFileSpec(
@@ -78,8 +77,8 @@ public record PropertiesFileSpec(
                 DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
     }
 
-    public static PropertiesFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                      @NotNull LineSeparator consumerLineSeparator) {
+    public static PropertiesFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                      LineSeparator consumerLineSeparator) {
         return new PropertiesFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
@@ -92,13 +91,13 @@ public record PropertiesFileSpec(
                 DEFAULT_CONSUMER_KEY_PREFIX_DELIMITER);
     }
 
-    public static PropertiesFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                      @NotNull LineSeparator consumerLineSeparator,
-                                                      @NotNull String consumerNullValueReplacement,
+    public static PropertiesFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                      LineSeparator consumerLineSeparator,
+                                                      String consumerNullValueReplacement,
                                                       boolean consumerEscapeUnicode,
                                                       boolean consumerDateComment,
                                                       boolean consumerCategoryAsKeyPrefix,
-                                                      @NotNull String consumerKeyPrefixDelimiter) {
+                                                      String consumerKeyPrefixDelimiter) {
         return new PropertiesFileSpec(
                 charsetCoding,
                 DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,

@@ -1,5 +1,6 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.function.StringPredicates;
@@ -15,10 +16,10 @@ import java.util.function.Predicate;
 public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
 
     private final RecordMessage<? super T> recordMessage;
-    private final Predicate<String> messagePredicate;
+    private final Predicate<@Nullable String> messagePredicate;
 
     public MessageFilter(RecordMessage<? super T> recordMessage,
-                         Predicate<String> messagePredicate) {
+                         Predicate<@Nullable String> messagePredicate) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(messagePredicate);
         this.recordMessage = recordMessage;
@@ -26,7 +27,7 @@ public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> MessageFilter<T> equalTo(RecordMessage<? super T> recordMessage,
-                                                                  String compareMessage) {
+                                                                  @Nullable String compareMessage) {
         return new MessageFilter<>(recordMessage, StringPredicates.equals(compareMessage));
     }
 
@@ -40,12 +41,13 @@ public class MessageFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public static <T extends TextRecord> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
                                                                       Collection<String> messages) {
-        return new MessageFilter<>(recordMessage,
-                messages::contains);
+        Objects.requireNonNull(messages);
+        return new MessageFilter<>(recordMessage, messages::contains);
     }
 
     public static <T extends TextRecord> MessageFilter<T> containedIn(RecordMessage<? super T> recordMessage,
                                                                       String... messages) {
+        Objects.requireNonNull(messages);
         return containedIn(recordMessage, Arrays.asList(messages));
     }
 

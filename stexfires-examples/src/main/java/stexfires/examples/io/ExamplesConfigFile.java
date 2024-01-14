@@ -1,5 +1,6 @@
 package stexfires.examples.io;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFileSpec;
 import stexfires.io.RecordFiles;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Locale;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static stexfires.util.CommonCharsetNames.WINDOWS_1252;
@@ -154,10 +156,11 @@ public final class ExamplesConfigFile {
         // Write
         System.out.println("write: " + path);
         // generate, modify and filter stream
+        Predicate<@Nullable String> isNotNullAndNotBlank = StringPredicates.isNotNullAndNotBlank();
         var recordStream = new ConfigModifier<>(ConfigModifier.categoryTrimAndLowercase(Locale.ENGLISH),
                 true, true, 0, 1, 2)
                 .modify(generateStream()
-                        .filter(record -> StringPredicates.isNullOrBlank().negate().test(record.category()))
+                        .filter(record -> isNotNullAndNotBlank.test(record.category()))
                 );
         RecordFiles.writeStreamIntoFile(fileSpec, recordStream, path);
 

@@ -15,7 +15,6 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-@SuppressWarnings("SameReturnValue")
 public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
 
     LineSeparator DEFAULT_CONSUMER_LINE_SEPARATOR = LineSeparator.LF;
@@ -39,6 +38,7 @@ public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends Writ
      */
     default WRC openFileAsConsumer(Path filePath, OpenOption... writeOptions) throws IOException {
         Objects.requireNonNull(filePath);
+        Objects.requireNonNull(writeOptions);
         return consumer(Files.newOutputStream(filePath, writeOptions));
     }
 

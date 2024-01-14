@@ -55,6 +55,23 @@ public final class ExamplesStrings {
         System.out.println(Strings.toOptionalString(SPECIAL_CHARACTERS));
     }
 
+    private static void showListOfNotNull() {
+        System.out.println("-showListOfNotNull---");
+
+        System.out.println(Strings.listOfNotNull("a"));
+        System.out.println(Strings.listOfNotNull(Strings.EMPTY));
+        System.out.println(Strings.listOfNotNull(Strings.SPACE));
+    }
+
+    private static void showListOfNullable() {
+        System.out.println("-showListOfNullable---");
+
+        System.out.println(Strings.listOfNullable("a"));
+        System.out.println(Strings.listOfNullable(Strings.EMPTY));
+        System.out.println(Strings.listOfNullable(Strings.SPACE));
+        System.out.println(Strings.listOfNullable(null));
+    }
+
     private static void showList() {
         System.out.println("-showList---");
 
@@ -68,16 +85,24 @@ public final class ExamplesStrings {
         System.out.println(Strings.list((String) null));
         System.out.println(Strings.list(null, null));
         System.out.println(Strings.list(null, null, "Test"));
-        System.out.println(Strings.list(new String[]{"a"}));
+        System.out.println(Strings.list("a"));
     }
 
-    private static void showListOfNullable() {
-        System.out.println("-showListOfNullable---");
+    private static void showStreamOfNotNull() {
+        System.out.println("-showStreamOfNotNull---");
 
-        System.out.println(Strings.listOfNullable("a"));
-        System.out.println(Strings.listOfNullable(Strings.EMPTY));
-        System.out.println(Strings.listOfNullable(Strings.SPACE));
-        System.out.println(Strings.listOfNullable(null));
+        System.out.println(Strings.streamOfNotNull("a").toList());
+        System.out.println(Strings.streamOfNotNull(Strings.EMPTY).toList());
+        System.out.println(Strings.streamOfNotNull(Strings.SPACE).toList());
+    }
+
+    private static void showStreamOfNullable() {
+        System.out.println("-showStreamOfNullable---");
+
+        System.out.println(Strings.streamOfNullable("a").toList());
+        System.out.println(Strings.streamOfNullable(Strings.EMPTY).toList());
+        System.out.println(Strings.streamOfNullable(Strings.SPACE).toList());
+        System.out.println(Strings.streamOfNullable(null).toList());
     }
 
     private static void showStream() {
@@ -96,21 +121,12 @@ public final class ExamplesStrings {
         System.out.println(Strings.stream(new String[]{"a"}).toList());
     }
 
-    private static void showStreamOfNullable() {
-        System.out.println("-showStreamOfNullable---");
+    private static void showCodePointStreamOfNotNull() {
+        System.out.println("-showCodePointStreamOfNotNull---");
 
-        System.out.println(Strings.streamOfNullable("a").toList());
-        System.out.println(Strings.streamOfNullable(Strings.EMPTY).toList());
-        System.out.println(Strings.streamOfNullable(Strings.SPACE).toList());
-        System.out.println(Strings.streamOfNullable(null).toList());
-    }
-
-    private static void showCodePointStream() {
-        System.out.println("-showCodePointStream---");
-
-        System.out.println(Strings.codePointStream("a").map(CodePoint::value).toList());
-        System.out.println(Strings.codePointStream("Hello").map(CodePoint::value).toList());
-        System.out.println(Strings.codePointStream(Strings.EMPTY).map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNotNull("a").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNotNull("Hello").map(CodePoint::value).toList());
+        System.out.println(Strings.codePointStreamOfNotNull(Strings.EMPTY).map(CodePoint::value).toList());
     }
 
     private static void showCodePointStreamOfNullable() {
@@ -122,16 +138,25 @@ public final class ExamplesStrings {
         System.out.println(Strings.codePointStreamOfNullable(null).map(CodePoint::value).toList());
     }
 
-    private static void showConcat() {
-        System.out.println("-showConcat---");
+    private static void showConcatTwoStreams() {
+        System.out.println("-showConcatTwoStreams---");
 
-        System.out.println(Strings.concat(Stream.empty()).toList());
-        System.out.println(Strings.concat().toList());
-        System.out.println(Strings.concat(Stream.of("a")).toList());
-        System.out.println(Strings.concat(Stream.of("a"), Stream.of("b")).toList());
-        System.out.println(Strings.concat(Stream.of("a", "b"), Stream.of("c", "d")).toList());
-        System.out.println(Strings.concat(Stream.of("a", "b"), Stream.empty(), Stream.of("c", "d")).toList());
-        System.out.println(Strings.concat(Stream.of("a", "b"), Stream.of("c", "d"), Stream.of("e")).toList());
+        System.out.println(Strings.concatTwoStreams(Stream.of("a"), Stream.of("b")).toList());
+        System.out.println(Strings.concatTwoStreams(Stream.of("a", "b"), Stream.of("c", "d")).toList());
+        System.out.println(Strings.concatTwoStreams(Strings.streamOfNullable(null), Strings.stream("a", null, "b")).toList());
+    }
+
+    private static void showConcatManyStreams() {
+        System.out.println("-showConcatManyStreams---");
+
+        System.out.println(Strings.concatManyStreams(Stream.empty()).toList());
+        System.out.println(Strings.concatManyStreams().toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a")).toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a"), Stream.of("b")).toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a", "b"), Stream.of("c", "d")).toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a", "b"), Stream.empty(), Stream.of("c", "d")).toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a", "b"), Stream.of("c", "d"), Stream.of("e")).toList());
+        System.out.println(Strings.concatManyStreams(Stream.of("a", null), Stream.of("b", "c"), Strings.streamOfNotNull("d"), Strings.streamOfNullable(null), Strings.stream("e", null, "f")).toList());
     }
 
     private static void showJoin() {
@@ -148,11 +173,12 @@ public final class ExamplesStrings {
         System.out.println(Strings.join(Strings.stream((String) null)));
         System.out.println(Strings.join(Strings.stream(null, null)));
         System.out.println(Strings.join(Strings.stream(null, null, "Test")));
-        System.out.println(Strings.join(Strings.stream(new String[]{"a"})));
+        System.out.println(Strings.join(Strings.stream("a")));
 
         System.out.println(Strings.join(Strings.stream("a", "b", "c"), ""));
         System.out.println(Strings.join(Strings.stream("a", "b", "c"), Strings.DEFAULT_DELIMITER));
         System.out.println(Strings.join(Strings.stream("a", "b", "c"), "-"));
+        System.out.println(Strings.join(Strings.stream("a", null, "c"), "-"));
     }
 
     private static void showPrintLine() {
@@ -194,13 +220,16 @@ public final class ExamplesStrings {
     public static void main(String... args) {
         showToNullableString();
         showToOptionalString();
-        showList();
+        showListOfNotNull();
         showListOfNullable();
-        showStream();
+        showList();
+        showStreamOfNotNull();
         showStreamOfNullable();
-        showCodePointStream();
+        showStream();
+        showCodePointStreamOfNotNull();
         showCodePointStreamOfNullable();
-        showConcat();
+        showConcatTwoStreams();
+        showConcatManyStreams();
         showJoin();
         showPrintLine();
         showPrintLines();

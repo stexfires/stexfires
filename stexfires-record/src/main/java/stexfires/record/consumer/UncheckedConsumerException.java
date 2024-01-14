@@ -1,7 +1,5 @@
 package stexfires.record.consumer;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -16,13 +14,13 @@ public class UncheckedConsumerException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public UncheckedConsumerException(@NotNull ConsumerException cause) {
+    public UncheckedConsumerException(ConsumerException cause) {
         super(Objects.requireNonNull(cause));
     }
 
     @SuppressWarnings("CastToConcreteClass")
     @Override
-    public @NotNull ConsumerException getCause() {
+    public ConsumerException getCause() {
         return (ConsumerException) super.getCause();
     }
 

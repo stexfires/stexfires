@@ -54,7 +54,7 @@ public final class MarkdownListProducer extends AbstractInternalReadableProducer
         String value;
         if (fileSpec.producerTrimValueToEmpty()) {
             // trim to empty
-            value = StringUnaryOperators.trimToEmpty().apply(splitResult.get().value());
+            value = Objects.requireNonNull(StringUnaryOperators.trimToEmpty().apply(splitResult.get().value()));
         } else {
             value = splitResult.get().value();
         }

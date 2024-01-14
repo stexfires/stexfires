@@ -1,6 +1,6 @@
 package stexfires.io.config;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalWritableConsumer;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;
@@ -25,7 +25,7 @@ public final class ConfigConsumer extends AbstractInternalWritableConsumer<KeyVa
     private final ConfigFileSpec fileSpec;
 
     private boolean categoryFound;
-    private String currentCategory;
+    private @Nullable String currentCategory;
 
     public ConfigConsumer(BufferedWriter bufferedWriter, ConfigFileSpec fileSpec) {
         super(bufferedWriter);

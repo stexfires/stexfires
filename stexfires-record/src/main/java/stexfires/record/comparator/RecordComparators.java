@@ -1,5 +1,6 @@
 package stexfires.record.comparator;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.CommentRecord;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextField;
@@ -31,7 +32,7 @@ public final class RecordComparators {
     private RecordComparators() {
     }
 
-    public static <T extends TextRecord> Comparator<T> category(Comparator<String> comparator) {
+    public static <T extends TextRecord> Comparator<T> category(Comparator<@Nullable String> comparator) {
         Objects.requireNonNull(comparator);
         return comparing(TextRecord::category, comparator);
     }
@@ -43,7 +44,7 @@ public final class RecordComparators {
         return comparing(TextRecord::category, sortNulls.wrap(comparator));
     }
 
-    public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator) {
+    public static <T extends TextRecord> Comparator<T> recordId(Comparator<@Nullable Long> comparator) {
         Objects.requireNonNull(comparator);
         return comparing(TextRecord::recordId, comparator);
     }
@@ -65,7 +66,7 @@ public final class RecordComparators {
         return comparingInt(TextRecord::size);
     }
 
-    public static <T extends TextRecord> Comparator<T> field(Function<? super T, TextField> fieldFunction,
+    public static <T extends TextRecord> Comparator<T> field(Function<? super T, @Nullable TextField> fieldFunction,
                                                              Comparator<TextField> comparator,
                                                              SortNulls sortNulls) {
         Objects.requireNonNull(fieldFunction);
@@ -90,7 +91,7 @@ public final class RecordComparators {
         return field(TextRecord::lastField, comparator, sortNulls);
     }
 
-    public static <T extends TextRecord> Comparator<T> text(Function<? super T, String> textFunction,
+    public static <T extends TextRecord> Comparator<T> text(Function<? super T, @Nullable String> textFunction,
                                                             Comparator<String> comparator,
                                                             SortNulls sortNulls) {
         Objects.requireNonNull(textFunction);
@@ -116,6 +117,7 @@ public final class RecordComparators {
     }
 
     public static <T extends KeyRecord> Comparator<T> keyField(Comparator<TextField> comparator) {
+        Objects.requireNonNull(comparator);
         return comparing(KeyRecord::keyField, comparator);
     }
 

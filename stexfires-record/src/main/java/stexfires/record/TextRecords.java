@@ -1,30 +1,20 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import stexfires.record.consumer.RecordConsumer;
-import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.record.filter.RecordFilter;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
-import stexfires.record.logger.RecordLogger;
-import stexfires.record.mapper.RecordMapper;
-import stexfires.record.message.RecordMessage;
 import stexfires.util.function.Suppliers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.SequencedCollection;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -52,22 +42,23 @@ public final class TextRecords {
         return new ValueFieldRecord(text);
     }
 
-    public static TextRecord ofTexts(@NotNull Collection<String> texts) {
+    public static TextRecord ofTextCollection(Collection<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(@NotNull Stream<String> texts) {
+    public static TextRecord ofTextStream(Stream<@Nullable String> texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static TextRecord ofTexts(String... texts) {
+    public static TextRecord ofTexts(@Nullable String... texts) {
         Objects.requireNonNull(texts);
         return new ManyFieldsRecord(texts);
     }
 
-    public static @NotNull TextRecord ofNullable(@Nullable String category, @Nullable Long recordId, @Nullable SequencedCollection<String> texts) {
+    public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId,
+                                        @Nullable SequencedCollection<@Nullable String> texts) {
         if (category == null && recordId == null) {
             if (texts == null || texts.isEmpty()) {
                 return empty();
@@ -91,30 +82,6 @@ public final class TextRecords {
         }
     }
 
-    public static <T extends TextRecord> List<T> list(@NotNull T record) {
-        Objects.requireNonNull(record);
-        return Collections.singletonList(record);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    @SafeVarargs
-    public static <T extends TextRecord> List<T> list(T... records) {
-        Objects.requireNonNull(records);
-        return Arrays.stream(records).collect(Collectors.toList());
-    }
-
-    public static <T extends TextRecord> Stream<T> stream(@NotNull T record) {
-        Objects.requireNonNull(record);
-        return Stream.of(record);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    @SafeVarargs
-    public static <T extends TextRecord> Stream<T> stream(T... records) {
-        Objects.requireNonNull(records);
-        return Stream.of(records);
-    }
-
     public static Supplier<Long> recordIdSequence() {
         return Suppliers.sequenceAsLong(DEFAULT_INITIAL_RECORD_ID);
     }
@@ -131,58 +98,21 @@ public final class TextRecords {
         return Suppliers.sequenceAsPrimitiveLong(initialValue);
     }
 
-    public static <P extends TextRecord, T extends P> RecordConsumer<P> consume(@NotNull T record,
-                                                                                @NotNull RecordConsumer<P> recordConsumer)
-            throws UncheckedConsumerException {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordConsumer);
-        recordConsumer.consume(record);
-        return recordConsumer;
-    }
-
-    public static <P extends TextRecord, T extends P> boolean isValid(@NotNull T record,
-                                                                      @NotNull RecordFilter<P> recordFilter) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordFilter);
-        return recordFilter.isValid(record);
-    }
-
-    public static <P extends TextRecord, T extends P> RecordLogger<P> log(@NotNull T record,
-                                                                          @NotNull RecordLogger<P> recordLogger) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordLogger);
-        recordLogger.log(record);
-        return recordLogger;
-    }
-
-    public static <R extends TextRecord, T extends TextRecord> R map(@NotNull T record,
-                                                                     @NotNull RecordMapper<T, R> recordMapper) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordMapper);
-        return recordMapper.map(record);
-    }
-
-    public static <P extends TextRecord, T extends P> String createMessage(@NotNull T record,
-                                                                           @NotNull RecordMessage<P> recordMessage) {
-        Objects.requireNonNull(record);
-        Objects.requireNonNull(recordMessage);
-        return recordMessage.createMessage(record);
-    }
-
     public static Builder builder() {
         return new Builder();
     }
 
-    @SuppressWarnings("ParameterHidesMemberVariable")
     public static final class Builder implements Consumer<String> {
-        private String category;
-        private Long recordId;
-        private List<String> textList;
+
+        private @Nullable String category;
+        private @Nullable Long recordId;
+        private @Nullable List<@Nullable String> textList;
 
         private Builder() {
             textList = new ArrayList<>();
         }
 
+        @SuppressWarnings("ParameterHidesMemberVariable")
         public synchronized Builder category(@Nullable String category) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
@@ -191,6 +121,7 @@ public final class TextRecords {
             return this;
         }
 
+        @SuppressWarnings("ParameterHidesMemberVariable")
         public synchronized Builder recordId(@Nullable Long recordId) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
@@ -215,7 +146,7 @@ public final class TextRecords {
             return this;
         }
 
-        public synchronized Builder addAll(@NotNull Collection<String> texts) {
+        public synchronized Builder addAll(Collection<@Nullable String> texts) {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -228,13 +159,7 @@ public final class TextRecords {
             if (textList == null) {
                 throw new IllegalStateException("build() already called");
             }
-            TextRecord record =
-                    switch (textList.size()) {
-                        case ValueFieldRecord.FIELD_SIZE -> new ValueFieldRecord(category, recordId, textList.get(0));
-                        case TwoFieldsRecord.FIELD_SIZE ->
-                                new TwoFieldsRecord(category, recordId, textList.get(0), textList.get(1));
-                        default -> new ManyFieldsRecord(category, recordId, textList);
-                    };
+            TextRecord record = ofNullable(category, recordId, textList);
             category = null;
             recordId = null;
             textList = null;

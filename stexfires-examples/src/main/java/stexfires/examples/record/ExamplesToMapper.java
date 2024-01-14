@@ -17,6 +17,7 @@ import stexfires.record.mapper.impl.ToManyFieldsRecordMapper;
 import stexfires.record.mapper.impl.ToTwoFieldsRecordMapper;
 import stexfires.record.mapper.impl.ToValueFieldRecordMapper;
 import stexfires.record.message.JoinedTextsMessage;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.record.message.TextMessage;
 import stexfires.util.Strings;
@@ -61,7 +62,7 @@ public final class ExamplesToMapper {
         System.out.println("-showToKeyValueCommentFieldsRecordMapper---");
 
         printRecordMapper("constructor (0, 1, 3)", new ToKeyValueCommentFieldsRecordMapper<>(
-                new TextMessage<>(0, "missing key"),
+                NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(0), "missing key"),
                 new TextMessage<>(1),
                 new TextMessage<>(3)));
     }
@@ -70,7 +71,7 @@ public final class ExamplesToMapper {
         System.out.println("-showToKeyValueFieldsRecordMapper---");
 
         printRecordMapper("constructor (0, 1)", new ToKeyValueFieldsRecordMapper<>(
-                new TextMessage<>(0, "missing key"),
+                NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(0), "missing key"),
                 new TextMessage<>(1)));
     }
 

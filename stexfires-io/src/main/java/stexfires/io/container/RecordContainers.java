@@ -1,6 +1,6 @@
 package stexfires.io.container;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.path.DosPathFieldsRecord;
 import stexfires.io.path.PathType;
 import stexfires.record.TextField;
@@ -32,7 +32,7 @@ public final class RecordContainers {
         Objects.requireNonNull(originalTextRecord);
         Objects.requireNonNull(containerFields);
 
-        List<String> texts = new ArrayList<>(containerFields.size() + originalTextRecord.size());
+        List<@Nullable String> texts = new ArrayList<>(containerFields.size() + originalTextRecord.size());
         // Add extract container fields
         for (ContainerField containerField : containerFields) {
             texts.add(containerField.createText(originalTextRecord));
@@ -44,7 +44,8 @@ public final class RecordContainers {
         return new ManyFieldsRecord(category, recordId, texts);
     }
 
-    public static UnpackResult unpack(TextRecord packedTextRecord, String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+    public static UnpackResult unpack(TextRecord packedTextRecord, @Nullable String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
+        Objects.requireNonNull(packedTextRecord);
         if (className == null || className.isBlank()) {
             return RecordContainers.errorMessageUnpackResult("ClassName is null or blank!");
         }
@@ -184,7 +185,7 @@ public final class RecordContainers {
         } else if (recordId != null) {
             errorMessage = "RecordId is not null! " + recordId;
         } else {
-            TextField[] textFields = TextFields.newArray(packedTextRecord.streamOfFields().skip(containerFieldsSize).map(TextField::text));
+            TextField[] textFields = TextFields.newArrayOfStream(packedTextRecord.streamOfFields().skip(containerFieldsSize).map(TextField::text));
             try {
                 unpackedRecord = new DosPathFieldsRecord(
                         PathType.valueOf(category),

@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.CodePoint;
 import stexfires.util.StringComparators;
 import stexfires.util.Strings;
@@ -28,10 +29,10 @@ import java.util.stream.Stream;
 public final class ExamplesStringFunction {
 
     @SuppressWarnings("StaticCollection")
-    private static final List<String> VALUES;
+    private static final List<@Nullable String> VALUES;
 
     static {
-        List<String> values = new ArrayList<>();
+        List<@Nullable String> values = new ArrayList<>();
 
         // null, empty, blank, spaces, escapes
         values.add(null);
@@ -195,14 +196,14 @@ public final class ExamplesStringFunction {
         return lengthString;
     }
 
-    private static String printValue(String value) {
+    private static String printValue(@Nullable String value) {
         if (value == null) {
             return "(<null>) \t [-] \t ";
         }
         return "('" + value + "') \t " + generateLengthString(value) + " \t ";
     }
 
-    private static String printResult(String value, String result) {
+    private static String printResult(@Nullable String value, @Nullable String result) {
         String eq = Objects.equals(value, result) ? "==" : "!=";
         if (result == null) {
             return eq + " (<null>) \t [-]";
@@ -211,7 +212,7 @@ public final class ExamplesStringFunction {
                 + String.format("%04x", new BigInteger(1, result.getBytes(StandardCharsets.UTF_16BE)));
     }
 
-    private static void printStringPredicates(Predicate<String> predicate, String name) {
+    private static void printStringPredicates(Predicate<@Nullable String> predicate, String name) {
         System.out.println("---- " + name);
         for (String value : VALUES) {
             String result;
@@ -226,7 +227,7 @@ public final class ExamplesStringFunction {
         System.out.println("-------------------------------------------------");
     }
 
-    private static void printUnaryOperator(UnaryOperator<String> operator, String name) {
+    private static void printUnaryOperator(UnaryOperator<@Nullable String> operator, String name) {
         System.out.println("---- " + name);
         for (String value : VALUES) {
             String result;
@@ -245,7 +246,7 @@ public final class ExamplesStringFunction {
         System.out.println("-showStringPredicates---");
 
         printStringPredicates(StringPredicates.applyOperatorAndTest(StringUnaryOperators.trimToEmpty(), StringPredicates.isEmpty()), "applyOperatorAndTest");
-        printStringPredicates(StringPredicates.applyFunctionAndTest(String::length, length -> length > 2 && length < 6), "applyFunctionAndTest");
+        printStringPredicates(StringPredicates.applyFunctionAndTest((@Nullable String string) -> string != null ? string.length() : 0, (Integer length) -> length > 2 && length < 6), "applyFunctionAndTest");
 
         printStringPredicates(StringPredicates.concatAnd(StringPredicates.isNullOrEmpty(), StringPredicates.isNullOrBlank()), "concatAnd");
         printStringPredicates(StringPredicates.concatAnd(Stream.of(StringPredicates.isNotNull(), StringPredicates.letterOrDigit(), StringPredicates.digit(), StringPredicates.length(s -> s < 4))), "concatAnd Stream");
@@ -423,6 +424,8 @@ public final class ExamplesStringFunction {
 
         printUnaryOperator(StringUnaryOperators.splitCollect(splitterFunction, Collectors.joining("-")), "splitCollect joining");
         printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, StringPredicates.alphabetic(), Collectors.joining("-")), "splitFilterCollect alphabetic joining");
+        Predicate<CharSequence> charSequencePredicate = cs -> cs.length() > 2;
+        printUnaryOperator(StringUnaryOperators.splitFilterCollect(splitterFunction, charSequencePredicate, Collectors.joining("-")), "splitFilterCollect length>2 joining");
         printUnaryOperator(StringUnaryOperators.splitMapCollect(splitterFunction, StringUnaryOperators.lowerCase(Locale.ENGLISH), Collectors.joining("-")), "splitMapCollect lowerCase joining");
 
         printUnaryOperator(StringUnaryOperators.convertUsingByteArray(

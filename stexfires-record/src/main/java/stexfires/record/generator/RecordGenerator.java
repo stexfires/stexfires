@@ -1,6 +1,6 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
@@ -33,6 +33,7 @@ import java.util.stream.Stream;
  * @see stexfires.record.generator.RecordIdGenerator
  * @since 0.1
  */
+@SuppressWarnings("ReturnOfNull")
 @FunctionalInterface
 public interface RecordGenerator<T extends TextRecord> {
 
@@ -40,9 +41,9 @@ public interface RecordGenerator<T extends TextRecord> {
     int KEY_VALUE_COMMENT_RECORD_INDEX_KEY = 0;
     int KEY_VALUE_COMMENT_RECORD_INDEX_VALUE = 1;
 
-    static RecordGenerator<ValueRecord> valueRecord(@NotNull CategoryGenerator<ValueRecord> categoryGenerator,
-                                                    @NotNull RecordIdGenerator<ValueRecord> recordIdGenerator,
-                                                    @NotNull Function<GeneratorInterimResult<ValueRecord>, String> valueFunction) {
+    static RecordGenerator<ValueRecord> valueRecord(CategoryGenerator<ValueRecord> categoryGenerator,
+                                                    RecordIdGenerator<ValueRecord> recordIdGenerator,
+                                                    Function<GeneratorInterimResult<ValueRecord>, @Nullable String> valueFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(valueFunction);
@@ -54,11 +55,10 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    static RecordGenerator<KeyValueRecord> keyValueRecord(@NotNull CategoryGenerator<KeyValueRecord> categoryGenerator,
-                                                          @NotNull RecordIdGenerator<KeyValueRecord> recordIdGenerator,
-                                                          @NotNull Function<GeneratorInterimResult<KeyValueRecord>, String> keyFunction,
-                                                          @NotNull Function<GeneratorInterimResult<KeyValueRecord>, String> valueFunction) {
+    static RecordGenerator<KeyValueRecord> keyValueRecord(CategoryGenerator<KeyValueRecord> categoryGenerator,
+                                                          RecordIdGenerator<KeyValueRecord> recordIdGenerator,
+                                                          Function<GeneratorInterimResult<KeyValueRecord>, String> keyFunction,
+                                                          Function<GeneratorInterimResult<KeyValueRecord>, @Nullable String> valueFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(keyFunction);
@@ -76,12 +76,11 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    static RecordGenerator<KeyValueCommentRecord> keyValueCommentRecord(@NotNull CategoryGenerator<KeyValueCommentRecord> categoryGenerator,
-                                                                        @NotNull RecordIdGenerator<KeyValueCommentRecord> recordIdGenerator,
-                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> keyFunction,
-                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> valueFunction,
-                                                                        @NotNull Function<GeneratorInterimResult<KeyValueCommentRecord>, String> commentFunction) {
+    static RecordGenerator<KeyValueCommentRecord> keyValueCommentRecord(CategoryGenerator<KeyValueCommentRecord> categoryGenerator,
+                                                                        RecordIdGenerator<KeyValueCommentRecord> recordIdGenerator,
+                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, String> keyFunction,
+                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, @Nullable String> valueFunction,
+                                                                        Function<GeneratorInterimResult<KeyValueCommentRecord>, @Nullable String> commentFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(keyFunction);
@@ -108,9 +107,9 @@ public interface RecordGenerator<T extends TextRecord> {
     }
 
     @SafeVarargs
-    static RecordGenerator<TextRecord> textRecordOfSuppliers(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
-                                                             @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                             @NotNull Supplier<String>... textSuppliers) {
+    static RecordGenerator<TextRecord> textRecordOfSuppliers(CategoryGenerator<TextRecord> categoryGenerator,
+                                                             RecordIdGenerator<TextRecord> recordIdGenerator,
+                                                             Supplier<@Nullable String>... textSuppliers) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textSuppliers);
@@ -120,9 +119,9 @@ public interface RecordGenerator<T extends TextRecord> {
                                          .toList());
     }
 
-    static RecordGenerator<TextRecord> textRecordOfSupplierStreamFunction(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
-                                                                          @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                                          @NotNull Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction) {
+    static RecordGenerator<TextRecord> textRecordOfSupplierStreamFunction(CategoryGenerator<TextRecord> categoryGenerator,
+                                                                          RecordIdGenerator<TextRecord> recordIdGenerator,
+                                                                          Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<@Nullable String>>> textFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textFunction);
@@ -132,9 +131,9 @@ public interface RecordGenerator<T extends TextRecord> {
                                                .toList());
     }
 
-    static RecordGenerator<TextRecord> textRecordOfListFunction(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
-                                                                @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                                @NotNull Function<GeneratorInterimResult<TextRecord>, SequencedCollection<String>> textFunction) {
+    static RecordGenerator<TextRecord> textRecordOfListFunction(CategoryGenerator<TextRecord> categoryGenerator,
+                                                                RecordIdGenerator<TextRecord> recordIdGenerator,
+                                                                Function<GeneratorInterimResult<TextRecord>, SequencedCollection<@Nullable String>> textFunction) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textFunction);
@@ -143,23 +142,21 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
                     context, category, recordId, null);
-            SequencedCollection<String> texts = textFunction.apply(interimResult);
-
+            SequencedCollection<@Nullable String> texts = textFunction.apply(interimResult);
             return TextRecords.ofNullable(category, recordId, texts);
         };
     }
 
-    @SuppressWarnings("ReturnOfNull")
-    static RecordGenerator<TextRecord> textRecordOfFunctions(@NotNull CategoryGenerator<TextRecord> categoryGenerator,
-                                                             @NotNull RecordIdGenerator<TextRecord> recordIdGenerator,
-                                                             @NotNull List<Function<GeneratorInterimResult<TextRecord>, String>> textFunctions) {
+    static RecordGenerator<TextRecord> textRecordOfFunctions(CategoryGenerator<TextRecord> categoryGenerator,
+                                                             RecordIdGenerator<TextRecord> recordIdGenerator,
+                                                             List<Function<GeneratorInterimResult<TextRecord>, @Nullable String>> textFunctions) {
         Objects.requireNonNull(categoryGenerator);
         Objects.requireNonNull(recordIdGenerator);
         Objects.requireNonNull(textFunctions);
         return (GeneratorContext<TextRecord> context) -> {
             String category = categoryGenerator.generateCategory(context);
             Long recordId = recordIdGenerator.generateRecordId(context);
-            List<String> texts = new ArrayList<>(textFunctions.size());
+            List<@Nullable String> texts = new ArrayList<>(textFunctions.size());
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
                     context, category, recordId, index -> index < texts.size() ? texts.get(index) : null);
             textFunctions.stream()
@@ -170,6 +167,6 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
-    @NotNull T generate(@NotNull GeneratorContext<T> context);
+    T generate(GeneratorContext<T> context);
 
 }

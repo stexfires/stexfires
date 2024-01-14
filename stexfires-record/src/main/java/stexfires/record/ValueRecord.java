@@ -1,7 +1,6 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -11,9 +10,9 @@ import java.util.stream.Stream;
  */
 public interface ValueRecord extends TextRecord {
 
-    @NotNull ValueRecord withValue(@Nullable String value);
+    ValueRecord withValue(@Nullable String value);
 
-    @NotNull TextField valueField();
+    TextField valueField();
 
     int valueIndex();
 
@@ -21,11 +20,11 @@ public interface ValueRecord extends TextRecord {
         return valueField().text();
     }
 
-    default @NotNull Optional<String> valueAsOptional() {
+    default Optional<String> valueAsOptional() {
         return valueField().asOptional();
     }
 
-    default @NotNull Stream<String> valueAsStream() {
+    default Stream<String> valueAsStream() {
         return valueField().stream();
     }
 

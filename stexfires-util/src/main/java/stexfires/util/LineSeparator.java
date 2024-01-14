@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.util.Objects;
@@ -36,7 +35,7 @@ public enum LineSeparator implements CharSequence {
      */
     CR_LF("\r\n");
 
-    private final @NotNull String separator;
+    private final String separator;
 
     /**
      * Constructs a {@code LineSeparator} with the specified line separator string.
@@ -44,7 +43,7 @@ public enum LineSeparator implements CharSequence {
      * @param separator line separator as a {@code String} with one or two characters
      * @see LineSeparator#string()
      */
-    LineSeparator(@NotNull String separator) {
+    LineSeparator(String separator) {
         this.separator = separator;
     }
 
@@ -56,7 +55,7 @@ public enum LineSeparator implements CharSequence {
      * @see System#lineSeparator()
      */
     @SuppressWarnings("DuplicateBranchesInSwitch")
-    public static @NotNull LineSeparator systemLineSeparator() {
+    public static LineSeparator systemLineSeparator() {
         return switch (System.lineSeparator()) {
             case "\n" -> LF;
             case "\r" -> CR;
@@ -71,7 +70,7 @@ public enum LineSeparator implements CharSequence {
      * @param lookupString Optional {@code String} for lookup. Can be {@code null}.
      * @return {@code LineSeparator} as {@code Optional} matching the passed {@code String}
      */
-    public static @NotNull Optional<LineSeparator> lookup(@Nullable String lookupString) {
+    public static Optional<LineSeparator> lookup(@Nullable String lookupString) {
         return switch (lookupString) {
             case "\n" -> Optional.of(LF);
             case "\r" -> Optional.of(CR);
@@ -85,7 +84,7 @@ public enum LineSeparator implements CharSequence {
      *
      * @return {@code LineSeparator} as a {@code String} with one or two characters
      */
-    public final @NotNull String string() {
+    public final String string() {
         return separator;
     }
 
@@ -98,7 +97,7 @@ public enum LineSeparator implements CharSequence {
      * @see String#repeat(int)
      * @see LineSeparator#string()
      */
-    public final @NotNull String repeat(int count) {
+    public final String repeat(int count) {
         return separator.repeat(count);
     }
 
@@ -162,7 +161,7 @@ public enum LineSeparator implements CharSequence {
      * @see LineSeparator#string()
      */
     @Override
-    public final @NotNull CharSequence subSequence(int start, int end) {
+    public final CharSequence subSequence(int start, int end) {
         return separator.subSequence(start, end);
     }
 
@@ -173,7 +172,7 @@ public enum LineSeparator implements CharSequence {
      * @see java.util.function.Supplier
      * @see LineSeparator#string()
      */
-    public final @NotNull Supplier<String> supplier() {
+    public final Supplier<String> supplier() {
         return () -> separator;
     }
 
@@ -184,7 +183,7 @@ public enum LineSeparator implements CharSequence {
      * @see java.util.stream.Stream#of(Object)
      * @see LineSeparator#string()
      */
-    public final @NotNull Stream<String> stream() {
+    public final Stream<String> stream() {
         return Stream.of(separator);
     }
 
@@ -197,7 +196,7 @@ public enum LineSeparator implements CharSequence {
      */
     @SuppressWarnings("MagicNumber")
     @Override
-    public final @NotNull IntStream chars() {
+    public final IntStream chars() {
         return switch (this) {
             case LF -> IntStream.of(10);
             case CR -> IntStream.of(13);
@@ -214,7 +213,7 @@ public enum LineSeparator implements CharSequence {
      */
     @SuppressWarnings("MagicNumber")
     @Override
-    public final @NotNull IntStream codePoints() {
+    public final IntStream codePoints() {
         return switch (this) {
             case LF -> IntStream.of(10);
             case CR -> IntStream.of(13);
@@ -225,12 +224,12 @@ public enum LineSeparator implements CharSequence {
     /**
      * Returns the {@code LineSeparator} as a {@code byte[]}.
      *
-     * @param charset The {@code Charset} to be used to encode the String
+     * @param charset The {@code Charset} to be used to encode the String. Must not be {@code null}.
      * @return {@code LineSeparator} as a {@code byte[]}
      * @see String#getBytes(Charset)
      * @see LineSeparator#string()
      */
-    public final byte[] bytes(@NotNull Charset charset) {
+    public final byte[] bytes(Charset charset) {
         Objects.requireNonNull(charset);
         return separator.getBytes(charset);
     }
@@ -247,7 +246,7 @@ public enum LineSeparator implements CharSequence {
      * @return {@code LineSeparator} as a regular expression
      * @see java.util.regex.Pattern
      */
-    public final @NotNull String regex() {
+    public final String regex() {
         return switch (this) {
             case LF -> "\\n";
             case CR -> "\\r";
@@ -266,7 +265,7 @@ public enum LineSeparator implements CharSequence {
      *
      * @return {@code LineSeparator} as an escaped Java string
      */
-    public final @NotNull String escapedJavaString() {
+    public final String escapedJavaString() {
         return switch (this) {
             case LF -> "\\n";
             case CR -> "\\r";
@@ -281,7 +280,7 @@ public enum LineSeparator implements CharSequence {
      * @see LineSeparator#string()
      */
     @Override
-    public final @NotNull String toString() {
+    public final String toString() {
         return separator;
     }
 

@@ -1,6 +1,5 @@
 package stexfires.examples.record;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
@@ -36,12 +35,12 @@ public final class ExamplesGenerator {
     private ExamplesGenerator() {
     }
 
-    private static void produceAndPrint(@NotNull GeneratorProducer<?> producer) {
+    private static void produceAndPrint(GeneratorProducer<?> producer) {
         TextRecordStreams.produce(producer)
                          .forEachOrdered(RecordSystemOutUtil::printlnRecord);
     }
 
-    private static void produceAndPrint(@NotNull GeneratorProducer<?> producer, long maxSize) {
+    private static void produceAndPrint(GeneratorProducer<?> producer, long maxSize) {
         TextRecordStreams.produce(producer)
                          .limit(maxSize)
                          .forEachOrdered(RecordSystemOutUtil::printlnRecord);
@@ -83,7 +82,6 @@ public final class ExamplesGenerator {
                 GeneratorProducer.unknownSize(generator0), firstSize);
     }
 
-    @SuppressWarnings({"ReturnOfNull"})
     private static void showRecordGenerator() {
         System.out.println("-showRecordGenerator---");
 
@@ -110,13 +108,13 @@ public final class ExamplesGenerator {
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
 
-        System.out.println("--- keyValueRecord parsedTextAt");
+        System.out.println("--- keyValueRecord parsedTextAtOrElseThrow");
         {
             RecordGenerator<KeyValueRecord> generator = RecordGenerator.keyValueRecord(
                     CategoryGenerator.constantNull(),
                     RecordIdGenerator.constantNull(),
                     (interimResult) -> String.valueOf(interimResult.context().recordIndex() * 10),
-                    (interimResult) -> String.valueOf(interimResult.parsedTextAt(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY, Long::parseLong).orElseThrow() * 2));
+                    (interimResult) -> String.valueOf(interimResult.parsedTextAtOrElseThrow(RecordGenerator.KEY_VALUE_RECORD_INDEX_KEY, Long::parseLong) * 2));
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
@@ -175,7 +173,7 @@ public final class ExamplesGenerator {
 
         System.out.println("--- valueRecord random");
         {
-            Supplier<String> randomCategorySupplier = Suppliers.randomSelection(new Random(0L), List.of("cat1", "cat2", "cat3", "cat4", "cat5"));
+            Supplier<String> randomCategorySupplier = Suppliers.randomListSelection(new Random(0L), List.of("cat1", "cat2", "cat3", "cat4", "cat5"));
             CategoryGenerator<ValueRecord> categoryGenerator = (context) -> randomCategorySupplier.get();
             Supplier<Long> recordIdSupplier = RandomNumberSuppliers.randomLong(new Random(0L), 100L, 200L);
             RecordIdGenerator<ValueRecord> recordIdGenerator = (context) -> recordIdSupplier.get();
@@ -191,7 +189,7 @@ public final class ExamplesGenerator {
             RecordGenerator<ValueRecord> generator = RecordGenerator.valueRecord(
                     CategoryGenerator.previousAdjusted(() -> "", s -> s + "-"),
                     RecordIdGenerator.previousAdjusted(() -> 1, id -> id * 2),
-                    (interimResult) -> null);
+                    interimResult -> null);
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }

@@ -36,6 +36,7 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
                                                           List<Integer> codePoints) {
         Objects.requireNonNull(random);
@@ -46,14 +47,14 @@ public final class RandomStringSuppliers {
         }
         return () -> random.ints(0, codePoints.size())
                            .mapToObj(codePoints::get)
-                           .filter(Objects::nonNull)
+                           .filter(Objects::nonNull) // for safety
                            .limit(length.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                            .toString();
     }
 
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
-                                                          Integer... codePoints) {
+                                                          int... codePoints) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePoints);
@@ -61,8 +62,7 @@ public final class RandomStringSuppliers {
             throw new IllegalArgumentException("At least one codePoint must be passed.");
         }
         return () -> random.ints(0, codePoints.length)
-                           .mapToObj(i -> codePoints[i])
-                           .filter(Objects::nonNull)
+                           .map(i -> codePoints[i])
                            .limit(length.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                            .toString();
@@ -83,6 +83,7 @@ public final class RandomStringSuppliers {
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
                                                           List<Character> characters) {
         Objects.requireNonNull(random);
@@ -93,14 +94,14 @@ public final class RandomStringSuppliers {
         }
         return () -> random.ints(0, characters.size())
                            .mapToObj(characters::get)
-                           .filter(Objects::nonNull)
+                           .filter(Objects::nonNull) // for safety
                            .limit(length.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                            .toString();
     }
 
     public static Supplier<String> characterConcatenation(RandomGenerator random, IntSupplier length,
-                                                          Character... characters) {
+                                                          char... characters) {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(characters);
@@ -109,12 +110,12 @@ public final class RandomStringSuppliers {
         }
         return () -> random.ints(0, characters.length)
                            .mapToObj(i -> characters[i])
-                           .filter(Objects::nonNull)
                            .limit(length.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                            .toString();
     }
 
+    @SuppressWarnings("ConstantValue")
     public static Supplier<String> stringConcatenation(RandomGenerator random, IntSupplier number,
                                                        List<String> strings) {
         Objects.requireNonNull(random);
@@ -125,7 +126,7 @@ public final class RandomStringSuppliers {
         }
         return () -> random.ints(0, strings.size())
                            .mapToObj(strings::get)
-                           .filter(Objects::nonNull)
+                           .filter(Objects::nonNull) // for safety
                            .limit(number.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                            .toString();

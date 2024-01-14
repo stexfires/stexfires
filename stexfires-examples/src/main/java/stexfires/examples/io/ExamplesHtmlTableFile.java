@@ -4,7 +4,6 @@ import stexfires.io.RecordFiles;
 import stexfires.io.html.table.HtmlTableFieldSpec;
 import stexfires.io.html.table.HtmlTableFileSpec;
 import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecordStreams;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
@@ -52,7 +51,7 @@ public final class ExamplesHtmlTableFile {
 
         // Write
         System.out.println("write: " + path);
-        Stream<KeyValueRecord> stream = TextRecordStreams.of(
+        Stream<KeyValueRecord> stream = Stream.of(
                 new KeyValueFieldsRecord("", null, "<br>", "</td>"),
                 new KeyValueFieldsRecord("", null, "\"", "\"aa\""),
                 new KeyValueFieldsRecord("", null, "&& &", "&auml;"),
@@ -105,7 +104,7 @@ public final class ExamplesHtmlTableFile {
 
         // Write
         System.out.println("write: " + path);
-        Stream<ManyFieldsRecord> stream = TextRecordStreams.of(
+        Stream<ManyFieldsRecord> stream = Stream.of(
                 new ManyFieldsRecord(Stream.of("A0", "B0", "C0")),
                 new ManyFieldsRecord(Stream.of("A1", "B1")),
                 new ManyFieldsRecord(Stream.of("A2", null, "C2")),

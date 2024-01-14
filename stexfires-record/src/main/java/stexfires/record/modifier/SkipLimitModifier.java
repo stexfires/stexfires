@@ -1,6 +1,5 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.stream.Stream;
@@ -34,7 +33,7 @@ public class SkipLimitModifier<T extends TextRecord> implements RecordStreamModi
     }
 
     @Override
-    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         Stream<T> returnStream = recordStream;
         if (skipFirst >= MIN_SKIP) {
             returnStream = returnStream.skip(skipFirst);

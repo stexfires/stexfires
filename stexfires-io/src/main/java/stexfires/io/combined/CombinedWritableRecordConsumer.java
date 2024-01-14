@@ -32,6 +32,7 @@ public final class CombinedWritableRecordConsumer<CTR extends TextRecord> implem
 
     @Override
     public void writeRecord(CTR record) throws ConsumerException, UncheckedConsumerException, IOException {
+        Objects.requireNonNull(record);
         firstConsumer.writeRecord(record);
         secondConsumer.writeRecord(record);
     }

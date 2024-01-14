@@ -1,7 +1,5 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Objects;
@@ -17,17 +15,17 @@ public final class DataTypes {
     }
 
     public static DataType<Boolean> booleanDataType(boolean defaultValue,
-                                                    @NotNull String trueValue,
-                                                    @NotNull String falseValue) {
+                                                    String trueValue,
+                                                    String falseValue) {
         Objects.requireNonNull(trueValue);
         Objects.requireNonNull(falseValue);
         return booleanDataType(defaultValue, trueValue, falseValue, () -> defaultValue);
     }
 
     public static DataType<Boolean> booleanDataType(boolean defaultValue,
-                                                    @NotNull String trueValue,
-                                                    @NotNull String falseValue,
-                                                    @NotNull Supplier<Boolean> supplier) {
+                                                    String trueValue,
+                                                    String falseValue,
+                                                    Supplier<Boolean> supplier) {
         Objects.requireNonNull(trueValue);
         Objects.requireNonNull(falseValue);
         Objects.requireNonNull(supplier);
@@ -40,28 +38,28 @@ public final class DataTypes {
     }
 
     public static DataType<Integer> integerDataType(int defaultValue,
-                                                    @NotNull Locale locale) {
+                                                    Locale locale) {
         Objects.requireNonNull(locale);
         return integerDataType(defaultValue, NumberFormat.getIntegerInstance(locale), () -> defaultValue);
     }
 
     public static DataType<Integer> integerDataType(int defaultValue,
-                                                    @NotNull Locale locale,
-                                                    @NotNull Supplier<Integer> supplier) {
+                                                    Locale locale,
+                                                    Supplier<Integer> supplier) {
         Objects.requireNonNull(locale);
         Objects.requireNonNull(supplier);
         return integerDataType(defaultValue, NumberFormat.getIntegerInstance(locale), supplier);
     }
 
     public static DataType<Integer> integerDataType(int defaultValue,
-                                                    @NotNull NumberFormat integerFormat) {
+                                                    NumberFormat integerFormat) {
         Objects.requireNonNull(integerFormat);
         return integerDataType(defaultValue, integerFormat, () -> defaultValue);
     }
 
     public static DataType<Integer> integerDataType(int defaultValue,
-                                                    @NotNull NumberFormat integerFormat,
-                                                    @NotNull Supplier<Integer> supplier) {
+                                                    NumberFormat integerFormat,
+                                                    Supplier<Integer> supplier) {
         Objects.requireNonNull(integerFormat);
         Objects.requireNonNull(supplier);
 
@@ -80,10 +78,10 @@ public final class DataTypes {
                 supplier);
     }
 
-    public static DataType<String> stringDataType(@NotNull String defaultValue,
-                                                  @NotNull StringDataTypeFormatter formatter,
-                                                  @NotNull StringDataTypeParser parser,
-                                                  @NotNull Supplier<String> supplier) {
+    public static DataType<String> stringDataType(String defaultValue,
+                                                  StringDataTypeFormatter formatter,
+                                                  StringDataTypeParser parser,
+                                                  Supplier<String> supplier) {
         Objects.requireNonNull(defaultValue);
         Objects.requireNonNull(formatter);
         Objects.requireNonNull(parser);
@@ -96,9 +94,9 @@ public final class DataTypes {
                 supplier);
     }
 
-    public static DataType<String> stringDataType(@NotNull String defaultValue,
-                                                  @NotNull UnaryOperator<String> idempotentOperator,
-                                                  @NotNull Supplier<String> supplier) {
+    public static DataType<String> stringDataType(String defaultValue,
+                                                  UnaryOperator<String> idempotentOperator,
+                                                  Supplier<String> supplier) {
         Objects.requireNonNull(defaultValue);
         Objects.requireNonNull(idempotentOperator);
         Objects.requireNonNull(supplier);
@@ -114,7 +112,7 @@ public final class DataTypes {
                 null,
                 () -> defaultValue,
                 () -> defaultValue);
-        Supplier<String> formatterSupplier = () -> formatter.format(supplier.get());
+        Supplier<String> formatterSupplier = () -> Objects.requireNonNull(formatter.format(supplier.get()));
 
         return DataType.of(
                 String.class,
@@ -124,13 +122,13 @@ public final class DataTypes {
                 formatterSupplier);
     }
 
-    public static DataType<String> stringDataType(@NotNull Supplier<String> supplier) {
+    public static DataType<String> stringDataType(Supplier<String> supplier) {
         Objects.requireNonNull(supplier);
         return stringDataType(supplier.get(), supplier);
     }
 
-    public static DataType<String> stringDataType(@NotNull String defaultValue,
-                                                  @NotNull Supplier<String> supplier) {
+    public static DataType<String> stringDataType(String defaultValue,
+                                                  Supplier<String> supplier) {
         Objects.requireNonNull(defaultValue);
         Objects.requireNonNull(supplier);
 

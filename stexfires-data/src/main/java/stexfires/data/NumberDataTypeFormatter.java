@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.text.NumberFormat;
 import java.util.Objects;
@@ -13,11 +12,11 @@ import java.util.function.Supplier;
 public final class NumberDataTypeFormatter<T extends Number> implements DataTypeFormatter<T> {
 
     private final NumberFormat numberFormat;
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
     private final Object lock = new Object();
 
-    public NumberDataTypeFormatter(@NotNull NumberFormat numberFormat,
-                                   @Nullable Supplier<String> nullSourceSupplier) {
+    public NumberDataTypeFormatter(NumberFormat numberFormat,
+                                   @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(numberFormat);
         this.numberFormat = numberFormat;
         this.nullSourceSupplier = nullSourceSupplier;

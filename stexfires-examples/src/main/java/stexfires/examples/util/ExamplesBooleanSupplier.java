@@ -1,5 +1,6 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.RandomBooleanSupplier;
 import stexfires.util.function.RepeatingPatternBooleanSupplier;
@@ -37,7 +38,7 @@ public final class ExamplesBooleanSupplier {
 
         printStream("constant",
                 Stream.generate(
-                        Suppliers.constant(Boolean.TRUE)).limit(2));
+                        Suppliers.constantOfNotNull(Boolean.TRUE)).limit(2));
         printStream("constantNull",
                 Stream.generate(
                         Suppliers.<Boolean>constantNull()).limit(2));
@@ -52,16 +53,16 @@ public final class ExamplesBooleanSupplier {
 
         printStream("mapTo constant parseBoolean",
                 Stream.generate(
-                        Suppliers.mapTo(Suppliers.constant("true"), Boolean::parseBoolean)).limit(2));
+                        Suppliers.mapTo(Suppliers.constantOfNotNull("true"), Boolean::parseBoolean)).limit(2));
         printBoolean("mapToPrimitiveBoolean constant parseBoolean",
-                Suppliers.mapToPrimitiveBoolean(Suppliers.constant("false"), Boolean::parseBoolean).getAsBoolean());
+                Suppliers.mapToPrimitiveBoolean(Suppliers.constantOfNotNull("false"), Boolean::parseBoolean).getAsBoolean());
 
-        printStream("randomSelection List",
+        printStream("randomListSelection List",
                 Stream.generate(
-                        Suppliers.randomSelection(new Random(), List.of(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE))));
-        printStream("randomSelection Array",
+                        Suppliers.randomListSelection(new Random(), List.of(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE))));
+        printStream("randomSelection Varargs",
                 Stream.generate(
-                        Suppliers.randomSelection(new Random(), new Boolean[]{Boolean.TRUE, Boolean.TRUE, Boolean.FALSE})));
+                        Suppliers.randomSelection(new Random(), Boolean.TRUE, Boolean.TRUE, Boolean.FALSE)));
     }
 
     private static void showRandomBooleanSupplier() {
@@ -109,6 +110,7 @@ public final class ExamplesBooleanSupplier {
                 new RandomBooleanSupplier(50, randomGenerator).asPrimitiveBooleanSupplier().getAsBoolean());
     }
 
+    @SuppressWarnings({"ThrowablePrintedToSystemOut", "NullableProblems"})
     private static void showRepeatingPatternBooleanSupplier() {
         System.out.println("-showRepeatingPatternBooleanSupplier---");
 
@@ -119,9 +121,8 @@ public final class ExamplesBooleanSupplier {
         List<Boolean> booleanList = new ArrayList<>();
         booleanList.add(Boolean.TRUE);
         booleanList.add(Boolean.TRUE);
-        booleanList.add(null);
         booleanList.add(Boolean.FALSE);
-        printStream("Pattern: List [TRUE, TRUE, null, FALSE]",
+        printStream("Pattern: List [TRUE, TRUE, FALSE]",
                 Stream.generate(
                         new RepeatingPatternBooleanSupplier(booleanList)));
 
@@ -135,6 +136,20 @@ public final class ExamplesBooleanSupplier {
 
         printBoolean("Pattern: List [FALSE]  primitive boolean",
                 new RepeatingPatternBooleanSupplier(List.of(Boolean.FALSE)).asPrimitiveBooleanSupplier().getAsBoolean());
+
+        List<@Nullable Boolean> nullBooleanList = new ArrayList<>();
+        nullBooleanList.add(null);
+        try {
+            var supplier = new RepeatingPatternBooleanSupplier(nullBooleanList);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            var supplier = new RepeatingPatternBooleanSupplier(List.of());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
     }
 
     private static void showSwitchingBooleanSupplier() {

@@ -1,6 +1,6 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -11,18 +11,18 @@ import java.util.function.Supplier;
  */
 public class SupplierFieldTextMapper implements FieldTextMapper {
 
-    private final Supplier<String> textSupplier;
+    private final Supplier<@Nullable String> textSupplier;
 
     /**
      * @param textSupplier must be thread-safe
      */
-    public SupplierFieldTextMapper(Supplier<String> textSupplier) {
+    public SupplierFieldTextMapper(Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(textSupplier);
         this.textSupplier = textSupplier;
     }
 
     @Override
-    public final String mapToText(@NotNull TextField field) {
+    public final @Nullable String mapToText(TextField field) {
         return textSupplier.get();
     }
 

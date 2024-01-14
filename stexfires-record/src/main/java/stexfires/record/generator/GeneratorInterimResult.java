@@ -1,7 +1,6 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -17,23 +16,29 @@ import java.util.function.IntFunction;
  * @since 0.1
  */
 public record GeneratorInterimResult<T extends TextRecord>(
-        @NotNull GeneratorContext<T> context,
+        GeneratorContext<T> context,
         @Nullable String category,
         @Nullable Long recordId,
-        @Nullable IntFunction<String> textFunction
+        @Nullable IntFunction<@Nullable String> textFunction
 ) {
 
     public GeneratorInterimResult {
         Objects.requireNonNull(context);
     }
 
-    public @NotNull Optional<String> textAt(int index) {
+    public Optional<String> textAt(int index) {
         return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textFunction.apply(index));
     }
 
-    public <D> @NotNull Optional<D> parsedTextAt(int index, @NotNull Function<String, D> textParser) {
+    public <D> Optional<D> parsedTextAt(int index, Function<@Nullable String, @Nullable D> textParser) {
         Objects.requireNonNull(textParser);
         return ((textFunction == null) || (index < 0)) ? Optional.empty() : Optional.ofNullable(textParser.apply(textFunction.apply(index)));
+    }
+
+    public <D> D parsedTextAtOrElseThrow(int index, Function<String, D> textParser) throws NullPointerException {
+        Objects.requireNonNull(textParser);
+        // throws NullPointerException if any value is null
+        return Objects.requireNonNull(textParser.apply(Objects.requireNonNull(Objects.requireNonNull(textFunction).apply(index))));
     }
 
 }

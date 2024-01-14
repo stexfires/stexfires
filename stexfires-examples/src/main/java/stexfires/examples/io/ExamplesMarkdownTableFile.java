@@ -4,7 +4,6 @@ import stexfires.io.RecordFiles;
 import stexfires.io.markdown.table.MarkdownTableFieldSpec;
 import stexfires.io.markdown.table.MarkdownTableFileSpec;
 import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Alignment;
@@ -50,7 +49,7 @@ public final class ExamplesMarkdownTableFile {
 
         // Write
         System.out.println("write: " + path);
-        Stream<TextRecord> stream = TextRecordStreams.of(
+        Stream<TextRecord> stream = Stream.of(
                 new ManyFieldsRecord("a", "1", "aa"),
                 new ManyFieldsRecord("b", "22", "bbbbbb"),
                 new ManyFieldsRecord("c", "333", "cccccccccc"),
@@ -85,7 +84,7 @@ public final class ExamplesMarkdownTableFile {
 
         // Write
         System.out.println("write: " + path);
-        Stream<TextRecord> stream = TextRecordStreams.of(
+        Stream<TextRecord> stream = Stream.of(
                 new ManyFieldsRecord("a", "1", "aa"),
                 new ManyFieldsRecord("b", "22", "bbbbbb"),
                 new ManyFieldsRecord("c", "333", "cccccccccc"),
@@ -114,7 +113,7 @@ public final class ExamplesMarkdownTableFile {
 
         // Write
         System.out.println("write APPEND: " + path);
-        Stream<TextRecord> stream2 = TextRecordStreams.of(
+        Stream<TextRecord> stream2 = Stream.of(
                 new ManyFieldsRecord("a"),
                 new ManyFieldsRecord("b")
         );
@@ -140,7 +139,7 @@ public final class ExamplesMarkdownTableFile {
 
         // Write
         System.out.println("write: " + path);
-        Stream<TextRecord> stream = TextRecordStreams.of(
+        Stream<TextRecord> stream = Stream.of(
                 new ManyFieldsRecord(),
                 new ManyFieldsRecord("category", 0L, null, null, null, null, null, null),
                 new ManyFieldsRecord("", "", "", "", "", ""),

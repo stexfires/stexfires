@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.UncheckedIOException;
 import java.nio.file.FileSystemNotFoundException;
@@ -19,13 +18,13 @@ public final class ConvertingDataTypeFormatter<T, V> implements DataTypeFormatte
 
     private final Function<T, V> dataTypeConverter;
     private final DataTypeFormatter<V> dataTypeFormatter;
-    private final UnaryOperator<String> postAdjustment;
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable UnaryOperator<@Nullable String> postAdjustment;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
-    public ConvertingDataTypeFormatter(@NotNull Function<T, V> dataTypeConverter,
-                                       @NotNull DataTypeFormatter<V> dataTypeFormatter,
-                                       @Nullable UnaryOperator<String> postAdjustment,
-                                       @Nullable Supplier<String> nullSourceSupplier) {
+    public ConvertingDataTypeFormatter(Function<T, V> dataTypeConverter,
+                                       DataTypeFormatter<V> dataTypeFormatter,
+                                       @Nullable UnaryOperator<@Nullable String> postAdjustment,
+                                       @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(dataTypeConverter);
         Objects.requireNonNull(dataTypeFormatter);
         this.dataTypeConverter = dataTypeConverter;

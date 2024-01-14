@@ -1,6 +1,6 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
 import stexfires.util.Strings;
@@ -131,9 +131,9 @@ public enum ProducerReadLineHandling {
         }
     });
 
-    private final Function<BufferedReader, String> function;
+    private final Function<BufferedReader, @Nullable String> function;
 
-    ProducerReadLineHandling(Function<BufferedReader, String> function) {
+    ProducerReadLineHandling(Function<BufferedReader, @Nullable String> function) {
         Objects.requireNonNull(function);
         this.function = function;
     }

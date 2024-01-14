@@ -1,53 +1,55 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
+import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.function.LongPredicate;
+import java.util.function.Predicate;
 
 /**
  * @since 0.1
  */
 public class RecordIdFilter<T extends TextRecord> implements RecordFilter<T> {
 
-    private final LongPredicate recordIdPredicate;
+    private final Predicate<@Nullable Long> recordIdPredicate;
 
-    public RecordIdFilter(LongPredicate recordIdPredicate) {
+    public RecordIdFilter(Predicate<@Nullable Long> recordIdPredicate) {
         Objects.requireNonNull(recordIdPredicate);
         this.recordIdPredicate = recordIdPredicate;
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> equalTo(long compareRecordId) {
-        return new RecordIdFilter<>(PrimitiveLongPredicates.equalTo(compareRecordId));
+        return new RecordIdFilter<>(PrimitiveLongPredicates.isNotNullAnd(PrimitiveLongPredicates.equalTo(compareRecordId)));
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> isNotNull() {
-        return new RecordIdFilter<>(anyExistingRecordId -> true);
+        return new RecordIdFilter<>(NumberPredicates.isNotNull());
     }
 
     public static <T extends TextRecord> RecordFilter<T> isNull() {
-        return r -> !r.hasRecordId();
+        return new RecordIdFilter<>(NumberPredicates.isNull());
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> containedIn(Collection<Long> recordIds) {
-        return new RecordIdFilter<>(PrimitiveLongPredicates.containedIn(recordIds));
+        Objects.requireNonNull(recordIds);
+        return new RecordIdFilter<>(NumberPredicates.containedIn(recordIds));
     }
 
-    public static <T extends TextRecord> RecordIdFilter<T> containedIn(Long... recordIds) {
-        return containedIn(Arrays.asList(recordIds));
+    public static <T extends TextRecord> RecordIdFilter<T> containedIn(long... recordIds) {
+        Objects.requireNonNull(recordIds);
+        return new RecordIdFilter<>(PrimitiveLongPredicates.isNotNullAnd(PrimitiveLongPredicates.containedIn(recordIds)));
     }
 
     public static <T extends TextRecord> RecordIdFilter<T> between(long from, long to) {
-        return new RecordIdFilter<>(PrimitiveLongPredicates.between(from, to));
+        return new RecordIdFilter<>(PrimitiveLongPredicates.isNotNullAnd(PrimitiveLongPredicates.between(from, to)));
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public final boolean isValid(T record) {
-        return record.hasRecordId() && recordIdPredicate.test(record.recordId());
+        return recordIdPredicate.test(record.recordId());
     }
 
 }

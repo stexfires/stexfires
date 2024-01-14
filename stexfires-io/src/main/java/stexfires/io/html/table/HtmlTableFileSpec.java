@@ -1,7 +1,6 @@
 package stexfires.io.html.table;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
@@ -17,17 +16,17 @@ import java.util.Objects;
  * @since 0.1
  */
 public record HtmlTableFileSpec(
-        @NotNull CharsetCoding charsetCoding,
-        @NotNull LineSeparator consumerLineSeparator,
+        CharsetCoding charsetCoding,
+        LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         @Nullable String consumerIndentation,
-        @NotNull List<HtmlTableFieldSpec> fieldSpecs
+        List<HtmlTableFieldSpec> fieldSpecs
 ) implements WritableRecordFileSpec<TextRecord, HtmlTableConsumer> {
 
-    public static final String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    public static final String DEFAULT_CONSUMER_TEXT_AFTER = null;
-    public static final String DEFAULT_CONSUMER_INDENTATION = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    public static final @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    public static final @Nullable String DEFAULT_CONSUMER_INDENTATION = null;
 
     public static final String TABLE_BEGIN = "<table>";
     public static final String TABLE_END = "</table>";
@@ -47,9 +46,9 @@ public record HtmlTableFileSpec(
         fieldSpecs = new ArrayList<>(fieldSpecs);
     }
 
-    public static HtmlTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                     @NotNull LineSeparator consumerLineSeparator,
-                                                     @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
+    public static HtmlTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                     LineSeparator consumerLineSeparator,
+                                                     List<HtmlTableFieldSpec> fieldSpecs) {
         return new HtmlTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
@@ -60,12 +59,12 @@ public record HtmlTableFileSpec(
         );
     }
 
-    public static HtmlTableFileSpec consumerFileSpec(@NotNull CharsetCoding charsetCoding,
-                                                     @NotNull LineSeparator consumerLineSeparator,
+    public static HtmlTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                     LineSeparator consumerLineSeparator,
                                                      @Nullable String consumerTextBefore,
                                                      @Nullable String consumerTextAfter,
                                                      @Nullable String consumerIndentation,
-                                                     @NotNull List<HtmlTableFieldSpec> fieldSpecs) {
+                                                     List<HtmlTableFieldSpec> fieldSpecs) {
         return new HtmlTableFileSpec(
                 charsetCoding,
                 consumerLineSeparator,
@@ -83,7 +82,7 @@ public record HtmlTableFileSpec(
     }
 
     @Override
-    public @NotNull List<HtmlTableFieldSpec> fieldSpecs() {
+    public List<HtmlTableFieldSpec> fieldSpecs() {
         return Collections.unmodifiableList(fieldSpecs);
     }
 

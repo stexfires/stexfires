@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
@@ -15,10 +14,10 @@ import java.util.function.Supplier;
 public final class TimeDataTypeFormatter<T extends TemporalAccessor> implements DataTypeFormatter<T> {
 
     private final DateTimeFormatter dateTimeFormatter;
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
-    public TimeDataTypeFormatter(@NotNull DateTimeFormatter dateTimeFormatter,
-                                 @Nullable Supplier<String> nullSourceSupplier) {
+    public TimeDataTypeFormatter(DateTimeFormatter dateTimeFormatter,
+                                 @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(dateTimeFormatter);
         this.dateTimeFormatter = dateTimeFormatter;
         this.nullSourceSupplier = nullSourceSupplier;

@@ -1,12 +1,10 @@
 package stexfires.examples.io;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFileSpec;
 import stexfires.io.RecordFiles;
 import stexfires.io.markdown.list.MarkdownListFileSpec;
 import stexfires.io.markdown.list.MarkdownListMarker;
-import stexfires.record.TextRecordStreams;
 import stexfires.record.ValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.ValueFieldRecord;
@@ -73,9 +71,9 @@ public final class ExamplesMarkdownListFile {
         splitAndLog(" a) Error");
     }
 
-    private static Stream<ValueRecord> generateStream(@NotNull LineSeparator lineSeparator) {
+    private static Stream<ValueRecord> generateStream(LineSeparator lineSeparator) {
         Objects.requireNonNull(lineSeparator);
-        return TextRecordStreams.of(
+        return Stream.of(
                 new ValueFieldRecord("a"),
                 new ValueFieldRecord(""),
                 new ValueFieldRecord(" c "),

@@ -1,6 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface DataTypeFormatter<T> {
 
-    static <T> DataTypeFormatter<T> ofFunction(Function<T, String> function) {
+    static <T> DataTypeFormatter<T> ofFunction(Function<@Nullable T, @Nullable String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
@@ -25,7 +25,7 @@ public interface DataTypeFormatter<T> {
         return Optional.ofNullable(format(source));
     }
 
-    default Function<T, String> asFunction() {
+    default Function<@Nullable T, @Nullable String> asFunction() {
         return this::format;
     }
 
@@ -34,12 +34,12 @@ public interface DataTypeFormatter<T> {
         return source -> format(before.apply(source));
     }
 
-    default DataTypeFormatter<T> andThen(UnaryOperator<String> after) {
+    default DataTypeFormatter<T> andThen(UnaryOperator<@Nullable String> after) {
         Objects.requireNonNull(after);
         return source -> after.apply(format(source));
     }
 
-    default String handleNullSource(@Nullable Supplier<String> nullSourceSupplier) throws DataTypeConverterException {
+    default @Nullable String handleNullSource(@Nullable Supplier<@Nullable String> nullSourceSupplier) throws DataTypeConverterException {
         if (nullSourceSupplier == null) {
             throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "Source is null.");
         } else {

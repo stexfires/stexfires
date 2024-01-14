@@ -1,6 +1,8 @@
 package stexfires.record.consumer;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
 import java.util.Map;
@@ -9,15 +11,15 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public class MapConsumer<T extends TextRecord, R extends Map<String, String>> implements RecordConsumer<T> {
+public class MapConsumer<T extends TextRecord, R extends Map<String, @Nullable String>> implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 
     private final R map;
-    private final RecordMessage<? super T> keyMessage;
+    private final NotNullRecordMessage<? super T> keyMessage;
     private final RecordMessage<? super T> valueMessage;
 
-    public MapConsumer(R map, RecordMessage<? super T> keyMessage, RecordMessage<? super T> valueMessage) {
+    public MapConsumer(R map, NotNullRecordMessage<? super T> keyMessage, RecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(map);
         Objects.requireNonNull(keyMessage);
         Objects.requireNonNull(valueMessage);

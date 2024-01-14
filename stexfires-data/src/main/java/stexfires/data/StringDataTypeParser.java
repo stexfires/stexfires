@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
 import stexfires.util.function.Suppliers;
 
@@ -16,18 +15,18 @@ import java.util.function.UnaryOperator;
  */
 public final class StringDataTypeParser implements DataTypeParser<String> {
 
-    public static final Supplier<String> THROW_ERROR_FOR_NULL = null;
-    public static final Supplier<String> THROW_ERROR_FOR_EMPTY = null;
+    public static final @Nullable Supplier<String> THROW_ERROR_FOR_NULL = null;
+    public static final @Nullable Supplier<String> THROW_ERROR_FOR_EMPTY = null;
 
-    private final Predicate<String> checkPredicate;
-    private final UnaryOperator<String> operatorAfterCheck;
-    private final Supplier<String> nullSourceSupplier;
-    private final Supplier<String> emptySourceSupplier;
+    private final @Nullable Predicate<String> checkPredicate;
+    private final @Nullable UnaryOperator<@Nullable String> operatorAfterCheck;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable String> emptySourceSupplier;
 
     public StringDataTypeParser(@Nullable Predicate<String> checkPredicate,
-                                @Nullable UnaryOperator<String> operatorAfterCheck,
-                                @Nullable Supplier<String> nullSourceSupplier,
-                                @Nullable Supplier<String> emptySourceSupplier) {
+                                @Nullable UnaryOperator<@Nullable String> operatorAfterCheck,
+                                @Nullable Supplier<@Nullable String> nullSourceSupplier,
+                                @Nullable Supplier<@Nullable String> emptySourceSupplier) {
         this.checkPredicate = checkPredicate;
         this.operatorAfterCheck = operatorAfterCheck;
         this.nullSourceSupplier = nullSourceSupplier;
@@ -39,21 +38,21 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 null,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
-    public static StringDataTypeParser withCheck(@NotNull Predicate<String> checkPredicate) {
+    public static StringDataTypeParser withCheck(Predicate<String> checkPredicate) {
         Objects.requireNonNull(checkPredicate);
         return new StringDataTypeParser(checkPredicate,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
-    public static StringDataTypeParser withEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck,
-                                                         @Nullable UnaryOperator<String> operatorAfterCheck,
-                                                         @Nullable Supplier<String> nullSourceSupplier,
-                                                         @Nullable Supplier<String> emptySourceSupplier) {
+    public static StringDataTypeParser withEqualityCheck(UnaryOperator<String> operatorForEqualityCheck,
+                                                         @Nullable UnaryOperator<@Nullable String> operatorAfterCheck,
+                                                         @Nullable Supplier<@Nullable String> nullSourceSupplier,
+                                                         @Nullable Supplier<@Nullable String> emptySourceSupplier) {
         Objects.requireNonNull(operatorForEqualityCheck);
         return new StringDataTypeParser(s -> s.equals(operatorForEqualityCheck.apply(s)),
                 operatorAfterCheck,
@@ -61,12 +60,12 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
                 emptySourceSupplier);
     }
 
-    public static StringDataTypeParser withEqualityCheck(@NotNull UnaryOperator<String> operatorForEqualityCheck) {
+    public static StringDataTypeParser withEqualityCheck(UnaryOperator<String> operatorForEqualityCheck) {
         Objects.requireNonNull(operatorForEqualityCheck);
         return withEqualityCheck(operatorForEqualityCheck,
                 null,
                 Suppliers.constantNull(),
-                Suppliers.constant(Strings.EMPTY));
+                Suppliers.constantOfNotNull(Strings.EMPTY));
     }
 
     @Override

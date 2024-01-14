@@ -1,5 +1,6 @@
 package stexfires.record.consumer;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
@@ -45,7 +46,7 @@ public class DispatcherConsumer<T extends TextRecord> implements RecordConsumer<
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends TextRecord> DispatcherConsumer<T> byCategory(Function<String, Integer> categoryIndexFunction,
+    public static <T extends TextRecord> DispatcherConsumer<T> byCategory(Function<@Nullable String, Integer> categoryIndexFunction,
                                                                           List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(categoryIndexFunction);
         Objects.requireNonNull(recordConsumers);
@@ -54,7 +55,7 @@ public class DispatcherConsumer<T extends TextRecord> implements RecordConsumer<
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 
-    public static <T extends TextRecord> DispatcherConsumer<T> byRecordId(Function<Long, Integer> recordIdIndexFunction,
+    public static <T extends TextRecord> DispatcherConsumer<T> byRecordId(Function<@Nullable Long, Integer> recordIdIndexFunction,
                                                                           List<? extends RecordConsumer<? super T>> recordConsumers) {
         Objects.requireNonNull(recordIdIndexFunction);
         Objects.requireNonNull(recordConsumers);

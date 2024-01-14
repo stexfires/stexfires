@@ -86,6 +86,7 @@ public final class PathRecords {
         if (maxDepth < 0) {
             throw new IllegalArgumentException("'maxDepth' is negative");
         }
+        Objects.requireNonNull(fileVisitOptions);
         return Files.walk(path, maxDepth, fileVisitOptions).map(pathMapper);
     }
 

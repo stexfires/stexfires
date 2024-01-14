@@ -1,5 +1,6 @@
 package stexfires.io.config;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -46,6 +47,7 @@ public final class ConfigProducer extends AbstractInternalReadableProducer<KeyVa
 
     @Override
     protected Optional<KeyValueCommentRecord> createRecord(RecordRawData recordRawData) {
+        Objects.requireNonNull(recordRawData);
         String rawData = recordRawData.rawData();
         String key;
         String value;
@@ -85,7 +87,7 @@ public final class ConfigProducer extends AbstractInternalReadableProducer<KeyVa
     private static final class ConfigIterator extends AbstractRecordRawDataIterator {
 
         private final ConfigFileSpec fileSpec;
-        private String currentCategory;
+        private @Nullable String currentCategory;
 
         private ConfigIterator(BufferedReader bufferedReader, ConfigFileSpec fileSpec) {
             super(bufferedReader);

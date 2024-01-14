@@ -1,7 +1,6 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -52,7 +51,7 @@ public record TextField(int index, int maxIndex, @Nullable String text)
      * @throws NullPointerException if the specified object is null
      */
     @Override
-    public int compareTo(@NotNull TextField o) {
+    public int compareTo(TextField o) {
         Objects.requireNonNull(o);
         return Integer.compare(index, o.index);
     }
@@ -74,11 +73,19 @@ public record TextField(int index, int maxIndex, @Nullable String text)
         return text;
     }
 
-    public @Nullable String orElse(@Nullable String otherText) {
-        return text != null ? text : otherText;
+    public String orElse(String nonNullText) {
+        Objects.requireNonNull(nonNullText);
+        return text != null ? text : nonNullText;
     }
 
-    public @NotNull Optional<String> asOptional() {
+    public String orElseThrow() throws NullPointerException {
+        if (text == null) {
+            throw new NullPointerException("No text! " + this);
+        }
+        return text;
+    }
+
+    public Optional<String> asOptional() {
         return Optional.ofNullable(text);
     }
 
@@ -106,7 +113,7 @@ public record TextField(int index, int maxIndex, @Nullable String text)
         return text != null ? text.length() : 0;
     }
 
-    public @NotNull Stream<String> stream() {
+    public Stream<String> stream() {
         return Stream.ofNullable(text);
     }
 

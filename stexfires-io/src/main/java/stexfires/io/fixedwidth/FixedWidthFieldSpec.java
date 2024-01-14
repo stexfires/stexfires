@@ -1,7 +1,9 @@
 package stexfires.io.fixedwidth;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.Alignment;
+
+import java.util.Objects;
 
 /**
  * @since 0.1
@@ -27,10 +29,12 @@ public record FixedWidthFieldSpec(
     }
 
     Character determineFillCharacter(FixedWidthFileSpec fileSpec) {
+        Objects.requireNonNull(fileSpec);
         return fillCharacter != null ? fillCharacter : fileSpec.fillCharacter();
     }
 
     Alignment determineAlignment(FixedWidthFileSpec fileSpec) {
+        Objects.requireNonNull(fileSpec);
         return alignment != null ? alignment : fileSpec.alignment();
     }
 

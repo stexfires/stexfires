@@ -1,6 +1,6 @@
 package stexfires.util.function;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -16,7 +16,7 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
 
     private final RandomGenerator random;
     private final int percent;
-    private final Boolean constantResult;
+    private final @Nullable Boolean constantResult;
 
     public RandomBooleanSupplier(int percent, RandomGenerator random) {
         Objects.requireNonNull(random);
@@ -36,7 +36,7 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
     }
 
     @Override
-    public @NotNull Boolean get() {
+    public Boolean get() {
         return (constantResult != null) ? constantResult : (random.nextInt(HUNDRED) < percent);
     }
 

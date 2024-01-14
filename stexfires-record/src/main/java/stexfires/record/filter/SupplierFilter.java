@@ -28,14 +28,17 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
      * @param validitySupplier must be thread-safe
      */
     public static <T extends TextRecord> SupplierFilter<T> primitiveBooleanSupplier(BooleanSupplier validitySupplier) {
+        Objects.requireNonNull(validitySupplier);
         return new SupplierFilter<>(validitySupplier::getAsBoolean);
     }
 
     public static <T extends TextRecord> SupplierFilter<T> random(int percent, RandomGenerator randomGenerator) {
+        Objects.requireNonNull(randomGenerator);
         return new SupplierFilter<>(new RandomBooleanSupplier(percent, randomGenerator));
     }
 
     public static <T extends TextRecord> SupplierFilter<T> pattern(boolean... pattern) {
+        Objects.requireNonNull(pattern);
         return new SupplierFilter<>(RepeatingPatternBooleanSupplier.primitiveBooleans(pattern));
     }
 

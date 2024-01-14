@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber"})
@@ -28,6 +29,7 @@ public final class ExamplesPathRecord {
     }
 
     private static DosPathRecord createAndLogNewDosPathRecord(String pathAsString) {
+        Objects.requireNonNull(pathAsString);
         System.out.println("---createAndLogNewDosPathRecord---");
         Path path = Path.of(pathAsString);
         System.out.println("pathAsString       : " + pathAsString);
@@ -67,6 +69,7 @@ public final class ExamplesPathRecord {
     }
 
     private static void test1(String pathAsString) throws IOException {
+        Objects.requireNonNull(pathAsString);
         System.out.println("-test1---");
 
         DosPathRecord pathRecord = createAndLogNewDosPathRecord(pathAsString);
@@ -103,6 +106,8 @@ public final class ExamplesPathRecord {
     }
 
     private static void test2(Path path, LineSeparator lineSeparator) throws ConsumerException, IOException {
+        Objects.requireNonNull(path);
+        Objects.requireNonNull(lineSeparator);
         System.out.println("-test2---");
 
         System.out.println("---listDosPathRecords writeFile---");

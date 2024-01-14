@@ -1,9 +1,9 @@
 package stexfires.record.mapper.impl;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
 import java.util.Objects;
@@ -13,11 +13,11 @@ import java.util.Objects;
  */
 public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueCommentFieldsRecord> {
 
-    private final RecordMessage<? super T> keyMessage;
+    private final NotNullRecordMessage<? super T> keyMessage;
     private final RecordMessage<? super T> valueMessage;
     private final RecordMessage<? super T> commentMessage;
 
-    public ToKeyValueCommentFieldsRecordMapper(RecordMessage<? super T> keyMessage,
+    public ToKeyValueCommentFieldsRecordMapper(NotNullRecordMessage<? super T> keyMessage,
                                                RecordMessage<? super T> valueMessage,
                                                RecordMessage<? super T> commentMessage) {
         Objects.requireNonNull(keyMessage);
@@ -29,7 +29,7 @@ public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord> imp
     }
 
     @Override
-    public @NotNull KeyValueCommentFieldsRecord map(@NotNull T record) {
+    public KeyValueCommentFieldsRecord map(T record) {
         return new KeyValueCommentFieldsRecord(record.category(), record.recordId(),
                 keyMessage.createMessage(record),
                 valueMessage.createMessage(record),

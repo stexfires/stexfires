@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.MappingDataTypeFormatter;
 import stexfires.data.MappingDataTypePair;
@@ -15,7 +16,7 @@ public final class ExamplesMappingDataType {
     private ExamplesMappingDataType() {
     }
 
-    private static <T> void testParseMappingDataType(String source, MappingDataTypeParser<T> parser) {
+    private static <T extends @Nullable Object> void testParseMappingDataType(@Nullable String source, MappingDataTypeParser<T> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {
@@ -23,7 +24,7 @@ public final class ExamplesMappingDataType {
         }
     }
 
-    private static <T> void testFormatMappingDataType(T source, MappingDataTypeFormatter<T> formatter) {
+    private static <T extends @Nullable Object> void testFormatMappingDataType(@Nullable T source, MappingDataTypeFormatter<T> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {

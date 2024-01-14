@@ -1,7 +1,6 @@
 package stexfires.record.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
@@ -21,22 +20,22 @@ public record EmptyRecord()
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
     @Override
-    public @NotNull TextField[] arrayOfFields() {
+    public TextField[] arrayOfFields() {
         return TextFields.emptyArray();
     }
 
     @Override
-    public @NotNull List<TextField> listOfFields() {
+    public List<TextField> listOfFields() {
         return Collections.emptyList();
     }
 
     @Override
-    public @NotNull List<TextField> listOfFieldsReversed() {
+    public List<TextField> listOfFieldsReversed() {
         return Collections.emptyList();
     }
 
     @Override
-    public @NotNull Stream<TextField> streamOfFields() {
+    public Stream<TextField> streamOfFields() {
         return Stream.empty();
     }
 
@@ -46,8 +45,18 @@ public record EmptyRecord()
     }
 
     @Override
+    public boolean hasCategory() {
+        return false;
+    }
+
+    @Override
     public @Nullable Long recordId() {
         return null;
+    }
+
+    @Override
+    public boolean hasRecordId() {
+        return false;
     }
 
     @Override
@@ -91,7 +100,7 @@ public record EmptyRecord()
     }
 
     @Override
-    public @Nullable String textAtOrElse(int index, @Nullable String otherText) {
+    public String textAtOrElse(int index, String otherText) {
         return otherText;
     }
 

@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.TextSplitters;
 
 import java.util.Collection;
@@ -16,25 +15,25 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public final class CollectionDataTypeParser<T, C extends Collection<T>> implements DataTypeParser<C> {
+public final class CollectionDataTypeParser<T, C extends Collection<@Nullable T>> implements DataTypeParser<C> {
 
     private static final int REGEX_SPLIT_LIMIT = -1;
 
-    private final String prefix;
-    private final String suffix;
-    private final Function<String, Stream<String>> stringSplitter;
+    private final @Nullable String prefix;
+    private final @Nullable String suffix;
+    private final Function<String, Stream<@Nullable String>> stringSplitter;
     private final DataTypeParser<T> dataTypeParser;
-    private final Function<Stream<T>, C> streamConverter;
-    private final Supplier<C> nullSourceSupplier;
-    private final Supplier<C> emptySourceSupplier;
+    private final Function<Stream<@Nullable T>, @Nullable C> streamConverter;
+    private final @Nullable Supplier<@Nullable C> nullSourceSupplier;
+    private final @Nullable Supplier<@Nullable C> emptySourceSupplier;
 
     public CollectionDataTypeParser(@Nullable String prefix,
                                     @Nullable String suffix,
-                                    @NotNull Function<String, Stream<String>> stringSplitter,
-                                    @NotNull DataTypeParser<T> dataTypeParser,
-                                    @NotNull Function<Stream<T>, C> streamConverter,
-                                    @Nullable Supplier<C> nullSourceSupplier,
-                                    @Nullable Supplier<C> emptySourceSupplier) {
+                                    Function<String, Stream<@Nullable String>> stringSplitter,
+                                    DataTypeParser<T> dataTypeParser,
+                                    Function<Stream<@Nullable T>, @Nullable C> streamConverter,
+                                    @Nullable Supplier<@Nullable C> nullSourceSupplier,
+                                    @Nullable Supplier<@Nullable C> emptySourceSupplier) {
         Objects.requireNonNull(stringSplitter);
         Objects.requireNonNull(dataTypeParser);
         Objects.requireNonNull(streamConverter);
@@ -47,27 +46,27 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
-    public static <T> Function<Stream<T>, List<T>> streamToListConverter() {
+    public static <T> Function<Stream<@Nullable T>, List<@Nullable T>> streamToListConverter() {
         return Stream::toList;
     }
 
-    public static <T, S extends Set<T>> Function<Stream<T>, S> streamToSetConverter(S resultSet, ConverterValidator converterValidator) {
+    public static <T, S extends Set<@Nullable T>> Function<Stream<@Nullable T>, S> streamToSetConverter(S resultSet,
+                                                                                                        ConverterValidator converterValidator) {
         Objects.requireNonNull(resultSet);
         Objects.requireNonNull(converterValidator);
         return stream -> {
             if (converterValidator.checkInitialSize() && !resultSet.isEmpty()) {
                 throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Set is not empty: size=" + resultSet.size());
             }
-            List<T> list = stream.toList();
+            List<@Nullable T> list = stream.toList();
             resultSet.addAll(list);
             if (converterValidator.checkIdenticalSize() && (list.size() != resultSet.size())) {
                 throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Different size: " + resultSet.size() + " != " + list.size());
             }
             if (converterValidator.checkOrder()) {
                 int index = 0;
-                for (T setElement : resultSet) {
-                    T listElement = list.get(index);
-                    if (!Objects.equals(setElement, listElement)) {
+                for (@Nullable T setElement : resultSet) {
+                    if (!Objects.equals(setElement, list.get(index))) {
                         throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Different order: index=" + index);
                     }
                     index++;
@@ -77,12 +76,12 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         };
     }
 
-    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(@NotNull String delimiter,
+    public static <T> CollectionDataTypeParser<T, List<T>> withDelimiterAsList(String delimiter,
                                                                                @Nullable String prefix,
                                                                                @Nullable String suffix,
-                                                                               @NotNull DataTypeParser<T> dataTypeParser,
-                                                                               @Nullable Supplier<List<T>> nullSourceSupplier,
-                                                                               @Nullable Supplier<List<T>> emptySourceSupplier) {
+                                                                               DataTypeParser<T> dataTypeParser,
+                                                                               @Nullable Supplier<@Nullable List<T>> nullSourceSupplier,
+                                                                               @Nullable Supplier<@Nullable List<T>> emptySourceSupplier) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(dataTypeParser);
         if (delimiter.isEmpty()) {
@@ -98,9 +97,9 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
     public static <T> CollectionDataTypeParser<T, List<T>> withLengthAsList(int length,
                                                                             @Nullable String prefix,
                                                                             @Nullable String suffix,
-                                                                            @NotNull DataTypeParser<T> dataTypeParser,
-                                                                            @Nullable Supplier<List<T>> nullSourceSupplier,
-                                                                            @Nullable Supplier<List<T>> emptySourceSupplier) {
+                                                                            DataTypeParser<T> dataTypeParser,
+                                                                            @Nullable Supplier<@Nullable List<T>> nullSourceSupplier,
+                                                                            @Nullable Supplier<@Nullable List<T>> emptySourceSupplier) {
         Objects.requireNonNull(dataTypeParser);
         if (length < 1) {
             throw new IllegalArgumentException("length < 1");
@@ -112,7 +111,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
                 nullSourceSupplier, emptySourceSupplier);
     }
 
-    private @NotNull String removePrefixAndSuffix(@NotNull String source) {
+    private String removePrefixAndSuffix(String source) {
         int beginIndex = 0;
         int endIndex = source.length();
         boolean subString = false;
@@ -146,9 +145,8 @@ public final class CollectionDataTypeParser<T, C extends Collection<T>> implemen
         } else if (source.isEmpty()) {
             return handleEmptySource(emptySourceSupplier);
         } else {
-            return streamConverter.apply(
-                    stringSplitter.apply(removePrefixAndSuffix(source))
-                                  .map(dataTypeParser::parse));
+            return streamConverter.apply(stringSplitter.apply(removePrefixAndSuffix(source))
+                                                       .map(dataTypeParser::parse));
         }
     }
 

@@ -1,6 +1,5 @@
 package stexfires.record.producer;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Collection;
@@ -14,13 +13,13 @@ public final class CollectionProducer<T extends TextRecord> implements RecordPro
 
     private final Collection<T> recordCollection;
 
-    public CollectionProducer(@NotNull Collection<T> recordCollection) {
+    public CollectionProducer(Collection<T> recordCollection) {
         Objects.requireNonNull(recordCollection);
         this.recordCollection = recordCollection;
     }
 
     @Override
-    public @NotNull Stream<T> produceStream() {
+    public Stream<T> produceStream() {
         return recordCollection.stream();
     }
 

@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,33 +86,34 @@ public final class Strings {
         return o == null ? Optional.empty() : Optional.of(o.toString());
     }
 
-    public static List<String> list(@Nullable String stringValue) {
+    public static List<String> listOfNotNull(String stringValue) {
+        Objects.requireNonNull(stringValue);
         return Collections.singletonList(stringValue);
-    }
-
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static List<String> list(String... stringValues) {
-        return Arrays.stream(stringValues).collect(Collectors.toList());
     }
 
     public static List<String> listOfNullable(@Nullable String stringValue) {
         return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
-    public static Stream<String> stream(@Nullable String stringValue) {
-        return Stream.of(stringValue);
+    public static List<@Nullable String> list(@Nullable String... stringValues) {
+        Objects.requireNonNull(stringValues);
+        return Arrays.stream(stringValues).toList();
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
-    public static Stream<String> stream(String... stringValues) {
-        return Stream.of(stringValues);
+    public static Stream<String> streamOfNotNull(String stringValue) {
+        Objects.requireNonNull(stringValue);
+        return Stream.of(stringValue);
     }
 
     public static Stream<String> streamOfNullable(@Nullable String stringValue) {
         return Stream.ofNullable(stringValue);
     }
 
-    public static Stream<CodePoint> codePointStream(@NotNull String stringValue) {
+    public static Stream<@Nullable String> stream(@Nullable String... stringValues) {
+        return Stream.of(stringValues);
+    }
+
+    public static Stream<CodePoint> codePointStreamOfNotNull(String stringValue) {
         Objects.requireNonNull(stringValue);
         return stringValue.codePoints().mapToObj(CodePoint::new);
     }
@@ -122,39 +122,38 @@ public final class Strings {
         return stringValue == null ? Stream.empty() : stringValue.codePoints().mapToObj(CodePoint::new);
     }
 
-    public static Stream<String> concat(Stream<String> firstStream, Stream<String> secondStream) {
+    public static Stream<@Nullable String> concatTwoStreams(Stream<@Nullable String> firstStream, Stream<@Nullable String> secondStream) {
         Objects.requireNonNull(firstStream);
         Objects.requireNonNull(secondStream);
         return Stream.concat(firstStream, secondStream);
     }
 
-    @SuppressWarnings("OverloadedVarargsMethod")
     @SafeVarargs
-    public static Stream<String> concat(Stream<String>... streams) {
+    public static Stream<@Nullable String> concatManyStreams(Stream<@Nullable String>... streams) {
         Objects.requireNonNull(streams);
         return Stream.of(streams).flatMap(Function.identity());
     }
 
-    public static String join(Stream<String> stream) {
+    public static String join(Stream<@Nullable String> stream) {
         Objects.requireNonNull(stream);
         return join(stream, DEFAULT_DELIMITER);
     }
 
-    public static String join(Stream<String> stream, CharSequence delimiter) {
+    public static String join(Stream<@Nullable String> stream, CharSequence delimiter) {
         Objects.requireNonNull(stream);
         Objects.requireNonNull(delimiter);
         return stream.collect(Collectors.joining(delimiter));
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void printLine(Stream<String> stream, CharSequence delimiter) {
+    public static void printLine(Stream<@Nullable String> stream, CharSequence delimiter) {
         Objects.requireNonNull(stream);
         Objects.requireNonNull(delimiter);
         System.out.println(join(stream, delimiter));
     }
 
     @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    public static void printLines(Stream<String> stream) {
+    public static void printLines(Stream<@Nullable String> stream) {
         Objects.requireNonNull(stream);
         stream.forEachOrdered(System.out::println);
     }
@@ -164,8 +163,8 @@ public final class Strings {
      * @see java.util.stream.Collectors#collectingAndThen(java.util.stream.Collector, java.util.function.Function)
      * @see java.lang.String#join(CharSequence, Iterable)
      */
-    public static Collector<? super String, ?, String> modifyAndJoinCollector(UnaryOperator<List<String>> modifyListOperator,
-                                                                              String joinDelimiter) {
+    public static Collector<String, ?, String> modifyAndJoinCollector(UnaryOperator<List<String>> modifyListOperator,
+                                                                      CharSequence joinDelimiter) {
         Objects.requireNonNull(modifyListOperator);
         Objects.requireNonNull(joinDelimiter);
         // Use ArrayList because of its mutability.
@@ -179,7 +178,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRemoveAll(Collection<String> stringCollection) {
         Objects.requireNonNull(stringCollection);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.removeAll(stringCollection);
             }
             return list;
@@ -192,7 +191,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRemoveIf(Predicate<? super String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.removeIf(stringPredicate);
             }
             return list;
@@ -205,7 +204,7 @@ public final class Strings {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static UnaryOperator<List<String>> modifyListReplaceAll(@Nullable String oldVal, @Nullable String newVal) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.replaceAll(list, oldVal, newVal);
             }
             return list;
@@ -218,7 +217,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListReplaceAll(UnaryOperator<String> stringOperator) {
         Objects.requireNonNull(stringOperator);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.replaceAll(stringOperator);
             }
             return list;
@@ -231,7 +230,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListRetainAll(Collection<String> stringCollection) {
         Objects.requireNonNull(stringCollection);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.retainAll(stringCollection);
             }
             return list;
@@ -243,7 +242,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListReverse() {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.reverse(list);
             }
             return list;
@@ -255,7 +254,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListRotate(int distance) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.rotate(list, distance);
             }
             return list;
@@ -267,7 +266,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListShuffle() {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 Collections.shuffle(list);
             }
             return list;
@@ -280,7 +279,7 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListSort(Comparator<? super String> stringComparator) {
         Objects.requireNonNull(stringComparator);
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 list.sort(stringComparator);
             }
             return list;
@@ -292,7 +291,7 @@ public final class Strings {
      */
     public static UnaryOperator<List<String>> modifyListSwap(int firstIndex, int secondIndex) {
         return list -> {
-            if (list != null && !list.isEmpty()) {
+            if (!list.isEmpty()) {
                 if (firstIndex != secondIndex
                         && firstIndex >= 0 && secondIndex >= 0
                         && firstIndex < list.size() && secondIndex < list.size()) {

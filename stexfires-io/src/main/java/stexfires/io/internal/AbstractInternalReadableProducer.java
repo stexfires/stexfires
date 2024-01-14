@@ -1,7 +1,6 @@
 package stexfires.io.internal;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
@@ -47,7 +46,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     @Override
-    public @NotNull Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
+    public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         state = READ_RECORDS.validate(state);
         return super.readRecords();
     }
@@ -68,6 +67,9 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
         }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
+        }
         return getIterator().currentRecordIndex();
     }
 
@@ -75,12 +77,18 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
         }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
+        }
         return getIterator().first();
     }
 
     protected final List<RecordRawData> lastIgnored() {
         if (state != READ_AFTER && state != CLOSE) {
             throw new IllegalStateException("Illegal state! " + state);
+        }
+        if (getIterator() == null) {
+            throw new IllegalStateException("Iterator is null!");
         }
         return getIterator().last();
     }

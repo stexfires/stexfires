@@ -1,5 +1,6 @@
 package stexfires.io.delimited.simple;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 public final class SimpleDelimitedProducer extends AbstractInternalReadableProducer<TextRecord> {
 
-    private static final String NO_TEXT = null;
+    private static final @Nullable String NO_TEXT = null;
 
     private final SimpleDelimitedFileSpec fileSpec;
 
@@ -52,7 +53,7 @@ public final class SimpleDelimitedProducer extends AbstractInternalReadableProdu
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) {
         TextRecord record;
 
-        List<String> texts = convertRawDataIntoTexts(recordRawData.rawData());
+        List<@Nullable String> texts = convertRawDataIntoTexts(recordRawData.rawData());
 
         boolean skipAllNullOrEmpty = fileSpec.producerSkipAllNullOrEmpty()
                 && texts.stream().allMatch(StringPredicates.isNullOrEmpty());
@@ -66,9 +67,9 @@ public final class SimpleDelimitedProducer extends AbstractInternalReadableProdu
         return Optional.ofNullable(record);
     }
 
-    private List<String> convertRawDataIntoTexts(String rawData) {
+    private List<@Nullable String> convertRawDataIntoTexts(String rawData) {
         Objects.requireNonNull(rawData);
-        List<String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
+        List<@Nullable String> texts = new ArrayList<>(fileSpec.fieldSpecs().size());
         int beginIndex = 0;
         int endIndex;
         for (SimpleDelimitedFieldSpec fieldSpec : fileSpec.fieldSpecs()) {

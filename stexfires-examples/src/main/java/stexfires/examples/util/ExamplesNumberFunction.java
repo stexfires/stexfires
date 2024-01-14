@@ -1,9 +1,12 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
+import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.NumberPredicates.BigIntegerPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
 import stexfires.util.function.NumberToNumberFunctions;
+import stexfires.util.function.NumberToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.BigIntegerToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.PrimitiveIntToStringFunctions;
 import stexfires.util.function.NumberToStringFunctions.PrimitiveLongToStringFunctions;
@@ -27,6 +30,7 @@ import java.util.function.LongPredicate;
 import java.util.function.LongUnaryOperator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesNumberFunction {
@@ -95,6 +99,8 @@ public final class ExamplesNumberFunction {
 
     @SuppressWarnings("StaticCollection")
     private static final List<BigInteger> BIG_INTEGER_VALUES;
+    @SuppressWarnings("StaticCollection")
+    private static final List<BigInteger> BIG_INTEGER_PARAMETER;
 
     static {
         List<BigInteger> values = new ArrayList<>();
@@ -141,37 +147,32 @@ public final class ExamplesNumberFunction {
         values.add(BigInteger.valueOf(Long.MAX_VALUE));
         values.add(BigInteger.valueOf(Long.MAX_VALUE).add(BigInteger.ONE));
         values.add(new BigInteger("9999999999999999999999"));
-        values.add(null);
         BIG_INTEGER_VALUES = Collections.unmodifiableList(values);
-    }
 
-    @SuppressWarnings("StaticCollection")
-    private static final List<BigInteger> BIG_INTEGER_PARAMETER;
-
-    static {
-        List<BigInteger> values = new ArrayList<>();
-        values.add(new BigInteger("-9999999999999999999999"));
-        values.add(BigInteger.valueOf(-12L));
-        values.add(BigInteger.valueOf(-10L));
-        values.add(BigInteger.valueOf(-4L));
-        values.add(BigInteger.valueOf(-3L));
-        values.add(BigInteger.valueOf(-2L));
-        values.add(BigInteger.valueOf(-1L));
-        values.add(BigInteger.ZERO);
-        values.add(BigInteger.ONE);
-        values.add(BigInteger.TWO);
-        values.add(BigInteger.valueOf(3L));
-        values.add(BigInteger.valueOf(4L));
-        values.add(BigInteger.TEN);
-        values.add(BigInteger.valueOf(12L));
-        values.add(new BigInteger("9999999999999999999999"));
-        BIG_INTEGER_PARAMETER = Collections.unmodifiableList(values);
+        List<BigInteger> parameters = new ArrayList<>();
+        parameters.add(new BigInteger("-9999999999999999999999"));
+        parameters.add(BigInteger.valueOf(-12L));
+        parameters.add(BigInteger.valueOf(-10L));
+        parameters.add(BigInteger.valueOf(-4L));
+        parameters.add(BigInteger.valueOf(-3L));
+        parameters.add(BigInteger.valueOf(-2L));
+        parameters.add(BigInteger.valueOf(-1L));
+        parameters.add(BigInteger.ZERO);
+        parameters.add(BigInteger.ONE);
+        parameters.add(BigInteger.TWO);
+        parameters.add(BigInteger.valueOf(3L));
+        parameters.add(BigInteger.valueOf(4L));
+        parameters.add(BigInteger.TEN);
+        parameters.add(BigInteger.valueOf(12L));
+        parameters.add(new BigInteger("9999999999999999999999"));
+        //noinspection Java9CollectionFactory
+        BIG_INTEGER_PARAMETER = Collections.unmodifiableList(parameters);
     }
 
     private ExamplesNumberFunction() {
     }
 
-    private static void printMethodInfo(String className, String methodeName, String parameter) {
+    private static void printMethodInfo(String className, String methodeName, @Nullable String parameter) {
         StringBuilder b = new StringBuilder();
         b.append("---");
         b.append(className);
@@ -185,7 +186,7 @@ public final class ExamplesNumberFunction {
         System.out.println(b);
     }
 
-    private static String createResultString(Boolean result) {
+    private static String createResultString(@Nullable Boolean result) {
         if (result == null) {
             return " <NULL> ";
         } else if (result) {
@@ -195,19 +196,35 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void printResult(Boolean result, Number value, String exceptionMessage) {
+    private static void printBooleanResult(@Nullable Boolean result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(createResultString(result) + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(Number result, Number value, String exceptionMessage) {
+    private static void printResult(@Nullable Object result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result.toString() : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void printResult(String result, Number value, String exceptionMessage) {
+    private static void printStringResult(@Nullable String result, @Nullable Number value, @Nullable String exceptionMessage) {
         System.out.println(" " + (result != null ? result : "<NULL>") + " <-- " + value + (exceptionMessage != null ? " " + exceptionMessage : ""));
     }
 
-    private static void testPrimitiveIntPredicate(String methodName, IntPredicate predicate, String parameter) {
+    @SafeVarargs
+    private static <T extends Number> void testNumberPredicate(String methodName, Predicate<@Nullable T> predicate, @Nullable String parameter, @Nullable T... values) {
+        printMethodInfo("NumberPredicates", methodName, parameter);
+
+        for (T value : values) {
+            Boolean result = null;
+            String exceptionMessage = null;
+            try {
+                result = predicate.test(value);
+            } catch (ArithmeticException e) {
+                exceptionMessage = e.getMessage();
+            }
+            printBooleanResult(result, value, exceptionMessage);
+        }
+    }
+
+    private static void testPrimitiveIntPredicate(String methodName, IntPredicate predicate, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntPredicates", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -218,11 +235,11 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
-    private static void testPrimitiveLongPredicate(String methodName, LongPredicate predicate, String parameter) {
+    private static void testPrimitiveLongPredicate(String methodName, LongPredicate predicate, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongPredicates", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -233,11 +250,11 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
-    private static void testBigIntegerPredicate(String methodName, Predicate<BigInteger> predicate, String parameter) {
+    private static void testBigIntegerPredicate(String methodName, Predicate<BigInteger> predicate, @Nullable String parameter) {
         printMethodInfo("BigIntegerPredicates", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -248,11 +265,11 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printBooleanResult(result, value, exceptionMessage);
         }
     }
 
-    private static void applyPrimitiveIntUnaryOperator(String methodName, IntUnaryOperator operator, String parameter) {
+    private static void applyPrimitiveIntUnaryOperator(String methodName, IntUnaryOperator operator, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntUnaryOperators", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -267,7 +284,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveLongUnaryOperator(String methodName, LongUnaryOperator operator, String parameter) {
+    private static void applyPrimitiveLongUnaryOperator(String methodName, LongUnaryOperator operator, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongUnaryOperators", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -282,7 +299,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyBigIntegerUnaryOperator(String methodName, UnaryOperator<BigInteger> operator, String parameter) {
+    private static void applyBigIntegerUnaryOperator(String methodName, UnaryOperator<BigInteger> operator, @Nullable String parameter) {
         printMethodInfo("BigIntegerUnaryOperators", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -297,7 +314,7 @@ public final class ExamplesNumberFunction {
         }
     }
 
-    private static void applyPrimitiveIntToStringFunction(String methodName, IntFunction<String> function, String parameter) {
+    private static void applyPrimitiveIntToStringFunction(String methodName, IntFunction<@Nullable String> function, @Nullable String parameter) {
         printMethodInfo("PrimitiveIntToStringFunctions", methodName, parameter);
 
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -308,11 +325,11 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
     }
 
-    private static void applyPrimitiveLongToStringFunction(String methodName, LongFunction<String> function, String parameter) {
+    private static void applyPrimitiveLongToStringFunction(String methodName, LongFunction<@Nullable String> function, @Nullable String parameter) {
         printMethodInfo("PrimitiveLongToStringFunctions", methodName, parameter);
 
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -323,11 +340,11 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
     }
 
-    private static void applyBigIntegerToStringFunction(String methodName, Function<BigInteger, String> function, String parameter) {
+    private static void applyBigIntegerToStringFunction(String methodName, Function<BigInteger, @Nullable String> function, @Nullable String parameter) {
         printMethodInfo("BigIntegerToStringFunctions", methodName, parameter);
 
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -338,14 +355,41 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
+    }
+
+    private static void showNumberPredicates() {
+        System.out.println("-showNumberPredicates---");
+
+        testNumberPredicate("isNull", NumberPredicates.isNull(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNull", NumberPredicates.isNotNull(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("isNullOr", NumberPredicates.isNullOr(NumberPredicates.containedIn(1.0d)), "containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.containedIn(1.0d)), "containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.applyOperatorAndTest((Double d) -> d + 1.0d, NumberPredicates.containedIn(1.0d))), "applyOperatorAndTest containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.applyFunctionAndTest((Double d) -> d + 1.0d, NumberPredicates.containedIn(List.of(1.0d)))), "applyFunctionAndTest containedIn", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatAnd((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d)), "concatAnd", 0.0d, null, 1.0d);
+        Stream<Predicate<Double>> predicatesAnd = Stream.of((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d, (Double d) -> d == 0.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatAnd(predicatesAnd)), "concatAnd Stream", 0.0d, null, 1.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatOr((Double d) -> d > 0.0d, (Double d) -> d < 1.0d)), "concatOr", 0.0d, null, 1.0d);
+        Stream<Predicate<Double>> predicatesOr = Stream.of((Double d) -> d >= 0.0d, (Double d) -> d <= 1.0d, (Double d) -> d == 0.0d);
+        testNumberPredicate("isNotNullAnd", NumberPredicates.isNotNullAnd(NumberPredicates.concatOr(predicatesOr)), "concatOr Stream", 0.0d, null, 1.0d);
+        testNumberPredicate("constantTrue", NumberPredicates.constantTrue(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("constantFalse", NumberPredicates.constantFalse(), "", 0.0d, null, 1.0d);
+        testNumberPredicate("constant", NumberPredicates.constant(true), "true", 0.0d, null, 1.0d);
+        testNumberPredicate("supplier", NumberPredicates.supplier(() -> true), "() -> true", 0.0d, null, 1.0d);
+
+        testNumberPredicate("PrimitiveIntPredicates.isNullOr", NumberPredicates.PrimitiveIntPredicates.isNullOr(NumberPredicates.PrimitiveIntPredicates.even()), "PrimitiveIntPredicates.even", 0, null, 1, 2, 3);
+        testNumberPredicate("PrimitiveIntPredicates.isNotNullAnd", NumberPredicates.PrimitiveIntPredicates.isNotNullAnd(NumberPredicates.PrimitiveIntPredicates.even()), "PrimitiveIntPredicates.even", 0, null, 1, 2, 3);
+        testNumberPredicate("PrimitiveLongPredicates.isNullOr", NumberPredicates.PrimitiveLongPredicates.isNullOr(NumberPredicates.PrimitiveLongPredicates.odd()), "PrimitiveLongPredicates.odd", 0L, null, 1L, 2L, 3L);
+        testNumberPredicate("PrimitiveLongPredicates.isNotNullAnd", NumberPredicates.PrimitiveLongPredicates.isNotNullAnd(NumberPredicates.PrimitiveLongPredicates.odd()), "PrimitiveLongPredicates.odd", 0L, null, 1L, 2L, 3L);
     }
 
     private static void showPrimitiveIntPredicates() {
         System.out.println("-showPrimitiveIntPredicates---");
 
         testPrimitiveIntPredicate("zero", PrimitiveIntPredicates.zero(), null);
+        testPrimitiveIntPredicate("odd", PrimitiveIntPredicates.odd(), null);
 
         testPrimitiveIntPredicate("rangeOfByte", PrimitiveIntPredicates.rangeOfByte(), null);
         testPrimitiveIntPredicate("rangeOfShort", PrimitiveIntPredicates.rangeOfShort(), null);
@@ -360,6 +404,7 @@ public final class ExamplesNumberFunction {
         System.out.println("-showPrimitiveLongPredicates---");
 
         testPrimitiveLongPredicate("zero", PrimitiveLongPredicates.zero(), null);
+        testPrimitiveLongPredicate("odd", PrimitiveLongPredicates.odd(), null);
 
         testPrimitiveLongPredicate("rangeOfByte", PrimitiveLongPredicates.rangeOfByte(), null);
         testPrimitiveLongPredicate("rangeOfShort", PrimitiveLongPredicates.rangeOfShort(), null);
@@ -375,6 +420,7 @@ public final class ExamplesNumberFunction {
         System.out.println("-showBigIntegerPredicates---");
 
         testBigIntegerPredicate("zero", BigIntegerPredicates.zero(), null);
+        testBigIntegerPredicate("odd", BigIntegerPredicates.odd(), null);
 
         testBigIntegerPredicate("rangeOfByte", BigIntegerPredicates.rangeOfByte(), null);
         testBigIntegerPredicate("rangeOfShort", BigIntegerPredicates.rangeOfShort(), null);
@@ -464,11 +510,11 @@ public final class ExamplesNumberFunction {
         applyBigIntegerToStringFunction("hexFormat", BigIntegerToStringFunctions.hexFormat(HexFormat.ofDelimiter(" ").withPrefix("#").withUpperCase()), "space delimiter, prefix #, uppercase");
         applyBigIntegerToStringFunction("octal", BigIntegerToStringFunctions.octal(), null);
 
-        applyBigIntegerToStringFunction("formatted", BigIntegerToStringFunctions.formatted(Locale.GERMANY, "%05d"), "%05d");
-        applyBigIntegerToStringFunction("numberFormat", BigIntegerToStringFunctions.numberFormat(NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT)), "Compact US Short");
-        applyBigIntegerToStringFunction("numberFormat", BigIntegerToStringFunctions.numberFormat(NumberFormat.getIntegerInstance(Locale.GERMANY)), "Integer GERMANY");
-        applyBigIntegerToStringFunction("constant", BigIntegerToStringFunctions.constant("***"), "***");
-        applyBigIntegerToStringFunction("supplier", BigIntegerToStringFunctions.supplier(() -> "#"), "-> #");
+        applyBigIntegerToStringFunction("formatted", NumberToStringFunctions.formatted(Locale.GERMANY, "%05d"), "%05d");
+        applyBigIntegerToStringFunction("numberFormat", NumberToStringFunctions.numberFormat(NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT)), "Compact US Short");
+        applyBigIntegerToStringFunction("numberFormat", NumberToStringFunctions.numberFormat(NumberFormat.getIntegerInstance(Locale.GERMANY)), "Integer GERMANY");
+        applyBigIntegerToStringFunction("constant", NumberToStringFunctions.constant("***"), "***");
+        applyBigIntegerToStringFunction("supplier", NumberToStringFunctions.supplier(() -> "#"), "-> #");
     }
 
     private static void showNumberToNumberFunctions() {
@@ -484,7 +530,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToPrimitiveLong");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -495,7 +541,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToLong");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -506,7 +552,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveIntToBigInteger");
         for (int value : PRIMITIVE_INT_VALUES) {
@@ -517,7 +563,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Integer
@@ -530,7 +576,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToPrimitiveLong");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -541,7 +587,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToLong");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -552,7 +598,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---integerToBigInteger");
         for (Integer value : PRIMITIVE_INT_VALUES) {
@@ -563,7 +609,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Primitive long
@@ -576,7 +622,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToInteger");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -587,7 +633,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToLong");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -598,7 +644,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---primitiveLongToBigInteger");
         for (long value : PRIMITIVE_LONG_VALUES) {
@@ -609,7 +655,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // Long
@@ -622,7 +668,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToInteger");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -633,7 +679,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToPrimitiveLong");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -644,7 +690,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---longToBigInteger");
         for (Long value : PRIMITIVE_LONG_VALUES) {
@@ -655,7 +701,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
         // BigInteger
@@ -668,7 +714,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToPrimitiveLong");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -679,7 +725,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToInteger");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -690,7 +736,7 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
         System.out.println("---bigIntegerToLong");
         for (BigInteger value : BIG_INTEGER_VALUES) {
@@ -701,13 +747,14 @@ public final class ExamplesNumberFunction {
             } catch (ArithmeticException e) {
                 exceptionMessage = e.getMessage();
             }
-            printResult(result, value, exceptionMessage);
+            printStringResult(result, value, exceptionMessage);
         }
 
     }
 
     public static void main(String... args) {
         // Predicates
+        showNumberPredicates();
         showPrimitiveIntPredicates();
         showPrimitiveLongPredicates();
         showBigIntegerPredicates();

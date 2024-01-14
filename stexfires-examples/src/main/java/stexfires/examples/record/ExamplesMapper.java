@@ -24,6 +24,7 @@ import stexfires.record.mapper.TextsMapper;
 import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
 import stexfires.record.mapper.impl.ToValueFieldRecordMapper;
 import stexfires.record.message.ConstantMessage;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.record.message.SizeMessage;
 import stexfires.record.message.TextMessage;
@@ -89,7 +90,7 @@ public final class ExamplesMapper {
         printMapper("categoryFunction", AddTextMapper.categoryFunction(category -> "new " + category));
         printMapper("categoryOperator", AddTextMapper.categoryOperator(StringUnaryOperators.upperCase(Locale.ENGLISH)));
         printMapper("categoryAsOptionalFunction", AddTextMapper.categoryAsOptionalFunction(optionalCategory -> optionalCategory.orElse("missing category")));
-        printMapper("recordId", AddTextMapper.recordId());
+        printMapper("recordId", AddTextMapper.recordIdAsString());
         printMapper("textAt", AddTextMapper.textAt(2));
         printMapper("textAtOrElse", AddTextMapper.textAtOrElse(2, "missing value"));
         printMapper("fieldAtOrElse", AddTextMapper.fieldAtOrElse(2, new AddPrefixFieldTextMapper("new: "), "missing value"));
@@ -112,7 +113,7 @@ public final class ExamplesMapper {
         printMapper("categoryFunction", CategoryMapper.categoryFunction(category -> "new " + category));
         printMapper("categoryOperator", CategoryMapper.categoryOperator(StringUnaryOperators.upperCase(Locale.ENGLISH)));
         printMapper("categoryAsOptionalFunction", CategoryMapper.categoryAsOptionalFunction(optionalCategory -> optionalCategory.orElse("missing category")));
-        printMapper("recordId", CategoryMapper.recordId());
+        printMapper("recordId", CategoryMapper.recordIdAsString());
         printMapper("textAt", CategoryMapper.textAt(2));
         printMapper("textAtOrElse", CategoryMapper.textAtOrElse(2, "missing value"));
         printMapper("fieldAtOrElse", CategoryMapper.fieldAtOrElse(2, new AddPrefixFieldTextMapper("new: "), "missing value"));
@@ -144,7 +145,7 @@ public final class ExamplesMapper {
                 record -> Strings.list(record.textAtOrElse(0, ""))
         ));
         printMapper("functionMappers", FunctionMapper.functionMappers(
-                CategoryMapper.recordId(),
+                CategoryMapper.recordIdAsString(),
                 RecordIdMapper.constant(100L),
                 TextsMapper.reverseTexts())
         );
@@ -166,14 +167,14 @@ public final class ExamplesMapper {
         System.out.println("-showLookupMapper---");
 
         printMapper("constructor", new LookupMapper<>(TextRecord::recordId,
-                recordId -> recordId == null ? null : AddTextMapper.recordId(),
+                recordId -> recordId == null ? null : AddTextMapper.recordIdAsString(),
                 new IdentityMapper<>()));
 
         Map<String, RecordMapper<? super TextRecord, TextRecord>> recordMapperMap = HashMap.newHashMap(3);
         recordMapperMap.put("value1", AddTextMapper.constant("lookup value1"));
         recordMapperMap.put("value2", AddTextMapper.constant("lookup value2"));
         recordMapperMap.put("key", AddTextMapper.constant("lookup key"));
-        printMapper("messageMap", LookupMapper.messageMap(new TextMessage<>(0), recordMapperMap));
+        printMapper("messageMap", LookupMapper.messageMap(NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(0), "missing key"), recordMapperMap));
     }
 
     @SuppressWarnings("VariableNotUsedInsideIf")
@@ -229,6 +230,7 @@ public final class ExamplesMapper {
         printMapper("size 1", TextsMapper.size(1, "<NULL>"));
         printMapper("size 2", TextsMapper.size(2, "<NULL>"));
         printMapper("reverseTexts", TextsMapper.reverseTexts());
+        printMapper("createMessage SizeMessage", TextsMapper.createMessage(new SizeMessage<>()));
         printMapper("createMessages array", TextsMapper.createMessages(
                 new ConstantMessage<>("new"),
                 new SizeMessage<>()

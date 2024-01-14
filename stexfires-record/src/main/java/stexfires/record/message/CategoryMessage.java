@@ -1,6 +1,6 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 /**
@@ -8,7 +8,7 @@ import stexfires.record.TextRecord;
  */
 public class CategoryMessage<T extends TextRecord> implements RecordMessage<T> {
 
-    private final String nullCategory;
+    private final @Nullable String nullCategory;
 
     public CategoryMessage() {
         this(null);

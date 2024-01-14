@@ -1,7 +1,7 @@
 package stexfires.examples.javatest;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
 import stexfires.record.impl.ManyFieldsRecord;
 
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import java.util.Spliterator;
 import java.util.SplittableRandom;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -130,7 +131,7 @@ public final class StreamTest {
                               .forEachOrdered(System.out::println);
         System.out.println("-- ints boxed");
         System.out.println(new SplittableRandom().ints(5L, 1, 4).boxed()
-                                                 .collect(Collectors.toList()));
+                                                 .toList());
     }
 
     private static void showConcat() {
@@ -301,9 +302,9 @@ public final class StreamTest {
     private static void showMapMulti() {
         System.out.println("-showMapMulti---");
 
-        Stream<TextRecord> recordStream = TextRecordStreams.of(new ManyFieldsRecord("a", "b"), new ManyFieldsRecord("c", "d"), new ManyFieldsRecord("e", "f", "g"), new ManyFieldsRecord(), new ManyFieldsRecord("h"));
+        Stream<TextRecord> recordStream = Stream.of(new ManyFieldsRecord("a", "b"), new ManyFieldsRecord("c", "d"), new ManyFieldsRecord("e", "f", null), new ManyFieldsRecord(), new ManyFieldsRecord("h"));
         System.out.println(
-                recordStream.<String>mapMulti((record, consumer) -> {
+                recordStream.mapMulti((TextRecord record, Consumer<@Nullable String> consumer) -> {
                     // If the record contains multiple text field, the first and last texts are returned.
                     if (record.size() >= 2) {
                         consumer.accept(record.firstText());
@@ -322,7 +323,7 @@ public final class StreamTest {
                       .flatMap(Stream::of)
                       .toList());
 
-        Stream<TextRecord> recordStream = TextRecordStreams.of(new ManyFieldsRecord("a", "b"), new ManyFieldsRecord("c", "d"), new ManyFieldsRecord("e", "f", "g"), new ManyFieldsRecord(), new ManyFieldsRecord("h"));
+        Stream<TextRecord> recordStream = Stream.of(new ManyFieldsRecord("a", "b"), new ManyFieldsRecord("c", "d"), new ManyFieldsRecord("e", "f", "g"), new ManyFieldsRecord(), new ManyFieldsRecord("h"));
         System.out.println(
                 recordStream.flatMap(TextRecord::streamOfTexts)
                             .toList());

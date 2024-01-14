@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,8 +33,8 @@ import java.util.Objects;
  * @see stexfires.util.CommonCharsetNames
  * @since 0.1
  */
-public record CharsetCoding(@NotNull Charset charset,
-                            @NotNull CodingErrors codingErrors,
+public record CharsetCoding(Charset charset,
+                            CodingErrors codingErrors,
                             @Nullable String decoderReplacement,
                             @Nullable String encoderReplacement) {
 
@@ -55,8 +54,8 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object.
      *
-     * @param charset            The {@link Charset} that is wrapped by this record. Must not be null.
-     * @param codingErrors       Defines the {@link CodingErrorAction} for new {@link CharsetDecoder} and {@link CharsetEncoder}. Must not be null.
+     * @param charset            The {@link Charset} that is wrapped by this record. Must not be {@code null}.
+     * @param codingErrors       Defines the {@link CodingErrorAction} for new {@link CharsetDecoder} and {@link CharsetEncoder}. Must not be {@code null}.
      * @param decoderReplacement The replacement for new {@link CharsetDecoder} if the action is set to {@link CodingErrors#REPLACE}. Can be null.
      * @param encoderReplacement The replacement for new {@link CharsetEncoder} if the action is set to {@link CodingErrors#REPLACE}. Can be null.
      */
@@ -68,33 +67,34 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object with the given {@link Charset} and {@link CodingErrors#IGNORE}.
      *
-     * @param charset The {@link Charset} that is wrapped by this record. Must not be null.
+     * @param charset The {@link Charset} that is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      */
-    public static CharsetCoding ignoringErrors(@NotNull Charset charset) {
+    public static CharsetCoding ignoringErrors(Charset charset) {
         return new CharsetCoding(charset, CodingErrors.IGNORE, null, null);
     }
 
     /**
      * Creates a new CharsetCoding object with the charset of the given {@link CommonCharsetNames} and {@link CodingErrors#IGNORE}.
      *
-     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be null.
+     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      * @see CommonCharsetNames#charset()
      */
-    public static CharsetCoding ignoringErrors(@NotNull CommonCharsetNames commonCharsetNames) {
+    public static CharsetCoding ignoringErrors(CommonCharsetNames commonCharsetNames) {
+        Objects.requireNonNull(commonCharsetNames);
         return ignoringErrors(commonCharsetNames.charset());
     }
 
     /**
      * Creates a new CharsetCoding object with the given {@link Charset} and {@link CodingErrors#REPLACE}.
      *
-     * @param charset            The {@link Charset} that is wrapped by this record. Must not be null.
+     * @param charset            The {@link Charset} that is wrapped by this record. Must not be {@code null}.
      * @param decoderReplacement The replacement for new {@link CharsetDecoder}. Can be null.
      * @param encoderReplacement The replacement for new {@link CharsetEncoder}. Can be null.
      * @return a new CharsetCoding object
      */
-    public static CharsetCoding replacingErrors(@NotNull Charset charset,
+    public static CharsetCoding replacingErrors(Charset charset,
                                                 @Nullable String decoderReplacement,
                                                 @Nullable String encoderReplacement) {
         return new CharsetCoding(charset,
@@ -106,15 +106,16 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object with the charset of the given {@link CommonCharsetNames} and {@link CodingErrors#REPLACE}.
      *
-     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be null.
+     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be {@code null}.
      * @param decoderReplacement The replacement for new {@link CharsetDecoder}. Can be null.
      * @param encoderReplacement The replacement for new {@link CharsetEncoder}. Can be null.
      * @return a new CharsetCoding object
      * @see CommonCharsetNames#charset()
      */
-    public static CharsetCoding replacingErrors(@NotNull CommonCharsetNames commonCharsetNames,
+    public static CharsetCoding replacingErrors(CommonCharsetNames commonCharsetNames,
                                                 @Nullable String decoderReplacement,
                                                 @Nullable String encoderReplacement) {
+        Objects.requireNonNull(commonCharsetNames);
         return replacingErrors(commonCharsetNames.charset(),
                 decoderReplacement,
                 encoderReplacement);
@@ -123,10 +124,10 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object with the given {@link Charset} and {@link CodingErrors#REPLACE} and default replacements.
      *
-     * @param charset The {@link Charset} that is wrapped by this record. Must not be null.
+     * @param charset The {@link Charset} that is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      */
-    public static CharsetCoding replacingErrorsWithDefaults(@NotNull Charset charset) {
+    public static CharsetCoding replacingErrorsWithDefaults(Charset charset) {
         return replacingErrors(charset,
                 null,
                 null);
@@ -135,11 +136,12 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object with the charset of the given {@link CommonCharsetNames} and {@link CodingErrors#REPLACE} and default replacements.
      *
-     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be null.
+     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      * @see CommonCharsetNames#charset()
      */
-    public static CharsetCoding replacingErrorsWithDefaults(@NotNull CommonCharsetNames commonCharsetNames) {
+    public static CharsetCoding replacingErrorsWithDefaults(CommonCharsetNames commonCharsetNames) {
+        Objects.requireNonNull(commonCharsetNames);
         return replacingErrors(commonCharsetNames.charset(),
                 null,
                 null);
@@ -148,21 +150,22 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new CharsetCoding object with the given {@link Charset} and {@link CodingErrors#REPORT}.
      *
-     * @param charset The {@link Charset} that is wrapped by this record. Must not be null.
+     * @param charset The {@link Charset} that is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      */
-    public static CharsetCoding reportingErrors(@NotNull Charset charset) {
+    public static CharsetCoding reportingErrors(Charset charset) {
         return new CharsetCoding(charset, CodingErrors.REPORT, null, null);
     }
 
     /**
      * Creates a new CharsetCoding object with the charset of the given {@link CommonCharsetNames} and {@link CodingErrors#REPORT}.
      *
-     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be null.
+     * @param commonCharsetNames The {@link CommonCharsetNames} whose charset is wrapped by this record. Must not be {@code null}.
      * @return a new CharsetCoding object
      * @see CommonCharsetNames#charset()
      */
-    public static CharsetCoding reportingErrors(@NotNull CommonCharsetNames commonCharsetNames) {
+    public static CharsetCoding reportingErrors(CommonCharsetNames commonCharsetNames) {
+        Objects.requireNonNull(commonCharsetNames);
         return reportingErrors(commonCharsetNames.charset());
     }
 
@@ -207,12 +210,12 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new {@link InputStreamReader} object for the given {@link InputStream} and initializes it with a new {@link CharsetDecoder}.
      *
-     * @param inputStream The {@link InputStream} that is wrapped by the new {@link InputStreamReader} object. Must not be null.
+     * @param inputStream The {@link InputStream} that is wrapped by the new {@link InputStreamReader} object. Must not be {@code null}.
      * @return a new {@link InputStreamReader} object
      * @see #newDecoder()
      * @see InputStreamReader#InputStreamReader(InputStream, CharsetDecoder)
      */
-    public InputStreamReader newInputStreamReader(@NotNull InputStream inputStream) {
+    public InputStreamReader newInputStreamReader(InputStream inputStream) {
         Objects.requireNonNull(inputStream);
         return new InputStreamReader(inputStream, newDecoder());
     }
@@ -220,12 +223,12 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new {@link OutputStreamWriter} object for the given {@link OutputStream} and initializes it with a new {@link CharsetEncoder}.
      *
-     * @param outputStream The {@link OutputStream} that is wrapped by the new {@link OutputStreamWriter} object. Must not be null.
+     * @param outputStream The {@link OutputStream} that is wrapped by the new {@link OutputStreamWriter} object. Must not be {@code null}.
      * @return a new {@link OutputStreamWriter} object
      * @see #newEncoder()
      * @see OutputStreamWriter#OutputStreamWriter(OutputStream, CharsetEncoder)
      */
-    public OutputStreamWriter newOutputStreamWriter(@NotNull OutputStream outputStream) {
+    public OutputStreamWriter newOutputStreamWriter(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return new OutputStreamWriter(outputStream, newEncoder());
     }
@@ -233,11 +236,11 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new {@link BufferedReader} object that wraps a new {@link InputStreamReader} object for the given {@link InputStream}.
      *
-     * @param inputStream The {@link InputStream} that is wrapped by the new {@link BufferedReader} object. Must not be null.
+     * @param inputStream The {@link InputStream} that is wrapped by the new {@link BufferedReader} object. Must not be {@code null}.
      * @return a new {@link BufferedReader} object
      * @see #newInputStreamReader(InputStream)
      */
-    public BufferedReader newBufferedReader(@NotNull InputStream inputStream) {
+    public BufferedReader newBufferedReader(InputStream inputStream) {
         Objects.requireNonNull(inputStream);
         return new BufferedReader(newInputStreamReader(inputStream));
     }
@@ -245,11 +248,11 @@ public record CharsetCoding(@NotNull Charset charset,
     /**
      * Creates a new {@link BufferedWriter} object that wraps a new {@link OutputStreamWriter} object for the given {@link OutputStream}.
      *
-     * @param outputStream The {@link OutputStream} that is wrapped by the new {@link BufferedWriter} object. Must not be null.
+     * @param outputStream The {@link OutputStream} that is wrapped by the new {@link BufferedWriter} object. Must not be {@code null}.
      * @return a new {@link BufferedWriter} object
      * @see #newOutputStreamWriter(OutputStream)
      */
-    public BufferedWriter newBufferedWriter(@NotNull OutputStream outputStream) {
+    public BufferedWriter newBufferedWriter(OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         return new BufferedWriter(newOutputStreamWriter(outputStream));
     }

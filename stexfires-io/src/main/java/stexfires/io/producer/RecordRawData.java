@@ -1,7 +1,6 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -9,7 +8,7 @@ import java.util.Optional;
 /**
  * @since 0.1
  */
-public record RecordRawData(@Nullable String category, @Nullable Long recordId, @NotNull String rawData) {
+public record RecordRawData(@Nullable String category, @Nullable Long recordId, String rawData) {
 
     public RecordRawData {
         Objects.requireNonNull(rawData);

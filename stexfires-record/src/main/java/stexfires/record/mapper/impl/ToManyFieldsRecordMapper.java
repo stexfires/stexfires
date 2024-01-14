@@ -1,6 +1,5 @@
 package stexfires.record.mapper.impl;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.mapper.RecordMapper;
@@ -14,7 +13,7 @@ public final class ToManyFieldsRecordMapper<T extends TextRecord> implements Rec
     }
 
     @Override
-    public @NotNull ManyFieldsRecord map(@NotNull T record) {
+    public ManyFieldsRecord map(T record) {
         if (record instanceof ManyFieldsRecord manyFieldsRecord) {
             return manyFieldsRecord;
         }

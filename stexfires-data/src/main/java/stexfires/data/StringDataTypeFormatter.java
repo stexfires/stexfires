@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.util.function.Suppliers;
 
 import java.util.Objects;
@@ -13,16 +12,16 @@ import java.util.function.UnaryOperator;
  */
 public final class StringDataTypeFormatter implements DataTypeFormatter<String> {
 
-    private final UnaryOperator<String> formatter;
-    private final Supplier<String> nullSourceSupplier;
+    private final @Nullable UnaryOperator<String> formatter;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
     public StringDataTypeFormatter(@Nullable UnaryOperator<String> formatter,
-                                   @Nullable Supplier<String> nullSourceSupplier) {
+                                   @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         this.formatter = formatter;
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static StringDataTypeFormatter passingNull(@NotNull UnaryOperator<String> formatter) {
+    public static StringDataTypeFormatter passingNull(UnaryOperator<String> formatter) {
         Objects.requireNonNull(formatter);
         return new StringDataTypeFormatter(
                 formatter,

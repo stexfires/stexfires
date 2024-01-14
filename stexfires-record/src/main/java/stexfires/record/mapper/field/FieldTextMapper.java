@@ -1,6 +1,6 @@
 package stexfires.record.mapper.field;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.util.Objects;
@@ -23,14 +23,14 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface FieldTextMapper {
 
-    static FieldTextMapper ofFunction(Function<TextField, String> function) {
+    static FieldTextMapper ofFunction(Function<TextField, @Nullable String> function) {
         Objects.requireNonNull(function);
         return function::apply;
     }
 
-    String mapToText(@NotNull TextField field);
+    @Nullable String mapToText(TextField field);
 
-    default Function<TextField, String> asFunction() {
+    default Function<TextField, @Nullable String> asFunction() {
         return this::mapToText;
     }
 
@@ -77,7 +77,7 @@ public interface FieldTextMapper {
         return field -> mapToText(field) + delimiter + fieldTextMapper.mapToText(field);
     }
 
-    default FieldTextMapper andThen(UnaryOperator<String> stringUnaryOperator) {
+    default FieldTextMapper andThen(UnaryOperator<@Nullable String> stringUnaryOperator) {
         Objects.requireNonNull(stringUnaryOperator);
         return field -> stringUnaryOperator.apply(mapToText(field));
     }

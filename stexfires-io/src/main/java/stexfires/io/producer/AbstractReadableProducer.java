@@ -1,7 +1,6 @@
 package stexfires.io.producer;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
@@ -22,9 +21,9 @@ import java.util.stream.StreamSupport;
 public abstract class AbstractReadableProducer<T extends TextRecord> implements ReadableRecordProducer<T> {
 
     private final BufferedReader bufferedReader;
-    private final Consumer<RecordRawData> recordRawDataLogger;
+    private final @Nullable Consumer<RecordRawData> recordRawDataLogger;
 
-    private AbstractRecordRawDataIterator iterator;
+    private @Nullable AbstractRecordRawDataIterator iterator;
 
     protected AbstractReadableProducer(BufferedReader bufferedReader,
                                        @Nullable Consumer<RecordRawData> recordRawDataLogger) {
@@ -41,7 +40,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
         return recordRawDataLogger;
     }
 
-    protected final AbstractRecordRawDataIterator getIterator() {
+    protected final @Nullable AbstractRecordRawDataIterator getIterator() {
         return iterator;
     }
 
@@ -56,7 +55,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     }
 
     @Override
-    public @NotNull Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
+    public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         Stream<T> recordStream;
         if (iterator != null && iterator.hasNext()) {
             Stream<RecordRawData> rawStream = StreamSupport.stream(

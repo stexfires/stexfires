@@ -11,7 +11,7 @@ import static stexfires.util.SortNulls.LAST;
 /**
  * Tests for {@link SortNulls}.
  */
-class SortNullsTest {
+final class SortNullsTest {
 
     /**
      * Test method for {@link SortNulls#name()}.

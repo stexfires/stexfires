@@ -1,7 +1,6 @@
 package stexfires.io.path;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
 import java.io.IOException;
@@ -15,21 +14,21 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public record DosPathFieldsRecord(
-        @NotNull PathType pathType,
-        @NotNull TextField fileNameField,
-        @NotNull TextField pathField,
-        @NotNull TextField parentField,
-        @NotNull TextField pathNameCountField,
-        @NotNull TextField fileSizeField,
-        @NotNull TextField creationTimeField,
-        @NotNull TextField lastModifiedTimeField,
-        @NotNull TextField lastAccessTimeField,
-        @NotNull TextField absoluteField,
-        @NotNull TextField archiveField,
-        @NotNull TextField readOnlyField,
-        @NotNull TextField hiddenField,
-        @NotNull TextField systemField,
-        @NotNull TextField fileExtensionField
+        PathType pathType,
+        TextField fileNameField,
+        TextField pathField,
+        TextField parentField,
+        TextField pathNameCountField,
+        TextField fileSizeField,
+        TextField creationTimeField,
+        TextField lastModifiedTimeField,
+        TextField lastAccessTimeField,
+        TextField absoluteField,
+        TextField archiveField,
+        TextField readOnlyField,
+        TextField hiddenField,
+        TextField systemField,
+        TextField fileExtensionField
 ) implements DosPathRecord, Serializable {
 
     public static final int FILE_NAME_INDEX = 0;
@@ -86,7 +85,7 @@ public record DosPathFieldsRecord(
         checkField(fileExtensionField, FILE_EXTENSION_INDEX, true, "fileExtensionField");
     }
 
-    static String extractDosFileNameExtension(@Nullable Path fileName, boolean regularFile) {
+    static @Nullable String extractDosFileNameExtension(@Nullable Path fileName, boolean regularFile) {
         String fileExtension;
         if ((fileName != null) && regularFile) {
             String strFileName = fileName.toString();
@@ -104,6 +103,7 @@ public record DosPathFieldsRecord(
 
     public static DosPathFieldsRecord newDosPathFieldsRecord(Path path, LinkOption... linkOptions) throws IOException, UnsupportedOperationException {
         Objects.requireNonNull(path);
+        Objects.requireNonNull(linkOptions);
         DosFileAttributes fileAttributes = Files.readAttributes(path, DosFileAttributes.class, linkOptions);
         Path fileName = path.getFileName();
         Path parent = path.getParent();
@@ -127,7 +127,7 @@ public record DosPathFieldsRecord(
     }
 
     @Override
-    public @NotNull TextField[] arrayOfFields() {
+    public TextField[] arrayOfFields() {
         return new TextField[]{
                 fileNameField,
                 pathField,
@@ -147,7 +147,7 @@ public record DosPathFieldsRecord(
     }
 
     @Override
-    public @NotNull List<TextField> listOfFields() {
+    public List<TextField> listOfFields() {
         return List.of(
                 fileNameField,
                 pathField,
@@ -167,7 +167,7 @@ public record DosPathFieldsRecord(
     }
 
     @Override
-    public @NotNull List<TextField> listOfFieldsReversed() {
+    public List<TextField> listOfFieldsReversed() {
         return List.of(
                 fileExtensionField,
                 systemField,
@@ -187,7 +187,7 @@ public record DosPathFieldsRecord(
     }
 
     @Override
-    public @NotNull Stream<TextField> streamOfFields() {
+    public Stream<TextField> streamOfFields() {
         return Stream.of(
                 fileNameField,
                 pathField,

@@ -22,6 +22,42 @@ import java.util.function.UnaryOperator;
 @FunctionalInterface
 public interface BooleanUnaryOperator {
 
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @return a unary operator that always returns its input argument
+     */
+    static BooleanUnaryOperator identity() {
+        return b -> b;
+    }
+
+    static BooleanUnaryOperator constant(boolean constant) {
+        return b -> constant;
+    }
+
+    static BooleanUnaryOperator supplier(BooleanSupplier supplier) {
+        Objects.requireNonNull(supplier);
+        return b -> supplier.getAsBoolean();
+    }
+
+    static BooleanUnaryOperator NOT() {
+        return b -> !b;
+    }
+
+    static BooleanUnaryOperator AND(BooleanUnaryOperator firstOperator,
+                                    BooleanUnaryOperator secondOperator) {
+        Objects.requireNonNull(firstOperator);
+        Objects.requireNonNull(secondOperator);
+        return b -> firstOperator.applyAsBoolean(b) && secondOperator.applyAsBoolean(b);
+    }
+
+    static BooleanUnaryOperator OR(BooleanUnaryOperator firstOperator,
+                                   BooleanUnaryOperator secondOperator) {
+        Objects.requireNonNull(firstOperator);
+        Objects.requireNonNull(secondOperator);
+        return b -> firstOperator.applyAsBoolean(b) || secondOperator.applyAsBoolean(b);
+    }
+
     boolean applyAsBoolean(boolean operand);
 
     /**
@@ -79,42 +115,6 @@ public interface BooleanUnaryOperator {
 
     default UnaryOperator<Boolean> asUnaryOperator() {
         return this::applyAsBoolean;
-    }
-
-    /**
-     * Returns a unary operator that always returns its input argument.
-     *
-     * @return a unary operator that always returns its input argument
-     */
-    static BooleanUnaryOperator identity() {
-        return b -> b;
-    }
-
-    static BooleanUnaryOperator constant(boolean constant) {
-        return b -> constant;
-    }
-
-    static BooleanUnaryOperator supplier(BooleanSupplier supplier) {
-        Objects.requireNonNull(supplier);
-        return b -> supplier.getAsBoolean();
-    }
-
-    static BooleanUnaryOperator NOT() {
-        return b -> !b;
-    }
-
-    static BooleanUnaryOperator AND(BooleanUnaryOperator firstOperator,
-                                    BooleanUnaryOperator secondOperator) {
-        Objects.requireNonNull(firstOperator);
-        Objects.requireNonNull(secondOperator);
-        return b -> firstOperator.applyAsBoolean(b) && secondOperator.applyAsBoolean(b);
-    }
-
-    static BooleanUnaryOperator OR(BooleanUnaryOperator firstOperator,
-                                   BooleanUnaryOperator secondOperator) {
-        Objects.requireNonNull(firstOperator);
-        Objects.requireNonNull(secondOperator);
-        return b -> firstOperator.applyAsBoolean(b) || secondOperator.applyAsBoolean(b);
     }
 
 }

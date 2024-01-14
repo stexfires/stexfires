@@ -1,6 +1,5 @@
 package stexfires.record.mapper.impl;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.mapper.RecordMapper;
@@ -21,7 +20,7 @@ public final class ToValueFieldRecordMapper<T extends TextRecord> implements Rec
     }
 
     @Override
-    public @NotNull ValueFieldRecord map(@NotNull T record) {
+    public ValueFieldRecord map(T record) {
         return new ValueFieldRecord(record.category(), record.recordId(),
                 valueMessage.createMessage(record));
     }

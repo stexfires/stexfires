@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests for {@link StringParameters}.
  */
 @SuppressWarnings({"AccessOfSystemProperties", "DataFlowIssue", "UnnecessaryUnicodeEscape"})
-class StringParametersTest {
+final class StringParametersTest {
 
     private StringParameters stringParameters01;
     private StringParameters stringParameters02;

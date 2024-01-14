@@ -137,6 +137,12 @@ public final class CharacterInformationFiles {
                                    String textBefore,
                                    RecordFilter<TextRecord> recordFilter,
                                    Comparator<TextRecord> recordComparator) throws IOException {
+        Objects.requireNonNull(outputDirectory);
+        Objects.requireNonNull(fileName);
+        Objects.requireNonNull(textBefore);
+        Objects.requireNonNull(recordFilter);
+        Objects.requireNonNull(recordComparator);
+
         // Markdown small
         var fieldSpecsMarkdownSmall = Arrays.stream(CodePointRecordFields.values())
                                             .limit(8) // only the first 8 fields

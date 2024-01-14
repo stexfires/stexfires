@@ -1,5 +1,6 @@
 package stexfires.record.filter;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
 /**
@@ -11,7 +12,7 @@ public class NotNullFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     @Override
-    public final boolean isValid(T record) {
+    public final boolean isValid(@Nullable T record) {
         return record != null;
     }
 

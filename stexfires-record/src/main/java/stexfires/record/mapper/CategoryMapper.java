@@ -1,10 +1,11 @@
 package stexfires.record.mapper;
 
+import org.jspecify.annotations.Nullable;
+import stexfires.record.TextField;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
-import stexfires.util.Strings;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import java.util.function.UnaryOperator;
  */
 public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
 
-    public CategoryMapper(Function<? super T, String> categoryFunction) {
+    public CategoryMapper(Function<? super T, @Nullable String> categoryFunction) {
         super(categoryFunction, TextRecord::recordId, TextFields::collectTexts);
     }
 
@@ -34,7 +35,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     /**
      * @param categorySupplier must be thread-safe
      */
-    public static <T extends TextRecord> CategoryMapper<T> supplier(Supplier<String> categorySupplier) {
+    public static <T extends TextRecord> CategoryMapper<T> supplier(Supplier<@Nullable String> categorySupplier) {
         Objects.requireNonNull(categorySupplier);
         return new CategoryMapper<>(record -> categorySupplier.get());
     }
@@ -61,6 +62,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> constant(String category) {
+        Objects.requireNonNull(category);
         return new CategoryMapper<>(record -> category);
     }
 
@@ -74,26 +76,27 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOrElse(String other) {
+        Objects.requireNonNull(other);
         return new CategoryMapper<>(record -> record.categoryAsOptional().orElse(other));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> categoryFunction(Function<String, String> categoryFunction) {
+    public static <T extends TextRecord> CategoryMapper<T> categoryFunction(Function<@Nullable String, @Nullable String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
         return new CategoryMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> categoryOperator(UnaryOperator<String> categoryOperator) {
+    public static <T extends TextRecord> CategoryMapper<T> categoryOperator(UnaryOperator<@Nullable String> categoryOperator) {
         Objects.requireNonNull(categoryOperator);
         return new CategoryMapper<>(record -> categoryOperator.apply(record.category()));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, String> categoryAsOptionalFunction) {
+    public static <T extends TextRecord> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
         return new CategoryMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
-    public static <T extends TextRecord> CategoryMapper<T> recordId() {
-        return new CategoryMapper<>(record -> Strings.toNullableString(record.recordId()));
+    public static <T extends TextRecord> CategoryMapper<T> recordIdAsString() {
+        return new CategoryMapper<>(TextRecord::recordIdAsString);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> textAt(int index) {
@@ -101,13 +104,16 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> textAtOrElse(int index, String other) {
+        Objects.requireNonNull(other);
         return new CategoryMapper<>(record -> record.textAtOrElse(index, other));
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, String other) {
+    public static <T extends TextRecord> CategoryMapper<T> fieldAtOrElse(int index, FieldTextMapper fieldTextMapper, @Nullable String other) {
         Objects.requireNonNull(fieldTextMapper);
-        return new CategoryMapper<>(record -> record.isValidIndex(index) ? fieldTextMapper.mapToText(record.fieldAt(index)) : other);
+        return new CategoryMapper<>(record -> {
+            TextField field = record.fieldAt(index);
+            return field != null ? fieldTextMapper.mapToText(field) : other;
+        });
     }
 
     public static <T extends TextRecord> CategoryMapper<T> fileName(Path path) {

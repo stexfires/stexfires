@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Tests for {@link BooleanDataTypeFormatter}.
  */
-class BooleanDataTypeFormatterTest {
+final class BooleanDataTypeFormatterTest {
 
     private static final String STRING_TRUE = "TRUE";
     private static final String STRING_FALSE = "FALSE";

@@ -1,6 +1,6 @@
 package stexfires.io;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.data.CollectionDataTypeFormatter;
 import stexfires.data.CollectionDataTypeParser;
 import stexfires.data.ConvertingDataTypeFormatter;
@@ -36,11 +36,10 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
 import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
-import stexfires.util.function.StringPredicates;
+import stexfires.util.Strings;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,26 +71,27 @@ public final class RecordIOStreams {
     private RecordIOStreams() {
     }
 
-    public static ArrayList<String> storeInArrayList(TextRecord record) {
+    public static ArrayList<@Nullable String> storeInArrayList(TextRecord record) {
         Objects.requireNonNull(record);
-        return storeInCollection(record, new ArrayList<>(2 + record.size()));
+        return storeInList(record, new ArrayList<@Nullable String>(2 + record.size()));
     }
 
-    public static <T extends Collection<String>> T storeInCollection(TextRecord record, T collection) {
+    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+    public static <T extends List<@Nullable String>> T storeInList(TextRecord record, T collection) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(collection);
-        collection.add(record.category());
-        collection.add(record.recordIdAsString());
-        collection.addAll(record.streamOfTexts().toList());
+        collection.add(CATEGORY_INDEX, record.category());
+        collection.add(RECORD_ID_INDEX, record.recordIdAsString());
+        collection.addAll(TEXTS_INDEX_START, record.streamOfTexts().toList());
         return collection;
     }
 
-    public static LinkedHashMap<String, Object> storeInLinkedHashMap(TextRecord record) {
+    public static LinkedHashMap<String, @Nullable Object> storeInLinkedHashMap(TextRecord record) {
         Objects.requireNonNull(record);
         return storeInMap(record, LinkedHashMap.newLinkedHashMap(3));
     }
 
-    public static <T extends Map<String, Object>> T storeInMap(TextRecord record, T map) {
+    public static <T extends Map<String, @Nullable Object>> T storeInMap(TextRecord record, T map) {
         Objects.requireNonNull(record);
         Objects.requireNonNull(map);
         map.put(CATEGORY_KEY, record.category());
@@ -101,36 +101,54 @@ public final class RecordIOStreams {
     }
 
     @SuppressWarnings({"SizeReplaceableByIsEmpty", "SequencedCollectionMethodCanBeUsed"})
-    public static TextRecord restoreFromList(List<String> list) throws NumberFormatException {
+    public static TextRecord restoreFromList(List<@Nullable String> list) {
         Objects.requireNonNull(list);
-        String category = (list.size() > CATEGORY_INDEX)
-                ? list.get(CATEGORY_INDEX) : null;
-        Long recordId = (list.size() > RECORD_ID_INDEX) && StringPredicates.isNotNullAndNotEmpty().test(list.get(RECORD_ID_INDEX))
-                ? Long.valueOf(list.get(RECORD_ID_INDEX)) : null;
-        List<String> texts = (list.size() > TEXTS_INDEX_START)
-                ? list.subList(TEXTS_INDEX_START, list.size()) : null;
+        String category = null;
+        if ((list.size() > CATEGORY_INDEX) && (list.get(CATEGORY_INDEX) instanceof String categoryOfList)) {
+            category = categoryOfList;
+        }
+        Long recordId = null;
+        if ((list.size() > RECORD_ID_INDEX) && (list.get(RECORD_ID_INDEX) instanceof String recordIdOfList)) {
+            if (!recordIdOfList.isEmpty()) {
+                try {
+                    recordId = Long.valueOf(recordIdOfList);
+                } catch (NumberFormatException e) {
+                    // ignore
+                }
+            }
+        }
+        List<@Nullable String> texts = null;
+        if (list.size() > TEXTS_INDEX_START) {
+            texts = list.subList(TEXTS_INDEX_START, list.size());
+        }
         return TextRecords.ofNullable(category, recordId, texts);
     }
 
-    public static TextRecord restoreFromMap(Map<String, Object> map) throws ClassCastException {
+    public static TextRecord restoreFromMap(Map<String, @Nullable Object> map) {
         Objects.requireNonNull(map);
-        String category = map.containsKey(CATEGORY_KEY) && (map.get(CATEGORY_KEY) != null)
-                ? String.valueOf(map.get(CATEGORY_KEY)) : null;
-        Long recordId = map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Number)
-                ? ((Number) map.get(RECORD_ID_KEY)).longValue() : null;
-        List<String> texts = map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof Collection)
-                ? ((Collection<?>) map.get(TEXTS_KEY)).stream().map(String::valueOf).toList() : null;
+        String category = null;
+        if (map.containsKey(CATEGORY_KEY) && (map.get(CATEGORY_KEY) instanceof String categoryOfMap)) {
+            category = categoryOfMap;
+        }
+        Long recordId = null;
+        if (map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Long recordIdOfMap)) {
+            recordId = recordIdOfMap;
+        }
+        List<@Nullable String> texts = null;
+        if (map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof List<?> textsOfMap)) {
+            texts = textsOfMap.stream().map(Strings::toNullableString).toList();
+        }
         return TextRecords.ofNullable(category, recordId, texts);
     }
 
-    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords() {
+    public static <T extends TextRecord> Function<T, Stream<ValueRecord>> splitIntoValueRecords() {
         return textRecord -> textRecord.streamOfFields().map(textField ->
                 new ValueFieldRecord(
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
-                                                                                  BiFunction<TextRecord, TextField, Long> recordIdFunction) {
+    public static <T extends TextRecord> Function<T, Stream<ValueRecord>> splitIntoValueRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                BiFunction<T, TextField, @Nullable Long> recordIdFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
@@ -140,7 +158,7 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, String> keyFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<T, TextField, String> keyFunction) {
         Objects.requireNonNull(keyFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
                 new KeyValueFieldsRecord(
@@ -148,9 +166,9 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
-                                                                                        BiFunction<TextRecord, TextField, Long> recordIdFunction,
-                                                                                        BiFunction<TextRecord, TextField, String> keyFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueRecord>> splitIntoKeyValueRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                      BiFunction<T, TextField, @Nullable Long> recordIdFunction,
+                                                                                                      BiFunction<T, TextField, String> keyFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         Objects.requireNonNull(keyFunction);
@@ -162,8 +180,8 @@ public final class RecordIOStreams {
                         textField.text()));
     }
 
-    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, String> keyFunction,
-                                                                                                      BiFunction<TextRecord, TextField, String> commentFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<T, TextField, String> keyFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable String> commentFunction) {
         Objects.requireNonNull(keyFunction);
         Objects.requireNonNull(commentFunction);
         return textRecord -> textRecord.streamOfFields().map(textField ->
@@ -173,10 +191,10 @@ public final class RecordIOStreams {
                         commentFunction.apply(textRecord, textField)));
     }
 
-    public static Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<TextRecord, TextField, String> categoryFunction,
-                                                                                                      BiFunction<TextRecord, TextField, Long> recordIdFunction,
-                                                                                                      BiFunction<TextRecord, TextField, String> keyFunction,
-                                                                                                      BiFunction<TextRecord, TextField, String> commentFunction) {
+    public static <T extends TextRecord> Function<T, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords(BiFunction<T, TextField, @Nullable String> categoryFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable Long> recordIdFunction,
+                                                                                                                    BiFunction<T, TextField, String> keyFunction,
+                                                                                                                    BiFunction<T, TextField, @Nullable String> commentFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         Objects.requireNonNull(keyFunction);
@@ -190,8 +208,8 @@ public final class RecordIOStreams {
                         commentFunction.apply(textRecord, textField)));
     }
 
-    public static Collector<ValueRecord, ?, TextRecord> collectValueRecords(Function<List<ValueRecord>, String> categoryFunction,
-                                                                            Function<List<ValueRecord>, Long> recordIdFunction) {
+    public static <T extends ValueRecord> Collector<T, ?, TextRecord> collectValueRecords(Function<List<T>, @Nullable String> categoryFunction,
+                                                                                          Function<List<T>, @Nullable Long> recordIdFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         return Collectors.collectingAndThen(Collectors.toList(),
@@ -199,28 +217,6 @@ public final class RecordIOStreams {
                         categoryFunction.apply(list),
                         recordIdFunction.apply(list),
                         list.stream().map(ValueRecord::value)));
-    }
-
-    public static Collector<KeyValueRecord, ?, TextRecord> collectKeyValueRecords(Function<List<KeyValueRecord>, String> categoryFunction,
-                                                                                  Function<List<KeyValueRecord>, Long> recordIdFunction) {
-        Objects.requireNonNull(categoryFunction);
-        Objects.requireNonNull(recordIdFunction);
-        return Collectors.collectingAndThen(Collectors.toList(),
-                (list) -> new ManyFieldsRecord(
-                        categoryFunction.apply(list),
-                        recordIdFunction.apply(list),
-                        list.stream().map(KeyValueRecord::value)));
-    }
-
-    public static Collector<KeyValueCommentRecord, ?, TextRecord> collectKeyValueCommentRecords(Function<List<KeyValueCommentRecord>, String> categoryFunction,
-                                                                                                Function<List<KeyValueCommentRecord>, Long> recordIdFunction) {
-        Objects.requireNonNull(categoryFunction);
-        Objects.requireNonNull(recordIdFunction);
-        return Collectors.collectingAndThen(Collectors.toList(),
-                (list) -> new ManyFieldsRecord(
-                        categoryFunction.apply(list),
-                        recordIdFunction.apply(list),
-                        list.stream().map(KeyValueCommentRecord::value)));
     }
 
     // ReadableRecordProducer ------------------------------------------------------------------------------------------
@@ -299,6 +295,7 @@ public final class RecordIOStreams {
     public static <PTR extends TextRecord> DataTypeParser<PTR> newRecordDataTypeParser(ReadableRecordFileSpec<PTR, ?> readableRecordFileSpec,
                                                                                        @Nullable Supplier<PTR> nullSourceSupplier,
                                                                                        @Nullable Supplier<PTR> emptySourceSupplier) {
+        Objects.requireNonNull(readableRecordFileSpec);
         return newRecordDataTypeParser(readableRecordFileSpec,
                 stream -> stream.findFirst().orElseThrow(() -> new DataTypeConverterException(DataTypeConverterException.Type.Parser, "No record could be parsed.")),
                 nullSourceSupplier, emptySourceSupplier);
@@ -307,7 +304,6 @@ public final class RecordIOStreams {
     public static <R extends TextRecord, T extends R> Function<Stream<T>, RecordConsumer<R>> andConsume(
             RecordConsumer<R> recordConsumer) {
         Objects.requireNonNull(recordConsumer);
-
         return s -> {
             s.forEachOrdered(recordConsumer::consume);
             return recordConsumer;
@@ -319,7 +315,6 @@ public final class RecordIOStreams {
             RecordMapper<? super T, ? extends R> recordMapper) {
         Objects.requireNonNull(recordConsumer);
         Objects.requireNonNull(recordMapper);
-
         return s -> {
             s.map(recordMapper::map).forEachOrdered(recordConsumer::consume);
             return recordConsumer;
@@ -331,7 +326,6 @@ public final class RecordIOStreams {
             RecordStreamModifier<T, ? extends R> recordStreamModifier) {
         Objects.requireNonNull(recordConsumer);
         Objects.requireNonNull(recordStreamModifier);
-
         return s -> {
             recordStreamModifier.modify(s).forEachOrdered(recordConsumer::consume);
             return recordConsumer;
@@ -341,7 +335,6 @@ public final class RecordIOStreams {
     public static <R, T extends TextRecord> Function<Stream<T>, R> andCollect(
             Collector<? super T, ?, R> collector) {
         Objects.requireNonNull(collector);
-
         return s -> s.collect(collector);
     }
 
@@ -350,7 +343,6 @@ public final class RecordIOStreams {
             RecordMapper<? super T, V> recordMapper) {
         Objects.requireNonNull(collector);
         Objects.requireNonNull(recordMapper);
-
         return s -> s.map(recordMapper::map).collect(collector);
     }
 
@@ -359,7 +351,6 @@ public final class RecordIOStreams {
             RecordStreamModifier<T, V> recordStreamModifier) {
         Objects.requireNonNull(collector);
         Objects.requireNonNull(recordStreamModifier);
-
         return s -> recordStreamModifier.modify(s).collect(collector);
     }
 
@@ -370,14 +361,12 @@ public final class RecordIOStreams {
     public static <R extends TextRecord, T extends TextRecord> Function<Stream<T>, Optional<R>> andFindFirstMapped(
             RecordMapper<? super T, R> recordMapper) {
         Objects.requireNonNull(recordMapper);
-
         return s -> s.map(recordMapper::map).findFirst();
     }
 
     public static <R extends TextRecord, T extends TextRecord> Function<Stream<T>, Optional<R>> andFindFirstModified(
             RecordStreamModifier<T, R> recordStreamModifier) {
         Objects.requireNonNull(recordStreamModifier);
-
         return s -> recordStreamModifier.modify(s).findFirst();
     }
 
@@ -391,7 +380,6 @@ public final class RecordIOStreams {
             throws UncheckedProducerException {
         Objects.requireNonNull(readableRecordProducer);
         Objects.requireNonNull(recordConsumer);
-
         return read(readableRecordProducer, andConsume(recordConsumer));
     }
 
@@ -403,7 +391,6 @@ public final class RecordIOStreams {
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordConsumer);
         Objects.requireNonNull(recordStream);
-
         try {
             writableRecordConsumer.writeBefore();
             recordStream.forEachOrdered(writableRecordConsumer::consume);
@@ -424,7 +411,6 @@ public final class RecordIOStreams {
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordConsumer);
         Objects.requireNonNull(textRecord);
-
         try {
             writableRecordConsumer.writeBefore();
             writableRecordConsumer.writeRecord(textRecord);
@@ -446,7 +432,6 @@ public final class RecordIOStreams {
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
         Objects.requireNonNull(recordStream);
-
         String result;
         try (var consumer = new StringWritableRecordConsumer<>(writableRecordFileSpec)) {
             result = writeStream(consumer, recordStream).consumedString(removeLastLineSeparator);
@@ -463,7 +448,6 @@ public final class RecordIOStreams {
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
         Objects.requireNonNull(textRecord);
-
         String result;
         try (var consumer = new StringWritableRecordConsumer<>(writableRecordFileSpec)) {
             result = writeRecord(consumer, textRecord).consumedString(removeLastLineSeparator);
@@ -516,7 +500,7 @@ public final class RecordIOStreams {
             throws UncheckedConsumerException {
         Objects.requireNonNull(writableRecordFileSpec);
         Objects.requireNonNull(recordStream);
-        return TextRecords.ofTexts(
+        return TextRecords.ofTextStream(
                 TextRecordStreams.mapToMessage(
                         recordStream,
                         writeRecordIntoStringMessage(writableRecordFileSpec, removeLastLineSeparator)));
@@ -530,7 +514,6 @@ public final class RecordIOStreams {
             throws ProducerException, ConsumerException, IOException {
         Objects.requireNonNull(readableRecordProducer);
         Objects.requireNonNull(writableRecordConsumer);
-
         try {
             readableRecordProducer.readBefore();
             writableRecordConsumer.writeBefore();
@@ -556,7 +539,6 @@ public final class RecordIOStreams {
         Objects.requireNonNull(readableRecordProducer);
         Objects.requireNonNull(writableRecordConsumer);
         Objects.requireNonNull(recordMapper);
-
         try {
             readableRecordProducer.readBefore();
             writableRecordConsumer.writeBefore();
@@ -582,7 +564,6 @@ public final class RecordIOStreams {
         Objects.requireNonNull(readableRecordProducer);
         Objects.requireNonNull(writableRecordConsumer);
         Objects.requireNonNull(recordStreamModifier);
-
         try {
             readableRecordProducer.readBefore();
             writableRecordConsumer.writeBefore();

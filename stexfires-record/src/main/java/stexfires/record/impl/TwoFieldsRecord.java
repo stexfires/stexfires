@@ -1,7 +1,6 @@
 package stexfires.record.impl;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
@@ -13,8 +12,10 @@ import java.util.stream.Stream;
 /**
  * @since 0.1
  */
-public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                              @NotNull TextField firstField, @NotNull TextField secondField)
+public record TwoFieldsRecord(@Nullable String category,
+                              @Nullable Long recordId,
+                              TextField firstField,
+                              TextField secondField)
         implements TextRecord, Serializable {
 
     public static final int FIRST_INDEX = TextField.FIRST_FIELD_INDEX;
@@ -22,13 +23,17 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
     public static final int MAX_INDEX = SECOND_INDEX;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    public TwoFieldsRecord(@Nullable String firstText, @Nullable String secondText) {
+    public TwoFieldsRecord(@Nullable String firstText,
+                           @Nullable String secondText) {
         this(null, null, firstText, secondText);
     }
 
-    public TwoFieldsRecord(@Nullable String category, @Nullable Long recordId,
-                           @Nullable String firstText, @Nullable String secondText) {
-        this(category, recordId,
+    public TwoFieldsRecord(@Nullable String category,
+                           @Nullable Long recordId,
+                           @Nullable String firstText,
+                           @Nullable String secondText) {
+        this(category,
+                recordId,
                 new TextField(FIRST_INDEX, MAX_INDEX, firstText),
                 new TextField(SECOND_INDEX, MAX_INDEX, secondText));
     }
@@ -53,27 +58,27 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
 
     }
 
-    public @NotNull TwoFieldsRecord withSwappedTexts() {
+    public TwoFieldsRecord withSwappedTexts() {
         return new TwoFieldsRecord(category, recordId, secondField.text(), firstField.text());
     }
 
     @Override
-    public @NotNull TextField[] arrayOfFields() {
+    public TextField[] arrayOfFields() {
         return new TextField[]{firstField, secondField};
     }
 
     @Override
-    public @NotNull List<TextField> listOfFields() {
+    public List<TextField> listOfFields() {
         return List.of(firstField, secondField);
     }
 
     @Override
-    public @NotNull List<TextField> listOfFieldsReversed() {
+    public List<TextField> listOfFieldsReversed() {
         return List.of(secondField, firstField);
     }
 
     @Override
-    public @NotNull Stream<TextField> streamOfFields() {
+    public Stream<TextField> streamOfFields() {
         return Stream.of(firstField, secondField);
     }
 
@@ -117,17 +122,27 @@ public record TwoFieldsRecord(@Nullable String category, @Nullable Long recordId
     }
 
     @Override
-    public @NotNull TextField firstField() {
+    public TextField firstField() {
         return firstField;
     }
 
     @Override
-    public @NotNull TextField lastField() {
+    public TextField firstFieldOrElseThrow() {
+        return firstField;
+    }
+
+    @Override
+    public TextField lastField() {
         return secondField;
     }
 
     @Override
-    public @NotNull TextField secondField() {
+    public TextField lastFieldOrElseThrow() {
+        return secondField;
+    }
+
+    @Override
+    public TextField secondField() {
         return secondField;
     }
 

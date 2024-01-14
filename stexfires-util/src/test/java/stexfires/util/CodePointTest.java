@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests for {@link CodePoint}.
  */
 @SuppressWarnings({"MagicNumber", "SpellCheckingInspection"})
-class CodePointTest {
+final class CodePointTest {
 
     static final int FIRST_CODE_POINT_WITHOUT_UNICODE_BLOCK = 12256;
 

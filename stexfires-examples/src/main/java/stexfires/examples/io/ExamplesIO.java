@@ -1,5 +1,6 @@
 package stexfires.examples.io;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.CollectionDataTypeFormatter;
 import stexfires.data.CollectionDataTypeParser;
 import stexfires.data.StringDataTypeFormatter;
@@ -13,6 +14,7 @@ import stexfires.io.container.UnpackResult;
 import stexfires.io.singlevalue.SingleValueFileSpec;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.KeyValueRecord;
+import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;
@@ -20,6 +22,7 @@ import stexfires.record.ValueRecord;
 import stexfires.record.comparator.RecordComparators;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.TextFilter;
+import stexfires.record.impl.KeyValueCommentFieldsRecord;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
@@ -37,17 +40,20 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static stexfires.examples.record.RecordSystemOutUtil.RECORD_CONSUMER;
+import static stexfires.examples.record.RecordSystemOutUtil.printlnNullableRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnOptionalRecord;
 import static stexfires.examples.record.RecordSystemOutUtil.printlnRecord;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordList;
+import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordCollection;
 import static stexfires.io.RecordIOStreams.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator", "ReturnOfNull"})
@@ -92,15 +98,15 @@ public final class ExamplesIO {
         SortModifier<ValueRecord> sortModifier = new SortModifier<>(RecordComparators.recordId(SortNulls.FIRST).reversed());
 
         System.out.println("---producer(sourceString) read andCollect");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollect(Collectors.toList())));
 
         System.out.println("---producer(sourceString) read andCollectMapped");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollectMapped(Collectors.toList(), categoryMapper)));
 
         System.out.println("---producer(sourceString) read andCollectModified");
-        printlnRecordList(
+        printlnRecordCollection(
                 read(fileSpec.producer(sourceString), andCollectModified(Collectors.toList(), sortModifier)));
 
         System.out.println("---producer(sourceString) read andConsume");
@@ -128,11 +134,11 @@ public final class ExamplesIO {
         readAndConsume(fileSpec.producer(sourceString), RECORD_CONSUMER);
 
         System.out.println("---readFromString andCollect");
-        printlnRecordList(
+        printlnRecordCollection(
                 readFromString(fileSpec, sourceString, andCollect(Collectors.toList())));
 
         System.out.println("---newRecordDataTypeParser");
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(fileSpec, null, null).parse(sourceString));
     }
 
@@ -165,9 +171,9 @@ public final class ExamplesIO {
         System.out.println(writeStreamIntoString(fileSpec,
                 true, listValueRecords.stream()));
         System.out.println(writeStreamIntoString(fileSpec,
-                false, TextRecordStreams.of(keyValueFieldsRecord10)));
+                false, Stream.of(keyValueFieldsRecord10)));
         System.out.println(writeStreamIntoString(fileSpec,
-                true, TextRecordStreams.of(valueFieldRecord1, keyValueFieldsRecord10)));
+                true, Stream.of(valueFieldRecord1, keyValueFieldsRecord10)));
 
         System.out.println("---writeRecordIntoString");
         System.out.println(writeRecordIntoString(fileSpec,
@@ -209,20 +215,32 @@ public final class ExamplesIO {
                         TextFilter.isNotNull(ValueRecord::valueField))));
     }
 
+    @SuppressWarnings("CollectionDeclaredAsConcreteClass")
     private static void showList() {
         System.out.println("-showList---");
 
-        System.out.println("-storeInList");
+        System.out.println("-storeInArrayList");
         generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .forEachOrdered(System.out::println);
 
-        System.out.println("-restoreFromList (storeInList)");
+        System.out.println("-restoreFromList (storeInArrayList)");
         generateRecordStream().map(RecordIOStreams::storeInArrayList)
                               .map(RecordIOStreams::restoreFromList)
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
 
+        System.out.println("-storeInList / restoreFromList");
+        LinkedList<@Nullable String> arrayList0 = RecordIOStreams.storeInList(new ValueFieldRecord("cat0", 0L, "value0"), new LinkedList<>());
+        System.out.println(arrayList0);
+        ArrayList<@Nullable String> arrayList1 = RecordIOStreams.storeInList(new ValueFieldRecord("value1"), new ArrayList<>(6));
+        System.out.println(arrayList1);
+        RecordIOStreams.storeInList(new ValueFieldRecord("cat2", 2L, "value2"), arrayList1);
+        System.out.println(arrayList1);
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList0));
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(0, 3)));
+        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(3, 6)));
+
         System.out.println("-restoreFromList (special list)");
-        List<String> list0 = new ArrayList<>();
+        List<@Nullable String> list0 = new ArrayList<>();
         list0.add("");
         list0.add("");
         list0.add("value0");
@@ -279,24 +297,34 @@ public final class ExamplesIO {
     private static void showFormattedStringList() {
         System.out.println("-showFormattedStringList---");
 
-        TextRecord record = generateRecord();
+        List<List<@Nullable String>> stringLists = List.of(
+                storeInArrayList(generateRecord()),
+                storeInArrayList(TextRecords.empty()),
+                storeInArrayList(new ManyFieldsRecord(null, 1L, "A", null, "C"))
+        );
+        for (List<@Nullable String> stringList : stringLists) {
+            // to String List
+            System.out.println("StringList: " + stringList);
 
-        // to String List
-        List<String> stringList = storeInArrayList(generateRecord());
-        System.out.println(stringList);
+            // from String List
+            printlnRecord(restoreFromList(stringList));
 
-        // from String List
-        printlnRecord(restoreFromList(stringList));
+            // format String List
+            String formattedStringList = CollectionDataTypeFormatter.withDelimiter(";", "[", "]", StringDataTypeFormatter.identity(), () -> null)
+                                                                    .format(stringList);
+            System.out.println(formattedStringList);
 
-        // format String List
-        String formattedStringList = CollectionDataTypeFormatter.withDelimiter(";", "[", "]", StringDataTypeFormatter.identity(), () -> null)
-                                                                .format(stringList);
-        System.out.println(formattedStringList);
-
-        // Parse String List
-        List<String> parsedStringList = CollectionDataTypeParser.withDelimiterAsList(";", "[", "]", StringDataTypeParser.identity(), () -> null, () -> null)
-                                                                .parse(formattedStringList);
-        printlnRecord(restoreFromList(parsedStringList));
+            // Parse String List
+            List<String> parsedStringList = CollectionDataTypeParser.withDelimiterAsList(";", "[", "]", StringDataTypeParser.identity(), () -> null, () -> null)
+                                                                    .parse(formattedStringList);
+            if (parsedStringList != null) {
+                System.out.println(parsedStringList);
+                printlnRecord(restoreFromList(parsedStringList));
+            } else {
+                System.out.println("parsedStringList is NULL!");
+            }
+            System.out.println("----------");
+        }
     }
 
     private static void showRecordContainer() {
@@ -321,13 +349,13 @@ public final class ExamplesIO {
                 newRecordDataTypeFormatter(";", "[", "]", null)
                         .format(record));
 
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(";", "[", "]", null, null)
                         .parse("[sampleCategory;42;value0;value1;value2]"));
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(";", "[", "]", null, null)
                         .parse("[category_ValueFieldRecord;1;value_ValueFieldRecord]"));
-        printlnRecord(
+        printlnNullableRecord(
                 newRecordDataTypeParser(", ", null, null, null, null)
                         .parse(", , value0, value1, value2"));
     }
@@ -335,57 +363,124 @@ public final class ExamplesIO {
     private static void showRecordSplitAndCollect() {
         System.out.println("-showRecordSplitAndCollect---");
 
-        TextRecord record = generateRecord();
+        TextRecord textRecord = generateRecord();
+        TextRecord emptyRecord = TextRecords.empty();
+        KeyValueCommentRecord keyValueCommentRecord = new KeyValueCommentFieldsRecord("category", 1L, "key", "value", "comment");
+        ManyFieldsRecord manyFieldsRecord = generateRecord();
 
-        Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords =
+        // splitIntoValueRecords
+        Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords0 =
+                splitIntoValueRecords();
+        Function<TextRecord, Stream<ValueRecord>> splitIntoValueRecords1 =
                 splitIntoValueRecords(
                         (r, f) -> r.category(),
                         (r, f) -> r.recordId());
-        Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords =
+        Function<KeyValueCommentRecord, Stream<ValueRecord>> splitIntoValueRecords2 =
+                splitIntoValueRecords(
+                        (KeyValueCommentRecord r, TextField f) -> r.category() + " " + r.comment(),
+                        (KeyValueCommentRecord r, TextField f) -> r.recordId());
+
+        // splitIntoKeyValueRecords
+        Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords0 =
+                splitIntoKeyValueRecords(
+                        (r, f) -> "key_" + f.index());
+        Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords1 =
                 splitIntoKeyValueRecords(
                         (r, f) -> r.category(),
                         (r, f) -> r.recordIdAsOptional().map(id -> id * 100L + f.index()).orElse(null),
                         (r, f) -> "key_" + f.index());
-        Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords =
+        // splitIntoKeyValueCommentRecords
+        Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords0 =
                 splitIntoKeyValueCommentRecords(
                         (r, f) -> "key_" + f.index(),
                         (r, f) -> r.getClass().getSimpleName() + " (" + f.index() + "/" + f.maxIndex() + ")");
+        Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords1 =
+                splitIntoKeyValueCommentRecords(
+                        (r, f) -> r.category(),
+                        (r, f) -> r.recordId(),
+                        (r, f) -> "key_" + f.index(),
+                        (r, f) -> r.getClass().getSimpleName() + " (" + f.index() + "/" + f.maxIndex() + ")");
 
-        System.out.println("-split apply");
-        splitIntoValueRecords.apply(record).forEachOrdered(RECORD_CONSUMER::consume);
-        splitIntoKeyValueRecords.apply(record).forEachOrdered(RECORD_CONSUMER::consume);
-        splitIntoKeyValueCommentRecords.apply(record).forEachOrdered(RECORD_CONSUMER::consume);
+        System.out.println("-split apply - textRecord");
+        splitIntoValueRecords0.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoValueRecords1.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords0.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords1.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords0.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords1.apply(textRecord).forEachOrdered(RECORD_CONSUMER::consume);
 
-        System.out.println("-split stream flatMap");
-        TextRecordStreams.of(record).flatMap(splitIntoValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
-        TextRecordStreams.of(record).flatMap(splitIntoKeyValueRecords).forEachOrdered(RECORD_CONSUMER::consume);
-        TextRecordStreams.of(record).flatMap(splitIntoKeyValueCommentRecords).forEachOrdered(RECORD_CONSUMER::consume);
+        System.out.println("-split apply - emptyRecord");
+        splitIntoValueRecords0.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoValueRecords1.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords0.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords1.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords0.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords1.apply(emptyRecord).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split apply - keyValueCommentRecord");
+        splitIntoValueRecords0.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoValueRecords1.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoValueRecords2.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords0.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords1.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords0.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords1.apply(keyValueCommentRecord).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split apply - manyFieldsRecord");
+        splitIntoValueRecords0.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoValueRecords1.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords0.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueRecords1.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords0.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+        splitIntoKeyValueCommentRecords1.apply(manyFieldsRecord).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split stream flatMap - textRecord");
+        Stream.of(textRecord).flatMap(splitIntoValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(textRecord).flatMap(splitIntoKeyValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(textRecord).flatMap(splitIntoKeyValueCommentRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split stream flatMap - emptyRecord");
+        Stream.of(emptyRecord).flatMap(splitIntoValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(emptyRecord).flatMap(splitIntoKeyValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(emptyRecord).flatMap(splitIntoKeyValueCommentRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split stream flatMap - keyValueCommentRecord");
+        Stream.of(keyValueCommentRecord).flatMap(splitIntoValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(keyValueCommentRecord).flatMap(splitIntoValueRecords2).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(keyValueCommentRecord).flatMap(splitIntoKeyValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(keyValueCommentRecord).flatMap(splitIntoKeyValueCommentRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+
+        System.out.println("-split stream flatMap - manyFieldsRecord");
+        Stream.of(manyFieldsRecord).flatMap(splitIntoValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(manyFieldsRecord).flatMap(splitIntoKeyValueRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+        Stream.of(manyFieldsRecord).flatMap(splitIntoKeyValueCommentRecords1).forEachOrdered(RECORD_CONSUMER::consume);
+
+        // Collectors
+        Collector<ValueRecord, ?, TextRecord> valueCollector = collectValueRecords(
+                list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
+                list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null));
+        Collector<KeyValueCommentRecord, ?, TextRecord> keyValueCommentRecordTextRecordCollector = collectValueRecords(
+                list -> list.stream().findFirst().map(KeyValueCommentRecord::comment).orElse(null),
+                list -> list.stream().findFirst().map(KeyValueCommentRecord::recordId).orElse(null));
 
         System.out.println("-collect empty");
-        printlnRecord(Stream.<ValueRecord>empty().collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.<ValueRecord>empty()
+                            .collect(valueCollector));
         System.out.println("-collect ValueFieldRecord");
-        printlnRecord(Stream.of(new ValueFieldRecord("c", 1L, "v0")).collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(new ValueFieldRecord("c", 1L, "v0"))
+                            .collect(valueCollector));
         System.out.println("-collect ValueRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoValueRecords).collect(
-                collectValueRecords(
-                        list -> list.stream().findFirst().map(ValueRecord::category).orElse(null),
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoValueRecords1)
+                            .collect(valueCollector));
         System.out.println("-collect KeyValueRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoKeyValueRecords).collect(
-                collectKeyValueRecords(
-                        list -> null,
-                        list -> null)));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoKeyValueRecords1)
+                            .collect(valueCollector));
         System.out.println("-collect KeyValueCommentRecord");
-        printlnRecord(TextRecordStreams.of(record).flatMap(splitIntoKeyValueCommentRecords).collect(
-                collectKeyValueCommentRecords(
-                        list -> "new category",
-                        list -> list.stream().findFirst().map(ValueRecord::recordId).orElse(null))));
+        printlnRecord(Stream.of(textRecord)
+                            .flatMap(splitIntoKeyValueCommentRecords1)
+                            .collect(keyValueCommentRecordTextRecordCollector));
     }
 
     public static void main(String... args) {

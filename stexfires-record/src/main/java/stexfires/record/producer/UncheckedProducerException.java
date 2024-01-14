@@ -1,7 +1,5 @@
 package stexfires.record.producer;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -16,13 +14,12 @@ public class UncheckedProducerException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public UncheckedProducerException(@NotNull ProducerException cause) {
+    public UncheckedProducerException(ProducerException cause) {
         super(Objects.requireNonNull(cause));
     }
 
-    @SuppressWarnings("CastToConcreteClass")
     @Override
-    public @NotNull ProducerException getCause() {
+    public ProducerException getCause() {
         return (ProducerException) super.getCause();
     }
 

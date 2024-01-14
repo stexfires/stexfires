@@ -13,7 +13,8 @@ public class MappingFilter<T extends TextRecord, V extends TextRecord> implement
     private final RecordMapper<? super T, ? extends V> recordMapper;
     private final RecordFilter<? super V> recordFilter;
 
-    public MappingFilter(RecordMapper<? super T, ? extends V> recordMapper, RecordFilter<? super V> recordFilter) {
+    public MappingFilter(RecordMapper<? super T, ? extends V> recordMapper,
+                         RecordFilter<? super V> recordFilter) {
         Objects.requireNonNull(recordMapper);
         Objects.requireNonNull(recordFilter);
         this.recordMapper = recordMapper;

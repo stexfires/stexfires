@@ -1,6 +1,5 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.logger.RecordLogger;
@@ -35,7 +34,7 @@ public class LogFilterModifier<T extends TextRecord> implements RecordStreamModi
     }
 
     @Override
-    public final @NotNull Stream<T> modify(Stream<T> recordStream) {
+    public final Stream<T> modify(Stream<T> recordStream) {
         return recordStream
                 .peek(peekConsumer)
                 .filter(recordFilter::isValid);

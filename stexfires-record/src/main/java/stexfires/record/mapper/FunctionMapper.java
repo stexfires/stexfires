@@ -1,6 +1,6 @@
 package stexfires.record.mapper;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 
@@ -17,13 +17,13 @@ import java.util.function.Function;
  */
 public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, TextRecord> {
 
-    private final Function<? super T, String> categoryFunction;
-    private final Function<? super T, Long> recordIdFunction;
-    private final Function<? super T, Collection<String>> textsFunction;
+    private final Function<? super T, @Nullable String> categoryFunction;
+    private final Function<? super T, @Nullable Long> recordIdFunction;
+    private final Function<? super T, Collection<@Nullable String>> textsFunction;
 
-    public FunctionMapper(Function<? super T, String> categoryFunction,
-                          Function<? super T, Long> recordIdFunction,
-                          Function<? super T, Collection<String>> textsFunction) {
+    public FunctionMapper(Function<? super T, @Nullable String> categoryFunction,
+                          Function<? super T, @Nullable Long> recordIdFunction,
+                          Function<? super T, Collection<@Nullable String>> textsFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(recordIdFunction);
         Objects.requireNonNull(textsFunction);
@@ -32,30 +32,32 @@ public class FunctionMapper<T extends TextRecord> implements RecordMapper<T, Tex
         this.textsFunction = textsFunction;
     }
 
-    @SuppressWarnings("CallToSimpleGetterFromWithinClass")
     public static <T extends TextRecord> FunctionMapper<T> functionMappers(FunctionMapper<? super T> categoryMapper,
                                                                            FunctionMapper<? super T> recordIdMapper,
                                                                            FunctionMapper<? super T> textsMapper) {
+        Objects.requireNonNull(categoryMapper);
+        Objects.requireNonNull(recordIdMapper);
+        Objects.requireNonNull(textsMapper);
         return new FunctionMapper<>(
                 categoryMapper.getCategoryFunction(),
                 recordIdMapper.getRecordIdFunction(),
                 textsMapper.getTextsFunction());
     }
 
-    protected final Function<? super T, String> getCategoryFunction() {
+    protected final Function<? super T, @Nullable String> getCategoryFunction() {
         return categoryFunction;
     }
 
-    protected final Function<? super T, Long> getRecordIdFunction() {
+    protected final Function<? super T, @Nullable Long> getRecordIdFunction() {
         return recordIdFunction;
     }
 
-    protected final Function<? super T, Collection<String>> getTextsFunction() {
+    protected final Function<? super T, Collection<@Nullable String>> getTextsFunction() {
         return textsFunction;
     }
 
     @Override
-    public final @NotNull TextRecord map(@NotNull T record) {
+    public final TextRecord map(T record) {
         return new ManyFieldsRecord(
                 categoryFunction.apply(record),
                 recordIdFunction.apply(record),

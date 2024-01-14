@@ -1,6 +1,5 @@
 package stexfires.record.generator;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.time.Instant;
@@ -18,12 +17,12 @@ import java.util.Optional;
  * @since 0.1
  */
 public record GeneratorContext<T extends TextRecord>(
-        @NotNull Instant time,
+        Instant time,
         long recordIndex,
         boolean first,
         boolean last,
-        @NotNull Optional<T> firstRecord,
-        @NotNull Optional<T> previousRecord
+        Optional<T> firstRecord,
+        Optional<T> previousRecord
 ) {
 
     public GeneratorContext {

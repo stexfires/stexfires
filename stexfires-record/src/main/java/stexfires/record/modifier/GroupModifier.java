@@ -1,6 +1,6 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.CommentRecord;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextField;
@@ -8,6 +8,7 @@ import stexfires.record.TextRecord;
 import stexfires.record.ValueRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
 import java.util.Comparator;
@@ -50,14 +51,15 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByCategory() {
-        return TextRecord::category;
+        return TextRecord::categoryOrElseThrow;
     }
 
     public static <T extends TextRecord> Function<? super T, Long> groupByRecordId() {
-        return TextRecord::recordId;
+        return TextRecord::recordIdOrElseThrow;
     }
 
-    public static <T extends TextRecord> Function<? super T, String> groupByMessage(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Function<? super T, String> groupByMessage(NotNullRecordMessage<? super T> recordMessage) {
+        Objects.requireNonNull(recordMessage);
         return recordMessage.asFunction();
     }
 
@@ -66,15 +68,15 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
     }
 
     public static <T extends ValueRecord> Function<? super T, String> groupByValue() {
-        return ValueRecord::value;
+        return t -> t.valueAsOptional().orElseThrow();
     }
 
     public static <T extends CommentRecord> Function<? super T, String> groupByComment() {
-        return CommentRecord::comment;
+        return t -> t.commentAsOptional().orElseThrow();
     }
 
     public static <T extends TextRecord> Function<? super T, String> groupByTextAt(int index) {
-        return r -> r.textAt(index);
+        return r -> r.textAtAsOptional(index).orElseThrow();
     }
 
     public static <T extends TextRecord> Predicate<List<? super T>> havingSize(IntPredicate sizePredicate) {
@@ -90,28 +92,28 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return list -> list.size() > size;
     }
 
-    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> categoryFunction,
-                                                                                         Function<List<T>, String> valueFunction) {
+    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, @Nullable String> categoryFunction,
+                                                                                         Function<List<T>, @Nullable String> valueFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(valueFunction);
         return list -> new ValueFieldRecord(categoryFunction.apply(list), null,
                 valueFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, String> valueFunction) {
+    public static <T extends TextRecord> Function<List<T>, ValueRecord> aggregateToValue(Function<List<T>, @Nullable String> valueFunction) {
         Objects.requireNonNull(valueFunction);
         return list -> new ValueFieldRecord(valueFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, String> categoryFunction,
-                                                                                        Function<List<T>, List<String>> textsFunction) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, @Nullable String> categoryFunction,
+                                                                                        Function<List<T>, List<@Nullable String>> textsFunction) {
         Objects.requireNonNull(categoryFunction);
         Objects.requireNonNull(textsFunction);
         return list -> new ManyFieldsRecord(categoryFunction.apply(list), null,
                 textsFunction.apply(list));
     }
 
-    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, List<String>> textsFunction) {
+    public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTexts(Function<List<T>, List<@Nullable String>> textsFunction) {
         Objects.requireNonNull(textsFunction);
         return list -> new ManyFieldsRecord(textsFunction.apply(list));
     }
@@ -120,7 +122,7 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         Objects.requireNonNull(textMessage);
         return list -> new ManyFieldsRecord(list.stream()
                                                 .map(textMessage.asFunction())
-                                                .collect(Collectors.toList()));
+                                                .toList());
     }
 
     public static <T extends TextRecord> Function<List<T>, TextRecord> aggregateToTextsWithMessage(RecordMessage<? super T> categoryMessage,
@@ -130,20 +132,21 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return list -> new ManyFieldsRecord(categoryMessage.createMessage(list.getFirst()), null,
                 list.stream()
                     .map(textMessage.asFunction())
-                    .collect(Collectors.toList()));
+                    .toList());
     }
 
-    public static <T extends TextRecord> Function<List<T>, String> categoryOfFirstElement() {
+    public static <T extends TextRecord> Function<List<T>, @Nullable String> categoryOfFirstElement() {
         return list -> list.getFirst().category();
     }
 
-    public static <T extends TextRecord> Function<List<T>, String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
+    public static <T extends TextRecord> Function<List<T>, @Nullable String> messageOfFirstElement(RecordMessage<? super T> recordMessage) {
         Objects.requireNonNull(recordMessage);
         return list -> recordMessage.createMessage(list.getFirst());
     }
 
     public static <T extends TextRecord> Function<List<T>, List<String>> collectTexts(Collector<String, ?, Optional<String>> textCollector,
-                                                                                      String nullText) {
+                                                                                      @Nullable String nullText) {
+        Objects.requireNonNull(textCollector);
         return list -> list.stream()
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
@@ -156,21 +159,21 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                    map -> map.values()
                                              .stream()
                                              .map(o -> o.orElse(nullText))
-                                             .collect(Collectors.toList())));
+                                             .toList()));
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> maxTextNullsFirst(String nullText) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> maxTextNullsFirst(@Nullable String nullText) {
         return collectTexts(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
                 nullText);
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> minTextNullsLast(String nullText) {
+    public static <T extends TextRecord> Function<List<T>, List<String>> minTextNullsLast(@Nullable String nullText) {
         return collectTexts(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
                 nullText);
     }
 
     @Override
-    public final @NotNull Stream<R> modify(Stream<T> recordStream) {
+    public final Stream<R> modify(Stream<T> recordStream) {
         return recordStream
                 .collect(Collectors.collectingAndThen(Collectors.groupingBy(groupByFunction), r -> r.values().stream()))
                 .filter(havingPredicate)

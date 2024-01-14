@@ -1,6 +1,5 @@
 package stexfires.io.container;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 import stexfires.record.message.CategoryMessage;
 import stexfires.record.message.ClassNameMessage;
@@ -35,12 +34,12 @@ public final class RecordContainerLarge implements RecordContainer {
     }
 
     @Override
-    public @NotNull TextRecord pack(@NotNull TextRecord originalTextRecord) {
+    public TextRecord pack(TextRecord originalTextRecord) {
         return RecordContainers.pack(originalTextRecord, CONTAINER_FIELDS, null, null);
     }
 
     @Override
-    public @NotNull UnpackResult unpack(@NotNull TextRecord packedTextRecord) {
+    public UnpackResult unpack(TextRecord packedTextRecord) {
         String errorMessage = null;
 
         String containerClassName = FIELD_RECORD_CONTAINER_NAME.getText(packedTextRecord);

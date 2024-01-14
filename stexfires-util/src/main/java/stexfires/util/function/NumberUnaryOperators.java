@@ -1,5 +1,7 @@
 package stexfires.util.function;
 
+import org.jspecify.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.function.Function;
@@ -321,176 +323,128 @@ public final class NumberUnaryOperators {
         }
 
         public static UnaryOperator<BigInteger> identity() {
-            return n ->
-                    n;
+            return n -> n;
         }
 
         public static UnaryOperator<BigInteger> constant(BigInteger constant) {
-            return n ->
-                    constant;
+            return n -> constant;
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> increment() {
-            return n -> n == null ? n :
-                    n.add(BigInteger.ONE);
+            return n -> n.add(BigInteger.ONE);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> decrement() {
-            return n -> n == null ? n :
-                    n.subtract(BigInteger.ONE);
+            return n -> n.subtract(BigInteger.ONE);
         }
 
         public static UnaryOperator<BigInteger> toZero() {
             return n -> BigInteger.ZERO;
         }
 
-        @SuppressWarnings("ReturnOfNull")
-        public static UnaryOperator<BigInteger> toNull() {
+        public static UnaryOperator<@Nullable BigInteger> toNull() {
             return n -> null;
         }
 
-        public static UnaryOperator<BigInteger> nullToZero() {
-            return n -> n == null ? BigInteger.ZERO :
-                    n;
+        public static UnaryOperator<@Nullable BigInteger> nullToZero() {
+            return n -> n == null ? BigInteger.ZERO : n;
         }
 
-        public static UnaryOperator<BigInteger> nullToConstant(BigInteger constant) {
-            return n -> n == null ? constant :
-                    n;
+        public static UnaryOperator<@Nullable BigInteger> nullToConstant(BigInteger constant) {
+            Objects.requireNonNull(constant);
+            return n -> n == null ? constant : n;
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> abs() {
-            return n -> n == null ? n :
-                    n.abs();
+            return BigInteger::abs;
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> negate() {
-            return n -> n == null ? n :
-                    n.negate();
+            return BigInteger::negate;
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> square() {
-            return n -> n == null ? n :
-                    n.multiply(n);
+            return n -> n.multiply(n);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> sqrt() {
-            return n -> n == null ? n :
-                    n.sqrt();
+            return BigInteger::sqrt;
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> digitSum() {
-            return n -> n == null ? n :
-                    BigInteger.valueOf(n.toString().codePoints().filter(Character::isDigit).map(Character::getNumericValue).sum());
+            return n -> BigInteger.valueOf(n.toString().codePoints().filter(Character::isDigit).map(Character::getNumericValue).sum());
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> add(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.add(secondValue);
+            return n -> n.add(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> subtract(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.subtract(secondValue);
+            return n -> n.subtract(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> multiply(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.multiply(secondValue);
+            return n -> n.multiply(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> divide(BigInteger divisor) {
             Objects.requireNonNull(divisor);
-            return n -> n == null ? n :
-                    n.divide(divisor);
+            return n -> n.divide(divisor);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> mod(BigInteger modulus) {
             Objects.requireNonNull(modulus);
-            return n -> n == null ? n :
-                    n.mod(modulus);
+            return n -> n.mod(modulus);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> modInverse(BigInteger modulus) {
             Objects.requireNonNull(modulus);
-            return n -> n == null ? n :
-                    n.modInverse(modulus);
+            return n -> n.modInverse(modulus);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> remainder(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.remainder(secondValue);
+            return n -> n.remainder(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> gcd(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.gcd(secondValue);
+            return n -> n.gcd(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> min(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.min(secondValue);
+            return n -> n.min(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> max(BigInteger secondValue) {
             Objects.requireNonNull(secondValue);
-            return n -> n == null ? n :
-                    n.max(secondValue);
+            return n -> n.max(secondValue);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> modPow(BigInteger exponent, BigInteger modulus) {
             Objects.requireNonNull(exponent);
             Objects.requireNonNull(modulus);
-            return n -> n == null ? n :
-                    n.modPow(exponent, modulus);
+            return n -> n.modPow(exponent, modulus);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> pow(int exponent) {
-            return n -> n == null ? n :
-                    n.pow(exponent);
+            return n -> n.pow(exponent);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> shiftLeft(int distance) {
-            return n -> n == null ? n :
-                    n.shiftLeft(distance);
+            return n -> n.shiftLeft(distance);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> shiftRight(int distance) {
-            return n -> n == null ? n :
-                    n.shiftRight(distance);
+            return n -> n.shiftRight(distance);
         }
 
-        @SuppressWarnings("ConstantConditions")
         public static UnaryOperator<BigInteger> clamp(BigInteger min, BigInteger max) {
-            return n -> n == null ? n :
-                    min.max(max.min(n));
+            return n -> min.max(max.min(n));
         }
 
     }

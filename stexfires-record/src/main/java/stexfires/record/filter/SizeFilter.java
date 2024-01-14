@@ -3,7 +3,6 @@ package stexfires.record.filter;
 import stexfires.record.TextRecord;
 import stexfires.util.function.NumberPredicates.PrimitiveIntPredicates;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.IntPredicate;
@@ -33,11 +32,13 @@ public class SizeFilter<T extends TextRecord> implements RecordFilter<T> {
     }
 
     public static <T extends TextRecord> SizeFilter<T> containedIn(Collection<Integer> sizes) {
+        Objects.requireNonNull(sizes);
         return new SizeFilter<>(PrimitiveIntPredicates.containedIn(sizes));
     }
 
-    public static <T extends TextRecord> SizeFilter<T> containedIn(Integer... sizes) {
-        return containedIn(Arrays.asList(sizes));
+    public static <T extends TextRecord> SizeFilter<T> containedIn(int... sizes) {
+        Objects.requireNonNull(sizes);
+        return new SizeFilter<>(PrimitiveIntPredicates.containedIn(sizes));
     }
 
     public static <T extends TextRecord> SizeFilter<T> between(int from, int to) {

@@ -81,7 +81,7 @@ public final class ExamplesFilter {
                 CategoryFilter.isNull());
         printFilter("containedIn Collection",
                 CategoryFilter.containedIn(Strings.list("category", "Category")));
-        printFilter("containedIn Array",
+        printFilter("containedIn Varargs",
                 CategoryFilter.containedIn("category", "Category"));
     }
 
@@ -92,7 +92,7 @@ public final class ExamplesFilter {
                 new ClassFilter<>(clazz -> EmptyRecord.class != clazz));
         printFilter("equalTo",
                 ClassFilter.equalTo(TwoFieldsRecord.class));
-        printFilter("containedIn Collection",
+        printFilter("containedIn singletonList",
                 ClassFilter.containedIn(Collections.singletonList(TwoFieldsRecord.class)));
         printFilter("containedIn List",
                 ClassFilter.containedIn(List.of(TwoFieldsRecord.class, EmptyRecord.class)));
@@ -110,7 +110,7 @@ public final class ExamplesFilter {
     private static void showIsValidIndexFilter() {
         System.out.println("-showIsValidIndexFilter---");
 
-        printFilter("constructor",
+        printFilter("constructor 1",
                 new IsValidIndexFilter<>(1));
     }
 
@@ -141,7 +141,7 @@ public final class ExamplesFilter {
                 MessageFilter.isNull(messageNull));
         printFilter("containedIn Collection",
                 MessageFilter.containedIn(message, Strings.list("c")));
-        printFilter("containedIn Array",
+        printFilter("containedIn Varargs",
                 MessageFilter.containedIn(message, "c", ""));
     }
 
@@ -193,13 +193,11 @@ public final class ExamplesFilter {
     private static void showRecordIdFilter() {
         System.out.println("-showRecordIdFilter---");
 
-        printFilter("constructor",
-                new RecordIdFilter<>(value -> value == 1L));
-        printFilter("constructor greaterThan 2",
-                new RecordIdFilter<>(NumberPredicates.PrimitiveLongPredicates.greaterThan(2L)));
+        printFilter("constructor 1",
+                new RecordIdFilter<>(value -> value != null && value == 1L));
         printFilter("constructor even",
-                new RecordIdFilter<>(NumberPredicates.PrimitiveLongPredicates.even()));
-        printFilter("equalTo",
+                new RecordIdFilter<>(NumberPredicates.PrimitiveLongPredicates.isNotNullAnd(NumberPredicates.PrimitiveLongPredicates.even())));
+        printFilter("equalTo 1",
                 RecordIdFilter.equalTo(1L));
         printFilter("isNotNull",
                 RecordIdFilter.isNotNull());
@@ -207,7 +205,7 @@ public final class ExamplesFilter {
                 RecordIdFilter.isNull());
         printFilter("containedIn Collection",
                 RecordIdFilter.containedIn(Collections.singletonList(4L)));
-        printFilter("containedIn Array",
+        printFilter("containedIn Varargs",
                 RecordIdFilter.containedIn(2L, 4L));
         printFilter("between",
                 RecordIdFilter.between(3L, 5L));
@@ -216,13 +214,13 @@ public final class ExamplesFilter {
     private static void showSizeFilter() {
         System.out.println("-showSizeFilter---");
 
-        printFilter("constructor",
+        printFilter("constructor 0",
                 new SizeFilter<>(value -> value == 0));
         printFilter("constructor greaterThan 2",
                 new SizeFilter<>(NumberPredicates.PrimitiveIntPredicates.greaterThan(2)));
-        printFilter("constructor even",
+        printFilter("constructor odd",
                 new SizeFilter<>(NumberPredicates.PrimitiveIntPredicates.odd()));
-        printFilter("equalTo",
+        printFilter("equalTo 1",
                 SizeFilter.equalTo(1));
         printFilter("isEmpty",
                 SizeFilter.isEmpty());
@@ -230,8 +228,8 @@ public final class ExamplesFilter {
                 SizeFilter.isNotEmpty());
         printFilter("containedIn Collection",
                 SizeFilter.containedIn(Collections.singletonList(2)));
-        printFilter("containedIn Array",
-                SizeFilter.containedIn(8, null, 2));
+        printFilter("containedIn Varargs",
+                SizeFilter.containedIn(8, 2));
         printFilter("between",
                 SizeFilter.between(2, 9));
     }
@@ -239,9 +237,11 @@ public final class ExamplesFilter {
     private static void showSupplierFilter() {
         System.out.println("-showSupplierFilter---");
 
-        printFilter("constructor",
+        printFilter("constructor false",
                 new SupplierFilter<>(() -> false));
-        printFilter("primitiveBooleanSupplier",
+        printFilter("constructor true",
+                new SupplierFilter<>(() -> true));
+        printFilter("primitiveBooleanSupplier true",
                 SupplierFilter.primitiveBooleanSupplier(() -> true));
         printFilter("random",
                 SupplierFilter.random(50, new Random()));
@@ -249,8 +249,8 @@ public final class ExamplesFilter {
                 SupplierFilter.pattern(true, false, false));
     }
 
-    private static void showValueFilter() {
-        System.out.println("-showValueFilter---");
+    private static void showTextFilter() {
+        System.out.println("-showTextFilter---");
 
         printFilter("constructor index",
                 new TextFilter<>(0, "A"::equals));
@@ -298,7 +298,7 @@ public final class ExamplesFilter {
         showRecordIdFilter();
         showSizeFilter();
         showSupplierFilter();
-        showValueFilter();
+        showTextFilter();
     }
 
 }

@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataTypeConverterException;
 import stexfires.data.EnumDataTypeFormatter;
 import stexfires.data.EnumDataTypeParser;
@@ -18,7 +19,7 @@ public final class ExamplesEnumDataType {
     private ExamplesEnumDataType() {
     }
 
-    private static <T extends Enum<T>> void testFormat(T source, EnumDataTypeFormatter<T> formatter) {
+    private static <T extends @Nullable Enum<T>> void testFormat(@Nullable T source, EnumDataTypeFormatter<T> formatter) {
         try {
             System.out.println("Format: \"" + source + "\". Result: " + formatter.format(source));
         } catch (DataTypeConverterException e) {
@@ -26,7 +27,7 @@ public final class ExamplesEnumDataType {
         }
     }
 
-    private static <T extends Enum<T>> void testParse(String source, EnumDataTypeParser<T> parser) {
+    private static <T extends @Nullable Enum<T>> void testParse(@Nullable String source, EnumDataTypeParser<T> parser) {
         try {
             System.out.println("Parse: \"" + source + "\". Result: " + parser.parse(source));
         } catch (DataTypeConverterException e) {

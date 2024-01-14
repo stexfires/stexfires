@@ -1,6 +1,6 @@
 package stexfires.record.message;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyRecord;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
@@ -15,10 +15,10 @@ import java.util.function.Function;
  */
 public class TextMessage<T extends TextRecord> implements RecordMessage<T> {
 
-    public static final String DEFAULT_NULL_FIELD_MESSAGE = null;
+    public static final @Nullable String DEFAULT_NULL_FIELD_MESSAGE = null;
 
-    private final Function<? super T, TextField> fieldFunction;
-    private final String nullFieldMessage;
+    private final Function<? super T, @Nullable TextField> fieldFunction;
+    private final @Nullable String nullFieldMessage;
     private final FieldTextMapper fieldTextMapper;
 
     public TextMessage(int index) {
@@ -36,16 +36,16 @@ public class TextMessage<T extends TextRecord> implements RecordMessage<T> {
         this(record -> record.fieldAt(index), nullFieldMessage, fieldTextMapper);
     }
 
-    public TextMessage(Function<? super T, TextField> fieldFunction) {
+    public TextMessage(Function<? super T, @Nullable TextField> fieldFunction) {
         this(fieldFunction, DEFAULT_NULL_FIELD_MESSAGE, TextField::text);
     }
 
-    public TextMessage(Function<? super T, TextField> fieldFunction,
+    public TextMessage(Function<? super T, @Nullable TextField> fieldFunction,
                        @Nullable String nullFieldMessage) {
         this(fieldFunction, nullFieldMessage, TextField::text);
     }
 
-    public TextMessage(Function<? super T, TextField> fieldFunction,
+    public TextMessage(Function<? super T, @Nullable TextField> fieldFunction,
                        @Nullable String nullFieldMessage,
                        FieldTextMapper fieldTextMapper) {
         Objects.requireNonNull(fieldFunction);

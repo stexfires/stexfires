@@ -1,5 +1,6 @@
 package stexfires.examples.record;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
@@ -15,7 +16,7 @@ import stexfires.record.logger.SystemOutLogger;
 import stexfires.record.mapper.impl.ToTwoFieldsRecordMapper;
 import stexfires.record.message.CategoryMessage;
 import stexfires.record.message.CompareMessageBuilder;
-import stexfires.record.message.JoinedTextsMessage;
+import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordIdMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.record.message.TextMessage;
@@ -105,16 +106,12 @@ public final class ExamplesModifier {
 
     private static void printPivotManyValuesRecord(String title, PivotModifier<ManyFieldsRecord> recordModifier, ManyFieldsRecord... records) {
         System.out.println("--" + title);
-        Stream<ManyFieldsRecord> recordStream = Stream.of(records);
-        SystemOutConsumer<TextRecord> consumer = new SystemOutConsumer<>(new CategoryMessage<>().prepend("(").append(") ").append(new JoinedTextsMessage<>()));
-        TextRecordStreams.modifyAndConsume(recordStream, recordModifier, consumer);
+        RecordSystemOutUtil.printlnRecordStream(recordModifier.modify(Stream.of(records)));
     }
 
     private static void printPivotKeyValueRecord(String title, PivotModifier<KeyValueRecord> recordModifier, KeyValueRecord... records) {
         System.out.println("--" + title);
-        Stream<KeyValueRecord> recordStream = Stream.of(records);
-        SystemOutConsumer<TextRecord> consumer = new SystemOutConsumer<>(new CategoryMessage<>().prepend("(").append(") ").append(new JoinedTextsMessage<>()));
-        TextRecordStreams.modifyAndConsume(recordStream, recordModifier, consumer);
+        RecordSystemOutUtil.printlnRecordStream(recordModifier.modify(Stream.of(records)));
     }
 
     private static void printUnaryGroup(String title, UnaryGroupModifier<ValueRecord> recordModifier) {
@@ -130,24 +127,23 @@ public final class ExamplesModifier {
                 new ValueFieldRecord("B", 8L, "b4"),
                 new ValueFieldRecord("A", 9L, "a5"),
                 new ValueFieldRecord("A", 0L, "a0"));
-        TextRecordStreams.modifyAndConsume(recordStream, recordModifier, new SystemOutConsumer<>());
+        RecordSystemOutUtil.printlnRecordStream(recordModifier.modify(recordStream));
     }
 
     private static void printUnpivot(String title, UnpivotModifier<ManyFieldsRecord, ? extends TextRecord> recordModifier, ManyFieldsRecord... records) {
         System.out.println("--" + title);
-        Stream<ManyFieldsRecord> recordStream = Stream.of(records);
-        TextRecordStreams.modifyAndConsume(recordStream, recordModifier, new SystemOutConsumer<>());
+        RecordSystemOutUtil.printlnRecordStream(recordModifier.modify(Stream.of(records)));
     }
 
     private static void showDistinctModifier() {
         System.out.println("-showDistinctModifier---");
 
         printModifierOneValueRecord("constructor category",
-                new DistinctModifier<>(new CategoryMessage<>()));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing")));
         printModifierOneValueRecord("constructor recordId",
-                new DistinctModifier<>(new RecordIdMessage<>()));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new RecordIdMessage<>(), "recordId is missing")));
         printModifierOneValueRecord("constructor valueField",
-                new DistinctModifier<>(new TextMessage<>(ValueRecord::valueField)));
+                new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(ValueRecord::valueField), "valueField is missing")));
         printModifierOneValueRecord("constructor CompareMessageBuilder",
                 new DistinctModifier<>(new CompareMessageBuilder().category().texts()));
     }
@@ -174,11 +170,11 @@ public final class ExamplesModifier {
                         )));
         printModifierOneValueRecordGroup("constructor CategoryMessage; size < 4; aggregateToValues",
                 new GroupModifier<>(
-                        groupByMessage(new CategoryMessage<>()),
+                        groupByMessage(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing")),
                         havingSize(NumberPredicates.PrimitiveIntPredicates.lessThan(4)),
                         aggregateToTexts(
                                 messageOfFirstElement(new CategoryMessage<>()),
-                                list -> list.stream().map(ValueRecord::value).collect(Collectors.toList())
+                                list -> list.stream().map(ValueRecord::value).toList()
                         )));
         printModifierOneValueRecordGroup("constructor category; aggregateToValuesWithMessage",
                 new GroupModifier<>(
@@ -359,18 +355,18 @@ public final class ExamplesModifier {
         printModifierOneValueRecord("concat 2",
                 RecordStreamModifier.concat(
                         new FilterModifier<>(CategoryFilter.equalTo("C1")),
-                        new DistinctModifier<>(new CategoryMessage<>())));
+                        new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))));
         printModifierOneValueRecord("concat 3",
                 RecordStreamModifier.concat(
                         new FilterModifier<>(CategoryFilter.equalTo("C1")),
                         new IdentityModifier<>(),
                         new SkipLimitModifier<>(1L, 1L)));
         printModifierOneValueRecord("compose",
-                new DistinctModifier<ValueRecord>(new CategoryMessage<>())
+                new DistinctModifier<ValueRecord>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))
                         .compose(new FilterModifier<>(CategoryFilter.equalTo("C1"))));
         printModifierOneValueRecord("andThen",
                 new FilterModifier<ValueRecord>(CategoryFilter.equalTo("C1"))
-                        .andThen(new DistinctModifier<>(new CategoryMessage<>())));
+                        .andThen(new DistinctModifier<>(NotNullRecordMessage.wrapRecordMessage(new CategoryMessage<>(), "category is missing"))));
     }
 
     private static void showSkipLimitModifier() {
@@ -517,16 +513,16 @@ public final class ExamplesModifier {
                 new ManyFieldsRecord("cat8", 8L, "k8", "k8b")
         );
 
-        List<Integer> keyValues3 = new ArrayList<>();
+        List<@Nullable Integer> keyValues3 = new ArrayList<>();
         keyValues3.add(6);
         keyValues3.add(0);
-        List<Integer> valueIndexes31 = new ArrayList<>();
+        List<@Nullable Integer> valueIndexes31 = new ArrayList<>();
         valueIndexes31.add(1);
         valueIndexes31.add(4);
-        List<Integer> valueIndexes32 = new ArrayList<>();
+        List<@Nullable Integer> valueIndexes32 = new ArrayList<>();
         valueIndexes32.add(2);
         valueIndexes32.add(5);
-        List<Integer> valueIndexes33 = new ArrayList<>();
+        List<@Nullable Integer> valueIndexes33 = new ArrayList<>();
         valueIndexes33.add(3);
         valueIndexes33.add(null);
         printUnpivot("Unpivot 3 oneRecordPerValues two keys, many values",

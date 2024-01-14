@@ -68,7 +68,7 @@ public final class ExamplesFieldTextMapper {
     private static void showConstantFieldValueMapper() {
         System.out.println("-showConstantFieldValueMapper---");
 
-        printMapper("constructor", new ConstantFieldTextMapper());
+        printMapper("constructor null", new ConstantFieldTextMapper(null));
         printMapper("constructor constant", new ConstantFieldTextMapper("constant"));
     }
 

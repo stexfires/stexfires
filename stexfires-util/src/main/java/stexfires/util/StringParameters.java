@@ -1,7 +1,6 @@
 package stexfires.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public final class StringParameters {
      * @throws IllegalArgumentException if any parameter key is invalid
      * @throws NullPointerException     if the parameter map is {@code null} or any parameter value is {@code null}
      */
-    private StringParameters(@NotNull Map<String, String> parameters) {
+    private StringParameters(Map<String, String> parameters) {
         Objects.requireNonNull(parameters);
         // Check all keys
         parameters.keySet().forEach(StringParameters::checkValidityOfKey);
@@ -61,7 +60,7 @@ public final class StringParameters {
      * must contain only valid codepoints, must contain only defined codepoints
      * and must not contain whitespace codepoints.
      *
-     * @param key the parameter key. Can be {@code null}.
+     * @param key the parameter key.
      * @throws IllegalArgumentException if the key is {@code null} or invalid
      */
     public static void checkValidityOfKey(@Nullable String key) {
@@ -92,7 +91,7 @@ public final class StringParameters {
      * @param key the parameter key. Must not be {@code null}.
      * @return the value of the specified key. If the key is not present, an empty {@code Optional} is returned.
      */
-    public Optional<String> value(@NotNull String key) {
+    public Optional<String> value(String key) {
         Objects.requireNonNull(key);
         return Optional.ofNullable(parameters.get(key));
     }
@@ -103,7 +102,7 @@ public final class StringParameters {
      * @param key the parameter key. Must not be {@code null}.
      * @return {@code true} if a parameter with the specified key is present
      */
-    public boolean containsKey(@NotNull String key) {
+    public boolean containsKey(String key) {
         Objects.requireNonNull(key);
         return parameters.containsKey(key);
     }
@@ -173,7 +172,7 @@ public final class StringParameters {
 
         private static final int NUM_MAPPINGS = 64;
 
-        private Map<String, String> parameters;
+        private @Nullable Map<String, String> parameters;
 
         /**
          * Constructs a new {@code Builder} for {@code StringParameters}.
@@ -182,7 +181,14 @@ public final class StringParameters {
             parameters = HashMap.newHashMap(NUM_MAPPINGS);
         }
 
-        private synchronized void checkAndAddParameterInternal(@NotNull String key, @NotNull String value) {
+        /**
+         * Checks the key-value pair and adds them to the parameters.
+         *
+         * @param key   the parameter key. Must not be {@code null}. Must be valid according to {@link #checkValidityOfKey(String)}.
+         * @param value the parameter value. Must not be {@code null}.
+         * @see #checkValidityOfKey(String)
+         */
+        private synchronized void checkAndAddParameterInternal(String key, String value) {
             if (parameters == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -199,7 +205,7 @@ public final class StringParameters {
          * @param value the parameter value. Must not be {@code null}.
          * @return this {@code Builder}
          */
-        public synchronized Builder addParameter(@NotNull String key, @NotNull String value) {
+        public synchronized Builder addParameter(String key, String value) {
             if (parameters == null) {
                 throw new IllegalStateException("build() already called");
             }
@@ -215,7 +221,7 @@ public final class StringParameters {
          * @param stringParameterMap the parameters to be added. Must not be {@code null}.
          * @return this {@code Builder}
          */
-        public synchronized Builder addParameters(@NotNull Map<String, String> stringParameterMap) {
+        public synchronized Builder addParameters(Map<String, String> stringParameterMap) {
             if (parameters == null) {
                 throw new IllegalStateException("build() already called");
             }

@@ -1,5 +1,7 @@
 package stexfires.examples.util;
 
+import org.jspecify.annotations.Nullable;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,13 +20,13 @@ public final class ExamplesByteArrayFunction {
     private ExamplesByteArrayFunction() {
     }
 
-    private static void printByteArrayWithInfo(byte[] byteArray, String info) {
+    private static void printByteArrayWithInfo(byte @Nullable [] byteArray,
+                                               String info) {
         System.out.println(info);
         printByteArray(byteArray);
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
-    private static void printByteArray(byte[] byteArray) {
+    private static void printByteArray(byte @Nullable [] byteArray) {
         if (byteArray != null) {
             try {
                 System.out.println("  String UTF-8:      \"" + new String(byteArray, StandardCharsets.UTF_8) + "\"");
@@ -43,22 +45,24 @@ public final class ExamplesByteArrayFunction {
         }
     }
 
-    private static void printPredicate(Predicate<byte[]> predicate, String info) {
+    private static void printPredicate(Predicate<byte @Nullable []> predicate,
+                                       String info) {
         System.out.println(info);
 
-        List<byte[]> byteArrayList = new ArrayList<>();
+        List<byte @Nullable []> byteArrayList = new ArrayList<>();
         byteArrayList.add(null);
         byteArrayList.add(new byte[]{});
         byteArrayList.add(new byte[]{(byte) 0});
         byteArrayList.add(new byte[]{(byte) 65});
 
-        for (byte[] byreArray : byteArrayList) {
-            System.out.println("  " + predicate.test(byreArray) + "\t" + Arrays.toString(byreArray));
+        for (byte @Nullable [] byteArray : byteArrayList) {
+            System.out.println("  " + predicate.test(byteArray) + "\t" + Arrays.toString(byteArray));
         }
     }
 
-    private static void printStringToByteArrayFunction(Function<String, byte[]> function, String info) {
-        List<String> stringValues = new ArrayList<>();
+    private static void printStringToByteArrayFunction(Function<@Nullable String, byte @Nullable []> function,
+                                                       String info) {
+        List<@Nullable String> stringValues = new ArrayList<>();
 
         stringValues.add(null);
         stringValues.add("");
@@ -86,7 +90,7 @@ public final class ExamplesByteArrayFunction {
         stringValues.add("22405534230753963835153736737");
         stringValues.add("2253008897699894625889381663835221270622918862688930794077");
 
-        for (String stringValue : stringValues) {
+        for (@Nullable String stringValue : stringValues) {
             if (stringValue == null) {
                 System.out.println(info + " NULL");
             } else {
@@ -100,10 +104,11 @@ public final class ExamplesByteArrayFunction {
         }
     }
 
-    private static <T> void printByteArrayToObjectFunction(Function<byte[], T> function, String info) {
+    private static <T> void printByteArrayToObjectFunction(Function<byte @Nullable [], @Nullable T> function,
+                                                           String info) {
         System.out.println(info);
 
-        List<byte[]> byteArrayList = new ArrayList<>();
+        List<byte @Nullable []> byteArrayList = new ArrayList<>();
 
         byteArrayList.add(null);
         byteArrayList.add(new byte[]{});
@@ -115,7 +120,7 @@ public final class ExamplesByteArrayFunction {
         byteArrayList.add(new byte[]{72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33});
         byteArrayList.add(new byte[]{91, -30, -126, -84, 93, 32, 91, -16, -97, -104, -128, 93, 32, 91, 111, -52, -120, 93, 32, 91, 65, -52, -118, 93});
 
-        for (byte[] byreArray : byteArrayList) {
+        for (byte @Nullable [] byreArray : byteArrayList) {
             try {
                 System.out.println("  " + Arrays.toString(byreArray) + " \"" + function.apply(byreArray) + "\"");
             } catch (RuntimeException e) {

@@ -1,7 +1,6 @@
 package stexfires.data;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -11,13 +10,13 @@ import java.util.function.Supplier;
  */
 public final class BooleanDataTypeFormatter implements DataTypeFormatter<Boolean> {
 
-    private final Supplier<String> trueSourceSupplier;
-    private final Supplier<String> falseSourceSupplier;
-    private final Supplier<String> nullSourceSupplier;
+    private final Supplier<@Nullable String> trueSourceSupplier;
+    private final Supplier<@Nullable String> falseSourceSupplier;
+    private final @Nullable Supplier<@Nullable String> nullSourceSupplier;
 
-    public BooleanDataTypeFormatter(@NotNull Supplier<String> trueSourceSupplier,
-                                    @NotNull Supplier<String> falseSourceSupplier,
-                                    @Nullable Supplier<String> nullSourceSupplier) {
+    public BooleanDataTypeFormatter(Supplier<@Nullable String> trueSourceSupplier,
+                                    Supplier<@Nullable String> falseSourceSupplier,
+                                    @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         Objects.requireNonNull(trueSourceSupplier);
         Objects.requireNonNull(falseSourceSupplier);
         this.trueSourceSupplier = trueSourceSupplier;
@@ -25,8 +24,8 @@ public final class BooleanDataTypeFormatter implements DataTypeFormatter<Boolean
         this.nullSourceSupplier = nullSourceSupplier;
     }
 
-    public static BooleanDataTypeFormatter of(@NotNull String trueValue,
-                                              @NotNull String falseValue,
+    public static BooleanDataTypeFormatter of(String trueValue,
+                                              String falseValue,
                                               @Nullable String nullValue) {
         Objects.requireNonNull(trueValue);
         Objects.requireNonNull(falseValue);

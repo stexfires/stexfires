@@ -1,5 +1,6 @@
 package stexfires.examples.data;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.data.DataType;
 import stexfires.data.DataTypes;
 import stexfires.data.NumberDataTypeFormatter;
@@ -50,9 +51,9 @@ public final class ExamplesDataTypeModification {
         {
             System.out.println("--- convert same class");
 
-            Function<String, String> integerDE2USFunction = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
-            UnaryOperator<String> integerDE2USOperator0 = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
-            UnaryOperator<String> integerDE2US1 = integerDataTypeDE.textModifier(integerDataTypeUS);
+            Function<@Nullable String, @Nullable String> integerDE2USFunction = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
+            UnaryOperator<@Nullable String> integerDE2USOperator0 = (String s) -> integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(s));
+            UnaryOperator<@Nullable String> integerDE2US1 = integerDataTypeDE.textModifier(integerDataTypeUS);
             FieldTextMapper integerDE2USMapper1 = integerDataTypeDE.fieldTextMapper(integerDataTypeUS);
 
             System.out.println(integerDataTypeUS.formatter().format(integerDataTypeDE.parser().parse(textValue0)));
@@ -102,10 +103,10 @@ public final class ExamplesDataTypeModification {
         {
             System.out.println("--- apply operator");
 
-            UnaryOperator<Integer> integerUnaryOperator = (Integer i) -> i * i;
-            UnaryOperator<String> convertOperator0 = (String s) -> integerDataTypeDE.formatter().format(integerUnaryOperator.apply(integerDataTypeDE.parser().parse(s)));
-            UnaryOperator<String> convertOperator1 = integerDataTypeDE.textModifier(integerUnaryOperator);
-            UnaryOperator<String> convertOperator2 = integerDataTypeDE.textModifier(integerDataTypeDE, (i) -> i * 2);
+            UnaryOperator<@Nullable Integer> integerUnaryOperator = (i) -> (i == null) ? null : i * i;
+            UnaryOperator<@Nullable String> convertOperator0 = (String s) -> integerDataTypeDE.formatter().format(integerUnaryOperator.apply(integerDataTypeDE.parser().parse(s)));
+            UnaryOperator<@Nullable String> convertOperator1 = integerDataTypeDE.textModifier(integerUnaryOperator);
+            UnaryOperator<@Nullable String> convertOperator2 = integerDataTypeDE.textModifier(integerDataTypeDE, (i) -> (i == null) ? null : i * 2);
 
             System.out.println(convertOperator0.apply(textValue0));
             System.out.println(convertOperator1.apply(textValue0));
@@ -117,11 +118,11 @@ public final class ExamplesDataTypeModification {
 
             // BigDecimal
             //noinspection TrivialFunctionalExpressionUsage
-            UnaryOperator<String> convertOperator0 = (String s) -> bigDecimalDataTypeUS.formatter().format(((Function<Integer, BigDecimal>) BigDecimal::valueOf).apply(integerDataTypeDE.parser().parse(s)));
-            UnaryOperator<String> convertOperator1 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf);
+            UnaryOperator<@Nullable String> convertOperator0 = (s) -> bigDecimalDataTypeUS.formatter().format(((Function<@Nullable Integer, @Nullable BigDecimal>) val -> val != null ? BigDecimal.valueOf(val) : null).apply(integerDataTypeDE.parser().parse(s)));
+            UnaryOperator<@Nullable String> convertOperator1 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, val -> val != null ? BigDecimal.valueOf(val) : null);
             // area of circle
-            UnaryOperator<String> convertOperator2 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, (i) -> BigDecimal.valueOf(i).pow(2).multiply(BigDecimal.valueOf(Math.PI)));
-            UnaryOperator<String> convertOperator3 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, BigDecimal::valueOf, (b) -> b.pow(2).multiply(BigDecimal.valueOf(Math.PI)));
+            UnaryOperator<@Nullable String> convertOperator2 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, (i) -> (i == null) ? null : BigDecimal.valueOf(i).pow(2).multiply(BigDecimal.valueOf(Math.PI)));
+            UnaryOperator<@Nullable String> convertOperator3 = integerDataTypeDE.textModifierDifferentClass(bigDecimalDataTypeUS, val -> val != null ? BigDecimal.valueOf(val) : null, (b) -> (b == null) ? null : b.pow(2).multiply(BigDecimal.valueOf(Math.PI)));
 
             System.out.println(convertOperator0.apply(textValue0));
             System.out.println(convertOperator1.apply(textValue0));
@@ -130,7 +131,7 @@ public final class ExamplesDataTypeModification {
 
             // Boolean
             // is even
-            UnaryOperator<String> convertOperator4 = integerDataTypeDE.textModifierDifferentClass(booleanDataType0, (Integer i) -> i % 2 == 0);
+            UnaryOperator<@Nullable String> convertOperator4 = integerDataTypeDE.textModifierDifferentClass(booleanDataType0, (i) -> (i == null) ? Boolean.FALSE : i % 2 == 0);
 
             System.out.println(convertOperator4.apply(textValue0));
         }

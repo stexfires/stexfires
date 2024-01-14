@@ -1,6 +1,5 @@
 package stexfires.record.modifier;
 
-import org.jetbrains.annotations.NotNull;
 import stexfires.record.TextRecord;
 
 import java.util.Objects;
@@ -53,7 +52,7 @@ public interface RecordStreamModifier<T extends TextRecord, R extends TextRecord
         return recordStream -> thirdRecordStreamModifier.modify(secondRecordStreamModifier.modify(firstRecordStreamModifier.modify(recordStream)));
     }
 
-    @NotNull Stream<R> modify(Stream<T> recordStream);
+    Stream<R> modify(Stream<T> recordStream);
 
     default Function<Stream<T>, Stream<R>> asFunction() {
         return this::modify;

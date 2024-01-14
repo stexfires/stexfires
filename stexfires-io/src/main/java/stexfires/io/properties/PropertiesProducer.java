@@ -1,7 +1,6 @@
 package stexfires.io.properties;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.internal.AbstractInternalReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -33,7 +32,7 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
         this.fileSpec = fileSpec;
     }
 
-    private static KeyValue splitLineIntoKeyValue(@NotNull String line) {
+    private static KeyValue splitLineIntoKeyValue(String line) {
         Objects.requireNonNull(line);
 
         int maxIndex = line.length();

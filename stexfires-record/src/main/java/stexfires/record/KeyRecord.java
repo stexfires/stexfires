@@ -1,7 +1,5 @@
 package stexfires.record;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.stream.Stream;
 
 /**
@@ -11,18 +9,17 @@ import java.util.stream.Stream;
  */
 public interface KeyRecord extends TextRecord {
 
-    @NotNull KeyRecord withKey(@NotNull String key);
+    KeyRecord withKey(String key);
 
-    @NotNull TextField keyField();
+    TextField keyField();
 
     int keyIndex();
 
-    @SuppressWarnings("DataFlowIssue")
-    default @NotNull String key() {
-        return keyField().text();
+    default String key() {
+        return keyField().orElseThrow();
     }
 
-    default @NotNull Stream<String> keyAsStream() {
+    default Stream<String> keyAsStream() {
         return keyField().stream();
     }
 
