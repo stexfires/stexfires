@@ -8,7 +8,7 @@ import stexfires.util.TextSplitters;
 import stexfires.util.function.ByteArrayFunctions;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
-import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SequenceSupplier;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -390,10 +390,10 @@ public final class ExamplesStringFunction {
         printUnaryOperator(StringUnaryOperators.supplier(() -> "supplier"), "supplier");
         printUnaryOperator(StringUnaryOperators.codePointAt(0, "*"), "codePointAt 0");
         printUnaryOperator(StringUnaryOperators.codePointAt(4, "*"), "codePointAt 4");
-        printUnaryOperator(StringUnaryOperators.codePointAt(5, Suppliers.sequenceAsString(0L)), "codePointAt 5 sequenceAsString");
+        printUnaryOperator(StringUnaryOperators.codePointAt(5, SequenceSupplier.asString(0L)), "codePointAt 5 sequenceAsString");
         printUnaryOperator(StringUnaryOperators.charAt(0, "*"), "charAt 0");
         printUnaryOperator(StringUnaryOperators.charAt(4, "*"), "charAt 4");
-        printUnaryOperator(StringUnaryOperators.charAt(5, Suppliers.sequenceAsString(0L)), "charAt 5 sequenceAsString");
+        printUnaryOperator(StringUnaryOperators.charAt(5, SequenceSupplier.asString(0L)), "charAt 5 sequenceAsString");
         printUnaryOperator(StringUnaryOperators.formattedWithArguments(Locale.ENGLISH, "*", 1), "formattedWithArguments with Locale");
         printUnaryOperator(StringUnaryOperators.formattedWithArguments(null, "***", 222), "formattedWithArguments without Locale");
         printUnaryOperator(StringUnaryOperators.formatAsArgument(null, "%2s"), "formatAsArgument without Locale and format '%2s'");

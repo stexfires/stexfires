@@ -5,7 +5,7 @@ import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
-import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SequenceSupplier;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,19 +83,19 @@ public final class TextRecords {
     }
 
     public static Supplier<Long> recordIdSequence() {
-        return Suppliers.sequenceAsLong(DEFAULT_INITIAL_RECORD_ID);
+        return SequenceSupplier.asLong(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static Supplier<Long> recordIdSequence(long initialValue) {
-        return Suppliers.sequenceAsLong(initialValue);
+        return SequenceSupplier.asLong(initialValue);
     }
 
     public static LongSupplier recordIdPrimitiveSequence() {
-        return Suppliers.sequenceAsPrimitiveLong(DEFAULT_INITIAL_RECORD_ID);
+        return SequenceSupplier.asPrimitiveLong(DEFAULT_INITIAL_RECORD_ID);
     }
 
     public static LongSupplier recordIdPrimitiveSequence(long initialValue) {
-        return Suppliers.sequenceAsPrimitiveLong(initialValue);
+        return SequenceSupplier.asPrimitiveLong(initialValue);
     }
 
     public static Builder builder() {

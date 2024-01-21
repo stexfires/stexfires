@@ -17,7 +17,7 @@ import stexfires.record.producer.KeyValueRecordProducer;
 import stexfires.record.producer.RecordProducer;
 import stexfires.record.producer.ValueRecordProducer;
 import stexfires.util.Strings;
-import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SequenceSupplier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,8 +74,8 @@ public final class ExamplesProducer {
         printProducer(new DividingProducer(recordSize, (String) null));
         printProducer(new DividingProducer(recordSize, "A", "B", null, "D", "E"));
         printProducer(new DividingProducer(category, TextRecords.recordIdSequence(), recordSize, "A", "B", null, "D", "E", "F"));
-        printProducer(new DividingProducer(category, Suppliers.sequenceAsLong(100L), recordSize, "A", "B", "C"));
-        printProducer(new DividingProducer(category, Suppliers.sequenceAsLong(100L), 10, "A", null, "C"));
+        printProducer(new DividingProducer(category, SequenceSupplier.asLong(100L), recordSize, "A", "B", "C"));
+        printProducer(new DividingProducer(category, SequenceSupplier.asLong(100L), 10, "A", null, "C"));
     }
 
     private static void showKeyValueRecordProducer() {
@@ -94,8 +94,8 @@ public final class ExamplesProducer {
         printProducer(new KeyValueRecordProducer(category, keyValueMap));
         printProducer(new KeyValueRecordProducer(null, keyValueMap));
 
-        printProducer(new KeyValueRecordProducer(category, Suppliers.sequenceAsLong(100L), keyValueMap));
-        printProducer(new KeyValueRecordProducer(null, Suppliers.sequenceAsLong(100L), keyValueMap));
+        printProducer(new KeyValueRecordProducer(category, SequenceSupplier.asLong(100L), keyValueMap));
+        printProducer(new KeyValueRecordProducer(null, SequenceSupplier.asLong(100L), keyValueMap));
 
         printProducer(new KeyValueRecordProducer(category, TextRecords.recordIdSequence(), keyValueMap,
                 Strings::toNullableString, i -> i == null ? "<NULL>" : "#" + i.hashCode()));
@@ -117,8 +117,8 @@ public final class ExamplesProducer {
         printProducer(new ValueRecordProducer(category, values));
         printProducer(new ValueRecordProducer(null, values));
 
-        printProducer(new ValueRecordProducer(category, Suppliers.sequenceAsLong(100L), values));
-        printProducer(new ValueRecordProducer(null, Suppliers.sequenceAsLong(100L), values));
+        printProducer(new ValueRecordProducer(category, SequenceSupplier.asLong(100L), values));
+        printProducer(new ValueRecordProducer(null, SequenceSupplier.asLong(100L), values));
 
         printProducer(new ValueRecordProducer(category, TextRecords.recordIdSequence(), values,
                 i -> i == null ? "<NULL>" : "#" + i.hashCode()));

@@ -1,6 +1,7 @@
 package stexfires.examples.util.supplier;
 
 import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 
 import java.math.BigDecimal;
@@ -58,18 +59,18 @@ public final class ExamplesNumberSupplier {
         System.out.println("-showSuppliersSequence---");
 
         generateAndPrintStream("sequenceAsLong 1.000",
-                Suppliers.sequenceAsLong(1_000L));
+                SequenceSupplier.asLong(1_000L));
         generateAndPrintStream("sequenceAsLong -10",
-                Suppliers.sequenceAsLong(-STREAM_LIMIT));
+                SequenceSupplier.asLong(-STREAM_LIMIT));
         generateAndPrintStream("sequenceAsLong -1",
-                Suppliers.sequenceAsLong(-1L));
+                SequenceSupplier.asLong(-1L));
 
         generateAndPrintLongStream("sequenceAsPrimitiveLong 1.000",
-                Suppliers.sequenceAsPrimitiveLong(1_000L));
+                SequenceSupplier.asPrimitiveLong(1_000L));
         generateAndPrintLongStream("sequenceAsPrimitiveLong -10",
-                Suppliers.sequenceAsPrimitiveLong(-STREAM_LIMIT));
+                SequenceSupplier.asPrimitiveLong(-STREAM_LIMIT));
         generateAndPrintLongStream("sequenceAsPrimitiveLong -1",
-                Suppliers.sequenceAsPrimitiveLong(-1L));
+                SequenceSupplier.asPrimitiveLong(-1L));
     }
 
     private static void showSuppliersConstant() {
@@ -117,18 +118,18 @@ public final class ExamplesNumberSupplier {
         System.out.println("-showSuppliersMapTo---");
 
         generateAndPrintStream("mapTo sequenceAsString Long::valueOf",
-                Suppliers.mapTo(Suppliers.sequenceAsString(1), Long::valueOf));
+                Suppliers.mapTo(SequenceSupplier.asString(1), Long::valueOf));
         generateAndPrintStream("mapTo sequenceAsString Integer::valueOf",
-                Suppliers.mapTo(Suppliers.sequenceAsString(1), Integer::valueOf));
+                Suppliers.mapTo(SequenceSupplier.asString(1), Integer::valueOf));
         generateAndPrintStream("mapTo sequenceAsString Double::valueOf",
-                Suppliers.mapTo(Suppliers.sequenceAsString(1), Double::valueOf));
+                Suppliers.mapTo(SequenceSupplier.asString(1), Double::valueOf));
 
         generateAndPrintLongStream("mapToPrimitiveLong sequenceAsString Long::valueOf",
-                Suppliers.mapToPrimitiveLong(Suppliers.sequenceAsString(1), Long::valueOf));
+                Suppliers.mapToPrimitiveLong(SequenceSupplier.asString(1), Long::valueOf));
         generateAndPrintIntStream("mapToPrimitiveInt sequenceAsString Integer::valueOf",
-                Suppliers.mapToPrimitiveInt(Suppliers.sequenceAsString(1), Integer::valueOf));
+                Suppliers.mapToPrimitiveInt(SequenceSupplier.asString(1), Integer::valueOf));
         generateAndPrintDoubleStream("mapToPrimitiveDouble sequenceAsString Double::valueOf",
-                Suppliers.mapToPrimitiveDouble(Suppliers.sequenceAsString(1), Double::valueOf));
+                Suppliers.mapToPrimitiveDouble(SequenceSupplier.asString(1), Double::valueOf));
     }
 
     private static void showRandomSupplier() {

@@ -5,6 +5,7 @@ import stexfires.util.TextSplitters;
 import stexfires.util.supplier.RandomBooleanSupplier;
 import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.RandomStringSuppliers;
+import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 
 import java.util.List;
@@ -38,12 +39,12 @@ public final class ExamplesStringSupplier {
 
         generateAndPrintStream("combine", Suppliers.combine(() -> "X", () -> "Y", (x, y) -> x + "-" + y));
 
-        generateAndPrintStream("mapTo sequenceAsLong", Suppliers.mapTo(Suppliers.sequenceAsLong(0), String::valueOf));
+        generateAndPrintStream("mapTo sequenceAsLong", Suppliers.mapTo(SequenceSupplier.asLong(0), String::valueOf));
 
         generateAndPrintStream("localTimeAsString", Suppliers.localTimeAsString());
         generateAndPrintStream("threadNameAsString", Suppliers.threadNameAsString());
 
-        generateAndPrintStream("sequenceAsString 1.000", Suppliers.sequenceAsString(1_000L));
+        generateAndPrintStream("sequenceAsString 1.000", SequenceSupplier.asString(1_000L));
 
         generateAndPrintStream("conditional", Suppliers.conditional(new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
                 Suppliers.constantOfNotNull("Test"), Suppliers.constantNull()));

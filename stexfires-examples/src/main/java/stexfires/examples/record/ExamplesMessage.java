@@ -28,7 +28,7 @@ import stexfires.record.message.TextMessage;
 import stexfires.record.message.ToIdentityStringMessage;
 import stexfires.record.message.ToStringMessage;
 import stexfires.util.Strings;
-import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SequenceSupplier;
 
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -233,7 +233,7 @@ public final class ExamplesMessage {
         printMessage("constructor",
                 new SupplierMessage<>(() -> "message"));
         printMessage("constructor sequenceAsString",
-                new SupplierMessage<>(Suppliers.sequenceAsString(0L)));
+                new SupplierMessage<>(SequenceSupplier.asString(0L)));
     }
 
     private static void showToIdentityStringMessage() {

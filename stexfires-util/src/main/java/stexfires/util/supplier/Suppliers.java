@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleBinaryOperator;
@@ -209,40 +208,6 @@ public final class Suppliers {
 
     public static Supplier<String> threadNameAsString() {
         return () -> Thread.currentThread().getName();
-    }
-
-    public static Supplier<String> sequenceAsString(long initialValue) {
-        return new SequenceSupplier(initialValue).asStringSupplier();
-    }
-
-    public static Supplier<Long> sequenceAsLong(long initialValue) {
-        return new SequenceSupplier(initialValue).asLongSupplier();
-    }
-
-    public static LongSupplier sequenceAsPrimitiveLong(long initialValue) {
-        return new SequenceSupplier(initialValue).asPrimitiveLongSupplier();
-    }
-
-    private static final class SequenceSupplier {
-
-        private final AtomicLong atomicLong;
-
-        private SequenceSupplier(long initialValue) {
-            atomicLong = new AtomicLong(initialValue);
-        }
-
-        private Supplier<String> asStringSupplier() {
-            return () -> String.valueOf(atomicLong.getAndIncrement());
-        }
-
-        private Supplier<Long> asLongSupplier() {
-            return atomicLong::getAndIncrement;
-        }
-
-        private LongSupplier asPrimitiveLongSupplier() {
-            return atomicLong::getAndIncrement;
-        }
-
     }
 
 }
