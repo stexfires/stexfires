@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.Year;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -18,13 +19,13 @@ import java.util.random.RandomGenerator;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
-public final class ExamplesDateTimeFunction {
+public final class ExamplesDateTimeSuppliers {
 
     private static final RandomGenerator random = new Random();
     private static final Instant instantNow = Instant.now();
     private static final ZoneId zoneId = ZoneId.systemDefault();
 
-    private ExamplesDateTimeFunction() {
+    private ExamplesDateTimeSuppliers() {
     }
 
     private static <T> void generateAndPrintStream(String title, Supplier<? extends T> supplier) {
@@ -32,8 +33,8 @@ public final class ExamplesDateTimeFunction {
         Stream.generate(supplier).limit(10L).forEachOrdered(System.out::println);
     }
 
-    private static void showRandomInstantSuppliers() {
-        System.out.println("-showRandomInstantSuppliers---");
+    private static void showInstantSuppliers() {
+        System.out.println("-showInstantSuppliers---");
 
         generateAndPrintStream("instantOfEpochSecond randomEpochSecond - instantNow + 1 day",
                 DateTimeSuppliers.instantOfEpochSecond(
@@ -47,8 +48,8 @@ public final class ExamplesDateTimeFunction {
                                 instantNow.plus(1, ChronoUnit.DAYS))));
     }
 
-    private static void showRandomLocalDateSuppliers() {
-        System.out.println("-showRandomLocalDateSuppliers---");
+    private static void showLocalDateSuppliers() {
+        System.out.println("-showLocalDateSuppliers---");
 
         LocalDate localDateNow = LocalDate.ofInstant(instantNow, zoneId);
 
@@ -67,8 +68,8 @@ public final class ExamplesDateTimeFunction {
                                 localDateNow.plusDays(10))));
     }
 
-    private static void showRandomLocalTimeSuppliers() {
-        System.out.println("-showRandomLocalTimeSuppliers---");
+    private static void showLocalTimeSuppliers() {
+        System.out.println("-showLocalTimeSuppliers---");
 
         LocalTime localTimeNow = LocalTime.ofInstant(instantNow, zoneId);
 
@@ -113,8 +114,8 @@ public final class ExamplesDateTimeFunction {
                                 LocalTime.MAX)));
     }
 
-    private static void showRandomLocalDateTimeSuppliers() {
-        System.out.println("-showRandomLocalDateTimeSuppliers---");
+    private static void showLocalDateTimeSuppliers() {
+        System.out.println("-showLocalDateTimeSuppliers---");
 
         LocalDate localDateNow = LocalDate.ofInstant(instantNow, zoneId);
         LocalTime localTimeNow = LocalTime.ofInstant(instantNow, zoneId);
@@ -140,8 +141,8 @@ public final class ExamplesDateTimeFunction {
                                         localTimeNow.plusHours(1)))));
     }
 
-    private static void showRandomZonedDateTimeSuppliers() {
-        System.out.println("-showRandomZonedDateTimeSuppliers---");
+    private static void showZonedDateTimeSuppliers() {
+        System.out.println("-showZonedDateTimeSuppliers---");
 
         LocalDate localDateNow = LocalDate.ofInstant(instantNow, zoneId);
         LocalTime localTimeNow = LocalTime.ofInstant(instantNow, zoneId);
@@ -178,16 +179,20 @@ public final class ExamplesDateTimeFunction {
                         zoneId));
     }
 
-    private static void showRandomYear() {
-        System.out.println("-showRandomYear---");
+    private static void showYear() {
+        System.out.println("-showYear---");
 
-        generateAndPrintStream("year randomPrimitiveInt - 2020-2024",
+        generateAndPrintStream("year randomPrimitiveInt - 2020-2022",
                 DateTimeSuppliers.year(
-                        RandomNumberSuppliers.randomPrimitiveInt(random, 2020, 2024)));
+                        RandomNumberSuppliers.randomPrimitiveInt(random, 2020, 2022)));
+
+        generateAndPrintStream("year randomYearInclusive - 2020-2022",
+                DateTimeSuppliers.year(
+                        DateTimeSuppliers.randomYearInclusive(random, Year.of(2020), Year.of(2022))));
     }
 
-    private static void showRandomMonth() {
-        System.out.println("-showRandomMonth---");
+    private static void showMonth() {
+        System.out.println("-showMonth---");
 
         generateAndPrintStream("month randomPrimitiveInt - 9-13",
                 DateTimeSuppliers.month(
@@ -198,17 +203,24 @@ public final class ExamplesDateTimeFunction {
                         DateTimeSuppliers.randomMonthInclusive(random, Month.SEPTEMBER, Month.DECEMBER)));
     }
 
-    private static void showRandomYearMonth() {
-        System.out.println("-showRandomYearMonth---");
+    private static void showYearMonth() {
+        System.out.println("-showYearMonth---");
 
         generateAndPrintStream("yearMonth randomPrimitiveInt - 2020-2024 AND randomPrimitiveInt - 9-13",
                 DateTimeSuppliers.yearMonth(
                         RandomNumberSuppliers.randomPrimitiveInt(random, 2020, 2024),
                         RandomNumberSuppliers.randomPrimitiveInt(random, 9, 13)));
+
+        generateAndPrintStream("yearMonthOfYearAndMonth randomYearInclusive - 2020-2022 AND randomMonthInclusive - APRIL-JUNE",
+                DateTimeSuppliers.yearMonthOfYearAndMonth(
+                        DateTimeSuppliers.year(
+                                DateTimeSuppliers.randomYearInclusive(random, Year.of(2020), Year.of(2022))),
+                        DateTimeSuppliers.month(
+                                DateTimeSuppliers.randomMonthInclusive(random, Month.APRIL, Month.JUNE))));
     }
 
-    private static void showRandomDayOfWeek() {
-        System.out.println("-showRandomDayOfWeek---");
+    private static void showDayOfWeek() {
+        System.out.println("-showDayOfWeek---");
 
         generateAndPrintStream("dayOfWeek randomPrimitiveInt - 1-3",
                 DateTimeSuppliers.dayOfWeek(
@@ -219,16 +231,16 @@ public final class ExamplesDateTimeFunction {
                         DateTimeSuppliers.randomDayOfWeekInclusive(random, DayOfWeek.MONDAY, DayOfWeek.FRIDAY)));
     }
 
-    private static void showRandomDuration() {
-        System.out.println("-showRandomDuration---");
+    private static void showDuration() {
+        System.out.println("-showDuration---");
 
         generateAndPrintStream("durationOfSeconds randomPrimitiveLong - 1-10",
                 DateTimeSuppliers.durationOfSeconds(
                         RandomNumberSuppliers.randomPrimitiveLong(random, 1, 10)));
     }
 
-    private static void showRandomPeriod() {
-        System.out.println("-showRandomPeriod---");
+    private static void showPeriod() {
+        System.out.println("-showPeriod---");
 
         generateAndPrintStream("periodOfDays randomPrimitiveInt - 1-10",
                 DateTimeSuppliers.periodOfDays(
@@ -236,17 +248,17 @@ public final class ExamplesDateTimeFunction {
     }
 
     public static void main(String... args) {
-        showRandomInstantSuppliers();
-        showRandomLocalDateSuppliers();
-        showRandomLocalTimeSuppliers();
-        showRandomLocalDateTimeSuppliers();
-        showRandomZonedDateTimeSuppliers();
-        showRandomYear();
-        showRandomMonth();
-        showRandomYearMonth();
-        showRandomDayOfWeek();
-        showRandomDuration();
-        showRandomPeriod();
+        showInstantSuppliers();
+        showLocalDateSuppliers();
+        showLocalTimeSuppliers();
+        showLocalDateTimeSuppliers();
+        showZonedDateTimeSuppliers();
+        showYear();
+        showMonth();
+        showYearMonth();
+        showDayOfWeek();
+        showDuration();
+        showPeriod();
     }
 
 }

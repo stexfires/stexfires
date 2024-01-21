@@ -20,7 +20,12 @@ import java.util.random.RandomGenerator;
 
 /**
  * This class contains {@code static} utility methods
- * for creating {@link Supplier}s for DateTime/Temporal objects.
+ * for creating {@link Supplier}s for DateTime/Temporal objects,
+ * like {@link Instant}, {@link LocalDate}, {@link LocalTime}, {@link LocalDateTime}, {@link ZonedDateTime},
+ * {@link Year}, {@link Month}, {@link YearMonth}, {@link DayOfWeek}, {@link Duration}, {@link Period}.
+ * <p>
+ * There are also methods for creating random {@link LongSupplier}s and {@link IntSupplier}s, which can be used
+ * for creating random DateTime/Temporal objects.
  *
  * @see java.util.function.Supplier
  * @see java.time.temporal.TemporalAccessor
@@ -135,6 +140,13 @@ public final class DateTimeSuppliers {
         return () -> YearMonth.of(yearSupplier.getAsInt(), monthSupplier.getAsInt());
     }
 
+    public static Supplier<YearMonth> yearMonthOfYearAndMonth(Supplier<Year> yearSupplier,
+                                                              Supplier<Month> monthSupplier) {
+        Objects.requireNonNull(yearSupplier);
+        Objects.requireNonNull(monthSupplier);
+        return () -> yearSupplier.get().atMonth(monthSupplier.get());
+    }
+
     public static Supplier<DayOfWeek> dayOfWeek(IntSupplier dayOfWeekSupplier) {
         Objects.requireNonNull(dayOfWeekSupplier);
         return () -> DayOfWeek.of(dayOfWeekSupplier.getAsInt());
@@ -211,6 +223,15 @@ public final class DateTimeSuppliers {
         Objects.requireNonNull(startInclusive);
         Objects.requireNonNull(endInclusive);
         return RandomNumberSuppliers.randomPrimitiveLong(random, startInclusive.toNanoOfDay(), endInclusive.toNanoOfDay() + 1);
+    }
+
+    public static IntSupplier randomYearInclusive(RandomGenerator random,
+                                                  Year startInclusive,
+                                                  Year endInclusive) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(startInclusive);
+        Objects.requireNonNull(endInclusive);
+        return RandomNumberSuppliers.randomPrimitiveInt(random, startInclusive.getValue(), endInclusive.getValue() + 1);
     }
 
     public static IntSupplier randomMonthInclusive(RandomGenerator random,
