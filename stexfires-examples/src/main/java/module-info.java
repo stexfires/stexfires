@@ -11,4 +11,5 @@ module stexfires.examples {
     exports stexfires.examples.record;
     exports stexfires.examples.util;
     exports stexfires.examples.wiki;
+    exports stexfires.examples.util.supplier;
 }

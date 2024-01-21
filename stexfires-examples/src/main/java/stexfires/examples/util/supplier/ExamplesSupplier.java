@@ -1,4 +1,4 @@
-package stexfires.examples.util;
+package stexfires.examples.util.supplier;
 
 import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
@@ -18,37 +18,33 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "SameParameterValue"})
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut"})
 public final class ExamplesSupplier {
+
+    private static final long STREAM_LIMIT = 10L;
 
     private ExamplesSupplier() {
     }
 
-    private static <T> void printStream(String title, Stream<T> stream) {
-        System.out.println(title);
-        stream.limit(10L).forEachOrdered(System.out::println);
-    }
-
     private static <T> void generateAndPrintStream(String title, Supplier<T> supplier) {
-        printStream(title, Stream.generate(supplier));
-    }
-
-    private static void printIntStream(String title, IntStream stream) {
         System.out.println(title);
-        stream.limit(10L).forEachOrdered(System.out::println);
+        Stream.generate(supplier)
+              .limit(STREAM_LIMIT)
+              .forEachOrdered(System.out::println);
     }
 
     private static void generateAndPrintIntStream(String title, IntSupplier supplier) {
-        printIntStream(title, IntStream.generate(supplier));
-    }
-
-    private static void printLongStream(String title, LongStream stream) {
         System.out.println(title);
-        stream.limit(10L).forEachOrdered(System.out::println);
+        IntStream.generate(supplier)
+                 .limit(STREAM_LIMIT)
+                 .forEachOrdered(System.out::println);
     }
 
     private static void generateAndPrintLongStream(String title, LongSupplier supplier) {
-        printLongStream(title, LongStream.generate(supplier));
+        System.out.println(title);
+        LongStream.generate(supplier)
+                  .limit(STREAM_LIMIT)
+                  .forEachOrdered(System.out::println);
     }
 
     private static void showRepeatingPatternSupplier() {
