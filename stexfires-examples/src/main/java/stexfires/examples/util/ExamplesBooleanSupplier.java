@@ -1,9 +1,7 @@
 package stexfires.examples.util;
 
-import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.RandomBooleanSupplier;
 import stexfires.util.supplier.Suppliers;
-import stexfires.util.supplier.SwitchingBooleanSupplier;
 
 import java.util.List;
 import java.util.Random;
@@ -106,37 +104,9 @@ public final class ExamplesBooleanSupplier {
                 new RandomBooleanSupplier(50, randomGenerator).asPrimitiveBooleanSupplier().getAsBoolean());
     }
 
-    private static void showSwitchingBooleanSupplier() {
-        System.out.println("-showSwitchingBooleanSupplier---");
-
-        printStream("Switching: Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, i -> i == 2",
-                Stream.generate(
-                        new SwitchingBooleanSupplier(Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, i -> i == 2)));
-
-        printStream("Switching: Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, even",
-                Stream.generate(
-                        new SwitchingBooleanSupplier(Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, NumberPredicates.PrimitiveIntPredicates.even())));
-
-        printStream("Switching: Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, multipleOf 3",
-                Stream.generate(
-                        new SwitchingBooleanSupplier(Boolean.FALSE, SwitchingBooleanSupplier.DEFAULT_START_INDEX, NumberPredicates.PrimitiveIntPredicates.multipleOf(3))));
-
-        printStream("Switching: onlyOnce at index 3",
-                Stream.generate(
-                        SwitchingBooleanSupplier.onlyOnce(false, 3)));
-
-        printStream("Switching: everyTime",
-                Stream.generate(
-                        SwitchingBooleanSupplier.everyTime(false)));
-
-        printBoolean("Switching: everyTime primitive boolean",
-                SwitchingBooleanSupplier.everyTime(true).asPrimitiveBooleanSupplier().getAsBoolean());
-    }
-
     public static void main(String... args) {
         showSuppliers();
         showRandomBooleanSupplier();
-        showSwitchingBooleanSupplier();
     }
 
 }

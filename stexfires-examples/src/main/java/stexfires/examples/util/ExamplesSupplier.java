@@ -1,11 +1,19 @@
 package stexfires.examples.util;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.RepeatingPatternSupplier;
+import stexfires.util.supplier.SwitchingSupplier;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -21,9 +29,17 @@ public final class ExamplesSupplier {
         stream.limit(10L).forEachOrdered(System.out::println);
     }
 
+    private static <T> void generateAndPrintStream(String title, Supplier<T> supplier) {
+        printStream(title, Stream.generate(supplier));
+    }
+
     private static void printIntStream(String title, IntStream stream) {
         System.out.println(title);
         stream.limit(10L).forEachOrdered(System.out::println);
+    }
+
+    private static void generateAndPrintIntStream(String title, IntSupplier supplier) {
+        printIntStream(title, IntStream.generate(supplier));
     }
 
     private static void printLongStream(String title, LongStream stream) {
@@ -31,50 +47,62 @@ public final class ExamplesSupplier {
         stream.limit(10L).forEachOrdered(System.out::println);
     }
 
+    private static void generateAndPrintLongStream(String title, LongSupplier supplier) {
+        printLongStream(title, LongStream.generate(supplier));
+    }
+
     private static void showRepeatingPatternSupplier() {
         System.out.println("-showRepeatingPatternSupplier---");
 
         // singletonList
-        printStream("Pattern: singletonList [TRUE]",
-                Stream.generate(
-                        new RepeatingPatternSupplier<>(Collections.singletonList(Boolean.TRUE))));
-        printStream("Pattern: singletonList [42]",
-                Stream.generate(
-                        new RepeatingPatternSupplier<>(Collections.singletonList(1))));
+        generateAndPrintStream("singletonList [TRUE]",
+                new RepeatingPatternSupplier<>(Collections.singletonList(Boolean.TRUE)));
+        generateAndPrintStream("singletonList [42]",
+                new RepeatingPatternSupplier<>(Collections.singletonList(1)));
+        // List.of
+        generateAndPrintStream("List.of [A, B, C]",
+                new RepeatingPatternSupplier<>(List.of("A", "B", "C")));
+        // Set.of
+        generateAndPrintStream("Set.of [C, B, A]",
+                new RepeatingPatternSupplier<>(Set.of("C", "B", "A")));
+        // HashSet
+        Collection<String> hashSet = HashSet.newHashSet(5);
+        hashSet.add("first");
+        hashSet.add("second");
+        hashSet.add("third");
+        hashSet.add("fourth");
+        hashSet.add("fifth");
+        generateAndPrintStream("HashSet [first, second, third, fourth, fifth]",
+                new RepeatingPatternSupplier<>(hashSet));
 
         // list
         List<Boolean> booleanList = new ArrayList<>();
         booleanList.add(Boolean.TRUE);
         booleanList.add(Boolean.TRUE);
         booleanList.add(Boolean.FALSE);
-        printStream("Pattern: List<Boolean> [TRUE, TRUE, FALSE]",
-                Stream.generate(
-                        new RepeatingPatternSupplier<>(booleanList)));
+        generateAndPrintStream("List<Boolean> [TRUE, TRUE, FALSE]",
+                new RepeatingPatternSupplier<>(booleanList));
         List<Integer> integerList = new ArrayList<>();
         integerList.add(0);
         integerList.add(2);
         integerList.add(2);
-        printStream("Pattern: List<Integer> [0, 2, 2]",
-                Stream.generate(
-                        new RepeatingPatternSupplier<>(integerList)));
+        generateAndPrintStream("List<Integer> [0, 2, 2]",
+                new RepeatingPatternSupplier<>(integerList));
 
-        printStream("ofPrimitiveBoolean: true, true, false",
-                Stream.generate(
-                        RepeatingPatternSupplier.ofPrimitiveBoolean(true, true, false)));
-        printStream("ofPrimitiveInt: 0, 2, 2",
-                Stream.generate(
-                        RepeatingPatternSupplier.ofPrimitiveInt(0, 2, 2)));
-        printStream("ofPrimitiveLong: 0, 2, 2",
-                Stream.generate(
-                        RepeatingPatternSupplier.ofPrimitiveLong(0L, 2L, 2L)));
+        generateAndPrintStream("ofPrimitiveBoolean: true, true, false",
+                RepeatingPatternSupplier.ofPrimitiveBoolean(true, true, false));
+        generateAndPrintStream("ofPrimitiveInt: 0, 2, 2",
+                RepeatingPatternSupplier.ofPrimitiveInt(0, 2, 2));
+        generateAndPrintStream("ofPrimitiveLong: 0, 2, 2",
+                RepeatingPatternSupplier.ofPrimitiveLong(0L, 2L, 2L));
 
-        printIntStream("IntStream ofPrimitiveInt: 0, 2, 2",
-                IntStream.generate(
-                        RepeatingPatternSupplier.ofPrimitiveInt(0, 2, 2)::get));
-        printLongStream("LongStream ofPrimitiveLong: 0, 2, 2",
-                LongStream.generate(
-                        RepeatingPatternSupplier.ofPrimitiveLong(0L, 2L, 2L)::get));
+        generateAndPrintIntStream("IntStream ofPrimitiveInt: 0, 2, 2",
+                RepeatingPatternSupplier.ofPrimitiveInt(0, 2, 2)::get);
+        generateAndPrintLongStream("LongStream ofPrimitiveLong: 0, 2, 2",
+                RepeatingPatternSupplier.ofPrimitiveLong(0L, 2L, 2L)::get);
+
         // Test empty pattern
+        System.out.println("Test empty pattern");
         try {
             var supplier = new RepeatingPatternSupplier<>(List.of());
         } catch (IllegalArgumentException e) {
@@ -96,7 +124,8 @@ public final class ExamplesSupplier {
             System.out.println(e);
         }
 
-        // Test pattern with null value
+        // Test pattern with null values
+        System.out.println("Test pattern with null values");
         try {
             List<@Nullable Boolean> nullBooleanList = new ArrayList<>(3);
             nullBooleanList.add(null);
@@ -108,8 +137,40 @@ public final class ExamplesSupplier {
         }
     }
 
+    private static void showSwitchingSupplier() {
+        System.out.println("-showSwitchingSupplier---");
+
+        generateAndPrintStream("FALSE, TRUE, i -> i == 2 || i == 5",
+                new SwitchingSupplier<>(Boolean.FALSE, Boolean.TRUE,
+                        i -> i == 2 || i == 5));
+
+        generateAndPrintStream("A, B, DEFAULT_START_INDEX, even",
+                new SwitchingSupplier<>("A", "B", SwitchingSupplier.DEFAULT_START_INDEX,
+                        NumberPredicates.PrimitiveIntPredicates.even()));
+
+        generateAndPrintStream("A, B, DEFAULT_START_INDEX, multipleOf 3",
+                new SwitchingSupplier<>("A", "B", SwitchingSupplier.DEFAULT_START_INDEX,
+                        NumberPredicates.PrimitiveIntPredicates.multipleOf(3)));
+
+        generateAndPrintStream("atIndex: A, B, 3",
+                SwitchingSupplier.atIndex("A", "B", 3));
+
+        generateAndPrintStream("everyTime: A, B",
+                SwitchingSupplier.everyTime("A", "B"));
+
+        generateAndPrintStream("everyTime: TRUE, FALSE",
+                SwitchingSupplier.everyTime(Boolean.TRUE, Boolean.FALSE));
+
+        generateAndPrintIntStream("IntStream atIndex: -100, 100, 4",
+                SwitchingSupplier.atIndex(-100, 100, 4)::get);
+
+        generateAndPrintLongStream("LongStream everyTime: MIN_VALUE, MAX_VALUE",
+                SwitchingSupplier.everyTime(Long.MIN_VALUE, Long.MAX_VALUE)::get);
+    }
+
     public static void main(String... args) {
         showRepeatingPatternSupplier();
+        showSwitchingSupplier();
     }
 
 }
