@@ -2,7 +2,7 @@ package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
 import stexfires.util.supplier.RandomBooleanSupplier;
-import stexfires.util.supplier.RepeatingPatternBooleanSupplier;
+import stexfires.util.supplier.RepeatingPatternSupplier;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -39,7 +39,7 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
 
     public static <T extends TextRecord> SupplierFilter<T> pattern(boolean... pattern) {
         Objects.requireNonNull(pattern);
-        return new SupplierFilter<>(RepeatingPatternBooleanSupplier.primitiveBooleans(pattern));
+        return new SupplierFilter<>(RepeatingPatternSupplier.ofPrimitiveBoolean(pattern));
     }
 
     @Override

@@ -1,14 +1,10 @@
 package stexfires.examples.util;
 
-import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.RandomBooleanSupplier;
-import stexfires.util.supplier.RepeatingPatternBooleanSupplier;
 import stexfires.util.supplier.Suppliers;
 import stexfires.util.supplier.SwitchingBooleanSupplier;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -110,48 +106,6 @@ public final class ExamplesBooleanSupplier {
                 new RandomBooleanSupplier(50, randomGenerator).asPrimitiveBooleanSupplier().getAsBoolean());
     }
 
-    @SuppressWarnings({"ThrowablePrintedToSystemOut", "NullableProblems"})
-    private static void showRepeatingPatternBooleanSupplier() {
-        System.out.println("-showRepeatingPatternBooleanSupplier---");
-
-        printStream("Pattern: List [TRUE]",
-                Stream.generate(
-                        new RepeatingPatternBooleanSupplier(Collections.singletonList(Boolean.TRUE))));
-
-        List<Boolean> booleanList = new ArrayList<>();
-        booleanList.add(Boolean.TRUE);
-        booleanList.add(Boolean.TRUE);
-        booleanList.add(Boolean.FALSE);
-        printStream("Pattern: List [TRUE, TRUE, FALSE]",
-                Stream.generate(
-                        new RepeatingPatternBooleanSupplier(booleanList)));
-
-        printStream("Pattern: true, true, false",
-                Stream.generate(
-                        RepeatingPatternBooleanSupplier.primitiveBooleans(true, true, false)));
-
-        printStream("Pattern: true, true, true, false",
-                Stream.generate(
-                        RepeatingPatternBooleanSupplier.primitiveBooleans(true, true, true, false)));
-
-        printBoolean("Pattern: List [FALSE]  primitive boolean",
-                new RepeatingPatternBooleanSupplier(List.of(Boolean.FALSE)).asPrimitiveBooleanSupplier().getAsBoolean());
-
-        List<@Nullable Boolean> nullBooleanList = new ArrayList<>();
-        nullBooleanList.add(null);
-        try {
-            var supplier = new RepeatingPatternBooleanSupplier(nullBooleanList);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
-
-        try {
-            var supplier = new RepeatingPatternBooleanSupplier(List.of());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e);
-        }
-    }
-
     private static void showSwitchingBooleanSupplier() {
         System.out.println("-showSwitchingBooleanSupplier---");
 
@@ -182,7 +136,6 @@ public final class ExamplesBooleanSupplier {
     public static void main(String... args) {
         showSuppliers();
         showRandomBooleanSupplier();
-        showRepeatingPatternBooleanSupplier();
         showSwitchingBooleanSupplier();
     }
 
