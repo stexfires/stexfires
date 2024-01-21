@@ -9,7 +9,7 @@ import stexfires.data.StringDataTypeParser;
 import stexfires.util.Strings;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

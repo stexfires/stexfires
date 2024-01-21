@@ -14,9 +14,9 @@ import stexfires.record.generator.RecordGenerator;
 import stexfires.record.generator.RecordIdGenerator;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.SortNulls;
-import stexfires.util.function.RandomNumberSuppliers;
-import stexfires.util.function.RandomStringSuppliers;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.RandomStringSuppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

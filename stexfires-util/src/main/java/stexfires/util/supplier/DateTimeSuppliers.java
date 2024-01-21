@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -19,6 +19,22 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
+ * This class contains {@code static} utility methods
+ * for creating {@link Supplier}s for DateTime/Temporal objects.
+ *
+ * @see java.util.function.Supplier
+ * @see java.time.temporal.TemporalAccessor
+ * @see java.time.Instant
+ * @see java.time.LocalDate
+ * @see java.time.LocalTime
+ * @see java.time.LocalDateTime
+ * @see java.time.ZonedDateTime
+ * @see java.time.Year
+ * @see java.time.Month
+ * @see java.time.YearMonth
+ * @see java.time.DayOfWeek
+ * @see java.time.Duration
+ * @see java.time.Period
  * @since 0.1
  */
 public final class DateTimeSuppliers {

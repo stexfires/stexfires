@@ -10,7 +10,7 @@ import stexfires.data.StringDataTypeFormatter;
 import stexfires.data.StringDataTypeParser;
 import stexfires.util.StringComparators;
 import stexfires.util.TextSplitters;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,10 +1,10 @@
 package stexfires.examples.util;
 
 import stexfires.util.TextSplitters;
-import stexfires.util.function.RandomBooleanSupplier;
-import stexfires.util.function.RandomNumberSuppliers;
-import stexfires.util.function.RandomStringSuppliers;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.RandomStringSuppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.List;
 import java.util.Locale;

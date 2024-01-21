@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -10,6 +10,15 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
+ * This class contains {@code static} utility methods
+ * for creating random {@link Supplier}s for {@link java.lang.Number} objects.
+ *
+ * @see java.util.function.Supplier
+ * @see java.util.function.IntSupplier
+ * @see java.util.function.LongSupplier
+ * @see java.util.function.DoubleSupplier
+ * @see java.lang.Number
+ * @see java.util.random.RandomGenerator
  * @since 0.1
  */
 public final class RandomNumberSuppliers {

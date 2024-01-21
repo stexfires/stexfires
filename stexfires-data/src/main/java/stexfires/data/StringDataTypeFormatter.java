@@ -1,7 +1,7 @@
 package stexfires.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.Objects;
 import java.util.function.Supplier;

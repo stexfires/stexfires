@@ -2,10 +2,10 @@ package stexfires.examples.util;
 
 import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
-import stexfires.util.function.RandomBooleanSupplier;
-import stexfires.util.function.RepeatingPatternBooleanSupplier;
-import stexfires.util.function.Suppliers;
-import stexfires.util.function.SwitchingBooleanSupplier;
+import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.RepeatingPatternBooleanSupplier;
+import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SwitchingBooleanSupplier;
 
 import java.util.ArrayList;
 import java.util.Collections;

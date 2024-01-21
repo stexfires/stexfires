@@ -5,7 +5,7 @@ import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.ArrayList;
 import java.util.Collection;

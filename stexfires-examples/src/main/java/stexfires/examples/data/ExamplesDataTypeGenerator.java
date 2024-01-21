@@ -14,10 +14,10 @@ import stexfires.record.generator.GeneratorInterimResult;
 import stexfires.record.generator.GeneratorProducer;
 import stexfires.record.generator.RecordGenerator;
 import stexfires.record.generator.RecordIdGenerator;
-import stexfires.util.function.DateTimeSuppliers;
-import stexfires.util.function.RandomBooleanSupplier;
-import stexfires.util.function.RandomNumberSuppliers;
-import stexfires.util.function.RandomStringSuppliers;
+import stexfires.util.supplier.DateTimeSuppliers;
+import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.RandomStringSuppliers;
 
 import java.text.NumberFormat;
 import java.time.LocalTime;

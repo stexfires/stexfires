@@ -30,7 +30,7 @@ import stexfires.record.message.SizeMessage;
 import stexfires.record.message.TextMessage;
 import stexfires.util.Strings;
 import stexfires.util.function.StringUnaryOperators;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.nio.file.Path;
 import java.util.Collections;

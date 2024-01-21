@@ -28,7 +28,7 @@ import stexfires.record.message.TextMessage;
 import stexfires.record.message.ToIdentityStringMessage;
 import stexfires.record.message.ToStringMessage;
 import stexfires.util.Strings;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.Locale;
 import java.util.stream.Stream;

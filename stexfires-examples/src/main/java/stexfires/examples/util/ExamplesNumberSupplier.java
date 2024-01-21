@@ -1,7 +1,7 @@
 package stexfires.examples.util;
 
-import stexfires.util.function.RandomNumberSuppliers;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

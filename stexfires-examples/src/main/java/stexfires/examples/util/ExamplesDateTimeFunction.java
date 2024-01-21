@@ -1,7 +1,7 @@
 package stexfires.examples.util;
 
-import stexfires.util.function.DateTimeSuppliers;
-import stexfires.util.function.RandomNumberSuppliers;
+import stexfires.util.supplier.DateTimeSuppliers;
+import stexfires.util.supplier.RandomNumberSuppliers;
 
 import java.time.DayOfWeek;
 import java.time.Instant;

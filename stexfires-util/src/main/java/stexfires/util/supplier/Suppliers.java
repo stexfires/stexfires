@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import org.jspecify.annotations.Nullable;
 

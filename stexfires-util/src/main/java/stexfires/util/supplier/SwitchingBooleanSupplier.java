@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;

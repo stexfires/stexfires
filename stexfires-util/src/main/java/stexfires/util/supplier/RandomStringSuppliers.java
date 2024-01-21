@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,6 +9,12 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
+ * This class consists of {@code static} utility methods
+ * for creating random {@link Supplier}s for {@link java.lang.String} objects.
+ *
+ * @see java.util.function.Supplier
+ * @see java.lang.String
+ * @see java.util.random.RandomGenerator
  * @since 0.1
  */
 public final class RandomStringSuppliers {

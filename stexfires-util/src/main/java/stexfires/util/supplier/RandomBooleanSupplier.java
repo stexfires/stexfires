@@ -1,4 +1,4 @@
-package stexfires.util.function;
+package stexfires.util.supplier;
 
 import org.jspecify.annotations.Nullable;
 
@@ -8,6 +8,15 @@ import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 /**
+ * A RandomBooleanSupplier supplies endless random {@link java.lang.Boolean} values.
+ * <p>
+ * The {@link RandomBooleanSupplier#get()} method is not {@code synchronized},
+ * so a suitable {@link java.util.random.RandomGenerator} must be used in a multithreading context.
+ *
+ * @see java.util.function.Supplier
+ * @see java.util.function.BooleanSupplier
+ * @see java.lang.Boolean
+ * @see java.util.random.RandomGenerator
  * @since 0.1
  */
 public final class RandomBooleanSupplier implements Supplier<Boolean> {

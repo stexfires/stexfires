@@ -2,7 +2,7 @@ package stexfires.data;
 
 import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.io.UncheckedIOException;
 import java.util.Objects;

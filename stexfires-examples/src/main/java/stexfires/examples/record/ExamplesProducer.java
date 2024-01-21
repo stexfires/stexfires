@@ -17,7 +17,7 @@ import stexfires.record.producer.KeyValueRecordProducer;
 import stexfires.record.producer.RecordProducer;
 import stexfires.record.producer.ValueRecordProducer;
 import stexfires.util.Strings;
-import stexfires.util.function.Suppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
