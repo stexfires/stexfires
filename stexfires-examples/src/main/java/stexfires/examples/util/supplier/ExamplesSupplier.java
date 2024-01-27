@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
@@ -366,6 +367,17 @@ public final class ExamplesSupplier {
         generateAndPrintStream("randomUUID", Suppliers.randomUUID());
     }
 
+    private static void showReplenishedCollection() {
+        System.out.println("-showReplenishedCollection---");
+
+        generateAndPrintStream("ArrayList randomUUID", Suppliers.replenishedCollection(ArrayList::new, Suppliers.randomUUID(),
+                () -> 3, 3));
+        generateAndPrintStream("TreeSet randomInteger", Suppliers.replenishedCollection(TreeSet::new, RandomNumberSuppliers.randomInteger(RANDOM, 100, 1000),
+                () -> 10, Integer.MAX_VALUE));
+        generateAndPrintStream("HashSet randomInteger", Suppliers.replenishedCollection(HashSet::new, RandomNumberSuppliers.randomInteger(RANDOM, 0, 2),
+                () -> 3, 4));
+    }
+
     public static void main(String... args) {
         showSequenceSupplier();
         showRepeatingPatternSupplier();
@@ -379,6 +391,7 @@ public final class ExamplesSupplier {
         showIntSupplierListSelection();
         showIntSupplierSelection();
         showRandomUUID();
+        showReplenishedCollection();
     }
 
 }

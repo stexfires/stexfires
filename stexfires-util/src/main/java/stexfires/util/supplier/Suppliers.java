@@ -5,6 +5,7 @@ import stexfires.util.function.BooleanBinaryOperator;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -243,6 +244,25 @@ public final class Suppliers {
                 end = completeString.length();
             }
             return completeString.substring(begin, end);
+        };
+    }
+
+    public static <T, C extends Collection<T>> Supplier<C> replenishedCollection(Supplier<C> newCollectionSupplier,
+                                                                                 Supplier<T> elementToBeAddedSupplier,
+                                                                                 IntSupplier sizeSupplier,
+                                                                                 int maxAdditionAttempts) {
+        Objects.requireNonNull(newCollectionSupplier);
+        Objects.requireNonNull(elementToBeAddedSupplier);
+        Objects.requireNonNull(sizeSupplier);
+        return () -> {
+            C collection = newCollectionSupplier.get();
+            int size = sizeSupplier.getAsInt();
+            int additionAttempts = 0;
+            while ((additionAttempts < maxAdditionAttempts) && (collection.size() < size)) {
+                collection.add(elementToBeAddedSupplier.get());
+                additionAttempts++;
+            }
+            return collection;
         };
     }
 
