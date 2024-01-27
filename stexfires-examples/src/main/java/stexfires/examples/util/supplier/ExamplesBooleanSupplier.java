@@ -36,18 +36,6 @@ public final class ExamplesBooleanSupplier {
     private static void showSuppliers() {
         System.out.println("-showSuppliers---");
 
-        generateAndPrintStream("constant",
-                Suppliers.constantOfNotNull(Boolean.TRUE));
-        generateAndPrintStream("constantNull",
-                Suppliers.constantNull());
-        printBoolean("constantPrimitiveBoolean",
-                Suppliers.constantPrimitiveBoolean(true).getAsBoolean());
-
-        generateAndPrintStream("combine Boolean::logicalAnd",
-                Suppliers.combine(() -> Boolean.TRUE, () -> Boolean.FALSE, Boolean::logicalAnd));
-        printBoolean("combinePrimitiveBoolean",
-                Suppliers.combinePrimitiveBoolean(() -> true, () -> false, (x, y) -> x && y).getAsBoolean());
-
         generateAndPrintStream("mapTo constant parseBoolean",
                 Suppliers.mapTo(Suppliers.constantOfNotNull("true"), Boolean::parseBoolean));
         printBoolean("mapToPrimitiveBoolean constant parseBoolean",

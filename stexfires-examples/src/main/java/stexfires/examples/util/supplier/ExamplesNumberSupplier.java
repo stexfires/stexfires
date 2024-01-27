@@ -55,47 +55,6 @@ public final class ExamplesNumberSupplier {
                     .forEachOrdered(System.out::println);
     }
 
-    private static void showSuppliersConstant() {
-        System.out.println("-showSuppliersConstant---");
-
-        generateAndPrintStream("constant Long.MAX_VALUE",
-                Suppliers.constantOfNotNull(Long.MAX_VALUE));
-        generateAndPrintStream("constant Integer.MAX_VALUE",
-                Suppliers.constantOfNotNull(Integer.MAX_VALUE));
-        generateAndPrintStream("constant Double.MAX_VALUE",
-                Suppliers.constantOfNotNull(Double.MAX_VALUE));
-
-        generateAndPrintStream("constantNull",
-                Suppliers.constantNull());
-        generateAndPrintStream("constantNull <Integer>",
-                Suppliers.<Integer>constantNull());
-
-        generateAndPrintLongStream("constantPrimitiveLong Long.MAX_VALUE",
-                Suppliers.constantPrimitiveLong(Long.MAX_VALUE));
-        generateAndPrintIntStream("constantPrimitiveInt Integer.MAX_VALUE",
-                Suppliers.constantPrimitiveInt(Integer.MAX_VALUE));
-        generateAndPrintDoubleStream("constantPrimitiveDouble Double.MAX_VALUE",
-                Suppliers.constantPrimitiveDouble(Double.MAX_VALUE));
-    }
-
-    private static void showSuppliersCombine() {
-        System.out.println("-showSuppliersCombine---");
-
-        generateAndPrintStream("combine Long::sum",
-                Suppliers.combine(() -> 1L, () -> 2L, Long::sum));
-        generateAndPrintStream("combine Integer::sum",
-                Suppliers.combine(() -> 1, () -> 2, Integer::sum));
-        generateAndPrintStream("combine Double::sum",
-                Suppliers.combine(() -> 1.0d, () -> 2.0d, Double::sum));
-
-        generateAndPrintLongStream("combinePrimitiveLong Long.sum",
-                Suppliers.combinePrimitiveLong(() -> 1L, () -> 2L, Long::sum));
-        generateAndPrintIntStream("combinePrimitiveInt Integer.sum",
-                Suppliers.combinePrimitiveInt(() -> 1, () -> 2, Integer::sum));
-        generateAndPrintDoubleStream("combinePrimitiveDouble Double.sum",
-                Suppliers.combinePrimitiveDouble(() -> 1.0d, () -> 2.0d, Double::sum));
-    }
-
     private static void showSuppliersMapTo() {
         System.out.println("-showSuppliersMapTo---");
 
@@ -198,8 +157,6 @@ public final class ExamplesNumberSupplier {
     }
 
     public static void main(String... args) {
-        showSuppliersConstant();
-        showSuppliersCombine();
         showSuppliersMapTo();
         showRandomSupplier();
         showRandomSelectionSupplier();

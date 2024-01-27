@@ -34,11 +34,6 @@ public final class ExamplesStringSupplier {
     private static void showSuppliers() {
         System.out.println("-showSuppliers---");
 
-        generateAndPrintStream("constant", Suppliers.constantOfNotNull("Test"));
-        generateAndPrintStream("constantNull", Suppliers.constantNull());
-
-        generateAndPrintStream("combine", Suppliers.combine(() -> "X", () -> "Y", (x, y) -> x + "-" + y));
-
         generateAndPrintStream("mapTo sequenceAsLong", Suppliers.mapTo(SequenceSupplier.asLong(0), String::valueOf));
 
         generateAndPrintStream("localTimeAsString", Suppliers.localTimeAsString());

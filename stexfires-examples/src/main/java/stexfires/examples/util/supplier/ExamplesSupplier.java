@@ -1,9 +1,12 @@
 package stexfires.examples.util.supplier;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.util.Alignment;
+import stexfires.util.SortNulls;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.RepeatingPatternSupplier;
 import stexfires.util.supplier.SequenceSupplier;
+import stexfires.util.supplier.Suppliers;
 import stexfires.util.supplier.SwitchingSupplier;
 
 import java.util.ArrayList;
@@ -12,9 +15,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -46,6 +51,18 @@ public final class ExamplesSupplier {
         LongStream.generate(supplier)
                   .limit(STREAM_LIMIT)
                   .forEachOrdered(System.out::println);
+    }
+
+    private static void generateAndPrintDoubleStream(String title, DoubleSupplier supplier) {
+        System.out.println(title);
+        DoubleStream.generate(supplier)
+                    .limit(STREAM_LIMIT)
+                    .forEachOrdered(System.out::println);
+    }
+
+    private static void printBoolean(String title, boolean value) {
+        System.out.println(title);
+        System.out.println(value);
     }
 
     private static void showSequenceSupplier() {
@@ -184,10 +201,64 @@ public final class ExamplesSupplier {
                 SwitchingSupplier.everyTime(Long.MIN_VALUE, Long.MAX_VALUE)::get);
     }
 
+    private static void showConstant() {
+        System.out.println("-showConstant---");
+
+        // constantOfNotNull
+        generateAndPrintStream("constantOfNotNull Test", Suppliers.constantOfNotNull("Test"));
+        generateAndPrintStream("constantOfNotNull 0", Suppliers.constantOfNotNull(0));
+        generateAndPrintStream("constantOfNotNull Boolean TRUE", Suppliers.constantOfNotNull(Boolean.TRUE));
+        generateAndPrintStream("constantOfNotNull Enum FIRST", Suppliers.constantOfNotNull(SortNulls.FIRST));
+        generateAndPrintStream("constantOfNotNull Set<String>", Suppliers.constantOfNotNull(Set.of("A", "B", "C")));
+
+        // constantOfNullable
+        generateAndPrintStream("constantOfNullable null", Suppliers.constantOfNullable(null));
+        generateAndPrintStream("constantOfNullable Test", Suppliers.constantOfNullable("Test"));
+
+        // constantNull
+        generateAndPrintStream("constantNull", Suppliers.constantNull());
+        Supplier<@Nullable Integer> constantNullInteger = Suppliers.constantNull();
+        generateAndPrintStream("constantNull <Integer>", constantNullInteger);
+        generateAndPrintStream("constantNull <Integer>", Suppliers.<@Nullable Integer>constantNull());
+
+        // constantPrimitive
+        printBoolean("constantPrimitiveBoolean true", Suppliers.constantPrimitiveBoolean(true).getAsBoolean());
+        generateAndPrintLongStream("constantPrimitiveLong Long.MAX_VALUE", Suppliers.constantPrimitiveLong(Long.MAX_VALUE));
+        generateAndPrintIntStream("constantPrimitiveInt Integer.MAX_VALUE", Suppliers.constantPrimitiveInt(Integer.MAX_VALUE));
+        generateAndPrintDoubleStream("constantPrimitiveDouble Double.MAX_VALUE", Suppliers.constantPrimitiveDouble(Double.MAX_VALUE));
+    }
+
+    private static void showCombine() {
+        System.out.println("-showCombine---");
+
+        generateAndPrintStream("combine String", Suppliers.combine(() -> "X", () -> "Y", (x, y) -> x + "-" + y));
+
+        generateAndPrintStream("combine Long::sum", Suppliers.combine(() -> 1L, () -> 2L, Long::sum));
+        generateAndPrintStream("combine Integer::sum", Suppliers.combine(() -> 1, () -> 2, Integer::sum));
+        generateAndPrintStream("combine Double::sum", Suppliers.combine(() -> 1.0d, () -> 2.0d, Double::sum));
+
+        generateAndPrintStream("combine Boolean::logicalAnd", Suppliers.combine(() -> Boolean.TRUE, () -> Boolean.FALSE, Boolean::logicalAnd));
+
+        generateAndPrintStream("combine Alignment", Suppliers.combine(() -> Alignment.START, () -> Alignment.END, (a0, a1) -> a0 == a1 ? a0 : Alignment.CENTER));
+        generateAndPrintStream("combine Set addAll", Suppliers.combine(() -> Set.of("A", "B"), () -> Set.of("B", "C", "D"), (s0, s1) -> {
+            Set<String> set = HashSet.newHashSet(s0.size() + s1.size());
+            set.addAll(s0);
+            set.addAll(s1);
+            return set;
+        }));
+
+        printBoolean("combinePrimitiveBoolean &&", Suppliers.combinePrimitiveBoolean(() -> true, () -> false, (x, y) -> x && y).getAsBoolean());
+        generateAndPrintIntStream("combinePrimitiveInt Integer.sum", Suppliers.combinePrimitiveInt(() -> 1, () -> 2, Integer::sum));
+        generateAndPrintLongStream("combinePrimitiveLong Long.sum", Suppliers.combinePrimitiveLong(() -> 1L, () -> 2L, Long::sum));
+        generateAndPrintDoubleStream("combinePrimitiveDouble Double.sum", Suppliers.combinePrimitiveDouble(() -> 1.0d, () -> 2.0d, Double::sum));
+    }
+
     public static void main(String... args) {
         showSequenceSupplier();
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
+        showConstant();
+        showCombine();
     }
 
 }
