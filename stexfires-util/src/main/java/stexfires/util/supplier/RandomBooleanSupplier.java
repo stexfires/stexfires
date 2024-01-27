@@ -49,4 +49,12 @@ public final class RandomBooleanSupplier implements Supplier<Boolean> {
         return (constantResult != null) ? constantResult : (random.nextInt(HUNDRED) < percent);
     }
 
+    @Override
+    public String toString() {
+        return "RandomBooleanSupplier{" +
+                "percent=" + percent +
+                ", constantResult=" + constantResult +
+                '}';
+    }
+
 }

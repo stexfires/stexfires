@@ -82,4 +82,11 @@ public final class RepeatingPatternSupplier<T> implements Supplier<T> {
         return pattern.get(currentIndex);
     }
 
+    @Override
+    public String toString() {
+        return "RepeatingPatternSupplier{" +
+                "currentIndex=" + currentIndex +
+                '}';
+    }
+
 }

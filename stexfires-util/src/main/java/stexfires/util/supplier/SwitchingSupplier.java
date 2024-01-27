@@ -90,4 +90,13 @@ public final class SwitchingSupplier<T> implements Supplier<T> {
         return currentValue;
     }
 
+    @Override
+    public String toString() {
+        return "SwitchingSupplier{" +
+                "currentIsFirst=" + currentIsFirst +
+                ", currentValue=" + currentValue +
+                ", currentIndex=" + currentIndex +
+                '}';
+    }
+
 }
