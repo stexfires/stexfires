@@ -44,8 +44,6 @@ public final class ExamplesStringSupplier {
         generateAndPrintStream("localTimeAsString", Suppliers.localTimeAsString());
         generateAndPrintStream("threadNameAsString", Suppliers.threadNameAsString());
 
-        generateAndPrintStream("sequenceAsString 1.000", SequenceSupplier.asString(1_000L));
-
         generateAndPrintStream("conditional", Suppliers.conditional(new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
                 Suppliers.constantOfNotNull("Test"), Suppliers.constantNull()));
     }

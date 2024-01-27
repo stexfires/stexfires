@@ -3,6 +3,7 @@ package stexfires.examples.util.supplier;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.RepeatingPatternSupplier;
+import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.SwitchingSupplier;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut"})
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "MagicNumber"})
 public final class ExamplesSupplier {
 
     private static final long STREAM_LIMIT = 10L;
@@ -45,6 +46,25 @@ public final class ExamplesSupplier {
         LongStream.generate(supplier)
                   .limit(STREAM_LIMIT)
                   .forEachOrdered(System.out::println);
+    }
+
+    private static void showSequenceSupplier() {
+        System.out.println("-showSequenceSupplier---");
+
+        // asString
+        generateAndPrintStream("asString 1.000", SequenceSupplier.asString(1_000L));
+
+        // asLong
+        generateAndPrintStream("asLong 1.000",
+                SequenceSupplier.asLong(1_000L));
+        generateAndPrintStream("asLong -1",
+                SequenceSupplier.asLong(-1L));
+
+        // asPrimitiveLong
+        generateAndPrintLongStream("asPrimitiveLong 1.000",
+                SequenceSupplier.asPrimitiveLong(1_000L));
+        generateAndPrintLongStream("asPrimitiveLong -1",
+                SequenceSupplier.asPrimitiveLong(-1L));
     }
 
     private static void showRepeatingPatternSupplier() {
@@ -165,6 +185,7 @@ public final class ExamplesSupplier {
     }
 
     public static void main(String... args) {
+        showSequenceSupplier();
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
     }

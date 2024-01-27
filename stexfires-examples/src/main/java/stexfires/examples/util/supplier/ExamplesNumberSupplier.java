@@ -55,24 +55,6 @@ public final class ExamplesNumberSupplier {
                     .forEachOrdered(System.out::println);
     }
 
-    private static void showSuppliersSequence() {
-        System.out.println("-showSuppliersSequence---");
-
-        generateAndPrintStream("sequenceAsLong 1.000",
-                SequenceSupplier.asLong(1_000L));
-        generateAndPrintStream("sequenceAsLong -10",
-                SequenceSupplier.asLong(-STREAM_LIMIT));
-        generateAndPrintStream("sequenceAsLong -1",
-                SequenceSupplier.asLong(-1L));
-
-        generateAndPrintLongStream("sequenceAsPrimitiveLong 1.000",
-                SequenceSupplier.asPrimitiveLong(1_000L));
-        generateAndPrintLongStream("sequenceAsPrimitiveLong -10",
-                SequenceSupplier.asPrimitiveLong(-STREAM_LIMIT));
-        generateAndPrintLongStream("sequenceAsPrimitiveLong -1",
-                SequenceSupplier.asPrimitiveLong(-1L));
-    }
-
     private static void showSuppliersConstant() {
         System.out.println("-showSuppliersConstant---");
 
@@ -216,7 +198,6 @@ public final class ExamplesNumberSupplier {
     }
 
     public static void main(String... args) {
-        showSuppliersSequence();
         showSuppliersConstant();
         showSuppliersCombine();
         showSuppliersMapTo();
