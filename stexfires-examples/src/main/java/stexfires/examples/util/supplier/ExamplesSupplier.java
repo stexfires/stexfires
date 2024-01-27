@@ -16,6 +16,7 @@ import stexfires.util.supplier.SwitchingSupplier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -300,7 +301,8 @@ public final class ExamplesSupplier {
         generateAndPrintStream("String1", Suppliers.randomListSelection(RANDOM, List.of("Aaa")));
         generateAndPrintStream("String 3", Suppliers.randomListSelection(RANDOM, List.of("Aaa", "Bbb", "Ccc")));
         generateAndPrintStream("Boolean 1", Suppliers.randomListSelection(RANDOM, List.of(Boolean.TRUE)));
-        generateAndPrintStream("Alignment 3", Suppliers.randomListSelection(RANDOM, List.of(Alignment.START, Alignment.CENTER, Alignment.END)));
+        generateAndPrintStream("Alignment 2", Suppliers.randomListSelection(RANDOM, List.of(Alignment.START, Alignment.END)));
+        generateAndPrintStream("Alignment 3", Suppliers.randomListSelection(RANDOM, Arrays.asList(Alignment.values())));
         generateAndPrintStream("Integer 3", Suppliers.randomListSelection(RANDOM, List.of(42, 23, 1024)));
         generateAndPrintStream("Long 3", Suppliers.randomListSelection(RANDOM, List.of(42L, 23L, 1024L)));
         generateAndPrintStream("Double 3", Suppliers.randomListSelection(RANDOM, List.of(42.0d, 23.0d, 1024.0d)));
@@ -317,7 +319,8 @@ public final class ExamplesSupplier {
         generateAndPrintStream("String 1", Suppliers.randomSelection(RANDOM, "Aaa"));
         generateAndPrintStream("String 3", Suppliers.randomSelection(RANDOM, "Aaa", "Bbb", "Ccc"));
         generateAndPrintStream("Boolean 1", Suppliers.randomSelection(RANDOM, Boolean.TRUE));
-        generateAndPrintStream("Alignment 3", Suppliers.randomSelection(RANDOM, Alignment.START, Alignment.CENTER, Alignment.END));
+        generateAndPrintStream("Alignment 2", Suppliers.randomSelection(RANDOM, Alignment.START, Alignment.END));
+        generateAndPrintStream("Alignment 3", Suppliers.randomSelection(RANDOM, Alignment.values()));
         generateAndPrintStream("Integer 3", Suppliers.randomSelection(RANDOM, 42, 23, 1024));
         generateAndPrintStream("Long 3", Suppliers.randomSelection(RANDOM, 42L, 23L, 1024L));
         generateAndPrintStream("Double 3", Suppliers.randomSelection(RANDOM, 42.0d, 23.0d, 1024.0d));
@@ -334,7 +337,8 @@ public final class ExamplesSupplier {
         generateAndPrintStream("String 1", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa")));
         generateAndPrintStream("String 3", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa", "Bbb", "Ccc")));
         generateAndPrintStream("Boolean 1", Suppliers.intSupplierListSelection(intSupplier, List.of(Boolean.TRUE)));
-        generateAndPrintStream("Alignment 3", Suppliers.intSupplierListSelection(intSupplier, List.of(Alignment.START, Alignment.CENTER, Alignment.END)));
+        generateAndPrintStream("Alignment 2", Suppliers.intSupplierListSelection(intSupplier, List.of(Alignment.START, Alignment.END)));
+        generateAndPrintStream("Alignment 3", Suppliers.intSupplierListSelection(intSupplier, Arrays.asList(Alignment.values())));
         generateAndPrintStream("Integer 3", Suppliers.intSupplierListSelection(intSupplier, List.of(42, 23, 1024)));
 
         generateAndPrintStream("splitTextByCharacterBreaks", Suppliers.intSupplierListSelection(intSupplier, TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
@@ -348,7 +352,8 @@ public final class ExamplesSupplier {
         generateAndPrintStream("String 1", Suppliers.intSupplierSelection(intSupplier, "Aaa"));
         generateAndPrintStream("String 3", Suppliers.intSupplierSelection(intSupplier, "Aaa", "Bbb", "Ccc"));
         generateAndPrintStream("Boolean 1", Suppliers.intSupplierSelection(intSupplier, Boolean.TRUE));
-        generateAndPrintStream("Alignment 3", Suppliers.intSupplierSelection(intSupplier, Alignment.START, Alignment.CENTER, Alignment.END));
+        generateAndPrintStream("Alignment 2", Suppliers.intSupplierSelection(intSupplier, Alignment.START, Alignment.END));
+        generateAndPrintStream("Alignment 3", Suppliers.intSupplierSelection(intSupplier, Alignment.values()));
         generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1024));
     }
 
