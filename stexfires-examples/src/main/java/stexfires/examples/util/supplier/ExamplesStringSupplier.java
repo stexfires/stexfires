@@ -31,17 +31,18 @@ public final class ExamplesStringSupplier {
     private static void showStringSuppliers() {
         System.out.println("-showStringSuppliers---");
 
-        generateAndPrintStream("localTimeAsString", Suppliers.localTimeAsString());
+        generateAndPrintStream("randomUUIDAsString", Suppliers.randomUUIDAsString());
+        generateAndPrintStream("localTimeAsString", Suppliers.localTimeNowAsString());
         generateAndPrintStream("threadNameAsString", Suppliers.threadNameAsString());
+        generateAndPrintStream("stringCutting", Suppliers.stringCutting(
+                () -> 4 * RANDOM.nextInt(0, 5),
+                () -> 4,
+                "0123ABCD4567abcdXYZ"));
     }
 
     @SuppressWarnings("CharUsedInArithmeticContext")
     private static void showRandomStringSuppliers() {
         System.out.println("-showRandomStringSuppliers---");
-
-        // uuid
-        generateAndPrintStream("uuid",
-                RandomStringSuppliers.uuid());
 
         // codePointConcatenation
         generateAndPrintStream("codePointConcatenation Boundary A-z isAlphabetic",
@@ -93,11 +94,6 @@ public final class ExamplesStringSupplier {
         generateAndPrintStream("stringConcatenation splitTextByCharacterBreaks",
                 RandomStringSuppliers.stringConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20),
                         TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
-
-        // stringCutting
-        generateAndPrintStream("stringCutting",
-                RandomStringSuppliers.stringCutting(() -> 4 * RANDOM.nextInt(0, 5), () -> 4,
-                        "0123ABCD4567abcdXYZ"));
     }
 
     public static void main(String... args) {

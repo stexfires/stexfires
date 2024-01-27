@@ -17,7 +17,7 @@ import stexfires.record.generator.RecordIdGenerator;
 import stexfires.util.supplier.DateTimeSuppliers;
 import stexfires.util.supplier.RandomBooleanSupplier;
 import stexfires.util.supplier.RandomNumberSuppliers;
-import stexfires.util.supplier.RandomStringSuppliers;
+import stexfires.util.supplier.Suppliers;
 
 import java.text.NumberFormat;
 import java.time.LocalTime;
@@ -44,7 +44,7 @@ public final class ExamplesDataTypeGenerator {
     public static void main(String... args) {
         // uuid
         DataType<String> uuidDataType = DataTypes.stringDataType(
-                RandomStringSuppliers.uuid());
+                Suppliers.randomUUIDAsString());
 
         // Integer
         DataType<Integer> integerDataTypeA = DataTypes.integerDataType(

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
@@ -71,9 +72,11 @@ public final class ExamplesSupplier {
                     .forEachOrdered(System.out::println);
     }
 
-    private static void printBoolean(String title, boolean value) {
+    private static void printBooleans(String title, BooleanSupplier supplier) {
         System.out.println(title);
-        System.out.println(value);
+        for (int i = 0; i < STREAM_LIMIT; i++) {
+            System.out.println(supplier.getAsBoolean());
+        }
     }
 
     private static void showSequenceSupplier() {
@@ -233,7 +236,7 @@ public final class ExamplesSupplier {
         generateAndPrintStream("constantNull <Integer>", Suppliers.<@Nullable Integer>constantNull());
 
         // constantPrimitive
-        printBoolean("constantPrimitiveBoolean true", Suppliers.constantPrimitiveBoolean(true).getAsBoolean());
+        printBooleans("constantPrimitiveBoolean true", Suppliers.constantPrimitiveBoolean(true));
         generateAndPrintLongStream("constantPrimitiveLong Long.MAX_VALUE", Suppliers.constantPrimitiveLong(Long.MAX_VALUE));
         generateAndPrintIntStream("constantPrimitiveInt Integer.MAX_VALUE", Suppliers.constantPrimitiveInt(Integer.MAX_VALUE));
         generateAndPrintDoubleStream("constantPrimitiveDouble Double.MAX_VALUE", Suppliers.constantPrimitiveDouble(Double.MAX_VALUE));
@@ -258,7 +261,7 @@ public final class ExamplesSupplier {
             return set;
         }));
 
-        printBoolean("combinePrimitiveBoolean &&", Suppliers.combinePrimitiveBoolean(() -> true, () -> false, (x, y) -> x && y).getAsBoolean());
+        printBooleans("combinePrimitiveBoolean &&", Suppliers.combinePrimitiveBoolean(() -> true, () -> false, (x, y) -> x && y));
         generateAndPrintIntStream("combinePrimitiveInt Integer.sum", Suppliers.combinePrimitiveInt(() -> 1, () -> 2, Integer::sum));
         generateAndPrintLongStream("combinePrimitiveLong Long.sum", Suppliers.combinePrimitiveLong(() -> 1L, () -> 2L, Long::sum));
         generateAndPrintDoubleStream("combinePrimitiveDouble Double.sum", Suppliers.combinePrimitiveDouble(() -> 1.0d, () -> 2.0d, Double::sum));
@@ -276,7 +279,7 @@ public final class ExamplesSupplier {
         generateAndPrintStream("mapTo Set::of", Suppliers.mapTo(Suppliers.constantOfNotNull("A"), Set::of));
 
         // mapToPrimitive
-        printBoolean("mapToPrimitiveBoolean", Suppliers.mapToPrimitiveBoolean(Suppliers.constantOfNotNull("false"), Boolean::parseBoolean).getAsBoolean());
+        printBooleans("mapToPrimitiveBoolean", Suppliers.mapToPrimitiveBoolean(Suppliers.constantOfNotNull("false"), Boolean::parseBoolean));
         generateAndPrintIntStream("mapToPrimitiveInt", Suppliers.mapToPrimitiveInt(SequenceSupplier.asString(1), Integer::valueOf));
         generateAndPrintLongStream("mapToPrimitiveLong", Suppliers.mapToPrimitiveLong(SequenceSupplier.asString(1), Long::valueOf));
         generateAndPrintDoubleStream("mapToPrimitiveDouble", Suppliers.mapToPrimitiveDouble(SequenceSupplier.asString(1), Double::valueOf));
@@ -357,6 +360,12 @@ public final class ExamplesSupplier {
         generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1024));
     }
 
+    private static void showRandomUUID() {
+        System.out.println("-showRandomUUID---");
+
+        generateAndPrintStream("randomUUID", Suppliers.randomUUID());
+    }
+
     public static void main(String... args) {
         showSequenceSupplier();
         showRepeatingPatternSupplier();
@@ -369,6 +378,7 @@ public final class ExamplesSupplier {
         showRandomSelection();
         showIntSupplierListSelection();
         showIntSupplierSelection();
+        showRandomUUID();
     }
 
 }

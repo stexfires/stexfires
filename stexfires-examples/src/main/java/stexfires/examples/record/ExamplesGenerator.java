@@ -15,7 +15,6 @@ import stexfires.record.generator.RecordIdGenerator;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.SortNulls;
 import stexfires.util.supplier.RandomNumberSuppliers;
-import stexfires.util.supplier.RandomStringSuppliers;
 import stexfires.util.supplier.Suppliers;
 
 import java.time.ZoneId;
@@ -177,7 +176,7 @@ public final class ExamplesGenerator {
             CategoryGenerator<ValueRecord> categoryGenerator = (context) -> randomCategorySupplier.get();
             Supplier<Long> recordIdSupplier = RandomNumberSuppliers.randomLong(new Random(0L), 100L, 200L);
             RecordIdGenerator<ValueRecord> recordIdGenerator = (context) -> recordIdSupplier.get();
-            Supplier<String> randomValueSupplier = RandomStringSuppliers.uuid();
+            Supplier<String> randomValueSupplier = Suppliers.randomUUIDAsString();
             Function<GeneratorInterimResult<ValueRecord>, String> valueFunction = (interimResult) -> randomValueSupplier.get();
             RecordGenerator<ValueRecord> generator = RecordGenerator.valueRecord(categoryGenerator, recordIdGenerator, valueFunction);
 

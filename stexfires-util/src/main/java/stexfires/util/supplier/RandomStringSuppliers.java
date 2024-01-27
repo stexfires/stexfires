@@ -2,7 +2,6 @@ package stexfires.util.supplier;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.IntPredicate;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -20,10 +19,6 @@ import java.util.random.RandomGenerator;
 public final class RandomStringSuppliers {
 
     private RandomStringSuppliers() {
-    }
-
-    public static Supplier<String> uuid() {
-        return () -> UUID.randomUUID().toString();
     }
 
     public static Supplier<String> codePointConcatenation(RandomGenerator random, IntSupplier length,
@@ -136,27 +131,6 @@ public final class RandomStringSuppliers {
                            .limit(number.getAsInt())
                            .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                            .toString();
-    }
-
-    public static Supplier<String> stringCutting(IntSupplier beginIndex, IntSupplier length,
-                                                 String completeString) {
-        Objects.requireNonNull(beginIndex);
-        Objects.requireNonNull(length);
-        Objects.requireNonNull(completeString);
-        if (completeString.isEmpty()) {
-            throw new IllegalArgumentException("The string must not be empty.");
-        }
-        return () -> {
-            int begin = beginIndex.getAsInt();
-            if (begin > completeString.length()) {
-                begin = completeString.length();
-            }
-            int end = begin + length.getAsInt();
-            if (end > completeString.length()) {
-                end = completeString.length();
-            }
-            return completeString.substring(begin, end);
-        };
     }
 
 }

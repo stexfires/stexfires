@@ -80,7 +80,7 @@ public final class ExamplesMapper {
         System.out.println("-showAddValueMapper---");
 
         printMapper("constructor", new AddTextMapper<>(record -> "Size: " + record.size()));
-        printMapper("supplier", AddTextMapper.supplier(Suppliers.localTimeAsString()));
+        printMapper("supplier", AddTextMapper.supplier(Suppliers.localTimeNowAsString()));
         printMapper("primitiveIntSupplier", AddTextMapper.primitiveIntSupplier(() -> 1));
         printMapper("primitiveLongSupplier", AddTextMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(0L)));
         printMapper("recordMessage", AddTextMapper.recordMessage(new ShortMessage<>()));
@@ -103,7 +103,7 @@ public final class ExamplesMapper {
 
         printMapper("constructor", new CategoryMapper<>(record -> "Size: " + record.size()));
         printMapper("identity", CategoryMapper.identity());
-        printMapper("supplier", CategoryMapper.supplier(Suppliers.localTimeAsString()));
+        printMapper("supplier", CategoryMapper.supplier(Suppliers.localTimeNowAsString()));
         printMapper("primitiveIntSupplier", CategoryMapper.primitiveIntSupplier(() -> 1));
         printMapper("primitiveLongSupplier", CategoryMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(0L)));
         printMapper("recordMessage", CategoryMapper.recordMessage(new ShortMessage<>()));

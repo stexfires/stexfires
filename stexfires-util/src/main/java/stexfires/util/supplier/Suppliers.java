@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.BinaryOperator;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleBinaryOperator;
@@ -203,12 +204,46 @@ public final class Suppliers {
         return () -> conditionSupplier.getAsBoolean() ? trueSupplier.get() : falseSupplier.get();
     }
 
-    public static Supplier<String> localTimeAsString() {
+    public static BooleanSupplier randomPrimitiveBoolean(RandomGenerator random) {
+        Objects.requireNonNull(random);
+        return random::nextBoolean;
+    }
+
+    public static Supplier<UUID> randomUUID() {
+        return UUID::randomUUID;
+    }
+
+    public static Supplier<String> randomUUIDAsString() {
+        return () -> UUID.randomUUID().toString();
+    }
+
+    public static Supplier<String> localTimeNowAsString() {
         return () -> LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME);
     }
 
     public static Supplier<String> threadNameAsString() {
         return () -> Thread.currentThread().getName();
+    }
+
+    public static Supplier<String> stringCutting(IntSupplier beginIndex, IntSupplier length,
+                                                 String completeString) {
+        Objects.requireNonNull(beginIndex);
+        Objects.requireNonNull(length);
+        Objects.requireNonNull(completeString);
+        if (completeString.isEmpty()) {
+            throw new IllegalArgumentException("The string must not be empty.");
+        }
+        return () -> {
+            int begin = beginIndex.getAsInt();
+            if (begin > completeString.length()) {
+                begin = completeString.length();
+            }
+            int end = begin + length.getAsInt();
+            if (end > completeString.length()) {
+                end = completeString.length();
+            }
+            return completeString.substring(begin, end);
+        };
     }
 
 }

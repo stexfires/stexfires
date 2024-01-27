@@ -1,9 +1,11 @@
 package stexfires.examples.util.supplier;
 
 import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.Suppliers;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
@@ -26,10 +28,17 @@ public final class ExamplesBooleanSupplier {
               .forEachOrdered(System.out::println);
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private static void printBoolean(String title, boolean value) {
+    private static void printBooleans(String title, BooleanSupplier supplier) {
         System.out.println(title);
-        System.out.println(value);
+        for (int i = 0; i < STREAM_LIMIT; i++) {
+            System.out.println(supplier.getAsBoolean());
+        }
+    }
+
+    private static void showBooleanSuppliers() {
+        System.out.println("-showBooleanSuppliers---");
+
+        printBooleans("randomPrimitiveBoolean", Suppliers.randomPrimitiveBoolean(RANDOM));
     }
 
     private static void showRandomBooleanSupplier() {
@@ -71,11 +80,12 @@ public final class ExamplesBooleanSupplier {
         generateAndPrintStream("Random: 50% ThreadLocalRandom",
                 new RandomBooleanSupplier(50, ThreadLocalRandom.current()));
 
-        printBoolean("Random: 50% primitive boolean",
-                new RandomBooleanSupplier(50, RANDOM).asPrimitiveBooleanSupplier().getAsBoolean());
+        printBooleans("Random: 50% primitive boolean",
+                new RandomBooleanSupplier(50, RANDOM).asPrimitiveBooleanSupplier());
     }
 
     public static void main(String... args) {
+        showBooleanSuppliers();
         showRandomBooleanSupplier();
     }
 
