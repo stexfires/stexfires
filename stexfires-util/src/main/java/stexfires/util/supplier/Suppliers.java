@@ -266,4 +266,36 @@ public final class Suppliers {
         };
     }
 
+    @SuppressWarnings("NumericCastThatLosesPrecision")
+    public static Supplier<byte[]> byteArrayOfIntSupplier(IntSupplier intSupplier,
+                                                          IntSupplier lengthSupplier) {
+        Objects.requireNonNull(intSupplier);
+        Objects.requireNonNull(lengthSupplier);
+        return () -> {
+            int size = lengthSupplier.getAsInt();
+            if (size <= 0) {
+                return new byte[0];
+            }
+            byte[] bytes = new byte[size];
+            for (int i = 0; i < size; i++) {
+                bytes[i] = (byte) intSupplier.getAsInt();
+            }
+            return bytes;
+        };
+    }
+
+    public static Supplier<byte[]> byteArrayOfRandomBytes(RandomGenerator random,
+                                                          IntSupplier lengthSupplier) {
+        Objects.requireNonNull(random);
+        Objects.requireNonNull(lengthSupplier);
+        return () -> {
+            int size = lengthSupplier.getAsInt();
+            if (size <= 0) {
+                return new byte[0];
+            }
+            byte[] bytes = new byte[size];
+            random.nextBytes(bytes);
+            return bytes;
+        };
+    }
 }

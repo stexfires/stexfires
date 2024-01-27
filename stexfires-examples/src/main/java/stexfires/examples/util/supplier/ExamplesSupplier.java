@@ -73,6 +73,13 @@ public final class ExamplesSupplier {
                     .forEachOrdered(System.out::println);
     }
 
+    private static void generateAndPrintByteArrayStream(String title, Supplier<byte[]> supplier) {
+        System.out.println(title);
+        Stream.generate(supplier)
+              .limit(STREAM_LIMIT)
+              .forEachOrdered(b -> System.out.println(Arrays.toString(b)));
+    }
+
     private static void printBooleans(String title, BooleanSupplier supplier) {
         System.out.println(title);
         for (int i = 0; i < STREAM_LIMIT; i++) {
@@ -378,6 +385,13 @@ public final class ExamplesSupplier {
                 () -> 3, 4));
     }
 
+    private static void showByteArray() {
+        System.out.println("-showByteArray---");
+
+        generateAndPrintByteArrayStream("byteArrayOfIntSupplier", Suppliers.byteArrayOfIntSupplier(RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 126, 129), () -> 5));
+        generateAndPrintByteArrayStream("byteArrayOfRandomBytes", Suppliers.byteArrayOfRandomBytes(RANDOM, () -> 5));
+    }
+
     public static void main(String... args) {
         showSequenceSupplier();
         showRepeatingPatternSupplier();
@@ -392,6 +406,7 @@ public final class ExamplesSupplier {
         showIntSupplierSelection();
         showRandomUUID();
         showReplenishedCollection();
+        showByteArray();
     }
 
 }
