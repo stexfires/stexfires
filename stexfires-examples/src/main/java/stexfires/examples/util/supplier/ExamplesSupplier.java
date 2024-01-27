@@ -1,24 +1,33 @@
 package stexfires.examples.util.supplier;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.examples.util.ExamplesStrings;
 import stexfires.util.Alignment;
 import stexfires.util.SortNulls;
+import stexfires.util.TextSplitters;
 import stexfires.util.function.NumberPredicates;
+import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.RepeatingPatternSupplier;
 import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 import stexfires.util.supplier.SwitchingSupplier;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
+import java.util.random.RandomGenerator;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -27,6 +36,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "MagicNumber"})
 public final class ExamplesSupplier {
 
+    private static final RandomGenerator RANDOM = new Random();
     private static final long STREAM_LIMIT = 10L;
 
     private ExamplesSupplier() {
@@ -253,12 +263,107 @@ public final class ExamplesSupplier {
         generateAndPrintDoubleStream("combinePrimitiveDouble Double.sum", Suppliers.combinePrimitiveDouble(() -> 1.0d, () -> 2.0d, Double::sum));
     }
 
+    private static void showMapTo() {
+        System.out.println("-showMapTo---");
+
+        generateAndPrintStream("mapTo String::valueOf", Suppliers.mapTo(SequenceSupplier.asLong(0), String::valueOf));
+        generateAndPrintStream("mapTo Boolean::parseBoolean", Suppliers.mapTo(Suppliers.constantOfNotNull("true"), Boolean::parseBoolean));
+        generateAndPrintStream("mapTo Integer::valueOf", Suppliers.mapTo(SequenceSupplier.asString(1), Integer::valueOf));
+        generateAndPrintStream("mapTo Long::valueOf", Suppliers.mapTo(SequenceSupplier.asString(1), Long::valueOf));
+        generateAndPrintStream("mapTo Double::valueOf", Suppliers.mapTo(SequenceSupplier.asString(1), Double::valueOf));
+        generateAndPrintStream("mapTo Alignment::valueOf", Suppliers.mapTo(Suppliers.constantOfNotNull("START"), Alignment::valueOf));
+        generateAndPrintStream("mapTo Set::of", Suppliers.mapTo(Suppliers.constantOfNotNull("A"), Set::of));
+
+        // mapToPrimitive
+        printBoolean("mapToPrimitiveBoolean", Suppliers.mapToPrimitiveBoolean(Suppliers.constantOfNotNull("false"), Boolean::parseBoolean).getAsBoolean());
+        generateAndPrintIntStream("mapToPrimitiveInt", Suppliers.mapToPrimitiveInt(SequenceSupplier.asString(1), Integer::valueOf));
+        generateAndPrintLongStream("mapToPrimitiveLong", Suppliers.mapToPrimitiveLong(SequenceSupplier.asString(1), Long::valueOf));
+        generateAndPrintDoubleStream("mapToPrimitiveDouble", Suppliers.mapToPrimitiveDouble(SequenceSupplier.asString(1), Double::valueOf));
+    }
+
+    private static void showConditional() {
+        System.out.println("-showConditional---");
+
+        generateAndPrintStream("conditional String", Suppliers.conditional(
+                new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
+                Suppliers.constantOfNotNull("A"),
+                Suppliers.constantOfNotNull("B")));
+        generateAndPrintStream("conditional Alignment", Suppliers.conditional(
+                new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
+                Suppliers.constantOfNotNull(Alignment.START),
+                Suppliers.constantOfNotNull(Alignment.END)));
+    }
+
+    private static void showRandomListSelection() {
+        System.out.println("-showRandomListSelection---");
+
+        generateAndPrintStream("String1", Suppliers.randomListSelection(RANDOM, List.of("Aaa")));
+        generateAndPrintStream("String 3", Suppliers.randomListSelection(RANDOM, List.of("Aaa", "Bbb", "Ccc")));
+        generateAndPrintStream("Boolean 1", Suppliers.randomListSelection(RANDOM, List.of(Boolean.TRUE)));
+        generateAndPrintStream("Alignment 3", Suppliers.randomListSelection(RANDOM, List.of(Alignment.START, Alignment.CENTER, Alignment.END)));
+        generateAndPrintStream("Integer 3", Suppliers.randomListSelection(RANDOM, List.of(42, 23, 1024)));
+        generateAndPrintStream("Long 3", Suppliers.randomListSelection(RANDOM, List.of(42L, 23L, 1024L)));
+        generateAndPrintStream("Double 3", Suppliers.randomListSelection(RANDOM, List.of(42.0d, 23.0d, 1024.0d)));
+        generateAndPrintStream("Float 3", Suppliers.randomListSelection(RANDOM, List.of(42.0f, 23.0f, 1024.0f)));
+        generateAndPrintStream("BigInteger 3", Suppliers.randomListSelection(RANDOM, List.of(BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1024L))));
+        generateAndPrintStream("BigDecimal 3", Suppliers.randomListSelection(RANDOM, List.of(BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1024.0d))));
+
+        generateAndPrintStream("splitTextByCharacterBreaks", Suppliers.randomListSelection(RANDOM, TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
+    }
+
+    private static void showRandomSelection() {
+        System.out.println("-showRandomSelection---");
+
+        generateAndPrintStream("String 1", Suppliers.randomSelection(RANDOM, "Aaa"));
+        generateAndPrintStream("String 3", Suppliers.randomSelection(RANDOM, "Aaa", "Bbb", "Ccc"));
+        generateAndPrintStream("Boolean 1", Suppliers.randomSelection(RANDOM, Boolean.TRUE));
+        generateAndPrintStream("Alignment 3", Suppliers.randomSelection(RANDOM, Alignment.START, Alignment.CENTER, Alignment.END));
+        generateAndPrintStream("Integer 3", Suppliers.randomSelection(RANDOM, 42, 23, 1024));
+        generateAndPrintStream("Long 3", Suppliers.randomSelection(RANDOM, 42L, 23L, 1024L));
+        generateAndPrintStream("Double 3", Suppliers.randomSelection(RANDOM, 42.0d, 23.0d, 1024.0d));
+        generateAndPrintStream("Float 3", Suppliers.randomSelection(RANDOM, 42.0f, 23.0f, 1024.0f));
+        generateAndPrintStream("BigInteger 3", Suppliers.randomSelection(RANDOM, BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1024L)));
+        generateAndPrintStream("BigDecimal 3", Suppliers.randomSelection(RANDOM, BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1024.0d)));
+    }
+
+    private static void showIntSupplierListSelection() {
+        System.out.println("-showIntSupplierListSelection---");
+
+        IntSupplier intSupplier = RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 0, 3);
+
+        generateAndPrintStream("String 1", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa")));
+        generateAndPrintStream("String 3", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa", "Bbb", "Ccc")));
+        generateAndPrintStream("Boolean 1", Suppliers.intSupplierListSelection(intSupplier, List.of(Boolean.TRUE)));
+        generateAndPrintStream("Alignment 3", Suppliers.intSupplierListSelection(intSupplier, List.of(Alignment.START, Alignment.CENTER, Alignment.END)));
+        generateAndPrintStream("Integer 3", Suppliers.intSupplierListSelection(intSupplier, List.of(42, 23, 1024)));
+
+        generateAndPrintStream("splitTextByCharacterBreaks", Suppliers.intSupplierListSelection(intSupplier, TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
+    }
+
+    private static void showIntSupplierSelection() {
+        System.out.println("-showIntSupplierSelection---");
+
+        IntSupplier intSupplier = RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 0, 3);
+
+        generateAndPrintStream("String 1", Suppliers.intSupplierSelection(intSupplier, "Aaa"));
+        generateAndPrintStream("String 3", Suppliers.intSupplierSelection(intSupplier, "Aaa", "Bbb", "Ccc"));
+        generateAndPrintStream("Boolean 1", Suppliers.intSupplierSelection(intSupplier, Boolean.TRUE));
+        generateAndPrintStream("Alignment 3", Suppliers.intSupplierSelection(intSupplier, Alignment.START, Alignment.CENTER, Alignment.END));
+        generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1024));
+    }
+
     public static void main(String... args) {
         showSequenceSupplier();
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
         showConstant();
         showCombine();
+        showMapTo();
+        showConditional();
+        showRandomListSelection();
+        showRandomSelection();
+        showIntSupplierListSelection();
+        showIntSupplierSelection();
     }
 
 }

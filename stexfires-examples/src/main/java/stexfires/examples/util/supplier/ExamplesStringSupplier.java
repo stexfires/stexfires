@@ -2,10 +2,7 @@ package stexfires.examples.util.supplier;
 
 import stexfires.examples.util.ExamplesStrings;
 import stexfires.util.TextSplitters;
-import stexfires.util.supplier.RandomBooleanSupplier;
-import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.RandomStringSuppliers;
-import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 
 import java.util.List;
@@ -31,16 +28,11 @@ public final class ExamplesStringSupplier {
               .forEachOrdered(System.out::println);
     }
 
-    private static void showSuppliers() {
-        System.out.println("-showSuppliers---");
-
-        generateAndPrintStream("mapTo sequenceAsLong", Suppliers.mapTo(SequenceSupplier.asLong(0), String::valueOf));
+    private static void showStringSuppliers() {
+        System.out.println("-showStringSuppliers---");
 
         generateAndPrintStream("localTimeAsString", Suppliers.localTimeAsString());
         generateAndPrintStream("threadNameAsString", Suppliers.threadNameAsString());
-
-        generateAndPrintStream("conditional", Suppliers.conditional(new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
-                Suppliers.constantOfNotNull("Test"), Suppliers.constantNull()));
     }
 
     @SuppressWarnings("CharUsedInArithmeticContext")
@@ -50,37 +42,6 @@ public final class ExamplesStringSupplier {
         // uuid
         generateAndPrintStream("uuid",
                 RandomStringSuppliers.uuid());
-
-        // randomListSelection
-        generateAndPrintStream("randomListSelection 1",
-                Suppliers.randomListSelection(RANDOM, List.of("Aaa")));
-        generateAndPrintStream("randomListSelection 3",
-                Suppliers.randomListSelection(RANDOM, List.of("Aaa", "Bbb", "Ccc")));
-        generateAndPrintStream("randomListSelection splitTextByCharacterBreaks",
-                Suppliers.randomListSelection(RANDOM,
-                        TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
-
-        // randomSelection
-        generateAndPrintStream("randomSelection Varargs 1",
-                Suppliers.randomSelection(RANDOM, "Aaa"));
-        generateAndPrintStream("randomSelection Varargs 3",
-                Suppliers.randomSelection(RANDOM, "Aaa", "Bbb", "Ccc"));
-
-        // intSupplierListSelection
-        generateAndPrintStream("intSupplierListSelection 1",
-                Suppliers.intSupplierListSelection(() -> 0, List.of("Aaa")));
-        generateAndPrintStream("intSupplierListSelection 3 always 2",
-                Suppliers.intSupplierListSelection(() -> 2, List.of("Aaa", "Bbb", "Ccc")));
-        generateAndPrintStream("intSupplierListSelection 3 random",
-                Suppliers.intSupplierListSelection(RandomNumberSuppliers.primitiveIntSelection(RANDOM, 1, 1, 1, 2), List.of("Aaa", "Bbb", "Ccc")));
-
-        // intSupplierSelection
-        generateAndPrintStream("intSupplierSelection Varargs 1",
-                Suppliers.intSupplierSelection(() -> 0, "Aaa"));
-        generateAndPrintStream("intSupplierSelection Varargs 3 always 2",
-                Suppliers.intSupplierSelection(() -> 2, "Aaa", "Bbb", "Ccc"));
-        generateAndPrintStream("intSupplierSelection Varargs 3 random",
-                Suppliers.intSupplierSelection(RandomNumberSuppliers.primitiveIntSelection(RANDOM, 1, 1, 1, 2), "Aaa", "Bbb", "Ccc"));
 
         // codePointConcatenation
         generateAndPrintStream("codePointConcatenation Boundary A-z isAlphabetic",
@@ -140,7 +101,7 @@ public final class ExamplesStringSupplier {
     }
 
     public static void main(String... args) {
-        showSuppliers();
+        showStringSuppliers();
         showRandomStringSuppliers();
     }
 

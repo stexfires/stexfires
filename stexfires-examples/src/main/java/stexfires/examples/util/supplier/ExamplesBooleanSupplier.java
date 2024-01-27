@@ -1,9 +1,7 @@
 package stexfires.examples.util.supplier;
 
 import stexfires.util.supplier.RandomBooleanSupplier;
-import stexfires.util.supplier.Suppliers;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
@@ -28,23 +26,10 @@ public final class ExamplesBooleanSupplier {
               .forEachOrdered(System.out::println);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static void printBoolean(String title, boolean value) {
         System.out.println(title);
         System.out.println(value);
-    }
-
-    private static void showSuppliers() {
-        System.out.println("-showSuppliers---");
-
-        generateAndPrintStream("mapTo constant parseBoolean",
-                Suppliers.mapTo(Suppliers.constantOfNotNull("true"), Boolean::parseBoolean));
-        printBoolean("mapToPrimitiveBoolean constant parseBoolean",
-                Suppliers.mapToPrimitiveBoolean(Suppliers.constantOfNotNull("false"), Boolean::parseBoolean).getAsBoolean());
-
-        generateAndPrintStream("randomListSelection List",
-                Suppliers.randomListSelection(new Random(), List.of(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE)));
-        generateAndPrintStream("randomSelection Varargs",
-                Suppliers.randomSelection(new Random(), Boolean.TRUE, Boolean.TRUE, Boolean.FALSE));
     }
 
     private static void showRandomBooleanSupplier() {
@@ -91,7 +76,6 @@ public final class ExamplesBooleanSupplier {
     }
 
     public static void main(String... args) {
-        showSuppliers();
         showRandomBooleanSupplier();
     }
 
