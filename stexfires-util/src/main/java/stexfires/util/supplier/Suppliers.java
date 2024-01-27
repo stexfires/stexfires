@@ -1,6 +1,7 @@
 package stexfires.util.supplier;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.util.function.BooleanBinaryOperator;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -74,11 +75,11 @@ public final class Suppliers {
         return () -> combiner.apply(first.get(), second.get());
     }
 
-    public static BooleanSupplier combinePrimitiveBoolean(BooleanSupplier first, BooleanSupplier second, BinaryOperator<Boolean> combiner) {
+    public static BooleanSupplier combinePrimitiveBoolean(BooleanSupplier first, BooleanSupplier second, BooleanBinaryOperator combiner) {
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);
         Objects.requireNonNull(combiner);
-        return () -> combiner.apply(first.getAsBoolean(), second.getAsBoolean());
+        return () -> combiner.applyAsBoolean(first.getAsBoolean(), second.getAsBoolean());
     }
 
     public static IntSupplier combinePrimitiveInt(IntSupplier first, IntSupplier second, IntBinaryOperator combiner) {
