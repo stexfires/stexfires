@@ -6,6 +6,7 @@ import stexfires.util.Alignment;
 import stexfires.util.SortNulls;
 import stexfires.util.TextSplitters;
 import stexfires.util.function.NumberPredicates;
+import stexfires.util.supplier.CalculatedSequenceSupplier;
 import stexfires.util.supplier.RandomBooleanSupplier;
 import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.RepeatingPatternSupplier;
@@ -15,6 +16,9 @@ import stexfires.util.supplier.SwitchingSupplier;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,12 +35,19 @@ import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "MagicNumber"})
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.TWO;
+import static java.math.BigInteger.ZERO;
+
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "MagicNumber", "SpellCheckingInspection"})
 public final class ExamplesSupplier {
 
     private static final RandomGenerator RANDOM = new Random();
@@ -50,6 +61,10 @@ public final class ExamplesSupplier {
         Stream.generate(supplier)
               .limit(STREAM_LIMIT)
               .forEachOrdered(System.out::println);
+    }
+
+    private static <T> void generateAndPrintStreamAsString(String title, int maxSize, Supplier<T> supplier) {
+        System.out.println(title + " : " + Stream.generate(supplier).limit(maxSize).map(String::valueOf).collect(Collectors.joining(", ")));
     }
 
     private static void generateAndPrintIntStream(String title, IntSupplier supplier) {
@@ -87,6 +102,57 @@ public final class ExamplesSupplier {
         }
     }
 
+    private static void showCalculatedSequenceSupplier() {
+        System.out.println("-showCalculatedSequenceSupplier---");
+
+        // Integer sequences
+        generateAndPrintStreamAsString("Incrementing numbers", 100, CalculatedSequenceSupplier.ofValue(1, value -> value + 1));
+        generateAndPrintStreamAsString("Even, positive numbers", 100, CalculatedSequenceSupplier.ofValue(2, value -> value + 2));
+        generateAndPrintStreamAsString("Odd, positive numbers", 100, CalculatedSequenceSupplier.ofValue(1, value -> value + 2));
+        generateAndPrintStreamAsString("Alternating numbers", 100, CalculatedSequenceSupplier.ofValues(-1, 1, (v0, v1) -> v0));
+        generateAndPrintStreamAsString("Alternating numbers", 100, CalculatedSequenceSupplier.ofAlternatingValues(1, 2));
+
+        // BigInteger sequences. Source: https://en.wikipedia.org/wiki/List_of_integer_sequences
+        generateAndPrintStreamAsString("Fibonacci numbers", 50, CalculatedSequenceSupplier.ofValues(ZERO, ONE, BigInteger::add));
+        generateAndPrintStreamAsString("Lucas numbers", 50, CalculatedSequenceSupplier.ofValues(TWO, ONE, BigInteger::add));
+        generateAndPrintStreamAsString("Pell numbers", 50, CalculatedSequenceSupplier.ofValues(ZERO, ONE, (v0, v1) -> v1.multiply(TWO).add(v0)));
+        generateAndPrintStreamAsString("Jacobsthal number", 50, CalculatedSequenceSupplier.ofValues(ZERO, ONE, (v0, v1) -> v0.multiply(TWO).add(v1)));
+
+        generateAndPrintStreamAsString("Factorials", 50, CalculatedSequenceSupplier.ofLongIndexAndValue(ONE, (index, value) -> value.multiply(BigInteger.valueOf(index))));
+
+        generateAndPrintStreamAsString("Sylvester's sequence", 10, CalculatedSequenceSupplier.ofValue(TWO, value -> value.subtract(ONE).multiply(value).add(ONE)));
+
+        generateAndPrintStreamAsString("Power of two", 50, CalculatedSequenceSupplier.ofIntIndex(ONE, TWO::pow));
+        generateAndPrintStreamAsString("Fermat numbers", 10, CalculatedSequenceSupplier.ofIntIndex(BigInteger.valueOf(3), index -> TWO.pow(TWO.pow(index).intValueExact()).add(ONE)));
+        generateAndPrintStreamAsString("Cullen numbers", 50, CalculatedSequenceSupplier.ofIntIndex(ONE, index -> BigInteger.valueOf(index).multiply(TWO.pow(index)).add(ONE)));
+        generateAndPrintStreamAsString("Pronic numbers", 100, CalculatedSequenceSupplier.ofIntIndex(ZERO, index -> BigInteger.valueOf(index).multiply(BigInteger.valueOf(index).add(ONE))));
+        generateAndPrintStreamAsString("Square numbers", 50, CalculatedSequenceSupplier.ofIntIndex(ZERO, index -> BigInteger.valueOf(index).pow(2)));
+        generateAndPrintStreamAsString("Triangular numbers", 50, CalculatedSequenceSupplier.ofIntIndex(ZERO, index -> BigInteger.valueOf(index).multiply(BigInteger.valueOf(index + 1)).divide(TWO)));
+        generateAndPrintStreamAsString("Cube numbers", 50, CalculatedSequenceSupplier.ofIntIndex(ZERO, index -> BigInteger.valueOf(index).pow(3)));
+
+        generateAndPrintStreamAsString("Woodall numbers", 50, CalculatedSequenceSupplier.ofIntIndex(ONE, 1, index -> BigInteger.valueOf(index).multiply(TWO.pow(index)).subtract(ONE)));
+        generateAndPrintStreamAsString("Carol numbers", 50, CalculatedSequenceSupplier.ofIntIndex(BigInteger.valueOf(-1L), 1, index -> TWO.pow(index).subtract(ONE).pow(2).subtract(TWO)));
+        generateAndPrintStreamAsString("Natural numbers", 50, CalculatedSequenceSupplier.ofLongIndex(ONE, 1L, BigInteger::valueOf));
+
+        // DateTime sequences
+        generateAndPrintStreamAsString("LocalDate", 50, CalculatedSequenceSupplier.ofValue(LocalDate.of(2020, 1, 1), value -> value.plusDays(1)));
+        generateAndPrintStreamAsString("ZoneDateTime", 10, CalculatedSequenceSupplier.ofLongIndexAndValue(ZonedDateTime.now(), (index, value) -> value.plusHours(index)));
+        generateAndPrintStreamAsString("Year", 100, CalculatedSequenceSupplier.ofIntIndex(Year.of(1), 1, Year::of));
+        generateAndPrintStreamAsString("Year", 100, CalculatedSequenceSupplier.ofValue(Year.of(1), value -> value.plusYears(1)));
+
+        // Boolean sequences
+        generateAndPrintStreamAsString("Boolean", 10, CalculatedSequenceSupplier.ofLongIndex(TRUE, index -> index % 3 == 0));
+
+        // String sequences
+        generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValues("A", "B", (v0, v1) -> v0 + v1));
+        generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValues("A", "BAB", (v0, v1) -> v0 + v1 + v0));
+        generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValues("A", "B", (v0, v1) -> v1 + v0 + v1));
+
+        generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValue("A", value -> "B" + value + "B"));
+
+        generateAndPrintStreamAsString("String", 26, CalculatedSequenceSupplier.ofIntIndexAndValue("A", 65, (index, value) -> value + Character.toString(index)));
+    }
+
     private static void showSequenceSupplier() {
         System.out.println("-showSequenceSupplier---");
 
@@ -111,7 +177,7 @@ public final class ExamplesSupplier {
 
         // singletonList
         generateAndPrintStream("singletonList [TRUE]",
-                new RepeatingPatternSupplier<>(Collections.singletonList(Boolean.TRUE)));
+                new RepeatingPatternSupplier<>(Collections.singletonList(TRUE)));
         generateAndPrintStream("singletonList [42]",
                 new RepeatingPatternSupplier<>(Collections.singletonList(1)));
         // List.of
@@ -132,9 +198,9 @@ public final class ExamplesSupplier {
 
         // list
         List<Boolean> booleanList = new ArrayList<>();
-        booleanList.add(Boolean.TRUE);
-        booleanList.add(Boolean.TRUE);
-        booleanList.add(Boolean.FALSE);
+        booleanList.add(TRUE);
+        booleanList.add(TRUE);
+        booleanList.add(FALSE);
         generateAndPrintStream("List<Boolean> [TRUE, TRUE, FALSE]",
                 new RepeatingPatternSupplier<>(booleanList));
         List<Integer> integerList = new ArrayList<>();
@@ -184,7 +250,7 @@ public final class ExamplesSupplier {
         try {
             List<@Nullable Boolean> nullBooleanList = new ArrayList<>(3);
             nullBooleanList.add(null);
-            nullBooleanList.add(Boolean.FALSE);
+            nullBooleanList.add(FALSE);
             nullBooleanList.add(null);
             var supplier = new RepeatingPatternSupplier<>(nullBooleanList);
         } catch (IllegalArgumentException e) {
@@ -196,7 +262,7 @@ public final class ExamplesSupplier {
         System.out.println("-showSwitchingSupplier---");
 
         generateAndPrintStream("FALSE, TRUE, i -> i == 2 || i == 5",
-                new SwitchingSupplier<>(Boolean.FALSE, Boolean.TRUE,
+                new SwitchingSupplier<>(FALSE, TRUE,
                         i -> i == 2 || i == 5));
 
         generateAndPrintStream("A, B, DEFAULT_START_INDEX, even",
@@ -214,7 +280,7 @@ public final class ExamplesSupplier {
                 SwitchingSupplier.everyTime("A", "B"));
 
         generateAndPrintStream("everyTime: TRUE, FALSE",
-                SwitchingSupplier.everyTime(Boolean.TRUE, Boolean.FALSE));
+                SwitchingSupplier.everyTime(TRUE, FALSE));
 
         generateAndPrintIntStream("IntStream atIndex: -100, 100, 4",
                 SwitchingSupplier.atIndex(-100, 100, 4)::get);
@@ -229,7 +295,7 @@ public final class ExamplesSupplier {
         // constantOfNotNull
         generateAndPrintStream("constantOfNotNull Test", Suppliers.constantOfNotNull("Test"));
         generateAndPrintStream("constantOfNotNull 0", Suppliers.constantOfNotNull(0));
-        generateAndPrintStream("constantOfNotNull Boolean TRUE", Suppliers.constantOfNotNull(Boolean.TRUE));
+        generateAndPrintStream("constantOfNotNull Boolean TRUE", Suppliers.constantOfNotNull(TRUE));
         generateAndPrintStream("constantOfNotNull Enum FIRST", Suppliers.constantOfNotNull(SortNulls.FIRST));
         generateAndPrintStream("constantOfNotNull Set<String>", Suppliers.constantOfNotNull(Set.of("A", "B", "C")));
 
@@ -259,7 +325,7 @@ public final class ExamplesSupplier {
         generateAndPrintStream("combine Integer::sum", Suppliers.combine(() -> 1, () -> 2, Integer::sum));
         generateAndPrintStream("combine Double::sum", Suppliers.combine(() -> 1.0d, () -> 2.0d, Double::sum));
 
-        generateAndPrintStream("combine Boolean::logicalAnd", Suppliers.combine(() -> Boolean.TRUE, () -> Boolean.FALSE, Boolean::logicalAnd));
+        generateAndPrintStream("combine Boolean::logicalAnd", Suppliers.combine(() -> TRUE, () -> FALSE, Boolean::logicalAnd));
 
         generateAndPrintStream("combine Alignment", Suppliers.combine(() -> Alignment.START, () -> Alignment.END, (a0, a1) -> a0 == a1 ? a0 : Alignment.CENTER));
         generateAndPrintStream("combine Set addAll", Suppliers.combine(() -> Set.of("A", "B"), () -> Set.of("B", "C", "D"), (s0, s1) -> {
@@ -311,7 +377,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("String1", Suppliers.randomListSelection(RANDOM, List.of("Aaa")));
         generateAndPrintStream("String 3", Suppliers.randomListSelection(RANDOM, List.of("Aaa", "Bbb", "Ccc")));
-        generateAndPrintStream("Boolean 1", Suppliers.randomListSelection(RANDOM, List.of(Boolean.TRUE)));
+        generateAndPrintStream("Boolean 1", Suppliers.randomListSelection(RANDOM, List.of(TRUE)));
         generateAndPrintStream("Alignment 2", Suppliers.randomListSelection(RANDOM, List.of(Alignment.START, Alignment.END)));
         generateAndPrintStream("Alignment 3", Suppliers.randomListSelection(RANDOM, Arrays.asList(Alignment.values())));
         generateAndPrintStream("Integer 3", Suppliers.randomListSelection(RANDOM, List.of(42, 23, 1024)));
@@ -329,7 +395,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("String 1", Suppliers.randomSelection(RANDOM, "Aaa"));
         generateAndPrintStream("String 3", Suppliers.randomSelection(RANDOM, "Aaa", "Bbb", "Ccc"));
-        generateAndPrintStream("Boolean 1", Suppliers.randomSelection(RANDOM, Boolean.TRUE));
+        generateAndPrintStream("Boolean 1", Suppliers.randomSelection(RANDOM, TRUE));
         generateAndPrintStream("Alignment 2", Suppliers.randomSelection(RANDOM, Alignment.START, Alignment.END));
         generateAndPrintStream("Alignment 3", Suppliers.randomSelection(RANDOM, Alignment.values()));
         generateAndPrintStream("Integer 3", Suppliers.randomSelection(RANDOM, 42, 23, 1024));
@@ -347,7 +413,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("String 1", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa")));
         generateAndPrintStream("String 3", Suppliers.intSupplierListSelection(intSupplier, List.of("Aaa", "Bbb", "Ccc")));
-        generateAndPrintStream("Boolean 1", Suppliers.intSupplierListSelection(intSupplier, List.of(Boolean.TRUE)));
+        generateAndPrintStream("Boolean 1", Suppliers.intSupplierListSelection(intSupplier, List.of(TRUE)));
         generateAndPrintStream("Alignment 2", Suppliers.intSupplierListSelection(intSupplier, List.of(Alignment.START, Alignment.END)));
         generateAndPrintStream("Alignment 3", Suppliers.intSupplierListSelection(intSupplier, Arrays.asList(Alignment.values())));
         generateAndPrintStream("Integer 3", Suppliers.intSupplierListSelection(intSupplier, List.of(42, 23, 1024)));
@@ -362,7 +428,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("String 1", Suppliers.intSupplierSelection(intSupplier, "Aaa"));
         generateAndPrintStream("String 3", Suppliers.intSupplierSelection(intSupplier, "Aaa", "Bbb", "Ccc"));
-        generateAndPrintStream("Boolean 1", Suppliers.intSupplierSelection(intSupplier, Boolean.TRUE));
+        generateAndPrintStream("Boolean 1", Suppliers.intSupplierSelection(intSupplier, TRUE));
         generateAndPrintStream("Alignment 2", Suppliers.intSupplierSelection(intSupplier, Alignment.START, Alignment.END));
         generateAndPrintStream("Alignment 3", Suppliers.intSupplierSelection(intSupplier, Alignment.values()));
         generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1024));
@@ -393,6 +459,7 @@ public final class ExamplesSupplier {
     }
 
     public static void main(String... args) {
+        showCalculatedSequenceSupplier();
         showSequenceSupplier();
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
