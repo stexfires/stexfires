@@ -15,7 +15,10 @@ import stexfires.record.generator.RecordIdGenerator;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.SortNulls;
 import stexfires.util.supplier.RandomNumberSuppliers;
+import stexfires.util.supplier.RepeatingPatternSupplier;
+import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.SwitchingSupplier;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -193,7 +196,7 @@ public final class ExamplesGenerator {
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
         }
 
-        System.out.println("--- textRecordOfSuppliers");
+        System.out.println("--- textRecordOfSuppliers one supplier");
         {
             RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfSuppliers(
                     CategoryGenerator.constantNull(),
@@ -201,6 +204,20 @@ public final class ExamplesGenerator {
                     () -> "aa");
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));
+        }
+
+        System.out.println("--- textRecordOfSuppliers many suppliers");
+        {
+            RecordGenerator<TextRecord> generator = RecordGenerator.textRecordOfSuppliers(
+                    CategoryGenerator.constantNull(),
+                    RecordIdGenerator.constantNull(),
+                    SequenceSupplier.asString(0L),
+                    SwitchingSupplier.everyTime("0", "1"),
+                    new RepeatingPatternSupplier<>(List.of("A", "B", "B", "C", "C", "C", "D", "D", "D", "D")),
+                    Suppliers.localTimeNowAsString(),
+                    Suppliers.constantNull());
+
+            produceAndPrint(GeneratorProducer.knownSize(generator, size * 3));
         }
 
         System.out.println("--- textRecordOfSupplierStreamFunction");
