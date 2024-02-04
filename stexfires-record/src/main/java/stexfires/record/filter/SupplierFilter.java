@@ -1,7 +1,7 @@
 package stexfires.record.filter;
 
 import stexfires.record.TextRecord;
-import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.PercentageDistributionSupplier;
 import stexfires.util.supplier.RepeatingPatternSupplier;
 
 import java.util.Objects;
@@ -32,9 +32,12 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
         return new SupplierFilter<>(validitySupplier::getAsBoolean);
     }
 
-    public static <T extends TextRecord> SupplierFilter<T> random(int percent, RandomGenerator randomGenerator) {
+    /**
+     * @param randomGenerator must be thread-safe
+     */
+    public static <T extends TextRecord> SupplierFilter<T> random(int percentageShareOfValid, RandomGenerator randomGenerator) {
         Objects.requireNonNull(randomGenerator);
-        return new SupplierFilter<>(new RandomBooleanSupplier(percent, randomGenerator));
+        return new SupplierFilter<>(new PercentageDistributionSupplier<>(percentageShareOfValid, Boolean.TRUE, Boolean.FALSE, randomGenerator));
     }
 
     public static <T extends TextRecord> SupplierFilter<T> pattern(boolean... pattern) {

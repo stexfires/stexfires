@@ -15,7 +15,7 @@ import stexfires.record.generator.GeneratorProducer;
 import stexfires.record.generator.RecordGenerator;
 import stexfires.record.generator.RecordIdGenerator;
 import stexfires.util.supplier.DateTimeSuppliers;
-import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.PercentageDistributionSupplier;
 import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.Suppliers;
 
@@ -59,7 +59,7 @@ public final class ExamplesDataTypeGenerator {
                 false,
                 "TRUE",
                 "FALSE",
-                new RandomBooleanSupplier(20, new Random()));
+                new PercentageDistributionSupplier<>(20, Boolean.TRUE, Boolean.FALSE, new Random()));
 
         // LocalTime
         DataType<LocalTime> localTimeDataType = DataType.of(

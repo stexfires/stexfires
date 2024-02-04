@@ -7,7 +7,7 @@ import stexfires.util.SortNulls;
 import stexfires.util.TextSplitters;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.supplier.CalculatedSequenceSupplier;
-import stexfires.util.supplier.RandomBooleanSupplier;
+import stexfires.util.supplier.PercentageDistributionSupplier;
 import stexfires.util.supplier.RandomNumberSuppliers;
 import stexfires.util.supplier.RepeatingPatternSupplier;
 import stexfires.util.supplier.SequenceSupplier;
@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
@@ -102,6 +103,13 @@ public final class ExamplesSupplier {
         }
     }
 
+    private static <T> void generateAndCountLargeStream(String title, Supplier<T> supplier) {
+        System.out.println(title);
+        System.out.println(Stream.generate(supplier)
+                                 .limit(1_000_000L)
+                                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting())));
+    }
+
     private static void showCalculatedSequenceSupplier() {
         System.out.println("-showCalculatedSequenceSupplier---");
 
@@ -151,6 +159,34 @@ public final class ExamplesSupplier {
         generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValue("A", value -> "B" + value + "B"));
 
         generateAndPrintStreamAsString("String", 26, CalculatedSequenceSupplier.ofIntIndexAndValue("A", 65, (index, value) -> value + Character.toString(index)));
+    }
+
+    private static void showPercentageDistributionSupplier() {
+        System.out.println("-showPercentageDistributionSupplier---");
+
+        // String
+        generateAndCountLargeStream("String -100%", new PercentageDistributionSupplier<>(-100, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 0%", new PercentageDistributionSupplier<>(0, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 30%", new PercentageDistributionSupplier<>(30, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 50%", new PercentageDistributionSupplier<>(50, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 80%", new PercentageDistributionSupplier<>(80, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 100%", new PercentageDistributionSupplier<>(100, "A", "B", RANDOM));
+        generateAndCountLargeStream("String 200%", new PercentageDistributionSupplier<>(200, "A", "B", RANDOM));
+
+        // Boolean
+        generateAndCountLargeStream("Boolean 99%", new PercentageDistributionSupplier<>(99, TRUE, FALSE, RANDOM));
+
+        // PrimitiveBoolean
+        printBooleans("PrimitiveBoolean 50%", PercentageDistributionSupplier.asPrimitiveBooleanSupplier(50, false, true, RANDOM));
+
+        // PrimitiveInt
+        generateAndPrintIntStream("PrimitiveInt 50%", PercentageDistributionSupplier.asPrimitiveIntSupplier(50, Integer.MIN_VALUE, Integer.MAX_VALUE, RANDOM));
+
+        // PrimitiveLong
+        generateAndPrintLongStream("PrimitiveLong 50%", PercentageDistributionSupplier.asPrimitiveLongSupplier(50, Long.MIN_VALUE, Long.MAX_VALUE, RANDOM));
+
+        // PrimitiveDouble
+        generateAndPrintDoubleStream("PrimitiveDouble 50%", PercentageDistributionSupplier.asPrimitiveDoubleSupplier(50, Double.MIN_VALUE, Double.MAX_VALUE, RANDOM));
     }
 
     private static void showSequenceSupplier() {
@@ -363,11 +399,11 @@ public final class ExamplesSupplier {
         System.out.println("-showConditional---");
 
         generateAndPrintStream("conditional String", Suppliers.conditional(
-                new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
+                Suppliers.randomPrimitiveBoolean(RANDOM),
                 Suppliers.constantOfNotNull("A"),
                 Suppliers.constantOfNotNull("B")));
         generateAndPrintStream("conditional Alignment", Suppliers.conditional(
-                new RandomBooleanSupplier(60, new Random(100)).asPrimitiveBooleanSupplier(),
+                Suppliers.randomPrimitiveBoolean(RANDOM),
                 Suppliers.constantOfNotNull(Alignment.START),
                 Suppliers.constantOfNotNull(Alignment.END)));
     }
@@ -458,8 +494,15 @@ public final class ExamplesSupplier {
         generateAndPrintByteArrayStream("byteArrayOfRandomBytes", Suppliers.byteArrayOfRandomBytes(RANDOM, () -> 5));
     }
 
+    private static void showRandomPrimitiveBoolean() {
+        System.out.println("-showRandomPrimitiveBoolean---");
+
+        printBooleans("randomPrimitiveBoolean", Suppliers.randomPrimitiveBoolean(RANDOM));
+    }
+
     public static void main(String... args) {
         showCalculatedSequenceSupplier();
+        showPercentageDistributionSupplier();
         showSequenceSupplier();
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
@@ -474,6 +517,7 @@ public final class ExamplesSupplier {
         showRandomUUID();
         showReplenishedCollection();
         showByteArray();
+        showRandomPrimitiveBoolean();
     }
 
 }
