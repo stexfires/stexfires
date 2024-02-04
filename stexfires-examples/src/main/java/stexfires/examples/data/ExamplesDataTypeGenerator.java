@@ -59,7 +59,7 @@ public final class ExamplesDataTypeGenerator {
                 false,
                 "TRUE",
                 "FALSE",
-                new PercentageDistributionSupplier<>(20, Boolean.TRUE, Boolean.FALSE, new Random()));
+                new PercentageDistributionSupplier<>(new Random(), 20, Boolean.TRUE, Boolean.FALSE));
 
         // LocalTime
         DataType<LocalTime> localTimeDataType = DataType.of(

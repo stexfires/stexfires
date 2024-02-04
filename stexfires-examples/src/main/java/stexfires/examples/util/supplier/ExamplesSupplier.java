@@ -165,28 +165,28 @@ public final class ExamplesSupplier {
         System.out.println("-showPercentageDistributionSupplier---");
 
         // String
-        generateAndCountLargeStream("String -100%", new PercentageDistributionSupplier<>(-100, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 0%", new PercentageDistributionSupplier<>(0, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 30%", new PercentageDistributionSupplier<>(30, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 50%", new PercentageDistributionSupplier<>(50, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 80%", new PercentageDistributionSupplier<>(80, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 100%", new PercentageDistributionSupplier<>(100, "A", "B", RANDOM));
-        generateAndCountLargeStream("String 200%", new PercentageDistributionSupplier<>(200, "A", "B", RANDOM));
+        generateAndCountLargeStream("String -100%", new PercentageDistributionSupplier<>(RANDOM, -100, "A", "B"));
+        generateAndCountLargeStream("String 0%", new PercentageDistributionSupplier<>(RANDOM, 0, "A", "B"));
+        generateAndCountLargeStream("String 30%", new PercentageDistributionSupplier<>(RANDOM, 30, "A", "B"));
+        generateAndCountLargeStream("String 50%", new PercentageDistributionSupplier<>(RANDOM, 50, "A", "B"));
+        generateAndCountLargeStream("String 80%", new PercentageDistributionSupplier<>(RANDOM, 80, "A", "B"));
+        generateAndCountLargeStream("String 100%", new PercentageDistributionSupplier<>(RANDOM, 100, "A", "B"));
+        generateAndCountLargeStream("String 200%", new PercentageDistributionSupplier<>(RANDOM, 200, "A", "B"));
 
         // Boolean
-        generateAndCountLargeStream("Boolean 99%", new PercentageDistributionSupplier<>(99, TRUE, FALSE, RANDOM));
+        generateAndCountLargeStream("Boolean 99%", new PercentageDistributionSupplier<>(RANDOM, 99, TRUE, FALSE));
 
         // PrimitiveBoolean
-        printBooleans("PrimitiveBoolean 50%", PercentageDistributionSupplier.asPrimitiveBooleanSupplier(50, false, true, RANDOM));
+        printBooleans("PrimitiveBoolean 50%", PercentageDistributionSupplier.asPrimitiveBooleanSupplier(RANDOM, 50, false, true));
 
         // PrimitiveInt
-        generateAndPrintIntStream("PrimitiveInt 50%", PercentageDistributionSupplier.asPrimitiveIntSupplier(50, Integer.MIN_VALUE, Integer.MAX_VALUE, RANDOM));
+        generateAndPrintIntStream("PrimitiveInt 50%", PercentageDistributionSupplier.asPrimitiveIntSupplier(RANDOM, 50, Integer.MIN_VALUE, Integer.MAX_VALUE));
 
         // PrimitiveLong
-        generateAndPrintLongStream("PrimitiveLong 50%", PercentageDistributionSupplier.asPrimitiveLongSupplier(50, Long.MIN_VALUE, Long.MAX_VALUE, RANDOM));
+        generateAndPrintLongStream("PrimitiveLong 50%", PercentageDistributionSupplier.asPrimitiveLongSupplier(RANDOM, 50, Long.MIN_VALUE, Long.MAX_VALUE));
 
         // PrimitiveDouble
-        generateAndPrintDoubleStream("PrimitiveDouble 50%", PercentageDistributionSupplier.asPrimitiveDoubleSupplier(50, Double.MIN_VALUE, Double.MAX_VALUE, RANDOM));
+        generateAndPrintDoubleStream("PrimitiveDouble 50%", PercentageDistributionSupplier.asPrimitiveDoubleSupplier(RANDOM, 50, Double.MIN_VALUE, Double.MAX_VALUE));
     }
 
     private static void showSequenceSupplier() {

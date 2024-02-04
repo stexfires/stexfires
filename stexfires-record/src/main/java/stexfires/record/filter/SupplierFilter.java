@@ -37,7 +37,7 @@ public class SupplierFilter<T extends TextRecord> implements RecordFilter<T> {
      */
     public static <T extends TextRecord> SupplierFilter<T> random(int percentageShareOfValid, RandomGenerator randomGenerator) {
         Objects.requireNonNull(randomGenerator);
-        return new SupplierFilter<>(new PercentageDistributionSupplier<>(percentageShareOfValid, Boolean.TRUE, Boolean.FALSE, randomGenerator));
+        return new SupplierFilter<>(new PercentageDistributionSupplier<>(randomGenerator, percentageShareOfValid, Boolean.TRUE, Boolean.FALSE));
     }
 
     public static <T extends TextRecord> SupplierFilter<T> pattern(boolean... pattern) {

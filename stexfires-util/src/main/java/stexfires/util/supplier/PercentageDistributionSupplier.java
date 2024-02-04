@@ -26,45 +26,50 @@ public final class PercentageDistributionSupplier<T> implements Supplier<T> {
 
     private static final int HUNDRED = 100;
 
+    private final RandomGenerator random;
     private final int percentageShareOfValue;
     private final T value;
     private final T otherValue;
-    private final RandomGenerator random;
 
-    public PercentageDistributionSupplier(int percentageShareOfValue,
-                                          T value, T otherValue,
-                                          RandomGenerator random) {
+    public PercentageDistributionSupplier(RandomGenerator random,
+                                          int percentageShareOfValue,
+                                          T value,
+                                          T otherValue) {
+        Objects.requireNonNull(random);
         Objects.requireNonNull(value);
         Objects.requireNonNull(otherValue);
-        Objects.requireNonNull(random);
+        this.random = random;
         this.percentageShareOfValue = percentageShareOfValue;
         this.value = value;
         this.otherValue = otherValue;
-        this.random = random;
     }
 
-    public static BooleanSupplier asPrimitiveBooleanSupplier(int percentageShareOfValue,
-                                                             boolean value, boolean otherValue,
-                                                             RandomGenerator random) {
-        return new PercentageDistributionSupplier<>(percentageShareOfValue, value, otherValue, random)::get;
+    public static BooleanSupplier asPrimitiveBooleanSupplier(RandomGenerator random,
+                                                             int percentageShareOfValue,
+                                                             boolean value,
+                                                             boolean otherValue) {
+        return new PercentageDistributionSupplier<>(random, percentageShareOfValue, value, otherValue)::get;
     }
 
-    public static IntSupplier asPrimitiveIntSupplier(int percentageShareOfValue,
-                                                     int value, int otherValue,
-                                                     RandomGenerator random) {
-        return new PercentageDistributionSupplier<>(percentageShareOfValue, value, otherValue, random)::get;
+    public static IntSupplier asPrimitiveIntSupplier(RandomGenerator random,
+                                                     int percentageShareOfValue,
+                                                     int value,
+                                                     int otherValue) {
+        return new PercentageDistributionSupplier<>(random, percentageShareOfValue, value, otherValue)::get;
     }
 
-    public static LongSupplier asPrimitiveLongSupplier(int percentageShareOfValue,
-                                                       long value, long otherValue,
-                                                       RandomGenerator random) {
-        return new PercentageDistributionSupplier<>(percentageShareOfValue, value, otherValue, random)::get;
+    public static LongSupplier asPrimitiveLongSupplier(RandomGenerator random,
+                                                       int percentageShareOfValue,
+                                                       long value,
+                                                       long otherValue) {
+        return new PercentageDistributionSupplier<>(random, percentageShareOfValue, value, otherValue)::get;
     }
 
-    public static DoubleSupplier asPrimitiveDoubleSupplier(int percentageShareOfValue,
-                                                           double value, double otherValue,
-                                                           RandomGenerator random) {
-        return new PercentageDistributionSupplier<>(percentageShareOfValue, value, otherValue, random)::get;
+    public static DoubleSupplier asPrimitiveDoubleSupplier(RandomGenerator random,
+                                                           int percentageShareOfValue,
+                                                           double value,
+                                                           double otherValue) {
+        return new PercentageDistributionSupplier<>(random, percentageShareOfValue, value, otherValue)::get;
     }
 
     @Override
@@ -78,7 +83,6 @@ public final class PercentageDistributionSupplier<T> implements Supplier<T> {
                 "percentageShareOfValue=" + percentageShareOfValue +
                 ", value=" + value +
                 ", otherValue=" + otherValue +
-                ", random=" + random +
                 '}';
     }
 
