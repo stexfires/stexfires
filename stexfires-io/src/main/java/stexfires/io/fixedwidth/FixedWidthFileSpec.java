@@ -10,8 +10,6 @@ import stexfires.util.LineSeparator;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,8 +60,7 @@ public record FixedWidthFileSpec(
         }
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
-
-        fieldSpecs = new ArrayList<>(fieldSpecs);
+        fieldSpecs = List.copyOf(fieldSpecs);
     }
 
     public static FixedWidthFileSpec producerFileSpec(CharsetCoding charsetCoding,
@@ -179,11 +176,6 @@ public record FixedWidthFileSpec(
     public FixedWidthConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new FixedWidthConsumer(bufferedWriter, this, fieldSpecs);
-    }
-
-    @Override
-    public List<FixedWidthFieldSpec> fieldSpecs() {
-        return Collections.unmodifiableList(fieldSpecs);
     }
 
 }

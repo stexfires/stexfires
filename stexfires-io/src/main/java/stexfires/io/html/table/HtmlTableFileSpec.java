@@ -7,8 +7,6 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,8 +40,7 @@ public record HtmlTableFileSpec(
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
-
-        fieldSpecs = new ArrayList<>(fieldSpecs);
+        fieldSpecs = List.copyOf(fieldSpecs);
     }
 
     public static HtmlTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
@@ -79,11 +76,6 @@ public record HtmlTableFileSpec(
     public HtmlTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new HtmlTableConsumer(bufferedWriter, this, fieldSpecs);
-    }
-
-    @Override
-    public List<HtmlTableFieldSpec> fieldSpecs() {
-        return Collections.unmodifiableList(fieldSpecs);
     }
 
 }

@@ -8,8 +8,6 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -45,8 +43,7 @@ public record MarkdownTableFileSpec(
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(consumerAlignment);
         Objects.requireNonNull(fieldSpecs);
-
-        fieldSpecs = new ArrayList<>(fieldSpecs);
+        fieldSpecs = List.copyOf(fieldSpecs);
     }
 
     public static MarkdownTableFileSpec consumerFileSpec(CharsetCoding charsetCoding,
@@ -82,11 +79,6 @@ public record MarkdownTableFileSpec(
     public MarkdownTableConsumer consumer(BufferedWriter bufferedWriter) {
         Objects.requireNonNull(bufferedWriter);
         return new MarkdownTableConsumer(bufferedWriter, this, fieldSpecs);
-    }
-
-    @Override
-    public List<MarkdownTableFieldSpec> fieldSpecs() {
-        return Collections.unmodifiableList(fieldSpecs);
     }
 
 }
