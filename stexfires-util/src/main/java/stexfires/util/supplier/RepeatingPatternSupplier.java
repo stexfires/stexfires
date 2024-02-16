@@ -30,7 +30,7 @@ public final class RepeatingPatternSupplier<T> implements Supplier<T> {
         if (countNullValues > 0) {
             throw new IllegalArgumentException("pattern contains " + countNullValues + " null values");
         }
-        this.pattern = new ArrayList<>(pattern);
+        this.pattern = List.copyOf(pattern);
         currentIndex = -1;
     }
 

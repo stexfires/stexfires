@@ -4,7 +4,6 @@ import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiPredicate;
@@ -27,7 +26,7 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
         Objects.requireNonNull(predicate);
         Objects.requireNonNull(recordLoggers);
         this.predicate = predicate;
-        this.recordLoggers = new ArrayList<>(recordLoggers);
+        this.recordLoggers = List.copyOf(recordLoggers);
     }
 
     public static <T extends TextRecord> DispatcherLogger<T> all(List<? extends RecordLogger<? super T>> recordLoggers) {
@@ -102,9 +101,9 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
                                                                        List<? extends RecordLogger<? super T>> recordLoggers) {
         Objects.requireNonNull(recordFilters);
         Objects.requireNonNull(recordLoggers);
-        List<RecordFilter<? super T>> localFilters = new ArrayList<>(recordFilters);
+        var recordFiltersCopy = List.copyOf(recordFilters);
         BiPredicate<Integer, T> predicate = (index, record) ->
-                index < localFilters.size() && localFilters.get(index).isValid(record);
+                index < recordFiltersCopy.size() && recordFiltersCopy.get(index).isValid(record);
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 

@@ -5,7 +5,6 @@ import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.function.Supplier;
 
 /**
@@ -13,8 +12,8 @@ import java.util.function.Supplier;
  */
 public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
 
-    private final Collection<String> trueValues;
-    private final Collection<String> falseValues;
+    private final Set<String> trueValues;
+    private final Set<String> falseValues;
     private final @Nullable Supplier<@Nullable Boolean> nullSourceSupplier;
     private final @Nullable Supplier<@Nullable Boolean> emptySourceSupplier;
 
@@ -24,9 +23,9 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
                                  @Nullable Supplier<@Nullable Boolean> emptySourceSupplier) {
         Objects.requireNonNull(trueValues);
         Objects.requireNonNull(falseValues);
-        // Use TreeSet (with natural ordering) so that duplicate values are removed and 'null' is prevented.
-        this.trueValues = new TreeSet<>(trueValues);
-        this.falseValues = new TreeSet<>(falseValues);
+        // Use 'Set.copyOf' so that duplicate values are removed, 'null' is prevented and unmodifiable sets ('Set.of') are reused.
+        this.trueValues = Set.copyOf(trueValues);
+        this.falseValues = Set.copyOf(falseValues);
         this.nullSourceSupplier = nullSourceSupplier;
         this.emptySourceSupplier = emptySourceSupplier;
     }
