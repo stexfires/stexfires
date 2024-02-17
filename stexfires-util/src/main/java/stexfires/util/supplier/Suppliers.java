@@ -70,6 +70,44 @@ public final class Suppliers {
         return () -> constant;
     }
 
+    public static <T> Supplier<T> replacingSupplier(Supplier<T> supplier,
+                                                    Predicate<T> condition,
+                                                    T substituteValue) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(condition);
+        Objects.requireNonNull(substituteValue);
+        return () -> {
+            T value = supplier.get();
+            return condition.test(value) ? substituteValue : value;
+        };
+    }
+
+    public static <T> Supplier<@Nullable T> replacingWithNullSupplier(Supplier<T> supplier,
+                                                                      Predicate<T> condition) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(condition);
+        return () -> {
+            T value = supplier.get();
+            return condition.test(value) ? null : value;
+        };
+    }
+
+    public static <T> Supplier<T> insertingSupplier(Supplier<T> supplier,
+                                                    BooleanSupplier conditionSupplier,
+                                                    T additionalValue) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(conditionSupplier);
+        Objects.requireNonNull(additionalValue);
+        return () -> conditionSupplier.getAsBoolean() ? additionalValue : supplier.get();
+    }
+
+    public static <T> Supplier<@Nullable T> insertingNullSupplier(Supplier<T> supplier,
+                                                                  BooleanSupplier conditionSupplier) {
+        Objects.requireNonNull(supplier);
+        Objects.requireNonNull(conditionSupplier);
+        return () -> conditionSupplier.getAsBoolean() ? null : supplier.get();
+    }
+
     public static <T> Supplier<T> combine(Supplier<T> first, Supplier<T> second, BinaryOperator<T> combiner) {
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);

@@ -352,6 +352,34 @@ public final class ExamplesSupplier {
         generateAndPrintDoubleStream("constantPrimitiveDouble Double.MAX_VALUE", Suppliers.constantPrimitiveDouble(Double.MAX_VALUE));
     }
 
+    private static void showReplacing() {
+        System.out.println("-showReplacing---");
+
+        generateAndPrintStream("replacingSupplier sequence even with -2", Suppliers.replacingSupplier(
+                SequenceSupplier.asLong(0),
+                i -> i % 2L == 0L, -2L));
+        generateAndPrintStream("replacingSupplier random even with -2", Suppliers.replacingSupplier(
+                RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
+                i -> i % 2 == 0, -2));
+        generateAndPrintStream("replacingWithNullSupplier random even with null", Suppliers.replacingWithNullSupplier(
+                RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
+                i -> i % 2 == 0));
+    }
+
+    private static void showInserting() {
+        System.out.println("-showInserting---");
+
+        generateAndPrintStream("insertingSupplier sequence pattern -2", Suppliers.insertingSupplier(
+                SequenceSupplier.asLong(0),
+                RepeatingPatternSupplier.ofPrimitiveBoolean(false, true, false, false)::get, -2L));
+        generateAndPrintStream("insertingSupplier random pattern -2", Suppliers.insertingSupplier(
+                RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
+                RepeatingPatternSupplier.ofPrimitiveBoolean(false, true, false, false)::get, -2));
+        generateAndPrintStream("insertingNullSupplier random pattern null", Suppliers.insertingNullSupplier(
+                RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
+                RepeatingPatternSupplier.ofPrimitiveBoolean(false, true, false, false)::get));
+    }
+
     private static void showCombine() {
         System.out.println("-showCombine---");
 
@@ -507,6 +535,8 @@ public final class ExamplesSupplier {
         showRepeatingPatternSupplier();
         showSwitchingSupplier();
         showConstant();
+        showReplacing();
+        showInserting();
         showCombine();
         showMapTo();
         showConditional();
