@@ -24,7 +24,13 @@ import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
  */
 @SuppressWarnings("RedundantThrows")
 public abstract sealed class AbstractInternalReadableProducer<T extends TextRecord> extends AbstractReadableProducer<T>
-        permits stexfires.io.config.ConfigProducer, stexfires.io.delimited.simple.SimpleDelimitedProducer, stexfires.io.fixedwidth.FixedWidthProducer, stexfires.io.markdown.list.MarkdownListProducer, stexfires.io.properties.PropertiesProducer, stexfires.io.singlevalue.SingleValueProducer {
+        permits
+        stexfires.io.config.ConfigProducer,
+        stexfires.io.delimited.simple.SimpleDelimitedProducer,
+        stexfires.io.fixedwidth.FixedWidthProducer,
+        stexfires.io.markdown.list.MarkdownListProducer,
+        stexfires.io.properties.PropertiesProducer,
+        stexfires.io.singlevalue.SingleValueProducer {
 
     private ReadableProducerState state;
 
