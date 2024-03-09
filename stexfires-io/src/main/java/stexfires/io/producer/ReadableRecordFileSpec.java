@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public interface ReadableRecordFileSpec<PTR extends TextRecord, RRP extends ReadableRecordProducer<PTR>> extends RecordFileSpec {
+public non-sealed interface ReadableRecordFileSpec<PTR extends TextRecord, RRP extends ReadableRecordProducer<PTR>> extends RecordFileSpec {
 
     RRP producer(BufferedReader bufferedReader);
 

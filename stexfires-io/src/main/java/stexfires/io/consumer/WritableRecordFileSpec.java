@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @since 0.1
  */
-public interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
+public non-sealed interface WritableRecordFileSpec<CTR extends TextRecord, WRC extends WritableRecordConsumer<CTR>> extends RecordFileSpec {
 
     LineSeparator DEFAULT_CONSUMER_LINE_SEPARATOR = LineSeparator.LF;
 
