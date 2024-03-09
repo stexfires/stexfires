@@ -24,6 +24,33 @@ public final class SimpleDelimitedConsumer extends AbstractInternalWritableConsu
         this.fileSpec = fileSpec;
     }
 
+    static String createRecordString(String fieldDelimiter,
+                                     List<SimpleDelimitedFieldSpec> fieldSpecs,
+                                     List<TextField> fields) {
+        Objects.requireNonNull(fieldDelimiter);
+        Objects.requireNonNull(fieldSpecs);
+        Objects.requireNonNull(fields);
+
+        StringBuilder b = new StringBuilder();
+
+        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
+            SimpleDelimitedFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
+
+            if (fieldIndex > 0) {
+                b.append(fieldDelimiter);
+            }
+
+            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
+            String text = (field != null) ? field.text() : null;
+
+            if (text != null) {
+                b.append(text);
+            }
+        }
+
+        return b.toString();
+    }
+
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
@@ -55,33 +82,6 @@ public final class SimpleDelimitedConsumer extends AbstractInternalWritableConsu
             writeString(fileSpec.consumerTextAfter());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
-    }
-
-    private static String createRecordString(String fieldDelimiter,
-                                             List<SimpleDelimitedFieldSpec> fieldSpecs,
-                                             List<TextField> fields) {
-        Objects.requireNonNull(fieldDelimiter);
-        Objects.requireNonNull(fieldSpecs);
-        Objects.requireNonNull(fields);
-
-        StringBuilder b = new StringBuilder();
-
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            SimpleDelimitedFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
-
-            if (fieldIndex > 0) {
-                b.append(fieldDelimiter);
-            }
-
-            TextField field = (fields.size() > fieldIndex) ? fields.get(fieldIndex) : null;
-            String text = (field != null) ? field.text() : null;
-
-            if (text != null) {
-                b.append(text);
-            }
-        }
-
-        return b.toString();
     }
 
 }

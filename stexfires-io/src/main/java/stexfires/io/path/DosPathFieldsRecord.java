@@ -49,20 +49,6 @@ public record DosPathFieldsRecord(
     public static final int MAX_INDEX = 13;
     public static final int FIELD_SIZE = MAX_INDEX + 1;
 
-    static void checkField(TextField textField, int index, boolean nullable, String parameterName) {
-        Objects.requireNonNull(textField);
-        Objects.requireNonNull(parameterName);
-        if (textField.index() != index) {
-            throw new IllegalArgumentException("Wrong 'index' of " + parameterName + ": " + textField);
-        }
-        if (textField.maxIndex() != MAX_INDEX) {
-            throw new IllegalArgumentException("Wrong 'maxIndex' of " + parameterName + ": " + textField);
-        }
-        if (!nullable && textField.isNull()) {
-            throw new IllegalArgumentException("Text is null of " + parameterName + ": " + textField);
-        }
-    }
-
     public DosPathFieldsRecord {
         Objects.requireNonNull(pathType);
 
@@ -83,6 +69,20 @@ public record DosPathFieldsRecord(
         checkField(hiddenField, HIDDEN_INDEX, false, "hiddenField");
         checkField(systemField, SYSTEM_INDEX, false, "systemField");
         checkField(fileExtensionField, FILE_EXTENSION_INDEX, true, "fileExtensionField");
+    }
+
+    static void checkField(TextField textField, int index, boolean nullable, String parameterName) {
+        Objects.requireNonNull(textField);
+        Objects.requireNonNull(parameterName);
+        if (textField.index() != index) {
+            throw new IllegalArgumentException("Wrong 'index' of " + parameterName + ": " + textField);
+        }
+        if (textField.maxIndex() != MAX_INDEX) {
+            throw new IllegalArgumentException("Wrong 'maxIndex' of " + parameterName + ": " + textField);
+        }
+        if (!nullable && textField.isNull()) {
+            throw new IllegalArgumentException("Text is null of " + parameterName + ": " + textField);
+        }
     }
 
     static @Nullable String extractDosFileNameExtension(@Nullable Path fileName, boolean regularFile) {

@@ -30,6 +30,46 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
         this.fieldSpecs = fieldSpecs;
     }
 
+    static String convertHtml(@Nullable String value) {
+        String convertedValue;
+        if (value == null || value.isEmpty()) {
+            convertedValue = NON_BREAKING_SPACE;
+        } else {
+            convertedValue = value.replace("&", "&amp;")
+                                  .replace("<", "&lt;")
+                                  .replace(">", "&gt;");
+        }
+        return convertedValue;
+    }
+
+    StringBuilder buildHeaderRow() {
+        StringBuilder b = new StringBuilder();
+
+        for (HtmlTableFieldSpec fieldSpec : fieldSpecs) {
+            b.append(TABLE_HEADER_BEGIN);
+
+            b.append(convertHtml(fieldSpec.name()));
+
+            b.append(TABLE_HEADER_END);
+        }
+
+        return b;
+    }
+
+    StringBuilder buildRecordRow(TextRecord record) {
+        StringBuilder b = new StringBuilder();
+
+        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
+            b.append(TABLE_DATA_BEGIN);
+
+            b.append(convertHtml(record.textAt(fieldIndex)));
+
+            b.append(TABLE_DATA_END);
+        }
+
+        return b;
+    }
+
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
@@ -72,46 +112,6 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
             writeString(fileSpec.consumerTextAfter());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
-    }
-
-    private StringBuilder buildHeaderRow() {
-        StringBuilder b = new StringBuilder();
-
-        for (HtmlTableFieldSpec fieldSpec : fieldSpecs) {
-            b.append(TABLE_HEADER_BEGIN);
-
-            b.append(convertHtml(fieldSpec.name()));
-
-            b.append(TABLE_HEADER_END);
-        }
-
-        return b;
-    }
-
-    private StringBuilder buildRecordRow(TextRecord record) {
-        StringBuilder b = new StringBuilder();
-
-        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            b.append(TABLE_DATA_BEGIN);
-
-            b.append(convertHtml(record.textAt(fieldIndex)));
-
-            b.append(TABLE_DATA_END);
-        }
-
-        return b;
-    }
-
-    private static String convertHtml(@Nullable String value) {
-        String convertedValue;
-        if (value == null || value.isEmpty()) {
-            convertedValue = NON_BREAKING_SPACE;
-        } else {
-            convertedValue = value.replace("&", "&amp;")
-                                  .replace("<", "&lt;")
-                                  .replace(">", "&gt;");
-        }
-        return convertedValue;
     }
 
     private void writeStringRow(String tableRow) throws IOException {
