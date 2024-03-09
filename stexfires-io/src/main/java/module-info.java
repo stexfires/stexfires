@@ -12,6 +12,7 @@ module stexfires.io {
     exports stexfires.io.delimited.simple;
     exports stexfires.io.fixedwidth;
     exports stexfires.io.html.table;
+    exports stexfires.io.json;
     exports stexfires.io.markdown.list;
     exports stexfires.io.markdown.table;
     exports stexfires.io.message;

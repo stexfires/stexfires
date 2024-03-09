@@ -26,6 +26,7 @@ public abstract sealed class AbstractInternalWritableConsumer<T extends TextReco
         stexfires.io.delimited.simple.SimpleDelimitedConsumer,
         stexfires.io.fixedwidth.FixedWidthConsumer,
         stexfires.io.html.table.HtmlTableConsumer,
+        stexfires.io.json.JsonConsumer,
         stexfires.io.markdown.list.MarkdownListConsumer,
         stexfires.io.markdown.table.MarkdownTableConsumer,
         stexfires.io.message.RecordMessageConsumer,
