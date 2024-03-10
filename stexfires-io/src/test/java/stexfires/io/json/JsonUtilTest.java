@@ -47,7 +47,32 @@ final class JsonUtilTest {
         assertThrows(NullPointerException.class, () -> JsonUtil.escapeJsonString(null));
     }
 
-
+    /**
+     * Test method for {@link stexfires.io.json.JsonUtil#unescapeJsonString(String)}.
+     */
+    @Test
+    void unescapeJsonString() {
+        assertEquals("", JsonUtil.unescapeJsonString(""));
+        assertEquals(" ", JsonUtil.unescapeJsonString(" "));
+        assertEquals("a", JsonUtil.unescapeJsonString("a"));
+        assertEquals("abc123", JsonUtil.unescapeJsonString("abc123"));
+        assertEquals("Ä", JsonUtil.unescapeJsonString("Ä"));
+        assertEquals("€", JsonUtil.unescapeJsonString("€"));
+        assertEquals(SPECIAL_CODEPOINTS, JsonUtil.unescapeJsonString(SPECIAL_CODEPOINTS));
+        assertEquals("/", JsonUtil.unescapeJsonString("/"));
+        assertEquals("/", JsonUtil.unescapeJsonString("\\/"));
+        assertEquals("\"", JsonUtil.unescapeJsonString("\\\""));
+        assertEquals("\\", JsonUtil.unescapeJsonString("\\\\"));
+        assertEquals("\b", JsonUtil.unescapeJsonString("\\b"));
+        assertEquals("\f", JsonUtil.unescapeJsonString("\\f"));
+        assertEquals("\n", JsonUtil.unescapeJsonString("\\n"));
+        assertEquals("\r", JsonUtil.unescapeJsonString("\\r"));
+        assertEquals("\t", JsonUtil.unescapeJsonString("\\t"));
+        for (char c = Character.MIN_VALUE; c < Character.MAX_VALUE; c++) {
+            assertEquals(String.valueOf(c), JsonUtil.unescapeJsonString(String.format("\\u%04x", (int) c)));
+        }
+        assertThrows(NullPointerException.class, () -> JsonUtil.unescapeJsonString(null));
+    }
 
     /**
      * Test method for {@link stexfires.io.json.JsonUtil#buildJsonString(String)}.

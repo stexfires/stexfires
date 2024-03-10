@@ -74,6 +74,56 @@ public final class JsonUtil {
         return escapedJsonString.toString();
     }
 
+    @SuppressWarnings("MagicNumber")
+    public static String unescapeJsonString(String escapedJsonString) {
+        Objects.requireNonNull(escapedJsonString);
+        StringBuilder unescapedJsonString = new StringBuilder(escapedJsonString.length());
+        int i = 0;
+        while (i < escapedJsonString.length()) {
+            char c = escapedJsonString.charAt(i);
+            if (c == '\\') {
+                i++;
+                if (i < escapedJsonString.length()) {
+                    char nextChar = escapedJsonString.charAt(i);
+                    switch (nextChar) {
+                        case '"' -> unescapedJsonString.append('"');
+                        case '\\' -> unescapedJsonString.append('\\');
+                        case '/' -> unescapedJsonString.append('/');
+                        case 'b' -> unescapedJsonString.append('\b');
+                        case 'f' -> unescapedJsonString.append('\f');
+                        case 'n' -> unescapedJsonString.append('\n');
+                        case 'r' -> unescapedJsonString.append('\r');
+                        case 't' -> unescapedJsonString.append('\t');
+                        case 'u' -> {
+                            if (i + 4 < escapedJsonString.length()) {
+                                String hex = escapedJsonString.substring(i + 1, i + 5);
+                                try {
+                                    int codePoint = Integer.parseInt(hex, 16);
+                                    unescapedJsonString.appendCodePoint(codePoint);
+                                    i += 4;
+                                } catch (NumberFormatException e) {
+                                    // ERROR: Invalid Unicode escape sequence
+                                    unescapedJsonString.append("\\u");
+                                }
+                            } else {
+                                // ERROR: Not enough characters for a Unicode escape sequence
+                                unescapedJsonString.append("\\u");
+                            }
+                        }
+                        default -> unescapedJsonString.append(nextChar); // ERROR: Invalid escape sequence
+                    }
+                } else {
+                    // ERROR: Backslash at the end of the string
+                    unescapedJsonString.append('\\');
+                }
+            } else {
+                unescapedJsonString.append(c);
+            }
+            i++;
+        }
+        return unescapedJsonString.toString();
+    }
+
     public static String buildJsonString(String escapedJsonCharacters) {
         Objects.requireNonNull(escapedJsonCharacters);
         return QUOTATION_MARK + escapedJsonCharacters + QUOTATION_MARK;
