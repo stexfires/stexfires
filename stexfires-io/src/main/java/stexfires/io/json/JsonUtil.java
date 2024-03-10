@@ -49,44 +49,28 @@ public final class JsonUtil {
     private JsonUtil() {
     }
 
-    @SuppressWarnings({"HardcodedLineSeparator", "MagicNumber"})
+    @SuppressWarnings({"HardcodedLineSeparator"})
     public static String escapeJsonString(String unescapedJsonString) {
-        // TODO optimize and review escapeJsonString
         Objects.requireNonNull(unescapedJsonString);
         StringBuilder escapedJsonString = new StringBuilder(unescapedJsonString.length() + 2);
-        for (int i = 0; i < unescapedJsonString.length(); i++) {
-            char c = unescapedJsonString.charAt(i);
-            switch (c) {
-                case '"':
-                    escapedJsonString.append("\\\"");
-                    break;
-                case '\\':
-                    escapedJsonString.append("\\\\");
-                    break;
-                case '\b':
-                    escapedJsonString.append("\\b");
-                    break;
-                case '\f':
-                    escapedJsonString.append("\\f");
-                    break;
-                case '\n':
-                    escapedJsonString.append("\\n");
-                    break;
-                case '\r':
-                    escapedJsonString.append("\\r");
-                    break;
-                case '\t':
-                    escapedJsonString.append("\\t");
-                    break;
-                default:
-                    if ((c < 0x20) || (c > 0x7F)) {
-                        escapedJsonString.append(String.format("\\u%04x", (int) c));
+        unescapedJsonString.codePoints().forEach(codePoint -> {
+            switch (codePoint) {
+                case '"' -> escapedJsonString.append("\\\"");
+                case '\\' -> escapedJsonString.append("\\\\");
+                case '\b' -> escapedJsonString.append("\\b");
+                case '\f' -> escapedJsonString.append("\\f");
+                case '\n' -> escapedJsonString.append("\\n");
+                case '\r' -> escapedJsonString.append("\\r");
+                case '\t' -> escapedJsonString.append("\\t");
+                default -> {
+                    if (Character.isISOControl(codePoint)) {
+                        escapedJsonString.append(String.format("\\u%04x", codePoint));
                     } else {
-                        escapedJsonString.append(c);
+                        escapedJsonString.appendCodePoint(codePoint);
                     }
-                    break;
+                }
             }
-        }
+        });
         return escapedJsonString.toString();
     }
 
