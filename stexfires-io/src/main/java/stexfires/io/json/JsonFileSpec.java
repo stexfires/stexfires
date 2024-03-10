@@ -2,6 +2,7 @@ package stexfires.io.json;
 
 import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.WritableRecordFileSpec;
+import stexfires.io.producer.ReadableRecordFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
@@ -13,7 +14,7 @@ import java.util.List;
  * @since 0.1
  */
 public sealed interface JsonFileSpec
-        extends WritableRecordFileSpec<TextRecord, JsonConsumer>
+        extends ReadableRecordFileSpec<TextRecord, JsonProducer>, WritableRecordFileSpec<TextRecord, JsonConsumer>
         permits JsonArrayFileSpec, JsonMembersFileSpec, JsonStreamingFileSpec {
 
     CharsetCoding JSON_CHARSET_CODING = CharsetCoding.UTF_8_REPORTING;
@@ -23,14 +24,14 @@ public sealed interface JsonFileSpec
     @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
     boolean DEFAULT_CONSUMER_SPACE_AFTER_VALUE_SEPARATOR = false;
 
+    @SuppressWarnings("SameReturnValue")
+    boolean embeddedInJsonObject();
+
     @Nullable String consumerTextBefore();
 
     @Nullable String consumerTextAfter();
 
     boolean consumerSpaceAfterValueSeparator();
-
-    @SuppressWarnings("SameReturnValue")
-    boolean embeddedInJsonObject();
 
     List<JsonFieldSpec> fieldSpecs();
 

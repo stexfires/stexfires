@@ -28,6 +28,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         stexfires.io.config.ConfigProducer,
         stexfires.io.delimited.simple.SimpleDelimitedProducer,
         stexfires.io.fixedwidth.FixedWidthProducer,
+        stexfires.io.json.JsonProducer,
         stexfires.io.markdown.list.MarkdownListProducer,
         stexfires.io.properties.PropertiesProducer,
         stexfires.io.singlevalue.SingleValueProducer {

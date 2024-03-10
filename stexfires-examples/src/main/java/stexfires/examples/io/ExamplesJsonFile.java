@@ -1,14 +1,17 @@
 package stexfires.examples.io;
 
+import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFiles;
 import stexfires.io.json.JsonArrayFileSpec;
 import stexfires.io.json.JsonFieldSpec;
 import stexfires.io.json.JsonMembersFileSpec;
 import stexfires.io.json.JsonStreamingFileSpec;
+import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
+import stexfires.record.producer.ProducerException;
 import stexfires.util.supplier.SequenceSupplier;
 
 import java.io.File;
@@ -45,7 +48,7 @@ public final class ExamplesJsonFile {
     private static void testJsonArrayFileSpec1(Path path) throws ConsumerException, IOException {
         System.out.println("-testJsonArrayFileSpec1---");
 
-        var fileSpec =
+        var fileSpecWrite =
                 JsonArrayFileSpec.consumerFileSpec(
                         true,
                         true,
@@ -63,7 +66,7 @@ public final class ExamplesJsonFile {
 
         // Write
         System.out.println("write: " + path);
-        RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
     }
 
     private static void testJsonMembersFileSpec1(Path path) throws ConsumerException, IOException {
@@ -71,7 +74,7 @@ public final class ExamplesJsonFile {
 
         LongSupplier sequenceSupplier = SequenceSupplier.asPrimitiveLong(0L);
 
-        var fileSpec =
+        var fileSpecWrite =
                 JsonMembersFileSpec.consumerFileSpec(
                         true,
                         true,
@@ -89,16 +92,30 @@ public final class ExamplesJsonFile {
 
         // Write
         System.out.println("write: " + path);
-        RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
     }
 
-    private static void testJsonStreamingFileSpec1(Path path) throws ConsumerException, IOException {
+    private static void testJsonStreamingFileSpec1(Path path) throws ProducerException, ConsumerException, IOException {
         System.out.println("-testJsonStreamingFileSpec1---");
 
-        var fileSpec =
+        var fileSpecWrite =
                 JsonStreamingFileSpec.consumerFileSpec(
-                        true,
                         false,
+                        true,
+                        List.of(
+                                JsonFieldSpec.stringType("string ä €", USE_NULL_LITERAL_FOR_VALUE),
+                                JsonFieldSpec.numberType("number ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
+                                JsonFieldSpec.stringType("null ä €", USE_NULL_LITERAL_FOR_VALUE),
+                                new JsonFieldSpec("array", ARRAY, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
+                                new JsonFieldSpec("object", OBJECT, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                        )
+                );
+
+        var fileSpecRead =
+                JsonStreamingFileSpec.producerFileSpec(
+                        false,
+                        ProducerReadLineHandling.SKIP_BLANK_LINE,
                         List.of(
                                 JsonFieldSpec.stringType("string ä €", USE_NULL_LITERAL_FOR_VALUE),
                                 JsonFieldSpec.numberType("number ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
@@ -111,13 +128,17 @@ public final class ExamplesJsonFile {
 
         // Write
         System.out.println("write: " + path);
-        RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
+
+        // Read / log
+        System.out.println("read/log: " + path);
+        RecordFiles.readAndConsumeFile(fileSpecRead, RecordSystemOutUtil.RECORD_CONSUMER, path);
     }
 
     private static void testJsonStreamingFileSpec2(Path path) throws ConsumerException, IOException {
         System.out.println("-testJsonStreamingFileSpec2---");
 
-        var fileSpec =
+        var fileSpecWrite =
                 JsonStreamingFileSpec.consumerFileSpec(
                         true,
                         true,
@@ -133,7 +154,7 @@ public final class ExamplesJsonFile {
 
         // Write
         System.out.println("write: " + path);
-        RecordFiles.writeStreamIntoFile(fileSpec, generateStream(), path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
     }
 
     public static void main(String... args) {
@@ -150,7 +171,7 @@ public final class ExamplesJsonFile {
             testJsonMembersFileSpec1(Path.of(args[0], "JsonMembers1.json"));
             testJsonStreamingFileSpec1(Path.of(args[0], "JsonStreaming1.ndjson"));
             testJsonStreamingFileSpec2(Path.of(args[0], "JsonStreaming2.json"));
-        } catch (ConsumerException | IOException e) {
+        } catch (ProducerException | ConsumerException | IOException e) {
             e.printStackTrace();
         }
     }

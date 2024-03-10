@@ -1,9 +1,11 @@
 package stexfires.io.json;
 
 import org.jspecify.annotations.Nullable;
+import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.List;
 import java.util.Objects;
@@ -13,51 +15,99 @@ import java.util.Objects;
  */
 public record JsonStreamingFileSpec(
         CharsetCoding charsetCoding,
+        boolean recordSeparatorBeforeJsonObject,
+        int producerSkipFirstLines,
+        ProducerReadLineHandling producerReadLineHandling,
+        int producerIgnoreFirstRecords,
+        int producerIgnoreLastRecords,
         LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         boolean consumerSpaceAfterValueSeparator,
-        boolean recordSeparatorBeforeJsonObject,
         List<JsonFieldSpec> fieldSpecs
 ) implements JsonFileSpec {
 
+    public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
+    public static final ProducerReadLineHandling DEFAULT_PRODUCER_READ_LINE_HANDLING = ProducerReadLineHandling.SKIP_BLANK_LINE;
+    public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
+    public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
+
     public JsonStreamingFileSpec {
         Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(producerReadLineHandling);
+        if (producerIgnoreFirstRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
+        }
+        if (producerIgnoreLastRecords < 0) {
+            throw new IllegalArgumentException("producerIgnoreLastRecords < 0");
+        }
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(fieldSpecs);
         fieldSpecs = List.copyOf(fieldSpecs);
     }
 
-    public static JsonStreamingFileSpec consumerFileSpec(boolean consumerSpaceAfterValueSeparator,
-                                                         boolean recordSeparatorBeforeJsonObject,
+    public static JsonStreamingFileSpec producerFileSpec(boolean recordSeparatorBeforeJsonObject,
+                                                         ProducerReadLineHandling producerReadLineHandling,
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 JSON_CHARSET_CODING,
+                recordSeparatorBeforeJsonObject,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                producerReadLineHandling,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
+                JSON_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_SPACE_AFTER_VALUE_SEPARATOR,
+                fieldSpecs
+        );
+    }
+
+    public static JsonStreamingFileSpec consumerFileSpec(boolean recordSeparatorBeforeJsonObject,
+                                                         boolean consumerSpaceAfterValueSeparator,
+                                                         List<JsonFieldSpec> fieldSpecs) {
+        return new JsonStreamingFileSpec(
+                JSON_CHARSET_CODING,
+                recordSeparatorBeforeJsonObject,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 JSON_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
                 consumerSpaceAfterValueSeparator,
-                recordSeparatorBeforeJsonObject,
                 fieldSpecs
         );
     }
 
     public static JsonStreamingFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         boolean recordSeparatorBeforeJsonObject,
                                                          LineSeparator consumerLineSeparator,
                                                          @Nullable String consumerTextBefore,
                                                          @Nullable String consumerTextAfter,
                                                          boolean consumerSpaceAfterValueSeparator,
-                                                         boolean recordSeparatorBeforeJsonObject,
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 charsetCoding,
+                recordSeparatorBeforeJsonObject,
+                DEFAULT_PRODUCER_SKIP_FIRST_LINES,
+                DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
+                DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
                 consumerSpaceAfterValueSeparator,
-                recordSeparatorBeforeJsonObject,
                 fieldSpecs
         );
+    }
+
+    @Override
+    public JsonProducer producer(BufferedReader bufferedReader) {
+        Objects.requireNonNull(bufferedReader);
+        return new JsonProducer(bufferedReader, this);
     }
 
     @Override
