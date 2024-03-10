@@ -141,13 +141,20 @@ public final class JsonUtil {
 
     public enum ValueType {
 
-        OBJECT, ARRAY, NUMBER, STRING, BOOLEAN
+        BOOLEAN,
+        NUMBER,
+        STRING_UNESCAPED,
+        STRING_ESCAPED,
+        STRING_ESCAPED_WITH_QUOTATION_MARKS,
+        ARRAY_WITHOUT_BRACKETS,
+        ARRAY_WITH_BRACKETS,
+        OBJECT
 
     }
 
     public enum NullHandling {
 
-        OMIT_JSON_MEMBER, USE_NULL_LITERAL_FOR_VALUE
+        NOT_ALLOWED, ALLOWED_USE_LITERAL, ALLOWED_OMIT_MEMBER
 
     }
 

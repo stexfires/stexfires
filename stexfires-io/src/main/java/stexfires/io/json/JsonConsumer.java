@@ -15,12 +15,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static stexfires.io.json.JsonUtil.*;
-import static stexfires.io.json.JsonUtil.NullHandling.USE_NULL_LITERAL_FOR_VALUE;
-import static stexfires.io.json.JsonUtil.ValueType.ARRAY;
+import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_USE_LITERAL;
+import static stexfires.io.json.JsonUtil.NullHandling.NOT_ALLOWED;
+import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITHOUT_BRACKETS;
 import static stexfires.io.json.JsonUtil.ValueType.BOOLEAN;
 import static stexfires.io.json.JsonUtil.ValueType.NUMBER;
-import static stexfires.io.json.JsonUtil.ValueType.OBJECT;
-import static stexfires.io.json.JsonUtil.ValueType.STRING;
+import static stexfires.io.json.JsonUtil.ValueType.STRING_ESCAPED;
+import static stexfires.io.json.JsonUtil.ValueType.STRING_UNESCAPED;
 
 /**
  * @since 0.1
@@ -62,12 +63,6 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
             } catch (NumberFormatException e) {
                 throw new ConsumerException("Invalid number value");
             }
-        } else if (type == ARRAY) {
-            // Check is value is a valid JSON array. Throws a ConsumerException if not.
-        } else if (type == OBJECT) {
-            // Check is value is a valid JSON object. Throws a ConsumerException if not.
-        } else if (type == STRING) {
-            // Check is value is a valid JSON string without the quotations marks. Throws a ConsumerException if not.
         }
     }
 
@@ -78,8 +73,10 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         String jsonValue;
         if (fieldText == null) {
             jsonValue = LITERAL_NULL;
-        } else if (type == STRING) {
+        } else if (type == STRING_UNESCAPED || type == STRING_ESCAPED) {
             jsonValue = buildJsonString(fieldText);
+        } else if (type == ARRAY_WITHOUT_BRACKETS) {
+            jsonValue = buildJsonArray(fieldText);
         } else {
             jsonValue = fieldText;
         }
@@ -93,11 +90,14 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         Objects.requireNonNull(fieldSpec);
 
         String jsonMember = null;
-        if ((fieldText != null) || (fieldSpec.nullHandling() == USE_NULL_LITERAL_FOR_VALUE)) {
+        if ((fieldText == null) && (fieldSpec.nullHandling() == NOT_ALLOWED)) {
+            throw new ConsumerException("Field text is null for " + fieldSpec);
+        }
+        if ((fieldText != null) || (fieldSpec.nullHandling() == ALLOWED_USE_LITERAL)) {
             String preparedFieldText = fieldText;
             // Escape or check fieldText if it is not null
             if (preparedFieldText != null) {
-                if (fieldSpec.escapeStringNecessary()) {
+                if (fieldSpec.valueType() == STRING_UNESCAPED) {
                     preparedFieldText = escapeJsonString(preparedFieldText);
                 } else if (fieldSpec.checkValueNecessary()) { // check STRING only if it was not escaped before
                     checkJsonValue(fieldSpec.valueType(), preparedFieldText);

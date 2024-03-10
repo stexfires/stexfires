@@ -21,11 +21,13 @@ import java.util.List;
 import java.util.function.LongSupplier;
 import java.util.stream.Stream;
 
-import static stexfires.io.json.JsonUtil.NullHandling.OMIT_JSON_MEMBER;
-import static stexfires.io.json.JsonUtil.NullHandling.USE_NULL_LITERAL_FOR_VALUE;
+import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_OMIT_MEMBER;
+import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_USE_LITERAL;
 import static stexfires.io.json.JsonUtil.StringEscape.ESCAPE_NOT_NECESSARY;
 import static stexfires.io.json.JsonUtil.ValidityCheck.CHECK_VALUE;
-import static stexfires.io.json.JsonUtil.ValueType.ARRAY;
+
+import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITHOUT_BRACKETS;
+import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITH_BRACKETS;
 import static stexfires.io.json.JsonUtil.ValueType.OBJECT;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
@@ -39,9 +41,11 @@ public final class ExamplesJsonFile {
         return Stream.of(
                 //  new ManyFieldsRecord("string3", "3", "TRUE", null),
                 //  new ManyFieldsRecord("string3", "a", "true", null),
-                new ManyFieldsRecord("category", 0L, "abc", "0", "true", null, "[1, 2, 3]", "{ \"a\": 1, \"b\": 2 }"),
+                new ManyFieldsRecord("category", 0L,
+                        "abc", "abc", "\"abc\"", "0", "true", null, " 1,2,3 ", "[1, 2, 3]", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
-                new ManyFieldsRecord("category", 2L, "A ä € \t \r\n A", "1234.5678", "false", null, null, null)
+                new ManyFieldsRecord("category", 2L,
+                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null)
         );
     }
 
@@ -55,12 +59,15 @@ public final class ExamplesJsonFile {
                         "TextRecords",
                         ESCAPE_NOT_NECESSARY,
                         List.of(
-                                JsonFieldSpec.stringType("string ä €", OMIT_JSON_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.stringType("null ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                new JsonFieldSpec("array", ARRAY, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
-                                new JsonFieldSpec("object", OBJECT, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
                         )
                 );
 
@@ -81,12 +88,15 @@ public final class ExamplesJsonFile {
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         ESCAPE_NOT_NECESSARY,
                         List.of(
-                                JsonFieldSpec.stringType("string ä €", OMIT_JSON_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.stringType("null ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                new JsonFieldSpec("array", ARRAY, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
-                                new JsonFieldSpec("object", OBJECT, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
                         )
                 );
 
@@ -103,12 +113,15 @@ public final class ExamplesJsonFile {
                         false,
                         true,
                         List.of(
-                                JsonFieldSpec.stringType("string ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                JsonFieldSpec.numberType("number ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
-                                JsonFieldSpec.stringType("null ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                new JsonFieldSpec("array", ARRAY, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
-                                new JsonFieldSpec("object", OBJECT, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
                         )
                 );
 
@@ -117,12 +130,15 @@ public final class ExamplesJsonFile {
                         false,
                         ProducerReadLineHandling.SKIP_BLANK_LINE,
                         List.of(
-                                JsonFieldSpec.stringType("string ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                JsonFieldSpec.numberType("number ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE),
-                                JsonFieldSpec.stringType("null ä €", USE_NULL_LITERAL_FOR_VALUE),
-                                new JsonFieldSpec("array", ARRAY, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
-                                new JsonFieldSpec("object", OBJECT, USE_NULL_LITERAL_FOR_VALUE, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_USE_LITERAL),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
                         )
                 );
 
@@ -143,12 +159,15 @@ public final class ExamplesJsonFile {
                         true,
                         true,
                         List.of(
-                                JsonFieldSpec.stringType("string ä €", OMIT_JSON_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", OMIT_JSON_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.stringType("null", USE_NULL_LITERAL_FOR_VALUE),
-                                new JsonFieldSpec("array", ARRAY, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY),
-                                new JsonFieldSpec("object", OBJECT, OMIT_JSON_MEMBER, CHECK_VALUE, ESCAPE_NOT_NECESSARY)
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
                         )
                 );
 
