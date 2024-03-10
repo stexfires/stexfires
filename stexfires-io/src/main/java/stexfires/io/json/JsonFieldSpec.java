@@ -7,9 +7,9 @@ import java.util.Objects;
  */
 public record JsonFieldSpec(
         String escapedName,
-        JsonUtil.ValueType valueType,
-        JsonUtil.NullHandling nullHandling,
-        JsonUtil.ValidityCheck validityCheck
+        ValueType valueType,
+        NullHandling nullHandling,
+        ValidityCheck validityCheck
 ) {
 
     public JsonFieldSpec {
@@ -20,48 +20,48 @@ public record JsonFieldSpec(
     }
 
     public static JsonFieldSpec numberType(String unescapedName,
-                                           JsonUtil.NullHandling nullHandling,
-                                           JsonUtil.ValidityCheck validityCheck) {
+                                           NullHandling nullHandling,
+                                           ValidityCheck validityCheck) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                JsonUtil.ValueType.NUMBER,
+                ValueType.NUMBER,
                 nullHandling,
                 validityCheck);
     }
 
     public static JsonFieldSpec stringUnescapedType(String unescapedName,
-                                                    JsonUtil.NullHandling nullHandling) {
+                                                    NullHandling nullHandling) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                JsonUtil.ValueType.STRING_UNESCAPED,
+                ValueType.STRING_UNESCAPED,
                 nullHandling,
-                JsonUtil.ValidityCheck.CHECK_NOT_NECESSARY);
+                ValidityCheck.CHECK_NOT_NECESSARY);
     }
 
     public static JsonFieldSpec stringEscapedType(String unescapedName,
-                                                  JsonUtil.NullHandling nullHandling) {
+                                                  NullHandling nullHandling) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                JsonUtil.ValueType.STRING_ESCAPED,
+                ValueType.STRING_ESCAPED,
                 nullHandling,
-                JsonUtil.ValidityCheck.CHECK_NOT_NECESSARY);
+                ValidityCheck.CHECK_NOT_NECESSARY);
     }
 
     public static JsonFieldSpec stringEscapedWithQuotationMarksType(String unescapedName,
-                                                                    JsonUtil.NullHandling nullHandling) {
+                                                                    NullHandling nullHandling) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                JsonUtil.ValueType.STRING_ESCAPED_WITH_QUOTATION_MARKS,
+                ValueType.STRING_ESCAPED_WITH_QUOTATION_MARKS,
                 nullHandling,
-                JsonUtil.ValidityCheck.CHECK_NOT_NECESSARY);
+                ValidityCheck.CHECK_NOT_NECESSARY);
     }
 
     public static JsonFieldSpec booleanType(String unescapedName,
-                                            JsonUtil.NullHandling nullHandling,
-                                            JsonUtil.ValidityCheck validityCheck) {
+                                            NullHandling nullHandling,
+                                            ValidityCheck validityCheck) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                JsonUtil.ValueType.BOOLEAN,
+                ValueType.BOOLEAN,
                 nullHandling,
                 validityCheck);
     }
@@ -72,7 +72,32 @@ public record JsonFieldSpec(
     }
 
     public boolean checkValueNecessary() {
-        return validityCheck == JsonUtil.ValidityCheck.CHECK_VALUE;
+        return validityCheck == ValidityCheck.CHECK_VALUE;
+    }
+
+    public enum ValidityCheck {
+
+        CHECK_VALUE, CHECK_NOT_NECESSARY
+
+    }
+
+    public enum ValueType {
+
+        BOOLEAN,
+        NUMBER,
+        STRING_UNESCAPED,
+        STRING_ESCAPED,
+        STRING_ESCAPED_WITH_QUOTATION_MARKS,
+        ARRAY_WITHOUT_BRACKETS,
+        ARRAY_WITH_BRACKETS,
+        OBJECT
+
+    }
+
+    public enum NullHandling {
+
+        NOT_ALLOWED, ALLOWED_USE_LITERAL, ALLOWED_OMIT_MEMBER
+
     }
 
 }

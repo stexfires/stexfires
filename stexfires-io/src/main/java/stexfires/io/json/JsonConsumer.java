@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_USE_LITERAL;
+import static stexfires.io.json.JsonFieldSpec.NullHandling.NOT_ALLOWED;
+import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITHOUT_BRACKETS;
+import static stexfires.io.json.JsonFieldSpec.ValueType.BOOLEAN;
+import static stexfires.io.json.JsonFieldSpec.ValueType.NUMBER;
+import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_ESCAPED;
+import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_UNESCAPED;
 import static stexfires.io.json.JsonUtil.*;
-import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_USE_LITERAL;
-import static stexfires.io.json.JsonUtil.NullHandling.NOT_ALLOWED;
-import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITHOUT_BRACKETS;
-import static stexfires.io.json.JsonUtil.ValueType.BOOLEAN;
-import static stexfires.io.json.JsonUtil.ValueType.NUMBER;
-import static stexfires.io.json.JsonUtil.ValueType.STRING_ESCAPED;
-import static stexfires.io.json.JsonUtil.ValueType.STRING_UNESCAPED;
 
 /**
  * @since 0.1
@@ -43,7 +43,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         firstRecord = true;
     }
 
-    static void checkJsonValue(JsonUtil.ValueType type,
+    static void checkJsonValue(JsonFieldSpec.ValueType type,
                                String value)
             throws ConsumerException {
         Objects.requireNonNull(type);
@@ -66,7 +66,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         }
     }
 
-    static String convertFieldTextIntoJsonValue(JsonUtil.ValueType type,
+    static String convertFieldTextIntoJsonValue(JsonFieldSpec.ValueType type,
                                                 @Nullable String fieldText) {
         Objects.requireNonNull(type);
 
@@ -154,7 +154,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
 
         // Write JSON before the records depending on the fileSpec type.
         if (fileSpec instanceof JsonArrayFileSpec jsonArrayFileSpec) {
-            writeString(jsonArrayFileSpec.arrayNameAsJsonString());
+            writeString(buildJsonString(jsonArrayFileSpec.consumerEscapedArrayName()));
             writeString(NAME_SEPARATOR);
             writeString(BEGIN_ARRAY);
         }

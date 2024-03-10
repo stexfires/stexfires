@@ -6,6 +6,7 @@ import stexfires.io.json.JsonArrayFileSpec;
 import stexfires.io.json.JsonFieldSpec;
 import stexfires.io.json.JsonMembersFileSpec;
 import stexfires.io.json.JsonStreamingFileSpec;
+import stexfires.io.json.JsonUtil;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -21,14 +22,12 @@ import java.util.List;
 import java.util.function.LongSupplier;
 import java.util.stream.Stream;
 
-import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_OMIT_MEMBER;
-import static stexfires.io.json.JsonUtil.NullHandling.ALLOWED_USE_LITERAL;
-import static stexfires.io.json.JsonUtil.StringEscape.ESCAPE_NOT_NECESSARY;
-import static stexfires.io.json.JsonUtil.ValidityCheck.CHECK_VALUE;
-
-import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITHOUT_BRACKETS;
-import static stexfires.io.json.JsonUtil.ValueType.ARRAY_WITH_BRACKETS;
-import static stexfires.io.json.JsonUtil.ValueType.OBJECT;
+import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_OMIT_MEMBER;
+import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_USE_LITERAL;
+import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
+import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITHOUT_BRACKETS;
+import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITH_BRACKETS;
+import static stexfires.io.json.JsonFieldSpec.ValueType.OBJECT;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesJsonFile {
@@ -56,8 +55,7 @@ public final class ExamplesJsonFile {
                 JsonArrayFileSpec.consumerFileSpec(
                         true,
                         true,
-                        "TextRecords",
-                        ESCAPE_NOT_NECESSARY,
+                        JsonUtil.escapeJsonString("Array\tname"),
                         List.of(
                                 JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
                                 JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
@@ -86,7 +84,7 @@ public final class ExamplesJsonFile {
                         true,
                         true,
                         record -> "record_" + sequenceSupplier.getAsLong(),
-                        ESCAPE_NOT_NECESSARY,
+                        false,
                         List.of(
                                 JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
                                 JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),

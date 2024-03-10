@@ -127,35 +127,4 @@ public final class JsonUtil {
         return BEGIN_ARRAY + whitespacesAfterBegin + jsonValues + whitespacesBeforeEnd + END_ARRAY;
     }
 
-    public enum StringEscape {
-
-        ESCAPE_STRING, ESCAPE_NOT_NECESSARY
-
-    }
-
-    public enum ValidityCheck {
-
-        CHECK_VALUE, CHECK_NOT_NECESSARY
-
-    }
-
-    public enum ValueType {
-
-        BOOLEAN,
-        NUMBER,
-        STRING_UNESCAPED,
-        STRING_ESCAPED,
-        STRING_ESCAPED_WITH_QUOTATION_MARKS,
-        ARRAY_WITHOUT_BRACKETS,
-        ARRAY_WITH_BRACKETS,
-        OBJECT
-
-    }
-
-    public enum NullHandling {
-
-        NOT_ALLOWED, ALLOWED_USE_LITERAL, ALLOWED_OMIT_MEMBER
-
-    }
-
 }

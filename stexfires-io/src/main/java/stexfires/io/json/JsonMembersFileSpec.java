@@ -24,18 +24,17 @@ public record JsonMembersFileSpec(
         @Nullable String consumerTextAfter,
         boolean consumerSpaceAfterValueSeparator,
         RecordMessage<TextRecord> consumerNameRecordMessage,
-        JsonUtil.StringEscape consumerNameEscape,
+        boolean consumerNameEscape,
         List<JsonFieldSpec> fieldSpecs
 ) implements JsonFileSpec {
 
     public static final RecordMessage<TextRecord> DEFAULT_CONSUMER_NAME_RECORD_MESSAGE = new ToStringMessage<>();
-    public static final JsonUtil.StringEscape DEFAULT_CONSUMER_NAME_ESCAPE = JsonUtil.StringEscape.ESCAPE_NOT_NECESSARY;
+    public static final boolean DEFAULT_CONSUMER_NAME_ESCAPE = true;
 
     public JsonMembersFileSpec {
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(consumerNameRecordMessage);
-        Objects.requireNonNull(consumerNameEscape);
         Objects.requireNonNull(fieldSpecs);
         fieldSpecs = List.copyOf(fieldSpecs);
     }
@@ -58,7 +57,7 @@ public record JsonMembersFileSpec(
     public static JsonMembersFileSpec consumerFileSpec(boolean embeddedInJsonObject,
                                                        boolean consumerSpaceAfterValueSeparator,
                                                        RecordMessage<TextRecord> consumerNameRecordMessage,
-                                                       JsonUtil.StringEscape consumerNameEscape,
+                                                       boolean consumerNameEscape,
                                                        List<JsonFieldSpec> fieldSpecs) {
         return new JsonMembersFileSpec(
                 JSON_CHARSET_CODING,
@@ -80,7 +79,7 @@ public record JsonMembersFileSpec(
                                                        @Nullable String consumerTextAfter,
                                                        boolean consumerSpaceAfterValueSeparator,
                                                        RecordMessage<TextRecord> consumerNameRecordMessage,
-                                                       JsonUtil.StringEscape consumerNameEscape,
+                                                       boolean consumerNameEscape,
                                                        List<JsonFieldSpec> fieldSpecs) {
         return new JsonMembersFileSpec(
                 charsetCoding,
@@ -112,7 +111,7 @@ public record JsonMembersFileSpec(
         String nameMessage = consumerNameRecordMessage.createMessage(record);
         if (nameMessage == null) {
             return Optional.empty();
-        } else if (consumerNameEscape == JsonUtil.StringEscape.ESCAPE_STRING) {
+        } else if (consumerNameEscape) {
             return Optional.of(JsonUtil.escapeJsonString(nameMessage));
         } else {
             return Optional.of(nameMessage);
