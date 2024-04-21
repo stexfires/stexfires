@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * @since 0.1
@@ -170,6 +171,46 @@ public final class CharacterInformationFiles {
         writeHtmlFile(new File(outputDirectory, fileName + ".html"), textBefore, fieldSpecsHtml, recordFilter, recordComparator);
     }
 
+    record UnicodeScriptAndBlock(Character.UnicodeScript unicodeScript, Character.UnicodeBlock unicodeBlock) {
+
+        static UnicodeScriptAndBlock ofCodePoint(int codePoint) {
+            return new UnicodeScriptAndBlock(Character.UnicodeScript.of(codePoint), Character.UnicodeBlock.of(codePoint));
+        }
+
+        @SuppressWarnings({"ConstantValue", "FoldExpressionIntoStream"})
+        String asString() {
+            StringBuilder b = new StringBuilder();
+            if ((unicodeBlock != null) &&
+                    ("COMMON".equals(unicodeScript.toString()) ||
+                            "INHERITED".equals(unicodeScript.toString()) ||
+                            "UNKNOWN".equals(unicodeScript.toString()))) {
+                b.append(unicodeBlock);
+            } else {
+                b.append(unicodeScript);
+            }
+            b.append(",");
+            b.append(unicodeScript);
+            b.append(",");
+            if (unicodeBlock != null) {
+                b.append(unicodeBlock);
+            }
+            return b.toString();
+        }
+
+    }
+
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
+    private static void showUnicodeScriptAndBlock() {
+        System.out.println("Overview UnicodeScript and UnicodeBlock:");
+
+        IntStream.rangeClosed(CodePoint.MIN_VALUE, CodePoint.MAX_VALUE)
+                 .mapToObj(UnicodeScriptAndBlock::ofCodePoint)
+                 .map(UnicodeScriptAndBlock::asString)
+                 .distinct()
+                 .sorted()
+                 .forEach(System.out::println);
+    }
+
     @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
     public static void main(String... args) {
         if (args.length != 1) {
@@ -191,7 +232,7 @@ public final class CharacterInformationFiles {
         try {
             // LETTER_LEFT_TO_RIGHT
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_LETTER_LEFT_TO_RIGHT",
+                    "Characters_LETTER_DIRECTIONALITY_LEFT_TO_RIGHT",
                     "List of Unicode characters with the following types and directionality 'left to right': LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                                       List.of(
@@ -211,7 +252,7 @@ public final class CharacterInformationFiles {
 
             // LETTER_NOT_LEFT_TO_RIGHT
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_LETTER_NOT_LEFT_TO_RIGHT",
+                    "Characters_LETTER_DIRECTIONALITY_NOT_LEFT_TO_RIGHT",
                     "List of Unicode characters with the following types and directionality NOT 'left to right': LOWERCASE_LETTER, MODIFIER_LETTER, OTHER_LETTER, TITLECASE_LETTER, UPPERCASE_LETTER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                                       List.of(
@@ -231,7 +272,7 @@ public final class CharacterInformationFiles {
 
             // NUMBER
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_NUMBER",
+                    "Characters_NUMBER",
                     "List of Unicode characters with the following types: DECIMAL_DIGIT_NUMBER, LETTER_NUMBER, OTHER_NUMBER",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
@@ -246,7 +287,7 @@ public final class CharacterInformationFiles {
 
             // SYMBOL_FORMAT
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_SYMBOL_FORMAT",
+                    "Characters_SYMBOL_FORMAT",
                     "List of Unicode characters with the following types: CURRENCY_SYMBOL, MATH_SYMBOL, MODIFIER_SYMBOL, OTHER_SYMBOL, FORMAT",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
@@ -262,7 +303,7 @@ public final class CharacterInformationFiles {
 
             // PUNCTUATION
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_PUNCTUATION",
+                    "Characters_PUNCTUATION",
                     "List of Unicode characters with the following types: CONNECTOR_PUNCTUATION, DASH_PUNCTUATION, END_PUNCTUATION, FINAL_QUOTE_PUNCTUATION, INITIAL_QUOTE_PUNCTUATION, OTHER_PUNCTUATION, START_PUNCTUATION",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
@@ -281,7 +322,7 @@ public final class CharacterInformationFiles {
 
             // CONTROL
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_CONTROL",
+                    "Characters_CONTROL",
                     "List of Unicode characters with the following types: CONTROL",
                     TextFilter.equalTo(CodePointRecordFields.TYPE.ordinal(),
                             "CONTROL"
@@ -291,7 +332,7 @@ public final class CharacterInformationFiles {
 
             // SEPARATOR_MARK
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_SEPARATOR_MARK",
+                    "Characters_SEPARATOR_MARK",
                     "List of Unicode characters with the following types: LINE_SEPARATOR, PARAGRAPH_SEPARATOR, SPACE_SEPARATOR, COMBINING_SPACING_MARK, ENCLOSING_MARK, NON_SPACING_MARK",
                     TextFilter.containedIn(CodePointRecordFields.TYPE.ordinal(),
                             List.of(
@@ -306,20 +347,47 @@ public final class CharacterInformationFiles {
                                      .thenComparing(RecordComparators.recordId(SortNulls.FIRST))
             );
 
-            // Block_LATIN
+            // Block_Script_Name_LATIN
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_Block_LATIN",
-                    "List of Unicode characters whose block contains the word \"LATIN\"",
+                    "Characters_Block_Script_Name_LATIN",
+                    "List of Unicode characters whose block or script or name contains the word \"LATIN\"",
                     new TextFilter<>(CodePointRecordFields.UNICODE_BLOCK.ordinal(),
                             StringPredicates.contains(
                                     "LATIN"
-                            )),
+                            ))
+                            .or(new TextFilter<>(CodePointRecordFields.UNICODE_SCRIPT.ordinal(),
+                                    StringPredicates.contains(
+                                            "LATIN"
+                                    )))
+                            .or(new TextFilter<>(CodePointRecordFields.NAME.ordinal(),
+                                    StringPredicates.contains(
+                                            "LATIN"
+                                    ))),
+                    RecordComparators.recordId(SortNulls.FIRST)
+            );
+
+            // Block_Script_Name_HIEROGLYPH
+            writeFiles(outputDirectory,
+                    "Characters_Block_Script_Name_HIEROGLYPH",
+                    "List of Unicode characters whose block or script or name contains the word \"HIEROGLYPH\"",
+                    new TextFilter<>(CodePointRecordFields.UNICODE_BLOCK.ordinal(),
+                            StringPredicates.contains(
+                                    "HIEROGLYPH"
+                            ))
+                            .or(new TextFilter<>(CodePointRecordFields.UNICODE_SCRIPT.ordinal(),
+                                    StringPredicates.contains(
+                                            "HIEROGLYPH"
+                                    )))
+                            .or(new TextFilter<>(CodePointRecordFields.NAME.ordinal(),
+                                    StringPredicates.contains(
+                                            "HIEROGLYPH"
+                                    ))),
                     RecordComparators.recordId(SortNulls.FIRST)
             );
 
             // IsMirrored
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_IsMirrored",
+                    "Characters_IsMirrored",
                     "List of mirrored Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_MIRRORED.ordinal(),
                             StringPredicates.equals(
@@ -331,7 +399,7 @@ public final class CharacterInformationFiles {
 
             // IsIdeographic
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_IsIdeographic",
+                    "Characters_IsIdeographic",
                     "List of ideographic Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_IDEOGRAPHIC.ordinal(),
                             StringPredicates.equals(
@@ -343,7 +411,7 @@ public final class CharacterInformationFiles {
 
             // Emoji
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_isEmoji",
+                    "Characters_IsEmoji",
                     "List of emoji Unicode characters",
                     new TextFilter<>(CodePointRecordFields.IS_EMOJI.ordinal(), StringPredicates.equals("true")),
                     RecordComparators.recordId(SortNulls.FIRST)
@@ -351,7 +419,7 @@ public final class CharacterInformationFiles {
 
             // Numeric_3
             writeFiles(outputDirectory,
-                    "Character_Markdown_Table_Numeric_3_or_13_or_30_or_300",
+                    "Characters_Numeric_3_or_13_or_30_or_300",
                     "List of Unicode characters with a numeric value of '3', '13', '30' or '300'",
                     TextFilter.containedIn(CodePointRecordFields.NUMERIC_VALUE.ordinal(),
                             List.of(
@@ -369,8 +437,10 @@ public final class CharacterInformationFiles {
                                      .thenComparing(RecordComparators.textAt(CodePointRecordFields.NAME.ordinal(), String::compareTo, SortNulls.FIRST))
             );
         } catch (IOException | UncheckedConsumerException e) {
-            System.out.println("Cannot generate MarkdownTable file! " + e.getMessage());
+            System.out.println("Cannot generate file! " + e.getMessage());
         }
+
+        showUnicodeScriptAndBlock();
     }
 
 }
