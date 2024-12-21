@@ -24,8 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.stream.Stream;
 
-import static stexfires.util.CommonCharsetNames.ISO_8859_1;
-import static stexfires.util.CommonCharsetNames.US_ASCII;
+import static stexfires.util.CommonCharsetNames.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesSingleValueFile {

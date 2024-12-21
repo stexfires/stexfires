@@ -14,13 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_USE_LITERAL;
-import static stexfires.io.json.JsonFieldSpec.NullHandling.NOT_ALLOWED;
-import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITHOUT_BRACKETS;
-import static stexfires.io.json.JsonFieldSpec.ValueType.BOOLEAN;
-import static stexfires.io.json.JsonFieldSpec.ValueType.NUMBER;
-import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_ESCAPED;
-import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_UNESCAPED;
+import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
+import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 import static stexfires.io.json.JsonUtil.*;
 
 /**

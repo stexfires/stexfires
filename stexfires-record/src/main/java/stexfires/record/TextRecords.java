@@ -7,11 +7,7 @@ import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.supplier.SequenceSupplier;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.SequencedCollection;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;

@@ -18,8 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_BEGIN_MARKER;
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_END_MARKER;
+import static stexfires.io.config.ConfigFileSpec.*;
 
 /**
  * @since 0.1

@@ -2,11 +2,7 @@ package stexfires.examples.io;
 
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFiles;
-import stexfires.io.json.JsonArrayFileSpec;
-import stexfires.io.json.JsonFieldSpec;
-import stexfires.io.json.JsonMembersFileSpec;
-import stexfires.io.json.JsonStreamingFileSpec;
-import stexfires.io.json.JsonUtil;
+import stexfires.io.json.*;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -22,12 +18,9 @@ import java.util.List;
 import java.util.function.LongSupplier;
 import java.util.stream.Stream;
 
-import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_OMIT_MEMBER;
-import static stexfires.io.json.JsonFieldSpec.NullHandling.ALLOWED_USE_LITERAL;
+import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
-import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITHOUT_BRACKETS;
-import static stexfires.io.json.JsonFieldSpec.ValueType.ARRAY_WITH_BRACKETS;
-import static stexfires.io.json.JsonFieldSpec.ValueType.OBJECT;
+import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesJsonFile {

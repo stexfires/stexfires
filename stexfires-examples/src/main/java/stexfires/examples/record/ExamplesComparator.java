@@ -1,10 +1,6 @@
 package stexfires.examples.record;
 
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextField;
-import stexfires.record.TextFields;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
+import stexfires.record.*;
 import stexfires.record.comparator.FieldComparators;
 import stexfires.record.comparator.RecordComparators;
 import stexfires.record.consumer.SystemOutConsumer;

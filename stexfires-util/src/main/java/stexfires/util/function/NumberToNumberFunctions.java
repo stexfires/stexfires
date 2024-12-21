@@ -3,13 +3,7 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.IntToLongFunction;
-import java.util.function.LongFunction;
-import java.util.function.LongToIntFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 
 /**
  * @see java.lang.Number

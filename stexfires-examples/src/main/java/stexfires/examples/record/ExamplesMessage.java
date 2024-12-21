@@ -1,32 +1,13 @@
 package stexfires.examples.record;
 
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.TextRecords;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.filter.ClassFilter;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.TwoFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
-import stexfires.record.message.CategoryMessage;
-import stexfires.record.message.ClassNameMessage;
-import stexfires.record.message.CompareMessageBuilder;
-import stexfires.record.message.ConditionalMessage;
-import stexfires.record.message.ConstantMessage;
-import stexfires.record.message.ExtendedTextsMessage;
-import stexfires.record.message.FormatterMessage;
-import stexfires.record.message.JoinedTextsMessage;
-import stexfires.record.message.RecordIdMessage;
-import stexfires.record.message.RecordMessage;
-import stexfires.record.message.ShortMessage;
-import stexfires.record.message.SizeMessage;
-import stexfires.record.message.SupplierMessage;
-import stexfires.record.message.TextMessage;
-import stexfires.record.message.ToIdentityStringMessage;
-import stexfires.record.message.ToStringMessage;
+import stexfires.record.message.*;
 import stexfires.util.Strings;
 import stexfires.util.supplier.SequenceSupplier;
 

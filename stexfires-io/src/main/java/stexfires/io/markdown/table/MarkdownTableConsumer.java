@@ -14,15 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.ALIGNMENT_INDICATOR;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.ESCAPE_REPLACEMENT;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.ESCAPE_TARGET;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.FIELD_DELIMITER;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.FILL_CHARACTER;
-import static stexfires.io.markdown.table.MarkdownTableFileSpec.HEADER_DELIMITER;
-import static stexfires.util.Alignment.CENTER;
-import static stexfires.util.Alignment.END;
-import static stexfires.util.Alignment.START;
+import static stexfires.io.markdown.table.MarkdownTableFileSpec.*;
+import static stexfires.util.Alignment.*;
 
 /**
  * @since 0.1

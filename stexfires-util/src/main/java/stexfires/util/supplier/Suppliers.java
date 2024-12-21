@@ -9,20 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.BinaryOperator;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleBinaryOperator;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
-import java.util.function.IntBinaryOperator;
-import java.util.function.IntSupplier;
-import java.util.function.LongBinaryOperator;
-import java.util.function.LongSupplier;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.function.*;
 import java.util.random.RandomGenerator;
 
 /**

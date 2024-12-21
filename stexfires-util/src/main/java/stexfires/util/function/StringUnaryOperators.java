@@ -14,9 +14,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-import static stexfires.util.Strings.EMPTY;
-import static stexfires.util.Strings.REGEX_TAB;
-import static stexfires.util.Strings.REGEX_WHITESPACE;
+import static stexfires.util.Strings.*;
 
 /**
  * @see java.lang.String

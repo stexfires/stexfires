@@ -1,29 +1,11 @@
 package stexfires.examples.record;
 
-import stexfires.record.KeyRecord;
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.TextRecords;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.consumer.NullConsumer;
 import stexfires.record.filter.CategoryFilter;
 import stexfires.record.filter.ClassFilter;
-import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
-import stexfires.record.logger.AppendableLogger;
-import stexfires.record.logger.CollectionLogger;
-import stexfires.record.logger.ConditionalLogger;
-import stexfires.record.logger.DispatcherLogger;
-import stexfires.record.logger.LimitedLogger;
-import stexfires.record.logger.NullLogger;
-import stexfires.record.logger.PrintStreamLogger;
-import stexfires.record.logger.RecordLogger;
-import stexfires.record.logger.SystemErrLogger;
-import stexfires.record.logger.SystemOutLogger;
+import stexfires.record.impl.*;
+import stexfires.record.logger.*;
 import stexfires.record.message.SizeMessage;
 
 import java.io.StringWriter;

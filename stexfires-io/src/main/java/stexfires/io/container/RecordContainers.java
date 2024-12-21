@@ -7,12 +7,7 @@ import stexfires.record.TextField;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 
 import java.util.ArrayList;
 import java.util.List;

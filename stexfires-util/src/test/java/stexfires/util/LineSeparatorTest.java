@@ -7,14 +7,8 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.function.Supplier;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static stexfires.util.LineSeparator.CR;
-import static stexfires.util.LineSeparator.CR_LF;
-import static stexfires.util.LineSeparator.LF;
+import static org.junit.jupiter.api.Assertions.*;
+import static stexfires.util.LineSeparator.*;
 
 /**
  * Tests for {@link LineSeparator}.

@@ -20,16 +20,20 @@ public sealed interface JsonFileSpec
     CharsetCoding JSON_CHARSET_CODING = CharsetCoding.UTF_8_REPORTING;
     LineSeparator JSON_CONSUMER_LINE_SEPARATOR = LineSeparator.LF;
 
-    @Nullable String DEFAULT_CONSUMER_TEXT_BEFORE = null;
-    @Nullable String DEFAULT_CONSUMER_TEXT_AFTER = null;
+    @Nullable
+    String DEFAULT_CONSUMER_TEXT_BEFORE = null;
+    @Nullable
+    String DEFAULT_CONSUMER_TEXT_AFTER = null;
     boolean DEFAULT_CONSUMER_SPACE_AFTER_VALUE_SEPARATOR = false;
 
     @SuppressWarnings("SameReturnValue")
     boolean embeddedInJsonObject();
 
-    @Nullable String consumerTextBefore();
+    @Nullable
+    String consumerTextBefore();
 
-    @Nullable String consumerTextAfter();
+    @Nullable
+    String consumerTextAfter();
 
     boolean consumerSpaceAfterValueSeparator();
 

@@ -9,9 +9,7 @@ import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for {@link StringComparators}.

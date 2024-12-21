@@ -1,25 +1,12 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.CollectionDataTypeFormatter;
-import stexfires.data.CollectionDataTypeParser;
-import stexfires.data.DataTypeConverterException;
-import stexfires.data.GenericDataTypeFormatter;
-import stexfires.data.GenericDataTypeParser;
-import stexfires.data.StringDataTypeFormatter;
-import stexfires.data.StringDataTypeParser;
+import stexfires.data.*;
 import stexfires.util.StringComparators;
 import stexfires.util.TextSplitters;
 import stexfires.util.supplier.Suppliers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.NavigableSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber", "UnnecessaryUnicodeEscape", "ReuseOfLocalVariable", "ConstantValue", "HardcodedLineSeparator", "SpellCheckingInspection"})
 public final class ExamplesCollectionDataType {

@@ -1,11 +1,7 @@
 package stexfires.io.container;
 
 import stexfires.record.TextRecord;
-import stexfires.record.message.CategoryMessage;
-import stexfires.record.message.ClassNameMessage;
-import stexfires.record.message.ConstantMessage;
-import stexfires.record.message.RecordIdMessage;
-import stexfires.record.message.SizeMessage;
+import stexfires.record.message.*;
 
 import java.util.List;
 

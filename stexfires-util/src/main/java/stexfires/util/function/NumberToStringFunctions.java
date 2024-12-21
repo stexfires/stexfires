@@ -7,13 +7,7 @@ import java.text.NumberFormat;
 import java.util.HexFormat;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.IntPredicate;
-import java.util.function.LongFunction;
-import java.util.function.LongPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * @see java.lang.Number

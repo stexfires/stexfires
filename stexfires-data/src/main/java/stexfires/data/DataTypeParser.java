@@ -20,7 +20,8 @@ public interface DataTypeParser<T> {
     }
 
     @SuppressWarnings("NullableProblems")
-    @Nullable T parse(@Nullable String source) throws DataTypeConverterException;
+    @Nullable
+    T parse(@Nullable String source) throws DataTypeConverterException;
 
     default Optional<T> parseToOptional(@Nullable String source) throws DataTypeConverterException {
         return Optional.ofNullable(parse(source));

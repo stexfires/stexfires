@@ -9,9 +9,7 @@ import stexfires.record.producer.UncheckedProducerException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static stexfires.io.RecordIOStreams.andFindFirstAsStream;
-import static stexfires.io.RecordIOStreams.readFromString;
-import static stexfires.io.RecordIOStreams.writeStreamIntoRecord;
+import static stexfires.io.RecordIOStreams.*;
 
 /**
  * @since 0.1

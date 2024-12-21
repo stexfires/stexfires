@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import static stexfires.io.properties.PropertiesFileSpec.ESCAPE_CHAR;
-import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_LENGTH;
-import static stexfires.io.properties.PropertiesFileSpec.UNICODE_ENCODE_RADIX;
+import static stexfires.io.properties.PropertiesFileSpec.*;
 
 /**
  * @since 0.1

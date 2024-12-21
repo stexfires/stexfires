@@ -6,12 +6,7 @@ import stexfires.record.producer.RecordProducer;
 import stexfires.record.producer.UncheckedProducerException;
 
 import java.time.Instant;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;

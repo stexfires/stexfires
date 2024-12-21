@@ -1,21 +1,13 @@
 package stexfires.examples.io;
 
 import stexfires.examples.record.RecordSystemOutUtil;
-import stexfires.io.container.RecordContainer;
-import stexfires.io.container.RecordContainerLarge;
-import stexfires.io.container.RecordContainerMedium;
-import stexfires.io.container.RecordContainerSmall;
-import stexfires.io.container.UnpackResult;
+import stexfires.io.container.*;
 import stexfires.io.delimited.simple.SimpleDelimitedFieldSpec;
 import stexfires.io.delimited.simple.SimpleDelimitedFileSpec;
 import stexfires.io.path.DosPathFieldsRecord;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.producer.KeyValueRecordProducer;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;

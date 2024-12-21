@@ -3,11 +3,7 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.IntUnaryOperator;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 /**
  * @see Number

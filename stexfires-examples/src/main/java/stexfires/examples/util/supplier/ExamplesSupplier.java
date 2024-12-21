@@ -6,47 +6,20 @@ import stexfires.util.Alignment;
 import stexfires.util.SortNulls;
 import stexfires.util.TextSplitters;
 import stexfires.util.function.NumberPredicates;
-import stexfires.util.supplier.CalculatedSequenceSupplier;
-import stexfires.util.supplier.PercentageDistributionSupplier;
-import stexfires.util.supplier.RandomNumberSuppliers;
-import stexfires.util.supplier.RepeatingPatternSupplier;
-import stexfires.util.supplier.SequenceSupplier;
-import stexfires.util.supplier.Suppliers;
-import stexfires.util.supplier.SwitchingSupplier;
+import stexfires.util.supplier.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 import java.util.random.RandomGenerator;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.TWO;
-import static java.math.BigInteger.ZERO;
+import static java.lang.Boolean.*;
+import static java.math.BigInteger.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "ThrowablePrintedToSystemOut", "MagicNumber", "SpellCheckingInspection"})
 public final class ExamplesSupplier {

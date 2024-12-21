@@ -7,12 +7,7 @@ import stexfires.util.Strings;
 import java.text.Normalizer;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 /**

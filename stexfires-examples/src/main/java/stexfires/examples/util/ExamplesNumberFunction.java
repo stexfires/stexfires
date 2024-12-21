@@ -16,20 +16,8 @@ import stexfires.util.function.NumberUnaryOperators.PrimitiveLongUnaryOperators;
 
 import java.math.BigInteger;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HexFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.IntPredicate;
-import java.util.function.IntUnaryOperator;
-import java.util.function.LongFunction;
-import java.util.function.LongPredicate;
-import java.util.function.LongUnaryOperator;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})

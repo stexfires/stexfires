@@ -12,10 +12,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static stexfires.io.properties.PropertiesFileSpec.COMMENT_PREFIX;
-import static stexfires.io.properties.PropertiesFileSpec.DELIMITER;
-import static stexfires.io.properties.PropertiesFileSpec.FIRST_NON_ESCAPED_CHAR;
-import static stexfires.io.properties.PropertiesFileSpec.LAST_NON_ESCAPED_CHAR;
+import static stexfires.io.properties.PropertiesFileSpec.*;
 
 /**
  * @since 0.1

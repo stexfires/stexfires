@@ -1,11 +1,7 @@
 package stexfires.record.comparator;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.CommentRecord;
-import stexfires.record.KeyRecord;
-import stexfires.record.TextField;
-import stexfires.record.TextRecord;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.SortNulls;
 
@@ -13,9 +9,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
-import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.*;
 
 /**
  * This class consists of {@code static} utility methods

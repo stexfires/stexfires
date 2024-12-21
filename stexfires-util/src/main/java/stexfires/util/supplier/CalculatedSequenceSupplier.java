@@ -3,12 +3,7 @@ package stexfires.util.supplier;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.IntFunction;
-import java.util.function.LongFunction;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 /**
  * This class consists of {@code static} utility methods

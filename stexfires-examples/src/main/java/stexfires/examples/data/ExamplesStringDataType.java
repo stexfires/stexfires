@@ -1,11 +1,7 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.DataTypeConverterException;
-import stexfires.data.DataTypeFormatter;
-import stexfires.data.DataTypeParser;
-import stexfires.data.StringDataTypeFormatter;
-import stexfires.data.StringDataTypeParser;
+import stexfires.data.*;
 import stexfires.util.Strings;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;

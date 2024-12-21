@@ -1,13 +1,7 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.DataTypeConverterException;
-import stexfires.data.DataTypeFormatter;
-import stexfires.data.DataTypeParser;
-import stexfires.data.GenericDataTypeFormatter;
-import stexfires.data.GenericDataTypeParser;
-import stexfires.data.NumberDataTypeFormatter;
-import stexfires.data.NumberDataTypeParser;
+import stexfires.data.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

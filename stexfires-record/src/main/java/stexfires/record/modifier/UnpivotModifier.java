@@ -5,11 +5,7 @@ import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Strings;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;

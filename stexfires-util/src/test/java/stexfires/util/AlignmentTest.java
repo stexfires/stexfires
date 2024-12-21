@@ -3,9 +3,7 @@ package stexfires.util;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static stexfires.util.Alignment.CENTER;
-import static stexfires.util.Alignment.END;
-import static stexfires.util.Alignment.START;
+import static stexfires.util.Alignment.*;
 
 /**
  * Tests for {@link Alignment}.

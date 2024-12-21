@@ -11,11 +11,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Objects;
 
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_BEGIN_MARKER;
-import static stexfires.io.config.ConfigFileSpec.CATEGORY_END_MARKER;
-import static stexfires.io.config.ConfigFileSpec.NULL_CATEGORY;
-import static stexfires.io.config.ConfigFileSpec.NULL_VALUE;
-import static stexfires.io.config.ConfigFileSpec.WHITESPACE_SEPARATOR;
+import static stexfires.io.config.ConfigFileSpec.*;
 
 /**
  * @since 0.1

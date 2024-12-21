@@ -4,13 +4,7 @@ import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.SplittableRandom;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;

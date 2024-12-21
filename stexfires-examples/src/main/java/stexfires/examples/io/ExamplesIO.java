@@ -12,21 +12,11 @@ import stexfires.io.container.RecordContainer;
 import stexfires.io.container.RecordContainerLarge;
 import stexfires.io.container.UnpackResult;
 import stexfires.io.singlevalue.SingleValueFileSpec;
-import stexfires.record.KeyValueCommentRecord;
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextField;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.TextRecords;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.comparator.RecordComparators;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.TextFilter;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.mapper.CategoryMapper;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.SortModifier;
@@ -38,22 +28,13 @@ import stexfires.util.function.StringUnaryOperators;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static stexfires.examples.record.RecordSystemOutUtil.RECORD_CONSUMER;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnNullableRecord;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnOptionalRecord;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnRecord;
-import static stexfires.examples.record.RecordSystemOutUtil.printlnRecordCollection;
+import static stexfires.examples.record.RecordSystemOutUtil.*;
 import static stexfires.io.RecordIOStreams.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator", "ReturnOfNull"})

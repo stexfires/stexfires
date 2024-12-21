@@ -9,20 +9,10 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**

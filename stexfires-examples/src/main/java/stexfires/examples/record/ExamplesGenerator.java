@@ -1,32 +1,15 @@
 package stexfires.examples.record;
 
-import stexfires.record.KeyValueCommentRecord;
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.comparator.RecordComparators;
-import stexfires.record.generator.CategoryGenerator;
-import stexfires.record.generator.GeneratorContext;
-import stexfires.record.generator.GeneratorInterimResult;
-import stexfires.record.generator.GeneratorProducer;
-import stexfires.record.generator.RecordGenerator;
-import stexfires.record.generator.RecordIdGenerator;
+import stexfires.record.generator.*;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.util.SortNulls;
-import stexfires.util.supplier.RandomNumberSuppliers;
-import stexfires.util.supplier.RepeatingPatternSupplier;
-import stexfires.util.supplier.SequenceSupplier;
-import stexfires.util.supplier.Suppliers;
-import stexfires.util.supplier.SwitchingSupplier;
+import stexfires.util.supplier.*;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.SequencedCollection;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;

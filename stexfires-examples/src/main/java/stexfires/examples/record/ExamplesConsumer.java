@@ -1,30 +1,10 @@
 package stexfires.examples.record;
 
-import stexfires.record.KeyRecord;
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.TextRecords;
-import stexfires.record.ValueRecord;
-import stexfires.record.consumer.AppendableConsumer;
-import stexfires.record.consumer.CollectionConsumer;
-import stexfires.record.consumer.ConditionalConsumer;
-import stexfires.record.consumer.DispatcherConsumer;
-import stexfires.record.consumer.MapConsumer;
-import stexfires.record.consumer.NullConsumer;
-import stexfires.record.consumer.PrintStreamConsumer;
-import stexfires.record.consumer.RecordConsumer;
-import stexfires.record.consumer.StringWriterConsumer;
-import stexfires.record.consumer.SystemErrConsumer;
-import stexfires.record.consumer.SystemOutConsumer;
-import stexfires.record.consumer.WriterConsumer;
+import stexfires.record.*;
+import stexfires.record.consumer.*;
 import stexfires.record.filter.CategoryFilter;
 import stexfires.record.filter.ClassFilter;
-import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.message.SizeMessage;
 
 import java.io.IOException;

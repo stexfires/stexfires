@@ -4,11 +4,7 @@ import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**

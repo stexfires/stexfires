@@ -1,11 +1,6 @@
 package stexfires.examples.javatest;
 
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 @SuppressWarnings({"SpellCheckingInspection", "EmptyMethod", "ResultOfMethodCallIgnored", "Convert2MethodRef"})
 public final class FunctionalInterfacesTest {

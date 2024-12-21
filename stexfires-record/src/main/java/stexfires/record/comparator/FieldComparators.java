@@ -7,8 +7,7 @@ import stexfires.util.SortNulls;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.*;
 
 /**
  * This class consists of {@code static} utility methods

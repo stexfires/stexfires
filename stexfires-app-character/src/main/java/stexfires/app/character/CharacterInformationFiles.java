@@ -10,12 +10,7 @@ import stexfires.record.comparator.RecordComparators;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.filter.TextFilter;
-import stexfires.util.Alignment;
-import stexfires.util.CharsetCoding;
-import stexfires.util.CodePoint;
-import stexfires.util.LineSeparator;
-import stexfires.util.SortNulls;
-import stexfires.util.StringComparators;
+import stexfires.util.*;
 import stexfires.util.function.StringPredicates;
 
 import java.io.File;

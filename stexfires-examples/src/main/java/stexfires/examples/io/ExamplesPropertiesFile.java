@@ -32,8 +32,7 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
-import static stexfires.util.CommonCharsetNames.ISO_8859_1;
-import static stexfires.util.CommonCharsetNames.UTF_8;
+import static stexfires.util.CommonCharsetNames.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator", "UnnecessaryUnicodeEscape"})
 public final class ExamplesPropertiesFile {

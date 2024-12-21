@@ -5,25 +5,12 @@ import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.TextRecords;
 import stexfires.record.ValueRecord;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
-import stexfires.record.producer.CollectionProducer;
-import stexfires.record.producer.ConstantProducer;
-import stexfires.record.producer.DividingProducer;
-import stexfires.record.producer.KeyValueRecordProducer;
-import stexfires.record.producer.RecordProducer;
-import stexfires.record.producer.ValueRecordProducer;
+import stexfires.record.impl.*;
+import stexfires.record.producer.*;
 import stexfires.util.Strings;
 import stexfires.util.supplier.SequenceSupplier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesProducer {

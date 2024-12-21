@@ -19,7 +19,8 @@ public interface DataTypeFormatter<T> {
         return function::apply;
     }
 
-    @Nullable String format(@Nullable T source) throws DataTypeConverterException;
+    @Nullable
+    String format(@Nullable T source) throws DataTypeConverterException;
 
     default @Nullable Optional<String> formatToOptional(@Nullable T source) throws DataTypeConverterException {
         return Optional.ofNullable(format(source));

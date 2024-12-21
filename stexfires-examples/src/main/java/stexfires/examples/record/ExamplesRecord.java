@@ -3,11 +3,7 @@ package stexfires.examples.record;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.ValueRecord;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.util.Strings;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber"})

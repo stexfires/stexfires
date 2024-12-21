@@ -10,11 +10,7 @@ import stexfires.record.message.RecordMessage;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 /**
  * @see AddTextMapper

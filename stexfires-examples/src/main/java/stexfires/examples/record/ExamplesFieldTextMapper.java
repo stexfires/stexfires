@@ -2,27 +2,13 @@ package stexfires.examples.record;
 
 import stexfires.record.TextField;
 import stexfires.record.TextFields;
-import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
-import stexfires.record.mapper.field.AddSuffixFieldTextMapper;
-import stexfires.record.mapper.field.ConditionalFieldTextMapper;
-import stexfires.record.mapper.field.ConstantFieldTextMapper;
-import stexfires.record.mapper.field.FieldTextMapper;
-import stexfires.record.mapper.field.IdentityFieldTextMapper;
-import stexfires.record.mapper.field.IndexedFieldTextMapper;
-import stexfires.record.mapper.field.ReplaceNullFieldTextMapper;
-import stexfires.record.mapper.field.StringOperationFieldTextMapper;
-import stexfires.record.mapper.field.SupplierFieldTextMapper;
+import stexfires.record.mapper.field.*;
 import stexfires.util.Strings;
 import stexfires.util.function.StringUnaryOperators;
 import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})

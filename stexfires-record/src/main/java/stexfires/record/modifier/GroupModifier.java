@@ -1,21 +1,13 @@
 package stexfires.record.modifier;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.CommentRecord;
-import stexfires.record.KeyRecord;
-import stexfires.record.TextField;
-import stexfires.record.TextRecord;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;

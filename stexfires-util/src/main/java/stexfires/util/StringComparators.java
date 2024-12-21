@@ -6,11 +6,7 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 import static java.util.Comparator.comparing;
 

@@ -1,36 +1,16 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.BooleanDataTypeFormatter;
-import stexfires.data.BooleanDataTypeParser;
-import stexfires.data.ConvertingDataTypeFormatter;
-import stexfires.data.ConvertingDataTypeParser;
-import stexfires.data.DataTypeConverterException;
-import stexfires.data.DataTypeFormatter;
-import stexfires.data.DataTypeParser;
-import stexfires.data.GenericDataTypeFormatter;
-import stexfires.data.GenericDataTypeParser;
+import stexfires.data.*;
 import stexfires.util.function.ByteArrayFunctions;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
-import static stexfires.data.DataTypeConverters.URI_TO_URL;
-import static stexfires.data.DataTypeConverters.URL_TO_URI;
+import static stexfires.data.DataTypeConverters.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection", "MagicNumber", "CallToPrintStackTrace"})
 public final class ExamplesMiscDataType {

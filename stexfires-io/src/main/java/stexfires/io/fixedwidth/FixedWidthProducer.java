@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static stexfires.util.Alignment.END;
-import static stexfires.util.Alignment.START;
+import static stexfires.util.Alignment.*;
 
 /**
  * @since 0.1

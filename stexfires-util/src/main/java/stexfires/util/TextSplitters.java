@@ -3,13 +3,7 @@ package stexfires.util;
 import org.jspecify.annotations.Nullable;
 
 import java.text.BreakIterator;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;

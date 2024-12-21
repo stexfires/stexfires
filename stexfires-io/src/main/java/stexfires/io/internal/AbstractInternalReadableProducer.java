@@ -13,11 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static stexfires.io.internal.ReadableProducerState.CLOSE;
-import static stexfires.io.internal.ReadableProducerState.OPEN;
-import static stexfires.io.internal.ReadableProducerState.READ_AFTER;
-import static stexfires.io.internal.ReadableProducerState.READ_BEFORE;
-import static stexfires.io.internal.ReadableProducerState.READ_RECORDS;
+import static stexfires.io.internal.ReadableProducerState.*;
 
 /**
  * @since 0.1

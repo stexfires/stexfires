@@ -2,13 +2,7 @@ package stexfires.util;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Objects of this class contains parameters as key-value pairs. The keys and values are {@code String}s.
