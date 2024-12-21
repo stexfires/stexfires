@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation("org.jspecify:jspecify:0.3.0")
+    implementation("org.jspecify:jspecify:1.0.0")
 }

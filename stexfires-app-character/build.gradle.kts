@@ -6,7 +6,7 @@ dependencies {
     implementation(project(":stexfires-io"))
     implementation(project(":stexfires-record"))
     implementation(project(":stexfires-util"))
-    implementation("org.jspecify:jspecify:0.3.0")
+    implementation("org.jspecify:jspecify:1.0.0")
 }
 
 application {
