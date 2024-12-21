@@ -51,6 +51,7 @@ public interface CategoryGenerator<T extends TextRecord> {
         };
     }
 
-    @Nullable String generateCategory(GeneratorContext<T> context);
+    @Nullable
+    String generateCategory(GeneratorContext<T> context);
 
 }

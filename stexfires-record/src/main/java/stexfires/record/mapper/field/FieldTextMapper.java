@@ -28,7 +28,8 @@ public interface FieldTextMapper {
         return function::apply;
     }
 
-    @Nullable String mapToText(TextField field);
+    @Nullable
+    String mapToText(TextField field);
 
     default Function<TextField, @Nullable String> asFunction() {
         return this::mapToText;

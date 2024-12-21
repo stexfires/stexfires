@@ -42,7 +42,8 @@ public interface RecordMessage<T extends TextRecord> {
         return TextRecord::lastText;
     }
 
-    @Nullable String createMessage(T record);
+    @Nullable
+    String createMessage(T record);
 
     default Function<T, @Nullable String> asFunction() {
         return this::createMessage;

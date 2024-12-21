@@ -65,6 +65,7 @@ public interface RecordIdGenerator<T extends TextRecord> {
         };
     }
 
-    @Nullable Long generateRecordId(GeneratorContext<T> context);
+    @Nullable
+    Long generateRecordId(GeneratorContext<T> context);
 
 }
