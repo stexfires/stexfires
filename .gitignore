@@ -8,5 +8,6 @@ bin/
 
 # Ignore IntelliJ IDEA
 .idea/
+.run/
 *.iws
 *.iml
