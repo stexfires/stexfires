@@ -71,8 +71,7 @@ License
 
 Usage
 -----
-*stexfires* requires only the newest Java.
-
+*stexfires* requires only Java. No other libraries are needed.
 
 Building/Developing
 -------------------
