@@ -48,8 +48,8 @@ public enum CodePointRecordFields {
                           Alignment alignment,
                           BiFunction<CodePoint, String, String> convertFunction) {
         Objects.requireNonNull(fieldName);
-        if (fieldName.isEmpty() || fieldName.isBlank()) {
-            throw new IllegalArgumentException("fieldName must not be empty or blank! fieldName=" + fieldName);
+        if (fieldName.isBlank()) {
+            throw new IllegalArgumentException("fieldName must not be blank! fieldName=" + fieldName);
         }
         if (minWidth < 5) {
             throw new IllegalArgumentException("minWidth must be >= 5! minWidth=" + minWidth);
