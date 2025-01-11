@@ -96,7 +96,7 @@ public record JsonFieldSpec(
 
     public enum NullHandling {
 
-        NOT_ALLOWED, ALLOWED_USE_LITERAL, ALLOWED_OMIT_MEMBER
+        NOT_ALLOWED, ALLOWED_USE_LITERAL, ALLOWED_OMIT_FIELD
 
     }
 

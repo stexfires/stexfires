@@ -51,15 +51,15 @@ public final class ExamplesJsonFile {
                         true,
                         JsonUtil.escapeJsonString("Array\tname"),
                         List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
 
@@ -76,15 +76,15 @@ public final class ExamplesJsonFile {
                         RecordJsonType.ARRAY,
                         false,
                         List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
 
@@ -106,15 +106,15 @@ public final class ExamplesJsonFile {
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         false,
                         List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
 
@@ -136,15 +136,15 @@ public final class ExamplesJsonFile {
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         false,
                         List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
 
@@ -168,8 +168,8 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.numberType("number ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
                                 JsonFieldSpec.booleanType("boolean ä €", ALLOWED_USE_LITERAL, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
                         )
                 );
@@ -210,15 +210,15 @@ public final class ExamplesJsonFile {
                         true,
                         true,
                         List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
-                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 JsonFieldSpec.stringUnescapedType("null", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
 

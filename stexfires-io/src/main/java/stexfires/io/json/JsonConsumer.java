@@ -87,7 +87,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
             jsonValue = switch (fieldSpec.nullHandling()) {
                 case NOT_ALLOWED -> throw new ConsumerException("Field text is null for " + fieldSpec);
                 case ALLOWED_USE_LITERAL -> LITERAL_NULL;
-                case ALLOWED_OMIT_MEMBER -> null;
+                case ALLOWED_OMIT_FIELD -> null;
             };
         } else {
             String preparedFieldText;
