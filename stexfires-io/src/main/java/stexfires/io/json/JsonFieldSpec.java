@@ -90,6 +90,7 @@ public record JsonFieldSpec(
         STRING_ESCAPED_WITH_QUOTATION_MARKS,
         ARRAY_ELEMENTS,
         ARRAY,
+        OBJECT_MEMBERS,
         OBJECT
 
     }

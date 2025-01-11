@@ -35,10 +35,10 @@ public final class ExamplesJsonFile {
                 //  new ManyFieldsRecord("string3", "3", "TRUE", null),
                 //  new ManyFieldsRecord("string3", "a", "true", null),
                 new ManyFieldsRecord("category", 0L,
-                        "abc", "abc", "\"abc\"", "0", "true", null, " 1,2,3 ", "[1, 2, 3]", "{ \"a\": 1, \"b\": 2 }"),
+                        "abc", "abc", "\"abc\"", "0", "true", null, "   1,2,3", "[1, 2, 3]", "   \"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
                 new ManyFieldsRecord("category", 2L,
-                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null)
+                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null, null)
         );
     }
 
@@ -59,6 +59,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
@@ -84,6 +85,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
@@ -114,6 +116,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
@@ -144,6 +147,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
@@ -170,6 +174,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
                         )
                 );
@@ -188,6 +193,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_USE_LITERAL, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_USE_LITERAL, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
                         )
                 );
@@ -218,6 +224,7 @@ public final class ExamplesJsonFile {
                                 JsonFieldSpec.stringUnescapedType("null", ALLOWED_USE_LITERAL),
                                 new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
                                 new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
                         )
                 );
