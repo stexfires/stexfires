@@ -149,8 +149,10 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
 
         // Write JSON before the records depending on the fileSpec type.
         if (fileSpec instanceof JsonArrayFileSpec jsonArrayFileSpec) {
-            writeString(buildJsonString(jsonArrayFileSpec.consumerEscapedArrayName()));
-            writeString(NAME_SEPARATOR);
+            if (jsonArrayFileSpec.namedMember()) {
+                writeString(buildJsonString(jsonArrayFileSpec.consumerEscapedArrayName()));
+                writeString(NAME_SEPARATOR);
+            }
             writeString(BEGIN_ARRAY);
         }
     }

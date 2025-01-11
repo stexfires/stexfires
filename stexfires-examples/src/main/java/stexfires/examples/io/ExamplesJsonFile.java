@@ -45,10 +45,33 @@ public final class ExamplesJsonFile {
         System.out.println("-testJsonArrayFileSpec1---");
 
         var fileSpecWrite =
-                JsonArrayFileSpec.consumerFileSpec(
-                        true,
+                JsonArrayFileSpec.consumerFileSpecAsObjectWithSingleMember(
                         true,
                         JsonUtil.escapeJsonString("Array\tname"),
+                        List.of(
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                        )
+                );
+
+        // Write
+        System.out.println("write: " + path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
+    }
+
+    private static void testJsonArrayFileSpec2(Path path) throws ConsumerException, IOException {
+        System.out.println("-testJsonArrayFileSpec2---");
+
+        var fileSpecWrite =
+                JsonArrayFileSpec.consumerFileSpecAsSingleArray(
+                        false,
                         List.of(
                                 JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
                                 JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
@@ -178,6 +201,7 @@ public final class ExamplesJsonFile {
 
         try {
             testJsonArrayFileSpec1(Path.of(args[0], "JsonArray1.json"));
+            testJsonArrayFileSpec2(Path.of(args[0], "JsonArray2.json"));
             testJsonMembersFileSpec1(Path.of(args[0], "JsonMembers1.json"));
             testJsonStreamingFileSpec1(Path.of(args[0], "JsonStreaming1.ndjson"));
             testJsonStreamingFileSpec2(Path.of(args[0], "JsonStreaming2.json"));

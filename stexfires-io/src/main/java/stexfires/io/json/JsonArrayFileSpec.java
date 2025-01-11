@@ -15,6 +15,7 @@ import java.util.Objects;
 public record JsonArrayFileSpec(
         CharsetCoding charsetCoding,
         boolean embeddedInJsonObject,
+        boolean namedMember,
         LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
@@ -34,10 +35,12 @@ public record JsonArrayFileSpec(
     }
 
     public static JsonArrayFileSpec producerFileSpec(boolean embeddedInJsonObject,
+                                                     boolean namedMember,
                                                      List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 JSON_CHARSET_CODING,
                 embeddedInJsonObject,
+                namedMember,
                 JSON_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
@@ -47,13 +50,28 @@ public record JsonArrayFileSpec(
         );
     }
 
-    public static JsonArrayFileSpec consumerFileSpec(boolean embeddedInJsonObject,
-                                                     boolean consumerSpaceAfterValueSeparator,
-                                                     String consumerEscapedArrayName,
-                                                     List<JsonFieldSpec> fieldSpecs) {
+    public static JsonArrayFileSpec consumerFileSpecAsSingleArray(boolean consumerSpaceAfterValueSeparator,
+                                                                  List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 JSON_CHARSET_CODING,
-                embeddedInJsonObject,
+                false,
+                false,
+                JSON_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                consumerSpaceAfterValueSeparator,
+                DEFAULT_CONSUMER_ESCAPED_ARRAY_NAME,
+                fieldSpecs
+        );
+    }
+
+    public static JsonArrayFileSpec consumerFileSpecAsObjectWithSingleMember(boolean consumerSpaceAfterValueSeparator,
+                                                                             String consumerEscapedArrayName,
+                                                                             List<JsonFieldSpec> fieldSpecs) {
+        return new JsonArrayFileSpec(
+                JSON_CHARSET_CODING,
+                true,
+                true,
                 JSON_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
                 DEFAULT_CONSUMER_TEXT_AFTER,
@@ -65,6 +83,7 @@ public record JsonArrayFileSpec(
 
     public static JsonArrayFileSpec consumerFileSpec(CharsetCoding charsetCoding,
                                                      boolean embeddedInJsonObject,
+                                                     boolean namedMember,
                                                      LineSeparator consumerLineSeparator,
                                                      @Nullable String consumerTextBefore,
                                                      @Nullable String consumerTextAfter,
@@ -74,6 +93,7 @@ public record JsonArrayFileSpec(
         return new JsonArrayFileSpec(
                 charsetCoding,
                 embeddedInJsonObject,
+                namedMember,
                 consumerLineSeparator,
                 consumerTextBefore,
                 consumerTextAfter,
