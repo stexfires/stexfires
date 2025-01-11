@@ -32,7 +32,7 @@ public final class JsonProducer extends AbstractInternalReadableProducer<TextRec
     @Override
     public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
         if (fileSpec instanceof JsonStreamingFileSpec jsonStreamingFileSpec) {
-            if (!jsonStreamingFileSpec.recordSeparatorBeforeJsonObject()) {
+            if (!jsonStreamingFileSpec.recordSeparatorBefore()) {
                 // Skip first lines by reading lines from the buffer without reading Records with the Iterator.
                 if (jsonStreamingFileSpec.producerSkipFirstLines() > 0) {
                     for (int i = 0; i < jsonStreamingFileSpec.producerSkipFirstLines(); i++) {
@@ -48,7 +48,7 @@ public final class JsonProducer extends AbstractInternalReadableProducer<TextRec
     @Override
     protected AbstractRecordRawDataIterator createIterator() {
         if (fileSpec instanceof JsonStreamingFileSpec jsonStreamingFileSpec) {
-            if (!jsonStreamingFileSpec.recordSeparatorBeforeJsonObject()) {
+            if (!jsonStreamingFileSpec.recordSeparatorBefore()) {
                 return new JsonIterator(bufferedReader(), jsonStreamingFileSpec);
             }
         }
@@ -112,7 +112,7 @@ public final class JsonProducer extends AbstractInternalReadableProducer<TextRec
             String rawData = null;
 
             if (fileSpec instanceof JsonStreamingFileSpec jsonStreamingFileSpec) {
-                if (!jsonStreamingFileSpec.recordSeparatorBeforeJsonObject()) {
+                if (!jsonStreamingFileSpec.recordSeparatorBefore()) {
                     rawData = jsonStreamingFileSpec.producerReadLineHandling().readAndHandleLine(reader);
                 }
             }

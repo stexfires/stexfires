@@ -220,7 +220,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
                 writeString(jsonMember);
             }
             case JsonStreamingFileSpec fs -> {
-                if (fs.recordSeparatorBeforeJsonObject()) {
+                if (fs.recordSeparatorBefore()) {
                     writeString(RECORD_SEPARATOR);
                 }
                 writeString(recordJson);
