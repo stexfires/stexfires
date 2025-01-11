@@ -88,8 +88,8 @@ public record JsonFieldSpec(
         STRING_UNESCAPED,
         STRING_ESCAPED,
         STRING_ESCAPED_WITH_QUOTATION_MARKS,
-        ARRAY_WITHOUT_BRACKETS,
-        ARRAY_WITH_BRACKETS,
+        ARRAY_ELEMENTS,
+        ARRAY,
         OBJECT
 
     }

@@ -68,7 +68,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         String jsonValue;
         if (type == STRING_UNESCAPED || type == STRING_ESCAPED) {
             jsonValue = buildJsonString(fieldText);
-        } else if (type == ARRAY_WITHOUT_BRACKETS) {
+        } else if (type == ARRAY_ELEMENTS) {
             jsonValue = buildJsonArray(fieldText);
         } else {
             jsonValue = fieldText;
