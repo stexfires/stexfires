@@ -133,22 +133,10 @@ final class JsonUtilTest {
     }
 
     /**
-     * Test method for {@link stexfires.io.json.JsonUtil#joinJsonMembers(java.util.Collection)}.
-     */
-    @Test
-    void joinJsonMembers() {
-        assertEquals("", JsonUtil.joinJsonMembers(List.of()));
-        assertEquals("\"name0\":null,\"name1\":null,\"name2\":null", JsonUtil.joinJsonMembers(List.of("\"name0\":null", "\"name1\":null", "\"name2\":null")));
-        assertEquals("\"name0\":true,\"name1\":1,\"name2\":\"value\"", JsonUtil.joinJsonMembers(List.of("\"name0\":true", "\"name1\":1", "\"name2\":\"value\"")));
-        assertEquals("a,b,c", JsonUtil.joinJsonMembers(List.of("a", "b", "c"))); // Not a valid json member
-        assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(null));
-    }
-
-    /**
      * Test method for {@link stexfires.io.json.JsonUtil#joinJsonMembers(java.util.Collection, String)}.
      */
     @Test
-    void joinJsonMembers_spaces() {
+    void joinJsonMembers() {
         assertEquals("", JsonUtil.joinJsonMembers(List.of(), " "));
         assertEquals("\"name0\":null, \"name1\":null, \"name2\":null", JsonUtil.joinJsonMembers(List.of("\"name0\":null", "\"name1\":null", "\"name2\":null"), " "));
         assertEquals("\"name0\":true, \"name1\":1, \"name2\":\"value\"", JsonUtil.joinJsonMembers(List.of("\"name0\":true", "\"name1\":1", "\"name2\":\"value\""), " "));
@@ -156,6 +144,20 @@ final class JsonUtilTest {
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(null, " "));
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(List.of(), null));
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(null, null));
+    }
+
+    /**
+     * Test method for {@link stexfires.io.json.JsonUtil#joinJsonElements(java.util.Collection, String)}.
+     */
+    @Test
+    void joinJsonElements() {
+        assertEquals("", JsonUtil.joinJsonElements(List.of(), " "));
+        assertEquals("\"name0\":null, \"name1\":null, \"name2\":null", JsonUtil.joinJsonElements(List.of("\"name0\":null", "\"name1\":null", "\"name2\":null"), " "));
+        assertEquals("\"name0\":true, \"name1\":1, \"name2\":\"value\"", JsonUtil.joinJsonElements(List.of("\"name0\":true", "\"name1\":1", "\"name2\":\"value\""), " "));
+        assertEquals("a, b, c", JsonUtil.joinJsonElements(List.of("a", "b", "c"), " ")); // Not a valid json member
+        assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(null, " "));
+        assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(List.of(), null));
+        assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(null, null));
     }
 
     /**

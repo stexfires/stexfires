@@ -142,15 +142,16 @@ public final class JsonUtil {
         return buildJsonString(escapedJsonName) + NAME_SEPARATOR + whitespacesAfterNameSeparator + jsonValue;
     }
 
-    public static String joinJsonMembers(Collection<String> jsonMembers) {
-        Objects.requireNonNull(jsonMembers);
-        return String.join(VALUE_SEPARATOR, jsonMembers);
-    }
-
     public static String joinJsonMembers(Collection<String> jsonMembers, String whitespacesAfterValueSeparator) {
         Objects.requireNonNull(jsonMembers);
         Objects.requireNonNull(whitespacesAfterValueSeparator);
         return String.join(VALUE_SEPARATOR + whitespacesAfterValueSeparator, jsonMembers);
+    }
+
+    public static String joinJsonElements(Collection<String> jsonElements, String whitespacesAfterValueSeparator) {
+        Objects.requireNonNull(jsonElements);
+        Objects.requireNonNull(whitespacesAfterValueSeparator);
+        return String.join(VALUE_SEPARATOR + whitespacesAfterValueSeparator, jsonElements);
     }
 
     public static String buildJsonObject(String jsonMembers) {
@@ -165,16 +166,16 @@ public final class JsonUtil {
         return BEGIN_OBJECT + whitespacesAfterBegin + jsonMembers + whitespacesBeforeEnd + END_OBJECT;
     }
 
-    public static String buildJsonArray(String jsonValues) {
-        Objects.requireNonNull(jsonValues);
-        return BEGIN_ARRAY + jsonValues + END_ARRAY;
+    public static String buildJsonArray(String jsonElements) {
+        Objects.requireNonNull(jsonElements);
+        return BEGIN_ARRAY + jsonElements + END_ARRAY;
     }
 
-    public static String buildJsonArray(String jsonValues, String whitespacesAfterBegin, String whitespacesBeforeEnd) {
-        Objects.requireNonNull(jsonValues);
+    public static String buildJsonArray(String jsonElements, String whitespacesAfterBegin, String whitespacesBeforeEnd) {
+        Objects.requireNonNull(jsonElements);
         Objects.requireNonNull(whitespacesAfterBegin);
         Objects.requireNonNull(whitespacesBeforeEnd);
-        return BEGIN_ARRAY + whitespacesAfterBegin + jsonValues + whitespacesBeforeEnd + END_ARRAY;
+        return BEGIN_ARRAY + whitespacesAfterBegin + jsonElements + whitespacesBeforeEnd + END_ARRAY;
     }
 
 }
