@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 public record JsonArrayFileSpec(
         CharsetCoding charsetCoding,
+        RecordJsonType recordJsonType,
         boolean embeddedInJsonObject,
         boolean namedMember,
         LineSeparator consumerLineSeparator,
@@ -28,17 +29,20 @@ public record JsonArrayFileSpec(
 
     public JsonArrayFileSpec {
         Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(recordJsonType);
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(consumerEscapedArrayName);
         Objects.requireNonNull(fieldSpecs);
         fieldSpecs = List.copyOf(fieldSpecs);
     }
 
-    public static JsonArrayFileSpec producerFileSpec(boolean embeddedInJsonObject,
+    public static JsonArrayFileSpec producerFileSpec(RecordJsonType recordJsonType,
+                                                     boolean embeddedInJsonObject,
                                                      boolean namedMember,
                                                      List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 embeddedInJsonObject,
                 namedMember,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -50,10 +54,12 @@ public record JsonArrayFileSpec(
         );
     }
 
-    public static JsonArrayFileSpec consumerFileSpecAsSingleArray(boolean consumerSpaceAfterValueSeparator,
+    public static JsonArrayFileSpec consumerFileSpecAsSingleArray(RecordJsonType recordJsonType,
+                                                                  boolean consumerSpaceAfterValueSeparator,
                                                                   List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 false,
                 false,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -65,11 +71,13 @@ public record JsonArrayFileSpec(
         );
     }
 
-    public static JsonArrayFileSpec consumerFileSpecAsObjectWithSingleMember(boolean consumerSpaceAfterValueSeparator,
+    public static JsonArrayFileSpec consumerFileSpecAsObjectWithSingleMember(RecordJsonType recordJsonType,
+                                                                             boolean consumerSpaceAfterValueSeparator,
                                                                              String consumerEscapedArrayName,
                                                                              List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 true,
                 true,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -82,6 +90,7 @@ public record JsonArrayFileSpec(
     }
 
     public static JsonArrayFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                     RecordJsonType recordJsonType,
                                                      boolean embeddedInJsonObject,
                                                      boolean namedMember,
                                                      LineSeparator consumerLineSeparator,
@@ -92,6 +101,7 @@ public record JsonArrayFileSpec(
                                                      List<JsonFieldSpec> fieldSpecs) {
         return new JsonArrayFileSpec(
                 charsetCoding,
+                recordJsonType,
                 embeddedInJsonObject,
                 namedMember,
                 consumerLineSeparator,

@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public record JsonStreamingFileSpec(
         CharsetCoding charsetCoding,
+        RecordJsonType recordJsonType,
         boolean recordSeparatorBeforeJsonObject,
         int producerSkipFirstLines,
         ProducerReadLineHandling producerReadLineHandling,
@@ -34,6 +35,7 @@ public record JsonStreamingFileSpec(
 
     public JsonStreamingFileSpec {
         Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(recordJsonType);
         Objects.requireNonNull(producerReadLineHandling);
         if (producerIgnoreFirstRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
@@ -46,11 +48,13 @@ public record JsonStreamingFileSpec(
         fieldSpecs = List.copyOf(fieldSpecs);
     }
 
-    public static JsonStreamingFileSpec producerFileSpec(boolean recordSeparatorBeforeJsonObject,
+    public static JsonStreamingFileSpec producerFileSpec(RecordJsonType recordJsonType,
+                                                         boolean recordSeparatorBeforeJsonObject,
                                                          ProducerReadLineHandling producerReadLineHandling,
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 recordSeparatorBeforeJsonObject,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 producerReadLineHandling,
@@ -64,11 +68,13 @@ public record JsonStreamingFileSpec(
         );
     }
 
-    public static JsonStreamingFileSpec consumerFileSpec(boolean recordSeparatorBeforeJsonObject,
+    public static JsonStreamingFileSpec consumerFileSpec(RecordJsonType recordJsonType,
+                                                         boolean recordSeparatorBeforeJsonObject,
                                                          boolean consumerSpaceAfterValueSeparator,
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 recordSeparatorBeforeJsonObject,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
@@ -83,6 +89,7 @@ public record JsonStreamingFileSpec(
     }
 
     public static JsonStreamingFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                         RecordJsonType recordJsonType,
                                                          boolean recordSeparatorBeforeJsonObject,
                                                          LineSeparator consumerLineSeparator,
                                                          @Nullable String consumerTextBefore,
@@ -91,6 +98,7 @@ public record JsonStreamingFileSpec(
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 charsetCoding,
+                recordJsonType,
                 recordSeparatorBeforeJsonObject,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,

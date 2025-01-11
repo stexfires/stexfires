@@ -18,6 +18,7 @@ import java.util.Optional;
  */
 public record JsonMembersFileSpec(
         CharsetCoding charsetCoding,
+        RecordJsonType recordJsonType,
         boolean embeddedInJsonObject,
         LineSeparator consumerLineSeparator,
         @Nullable String consumerTextBefore,
@@ -33,16 +34,19 @@ public record JsonMembersFileSpec(
 
     public JsonMembersFileSpec {
         Objects.requireNonNull(charsetCoding);
+        Objects.requireNonNull(recordJsonType);
         Objects.requireNonNull(consumerLineSeparator);
         Objects.requireNonNull(consumerNameRecordMessage);
         Objects.requireNonNull(fieldSpecs);
         fieldSpecs = List.copyOf(fieldSpecs);
     }
 
-    public static JsonMembersFileSpec producerFileSpec(boolean embeddedInJsonObject,
+    public static JsonMembersFileSpec producerFileSpec(RecordJsonType recordJsonType,
+                                                       boolean embeddedInJsonObject,
                                                        List<JsonFieldSpec> fieldSpecs) {
         return new JsonMembersFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 embeddedInJsonObject,
                 JSON_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
@@ -54,13 +58,15 @@ public record JsonMembersFileSpec(
         );
     }
 
-    public static JsonMembersFileSpec consumerFileSpec(boolean embeddedInJsonObject,
+    public static JsonMembersFileSpec consumerFileSpec(RecordJsonType recordJsonType,
+                                                       boolean embeddedInJsonObject,
                                                        boolean consumerSpaceAfterValueSeparator,
                                                        RecordMessage<TextRecord> consumerNameRecordMessage,
                                                        boolean consumerNameEscape,
                                                        List<JsonFieldSpec> fieldSpecs) {
         return new JsonMembersFileSpec(
                 JSON_CHARSET_CODING,
+                recordJsonType,
                 embeddedInJsonObject,
                 JSON_CONSUMER_LINE_SEPARATOR,
                 DEFAULT_CONSUMER_TEXT_BEFORE,
@@ -73,6 +79,7 @@ public record JsonMembersFileSpec(
     }
 
     public static JsonMembersFileSpec consumerFileSpec(CharsetCoding charsetCoding,
+                                                       RecordJsonType recordJsonType,
                                                        boolean embeddedInJsonObject,
                                                        LineSeparator consumerLineSeparator,
                                                        @Nullable String consumerTextBefore,
@@ -83,6 +90,7 @@ public record JsonMembersFileSpec(
                                                        List<JsonFieldSpec> fieldSpecs) {
         return new JsonMembersFileSpec(
                 charsetCoding,
+                recordJsonType,
                 embeddedInJsonObject,
                 consumerLineSeparator,
                 consumerTextBefore,

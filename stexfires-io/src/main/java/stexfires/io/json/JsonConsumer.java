@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 import static stexfires.io.json.JsonUtil.*;
 
@@ -62,13 +61,12 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
     }
 
     static String convertFieldTextIntoJsonValue(JsonFieldSpec.ValueType type,
-                                                @Nullable String fieldText) {
+                                                String fieldText) {
         Objects.requireNonNull(type);
+        Objects.requireNonNull(fieldText);
 
         String jsonValue;
-        if (fieldText == null) {
-            jsonValue = LITERAL_NULL;
-        } else if (type == STRING_UNESCAPED || type == STRING_ESCAPED) {
+        if (type == STRING_UNESCAPED || type == STRING_ESCAPED) {
             jsonValue = buildJsonString(fieldText);
         } else if (type == ARRAY_WITHOUT_BRACKETS) {
             jsonValue = buildJsonArray(fieldText);
@@ -79,29 +77,32 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         return jsonValue;
     }
 
-    static Optional<String> checkFieldTextAndCreateJsonMember(JsonFieldSpec fieldSpec,
-                                                              @Nullable String fieldText)
+    static Optional<String> checkAndConvertFieldTextIntoJsonValue(JsonFieldSpec fieldSpec,
+                                                                  @Nullable String fieldText)
             throws ConsumerException {
         Objects.requireNonNull(fieldSpec);
 
-        String jsonMember = null;
-        if ((fieldText == null) && (fieldSpec.nullHandling() == NOT_ALLOWED)) {
-            throw new ConsumerException("Field text is null for " + fieldSpec);
-        }
-        if ((fieldText != null) || (fieldSpec.nullHandling() == ALLOWED_USE_LITERAL)) {
-            String preparedFieldText = fieldText;
-            // Escape or check fieldText if it is not null
-            if (preparedFieldText != null) {
-                if (fieldSpec.valueType() == STRING_UNESCAPED) {
-                    preparedFieldText = escapeJsonString(preparedFieldText);
-                } else if (fieldSpec.checkValueNecessary()) { // check STRING only if it was not escaped before
-                    checkJsonValue(fieldSpec.valueType(), preparedFieldText);
+        String jsonValue;
+        if (fieldText == null) {
+            jsonValue = switch (fieldSpec.nullHandling()) {
+                case NOT_ALLOWED -> throw new ConsumerException("Field text is null for " + fieldSpec);
+                case ALLOWED_USE_LITERAL -> LITERAL_NULL;
+                case ALLOWED_OMIT_MEMBER -> null;
+            };
+        } else {
+            String preparedFieldText;
+            if (fieldSpec.valueType() == STRING_UNESCAPED) {
+                preparedFieldText = escapeJsonString(fieldText);
+            } else {
+                if (fieldSpec.checkValueNecessary()) { // check STRING only if it was not escaped before
+                    checkJsonValue(fieldSpec.valueType(), fieldText);
                 }
+                preparedFieldText = fieldText;
             }
-            jsonMember = buildJsonMember(fieldSpec.escapedName(),
-                    convertFieldTextIntoJsonValue(fieldSpec.valueType(), preparedFieldText));
+            jsonValue = convertFieldTextIntoJsonValue(fieldSpec.valueType(), preparedFieldText);
         }
-        return Optional.ofNullable(jsonMember);
+
+        return Optional.ofNullable(jsonValue);
     }
 
     static List<String> createJsonMemberList(List<JsonFieldSpec> fieldSpecs,
@@ -112,11 +113,29 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
 
         List<String> jsonMembers = new ArrayList<>(fieldSpecs.size());
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
-            checkFieldTextAndCreateJsonMember(fieldSpecs.get(fieldIndex), record.textAt(fieldIndex))
+            JsonFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
+            checkAndConvertFieldTextIntoJsonValue(fieldSpec, record.textAt(fieldIndex))
+                    .map(jsonValue -> buildJsonMember(fieldSpec.escapedName(), jsonValue))
                     .ifPresent(jsonMembers::add);
         }
 
         return jsonMembers;
+    }
+
+    static List<String> createJsonElementList(List<JsonFieldSpec> fieldSpecs,
+                                              TextRecord record)
+            throws ConsumerException {
+        Objects.requireNonNull(fieldSpecs);
+        Objects.requireNonNull(record);
+
+        List<String> jsonElements = new ArrayList<>(fieldSpecs.size());
+        for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
+            JsonFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);
+            checkAndConvertFieldTextIntoJsonValue(fieldSpec, record.textAt(fieldIndex))
+                    .ifPresent(jsonElements::add);
+        }
+
+        return jsonElements;
     }
 
     static String createRecordJsonObject(List<JsonFieldSpec> fieldSpecs,
@@ -130,6 +149,19 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         List<String> jsonMemberList = createJsonMemberList(fieldSpecs, record);
         String jsonMembers = joinJsonMembers(jsonMemberList, whitespacesAfterValueSeparator);
         return buildJsonObject(jsonMembers);
+    }
+
+    static String createRecordJsonArray(List<JsonFieldSpec> fieldSpecs,
+                                        TextRecord record,
+                                        String whitespacesAfterValueSeparator)
+            throws ConsumerException {
+        Objects.requireNonNull(fieldSpecs);
+        Objects.requireNonNull(record);
+        Objects.requireNonNull(whitespacesAfterValueSeparator);
+
+        List<String> jsonElementList = createJsonElementList(fieldSpecs, record);
+        String jsonElements = joinJsonElements(jsonElementList, whitespacesAfterValueSeparator);
+        return buildJsonArray(jsonElements);
     }
 
     @Override
@@ -161,22 +193,25 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
 
-        // Convert TextRecord into JSON object. Throws ConsumerException if a field value is invalid.
-        String recordJsonObject = createRecordJsonObject(fieldSpecs, record, fileSpec.whitespacesAfterValueSeparator());
+        // Convert TextRecord into JSON object or JSON array. Throws ConsumerException if a field value is invalid.
+        String recordJson = switch (fileSpec.recordJsonType()) {
+            case OBJECT -> createRecordJsonObject(fieldSpecs, record, fileSpec.whitespacesAfterValueSeparator());
+            case ARRAY -> createRecordJsonArray(fieldSpecs, record, fileSpec.whitespacesAfterValueSeparator());
+        };
 
-        // Write JSON object depending on the fileSpec type.
+        // Write JSON depending on the fileSpec type.
         switch (fileSpec) {
             case JsonArrayFileSpec fs -> {
                 if (!firstRecord) {
                     writeString(VALUE_SEPARATOR);
                 }
                 writeLineSeparator(fileSpec.consumerLineSeparator());
-                writeString(recordJsonObject);
+                writeString(recordJson);
             }
             case JsonMembersFileSpec fs -> {
                 String escapedJsonName = fs.escapedJsonNameByMessage(record)
                                            .orElseThrow(() -> new ConsumerException("The name of the member generated by the RecordMessage is null.", record));
-                String jsonMember = buildJsonMember(escapedJsonName, recordJsonObject);
+                String jsonMember = buildJsonMember(escapedJsonName, recordJson);
 
                 if (!firstRecord) {
                     writeString(VALUE_SEPARATOR);
@@ -188,7 +223,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
                 if (fs.recordSeparatorBeforeJsonObject()) {
                     writeString(RECORD_SEPARATOR);
                 }
-                writeString(recordJsonObject);
+                writeString(recordJson);
                 writeLineSeparator(fileSpec.consumerLineSeparator());
             }
         }

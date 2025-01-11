@@ -3,6 +3,7 @@ package stexfires.examples.io;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordFiles;
 import stexfires.io.json.*;
+import stexfires.io.json.JsonFileSpec.RecordJsonType;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -46,6 +47,7 @@ public final class ExamplesJsonFile {
 
         var fileSpecWrite =
                 JsonArrayFileSpec.consumerFileSpecAsObjectWithSingleMember(
+                        RecordJsonType.OBJECT,
                         true,
                         JsonUtil.escapeJsonString("Array\tname"),
                         List.of(
@@ -71,6 +73,7 @@ public final class ExamplesJsonFile {
 
         var fileSpecWrite =
                 JsonArrayFileSpec.consumerFileSpecAsSingleArray(
+                        RecordJsonType.ARRAY,
                         false,
                         List.of(
                                 JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
@@ -97,8 +100,39 @@ public final class ExamplesJsonFile {
 
         var fileSpecWrite =
                 JsonMembersFileSpec.consumerFileSpec(
+                        RecordJsonType.OBJECT,
                         true,
                         true,
+                        record -> "record_" + sequenceSupplier.getAsLong(),
+                        false,
+                        List.of(
+                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_MEMBER),
+                                JsonFieldSpec.numberType("number ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.booleanType("boolean ä €", ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
+                                new JsonFieldSpec("arrayWithout", ARRAY_WITHOUT_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("arrayWith", ARRAY_WITH_BRACKETS, ALLOWED_OMIT_MEMBER, CHECK_VALUE),
+                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_MEMBER, CHECK_VALUE)
+                        )
+                );
+
+        // Write
+        System.out.println("write: " + path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
+    }
+
+    private static void testJsonMembersFileSpec2(Path path) throws ConsumerException, IOException {
+        System.out.println("-testJsonMembersFileSpec2---");
+
+        LongSupplier sequenceSupplier = SequenceSupplier.asPrimitiveLong(0L);
+
+        var fileSpecWrite =
+                JsonMembersFileSpec.consumerFileSpec(
+                        RecordJsonType.ARRAY,
+                        false,
+                        false,
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         false,
                         List.of(
@@ -124,6 +158,7 @@ public final class ExamplesJsonFile {
 
         var fileSpecWrite =
                 JsonStreamingFileSpec.consumerFileSpec(
+                        JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
                         true,
                         List.of(
@@ -141,6 +176,7 @@ public final class ExamplesJsonFile {
 
         var fileSpecRead =
                 JsonStreamingFileSpec.producerFileSpec(
+                        JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
                         ProducerReadLineHandling.SKIP_BLANK_LINE,
                         List.of(
@@ -170,6 +206,7 @@ public final class ExamplesJsonFile {
 
         var fileSpecWrite =
                 JsonStreamingFileSpec.consumerFileSpec(
+                        RecordJsonType.OBJECT,
                         true,
                         true,
                         List.of(
@@ -203,6 +240,7 @@ public final class ExamplesJsonFile {
             testJsonArrayFileSpec1(Path.of(args[0], "JsonArray1.json"));
             testJsonArrayFileSpec2(Path.of(args[0], "JsonArray2.json"));
             testJsonMembersFileSpec1(Path.of(args[0], "JsonMembers1.json"));
+            testJsonMembersFileSpec2(Path.of(args[0], "JsonMembers2.json"));
             testJsonStreamingFileSpec1(Path.of(args[0], "JsonStreaming1.ndjson"));
             testJsonStreamingFileSpec2(Path.of(args[0], "JsonStreaming2.json"));
         } catch (ProducerException | ConsumerException | IOException e) {
