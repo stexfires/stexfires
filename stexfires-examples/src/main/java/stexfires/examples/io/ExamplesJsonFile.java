@@ -36,7 +36,9 @@ public final class ExamplesJsonFile {
                         "abc", "abc", "\"abc\"", "0", "true", null, "   1,2,3", "[1, 2, 3]", "   \"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
                 new ManyFieldsRecord("category1002", 1002L,
-                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null, null)
+                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null, null),
+                new ManyFieldsRecord("category1003", 1003L,
+                        " ", "", "\"\"", null, null, "", "true", "[]", null, null)
         );
     }
 
