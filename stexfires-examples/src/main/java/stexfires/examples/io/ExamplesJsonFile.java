@@ -32,8 +32,6 @@ public final class ExamplesJsonFile {
     @SuppressWarnings("HardcodedLineSeparator")
     private static Stream<TextRecord> generateStream() {
         return Stream.of(
-                //  new ManyFieldsRecord("string3", "3", "TRUE", null),
-                //  new ManyFieldsRecord("string3", "a", "true", null),
                 new ManyFieldsRecord("category", 0L,
                         "abc", "abc", "\"abc\"", "0", "true", null, "   1,2,3", "[1, 2, 3]", "   \"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
