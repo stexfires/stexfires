@@ -38,24 +38,37 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
     }
 
     static void checkJsonValue(JsonFieldSpec.ValueType type,
-                               String value)
+                               String jsonValue)
             throws ConsumerException {
         Objects.requireNonNull(type);
-        Objects.requireNonNull(value);
+        Objects.requireNonNull(jsonValue);
 
-        // TODO implement and optimize value checks
-
-        if (type == BOOLEAN) {
-            // Check is value is a valid JSON boolean literal. Throws a ConsumerException if not.
-            if (!LITERAL_TRUE.equals(value) && !LITERAL_FALSE.equals(value)) {
-                throw new ConsumerException("Invalid boolean value");
+        switch (type) {
+            case BOOLEAN -> {
+                // Checks if the string contains a correct JSON boolean literal.
+                if (!LITERAL_TRUE.equals(jsonValue) && !LITERAL_FALSE.equals(jsonValue)) {
+                    throw new ConsumerException("Invalid boolean value");
+                }
             }
-        } else if (type == NUMBER) {
-            // Check is value is a valid JSON number. Throws a ConsumerException if not.
-            try {
-                BigDecimal bigDecimal = new BigDecimal(value);
-            } catch (NumberFormatException e) {
-                throw new ConsumerException("Invalid number value");
+            case NUMBER -> {
+                // Checks if the string is a valid JSON number.
+                try {
+                    BigDecimal bigDecimal = new BigDecimal(jsonValue);
+                } catch (NumberFormatException e) {
+                    throw new ConsumerException("Invalid number value");
+                }
+            }
+            case STRING_UNESCAPED, STRING_ESCAPED, STRING_ESCAPED_WITH_QUOTATION_MARKS -> {
+                // Checks if the string is a valid JSON string with correct escape sequences and if it is enclosed in quotation marks.
+                // TODO Implement check
+            }
+            case ARRAY_ELEMENTS, ARRAY -> {
+                // Checks if the string is a valid JSON array with correct elements.
+                // TODO Implement check
+            }
+            case OBJECT_MEMBERS, OBJECT -> {
+                // Checks if the string is a valid JSON object with correct members.
+                // TODO Implement check
             }
         }
     }
@@ -96,12 +109,10 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
             if (fieldSpec.valueType() == STRING_UNESCAPED) {
                 preparedFieldText = escapeJsonString(fieldText);
             } else {
-                if (fieldSpec.checkValueNecessary()) { // check STRING only if it was not escaped before
-                    checkJsonValue(fieldSpec.valueType(), fieldText);
-                }
                 preparedFieldText = fieldText;
             }
             jsonValue = convertFieldTextIntoJsonValue(fieldSpec.valueType(), preparedFieldText);
+            checkJsonValue(fieldSpec.valueType(), jsonValue);
         }
 
         return Optional.ofNullable(jsonValue);
