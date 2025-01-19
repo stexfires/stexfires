@@ -27,32 +27,32 @@ public final class RecordComparators {
 
     public static <T extends TextRecord> Comparator<T> category(Comparator<@Nullable String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(TextRecord::category, comparator);
+        return (textRecord1, textRecord2) -> comparator.compare(textRecord1.category(), textRecord2.category());
     }
 
     public static <T extends TextRecord> Comparator<T> category(Comparator<String> comparator,
                                                                 SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(TextRecord::category, sortNulls.wrap(comparator));
+        return category(sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<@Nullable Long> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(TextRecord::recordId, comparator);
+        return (textRecord1, textRecord2) -> comparator.compare(textRecord1.recordId(), textRecord2.recordId());
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(Comparator<Long> comparator,
                                                                 SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(TextRecord::recordId, sortNulls.wrap(comparator));
+        return recordId(sortNulls.wrap(comparator));
     }
 
     public static <T extends TextRecord> Comparator<T> recordId(SortNulls sortNulls) {
         Objects.requireNonNull(sortNulls);
         Comparator<Long> naturalOrderComparator = naturalOrder();
-        return comparing(TextRecord::recordId, sortNulls.wrap(naturalOrderComparator));
+        return recordId(sortNulls.wrap(naturalOrderComparator));
     }
 
     public static <T extends TextRecord> Comparator<T> size() {
@@ -145,7 +145,10 @@ public final class RecordComparators {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(sortNulls);
-        return comparing(recordMessage::createMessage, sortNulls.wrap(comparator));
+        Comparator<@Nullable String> messageComparator = sortNulls.wrap(comparator);
+        return (textRecord1, textRecord2) -> messageComparator.compare(
+                recordMessage.createMessage(textRecord1),
+                recordMessage.createMessage(textRecord2));
     }
 
 }

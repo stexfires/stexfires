@@ -33,14 +33,13 @@ public final class FieldComparators {
 
     public static Comparator<TextField> text(Comparator<@Nullable String> comparator) {
         Objects.requireNonNull(comparator);
-        return comparing(TextField::text, comparator);
+        return (textField1, textField2) -> comparator.compare(textField1.text(), textField2.text());
     }
 
     public static Comparator<TextField> text(Comparator<String> comparator,
                                              SortNulls sortNulls) {
         Objects.requireNonNull(comparator);
-        Objects.requireNonNull(sortNulls);
-        return comparing(TextField::text, sortNulls.wrap(comparator));
+        return text(sortNulls.wrap(comparator));
     }
 
     public static Comparator<TextField> isFirstField() {
