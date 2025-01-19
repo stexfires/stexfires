@@ -15,16 +15,16 @@ class SwitchingSupplierTest {
      */
     @Test
     void constructor() {
-        SwitchingSupplier<String> switchingStringSupplier = new SwitchingSupplier<>("A", "B", 100, i -> i == 104 || i == 107);
+        SwitchingSupplier<String> switchingStringSupplier = new SwitchingSupplier<>("A", "B", 100, i -> (i == 104) || (i == 107));
         for (int i = 100; i < 120; i++) {
-            if (i <= 103 || i >= 107) {
+            if ((i <= 103) || (i >= 107)) {
                 assertEquals("A", switchingStringSupplier.get(), switchingStringSupplier::toString);
             } else {
                 assertEquals("B", switchingStringSupplier.get(), switchingStringSupplier::toString);
             }
         }
 
-        SwitchingSupplier<Integer> switchingIntegerSupplier = new SwitchingSupplier<>(-1, 1, index -> index % 5 == 0);
+        SwitchingSupplier<Integer> switchingIntegerSupplier = new SwitchingSupplier<>(-1, 1, index -> (index % 5) == 0);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 5; j++) {
                 assertEquals(1, switchingIntegerSupplier.get(), switchingIntegerSupplier::toString);

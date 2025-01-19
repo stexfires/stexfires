@@ -2,11 +2,8 @@ package stexfires.util.supplier;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
+import java.util.*;
+import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,12 +101,12 @@ class PercentageDistributionSupplierTest {
     @Test
     void asPrimitiveLongSupplier() {
         LongSupplier randomLongSupplier0 = PercentageDistributionSupplier.asPrimitiveLongSupplier(new Random(5L), 0, 1L, 0L);
-        for (long i = 0; i < 100; i++) {
+        for (long i = 0L; i < 100L; i++) {
             assertEquals(0L, randomLongSupplier0.getAsLong(), randomLongSupplier0::toString);
         }
 
         LongSupplier randomLongSupplier100 = PercentageDistributionSupplier.asPrimitiveLongSupplier(new Random(5L), 100, 1L, 0L);
-        for (long i = 0; i < 100; i++) {
+        for (long i = 0L; i < 100L; i++) {
             assertEquals(1L, randomLongSupplier100.getAsLong(), randomLongSupplier100::toString);
         }
     }

@@ -3,18 +3,15 @@ package stexfires.util.supplier;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
-import java.util.List;
-import java.util.Random;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for {@link stexfires.util.supplier.DateTimeSuppliers}.
  */
-@SuppressWarnings("StaticCollection")
+@SuppressWarnings({"StaticCollection", "TestMethodWithoutAssertion", "MagicNumber"})
 class DateTimeSuppliersTest {
 
     private static final List<ZoneId> ZONE_IDS = List.of(
@@ -99,7 +96,7 @@ class DateTimeSuppliersTest {
     void localTimeOfSecondOfDay() {
         assertFiveTimesEquals(LocalTime.MIDNIGHT, DateTimeSuppliers.localTimeOfSecondOfDay(() -> 0L));
         assertFiveTimesEquals(LocalTime.NOON, DateTimeSuppliers.localTimeOfSecondOfDay(() -> 12L * 60L * 60L));
-        for (Long longValue : List.of(0L, 1L, 24L * 60L * 60L - 1L)) {
+        for (Long longValue : List.of(0L, 1L, (24L * 60L * 60L) - 1L)) {
             assertFiveTimesEquals(LocalTime.ofSecondOfDay(longValue), DateTimeSuppliers.localTimeOfSecondOfDay(() -> longValue));
         }
     }
@@ -111,7 +108,7 @@ class DateTimeSuppliersTest {
     void localTimeOfNanoOfDay() {
         assertFiveTimesEquals(LocalTime.MIDNIGHT, DateTimeSuppliers.localTimeOfNanoOfDay(() -> 0L));
         assertFiveTimesEquals(LocalTime.NOON, DateTimeSuppliers.localTimeOfNanoOfDay(() -> 12L * 60L * 60L * 1_000_000_000L));
-        for (Long longValue : List.of(0L, 1L, 24L * 60L * 60L * 1_000_000_000L - 1L)) {
+        for (Long longValue : List.of(0L, 1L, (24L * 60L * 60L * 1_000_000_000L) - 1L)) {
             assertFiveTimesEquals(LocalTime.ofNanoOfDay(longValue), DateTimeSuppliers.localTimeOfNanoOfDay(() -> longValue));
         }
     }
@@ -135,7 +132,7 @@ class DateTimeSuppliersTest {
      */
     @Test
     void localDateTimeOfLocaleDateAndLocalTime() {
-        for (LocalDate localDate : List.of(LocalDate.EPOCH, LocalDate.of(1000, 1, 1), LocalDate.of(1970, 1, 1), LocalDate.of(2000, 2, 29), LocalDate.of(9999, 12, 31))) {
+        for (LocalDate localDate : List.of(LocalDate.EPOCH, LocalDate.of(1_000, 1, 1), LocalDate.of(1_970, 1, 1), LocalDate.of(2_000, 2, 29), LocalDate.of(9_999, 12, 31))) {
             for (LocalTime localTime : List.of(LocalTime.MIDNIGHT, LocalTime.NOON, LocalTime.of(0, 0, 0, 0), LocalTime.of(23, 59, 59, 999_999_999))) {
                 assertFiveTimesEquals(LocalDateTime.of(localDate, localTime), DateTimeSuppliers.localDateTimeOfLocaleDateAndLocalTime(() -> localDate, () -> localTime));
             }
@@ -162,7 +159,7 @@ class DateTimeSuppliersTest {
     @Test
     void zonedDateTimeOfLocalDateTime() {
         assertFiveTimesEquals(ZonedDateTime.of(LocalDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC), ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateTime(() -> LocalDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC), ZoneOffset.UTC));
-        assertFiveTimesEquals(ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateTime(() -> LocalDateTime.of(1970, 1, 1, 0, 0, 0, 0), ZoneOffset.UTC));
+        assertFiveTimesEquals(ZonedDateTime.of(1_970, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateTime(() -> LocalDateTime.of(1_970, 1, 1, 0, 0, 0, 0), ZoneOffset.UTC));
         for (ZoneId zoneId : ZONE_IDS) {
             assertFiveTimesEquals(ZonedDateTime.of(LocalDateTime.ofInstant(Instant.EPOCH, zoneId), zoneId), DateTimeSuppliers.zonedDateTimeOfLocalDateTime(() -> LocalDateTime.ofInstant(Instant.EPOCH, zoneId), zoneId));
             for (Long longValue : List.of(-1_000_000_000_000_000L, -1_000_000_000_000L, -1_000_000_000L, -1L, 0L, 1L, 1_000_000_000L, 1_000_000_000_000L, 1_000_000_000_000_000L)) {
@@ -178,10 +175,10 @@ class DateTimeSuppliersTest {
     @Test
     void zonedDateTimeOfLocalDateAndLocalTime() {
         assertFiveTimesEquals(ZonedDateTime.of(LocalDate.EPOCH, LocalTime.MIDNIGHT, ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateAndLocalTime(() -> LocalDate.EPOCH, () -> LocalTime.MIDNIGHT, ZoneOffset.UTC));
-        assertFiveTimesEquals(ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateAndLocalTime(() -> LocalDate.of(1970, 1, 1), () -> LocalTime.MIDNIGHT, ZoneOffset.UTC));
+        assertFiveTimesEquals(ZonedDateTime.of(1_970, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC), DateTimeSuppliers.zonedDateTimeOfLocalDateAndLocalTime(() -> LocalDate.of(1_970, 1, 1), () -> LocalTime.MIDNIGHT, ZoneOffset.UTC));
         for (ZoneId zoneId : ZONE_IDS) {
             assertFiveTimesEquals(ZonedDateTime.of(LocalDate.EPOCH, LocalTime.MIDNIGHT, zoneId), DateTimeSuppliers.zonedDateTimeOfLocalDateAndLocalTime(() -> LocalDate.EPOCH, () -> LocalTime.MIDNIGHT, zoneId));
-            for (LocalDate localDate : List.of(LocalDate.EPOCH, LocalDate.of(1000, 1, 1), LocalDate.of(1970, 1, 1), LocalDate.of(2000, 2, 29), LocalDate.of(9999, 12, 31))) {
+            for (LocalDate localDate : List.of(LocalDate.EPOCH, LocalDate.of(1_000, 1, 1), LocalDate.of(1_970, 1, 1), LocalDate.of(2_000, 2, 29), LocalDate.of(9_999, 12, 31))) {
                 for (LocalTime localTime : List.of(LocalTime.MIDNIGHT, LocalTime.NOON, LocalTime.of(0, 0, 0, 0), LocalTime.of(23, 59, 59, 999_999_999))) {
                     assertFiveTimesEquals(ZonedDateTime.of(localDate, localTime, zoneId), DateTimeSuppliers.zonedDateTimeOfLocalDateAndLocalTime(() -> localDate, () -> localTime, zoneId));
                 }
@@ -195,7 +192,7 @@ class DateTimeSuppliersTest {
     @Test
     void year() {
         assertFiveTimesEquals(Year.of(0), DateTimeSuppliers.year(() -> 0));
-        for (int year = -3000; year < 3000; year++) {
+        for (int year = -3_000; year < 3_000; year++) {
             int finalYear = year;
             assertFiveTimesEquals(Year.of(year), DateTimeSuppliers.year(() -> finalYear));
         }
@@ -219,7 +216,7 @@ class DateTimeSuppliersTest {
     @Test
     void yearMonth() {
         assertFiveTimesEquals(YearMonth.of(0, 1), DateTimeSuppliers.yearMonth(() -> 0, () -> 1));
-        for (int year = -3000; year < 3000; year++) {
+        for (int year = -3_000; year < 3_000; year++) {
             for (int month = 1; month <= 12; month++) {
                 int finalYear = year;
                 int finalMonth = month;
@@ -234,7 +231,7 @@ class DateTimeSuppliersTest {
     @Test
     void yearMonthOfYearAndMonth() {
         assertFiveTimesEquals(YearMonth.of(0, Month.JANUARY), DateTimeSuppliers.yearMonthOfYearAndMonth(() -> Year.of(0), () -> Month.JANUARY));
-        for (int year = -3000; year < 3000; year++) {
+        for (int year = -3_000; year < 3_000; year++) {
             for (int month = 1; month <= 12; month++) {
                 Year finalYear = Year.of(year);
                 Month finalMonth = Month.of(month);
@@ -283,14 +280,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomEpochSecond() {
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochSecond(new Random(0), Instant.EPOCH, Instant.EPOCH.plusSeconds(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochSecond(new Random(0L), Instant.EPOCH, Instant.EPOCH.plusSeconds(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochSecond(new Random(0), Instant.EPOCH, Instant.EPOCH.plusSeconds(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochSecond(new Random(0L), Instant.EPOCH, Instant.EPOCH.plusSeconds(100L));
         assertEquals(60L, longSupplier0100.getAsLong());
         assertEquals(83L, longSupplier0100.getAsLong());
         assertEquals(93L, longSupplier0100.getAsLong());
@@ -303,14 +300,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomEpochMilli() {
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochMilli(new Random(0), Instant.EPOCH, Instant.EPOCH.plusMillis(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochMilli(new Random(0L), Instant.EPOCH, Instant.EPOCH.plusMillis(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochMilli(new Random(0), Instant.EPOCH, Instant.EPOCH.plusMillis(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochMilli(new Random(0L), Instant.EPOCH, Instant.EPOCH.plusMillis(100L));
         assertEquals(60L, longSupplier0100.getAsLong());
         assertEquals(83L, longSupplier0100.getAsLong());
         assertEquals(93L, longSupplier0100.getAsLong());
@@ -323,14 +320,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomEpochDay() {
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochDay(new Random(0), LocalDate.EPOCH, LocalDate.EPOCH.plusDays(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomEpochDay(new Random(0L), LocalDate.EPOCH, LocalDate.EPOCH.plusDays(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochDay(new Random(0), LocalDate.EPOCH, LocalDate.EPOCH.plusDays(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomEpochDay(new Random(0L), LocalDate.EPOCH, LocalDate.EPOCH.plusDays(100L));
         assertEquals(60L, longSupplier0100.getAsLong());
         assertEquals(83L, longSupplier0100.getAsLong());
         assertEquals(93L, longSupplier0100.getAsLong());
@@ -343,14 +340,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomSecondOfDay() {
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomSecondOfDay(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomSecondOfDay(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomSecondOfDay(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomSecondOfDay(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(100L));
         assertEquals(60L, longSupplier0100.getAsLong());
         assertEquals(83L, longSupplier0100.getAsLong());
         assertEquals(93L, longSupplier0100.getAsLong());
@@ -363,21 +360,21 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomSecondOfDayInclusive() {
-        LongSupplier longSupplier00 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(0L));
+        LongSupplier longSupplier00 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(0L));
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
 
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(1L, longSupplier01.getAsLong());
         assertEquals(1L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomSecondOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusSeconds(100L));
         assertEquals(49L, longSupplier0100.getAsLong());
         assertEquals(33L, longSupplier0100.getAsLong());
         assertEquals(60L, longSupplier0100.getAsLong());
@@ -390,14 +387,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomNanoOfDay() {
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomNanoOfDay(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomNanoOfDay(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomNanoOfDay(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomNanoOfDay(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(100L));
         assertEquals(60L, longSupplier0100.getAsLong());
         assertEquals(83L, longSupplier0100.getAsLong());
         assertEquals(93L, longSupplier0100.getAsLong());
@@ -411,21 +408,21 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomNanoOfDayInclusive() {
-        LongSupplier longSupplier00 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(0L));
+        LongSupplier longSupplier00 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(0L));
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
         assertEquals(0L, longSupplier00.getAsLong());
 
-        LongSupplier longSupplier01 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(1L));
+        LongSupplier longSupplier01 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(1L));
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(0L, longSupplier01.getAsLong());
         assertEquals(1L, longSupplier01.getAsLong());
         assertEquals(1L, longSupplier01.getAsLong());
 
-        LongSupplier longSupplier0100 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(100L));
+        LongSupplier longSupplier0100 = DateTimeSuppliers.randomNanoOfDayInclusive(new Random(0L), LocalTime.MIDNIGHT, LocalTime.MIDNIGHT.plusNanos(100L));
         assertEquals(49L, longSupplier0100.getAsLong());
         assertEquals(33L, longSupplier0100.getAsLong());
         assertEquals(60L, longSupplier0100.getAsLong());
@@ -438,7 +435,7 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomYearInclusive() {
-        IntSupplier intSupplier000 = DateTimeSuppliers.randomYearInclusive(new Random(0), Year.of(0), Year.of(0));
+        IntSupplier intSupplier000 = DateTimeSuppliers.randomYearInclusive(new Random(0L), Year.of(0), Year.of(0));
         assertEquals(0, intSupplier000.getAsInt());
         assertEquals(0, intSupplier000.getAsInt());
         assertEquals(0, intSupplier000.getAsInt());
@@ -450,7 +447,7 @@ class DateTimeSuppliersTest {
         assertEquals(0, intSupplier000.getAsInt());
         assertEquals(0, intSupplier000.getAsInt());
 
-        IntSupplier intSupplier001 = DateTimeSuppliers.randomYearInclusive(new Random(0), Year.of(0), Year.of(1));
+        IntSupplier intSupplier001 = DateTimeSuppliers.randomYearInclusive(new Random(0L), Year.of(0), Year.of(1));
         assertEquals(0, intSupplier001.getAsInt());
         assertEquals(0, intSupplier001.getAsInt());
         assertEquals(0, intSupplier001.getAsInt());
@@ -462,7 +459,7 @@ class DateTimeSuppliersTest {
         assertEquals(0, intSupplier001.getAsInt());
         assertEquals(1, intSupplier001.getAsInt());
 
-        IntSupplier intSupplier00100 = DateTimeSuppliers.randomYearInclusive(new Random(0), Year.of(0), Year.of(100));
+        IntSupplier intSupplier00100 = DateTimeSuppliers.randomYearInclusive(new Random(0L), Year.of(0), Year.of(100));
         assertEquals(67L, intSupplier00100.getAsInt());
         assertEquals(72L, intSupplier00100.getAsInt());
         assertEquals(93L, intSupplier00100.getAsInt());
@@ -475,14 +472,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomMonthInclusive() {
-        IntSupplier intSupplier011 = DateTimeSuppliers.randomMonthInclusive(new Random(0), Month.JANUARY, Month.JANUARY);
+        IntSupplier intSupplier011 = DateTimeSuppliers.randomMonthInclusive(new Random(0L), Month.JANUARY, Month.JANUARY);
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
 
-        IntSupplier intSupplier0112 = DateTimeSuppliers.randomMonthInclusive(new Random(0), Month.JANUARY, Month.DECEMBER);
+        IntSupplier intSupplier0112 = DateTimeSuppliers.randomMonthInclusive(new Random(0L), Month.JANUARY, Month.DECEMBER);
         assertEquals(1, intSupplier0112.getAsInt());
         assertEquals(5, intSupplier0112.getAsInt());
         assertEquals(2, intSupplier0112.getAsInt());
@@ -495,14 +492,14 @@ class DateTimeSuppliersTest {
      */
     @Test
     void randomDayOfWeekInclusive() {
-        IntSupplier intSupplier011 = DateTimeSuppliers.randomDayOfWeekInclusive(new Random(0), DayOfWeek.MONDAY, DayOfWeek.MONDAY);
+        IntSupplier intSupplier011 = DateTimeSuppliers.randomDayOfWeekInclusive(new Random(0L), DayOfWeek.MONDAY, DayOfWeek.MONDAY);
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
         assertEquals(1, intSupplier011.getAsInt());
 
-        IntSupplier intSupplier0112 = DateTimeSuppliers.randomDayOfWeekInclusive(new Random(0), DayOfWeek.MONDAY, DayOfWeek.SUNDAY);
+        IntSupplier intSupplier0112 = DateTimeSuppliers.randomDayOfWeekInclusive(new Random(0L), DayOfWeek.MONDAY, DayOfWeek.SUNDAY);
         assertEquals(6, intSupplier0112.getAsInt());
         assertEquals(3, intSupplier0112.getAsInt());
         assertEquals(5, intSupplier0112.getAsInt());

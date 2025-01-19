@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static stexfires.util.CommonCharsetNames.*;
@@ -17,7 +17,6 @@ final class CommonCharsetNamesTest {
     /**
      * Test method for {@link CommonCharsetNames#ofStandardCharset(Charset)}.
      */
-    @SuppressWarnings("DataFlowIssue")
     @Test
     void ofStandardCharset() {
         assertEquals(US_ASCII, CommonCharsetNames.ofStandardCharset(StandardCharsets.US_ASCII));
@@ -31,6 +30,7 @@ final class CommonCharsetNamesTest {
         assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("windows-1252")));
         assertThrows(IllegalArgumentException.class, () -> CommonCharsetNames.ofStandardCharset(Charset.forName("GB18030")));
 
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> CommonCharsetNames.ofStandardCharset(null));
     }
 

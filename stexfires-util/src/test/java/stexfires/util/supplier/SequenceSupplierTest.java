@@ -2,8 +2,7 @@ package stexfires.util.supplier;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,8 +22,8 @@ class SequenceSupplierTest {
             assertEquals(String.valueOf(longValue), supplier0.get());
         }
 
-        Supplier<String> supplier1000 = SequenceSupplier.asString(1000L);
-        for (long longValue = 1000L; longValue < 2000L; longValue++) {
+        Supplier<String> supplier1000 = SequenceSupplier.asString(1_000L);
+        for (long longValue = 1_000L; longValue < 2_000L; longValue++) {
             assertEquals(String.valueOf(longValue), supplier1000.get());
         }
 
@@ -44,8 +43,8 @@ class SequenceSupplierTest {
             assertEquals(Long.valueOf(longValue), supplier0.get());
         }
 
-        Supplier<Long> supplier1000 = SequenceSupplier.asLong(1000L);
-        for (long longValue = 1000L; longValue < 2000L; longValue++) {
+        Supplier<Long> supplier1000 = SequenceSupplier.asLong(1_000L);
+        for (long longValue = 1_000L; longValue < 2_000L; longValue++) {
             assertEquals(Long.valueOf(longValue), supplier1000.get());
         }
 
@@ -65,8 +64,8 @@ class SequenceSupplierTest {
             assertEquals(longValue, supplier0.getAsLong());
         }
 
-        LongSupplier supplier1000 = SequenceSupplier.asPrimitiveLong(1000L);
-        for (long longValue = 1000L; longValue < 2000L; longValue++) {
+        LongSupplier supplier1000 = SequenceSupplier.asPrimitiveLong(1_000L);
+        for (long longValue = 1_000L; longValue < 2_000L; longValue++) {
             assertEquals(longValue, supplier1000.getAsLong());
         }
 

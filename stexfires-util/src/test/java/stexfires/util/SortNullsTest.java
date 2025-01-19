@@ -8,6 +8,7 @@ import static stexfires.util.SortNulls.*;
 /**
  * Tests for {@link SortNulls}.
  */
+@SuppressWarnings("EqualsWithItself")
 final class SortNullsTest {
 
     /**
@@ -40,7 +41,6 @@ final class SortNullsTest {
     /**
      * Test method for {@link SortNulls#wrap(java.util.Comparator)}.
      */
-    @SuppressWarnings({"EqualsWithItself", "DataFlowIssue"})
     @Test
     void wrap() {
         assertEquals(0, FIRST.wrap(String::compareTo).compare(null, null));
@@ -48,6 +48,7 @@ final class SortNullsTest {
         assertTrue(FIRST.wrap(String::compareTo).compare(null, "a") < 0);
         assertTrue(FIRST.wrap(String::compareTo).compare("a", null) > 0);
         assertTrue(FIRST.wrap(String::compareTo).compare("a", "b") < 0);
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> FIRST.wrap(null));
 
         assertEquals(0, LAST.wrap(String::compareTo).compare(null, null));
@@ -55,6 +56,7 @@ final class SortNullsTest {
         assertTrue(LAST.wrap(String::compareTo).compare(null, "a") > 0);
         assertTrue(LAST.wrap(String::compareTo).compare("a", null) < 0);
         assertTrue(LAST.wrap(String::compareTo).compare("a", "b") < 0);
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> LAST.wrap(null));
     }
 

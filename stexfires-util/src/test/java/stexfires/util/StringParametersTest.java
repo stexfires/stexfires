@@ -4,16 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for {@link StringParameters}.
  */
-@SuppressWarnings({"AccessOfSystemProperties", "DataFlowIssue", "UnnecessaryUnicodeEscape"})
+@SuppressWarnings({"AccessOfSystemProperties", "UnnecessaryUnicodeEscape", "AssignmentToNull"})
 final class StringParametersTest {
 
     private StringParameters stringParameters01;
@@ -114,12 +112,14 @@ final class StringParametersTest {
     @Test
     void value() {
         // stringParameters01
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters01.value(null));
         assertEquals(Optional.empty(), stringParameters01.value("unknownKey"));
         assertEquals(Optional.of("value1"), stringParameters01.value("key1"));
         assertEquals(Optional.of("value2"), stringParameters01.value("key2"));
         assertEquals(Optional.of("value3b"), stringParameters01.value("key3"));
         // stringParameters02
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters02.value(null));
         assertEquals(Optional.empty(), stringParameters02.value("unknownKey"));
         System.getProperties().forEach((k, v) -> assertEquals(Optional.of(String.valueOf(v)), stringParameters02.value(String.valueOf(k))));
@@ -127,6 +127,7 @@ final class StringParametersTest {
         assertEquals(Optional.of(System.getProperty("user.name")), stringParameters02.value("user.name"));
         assertEquals(Optional.of(System.getProperty("java.home")), stringParameters02.value("java.home"));
         // stringParameters03
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters03.value(null));
         assertEquals(Optional.empty(), stringParameters03.value("unknownKey"));
         System.getenv().forEach((k, v) -> assertEquals(Optional.of(v), stringParameters03.value(k)));
@@ -138,12 +139,14 @@ final class StringParametersTest {
     @Test
     void containsKey() {
         // stringParameters01
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters01.containsKey(null));
         assertFalse(stringParameters01.containsKey("unknownKey"));
         assertTrue(stringParameters01.containsKey("key1"));
         assertTrue(stringParameters01.containsKey("key2"));
         assertTrue(stringParameters01.containsKey("key3"));
         // stringParameters02
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters02.containsKey(null));
         assertFalse(stringParameters02.containsKey("unknownKey"));
         System.getProperties().forEach((k, v) -> assertTrue(stringParameters02.containsKey(String.valueOf(k))));
@@ -151,6 +154,7 @@ final class StringParametersTest {
         assertTrue(stringParameters02.containsKey("user.name"));
         assertTrue(stringParameters02.containsKey("java.home"));
         // stringParameters03
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> stringParameters03.containsKey(null));
         assertFalse(stringParameters03.containsKey("unknownKey"));
         System.getenv().forEach((k, v) -> assertTrue(stringParameters03.containsKey(k)));
@@ -159,12 +163,12 @@ final class StringParametersTest {
     /**
      * Test method for {@link StringParameters#keySet()}.
      */
-    @SuppressWarnings("DataFlowIssue")
     @Test
     void keySet() {
         // stringParameters01
         Set<String> keySet01 = stringParameters01.keySet();
         assertNotNull(keySet01);
+        // noinspection DataFlowIssue
         assertThrows(UnsupportedOperationException.class, () -> keySet01.add("newKey"));
         assertFalse(keySet01.contains("unknownKey"));
         assertEquals(3, keySet01.size()); // contains three keys
@@ -174,6 +178,7 @@ final class StringParametersTest {
         // stringParameters02
         Set<String> keySet02 = stringParameters02.keySet();
         assertNotNull(keySet02);
+        // noinspection DataFlowIssue
         assertThrows(UnsupportedOperationException.class, () -> keySet02.add("newKey"));
         assertFalse(keySet02.contains("unknownKey"));
         assertEquals(System.getProperties().size(), keySet02.size());
@@ -184,6 +189,7 @@ final class StringParametersTest {
         // stringParameters03
         Set<String> keySet03 = stringParameters03.keySet();
         assertNotNull(keySet03);
+        // noinspection DataFlowIssue
         assertThrows(UnsupportedOperationException.class, () -> keySet03.add("newKey"));
         assertFalse(keySet03.contains("unknownKey"));
         assertEquals(System.getenv().size(), keySet03.size());

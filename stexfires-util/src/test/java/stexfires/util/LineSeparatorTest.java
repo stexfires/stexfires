@@ -3,9 +3,8 @@ package stexfires.util;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static stexfires.util.LineSeparator.*;
@@ -214,9 +213,9 @@ final class LineSeparatorTest {
     @SuppressWarnings("EqualsWithItself")
     @Test
     void stream() {
-        assertEquals(1, LF.stream().count());
-        assertEquals(1, CR.stream().count());
-        assertEquals(1, CR_LF.stream().count());
+        assertEquals(1L, LF.stream().count());
+        assertEquals(1L, CR.stream().count());
+        assertEquals(1L, CR_LF.stream().count());
 
         assertEquals(Optional.of(STRING_LF), LF.stream().findFirst());
         assertEquals(Optional.of(STRING_CR), CR.stream().findFirst());
@@ -234,17 +233,17 @@ final class LineSeparatorTest {
     /**
      * Test method for {@link LineSeparator#chars()}.
      */
-    @SuppressWarnings("EqualsWithItself")
+    @SuppressWarnings({"EqualsWithItself", "ReplaceInefficientStreamCount"})
     @Test
     void chars() {
-        assertEquals(1, LF.chars().count());
-        assertEquals(1, CR.chars().count());
-        assertEquals(2, CR_LF.chars().count());
+        assertEquals(1L, LF.chars().count());
+        assertEquals(1L, CR.chars().count());
+        assertEquals(2L, CR_LF.chars().count());
 
         assertEquals(OptionalInt.of(STRING_LF.charAt(0)), LF.chars().findFirst());
         assertEquals(OptionalInt.of(STRING_CR.charAt(0)), CR.chars().findFirst());
         assertEquals(OptionalInt.of(STRING_CR_LF.charAt(0)), CR_LF.chars().findFirst());
-        assertEquals(OptionalInt.of(STRING_CR_LF.charAt(1)), CR_LF.chars().skip(1).findFirst());
+        assertEquals(OptionalInt.of(STRING_CR_LF.charAt(1)), CR_LF.chars().skip(1L).findFirst());
 
         assertFalse(LF.chars().isParallel());
         assertFalse(CR.chars().isParallel());
@@ -261,14 +260,14 @@ final class LineSeparatorTest {
     @SuppressWarnings("EqualsWithItself")
     @Test
     void codePoints() {
-        assertEquals(1, LF.codePoints().count());
-        assertEquals(1, CR.codePoints().count());
-        assertEquals(2, CR_LF.codePoints().count());
+        assertEquals(1L, LF.codePoints().count());
+        assertEquals(1L, CR.codePoints().count());
+        assertEquals(2L, CR_LF.codePoints().count());
 
         assertEquals(OptionalInt.of(STRING_LF.charAt(0)), LF.codePoints().findFirst());
         assertEquals(OptionalInt.of(STRING_CR.charAt(0)), CR.codePoints().findFirst());
         assertEquals(OptionalInt.of(STRING_CR_LF.charAt(0)), CR_LF.codePoints().findFirst());
-        assertEquals(OptionalInt.of(STRING_CR_LF.charAt(1)), CR_LF.codePoints().skip(1).findFirst());
+        assertEquals(OptionalInt.of(STRING_CR_LF.charAt(1)), CR_LF.codePoints().skip(1L).findFirst());
 
         assertFalse(LF.codePoints().isParallel());
         assertFalse(CR.codePoints().isParallel());
@@ -340,11 +339,11 @@ final class LineSeparatorTest {
     @Test
     void charSequence() {
         assertEquals(STRING_LF, new StringBuilder(LF).toString());
-        assertEquals(STRING_LF, new StringBuilder().append(LF).toString());
+        assertEquals(STRING_LF, new StringBuilder(2).append(LF).toString());
         assertEquals(STRING_CR, new StringBuilder(CR).toString());
-        assertEquals(STRING_CR, new StringBuilder().append(CR).toString());
+        assertEquals(STRING_CR, new StringBuilder(2).append(CR).toString());
         assertEquals(STRING_CR_LF, new StringBuilder(CR_LF).toString());
-        assertEquals(STRING_CR_LF, new StringBuilder().append(CR_LF).toString());
+        assertEquals(STRING_CR_LF, new StringBuilder(2).append(CR_LF).toString());
     }
 
 }

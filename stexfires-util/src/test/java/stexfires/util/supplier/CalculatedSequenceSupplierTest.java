@@ -42,8 +42,8 @@ class CalculatedSequenceSupplierTest {
     @Test
     void ofLongIndexAndValue() {
         CalculatedSequenceSupplier<Long> supplier = CalculatedSequenceSupplier.ofLongIndexAndValue(0L, Long::sum);
-        long sum = 0;
-        for (long i = 0; i < 100; i++) {
+        long sum = 0L;
+        for (long i = 0L; i < 100L; i++) {
             sum += i;
             assertEquals(sum, supplier.get(), supplier::toString);
         }
@@ -55,8 +55,8 @@ class CalculatedSequenceSupplierTest {
     @Test
     void ofLongIndexAndValueWithStartIndex() {
         CalculatedSequenceSupplier<Long> supplier = CalculatedSequenceSupplier.ofLongIndexAndValue(10L, 10L, Long::sum);
-        long sum = 0;
-        for (long i = 10; i < 100; i++) {
+        long sum = 0L;
+        for (long i = 10L; i < 100L; i++) {
             sum += i;
             assertEquals(sum, supplier.get(), supplier::toString);
         }
@@ -90,7 +90,7 @@ class CalculatedSequenceSupplierTest {
     @Test
     void ofLongIndex() {
         CalculatedSequenceSupplier<Long> supplier = CalculatedSequenceSupplier.ofLongIndex(0L, i -> i);
-        for (long i = 0; i < 100; i++) {
+        for (long i = 0L; i < 100L; i++) {
             assertEquals(i, supplier.get(), supplier::toString);
         }
     }
@@ -101,7 +101,7 @@ class CalculatedSequenceSupplierTest {
     @Test
     void ofLongIndexWithStartIndex() {
         CalculatedSequenceSupplier<Long> supplier = CalculatedSequenceSupplier.ofLongIndex(10L, 10L, i -> i);
-        for (long i = 10; i < 100; i++) {
+        for (long i = 10L; i < 100L; i++) {
             assertEquals(i, supplier.get(), supplier::toString);
         }
     }
