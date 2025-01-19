@@ -2,14 +2,14 @@ package stexfires.io.json;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for {@link stexfires.io.json.JsonUtil}.
  */
-@SuppressWarnings({"DataFlowIssue", "HardcodedLineSeparator"})
+@SuppressWarnings({"MagicNumber", "HardcodedLineSeparator"})
 final class JsonUtilTest {
 
     @SuppressWarnings({"UnnecessaryUnicodeEscape", "SpellCheckingInspection"})
@@ -36,13 +36,14 @@ final class JsonUtilTest {
         assertEquals("\\r", JsonUtil.escapeJsonString("\r"));
         assertEquals("\\t", JsonUtil.escapeJsonString("\t"));
         for (char control = 0; control < 32; control++) {
-            if (control != '\b' && control != '\f' && control != '\n' && control != '\r' && control != '\t') {
+            if ((control != '\b') && (control != '\f') && (control != '\n') && (control != '\r') && (control != '\t')) {
                 assertEquals(String.format("\\u%04x", (int) control), JsonUtil.escapeJsonString(String.valueOf(control)));
             }
         }
         for (char control = 0x7F; control <= 0x9F; control++) {
             assertEquals(String.format("\\u%04x", (int) control), JsonUtil.escapeJsonString(String.valueOf(control)));
         }
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.escapeJsonString(null));
     }
 
@@ -70,6 +71,7 @@ final class JsonUtilTest {
         for (char c = Character.MIN_VALUE; c < Character.MAX_VALUE; c++) {
             assertEquals(String.valueOf(c), JsonUtil.unescapeJsonString(String.format("\\u%04x", (int) c)));
         }
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.unescapeJsonString(null));
     }
 
@@ -87,6 +89,7 @@ final class JsonUtilTest {
         assertEquals("\"\\n\"", JsonUtil.buildJsonString("\\n"));
         assertEquals("\"\\\"", JsonUtil.buildJsonString("\\")); // Not a valid json string
         assertEquals("\"\"\"", JsonUtil.buildJsonString("\"")); // Not a valid json string
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonString(null));
     }
 
@@ -105,8 +108,11 @@ final class JsonUtilTest {
         assertEquals("\"name\":true", JsonUtil.buildJsonMember("name", "true"));
         assertEquals("\"name\":1234.5678", JsonUtil.buildJsonMember("name", "1234.5678"));
         assertEquals("\"name\":\"value\"", JsonUtil.buildJsonMember("name", "\"value\""));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember(null, "true"));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember("name", null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember(null, null));
     }
 
@@ -126,9 +132,13 @@ final class JsonUtilTest {
         assertEquals("\"name\": true", JsonUtil.buildJsonMember("name", "true", " "));
         assertEquals("\"name\": 1234.5678", JsonUtil.buildJsonMember("name", "1234.5678", " "));
         assertEquals("\"name\": \"value\"", JsonUtil.buildJsonMember("name", "\"value\"", " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember(null, "true", " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember("name", null, " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember("name", "true", null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonMember(null, null, " "));
     }
 
@@ -141,8 +151,11 @@ final class JsonUtilTest {
         assertEquals("\"name0\":null, \"name1\":null, \"name2\":null", JsonUtil.joinJsonMembers(List.of("\"name0\":null", "\"name1\":null", "\"name2\":null"), " "));
         assertEquals("\"name0\":true, \"name1\":1, \"name2\":\"value\"", JsonUtil.joinJsonMembers(List.of("\"name0\":true", "\"name1\":1", "\"name2\":\"value\""), " "));
         assertEquals("a, b, c", JsonUtil.joinJsonMembers(List.of("a", "b", "c"), " ")); // Not a valid json member
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(null, " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(List.of(), null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonMembers(null, null));
     }
 
@@ -155,8 +168,11 @@ final class JsonUtilTest {
         assertEquals("\"name0\":null, \"name1\":null, \"name2\":null", JsonUtil.joinJsonElements(List.of("\"name0\":null", "\"name1\":null", "\"name2\":null"), " "));
         assertEquals("\"name0\":true, \"name1\":1, \"name2\":\"value\"", JsonUtil.joinJsonElements(List.of("\"name0\":true", "\"name1\":1", "\"name2\":\"value\""), " "));
         assertEquals("a, b, c", JsonUtil.joinJsonElements(List.of("a", "b", "c"), " ")); // Not a valid json member
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(null, " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(List.of(), null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.joinJsonElements(null, null));
     }
 
@@ -170,6 +186,7 @@ final class JsonUtilTest {
         assertEquals("{\"name0\":null,\"name1\":null,\"name2\":null}", JsonUtil.buildJsonObject("\"name0\":null,\"name1\":null,\"name2\":null"));
         assertEquals("{\"name0\":true,\"name1\":1,\"name2\":\"value\"}", JsonUtil.buildJsonObject("\"name0\":true,\"name1\":1,\"name2\":\"value\""));
         assertEquals("{a,b,c}", JsonUtil.buildJsonObject("a,b,c")); // Not a valid json member
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonObject(null));
     }
 
@@ -185,9 +202,13 @@ final class JsonUtilTest {
         assertEquals("{ \"name0\":null,\"name1\":null,\"name2\":null }", JsonUtil.buildJsonObject("\"name0\":null,\"name1\":null,\"name2\":null", " ", " "));
         assertEquals("{ \"name0\":true,\"name1\":1,\"name2\":\"value\" }", JsonUtil.buildJsonObject("\"name0\":true,\"name1\":1,\"name2\":\"value\"", " ", " "));
         assertEquals("{ a,b,c }", JsonUtil.buildJsonObject("a,b,c", " ", " ")); // Not a valid json member
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonObject(null, " ", " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonObject("", null, " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonObject("", " ", null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonObject(null, null, null));
     }
 
@@ -200,6 +221,7 @@ final class JsonUtilTest {
         assertEquals("[ ]", JsonUtil.buildJsonArray(" "));
         assertEquals("[\"number0\":0,\"number1\":1,\"number2\":2]", JsonUtil.buildJsonArray("\"number0\":0,\"number1\":1,\"number2\":2"));
         assertEquals("[a,b,c]", JsonUtil.buildJsonArray("a,b,c")); // Not a valid json value
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonArray(null));
     }
 
@@ -214,9 +236,13 @@ final class JsonUtilTest {
         assertEquals("[\r\n\r\n]", JsonUtil.buildJsonArray("", "\r\n", "\r\n"));
         assertEquals("[ \"number0\":0,\"number1\":1,\"number2\":2 ]", JsonUtil.buildJsonArray("\"number0\":0,\"number1\":1,\"number2\":2", " ", " "));
         assertEquals("[ a,b,c ]", JsonUtil.buildJsonArray("a,b,c", " ", " ")); // Not a valid json value
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonArray(null, " ", " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonArray("", null, " "));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonArray("", " ", null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.buildJsonArray(null, null, null));
     }
 
