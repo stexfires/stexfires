@@ -2,7 +2,7 @@ package stexfires.record;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,9 +25,9 @@ final class TextFieldTest {
     /**
      * Test method for {@link TextField#compareTo(TextField)}.
      */
-    @SuppressWarnings("EqualsWithItself")
     @Test
     void compareTo() {
+        // noinspection EqualsWithItself
         assertEquals(0, textFieldValue.compareTo(textFieldValue));
         assertEquals(0, textFieldValue.compareTo(textFieldNull));
         assertEquals(0, textFieldValue.compareTo(textFieldEmpty));
@@ -94,7 +94,6 @@ final class TextFieldTest {
     /**
      * Test method for {@link TextField#orElse(String)}.
      */
-    @SuppressWarnings("DataFlowIssue")
     @Test
     void orElse() {
         assertEquals(TEXT_VALUE, textFieldValue.orElse("else"));
@@ -104,6 +103,7 @@ final class TextFieldTest {
         assertEquals(TEXT_VALUE, textFieldValueMiddle.orElse("else"));
         assertEquals(TEXT_VALUE, textFieldValueLast.orElse("else"));
 
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> textFieldNull.orElse(null));
     }
 
@@ -203,12 +203,12 @@ final class TextFieldTest {
      */
     @Test
     void stream() {
-        assertEquals(1, textFieldValue.stream().count());
-        assertEquals(0, textFieldNull.stream().count());
-        assertEquals(1, textFieldEmpty.stream().count());
-        assertEquals(1, textFieldBlank.stream().count());
-        assertEquals(1, textFieldValueMiddle.stream().count());
-        assertEquals(1, textFieldValueLast.stream().count());
+        assertEquals(1L, textFieldValue.stream().count());
+        assertEquals(0L, textFieldNull.stream().count());
+        assertEquals(1L, textFieldEmpty.stream().count());
+        assertEquals(1L, textFieldBlank.stream().count());
+        assertEquals(1L, textFieldValueMiddle.stream().count());
+        assertEquals(1L, textFieldValueLast.stream().count());
 
         assertEquals(Optional.of(TEXT_VALUE), textFieldValue.stream().findFirst());
         assertEquals(Optional.empty(), textFieldNull.stream().findFirst());
