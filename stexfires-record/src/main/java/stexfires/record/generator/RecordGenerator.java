@@ -24,7 +24,6 @@ import java.util.stream.*;
  * @see stexfires.record.generator.RecordIdGenerator
  * @since 0.1
  */
-@SuppressWarnings("ReturnOfNull")
 @FunctionalInterface
 public interface RecordGenerator<T extends TextRecord> {
 
@@ -46,6 +45,7 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
+    @SuppressWarnings("RedundantCast")
     static RecordGenerator<KeyValueRecord> keyValueRecord(CategoryGenerator<KeyValueRecord> categoryGenerator,
                                                           RecordIdGenerator<KeyValueRecord> recordIdGenerator,
                                                           Function<GeneratorInterimResult<KeyValueRecord>, String> keyFunction,
@@ -59,7 +59,7 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             String key = keyFunction.apply(new GeneratorInterimResult<>(context, category, recordId, null));
             String value = valueFunction.apply(new GeneratorInterimResult<>(context, category, recordId,
-                    i -> switch (i) {
+                    (IntFunction<@Nullable String>) i -> switch (i) {
                         case KEY_VALUE_RECORD_INDEX_KEY -> key;
                         default -> null;
                     }));
@@ -67,6 +67,7 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
+    @SuppressWarnings("RedundantCast")
     static RecordGenerator<KeyValueCommentRecord> keyValueCommentRecord(CategoryGenerator<KeyValueCommentRecord> categoryGenerator,
                                                                         RecordIdGenerator<KeyValueCommentRecord> recordIdGenerator,
                                                                         Function<GeneratorInterimResult<KeyValueCommentRecord>, String> keyFunction,
@@ -82,12 +83,12 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             String key = keyFunction.apply(new GeneratorInterimResult<>(context, category, recordId, null));
             String value = valueFunction.apply(new GeneratorInterimResult<>(context, category, recordId,
-                    i -> switch (i) {
+                    (IntFunction<@Nullable String>) i -> switch (i) {
                         case KEY_VALUE_COMMENT_RECORD_INDEX_KEY -> key;
                         default -> null;
                     }));
             String comment = commentFunction.apply(new GeneratorInterimResult<>(context, category, recordId,
-                    i -> switch (i) {
+                    (IntFunction<@Nullable String>) i -> switch (i) {
                         case KEY_VALUE_COMMENT_RECORD_INDEX_KEY -> key;
                         case KEY_VALUE_COMMENT_RECORD_INDEX_VALUE -> value;
                         default -> null;
@@ -138,6 +139,7 @@ public interface RecordGenerator<T extends TextRecord> {
         };
     }
 
+    @SuppressWarnings("RedundantCast")
     static RecordGenerator<TextRecord> textRecordOfFunctions(CategoryGenerator<TextRecord> categoryGenerator,
                                                              RecordIdGenerator<TextRecord> recordIdGenerator,
                                                              List<Function<GeneratorInterimResult<TextRecord>, @Nullable String>> textFunctions) {
@@ -149,7 +151,8 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             List<@Nullable String> texts = new ArrayList<>(textFunctions.size());
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
-                    context, category, recordId, index -> (index < texts.size()) ? texts.get(index) : null);
+                    context, category, recordId,
+                    (IntFunction<@Nullable String>) index -> (index < texts.size()) ? texts.get(index) : null);
             textFunctions.stream()
                          .map(textFunction -> textFunction.apply(interimResult))
                          .forEachOrdered(texts::add);
