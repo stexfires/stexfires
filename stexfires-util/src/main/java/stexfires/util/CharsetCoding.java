@@ -4,7 +4,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.io.*;
 import java.nio.charset.*;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This record contains a {@link Charset} and an enum {@link CodingErrors} with replacement strings for decoding and encoding.

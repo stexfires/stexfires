@@ -1,10 +1,7 @@
 package stexfires.util.function;
 
-import java.util.Objects;
-import java.util.function.BinaryOperator;
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * Represents an operation upon two {@code boolean}-valued operands and producing an
@@ -19,6 +16,7 @@ import java.util.function.UnaryOperator;
  * @see java.util.function.IntBinaryOperator
  * @since 0.1
  */
+@SuppressWarnings("NewMethodNamingConvention")
 @FunctionalInterface
 public interface BooleanBinaryOperator {
 

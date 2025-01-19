@@ -1,8 +1,7 @@
 package stexfires.util.supplier;
 
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import java.util.concurrent.atomic.*;
+import java.util.function.*;
 
 /**
  * This class consists of {@code static} utility methods

@@ -3,11 +3,9 @@ package stexfires.util;
 import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * Enum with three common line separators for text files: {@code LF, CR, CR_LF}.

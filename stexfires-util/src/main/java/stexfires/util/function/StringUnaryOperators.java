@@ -4,15 +4,9 @@ import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.text.Normalizer;
-import java.util.Base64;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.util.Strings.*;
 
@@ -57,7 +51,7 @@ public final class StringUnaryOperators {
     }
 
     private static boolean nullOrEmpty(@Nullable String s) {
-        return s == null || s.isEmpty();
+        return (s == null) || s.isEmpty();
     }
 
     public static UnaryOperator<@Nullable String> identity() {
@@ -93,7 +87,7 @@ public final class StringUnaryOperators {
     }
 
     public static UnaryOperator<@Nullable String> nullToConstant(@Nullable String constant) {
-        return s -> s == null ? constant : s;
+        return s -> (s == null) ? constant : s;
     }
 
     public static UnaryOperator<@Nullable String> trimToNull() {
@@ -261,21 +255,21 @@ public final class StringUnaryOperators {
     }
 
     public static UnaryOperator<@Nullable String> codePointAt(int index, @Nullable String alternative) {
-        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative : Character.toString(s.codePointAt(index));
+        return s -> (nullOrEmpty(s) || (index < 0) || (index >= s.length())) ? alternative : Character.toString(s.codePointAt(index));
     }
 
     public static UnaryOperator<@Nullable String> codePointAt(int index, Supplier<@Nullable String> alternative) {
         Objects.requireNonNull(alternative);
-        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : Character.toString(s.codePointAt(index));
+        return s -> (nullOrEmpty(s) || (index < 0) || (index >= s.length())) ? alternative.get() : Character.toString(s.codePointAt(index));
     }
 
     public static UnaryOperator<@Nullable String> charAt(int index, @Nullable String alternative) {
-        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative : String.valueOf(s.charAt(index));
+        return s -> (nullOrEmpty(s) || (index < 0) || (index >= s.length())) ? alternative : String.valueOf(s.charAt(index));
     }
 
     public static UnaryOperator<@Nullable String> charAt(int index, Supplier<@Nullable String> alternative) {
         Objects.requireNonNull(alternative);
-        return s -> (nullOrEmpty(s) || index < 0 || index >= s.length()) ? alternative.get() : String.valueOf(s.charAt(index));
+        return s -> (nullOrEmpty(s) || (index < 0) || (index >= s.length())) ? alternative.get() : String.valueOf(s.charAt(index));
     }
 
     public static UnaryOperator<@Nullable String> formattedWithArguments(@Nullable Locale locale, @Nullable Object... args) {
@@ -288,49 +282,62 @@ public final class StringUnaryOperators {
     }
 
     public static UnaryOperator<@Nullable String> substring(int beginIndex) {
-        if (beginIndex < 0) throw new IllegalArgumentException("beginIndex is negative: " + beginIndex);
+        if (beginIndex < 0) {
+            throw new IllegalArgumentException("beginIndex is negative: " + beginIndex);
+        }
 
         return s -> nullOrEmpty(s) ? s : s.substring(Math.min(s.length(), beginIndex));
     }
 
     public static UnaryOperator<@Nullable String> substring(int beginIndex, int endIndex) {
-        if (beginIndex < 0) throw new IllegalArgumentException("beginIndex is negative: " + beginIndex);
-        if (beginIndex > endIndex)
+        if (beginIndex < 0) {
+            throw new IllegalArgumentException("beginIndex is negative: " + beginIndex);
+        }
+        if (beginIndex > endIndex) {
             throw new IllegalArgumentException("beginIndex is larger than endIndex: " + beginIndex + " " + endIndex);
+        }
 
         return s -> nullOrEmpty(s) ? s : s.substring(Math.min(s.length(), beginIndex), Math.min(s.length(), endIndex));
     }
 
     public static UnaryOperator<@Nullable String> removeFromStart(int length) {
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
 
         return substring(length);
     }
 
     public static UnaryOperator<@Nullable String> removeFromEnd(int length) {
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
 
         return s -> nullOrEmpty(s) ? s : s.substring(0, Math.max(0, s.length() - length));
     }
 
     public static UnaryOperator<@Nullable String> removeStringFromStart(String string) {
         Objects.requireNonNull(string);
-        return s -> nullOrEmpty(s) || !s.startsWith(string) ? s : removeFromStart(string.length()).apply(s);
+        return s -> (nullOrEmpty(s) || !s.startsWith(string)) ? s : removeFromStart(string.length()).apply(s);
     }
 
     public static UnaryOperator<@Nullable String> removeStringFromEnd(String string) {
         Objects.requireNonNull(string);
-        return s -> nullOrEmpty(s) || !s.endsWith(string) ? s : removeFromEnd(string.length()).apply(s);
+        return s -> (nullOrEmpty(s) || !s.endsWith(string)) ? s : removeFromEnd(string.length()).apply(s);
     }
 
     public static UnaryOperator<@Nullable String> keepFromStart(int length) {
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
 
         return substring(0, length);
     }
 
     public static UnaryOperator<@Nullable String> keepFromEnd(int length) {
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
 
         return s -> nullOrEmpty(s) ? s : s.substring(Math.max(0, s.length() - length));
     }
@@ -339,22 +346,24 @@ public final class StringUnaryOperators {
         if (nullOrEmpty(character)) {
             throw new IllegalArgumentException("character is null or empty:" + character);
         }
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
 
         return s -> {
             String result;
             if (nullOrEmpty(s)) {
-                if (length % character.length() == 0) {
+                if ((length % character.length()) == 0) {
                     result = character.repeat(length / character.length());
                 } else {
-                    result = character.repeat(length / character.length() + 1).substring(character.length() - (length % character.length()));
+                    result = character.repeat((length / character.length()) + 1).substring(character.length() - (length % character.length()));
                 }
             } else if (s.length() < length) {
                 int padLength = length - s.length();
-                if (padLength % character.length() == 0) {
+                if ((padLength % character.length()) == 0) {
                     result = character.repeat(padLength / character.length()).concat(s);
                 } else {
-                    result = character.repeat(padLength / character.length() + 1).substring(character.length() - (padLength % character.length())).concat(s);
+                    result = character.repeat((padLength / character.length()) + 1).substring(character.length() - (padLength % character.length())).concat(s);
                 }
             } else {
                 result = s;
@@ -367,21 +376,23 @@ public final class StringUnaryOperators {
         if (nullOrEmpty(character)) {
             throw new IllegalArgumentException("character is null or empty:" + character);
         }
-        if (length < 0) throw new IllegalArgumentException("length is negative: " + length);
+        if (length < 0) {
+            throw new IllegalArgumentException("length is negative: " + length);
+        }
         return s -> {
             String result;
             if (nullOrEmpty(s)) {
-                if (length % character.length() == 0) {
+                if ((length % character.length()) == 0) {
                     result = character.repeat(length / character.length());
                 } else {
-                    result = character.repeat(length / character.length() + 1).substring(0, length);
+                    result = character.repeat((length / character.length()) + 1).substring(0, length);
                 }
             } else if (s.length() < length) {
                 int padLength = length - s.length();
-                if (padLength % character.length() == 0) {
+                if ((padLength % character.length()) == 0) {
                     result = s.concat(character.repeat(padLength / character.length()));
                 } else {
-                    result = s.concat(character.repeat(padLength / character.length() + 1).substring(0, padLength));
+                    result = s.concat(character.repeat((padLength / character.length()) + 1).substring(0, padLength));
                 }
             } else {
                 result = s;

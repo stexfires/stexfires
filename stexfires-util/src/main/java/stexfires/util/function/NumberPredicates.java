@@ -3,11 +3,9 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @see java.lang.Number
@@ -32,12 +30,12 @@ public final class NumberPredicates {
 
     public static <T extends Number> Predicate<@Nullable T> isNullOr(Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        return n -> n == null || predicate.test(n);
+        return n -> (n == null) || predicate.test(n);
     }
 
     public static <T extends Number> Predicate<@Nullable T> isNotNullAnd(Predicate<T> predicate) {
         Objects.requireNonNull(predicate);
-        return n -> n != null && predicate.test(n);
+        return n -> (n != null) && predicate.test(n);
     }
 
     public static <T extends Number> Predicate<@Nullable T> constantTrue() {
@@ -114,12 +112,12 @@ public final class NumberPredicates {
 
         public static Predicate<@Nullable Integer> isNullOr(IntPredicate predicate) {
             Objects.requireNonNull(predicate);
-            return n -> n == null || predicate.test(n);
+            return n -> (n == null) || predicate.test(n);
         }
 
         public static Predicate<@Nullable Integer> isNotNullAnd(IntPredicate predicate) {
             Objects.requireNonNull(predicate);
-            return n -> n != null && predicate.test(n);
+            return n -> (n != null) && predicate.test(n);
         }
 
         public static IntPredicate constantTrue() {
@@ -241,11 +239,11 @@ public final class NumberPredicates {
         }
 
         public static IntPredicate multipleOf(int compareNumber) {
-            return n -> (compareNumber != 0) && (n % compareNumber == 0);
+            return n -> (compareNumber != 0) && ((n % compareNumber) == 0);
         }
 
         public static IntPredicate sameSign(int compareNumber) {
-            return n -> (n > 0 && compareNumber > 0) || (n == 0 && compareNumber == 0) || (n < 0 && compareNumber < 0);
+            return n -> ((n > 0) && (compareNumber > 0)) || ((n == 0) && (compareNumber == 0)) || ((n < 0) && (compareNumber < 0));
         }
 
         public static IntPredicate sameAbsoluteValue(int compareNumber) {
@@ -253,7 +251,7 @@ public final class NumberPredicates {
         }
 
         public static IntPredicate between(int lowNumber, int highNumber) {
-            return n -> n >= lowNumber && n <= highNumber;
+            return n -> (n >= lowNumber) && (n <= highNumber);
         }
 
         public static IntPredicate rangeOfByte() {
@@ -277,12 +275,12 @@ public final class NumberPredicates {
 
         public static Predicate<@Nullable Long> isNullOr(LongPredicate predicate) {
             Objects.requireNonNull(predicate);
-            return n -> n == null || predicate.test(n);
+            return n -> (n == null) || predicate.test(n);
         }
 
         public static Predicate<@Nullable Long> isNotNullAnd(LongPredicate predicate) {
             Objects.requireNonNull(predicate);
-            return n -> n != null && predicate.test(n);
+            return n -> (n != null) && predicate.test(n);
         }
 
         public static LongPredicate constantTrue() {
@@ -404,11 +402,11 @@ public final class NumberPredicates {
         }
 
         public static LongPredicate multipleOf(long compareNumber) {
-            return n -> (compareNumber != 0L) && (n % compareNumber == 0L);
+            return n -> (compareNumber != 0L) && ((n % compareNumber) == 0L);
         }
 
         public static LongPredicate sameSign(long compareNumber) {
-            return n -> (n > 0L && compareNumber > 0L) || (n == 0L && compareNumber == 0L) || (n < 0L && compareNumber < 0L);
+            return n -> ((n > 0L) && (compareNumber > 0L)) || ((n == 0L) && (compareNumber == 0L)) || ((n < 0L) && (compareNumber < 0L));
         }
 
         public static LongPredicate sameAbsoluteValue(long compareNumber) {
@@ -416,7 +414,7 @@ public final class NumberPredicates {
         }
 
         public static LongPredicate between(long lowNumber, long highNumber) {
-            return n -> n >= lowNumber && n <= highNumber;
+            return n -> (n >= lowNumber) && (n <= highNumber);
         }
 
         public static LongPredicate rangeOfByte() {
@@ -518,7 +516,7 @@ public final class NumberPredicates {
         public static Predicate<BigInteger> between(BigInteger lowNumber, BigInteger highNumber) {
             Objects.requireNonNull(lowNumber);
             Objects.requireNonNull(highNumber);
-            return n -> n.compareTo(lowNumber) >= 0 && n.compareTo(highNumber) <= 0;
+            return n -> (n.compareTo(lowNumber) >= 0) && (n.compareTo(highNumber) <= 0);
         }
 
         public static Predicate<BigInteger> rangeOfByte() {

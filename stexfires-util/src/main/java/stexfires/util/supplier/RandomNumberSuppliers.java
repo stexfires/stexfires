@@ -2,12 +2,9 @@ package stexfires.util.supplier;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Objects;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
 
 /**
  * This class contains {@code static} utility methods
@@ -80,14 +77,12 @@ public final class RandomNumberSuppliers {
         return () -> BigDecimal.valueOf(random.nextDouble(origin, bound));
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public static DoubleSupplier randomPrimitiveDoubleGaussian(RandomGenerator random,
                                                                double mean, double stddev) {
         Objects.requireNonNull(random);
         return () -> random.nextGaussian(mean, stddev);
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public static Supplier<Double> randomDoubleGaussian(RandomGenerator random,
                                                         double mean, double stddev) {
         Objects.requireNonNull(random);

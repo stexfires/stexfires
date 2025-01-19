@@ -39,7 +39,7 @@ public final class NumberToNumberFunctions {
 
     public static LongToIntFunction primitiveLongToPrimitiveInt() {
         return n -> {
-            if (n >= Integer.MIN_VALUE && n <= Integer.MAX_VALUE) {
+            if ((n >= Integer.MIN_VALUE) && (n <= Integer.MAX_VALUE)) {
                 return (int) n;
             } else {
                 throw new ArithmeticException("'long' out of 'int' range");
@@ -49,7 +49,7 @@ public final class NumberToNumberFunctions {
 
     public static LongFunction<Integer> primitiveLongToInteger() {
         return n -> {
-            if (n >= Integer.MIN_VALUE && n <= Integer.MAX_VALUE) {
+            if ((n >= Integer.MIN_VALUE) && (n <= Integer.MAX_VALUE)) {
                 return (Integer) (int) n;
             } else {
                 throw new ArithmeticException("'long' out of 'Integer' range");
@@ -66,26 +66,26 @@ public final class NumberToNumberFunctions {
     }
 
     public static ToIntFunction<@Nullable Integer> integerToPrimitiveInt(int nullValue) {
-        return n -> n == null ? nullValue : n;
+        return n -> (n == null) ? nullValue : n;
     }
 
     public static ToLongFunction<@Nullable Integer> integerToPrimitiveLong(long nullValue) {
-        return n -> n == null ? nullValue : n.longValue();
+        return n -> (n == null) ? nullValue : n.longValue();
     }
 
     public static Function<@Nullable Integer, @Nullable Long> integerToLong(@Nullable Long nullValue) {
-        return n -> n == null ? nullValue : (Long) n.longValue();
+        return n -> (n == null) ? nullValue : (Long) n.longValue();
     }
 
     public static Function<@Nullable Integer, @Nullable BigInteger> integerToBigInteger(@Nullable BigInteger nullValue) {
-        return n -> n == null ? nullValue : BigInteger.valueOf(n.longValue());
+        return n -> (n == null) ? nullValue : BigInteger.valueOf(n.longValue());
     }
 
     public static ToIntFunction<@Nullable Long> longToPrimitiveInt(int nullValue) {
         return n -> {
             if (n == null) {
                 return nullValue;
-            } else if (n >= Integer.MIN_VALUE && n <= Integer.MAX_VALUE) {
+            } else if ((n >= Integer.MIN_VALUE) && (n <= Integer.MAX_VALUE)) {
                 return n.intValue();
             } else {
                 throw new ArithmeticException("'Long' out of 'int' range");
@@ -94,14 +94,14 @@ public final class NumberToNumberFunctions {
     }
 
     public static ToLongFunction<@Nullable Long> longToPrimitiveLong(long nullValue) {
-        return n -> n == null ? nullValue : n;
+        return n -> (n == null) ? nullValue : n;
     }
 
     public static Function<@Nullable Long, @Nullable Integer> longToInteger(@Nullable Integer nullValue) {
         return n -> {
             if (n == null) {
                 return nullValue;
-            } else if (n >= Integer.MIN_VALUE && n <= Integer.MAX_VALUE) {
+            } else if ((n >= Integer.MIN_VALUE) && (n <= Integer.MAX_VALUE)) {
                 return (Integer) n.intValue();
             } else {
                 throw new ArithmeticException("'Long' out of 'Integer' range");
@@ -110,23 +110,23 @@ public final class NumberToNumberFunctions {
     }
 
     public static Function<@Nullable Long, @Nullable BigInteger> longToBigInteger(@Nullable BigInteger nullValue) {
-        return n -> n == null ? nullValue : BigInteger.valueOf(n);
+        return n -> (n == null) ? nullValue : BigInteger.valueOf(n);
     }
 
     public static ToIntFunction<@Nullable BigInteger> bigIntegerToPrimitiveInt(int nullValue) {
-        return n -> n == null ? nullValue : n.intValueExact();
+        return n -> (n == null) ? nullValue : n.intValueExact();
     }
 
     public static ToLongFunction<@Nullable BigInteger> bigIntegerToPrimitiveLong(long nullValue) {
-        return n -> n == null ? nullValue : n.longValueExact();
+        return n -> (n == null) ? nullValue : n.longValueExact();
     }
 
     public static Function<@Nullable BigInteger, @Nullable Integer> bigIntegerToInteger(@Nullable Integer nullValue) {
-        return n -> n == null ? nullValue : (Integer) n.intValueExact();
+        return n -> (n == null) ? nullValue : (Integer) n.intValueExact();
     }
 
     public static Function<@Nullable BigInteger, @Nullable Long> bigIntegerToLong(@Nullable Long nullValue) {
-        return n -> n == null ? nullValue : (Long) n.longValueExact();
+        return n -> (n == null) ? nullValue : (Long) n.longValueExact();
     }
 
 }

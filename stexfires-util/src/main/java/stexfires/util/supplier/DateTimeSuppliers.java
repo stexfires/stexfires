@@ -1,11 +1,9 @@
 package stexfires.util.supplier;
 
 import java.time.*;
-import java.util.Objects;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
 
 /**
  * This class contains {@code static} utility methods

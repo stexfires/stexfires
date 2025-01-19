@@ -3,12 +3,8 @@ package stexfires.util;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods and constants
@@ -72,11 +68,11 @@ public final class Strings {
     }
 
     public static @Nullable String toNullableString(@Nullable Object o) {
-        return o == null ? null : o.toString();
+        return (o == null) ? null : o.toString();
     }
 
     public static Optional<String> toOptionalString(@Nullable Object o) {
-        return o == null ? Optional.empty() : Optional.of(o.toString());
+        return (o == null) ? Optional.empty() : Optional.of(o.toString());
     }
 
     public static List<String> listOfNotNull(String stringValue) {
@@ -85,7 +81,7 @@ public final class Strings {
     }
 
     public static List<String> listOfNullable(@Nullable String stringValue) {
-        return stringValue == null ? Collections.emptyList() : Collections.singletonList(stringValue);
+        return (stringValue == null) ? Collections.emptyList() : Collections.singletonList(stringValue);
     }
 
     public static List<@Nullable String> list(@Nullable String... stringValues) {
@@ -112,7 +108,7 @@ public final class Strings {
     }
 
     public static Stream<CodePoint> codePointStreamOfNullable(@Nullable String stringValue) {
-        return stringValue == null ? Stream.empty() : stringValue.codePoints().mapToObj(CodePoint::new);
+        return (stringValue == null) ? Stream.empty() : stringValue.codePoints().mapToObj(CodePoint::new);
     }
 
     public static Stream<@Nullable String> concatTwoStreams(Stream<@Nullable String> firstStream, Stream<@Nullable String> secondStream) {
@@ -285,9 +281,9 @@ public final class Strings {
     public static UnaryOperator<List<String>> modifyListSwap(int firstIndex, int secondIndex) {
         return list -> {
             if (!list.isEmpty()) {
-                if (firstIndex != secondIndex
-                        && firstIndex >= 0 && secondIndex >= 0
-                        && firstIndex < list.size() && secondIndex < list.size()) {
+                if ((firstIndex != secondIndex)
+                        && (firstIndex >= 0) && (secondIndex >= 0)
+                        && (firstIndex < list.size()) && (secondIndex < list.size())) {
                     Collections.swap(list, firstIndex, secondIndex);
                 }
             }

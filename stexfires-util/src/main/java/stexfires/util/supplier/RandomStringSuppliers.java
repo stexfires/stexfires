@@ -1,11 +1,8 @@
 package stexfires.util.supplier;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.IntPredicate;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
 
 /**
  * This class consists of {@code static} utility methods
@@ -27,7 +24,7 @@ public final class RandomStringSuppliers {
         Objects.requireNonNull(random);
         Objects.requireNonNull(length);
         Objects.requireNonNull(codePointFilter);
-        if (lowestCodePointBoundary < Character.MIN_VALUE || lowestCodePointBoundary > highestCodePointBoundary) {
+        if ((lowestCodePointBoundary < Character.MIN_VALUE) || (lowestCodePointBoundary > highestCodePointBoundary)) {
             throw new IllegalArgumentException("Illegal boundaries. lowestCodePointBoundary=" + lowestCodePointBoundary + ", highestCodePointBoundary=" + highestCodePointBoundary);
         }
         return () -> random.ints(lowestCodePointBoundary, highestCodePointBoundary + 1)

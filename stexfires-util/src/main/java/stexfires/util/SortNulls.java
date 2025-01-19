@@ -2,8 +2,7 @@ package stexfires.util;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Comparator;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Enum with two types for comparing {@code null} values: {@code FIRST, LAST}.
@@ -38,7 +37,7 @@ public enum SortNulls {
      */
     public final <T> Comparator<@Nullable T> wrap(Comparator<T> comparator) {
         Objects.requireNonNull(comparator);
-        return this == SortNulls.FIRST ?
+        return (this == SortNulls.FIRST) ?
                 Comparator.nullsFirst(comparator) :
                 Comparator.nullsLast(comparator);
     }
@@ -49,7 +48,7 @@ public enum SortNulls {
      * @return the opposite {@code SortNulls}.
      */
     public final SortNulls reverse() {
-        return this == SortNulls.FIRST ? SortNulls.LAST : SortNulls.FIRST;
+        return (this == SortNulls.FIRST) ? SortNulls.LAST : SortNulls.FIRST;
     }
 
 }

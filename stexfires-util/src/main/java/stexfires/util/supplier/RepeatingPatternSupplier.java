@@ -1,10 +1,7 @@
 package stexfires.util.supplier;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A RepeatingPatternSupplier supplies endless values from a given pattern.

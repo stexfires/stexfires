@@ -2,7 +2,7 @@ package stexfires.util.function;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -49,6 +49,7 @@ public final class NumberFunctions {
         return n -> condition.test(n) ? trueFunction.apply(n) : falseFunction.apply(n);
     }
 
+    @SuppressWarnings("LambdaCanBeMethodCall")
     public static <T extends Number> Function<@Nullable T, @Nullable T> identityOfNullable() {
         return n -> n;
     }

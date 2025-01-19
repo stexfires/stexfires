@@ -3,7 +3,7 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -339,12 +339,12 @@ public final class NumberUnaryOperators {
         }
 
         public static UnaryOperator<@Nullable BigInteger> nullToZero() {
-            return n -> n == null ? BigInteger.ZERO : n;
+            return n -> (n == null) ? BigInteger.ZERO : n;
         }
 
         public static UnaryOperator<@Nullable BigInteger> nullToConstant(BigInteger constant) {
             Objects.requireNonNull(constant);
-            return n -> n == null ? constant : n;
+            return n -> (n == null) ? constant : n;
         }
 
         public static UnaryOperator<BigInteger> abs() {

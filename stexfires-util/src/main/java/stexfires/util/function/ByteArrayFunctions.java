@@ -3,21 +3,14 @@ package stexfires.util.function;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.*;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.HexFormat;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+import java.util.zip.*;
 
 /**
  * @see java.math.BigInteger
@@ -34,6 +27,7 @@ import java.util.zip.GZIPOutputStream;
  * @see java.util.zip.GZIPOutputStream
  * @since 0.1
  */
+@SuppressWarnings("AssignmentToNull")
 public final class ByteArrayFunctions {
 
     private ByteArrayFunctions() {
@@ -50,20 +44,20 @@ public final class ByteArrayFunctions {
     }
 
     public static Predicate<byte @Nullable []> isNullOrEmpty() {
-        return b -> b == null || b.length == 0;
+        return b -> (b == null) || (b.length == 0);
     }
 
     public static Predicate<byte @Nullable []> isNotNullAndEmpty() {
-        return b -> b != null && b.length == 0;
+        return b -> (b != null) && (b.length == 0);
     }
 
     public static Predicate<byte @Nullable []> isNotNullAndNotEmpty() {
-        return b -> b != null && b.length > 0;
+        return b -> (b != null) && (b.length > 0);
     }
 
     public static Function<@Nullable String, byte @Nullable []> fromStringStandard(Charset charset) {
         Objects.requireNonNull(charset);
-        return s -> s == null ? null : s.getBytes(charset);
+        return s -> (s == null) ? null : s.getBytes(charset);
     }
 
     public static Function<@Nullable String, byte @Nullable []> fromStringIgnoreErrors(Charset charset) {
@@ -92,7 +86,6 @@ public final class ByteArrayFunctions {
         };
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static Function<@Nullable String, byte @Nullable []> fromStringReplaceErrors(Charset charset, byte[] newReplacement) {
         Objects.requireNonNull(charset);
         Objects.requireNonNull(newReplacement);
@@ -128,7 +121,6 @@ public final class ByteArrayFunctions {
         return fromStringReplaceErrors(charset, newReplacement.getBytes(charset));
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static Function<@Nullable String, byte @Nullable []> fromStringAlternativeForError(Charset charset, byte[] errorAlternative) {
         Objects.requireNonNull(charset);
 
@@ -157,12 +149,12 @@ public final class ByteArrayFunctions {
 
     public static Function<@Nullable String, byte @Nullable []> fromBase64(Base64.Decoder decoder) {
         Objects.requireNonNull(decoder);
-        return s -> s == null ? null : decoder.decode(s);
+        return s -> (s == null) ? null : decoder.decode(s);
     }
 
     public static Function<@Nullable String, byte @Nullable []> fromHex(HexFormat hexFormat) {
         Objects.requireNonNull(hexFormat);
-        return s -> s == null ? null : hexFormat.parseHex(s);
+        return s -> (s == null) ? null : hexFormat.parseHex(s);
     }
 
     public static Function<@Nullable String, byte @Nullable []> fromHex() {
@@ -178,15 +170,15 @@ public final class ByteArrayFunctions {
     }
 
     public static Function<@Nullable Integer, byte @Nullable []> fromInteger() {
-        return n -> n == null ? null : BigInteger.valueOf(n).toByteArray();
+        return n -> (n == null) ? null : BigInteger.valueOf(n).toByteArray();
     }
 
     public static Function<@Nullable Long, byte @Nullable []> fromLong() {
-        return n -> n == null ? null : BigInteger.valueOf(n).toByteArray();
+        return n -> (n == null) ? null : BigInteger.valueOf(n).toByteArray();
     }
 
     public static Function<@Nullable BigInteger, byte @Nullable []> fromBigInteger() {
-        return n -> n == null ? null : n.toByteArray();
+        return n -> (n == null) ? null : n.toByteArray();
     }
 
     public static Function<byte @Nullable [], @Nullable String> toStringRepresentation() {
@@ -195,7 +187,7 @@ public final class ByteArrayFunctions {
 
     public static Function<byte @Nullable [], @Nullable String> toStringStandard(Charset charset) {
         Objects.requireNonNull(charset);
-        return b -> b == null ? null : new String(b, charset);
+        return b -> (b == null) ? null : new String(b, charset);
     }
 
     public static Function<byte @Nullable [], @Nullable String> toStringIgnoreErrors(Charset charset) {
@@ -274,12 +266,12 @@ public final class ByteArrayFunctions {
 
     public static Function<byte @Nullable [], @Nullable String> toBase64(Base64.Encoder encoder) {
         Objects.requireNonNull(encoder);
-        return b -> b == null ? null : encoder.encodeToString(b);
+        return b -> (b == null) ? null : encoder.encodeToString(b);
     }
 
     public static Function<byte @Nullable [], @Nullable String> toHex(HexFormat hexFormat) {
         Objects.requireNonNull(hexFormat);
-        return b -> b == null ? null : hexFormat.formatHex(b);
+        return b -> (b == null) ? null : hexFormat.formatHex(b);
     }
 
     public static Function<byte @Nullable [], @Nullable String> toHex() {
@@ -287,25 +279,25 @@ public final class ByteArrayFunctions {
     }
 
     public static Function<byte @Nullable [], @Nullable Integer> toInteger() {
-        return b -> b == null || b.length == 0 ? null : new BigInteger(b).intValueExact();
+        return b -> ((b == null) || (b.length == 0)) ? null : new BigInteger(b).intValueExact();
     }
 
     public static Function<byte @Nullable [], @Nullable Long> toLong() {
-        return b -> b == null || b.length == 0 ? null : new BigInteger(b).longValueExact();
+        return b -> ((b == null) || (b.length == 0)) ? null : new BigInteger(b).longValueExact();
     }
 
     public static Function<byte @Nullable [], @Nullable BigInteger> toBigInteger() {
-        return b -> b == null || b.length == 0 ? null : new BigInteger(b);
+        return b -> ((b == null) || (b.length == 0)) ? null : new BigInteger(b);
     }
 
     public static UnaryOperator<byte @Nullable []> encodeBase64(Base64.Encoder encoder) {
         Objects.requireNonNull(encoder);
-        return b -> b == null ? null : encoder.encode(b);
+        return b -> (b == null) ? null : encoder.encode(b);
     }
 
     public static UnaryOperator<byte @Nullable []> decodeBase64(Base64.Decoder decoder) {
         Objects.requireNonNull(decoder);
-        return b -> b == null ? null : decoder.decode(b);
+        return b -> (b == null) ? null : decoder.decode(b);
     }
 
     public static UnaryOperator<byte @Nullable []> compressGZIP() {

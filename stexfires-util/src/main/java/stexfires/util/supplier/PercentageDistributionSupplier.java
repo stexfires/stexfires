@@ -1,8 +1,8 @@
 package stexfires.util.supplier;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
-import java.util.random.RandomGenerator;
+import java.util.random.*;
 
 /**
  * A PercentageDistributionSupplier supplies endless random values with a given percentage share of a value.

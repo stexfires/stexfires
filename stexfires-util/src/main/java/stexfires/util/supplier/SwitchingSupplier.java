@@ -1,8 +1,7 @@
 package stexfires.util.supplier;
 
-import java.util.Objects;
-import java.util.function.IntPredicate;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A SwitchingSupplier supplies endless values by switching between two given values.

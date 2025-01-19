@@ -1,9 +1,7 @@
 package stexfires.util.function;
 
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * Represents an operation on a single {@code boolean}-valued operand that produces
@@ -18,7 +16,7 @@ import java.util.function.UnaryOperator;
  * @see java.util.function.IntUnaryOperator
  * @since 0.1
  */
-@SuppressWarnings("MethodNamesDifferingOnlyByCase")
+@SuppressWarnings({"MethodNamesDifferingOnlyByCase", "NewMethodNamingConvention"})
 @FunctionalInterface
 public interface BooleanUnaryOperator {
 

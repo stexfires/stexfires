@@ -3,12 +3,10 @@ package stexfires.util;
 import org.jspecify.annotations.Nullable;
 
 import java.text.Collator;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
 
-import static java.util.Comparator.comparing;
+import static java.util.Comparator.*;
 
 /**
  * This class consists of {@code static} utility methods
@@ -115,7 +113,7 @@ public final class StringComparators {
      * @see Comparator#comparingInt(ToIntFunction)
      */
     public static Comparator<String> lengthComparator() {
-        return Comparator.comparingInt(String::length);
+        return comparingInt(String::length);
     }
 
     /**
@@ -129,7 +127,7 @@ public final class StringComparators {
      */
     public static Comparator<@Nullable String> primitiveIntComparator(int nullOrEmptyValue, int notParsableValue) {
         ToIntFunction<@Nullable String> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -138,7 +136,7 @@ public final class StringComparators {
                 return notParsableValue;
             }
         };
-        return Comparator.comparingInt(extractor);
+        return comparingInt(extractor);
     }
 
     /**
@@ -152,7 +150,7 @@ public final class StringComparators {
      */
     public static Comparator<@Nullable String> primitiveLongComparator(long nullOrEmptyValue, long notParsableValue) {
         ToLongFunction<@Nullable String> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -161,7 +159,7 @@ public final class StringComparators {
                 return notParsableValue;
             }
         };
-        return Comparator.comparingLong(extractor);
+        return comparingLong(extractor);
     }
 
     /**
@@ -175,7 +173,7 @@ public final class StringComparators {
      */
     public static Comparator<@Nullable String> primitiveDoubleComparator(double nullOrEmptyValue, double notParsableValue) {
         ToDoubleFunction<@Nullable String> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -184,7 +182,7 @@ public final class StringComparators {
                 return notParsableValue;
             }
         };
-        return Comparator.comparingDouble(extractor);
+        return comparingDouble(extractor);
     }
 
     /**
@@ -201,7 +199,7 @@ public final class StringComparators {
                                                                  @Nullable Integer notParsableValue,
                                                                  Comparator<@Nullable Integer> integerComparator) {
         Function<@Nullable String, @Nullable Integer> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -227,7 +225,7 @@ public final class StringComparators {
                                                               @Nullable Long notParsableValue,
                                                               Comparator<@Nullable Long> longComparator) {
         Function<@Nullable String, @Nullable Long> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -253,7 +251,7 @@ public final class StringComparators {
                                                                 @Nullable Double notParsableValue,
                                                                 Comparator<@Nullable Double> doubleComparator) {
         Function<@Nullable String, @Nullable Double> extractor = s -> {
-            if (s == null || s.isEmpty()) {
+            if ((s == null) || s.isEmpty()) {
                 return nullOrEmptyValue;
             }
             try {
@@ -277,7 +275,7 @@ public final class StringComparators {
                                                                        Comparator<@Nullable T> keyComparator) {
         Objects.requireNonNull(keyExtractor);
         Objects.requireNonNull(keyComparator);
-        return Comparator.comparing(keyExtractor, keyComparator);
+        return comparing(keyExtractor, keyComparator);
     }
 
 }

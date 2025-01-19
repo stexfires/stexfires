@@ -5,12 +5,9 @@ import stexfires.util.function.BooleanBinaryOperator;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.*;
-import java.util.random.RandomGenerator;
+import java.util.random.*;
 
 /**
  * This class consists of {@code static} utility methods
@@ -323,4 +320,5 @@ public final class Suppliers {
             return bytes;
         };
     }
+
 }

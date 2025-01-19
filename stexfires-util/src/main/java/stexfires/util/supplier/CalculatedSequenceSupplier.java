@@ -2,7 +2,7 @@ package stexfires.util.supplier;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
 
 /**
@@ -149,7 +149,7 @@ public final class CalculatedSequenceSupplier<T> implements Supplier<T> {
                 currentValue = indexAndValueFunction.apply(index, currentValue);
             } else if ((valuesOperator != null) && (helperValue != null)) {
                 T beforeValue = currentValue;
-                if (index == startIndex + 1) {
+                if (index == (startIndex + 1)) {
                     currentValue = helperValue;
                 } else {
                     currentValue = valuesOperator.apply(helperValue, currentValue);

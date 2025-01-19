@@ -3,11 +3,9 @@ package stexfires.util;
 import java.io.Serializable;
 import java.lang.Character.UnicodeBlock;
 import java.lang.Character.UnicodeScript;
-import java.util.HexFormat;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.IntStream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * The record represents a Unicode code point.
@@ -153,7 +151,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
                             .findFirst();
         } else if (startCodePoint.value > endCodePoint.value) {
             return IntStream.rangeClosed(endCodePoint.value, startCodePoint.value)
-                            .map(i -> endCodePoint.value + startCodePoint.value - i)
+                            .map(i -> (endCodePoint.value + startCodePoint.value) - i)
                             .mapToObj(CodePoint::new)
                             .filter(codePointPredicate)
                             .findFirst();
@@ -186,7 +184,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      * @see CodePoint#MAX_BMP_CODE_POINT
      */
     public char valueAsChar() throws ArithmeticException {
-        if (value > CodePoint.MAX_BMP_CODE_POINT || value < CodePoint.MIN_BMP_CODE_POINT) {
+        if ((value > CodePoint.MAX_BMP_CODE_POINT) || (value < CodePoint.MIN_BMP_CODE_POINT)) {
             throw new ArithmeticException("Not a BmpCodePoint: " + value);
         }
         return (char) value;
@@ -200,7 +198,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      * @see CodePoint#MAX_BMP_CODE_POINT
      */
     public Optional<Character> valueAsOptionalCharacter() {
-        if (value > CodePoint.MAX_BMP_CODE_POINT || value < CodePoint.MIN_BMP_CODE_POINT) {
+        if ((value > CodePoint.MAX_BMP_CODE_POINT) || (value < CodePoint.MIN_BMP_CODE_POINT)) {
             return Optional.empty();
         }
         return Optional.of((char) value);
@@ -278,10 +276,10 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public boolean isPrintable() {
         int characterType = Character.getType(value);
-        return characterType != Character.UNASSIGNED
-                && characterType != Character.CONTROL
-                && characterType != Character.SURROGATE
-                && characterType != Character.PRIVATE_USE;
+        return (characterType != Character.UNASSIGNED)
+                && (characterType != Character.CONTROL)
+                && (characterType != Character.SURROGATE)
+                && (characterType != Character.PRIVATE_USE);
     }
 
     /**
@@ -315,9 +313,9 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public String unicodeEscapes() {
         var hexFormat = HexFormat.of();
-        if (value >= CodePoint.MIN_BMP_CODE_POINT && value <= CodePoint.MAX_BMP_CODE_POINT) {
+        if ((value >= CodePoint.MIN_BMP_CODE_POINT) && (value <= CodePoint.MAX_BMP_CODE_POINT)) {
             return "\\u" + hexFormat.toHexDigits((char) value);
-        } else if (value >= CodePoint.MIN_SUPPLEMENTARY_CODE_POINT && value <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT) {
+        } else if ((value >= CodePoint.MIN_SUPPLEMENTARY_CODE_POINT) && (value <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT)) {
             return "\\u" + hexFormat.toHexDigits(Character.highSurrogate(value)) + "\\u" + hexFormat.toHexDigits(Character.lowSurrogate(value));
         } else {
             // Should never happen
@@ -344,7 +342,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public boolean isASCII() {
         // compare with MAX_ASCII_VALUE first because the comparison with MIN_ASCII_VALUE should always be true
-        return value <= MAX_ASCII_VALUE && value >= MIN_ASCII_VALUE;
+        return (value <= MAX_ASCII_VALUE) && (value >= MIN_ASCII_VALUE);
     }
 
     /**
@@ -356,7 +354,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public boolean isBetween(int minCodePoint, int maxCodePoint) {
         // Compare with the maximum first, as this is probably more often the decisive comparison.
-        return value <= maxCodePoint && value >= minCodePoint;
+        return (value <= maxCodePoint) && (value >= minCodePoint);
     }
 
     /**
@@ -620,7 +618,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public Optional<Integer> decimalDigit() {
         int digit = Character.digit(value, 10);
-        return digit < 0 ? Optional.empty() : Optional.of(digit);
+        return (digit < 0) ? Optional.empty() : Optional.of(digit);
     }
 
     /**
@@ -632,7 +630,7 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
      */
     public Optional<Integer> numericValue() {
         int numericValue = Character.getNumericValue(value);
-        return numericValue < 0 ? Optional.empty() : Optional.of(numericValue);
+        return (numericValue < 0) ? Optional.empty() : Optional.of(numericValue);
     }
 
     /**

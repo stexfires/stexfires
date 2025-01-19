@@ -5,10 +5,9 @@ import stexfires.util.CodePoint;
 import stexfires.util.Strings;
 
 import java.text.Normalizer;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @see java.lang.String
@@ -26,7 +25,7 @@ public final class StringPredicates {
     }
 
     private static boolean checkNullOrEmpty(@Nullable String s) {
-        return s == null || s.isEmpty();
+        return (s == null) || s.isEmpty();
     }
 
     public static Predicate<@Nullable String> applyOperatorAndTest(UnaryOperator<@Nullable String> stringOperator,
@@ -69,12 +68,12 @@ public final class StringPredicates {
 
     public static Predicate<@Nullable String> isNullOr(Predicate<String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
-        return s -> s == null || stringPredicate.test(s);
+        return s -> (s == null) || stringPredicate.test(s);
     }
 
     public static Predicate<@Nullable String> isNotNullAnd(Predicate<String> stringPredicate) {
         Objects.requireNonNull(stringPredicate);
-        return s -> s != null && stringPredicate.test(s);
+        return s -> (s != null) && stringPredicate.test(s);
     }
 
     public static Predicate<@Nullable String> allLinesMatch(Predicate<String> linePredicate, boolean resultForNullOrEmpty) {
@@ -133,27 +132,27 @@ public final class StringPredicates {
     }
 
     public static Predicate<@Nullable String> isEmpty() {
-        return s -> s != null && s.isEmpty();
+        return s -> (s != null) && s.isEmpty();
     }
 
     public static Predicate<@Nullable String> isNullOrEmpty() {
-        return s -> s == null || s.isEmpty();
+        return s -> (s == null) || s.isEmpty();
     }
 
     public static Predicate<@Nullable String> isNotNullAndNotEmpty() {
-        return s -> s != null && !s.isEmpty();
+        return s -> (s != null) && !s.isEmpty();
     }
 
     public static Predicate<@Nullable String> isBlank() {
-        return s -> s != null && s.isBlank();
+        return s -> (s != null) && s.isBlank();
     }
 
     public static Predicate<@Nullable String> isNullOrBlank() {
-        return s -> s == null || s.isBlank();
+        return s -> (s == null) || s.isBlank();
     }
 
     public static Predicate<@Nullable String> isNotNullAndNotBlank() {
-        return s -> s != null && !s.isBlank();
+        return s -> (s != null) && !s.isBlank();
     }
 
     public static Predicate<@Nullable String> equals(@Nullable String compareValue) {
@@ -281,15 +280,15 @@ public final class StringPredicates {
 
     public static Predicate<@Nullable String> containedIn(Collection<String> strings) {
         Objects.requireNonNull(strings);
-        return s -> s != null && strings.contains(s);
+        return s -> (s != null) && strings.contains(s);
     }
 
     public static Predicate<@Nullable String> charAt(int index, char character) {
-        return s -> s != null && index >= 0 && index < s.length() && s.charAt(index) == character;
+        return s -> (s != null) && (index >= 0) && (index < s.length()) && (s.charAt(index) == character);
     }
 
     public static Predicate<@Nullable String> intCodePointAt(int index, int codePoint) {
-        return s -> s != null && index >= 0 && index < s.length() && s.codePointAt(index) == codePoint;
+        return s -> (s != null) && (index >= 0) && (index < s.length()) && (s.codePointAt(index) == codePoint);
     }
 
     public static Predicate<@Nullable String> matches(String regEx) {
@@ -298,24 +297,24 @@ public final class StringPredicates {
     }
 
     public static Predicate<@Nullable String> length(int length) {
-        return s -> (s == null ? 0 : s.length()) == length;
+        return s -> ((s == null) ? 0 : s.length()) == length;
     }
 
     public static Predicate<@Nullable String> lengthGreaterThan(int length) {
-        return s -> (s == null ? 0 : s.length()) > length;
+        return s -> ((s == null) ? 0 : s.length()) > length;
     }
 
     public static Predicate<@Nullable String> length(IntPredicate lengthPredicate) {
         Objects.requireNonNull(lengthPredicate);
-        return s -> lengthPredicate.test(s == null ? 0 : s.length());
+        return s -> lengthPredicate.test((s == null) ? 0 : s.length());
     }
 
     public static Predicate<@Nullable String> countCodePoints(int count) {
-        return s -> s == null ? count == 0 : s.codePoints().count() == count;
+        return s -> (s == null) ? (count == 0) : (s.codePoints().count() == count);
     }
 
     public static Predicate<@Nullable String> countLines(int count) {
-        return s -> s == null ? count == 0 : s.lines().count() == count;
+        return s -> (s == null) ? (count == 0) : (s.lines().count() == count);
     }
 
 }
