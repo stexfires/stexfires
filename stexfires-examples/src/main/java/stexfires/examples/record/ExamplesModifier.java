@@ -1,10 +1,7 @@
 package stexfires.examples.record;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.KeyValueRecord;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.comparator.RecordComparators;
 import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.filter.CategoryFilter;
@@ -20,9 +17,8 @@ import stexfires.util.SortNulls;
 import stexfires.util.function.NumberPredicates;
 
 import java.util.*;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.record.modifier.GroupModifier.*;
 

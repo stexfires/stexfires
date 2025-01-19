@@ -2,17 +2,14 @@ package stexfires.examples.record;
 
 import stexfires.record.*;
 import stexfires.record.filter.ClassFilter;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
 import stexfires.record.message.*;
 import stexfires.util.Strings;
 import stexfires.util.supplier.SequenceSupplier;
 
-import java.util.Locale;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesMessage {

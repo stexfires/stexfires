@@ -8,8 +8,7 @@ import stexfires.util.function.StringUnaryOperators;
 import stexfires.util.supplier.Suppliers;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Locale;
+import java.util.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
 public final class ExamplesStringDataType {

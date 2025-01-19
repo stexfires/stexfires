@@ -13,7 +13,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

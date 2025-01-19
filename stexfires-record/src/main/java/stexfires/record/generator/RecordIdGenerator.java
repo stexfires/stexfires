@@ -3,10 +3,8 @@ package stexfires.record.generator;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.LongSupplier;
-import java.util.function.LongUnaryOperator;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A RecordIdGenerator generates a recordId of a {@link stexfires.record.TextRecord}.

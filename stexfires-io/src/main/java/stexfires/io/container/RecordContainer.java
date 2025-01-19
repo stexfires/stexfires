@@ -6,8 +6,8 @@ import stexfires.record.TextRecord;
 import stexfires.record.consumer.UncheckedConsumerException;
 import stexfires.record.producer.UncheckedProducerException;
 
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 import static stexfires.io.RecordIOStreams.*;
 

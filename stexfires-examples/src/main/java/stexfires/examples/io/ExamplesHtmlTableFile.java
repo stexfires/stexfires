@@ -14,9 +14,8 @@ import stexfires.util.LineSeparator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "SpellCheckingInspection"})
 public final class ExamplesHtmlTableFile {

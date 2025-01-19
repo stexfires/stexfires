@@ -13,24 +13,15 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.producer.ProducerException;
-import stexfires.util.CharsetCoding;
-import stexfires.util.CodePoint;
-import stexfires.util.CommonCharsetNames;
-import stexfires.util.LineSeparator;
+import stexfires.util.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Properties;
-import java.util.TreeMap;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 import static stexfires.util.CommonCharsetNames.*;
 

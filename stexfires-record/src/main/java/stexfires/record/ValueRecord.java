@@ -2,8 +2,8 @@ package stexfires.record;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

@@ -2,9 +2,8 @@ package stexfires.record.mapper;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A RecordMapper maps a {@link stexfires.record.TextRecord} to another record.

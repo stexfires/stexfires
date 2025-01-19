@@ -2,7 +2,7 @@ package stexfires.record.mapper;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

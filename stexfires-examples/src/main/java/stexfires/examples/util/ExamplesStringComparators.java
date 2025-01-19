@@ -5,10 +5,8 @@ import stexfires.util.StringComparators;
 import stexfires.util.function.StringUnaryOperators;
 
 import java.text.Collator;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
 public final class ExamplesStringComparators {

@@ -6,8 +6,7 @@ import stexfires.record.TextRecord;
 
 import java.nio.file.Path;
 import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * A PathRecord is a {@link stexfires.record.TextRecord} containing information about a file path.

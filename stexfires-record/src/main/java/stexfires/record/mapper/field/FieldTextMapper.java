@@ -3,10 +3,8 @@ package stexfires.record.mapper.field;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A FieldTextMapper maps a {@link stexfires.record.TextField} to a new text.

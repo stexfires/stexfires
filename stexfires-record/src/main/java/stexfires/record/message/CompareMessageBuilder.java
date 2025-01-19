@@ -4,9 +4,8 @@ import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

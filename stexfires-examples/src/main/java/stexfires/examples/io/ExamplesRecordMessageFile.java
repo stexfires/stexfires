@@ -5,10 +5,7 @@ import stexfires.io.message.RecordMessageFileSpec;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
 import stexfires.record.consumer.ConsumerException;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.message.ExtendedTextsMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.util.CharsetCoding;
@@ -17,7 +14,7 @@ import stexfires.util.LineSeparator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesRecordMessageFile {

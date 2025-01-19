@@ -3,16 +3,10 @@ package stexfires.io.container;
 import org.jspecify.annotations.Nullable;
 import stexfires.io.path.DosPathFieldsRecord;
 import stexfires.io.path.PathType;
-import stexfires.record.TextField;
-import stexfires.record.TextFields;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecords;
+import stexfires.record.*;
 import stexfires.record.impl.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @since 0.1

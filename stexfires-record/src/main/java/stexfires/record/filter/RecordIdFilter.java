@@ -5,9 +5,8 @@ import stexfires.record.TextRecord;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.NumberPredicates.PrimitiveLongPredicates;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

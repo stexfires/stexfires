@@ -14,11 +14,9 @@ import stexfires.util.SortNulls;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
 
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.io.config.ConfigFileSpec.NULL_KEY;
 

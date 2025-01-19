@@ -16,13 +16,10 @@ import stexfires.record.producer.ProducerException;
 import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import static stexfires.util.CommonCharsetNames.*;
 

@@ -2,9 +2,8 @@ package stexfires.record.producer;
 
 import stexfires.record.TextRecord;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

@@ -10,9 +10,8 @@ import stexfires.util.Strings;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.*;
 import static stexfires.util.Alignment.*;

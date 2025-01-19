@@ -8,9 +8,8 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
+import java.util.*;
+import java.util.regex.*;
 
 import static stexfires.util.Alignment.START;
 

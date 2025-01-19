@@ -3,10 +3,8 @@ package stexfires.record.generator;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.IntFunction;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A GeneratorInterimResult contains the interim result of a {@link stexfires.record.TextRecord} generation.

@@ -9,9 +9,9 @@ import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.io.internal.ReadableProducerState.*;
 

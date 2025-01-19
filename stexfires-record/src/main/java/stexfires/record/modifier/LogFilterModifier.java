@@ -4,9 +4,9 @@ import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 import stexfires.record.logger.RecordLogger;
 
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

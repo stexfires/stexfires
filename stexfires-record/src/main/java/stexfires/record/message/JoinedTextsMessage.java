@@ -3,7 +3,7 @@ package stexfires.record.message;
 import stexfires.record.TextFields;
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

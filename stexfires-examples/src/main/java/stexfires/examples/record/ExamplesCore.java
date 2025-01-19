@@ -7,9 +7,9 @@ import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesCore {

@@ -9,9 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 public record DosPathFieldsRecord(
         PathType pathType,

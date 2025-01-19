@@ -14,9 +14,8 @@ import stexfires.util.function.StringUnaryOperators;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 import static stexfires.io.config.ConfigFileSpec.*;
 

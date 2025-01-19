@@ -3,8 +3,7 @@ package stexfires.record;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * A {@link TextRecord} consists of {@link TextField}s, each of which contains a text.

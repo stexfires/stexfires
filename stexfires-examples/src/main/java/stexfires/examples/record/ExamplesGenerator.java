@@ -10,9 +10,8 @@ import stexfires.util.supplier.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MagicNumber"})
 public final class ExamplesGenerator {

@@ -3,7 +3,7 @@ package stexfires.io.fixedwidth;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.Alignment;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

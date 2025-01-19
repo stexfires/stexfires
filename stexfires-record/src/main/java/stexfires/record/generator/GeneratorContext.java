@@ -3,8 +3,7 @@ package stexfires.record.generator;
 import stexfires.record.TextRecord;
 
 import java.time.Instant;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * A GeneratorContext contains the context of a {@link stexfires.record.TextRecord} generation.

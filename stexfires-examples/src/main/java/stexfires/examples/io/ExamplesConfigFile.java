@@ -18,9 +18,9 @@ import stexfires.util.function.StringPredicates;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Locale;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.util.CommonCharsetNames.WINDOWS_1252;
 

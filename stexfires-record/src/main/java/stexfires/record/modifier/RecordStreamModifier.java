@@ -2,10 +2,9 @@ package stexfires.record.modifier;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * A RecordStreamModifier modifies a {@link Stream} of TextRecords.

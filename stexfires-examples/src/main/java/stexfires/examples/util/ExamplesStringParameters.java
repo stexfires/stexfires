@@ -2,7 +2,7 @@ package stexfires.examples.util;
 
 import stexfires.util.StringParameters;
 
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
 public final class ExamplesStringParameters {

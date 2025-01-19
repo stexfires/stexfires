@@ -7,13 +7,10 @@ import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.impl.*;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.mapper.impl.*;
-import stexfires.record.message.JoinedTextsMessage;
-import stexfires.record.message.NotNullRecordMessage;
-import stexfires.record.message.ShortMessage;
-import stexfires.record.message.TextMessage;
+import stexfires.record.message.*;
 import stexfires.util.Strings;
 
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class ExamplesToMapper {

@@ -3,7 +3,7 @@ package stexfires.record.filter;
 import stexfires.record.TextRecord;
 import stexfires.record.mapper.RecordMapper;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

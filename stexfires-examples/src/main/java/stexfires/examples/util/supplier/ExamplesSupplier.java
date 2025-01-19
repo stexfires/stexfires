@@ -15,7 +15,7 @@ import java.time.Year;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.*;
-import java.util.random.RandomGenerator;
+import java.util.random.*;
 import java.util.stream.*;
 
 import static java.lang.Boolean.*;

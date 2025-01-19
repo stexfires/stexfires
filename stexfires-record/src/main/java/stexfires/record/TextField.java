@@ -3,9 +3,8 @@ package stexfires.record;
 import org.jspecify.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * A {@link TextField} is part of a {@link TextRecord}.

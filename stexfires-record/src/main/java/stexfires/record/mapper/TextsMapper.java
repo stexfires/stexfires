@@ -9,10 +9,7 @@ import stexfires.record.message.RecordMessage;
 import stexfires.util.Strings;
 
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 /**
  * @see AddTextMapper

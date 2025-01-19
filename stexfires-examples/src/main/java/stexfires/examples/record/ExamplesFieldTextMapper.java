@@ -9,7 +9,7 @@ import stexfires.util.supplier.SequenceSupplier;
 import stexfires.util.supplier.Suppliers;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesFieldTextMapper {

@@ -5,8 +5,7 @@ import org.jspecify.annotations.Nullable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 import static stexfires.util.function.ByteArrayFunctions.*;
 

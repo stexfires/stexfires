@@ -5,7 +5,7 @@ import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @see java.util.Formatter

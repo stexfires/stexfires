@@ -3,8 +3,7 @@ package stexfires.io.path;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextField;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @since 0.1

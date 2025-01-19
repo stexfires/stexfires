@@ -7,10 +7,8 @@ import stexfires.record.producer.UncheckedProducerException;
 
 import java.time.Instant;
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * A GeneratorProducer produces a {@link Stream} of {@link stexfires.record.TextRecord} based on a

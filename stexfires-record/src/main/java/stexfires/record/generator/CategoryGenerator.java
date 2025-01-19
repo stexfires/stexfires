@@ -3,9 +3,8 @@ package stexfires.record.generator;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A CategoryGenerator generates a category of a {@link stexfires.record.TextRecord}.

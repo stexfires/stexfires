@@ -1,7 +1,6 @@
 package stexfires.io.json;
 
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * This class consists of {@code static} utility methods

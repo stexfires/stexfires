@@ -8,7 +8,7 @@ import stexfires.util.function.StringUnaryOperators;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

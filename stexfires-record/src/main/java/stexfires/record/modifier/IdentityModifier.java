@@ -2,7 +2,7 @@ package stexfires.record.modifier;
 
 import stexfires.record.TextRecord;
 
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @since 0.1

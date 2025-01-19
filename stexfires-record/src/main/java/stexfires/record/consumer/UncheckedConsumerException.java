@@ -1,10 +1,7 @@
 package stexfires.record.consumer;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serial;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
 /**
  * @since 0.1

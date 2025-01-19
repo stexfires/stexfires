@@ -3,8 +3,8 @@ package stexfires.record.modifier;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

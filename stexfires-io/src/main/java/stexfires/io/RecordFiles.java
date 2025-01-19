@@ -14,9 +14,9 @@ import stexfires.record.producer.UncheckedProducerException;
 import java.io.IOException;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

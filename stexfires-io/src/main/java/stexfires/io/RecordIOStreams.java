@@ -11,10 +11,7 @@ import stexfires.record.*;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.consumer.UncheckedConsumerException;
-import stexfires.record.impl.KeyValueCommentFieldsRecord;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.RecordMessage;
 import stexfires.record.modifier.RecordStreamModifier;
@@ -24,12 +21,8 @@ import stexfires.util.Strings;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

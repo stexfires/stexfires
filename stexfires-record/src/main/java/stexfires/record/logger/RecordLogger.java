@@ -2,8 +2,8 @@ package stexfires.record.logger;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A RecordLogger logs a {@link stexfires.record.TextRecord}.

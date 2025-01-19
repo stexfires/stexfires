@@ -9,11 +9,8 @@ import stexfires.record.message.RecordMessage;
 import stexfires.record.message.ShortMessage;
 import stexfires.util.Strings;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "OptionalUsedAsFieldOrParameterType"})
 public final class RecordSystemOutUtil {

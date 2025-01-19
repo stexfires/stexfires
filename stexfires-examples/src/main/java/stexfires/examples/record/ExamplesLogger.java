@@ -9,9 +9,8 @@ import stexfires.record.logger.*;
 import stexfires.record.message.SizeMessage;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesLogger {

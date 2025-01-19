@@ -2,9 +2,8 @@ package stexfires.io.container;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

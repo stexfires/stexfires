@@ -6,13 +6,9 @@ import stexfires.record.TextRecords;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.util.Strings;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

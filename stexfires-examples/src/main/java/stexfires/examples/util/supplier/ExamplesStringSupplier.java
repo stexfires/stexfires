@@ -5,12 +5,10 @@ import stexfires.util.TextSplitters;
 import stexfires.util.supplier.RandomStringSuppliers;
 import stexfires.util.supplier.Suppliers;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
 public final class ExamplesStringSupplier {

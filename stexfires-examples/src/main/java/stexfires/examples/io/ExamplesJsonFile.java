@@ -15,9 +15,9 @@ import stexfires.util.supplier.SequenceSupplier;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.function.LongSupplier;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;

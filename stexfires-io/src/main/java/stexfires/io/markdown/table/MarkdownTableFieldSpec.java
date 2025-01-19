@@ -3,7 +3,7 @@ package stexfires.io.markdown.table;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.Alignment;
 
-import java.util.Objects;
+import java.util.*;
 
 import static stexfires.io.markdown.table.MarkdownTableFileSpec.COLUMN_MIN_WIDTH;
 

@@ -5,9 +5,9 @@ import stexfires.util.Strings;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection", "UnnecessaryUnicodeEscape"})
 public final class ExamplesStrings {

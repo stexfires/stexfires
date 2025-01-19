@@ -15,8 +15,8 @@ import stexfires.util.LineSeparator;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Locale;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber"})
 public final class ExamplesCombinedFile {

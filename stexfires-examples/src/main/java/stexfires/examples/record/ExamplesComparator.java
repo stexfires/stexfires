@@ -8,8 +8,8 @@ import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.SortNulls;
 
-import java.util.Comparator;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesComparator {

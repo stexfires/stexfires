@@ -9,7 +9,7 @@ import stexfires.record.consumer.UncheckedConsumerException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.*;
 
 import static stexfires.io.config.ConfigFileSpec.*;
 

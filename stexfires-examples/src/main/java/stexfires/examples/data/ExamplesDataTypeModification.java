@@ -17,9 +17,8 @@ import stexfires.record.producer.ConstantProducer;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
 public final class ExamplesDataTypeModification {

@@ -2,10 +2,7 @@ package stexfires.examples.record;
 
 import stexfires.record.*;
 import stexfires.record.filter.CategoryFilter;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.record.mapper.*;
 import stexfires.record.mapper.field.AddPrefixFieldTextMapper;
 import stexfires.record.mapper.impl.ToValueFieldRecordMapper;
@@ -17,7 +14,7 @@ import stexfires.util.supplier.Suppliers;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesMapper {

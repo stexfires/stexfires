@@ -2,8 +2,8 @@ package stexfires.record.message;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

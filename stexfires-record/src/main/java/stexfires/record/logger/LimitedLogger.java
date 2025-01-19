@@ -2,8 +2,8 @@ package stexfires.record.logger;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 /**
  * @since 0.1

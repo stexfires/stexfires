@@ -4,10 +4,9 @@ import stexfires.record.TextRecord;
 import stexfires.util.supplier.PercentageDistributionSupplier;
 import stexfires.util.supplier.RepeatingPatternSupplier;
 
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
 
 /**
  * @since 0.1

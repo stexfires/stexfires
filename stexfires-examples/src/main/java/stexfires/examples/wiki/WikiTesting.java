@@ -22,8 +22,7 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class WikiTesting {

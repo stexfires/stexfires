@@ -8,8 +8,7 @@ import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.message.RecordMessage;
 
 import java.nio.file.Path;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.*;
 
 /**

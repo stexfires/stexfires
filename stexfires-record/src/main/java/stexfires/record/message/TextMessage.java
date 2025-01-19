@@ -1,14 +1,11 @@
 package stexfires.record.message;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.KeyRecord;
-import stexfires.record.TextField;
-import stexfires.record.TextRecord;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.mapper.field.FieldTextMapper;
 
-import java.util.Objects;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

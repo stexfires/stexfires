@@ -1,6 +1,6 @@
 package stexfires.record;
 
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * The text of a key field must not be null.

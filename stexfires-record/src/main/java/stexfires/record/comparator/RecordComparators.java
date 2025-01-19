@@ -5,9 +5,8 @@ import stexfires.record.*;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.SortNulls;
 
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.*;
 
 import static java.util.Comparator.*;
 

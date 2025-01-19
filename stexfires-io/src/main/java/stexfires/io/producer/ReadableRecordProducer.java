@@ -7,7 +7,7 @@ import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @since 0.1

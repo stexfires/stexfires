@@ -5,7 +5,7 @@ import stexfires.record.message.NotNullRecordMessage;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

@@ -3,8 +3,7 @@ package stexfires.io.markdown.list;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.Strings;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * An enum of Markdown list markers.

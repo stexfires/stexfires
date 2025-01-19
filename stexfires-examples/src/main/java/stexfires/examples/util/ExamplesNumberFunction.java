@@ -18,7 +18,7 @@ import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesNumberFunction {

@@ -1,6 +1,6 @@
 package stexfires.io.json;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

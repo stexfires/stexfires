@@ -5,9 +5,8 @@ import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.mapper.field.IdentityFieldTextMapper;
 
 import java.util.*;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

@@ -1,14 +1,11 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.DataTypeConverterException;
-import stexfires.data.MappingDataTypeFormatter;
-import stexfires.data.MappingDataTypePair;
-import stexfires.data.MappingDataTypeParser;
+import stexfires.data.*;
 
 import java.nio.charset.CodingErrorAction;
-import java.util.List;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
 public final class ExamplesMappingDataType {

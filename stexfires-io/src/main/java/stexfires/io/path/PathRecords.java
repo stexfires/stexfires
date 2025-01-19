@@ -4,13 +4,10 @@ import stexfires.record.TextRecord;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Stream;
+import java.nio.file.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

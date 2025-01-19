@@ -8,7 +8,7 @@ import stexfires.util.CharsetCoding;
 import stexfires.util.LineSeparator;
 
 import java.io.BufferedWriter;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

@@ -3,14 +3,11 @@ package stexfires.io.producer;
 import stexfires.io.RecordFileSpec;
 import stexfires.record.TextRecord;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

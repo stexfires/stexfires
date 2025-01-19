@@ -7,13 +7,9 @@ import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

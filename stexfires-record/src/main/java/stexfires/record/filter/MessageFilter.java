@@ -5,10 +5,8 @@ import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 import stexfires.util.function.StringPredicates;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

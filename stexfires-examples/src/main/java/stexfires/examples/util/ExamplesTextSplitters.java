@@ -3,11 +3,10 @@ package stexfires.examples.util;
 import stexfires.util.Strings;
 import stexfires.util.TextSplitters;
 
-import java.util.Locale;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedLineSeparator", "SpellCheckingInspection"})
 public final class ExamplesTextSplitters {

@@ -1,10 +1,7 @@
 package stexfires.examples.record;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.TextRecord;
-import stexfires.record.TextRecordStreams;
-import stexfires.record.TextRecords;
-import stexfires.record.ValueRecord;
+import stexfires.record.*;
 import stexfires.record.impl.*;
 import stexfires.record.producer.*;
 import stexfires.util.Strings;

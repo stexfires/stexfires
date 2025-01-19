@@ -3,7 +3,7 @@ package stexfires.io.container;
 import stexfires.record.TextRecord;
 import stexfires.record.message.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @since 0.1

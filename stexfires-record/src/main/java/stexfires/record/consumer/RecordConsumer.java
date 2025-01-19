@@ -2,8 +2,8 @@ package stexfires.record.consumer;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * A RecordConsumer consumes a {@link stexfires.record.TextRecord}.

@@ -8,8 +8,7 @@ import stexfires.record.consumer.UncheckedConsumerException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

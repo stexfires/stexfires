@@ -1,10 +1,7 @@
 package stexfires.examples.util;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.util.CodePoint;
-import stexfires.util.StringComparators;
-import stexfires.util.Strings;
-import stexfires.util.TextSplitters;
+import stexfires.util.*;
 import stexfires.util.function.ByteArrayFunctions;
 import stexfires.util.function.StringPredicates;
 import stexfires.util.function.StringUnaryOperators;
@@ -13,11 +10,8 @@ import stexfires.util.supplier.SequenceSupplier;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "HardcodedLineSeparator", "SpellCheckingInspection", "MagicNumber", "UnnecessaryUnicodeEscape"})
 public final class ExamplesStringFunction {

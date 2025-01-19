@@ -13,13 +13,9 @@ import stexfires.util.function.BooleanUnaryOperator;
 import stexfires.util.function.NumberPredicates;
 import stexfires.util.function.StringPredicates;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesFilter {

@@ -11,7 +11,7 @@ import stexfires.util.function.StringUnaryOperators;
 import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.Month;
-import java.util.Locale;
+import java.util.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr"})
 public final class ExamplesEnumDataType {

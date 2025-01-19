@@ -1,10 +1,7 @@
 package stexfires.examples.io;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.CollectionDataTypeFormatter;
-import stexfires.data.CollectionDataTypeParser;
-import stexfires.data.StringDataTypeFormatter;
-import stexfires.data.StringDataTypeParser;
+import stexfires.data.*;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.io.RecordIOStreams;
 import stexfires.io.consumer.StringWritableRecordConsumer;
@@ -29,10 +26,8 @@ import stexfires.util.function.StringUnaryOperators;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 import static stexfires.examples.record.RecordSystemOutUtil.*;
 import static stexfires.io.RecordIOStreams.*;

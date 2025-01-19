@@ -7,7 +7,7 @@ import stexfires.record.TextRecord;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 /**
  * @since 0.1

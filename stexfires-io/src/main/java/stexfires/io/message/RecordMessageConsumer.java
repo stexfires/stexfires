@@ -9,8 +9,8 @@ import stexfires.util.function.StringPredicates;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

@@ -2,7 +2,7 @@ package stexfires.examples.javatest;
 
 import java.text.CompactNumberFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.*;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class CompactNumberFormatTest {

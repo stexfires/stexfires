@@ -5,7 +5,7 @@ import stexfires.record.message.CategoryMessage;
 import stexfires.record.message.ClassNameMessage;
 import stexfires.record.message.RecordIdMessage;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @since 0.1

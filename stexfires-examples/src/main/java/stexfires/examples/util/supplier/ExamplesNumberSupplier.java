@@ -2,16 +2,10 @@ package stexfires.examples.util.supplier;
 
 import stexfires.util.supplier.RandomNumberSuppliers;
 
-import java.util.Random;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.random.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesNumberSupplier {

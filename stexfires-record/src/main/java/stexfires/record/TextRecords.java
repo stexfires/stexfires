@@ -1,17 +1,12 @@
 package stexfires.record;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.record.impl.EmptyRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.TwoFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
+import stexfires.record.impl.*;
 import stexfires.util.supplier.SequenceSupplier;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * This class consists of {@code static} utility methods

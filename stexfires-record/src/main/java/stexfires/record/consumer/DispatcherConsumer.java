@@ -4,12 +4,8 @@ import org.jspecify.annotations.Nullable;
 import stexfires.record.TextRecord;
 import stexfires.record.filter.RecordFilter;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

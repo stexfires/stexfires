@@ -6,10 +6,8 @@ import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Strings;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

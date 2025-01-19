@@ -2,9 +2,9 @@ package stexfires.record.producer;
 
 import stexfires.record.TextRecord;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * A RecordProducer produces a {@link Stream} of {@link stexfires.record.TextRecord}s.

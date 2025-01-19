@@ -1,30 +1,20 @@
 package stexfires.examples.data;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.data.DataType;
-import stexfires.data.DataTypes;
-import stexfires.data.NumberDataTypeFormatter;
-import stexfires.data.TimeDataTypeFormatter;
+import stexfires.data.*;
 import stexfires.examples.record.RecordSystemOutUtil;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecordStreams;
 import stexfires.record.ValueRecord;
 import stexfires.record.generator.*;
-import stexfires.util.supplier.DateTimeSuppliers;
-import stexfires.util.supplier.PercentageDistributionSupplier;
-import stexfires.util.supplier.RandomNumberSuppliers;
-import stexfires.util.supplier.Suppliers;
+import stexfires.util.supplier.*;
 
 import java.text.NumberFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 @SuppressWarnings({"MagicNumber", "UseOfSystemOutOrSystemErr"})
 public final class ExamplesDataTypeGenerator {

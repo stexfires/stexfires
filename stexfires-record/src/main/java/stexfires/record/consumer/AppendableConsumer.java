@@ -4,7 +4,7 @@ import stexfires.record.TextRecord;
 import stexfires.record.message.RecordMessage;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

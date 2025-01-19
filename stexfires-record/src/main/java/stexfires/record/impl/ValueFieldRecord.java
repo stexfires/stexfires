@@ -5,9 +5,8 @@ import stexfires.record.TextField;
 import stexfires.record.ValueRecord;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

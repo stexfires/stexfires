@@ -3,10 +3,9 @@ package stexfires.record.filter;
 import stexfires.record.TextRecord;
 import stexfires.util.function.BooleanUnaryOperator;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * A RecordFilter is a filter (boolean-valued function) for a {@link stexfires.record.TextRecord}.

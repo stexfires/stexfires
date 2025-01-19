@@ -5,8 +5,8 @@ import stexfires.record.TextRecord;
 import stexfires.record.message.CompareMessageBuilder;
 import stexfires.record.message.NotNullRecordMessage;
 
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * Returns a stream consisting of the distinct records of the record stream.

@@ -6,7 +6,7 @@ import stexfires.record.mapper.RecordMapper;
 import stexfires.record.message.NotNullRecordMessage;
 import stexfires.record.message.RecordMessage;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @since 0.1

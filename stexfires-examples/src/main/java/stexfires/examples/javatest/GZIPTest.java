@@ -1,14 +1,9 @@
 package stexfires.examples.javatest;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+import java.util.*;
+import java.util.zip.*;
 
 @SuppressWarnings({"UseOfSystemOutOrSystemErr", "MethodCanBeVariableArityMethod", "MagicNumber", "UnnecessaryUnicodeEscape"})
 public final class GZIPTest {

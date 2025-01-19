@@ -7,8 +7,8 @@ import stexfires.record.producer.ProducerException;
 import stexfires.record.producer.UncheckedProducerException;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1
