@@ -9,7 +9,8 @@ import java.util.*;
 /**
  * @since 0.1
  */
-public class CollectionConsumer<T extends TextRecord, R extends Collection<@Nullable String>> implements RecordConsumer<T> {
+public class CollectionConsumer<T extends TextRecord, R extends Collection<@Nullable String>>
+        implements RecordConsumer<T> {
 
     protected final Object lock = new Object();
 

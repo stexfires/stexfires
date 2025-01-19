@@ -30,7 +30,8 @@ public record MarkdownListFileSpec(
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         boolean consumerSkipNullValue
-) implements ReadableRecordFileSpec<ValueRecord, MarkdownListProducer>, WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
+) implements ReadableRecordFileSpec<ValueRecord, MarkdownListProducer>,
+             WritableRecordFileSpec<ValueRecord, MarkdownListConsumer> {
 
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     /**

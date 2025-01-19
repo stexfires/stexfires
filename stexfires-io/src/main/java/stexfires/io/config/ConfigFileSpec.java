@@ -23,7 +23,8 @@ public record ConfigFileSpec(
         boolean consumerSeparateCategoriesByLine,
         boolean consumerSeparateByWhitespace,
         @Nullable String consumerCommentLinesBefore
-) implements ReadableRecordFileSpec<KeyValueCommentRecord, ConfigProducer>, WritableRecordFileSpec<KeyValueCommentRecord, ConfigConsumer> {
+) implements ReadableRecordFileSpec<KeyValueCommentRecord, ConfigProducer>,
+             WritableRecordFileSpec<KeyValueCommentRecord, ConfigConsumer> {
 
     public static final String DEFAULT_VALUE_DELIMITER = "=";
     public static final String DEFAULT_COMMENT_LINE_PREFIX = ";";

@@ -24,7 +24,8 @@ public record PropertiesFileSpec(
         boolean consumerDateComment,
         boolean consumerCategoryAsKeyPrefix,
         String consumerKeyPrefixDelimiter
-) implements ReadableRecordFileSpec<KeyValueRecord, PropertiesProducer>, WritableRecordFileSpec<KeyValueRecord, PropertiesConsumer> {
+) implements ReadableRecordFileSpec<KeyValueRecord, PropertiesProducer>,
+             WritableRecordFileSpec<KeyValueRecord, PropertiesConsumer> {
 
     public static final String DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT = "";
     public static final boolean DEFAULT_PRODUCER_COMMENT_AS_CATEGORY = false;

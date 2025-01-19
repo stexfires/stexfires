@@ -28,7 +28,8 @@ public record SingleValueFileSpec(
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         boolean consumerSkipNullValueLines
-) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>, WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
+) implements ReadableRecordFileSpec<ValueRecord, SingleValueProducer>,
+             WritableRecordFileSpec<ValueRecord, SingleValueConsumer> {
 
     public static final @Nullable String DEFAULT_LINE_PREFIX = null;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;

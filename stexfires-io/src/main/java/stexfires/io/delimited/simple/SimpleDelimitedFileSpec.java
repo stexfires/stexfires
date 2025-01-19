@@ -28,7 +28,8 @@ public record SimpleDelimitedFileSpec(
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         List<SimpleDelimitedFieldSpec> fieldSpecs
-) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>, WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
+) implements ReadableRecordFileSpec<TextRecord, SimpleDelimitedProducer>,
+             WritableRecordFileSpec<TextRecord, SimpleDelimitedConsumer> {
 
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
     /**

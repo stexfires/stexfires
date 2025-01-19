@@ -11,7 +11,8 @@ import java.util.*;
 /**
  * @since 0.1
  */
-public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord> implements RecordMapper<T, KeyValueCommentFieldsRecord> {
+public final class ToKeyValueCommentFieldsRecordMapper<T extends TextRecord>
+        implements RecordMapper<T, KeyValueCommentFieldsRecord> {
 
     private final NotNullRecordMessage<? super T> keyMessage;
     private final RecordMessage<? super T> valueMessage;

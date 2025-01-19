@@ -30,7 +30,8 @@ public record FixedWidthFileSpec(
         @Nullable String consumerTextBefore,
         @Nullable String consumerTextAfter,
         List<FixedWidthFieldSpec> fieldSpecs
-) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>, WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
+) implements ReadableRecordFileSpec<TextRecord, FixedWidthProducer>,
+             WritableRecordFileSpec<TextRecord, FixedWidthConsumer> {
 
     public static final boolean DEFAULT_SEPARATE_RECORDS_BY_LINE_SEPARATOR = true;
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
