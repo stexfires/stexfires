@@ -5,11 +5,9 @@ import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.util.Alignment;
 import stexfires.util.CodePoint;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1

@@ -1,5 +1,6 @@
 package stexfires.app.character;
 
+import org.jspecify.annotations.Nullable;
 import stexfires.io.RecordIOStreams;
 import stexfires.io.html.table.HtmlTableFieldSpec;
 import stexfires.io.html.table.HtmlTableFileSpec;
@@ -16,16 +17,14 @@ import stexfires.util.function.StringPredicates;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
+import java.util.*;
+import java.util.stream.*;
+
+import static java.lang.Character.*;
 
 /**
  * @since 0.1
  */
-@SuppressWarnings("HardcodedLineSeparator")
 public final class CharacterInformationFiles {
 
     public static final String ALTERNATIVE_VALUE = "";
@@ -35,7 +34,6 @@ public final class CharacterInformationFiles {
     private CharacterInformationFiles() {
     }
 
-    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "OverlyBroadThrowsClause"})
     private static void writeMarkdownFile(File outputFile,
                                           String textBefore,
                                           List<MarkdownTableFieldSpec> fieldSpecs,
@@ -70,7 +68,7 @@ public final class CharacterInformationFiles {
         }
     }
 
-    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "OverlyBroadThrowsClause", "SpellCheckingInspection"})
+    @SuppressWarnings({"HardcodedLineSeparator", "SpellCheckingInspection"})
     private static void writeHtmlFile(File outputFile,
                                       String textBefore,
                                       List<HtmlTableFieldSpec> fieldSpecs,
@@ -166,15 +164,16 @@ public final class CharacterInformationFiles {
         writeHtmlFile(new File(outputDirectory, fileName + ".html"), textBefore, fieldSpecsHtml, recordFilter, recordComparator);
     }
 
-    record UnicodeScriptAndBlock(Character.UnicodeScript unicodeScript, Character.UnicodeBlock unicodeBlock) {
+    record UnicodeScriptAndBlock(UnicodeScript unicodeScript, @Nullable UnicodeBlock unicodeBlock) {
+
+        private static final int CAPACITY_UNICODE_SCRIPT_AND_BLOCK = 128;
 
         static UnicodeScriptAndBlock ofCodePoint(int codePoint) {
-            return new UnicodeScriptAndBlock(Character.UnicodeScript.of(codePoint), Character.UnicodeBlock.of(codePoint));
+            return new UnicodeScriptAndBlock(UnicodeScript.of(codePoint), UnicodeBlock.of(codePoint));
         }
 
-        @SuppressWarnings({"ConstantValue", "FoldExpressionIntoStream"})
         String asString() {
-            StringBuilder b = new StringBuilder();
+            StringBuilder b = new StringBuilder(CAPACITY_UNICODE_SCRIPT_AND_BLOCK);
             if ((unicodeBlock != null) &&
                     ("COMMON".equals(unicodeScript.toString()) ||
                             "INHERITED".equals(unicodeScript.toString()) ||
@@ -206,7 +205,7 @@ public final class CharacterInformationFiles {
                  .forEach(System.out::println);
     }
 
-    @SuppressWarnings({"UseOfSystemOutOrSystemErr", "SpellCheckingInspection"})
+    @SuppressWarnings("SpellCheckingInspection")
     public static void main(String... args) {
         if (args.length != 1) {
             throw new IllegalArgumentException("Missing valid output directory parameter!");
@@ -215,14 +214,6 @@ public final class CharacterInformationFiles {
         if (!outputDirectory.exists() || !outputDirectory.isDirectory()) {
             throw new IllegalArgumentException("Missing valid output directory parameter! " + outputDirectory);
         }
-
-        var fieldSpecs = Arrays.stream(CodePointRecordFields.values())
-                               .limit(8)
-                               .map(field -> new MarkdownTableFieldSpec(
-                                       field.fieldName(),
-                                       field.minWidth(),
-                                       field.alignment()))
-                               .toList();
 
         try {
             // LETTER_LEFT_TO_RIGHT

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests for {@link CodePointRecordFields}.
  */
-@SuppressWarnings({"MagicNumber", "DataFlowIssue"})
+@SuppressWarnings("MagicNumber")
 final class CodePointRecordFieldsTest {
 
     /**
@@ -20,8 +20,11 @@ final class CodePointRecordFieldsTest {
     void generateCodePointRecord_throws() {
         int codePointValue = 0;
         CodePoint codePoint = new CodePoint(codePointValue);
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(null, ""));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(codePoint, null));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecord(null, null));
     }
 
@@ -162,7 +165,7 @@ final class CodePointRecordFieldsTest {
      */
     @Test
     void generateCodePointRecord_127794() {
-        int codePointValue = 127794;
+        int codePointValue = 127_794;
         CodePoint codePoint = new CodePoint(codePointValue);
         assertEquals("OTHER_SYMBOL", CodePointRecordFields.generateCodePointRecord(codePoint, "").category());
         assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecord(codePoint, "").recordId());
@@ -200,6 +203,7 @@ final class CodePointRecordFieldsTest {
         assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(1, 0, ""));
         assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(-1, 1, ""));
         assertThrows(IllegalArgumentException.class, () -> CodePointRecordFields.generateCodePointRecordStream(0, Integer.MAX_VALUE, ""));
+        // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> CodePointRecordFields.generateCodePointRecordStream(0, 1, null));
 
         // count
@@ -213,10 +217,10 @@ final class CodePointRecordFieldsTest {
         for (int codePointValue = 0; codePointValue < 256; codePointValue++) {
             assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue, "").findFirst().orElseGet(TextRecords::empty).recordId());
             assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 2, "").findFirst().orElseGet(TextRecords::empty).recordId());
-            assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 1000, "").findFirst().orElseGet(TextRecords::empty).recordId());
+            assertEquals(codePointValue, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 1_000, "").findFirst().orElseGet(TextRecords::empty).recordId());
 
             assertEquals(codePointValue + 2, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 2, "").skip(2).findFirst().orElseGet(TextRecords::empty).recordId());
-            assertEquals(codePointValue + 1000, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 1000, "").skip(1000).findFirst().orElseGet(TextRecords::empty).recordId());
+            assertEquals(codePointValue + 1_000, CodePointRecordFields.generateCodePointRecordStream(codePointValue, codePointValue + 1_000, "").skip(1_000).findFirst().orElseGet(TextRecords::empty).recordId());
         }
     }
 
