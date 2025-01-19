@@ -13,7 +13,9 @@ import stexfires.record.consumer.RecordConsumer;
 import stexfires.record.impl.KeyValueFieldsRecord;
 import stexfires.record.impl.ValueFieldRecord;
 import stexfires.record.producer.ProducerException;
-import stexfires.util.*;
+import stexfires.util.CharsetCoding;
+import stexfires.util.CodePoint;
+import stexfires.util.LineSeparator;
 
 import java.io.*;
 import java.nio.charset.Charset;
