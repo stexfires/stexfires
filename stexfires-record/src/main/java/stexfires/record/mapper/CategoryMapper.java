@@ -107,7 +107,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
         Objects.requireNonNull(fieldTextMapper);
         return new CategoryMapper<>(record -> {
             TextField field = record.fieldAt(index);
-            return field != null ? fieldTextMapper.mapToText(field) : other;
+            return (field != null) ? fieldTextMapper.mapToText(field) : other;
         });
     }
 

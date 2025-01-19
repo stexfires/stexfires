@@ -47,7 +47,7 @@ public enum MarkdownListMarker {
     }
 
     public static Optional<SplitResult> split(@Nullable String line) {
-        if (line == null || line.isEmpty()) {
+        if ((line == null) || line.isEmpty()) {
             return Optional.empty();
         }
 
@@ -86,9 +86,9 @@ public enum MarkdownListMarker {
             }
 
             String value = Strings.EMPTY;
-            if (line.length() > markerIndex + 1) {
+            if (line.length() > (markerIndex + 1)) {
                 if (Character.isWhitespace(line.charAt(markerIndex + 1))) {
-                    if (line.length() > markerIndex + 2) {
+                    if (line.length() > (markerIndex + 2)) {
                         value = line.substring(markerIndex + 2);
                     }
                 } else {
@@ -119,7 +119,7 @@ public enum MarkdownListMarker {
     }
 
     public final String linePrefix(long lineNumber) {
-        if (this.ordered) {
+        if (ordered) {
             return lineNumber + markerWithSeparator();
         } else {
             return markerWithSeparator();

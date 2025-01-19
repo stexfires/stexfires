@@ -24,8 +24,8 @@ public final class StringWritableRecordConsumer<CTR extends TextRecord, WRC exte
         Objects.requireNonNull(writableRecordFileSpec);
 
         this.writableRecordFileSpec = writableRecordFileSpec;
-        this.stringWriter = new StringWriter();
-        this.writableRecordConsumer = writableRecordFileSpec.consumer(new BufferedWriter(stringWriter));
+        stringWriter = new StringWriter();
+        writableRecordConsumer = writableRecordFileSpec.consumer(new BufferedWriter(stringWriter));
     }
 
     @Override

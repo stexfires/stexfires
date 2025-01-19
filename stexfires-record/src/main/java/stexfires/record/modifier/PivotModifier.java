@@ -126,7 +126,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
                 r -> Stream.of(r.textAt(keyIndex)),
-                1 + recordsPerKey * textIndexes.size(),
+                1 + (recordsPerKey * textIndexes.size()),
                 nullText,
                 textIndexes);
     }
@@ -148,7 +148,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
                                            list.stream()
                                                .filter(r -> Objects.equals(vc, textClassificationFunction.apply(r)))
                                                .map(textFunction)
-                                               .map(v -> v == null ? nullText : v)
+                                               .map(v -> (v == null) ? nullText : v)
                                                .findFirst()
                                                .orElse(nullText));
         return list ->

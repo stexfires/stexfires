@@ -31,7 +31,7 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
 
     static String convertHtml(@Nullable String value) {
         String convertedValue;
-        if (value == null || value.isEmpty()) {
+        if ((value == null) || value.isEmpty()) {
             convertedValue = NON_BREAKING_SPACE;
         } else {
             convertedValue = value.replace("&", "&amp;")

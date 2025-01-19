@@ -74,7 +74,7 @@ public record TextField(int index, int maxIndex, @Nullable String text)
 
     public String orElse(String nonNullText) {
         Objects.requireNonNull(nonNullText);
-        return text != null ? text : nonNullText;
+        return (text != null) ? text : nonNullText;
     }
 
     public String orElseThrow() throws NullPointerException {
@@ -97,11 +97,11 @@ public record TextField(int index, int maxIndex, @Nullable String text)
     }
 
     public boolean isEmpty() {
-        return text != null && text.isEmpty();
+        return (text != null) && text.isEmpty();
     }
 
     public boolean isNullOrEmpty() {
-        return text == null || text.isEmpty();
+        return (text == null) || text.isEmpty();
     }
 
     /**
@@ -109,7 +109,7 @@ public record TextField(int index, int maxIndex, @Nullable String text)
      * @see java.lang.String#length()
      */
     public int length() {
-        return text != null ? text.length() : 0;
+        return (text != null) ? text.length() : 0;
     }
 
     public Stream<String> stream() {

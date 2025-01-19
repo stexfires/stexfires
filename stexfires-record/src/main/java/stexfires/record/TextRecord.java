@@ -160,7 +160,7 @@ public interface TextRecord {
      */
     default OptionalLong recordIdAsOptionalLong() {
         Long recordId = recordId();
-        return recordId != null ? OptionalLong.of(recordId) : OptionalLong.empty();
+        return (recordId != null) ? OptionalLong.of(recordId) : OptionalLong.empty();
     }
 
     /**
@@ -181,7 +181,7 @@ public interface TextRecord {
      */
     default LongStream recordIdAsLongStream() {
         Long recordId = recordId();
-        return recordId != null ? LongStream.of(recordId) : LongStream.empty();
+        return (recordId != null) ? LongStream.of(recordId) : LongStream.empty();
     }
 
     /**
@@ -192,7 +192,7 @@ public interface TextRecord {
      */
     default @Nullable String recordIdAsString() {
         Long recordId = recordId();
-        return recordId != null ? recordId.toString() : null;
+        return (recordId != null) ? recordId.toString() : null;
     }
 
     /**
@@ -281,7 +281,7 @@ public interface TextRecord {
     default String textAtOrElse(int index, String otherText) {
         Objects.requireNonNull(otherText);
         String textAt = textAt(index);
-        return textAt != null ? textAt : otherText;
+        return (textAt != null) ? textAt : otherText;
     }
 
     default Optional<String> textAtAsOptional(int index) {

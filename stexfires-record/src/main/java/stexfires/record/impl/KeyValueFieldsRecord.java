@@ -122,7 +122,7 @@ public record KeyValueFieldsRecord(@Nullable String category,
 
     @Override
     public boolean isValidIndex(int index) {
-        return index == KEY_INDEX || index == VALUE_INDEX;
+        return (index == KEY_INDEX) || (index == VALUE_INDEX);
     }
 
     @Override

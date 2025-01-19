@@ -27,8 +27,9 @@ public class UncheckedConsumerException extends RuntimeException {
             throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         Throwable cause = super.getCause();
-        if (!(cause instanceof ConsumerException))
+        if (!(cause instanceof ConsumerException)) {
             throw new InvalidObjectException("Cause must be a ConsumerException");
+        }
     }
 
 }

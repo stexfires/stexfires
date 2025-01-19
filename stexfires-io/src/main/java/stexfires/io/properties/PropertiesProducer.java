@@ -45,25 +45,25 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
             character = line.charAt(i);
 
             if ((keyStartIndex == ILLEGAL_INDEX)
-                    && (character != ' ' && character != '\t' && character != '\f')) {
+                    && ((character != ' ') && (character != '\t') && (character != '\f'))) {
                 // Find start of key
                 keyStartIndex = i;
             }
             if (keyEndIndex == ILLEGAL_INDEX) {
                 // Find end of key
                 if (!escapeFound && (keyStartIndex != ILLEGAL_INDEX)
-                        && (character == '=' || character == ':'
-                        || character == ' ' || character == '\t' || character == '\f')) {
+                        && ((character == '=') || (character == ':')
+                        || (character == ' ') || (character == '\t') || (character == '\f'))) {
                     keyEndIndex = i;
-                    if (character == '=' || character == ':') {
+                    if ((character == '=') || (character == ':')) {
                         delimiterFound = true;
                     }
                 }
                 escapeFound = (character == '\\') && !escapeFound;
             } else {
                 // Find start of value
-                if (character != ' ' && character != '\t' && character != '\f') {
-                    if (!delimiterFound && (character == '=' || character == ':')) {
+                if ((character != ' ') && (character != '\t') && (character != '\f')) {
+                    if (!delimiterFound && ((character == '=') || (character == ':'))) {
                         delimiterFound = true;
                     } else {
                         valueStartIndex = i;
@@ -104,7 +104,7 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
             char character = encodedStr.charAt(i);
 
             if (unicodeStartIndex != ILLEGAL_INDEX) {
-                if (unicodeStartIndex + UNICODE_ENCODE_LENGTH - 1 == i) {
+                if (((unicodeStartIndex + UNICODE_ENCODE_LENGTH) - 1) == i) {
                     String unicodeSequence = encodedStr.substring(unicodeStartIndex, unicodeStartIndex + UNICODE_ENCODE_LENGTH);
                     try {
                         b.appendCodePoint(Integer.parseInt(unicodeSequence, UNICODE_ENCODE_RADIX));
@@ -213,7 +213,7 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
                         character = currentLine.charAt(i);
 
                         if (!multiLine && (keyStartIndex == ILLEGAL_INDEX)
-                                && (character == '#' || character == '!')) {
+                                && ((character == '#') || (character == '!'))) {
                             commentFound = true;
                             // the comment starts after the comment character and extends to the end of the line
                             currentComment = currentLine.substring(i + 1);
@@ -222,7 +222,7 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
 
                         // ignore leading whitespace (characters space, tab and form feed)
                         if ((keyStartIndex == ILLEGAL_INDEX)
-                                && (character != ' ' && character != '\t' && character != '\f')) {
+                                && ((character != ' ') && (character != '\t') && (character != '\f'))) {
                             keyStartIndex = i;
                         }
 

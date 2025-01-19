@@ -18,7 +18,7 @@ public class LimitedLogger<T extends TextRecord> implements RecordLogger<T> {
         Objects.requireNonNull(recordLogger);
         this.recordLogger = recordLogger;
         this.limit = limit;
-        this.counter = new AtomicInteger(0);
+        counter = new AtomicInteger(0);
     }
 
     @Override

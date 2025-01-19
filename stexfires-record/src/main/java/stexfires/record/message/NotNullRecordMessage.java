@@ -36,7 +36,7 @@ public interface NotNullRecordMessage<T extends TextRecord> extends RecordMessag
         Objects.requireNonNull(nullValue);
         return record -> {
             String message = recordMessage.createMessage(record);
-            return message == null ? nullValue : message;
+            return (message == null) ? nullValue : message;
         };
     }
 
@@ -46,7 +46,7 @@ public interface NotNullRecordMessage<T extends TextRecord> extends RecordMessag
         Objects.requireNonNull(nullValue);
         return record -> {
             String message = function.apply(record);
-            return message == null ? nullValue : message;
+            return (message == null) ? nullValue : message;
         };
     }
 

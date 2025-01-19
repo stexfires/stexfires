@@ -76,7 +76,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         Objects.requireNonNull(fieldText);
 
         String jsonValue;
-        if (type == STRING_UNESCAPED || type == STRING_ESCAPED) {
+        if ((type == STRING_UNESCAPED) || (type == STRING_ESCAPED)) {
             jsonValue = buildJsonString(fieldText);
         } else if (type == ARRAY_ELEMENTS) {
             jsonValue = buildJsonArray(fieldText);
@@ -180,7 +180,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
 
         // write text before
         if (fileSpec.consumerTextBefore() != null) {
-            //noinspection DataFlowIssue
+            // noinspection DataFlowIssue
             writeString(fileSpec.consumerTextBefore());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }
@@ -288,7 +288,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
 
         // write text after
         if (fileSpec.consumerTextAfter() != null) {
-            //noinspection DataFlowIssue
+            // noinspection DataFlowIssue
             writeString(fileSpec.consumerTextAfter());
             writeLineSeparator(fileSpec.consumerLineSeparator());
         }

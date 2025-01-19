@@ -94,7 +94,7 @@ public final class JsonUtil {
                         case 'r' -> unescapedJsonString.append('\r');
                         case 't' -> unescapedJsonString.append('\t');
                         case 'u' -> {
-                            if (i + 4 < escapedJsonString.length()) {
+                            if ((i + 4) < escapedJsonString.length()) {
                                 String hex = escapedJsonString.substring(i + 1, i + 5);
                                 try {
                                     int codePoint = Integer.parseInt(hex, 16);

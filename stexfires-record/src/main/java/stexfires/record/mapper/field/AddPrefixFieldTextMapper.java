@@ -19,7 +19,7 @@ public class AddPrefixFieldTextMapper implements FieldTextMapper {
     @Override
     public final String mapToText(TextField field) {
         String text = field.text();
-        return (text == null) ? prefix : prefix + text;
+        return (text == null) ? prefix : (prefix + text);
     }
 
 }

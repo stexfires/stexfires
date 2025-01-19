@@ -76,7 +76,7 @@ public final class ExamplesFieldTextMapper {
         System.out.println("-showIndexedFieldValueMapper---");
 
         printMapper("constructor", new IndexedFieldTextMapper(
-                i -> i == 1 ? Optional.of(new ConstantFieldTextMapper("index 1")) : Optional.empty(),
+                i -> (i == 1) ? Optional.of(new ConstantFieldTextMapper("index 1")) : Optional.empty(),
                 new ConstantFieldTextMapper("else")
         ));
 

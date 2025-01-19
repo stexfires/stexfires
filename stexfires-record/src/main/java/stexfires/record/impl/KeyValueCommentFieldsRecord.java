@@ -144,7 +144,7 @@ public record KeyValueCommentFieldsRecord(@Nullable String category,
 
     @Override
     public boolean isValidIndex(int index) {
-        return index == KEY_INDEX || index == VALUE_INDEX || index == COMMENT_INDEX;
+        return (index == KEY_INDEX) || (index == VALUE_INDEX) || (index == COMMENT_INDEX);
     }
 
     @Override

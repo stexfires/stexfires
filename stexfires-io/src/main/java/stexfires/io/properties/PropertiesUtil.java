@@ -103,7 +103,7 @@ public final class PropertiesUtil {
         RecordConsumer<T> recordConsumer = (T record) -> {
             String key = keyMessage.createMessage(record);
             String value = valueMessage.createMessage(record);
-            if (!key.isEmpty() && value != null) {
+            if (!key.isEmpty() && (value != null)) {
                 properties.setProperty(key, value);
             }
         };
@@ -117,7 +117,7 @@ public final class PropertiesUtil {
         RecordConsumer<T> recordConsumer = (T record) -> {
             String key = record.key();
             String value = record.value();
-            if (!key.isEmpty() && value != null) {
+            if (!key.isEmpty() && (value != null)) {
                 properties.setProperty(key, value);
             }
         };

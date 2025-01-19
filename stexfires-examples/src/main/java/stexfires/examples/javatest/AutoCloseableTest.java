@@ -88,21 +88,24 @@ public final class AutoCloseableTest {
             this.throwRuntimeExceptionType = throwRuntimeExceptionType;
 
             System.out.println("constructor " + throwRuntimeExceptionType);
-            if (throwRuntimeExceptionType == ThrowRuntimeExceptionType.CONSTRUCTOR)
+            if (throwRuntimeExceptionType == ThrowRuntimeExceptionType.CONSTRUCTOR) {
                 throw new RuntimeException("Ex: 'constructor'");
+            }
         }
 
         private void method() {
             System.out.println("method " + throwRuntimeExceptionType);
-            if (throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD || throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD_AND_CLOSE)
+            if ((throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD) || (throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD_AND_CLOSE)) {
                 throw new RuntimeException("Ex: 'method'");
+            }
         }
 
         @Override
         public void close() {
             System.out.println("close " + throwRuntimeExceptionType);
-            if (throwRuntimeExceptionType == ThrowRuntimeExceptionType.CLOSE || throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD_AND_CLOSE)
+            if ((throwRuntimeExceptionType == ThrowRuntimeExceptionType.CLOSE) || (throwRuntimeExceptionType == ThrowRuntimeExceptionType.METHOD_AND_CLOSE)) {
                 throw new RuntimeException("Ex: 'close'");
+            }
         }
 
     }

@@ -49,7 +49,7 @@ public final class RecordContainerLarge implements RecordContainer {
             String sizeString = FIELD_SIZE.getText(packedTextRecord);
 
             Long recordId = null;
-            if (recordIdString != null && !recordIdString.isBlank()) {
+            if ((recordIdString != null) && !recordIdString.isBlank()) {
                 try {
                     recordId = Long.valueOf(recordIdString);
                 } catch (NumberFormatException e) {
@@ -58,10 +58,10 @@ public final class RecordContainerLarge implements RecordContainer {
             }
 
             Integer size = null;
-            if (sizeString != null && !sizeString.isBlank()) {
+            if ((sizeString != null) && !sizeString.isBlank()) {
                 try {
                     size = Integer.valueOf(sizeString);
-                    if (packedTextRecord.size() != CONTAINER_FIELDS.size() + size) {
+                    if (packedTextRecord.size() != (CONTAINER_FIELDS.size() + size)) {
                         errorMessage = "Wrong size! " + packedTextRecord.size();
                     }
                 } catch (NumberFormatException e) {

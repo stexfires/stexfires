@@ -99,7 +99,7 @@ public class DispatcherLogger<T extends TextRecord> implements RecordLogger<T> {
         Objects.requireNonNull(recordLoggers);
         var recordFiltersCopy = List.copyOf(recordFilters);
         BiPredicate<Integer, T> predicate = (index, record) ->
-                index < recordFiltersCopy.size() && recordFiltersCopy.get(index).isValid(record);
+                (index < recordFiltersCopy.size()) && recordFiltersCopy.get(index).isValid(record);
         return new DispatcherLogger<>(predicate, recordLoggers);
     }
 

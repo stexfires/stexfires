@@ -15,7 +15,7 @@ enum ReadableProducerState {
     private static void validateStates(ReadableProducerState currentState, ReadableProducerState newState) throws IllegalStateException {
         Objects.requireNonNull(currentState);
         Objects.requireNonNull(newState);
-        if (currentState.ordinal() + 1 != newState.ordinal()) {
+        if ((currentState.ordinal() + 1) != newState.ordinal()) {
             if (newState != CLOSE) {
                 throw new IllegalStateException("Wrong ReadableProducerState! " + currentState + " -> " + newState);
             }

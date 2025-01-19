@@ -122,7 +122,7 @@ public final class ExamplesSupplier {
         generateAndPrintStreamAsString("Year", 100, CalculatedSequenceSupplier.ofValue(Year.of(1), value -> value.plusYears(1)));
 
         // Boolean sequences
-        generateAndPrintStreamAsString("Boolean", 10, CalculatedSequenceSupplier.ofLongIndex(TRUE, index -> index % 3 == 0));
+        generateAndPrintStreamAsString("Boolean", 10, CalculatedSequenceSupplier.ofLongIndex(TRUE, index -> (index % 3) == 0));
 
         // String sequences
         generateAndPrintStreamAsString("String", 10, CalculatedSequenceSupplier.ofValues("A", "B", (v0, v1) -> v0 + v1));
@@ -272,7 +272,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("FALSE, TRUE, i -> i == 2 || i == 5",
                 new SwitchingSupplier<>(FALSE, TRUE,
-                        i -> i == 2 || i == 5));
+                        i -> (i == 2) || (i == 5)));
 
         generateAndPrintStream("A, B, DEFAULT_START_INDEX, even",
                 new SwitchingSupplier<>("A", "B", SwitchingSupplier.DEFAULT_START_INDEX,
@@ -330,13 +330,13 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("replacingSupplier sequence even with -2", Suppliers.replacingSupplier(
                 SequenceSupplier.asLong(0),
-                i -> i % 2L == 0L, -2L));
+                i -> (i % 2L) == 0L, -2L));
         generateAndPrintStream("replacingSupplier random even with -2", Suppliers.replacingSupplier(
                 RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
-                i -> i % 2 == 0, -2));
+                i -> (i % 2) == 0, -2));
         generateAndPrintStream("replacingWithNullSupplier random even with null", Suppliers.replacingWithNullSupplier(
                 RandomNumberSuppliers.randomInteger(RANDOM, 0, 10),
-                i -> i % 2 == 0));
+                i -> (i % 2) == 0));
     }
 
     private static void showInserting() {
@@ -364,7 +364,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("combine Boolean::logicalAnd", Suppliers.combine(() -> TRUE, () -> FALSE, Boolean::logicalAnd));
 
-        generateAndPrintStream("combine Alignment", Suppliers.combine(() -> Alignment.START, () -> Alignment.END, (a0, a1) -> a0 == a1 ? a0 : Alignment.CENTER));
+        generateAndPrintStream("combine Alignment", Suppliers.combine(() -> Alignment.START, () -> Alignment.END, (a0, a1) -> (a0 == a1) ? a0 : Alignment.CENTER));
         generateAndPrintStream("combine Set addAll", Suppliers.combine(() -> Set.of("A", "B"), () -> Set.of("B", "C", "D"), (s0, s1) -> {
             Set<String> set = HashSet.newHashSet(s0.size() + s1.size());
             set.addAll(s0);

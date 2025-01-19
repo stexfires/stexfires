@@ -120,7 +120,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
         Objects.requireNonNull(unaryOperators);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
-                      .map(field -> unaryOperators.length > field.index()
+                      .map(field -> (unaryOperators.length > field.index())
                               ? unaryOperators[field.index()].apply(field.text())
                               : field.text())
                       .toList());
@@ -130,7 +130,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
         Objects.requireNonNull(unaryOperators);
         return new TextsMapper<>(record ->
                 record.streamOfFields()
-                      .map(field -> unaryOperators.size() > field.index()
+                      .map(field -> (unaryOperators.size() > field.index())
                               ? unaryOperators.get(field.index()).apply(field.text())
                               : field.text())
                       .toList());

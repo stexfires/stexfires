@@ -35,7 +35,7 @@ public final class RecordContainers {
 
     public static UnpackResult unpack(TextRecord packedTextRecord, @Nullable String className, int containerFieldsSize, @Nullable String category, @Nullable Long recordId) {
         Objects.requireNonNull(packedTextRecord);
-        if (className == null || className.isBlank()) {
+        if ((className == null) || className.isBlank()) {
             return RecordContainers.errorMessageUnpackResult("ClassName is null or blank!");
         }
         if (packedTextRecord.size() < containerFieldsSize) {
@@ -72,7 +72,7 @@ public final class RecordContainers {
         EmptyRecord unpackedRecord = null;
         String errorMessage = null;
 
-        if (packedTextRecord.size() - containerFieldsSize != EmptyRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != EmptyRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
         } else if (category != null) {
             errorMessage = "Category is not null! " + category;
@@ -94,7 +94,7 @@ public final class RecordContainers {
         String value = packedTextRecord.textAt(containerFieldsSize + KeyValueCommentFieldsRecord.VALUE_INDEX);
         String comment = packedTextRecord.textAt(containerFieldsSize + KeyValueCommentFieldsRecord.COMMENT_INDEX);
 
-        if (packedTextRecord.size() - containerFieldsSize != KeyValueCommentFieldsRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != KeyValueCommentFieldsRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
         } else if (key == null) {
             errorMessage = "Text is null! 'key'";
@@ -112,7 +112,7 @@ public final class RecordContainers {
 
         String key = packedTextRecord.textAt(containerFieldsSize + KeyValueFieldsRecord.KEY_INDEX);
         String value = packedTextRecord.textAt(containerFieldsSize + KeyValueFieldsRecord.VALUE_INDEX);
-        if (packedTextRecord.size() - containerFieldsSize != KeyValueFieldsRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != KeyValueFieldsRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
         } else if (key == null) {
             errorMessage = "Text is null! 'key'";
@@ -138,7 +138,7 @@ public final class RecordContainers {
 
         String first = packedTextRecord.textAt(containerFieldsSize + TwoFieldsRecord.FIRST_INDEX);
         String second = packedTextRecord.textAt(containerFieldsSize + TwoFieldsRecord.SECOND_INDEX);
-        if (packedTextRecord.size() - containerFieldsSize != TwoFieldsRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != TwoFieldsRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
         } else {
             unpackedRecord = new TwoFieldsRecord(category, recordId, first, second);
@@ -153,7 +153,7 @@ public final class RecordContainers {
         String errorMessage = null;
 
         String value = packedTextRecord.textAt(containerFieldsSize + ValueFieldRecord.VALUE_INDEX);
-        if (packedTextRecord.size() - containerFieldsSize != ValueFieldRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != ValueFieldRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
         } else {
             unpackedRecord = new ValueFieldRecord(category, recordId, value);
@@ -167,9 +167,9 @@ public final class RecordContainers {
         DosPathFieldsRecord unpackedRecord = null;
         String errorMessage = null;
 
-        if (packedTextRecord.size() - containerFieldsSize != DosPathFieldsRecord.FIELD_SIZE) {
+        if ((packedTextRecord.size() - containerFieldsSize) != DosPathFieldsRecord.FIELD_SIZE) {
             errorMessage = "Wrong record size!";
-        } else if (category == null || category.isBlank()) {
+        } else if ((category == null) || category.isBlank()) {
             errorMessage = "Category is null or blank!";
         } else if (recordId != null) {
             errorMessage = "RecordId is not null! " + recordId;

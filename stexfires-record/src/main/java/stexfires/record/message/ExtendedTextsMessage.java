@@ -36,17 +36,17 @@ public class ExtendedTextsMessage<T extends TextRecord> implements NotNullRecord
         StringBuilder builder = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (TextField field : record.listOfFields()) {
-            if (prefixFirstText != null && field.isFirstField()) {
+            if ((prefixFirstText != null) && field.isFirstField()) {
                 builder.append(prefixFirstText);
-            } else if (prefix != null && !field.isFirstField()) {
+            } else if ((prefix != null) && !field.isFirstField()) {
                 builder.append(prefix);
             }
             if (field.isNotNull()) {
                 builder.append(field.text());
             }
-            if (suffixLastText != null && field.isLastField()) {
+            if ((suffixLastText != null) && field.isLastField()) {
                 builder.append(suffixLastText);
-            } else if (suffix != null && !field.isLastField()) {
+            } else if ((suffix != null) && !field.isLastField()) {
                 builder.append(suffix);
             }
         }

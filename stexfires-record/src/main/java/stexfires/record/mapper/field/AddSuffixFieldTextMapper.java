@@ -19,7 +19,7 @@ public class AddSuffixFieldTextMapper implements FieldTextMapper {
     @Override
     public final String mapToText(TextField field) {
         String text = field.text();
-        return (text == null) ? suffix : text + suffix;
+        return (text == null) ? suffix : (text + suffix);
     }
 
 }

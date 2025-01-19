@@ -15,10 +15,10 @@ enum WritableConsumerState {
     private static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
         Objects.requireNonNull(currentState);
         Objects.requireNonNull(newState);
-        if (currentState.ordinal() + 1 != newState.ordinal()) {
-            if (newState != CLOSE
-                    && !(currentState == WRITE_BEFORE && newState == WRITE_AFTER)
-                    && !(currentState == WRITE_RECORDS && newState == WRITE_RECORDS)) {
+        if ((currentState.ordinal() + 1) != newState.ordinal()) {
+            if ((newState != CLOSE)
+                    && !((currentState == WRITE_BEFORE) && (newState == WRITE_AFTER))
+                    && !((currentState == WRITE_RECORDS) && (newState == WRITE_RECORDS))) {
                 throw new IllegalStateException("Wrong WritableConsumerState! " + currentState + " -> " + newState);
             }
         }

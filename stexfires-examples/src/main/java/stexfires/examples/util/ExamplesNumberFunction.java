@@ -153,7 +153,7 @@ public final class ExamplesNumberFunction {
         parameters.add(BigInteger.TEN);
         parameters.add(BigInteger.valueOf(12L));
         parameters.add(new BigInteger("9999999999999999999999"));
-        //noinspection Java9CollectionFactory
+        // noinspection Java9CollectionFactory
         BIG_INTEGER_PARAMETER = Collections.unmodifiableList(parameters);
     }
 

@@ -67,7 +67,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     protected final long recordCount() {
-        if (state != READ_AFTER && state != CLOSE) {
+        if ((state != READ_AFTER) && (state != CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {
@@ -77,7 +77,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     protected final List<RecordRawData> firstIgnored() {
-        if (state != READ_AFTER && state != CLOSE) {
+        if ((state != READ_AFTER) && (state != CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {
@@ -87,7 +87,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     protected final List<RecordRawData> lastIgnored() {
-        if (state != READ_AFTER && state != CLOSE) {
+        if ((state != READ_AFTER) && (state != CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {

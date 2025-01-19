@@ -30,12 +30,12 @@ public record FixedWidthFieldSpec(
 
     Character determineFillCharacter(FixedWidthFileSpec fileSpec) {
         Objects.requireNonNull(fileSpec);
-        return fillCharacter != null ? fillCharacter : fileSpec.fillCharacter();
+        return (fillCharacter != null) ? fillCharacter : fileSpec.fillCharacter();
     }
 
     Alignment determineAlignment(FixedWidthFileSpec fileSpec) {
         Objects.requireNonNull(fileSpec);
-        return alignment != null ? alignment : fileSpec.alignment();
+        return (alignment != null) ? alignment : fileSpec.alignment();
     }
 
 }

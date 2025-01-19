@@ -212,7 +212,7 @@ public final class ExamplesStringComparators {
         STRING_NUMBER_VALUES.stream()
                             .sorted(StringComparators.extractorComparator(
                                     s -> {
-                                        if (s == null || s.isEmpty()) {
+                                        if ((s == null) || s.isEmpty()) {
                                             return null;
                                         }
                                         try {

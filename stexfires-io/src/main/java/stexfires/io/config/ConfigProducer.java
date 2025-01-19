@@ -133,6 +133,7 @@ public final class ConfigProducer extends AbstractInternalReadableProducer<KeyVa
 
             return RecordRawData.buildOptionalRecordRawData(currentCategory, recordIndex, rawData);
         }
+
     }
 
 }

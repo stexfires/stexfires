@@ -41,7 +41,7 @@ public final class RecordContainerMedium implements RecordContainer {
         String recordIdString = FIELD_RECORD_ID.getText(packedTextRecord);
 
         Long recordId = null;
-        if (recordIdString != null && !recordIdString.isBlank()) {
+        if ((recordIdString != null) && !recordIdString.isBlank()) {
             try {
                 recordId = Long.valueOf(recordIdString);
             } catch (NumberFormatException e) {

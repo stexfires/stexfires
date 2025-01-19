@@ -29,13 +29,13 @@ public final class DividingProducer implements RecordProducer<TextRecord> {
             throw new IllegalArgumentException("Illegal recordSize! recordSize=" + recordSize);
         }
         Objects.requireNonNull(texts);
-        int capacity = (texts.length + recordSize - 1) / recordSize;
+        int capacity = ((texts.length + recordSize) - 1) / recordSize;
         records = new ArrayList<>(capacity);
 
         for (int recordIndex = 0; recordIndex < capacity; recordIndex++) {
             List<@Nullable String> newRecordTexts = new ArrayList<>(recordSize);
             for (int newTextIndex = 0; newTextIndex < recordSize; newTextIndex++) {
-                int originalTextIndex = recordIndex * recordSize + newTextIndex;
+                int originalTextIndex = (recordIndex * recordSize) + newTextIndex;
                 if (originalTextIndex < texts.length) {
                     newRecordTexts.add(texts[originalTextIndex]);
                 } else {

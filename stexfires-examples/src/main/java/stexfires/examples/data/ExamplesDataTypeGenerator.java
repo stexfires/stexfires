@@ -58,7 +58,7 @@ public final class ExamplesDataTypeGenerator {
             System.out.println("--- textRecordOfSuppliers");
 
             Function<GeneratorInterimResult<TextRecord>, Stream<Supplier<String>>> textFunction =
-                    interimResult -> interimResult.context().recordIndex() % 3 == 0 ?
+                    interimResult -> ((interimResult.context().recordIndex() % 3) == 0) ?
                             Stream.of(uuidDataType.newTextSupplier(), integerDataTypeA.newTextSupplier(), booleanDataType.newTextSupplier(), localTimeDataType.newTextSupplier())
                             : Stream.of(uuidDataType.newTextSupplier(), integerDataTypeB.newTextSupplier(), booleanDataType.newTextSupplier(), localTimeDataType.newTextSupplier());
 
@@ -115,7 +115,7 @@ public final class ExamplesDataTypeGenerator {
                     0L,
                     new NumberDataTypeFormatter<>(NumberFormat.getIntegerInstance(Locale.GERMANY), () -> "NULL"));
             var textFunction5 = longDataType.newTextGeneratorFunction(
-                    (interimResult) -> interimResult.context().recordIndex() * 100_000_000_000L
+                    (interimResult) -> (interimResult.context().recordIndex() * 100_000_000_000L)
                             + interimResult.parsedTextAt(4, integerDataTypeA.parserAsFunction()).orElse(0));
 
             System.out.println("--- textRecordOfFunctions 0 functions");
@@ -153,7 +153,7 @@ public final class ExamplesDataTypeGenerator {
                     valueFunction0));
 
             Function<GeneratorInterimResult<ValueRecord>, String> valueFunction1 =
-                    booleanDataType.newTextGeneratorFunction(interimResult -> interimResult.context().recordIndex() % 2 == 0);
+                    booleanDataType.newTextGeneratorFunction(interimResult -> (interimResult.context().recordIndex() % 2) == 0);
 
             produceAndPrint(RecordGenerator.valueRecord(
                     CategoryGenerator.constantNull(),

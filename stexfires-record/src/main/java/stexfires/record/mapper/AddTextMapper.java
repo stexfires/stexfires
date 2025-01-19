@@ -109,7 +109,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         Objects.requireNonNull(fieldTextMapper);
         return new AddTextMapper<>(record -> {
             TextField field = record.fieldAt(index);
-            return field != null ? fieldTextMapper.mapToText(field) : other;
+            return (field != null) ? fieldTextMapper.mapToText(field) : other;
         });
     }
 

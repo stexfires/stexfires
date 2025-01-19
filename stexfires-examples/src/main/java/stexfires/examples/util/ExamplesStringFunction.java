@@ -146,7 +146,7 @@ public final class ExamplesStringFunction {
                 + "There were four walls, a floor and a roof, which made one room; and this room contained a rusty looking cooking stove, a cupboard for the dishes, a table, three or four chairs, and the beds. ");
 
         // indent
-        //noinspection TextBlockMigration
+        // noinspection TextBlockMigration
         values.add("  1.\n"
                 + "    1.1\n"
                 + "    1.2\n"
@@ -234,7 +234,7 @@ public final class ExamplesStringFunction {
         System.out.println("-showStringPredicates---");
 
         printStringPredicates(StringPredicates.applyOperatorAndTest(StringUnaryOperators.trimToEmpty(), StringPredicates.isEmpty()), "applyOperatorAndTest");
-        printStringPredicates(StringPredicates.applyFunctionAndTest((@Nullable String string) -> string != null ? string.length() : 0, (Integer length) -> length > 2 && length < 6), "applyFunctionAndTest");
+        printStringPredicates(StringPredicates.applyFunctionAndTest((@Nullable String string) -> (string != null) ? string.length() : 0, (Integer length) -> (length > 2) && (length < 6)), "applyFunctionAndTest");
 
         printStringPredicates(StringPredicates.concatAnd(StringPredicates.isNullOrEmpty(), StringPredicates.isNullOrBlank()), "concatAnd");
         printStringPredicates(StringPredicates.concatAnd(Stream.of(StringPredicates.isNotNull(), StringPredicates.letterOrDigit(), StringPredicates.digit(), StringPredicates.length(s -> s < 4))), "concatAnd Stream");
@@ -256,9 +256,9 @@ public final class ExamplesStringFunction {
         printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.charCount() == 1, false), "allCodePointsMatch charCount 1");
         printStringPredicates(StringPredicates.allCodePointsMatch(codePoint -> codePoint.charCount() == 2, false), "allCodePointsMatch charCount 2");
 
-        printStringPredicates(StringPredicates.allIntCodePointsMatch(i -> i >= 32 && i <= 127, false), "allIntCodePointsMatch 32-127");
+        printStringPredicates(StringPredicates.allIntCodePointsMatch(i -> (i >= 32) && (i <= 127), false), "allIntCodePointsMatch 32-127");
         printStringPredicates(StringPredicates.allIntCodePointsMatch(Character::isValidCodePoint, false), "allIntCodePointsMatch Character::isValidCodePoint");
-        printStringPredicates(StringPredicates.anyIntCodePointMatch(i -> i >= 32 && i <= 127, false), "anyIntCodePointMatch 32-127");
+        printStringPredicates(StringPredicates.anyIntCodePointMatch(i -> (i >= 32) && (i <= 127), false), "anyIntCodePointMatch 32-127");
         printStringPredicates(StringPredicates.noneIntCodePointMatch(i -> i < 32, true), "noneIntCodePointMatch <32");
 
         printStringPredicates(StringPredicates.isNull(), "isNull");

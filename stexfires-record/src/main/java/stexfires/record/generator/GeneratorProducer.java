@@ -177,7 +177,7 @@ public final class GeneratorProducer<T extends TextRecord> implements RecordProd
 
             T generatedRecord = generator.generate(context);
 
-            //noinspection ConstantValue
+            // noinspection ConstantValue
             if (generatedRecord == null) {
                 throw new IllegalStateException("The generator returned a null result! context=" + context);
             }

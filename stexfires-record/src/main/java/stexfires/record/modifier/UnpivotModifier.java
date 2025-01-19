@@ -91,7 +91,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                                                  // identifier
                                                  Stream.of(recordIndexToIdentifier.apply(recordIndex)),
                                                  // many values
-                                                 valueIndexes[recordIndex].stream().map(valueIndex -> valueIndex != null ? record.textAt(valueIndex) : null))
+                                                 valueIndexes[recordIndex].stream().map(valueIndex -> (valueIndex != null) ? record.textAt(valueIndex) : null))
                                  )));
     }
 

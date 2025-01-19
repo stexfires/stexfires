@@ -23,7 +23,7 @@ public class ClassNameMessage<T extends TextRecord> implements NotNullRecordMess
     @Override
     public final String createMessage(T record) {
         return withHashCode
-                ? record.getClass().getName() + HASH_CODE_PREFIX + Integer.toHexString(record.hashCode())
+                ? (record.getClass().getName() + HASH_CODE_PREFIX + Integer.toHexString(record.hashCode()))
                 : record.getClass().getName();
     }
 

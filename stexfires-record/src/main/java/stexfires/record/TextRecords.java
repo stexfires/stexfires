@@ -50,8 +50,8 @@ public final class TextRecords {
 
     public static TextRecord ofNullable(@Nullable String category, @Nullable Long recordId,
                                         @Nullable SequencedCollection<@Nullable String> texts) {
-        if (category == null && recordId == null) {
-            if (texts == null || texts.isEmpty()) {
+        if ((category == null) && (recordId == null)) {
+            if ((texts == null) || texts.isEmpty()) {
                 return empty();
             } else if (texts.size() == 1) {
                 return new ValueFieldRecord(texts.getFirst());
@@ -61,7 +61,7 @@ public final class TextRecords {
                 return new ManyFieldsRecord(texts);
             }
         } else {
-            if (texts == null || texts.isEmpty()) {
+            if ((texts == null) || texts.isEmpty()) {
                 return new ManyFieldsRecord(category, recordId);
             } else if (texts.size() == 1) {
                 return new ValueFieldRecord(category, recordId, texts.getFirst());

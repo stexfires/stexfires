@@ -108,9 +108,9 @@ public record DosPathFieldsRecord(
         Path parent = path.getParent();
         return new DosPathFieldsRecord(
                 PathType.ofAttributes(fileAttributes),
-                new TextField(FILE_NAME_INDEX, MAX_INDEX, (fileName != null ? fileName.toString() : null)),
+                new TextField(FILE_NAME_INDEX, MAX_INDEX, ((fileName != null) ? fileName.toString() : null)),
                 new TextField(PATH_INDEX, MAX_INDEX, path.toString()),
-                new TextField(PARENT_INDEX, MAX_INDEX, (parent != null ? parent.toString() : null)),
+                new TextField(PARENT_INDEX, MAX_INDEX, ((parent != null) ? parent.toString() : null)),
                 new TextField(PATH_NAME_COUNT_INDEX, MAX_INDEX, String.valueOf(path.getNameCount())),
                 new TextField(FILE_SIZE_INDEX, MAX_INDEX, String.valueOf(fileAttributes.size())),
                 new TextField(CREATION_TIME_INDEX, MAX_INDEX, fileAttributes.creationTime().toInstant().toString()),
@@ -233,7 +233,7 @@ public record DosPathFieldsRecord(
 
     @Override
     public boolean isValidIndex(int index) {
-        return index >= TextField.FIRST_FIELD_INDEX && index <= MAX_INDEX;
+        return (index >= TextField.FIRST_FIELD_INDEX) && (index <= MAX_INDEX);
     }
 
 }

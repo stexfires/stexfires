@@ -299,7 +299,7 @@ public final class ExamplesPropertiesFile {
         System.out.println("-test5-----------------------------------------------------------------------------------");
 
         var fileSpec = new PropertiesFileSpec(
-                CharsetCoding.reportingErrors(CommonCharsetNames.ISO_8859_1),
+                CharsetCoding.reportingErrors(ISO_8859_1),
                 PropertiesFileSpec.DEFAULT_PRODUCER_NULL_VALUE_REPLACEMENT,
                 PropertiesFileSpec.DEFAULT_PRODUCER_COMMENT_AS_CATEGORY,
                 lineSeparator,

@@ -149,7 +149,7 @@ public interface RecordGenerator<T extends TextRecord> {
             Long recordId = recordIdGenerator.generateRecordId(context);
             List<@Nullable String> texts = new ArrayList<>(textFunctions.size());
             GeneratorInterimResult<TextRecord> interimResult = new GeneratorInterimResult<>(
-                    context, category, recordId, index -> index < texts.size() ? texts.get(index) : null);
+                    context, category, recordId, index -> (index < texts.size()) ? texts.get(index) : null);
             textFunctions.stream()
                          .map(textFunction -> textFunction.apply(interimResult))
                          .forEachOrdered(texts::add);

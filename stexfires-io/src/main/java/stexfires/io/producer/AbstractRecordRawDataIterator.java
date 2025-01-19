@@ -56,7 +56,7 @@ public abstract class AbstractRecordRawDataIterator implements Iterator<RecordRa
     final void fillQueue(boolean onlyFirst) throws UncheckedProducerException {
         try {
             while (!endIsReached && (queue.remainingCapacity() > 0)
-                    && (!onlyFirst || first.size() < ignoreFirst)) {
+                    && (!onlyFirst || (first.size() < ignoreFirst))) {
                 Optional<RecordRawData> recordRawData = readNext(bufferedReader, currentRecordIndex);
                 if (recordRawData.isPresent()) {
                     if ((currentRecordIndex - FIRST_RECORD_INDEX) >= ignoreFirst) {

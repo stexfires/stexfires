@@ -99,7 +99,7 @@ public class DispatcherConsumer<T extends TextRecord> implements RecordConsumer<
         Objects.requireNonNull(recordConsumers);
         var recordFiltersCopy = List.copyOf(recordFilters);
         BiPredicate<Integer, T> predicate = (index, record) ->
-                index < recordFiltersCopy.size() && recordFiltersCopy.get(index).isValid(record);
+                (index < recordFiltersCopy.size()) && recordFiltersCopy.get(index).isValid(record);
         return new DispatcherConsumer<>(predicate, recordConsumers);
     }
 

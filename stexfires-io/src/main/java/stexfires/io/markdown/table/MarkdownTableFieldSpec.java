@@ -44,7 +44,7 @@ public record MarkdownTableFieldSpec(
 
     Alignment determineAlignment(MarkdownTableFileSpec fileSpec) {
         Objects.requireNonNull(fileSpec);
-        return alignment != null ? alignment : fileSpec.consumerAlignment();
+        return (alignment != null) ? alignment : fileSpec.consumerAlignment();
     }
 
 }

@@ -139,7 +139,7 @@ public final class ExamplesGenerator {
         {
             CategoryGenerator<ValueRecord> categoryGenerator = (GeneratorContext<ValueRecord> context) -> context.previousRecord().map(r -> r.category() + "_cat").orElse("cat");
             RecordIdGenerator<ValueRecord> recordIdGenerator = (context) -> context.recordIndex() * 100_000L;
-            Function<GeneratorInterimResult<ValueRecord>, String> valueFunction = (interimResult) -> interimResult.context().recordIndex() % 2 == 0 ? "even" : "odd";
+            Function<GeneratorInterimResult<ValueRecord>, String> valueFunction = (interimResult) -> ((interimResult.context().recordIndex() % 2) == 0) ? "even" : "odd";
             RecordGenerator<ValueRecord> generator = RecordGenerator.valueRecord(categoryGenerator, recordIdGenerator, valueFunction);
 
             produceAndPrint(GeneratorProducer.knownSize(generator, size));

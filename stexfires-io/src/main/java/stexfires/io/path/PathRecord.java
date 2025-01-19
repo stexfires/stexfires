@@ -78,7 +78,7 @@ public interface PathRecord extends TextRecord {
 
     default @Nullable Path parent() {
         String parent = parentField().text();
-        return parent != null ? Path.of(parent) : null;
+        return (parent != null) ? Path.of(parent) : null;
     }
 
     default Optional<Path> parentAsOptional() {

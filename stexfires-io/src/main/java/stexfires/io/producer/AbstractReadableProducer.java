@@ -53,7 +53,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
     @Override
     public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
         Stream<T> recordStream;
-        if (iterator != null && iterator.hasNext()) {
+        if ((iterator != null) && iterator.hasNext()) {
             Stream<RecordRawData> rawStream = StreamSupport.stream(
                     Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE), false);
             if (recordRawDataLogger != null) {

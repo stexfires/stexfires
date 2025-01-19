@@ -26,7 +26,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isEmpty()) {
+            if ((line != null) && line.isEmpty()) {
                 line = null;
             }
             return line;
@@ -38,7 +38,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isBlank()) {
+            if ((line != null) && line.isBlank()) {
                 line = null;
             }
             return line;
@@ -50,7 +50,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isEmpty()) {
+            if ((line != null) && line.isEmpty()) {
                 throw new UncheckedProducerException(new ProducerException("An empty line was read in."));
             }
             return line;
@@ -62,7 +62,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isBlank()) {
+            if ((line != null) && line.isBlank()) {
                 throw new UncheckedProducerException(new ProducerException("A blank line was read in."));
             }
             return line;
@@ -74,7 +74,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isEmpty()) {
+            if ((line != null) && line.isEmpty()) {
                 line = Strings.SPACE;
             }
             return line;
@@ -86,7 +86,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isBlank()) {
+            if ((line != null) && line.isBlank()) {
                 line = Strings.SPACE;
             }
             return line;
@@ -98,7 +98,7 @@ public enum ProducerReadLineHandling {
         try {
             String line = r.readLine();
 
-            if (line != null && line.isBlank()) {
+            if ((line != null) && line.isBlank()) {
                 return Strings.EMPTY;
             }
             return line;
@@ -111,7 +111,7 @@ public enum ProducerReadLineHandling {
             String line;
             do {
                 line = r.readLine();
-            } while (line != null && line.isEmpty());
+            } while ((line != null) && line.isEmpty());
 
             return line;
         } catch (IOException e) {
@@ -123,7 +123,7 @@ public enum ProducerReadLineHandling {
             String line;
             do {
                 line = r.readLine();
-            } while (line != null && line.isBlank());
+            } while ((line != null) && line.isBlank());
 
             return line;
         } catch (IOException e) {

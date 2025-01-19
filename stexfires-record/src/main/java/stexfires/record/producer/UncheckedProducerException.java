@@ -26,8 +26,9 @@ public class UncheckedProducerException extends RuntimeException {
             throws IOException, ClassNotFoundException {
         objectInputStream.defaultReadObject();
         Throwable cause = super.getCause();
-        if (!(cause instanceof ProducerException))
+        if (!(cause instanceof ProducerException)) {
             throw new InvalidObjectException("Cause must be a ProducerException");
+        }
     }
 
 }

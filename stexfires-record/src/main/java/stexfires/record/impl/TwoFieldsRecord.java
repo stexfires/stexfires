@@ -108,7 +108,7 @@ public record TwoFieldsRecord(@Nullable String category,
 
     @Override
     public boolean isValidIndex(int index) {
-        return index == FIRST_INDEX || index == SECOND_INDEX;
+        return (index == FIRST_INDEX) || (index == SECOND_INDEX);
     }
 
     @Override

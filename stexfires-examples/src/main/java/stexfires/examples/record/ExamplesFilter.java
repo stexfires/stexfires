@@ -175,7 +175,7 @@ public final class ExamplesFilter {
         System.out.println("-showRecordIdFilter---");
 
         printFilter("constructor 1",
-                new RecordIdFilter<>(value -> value != null && value == 1L));
+                new RecordIdFilter<>(value -> (value != null) && (value == 1L)));
         printFilter("constructor even",
                 new RecordIdFilter<>(NumberPredicates.PrimitiveLongPredicates.isNotNullAnd(NumberPredicates.PrimitiveLongPredicates.even())));
         printFilter("equalTo 1",

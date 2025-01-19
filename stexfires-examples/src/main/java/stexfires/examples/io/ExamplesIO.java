@@ -205,15 +205,15 @@ public final class ExamplesIO {
                               .forEachOrdered(RecordSystemOutUtil::printlnRecord);
 
         System.out.println("-storeInList / restoreFromList");
-        LinkedList<@Nullable String> arrayList0 = RecordIOStreams.storeInList(new ValueFieldRecord("cat0", 0L, "value0"), new LinkedList<>());
+        LinkedList<@Nullable String> arrayList0 = storeInList(new ValueFieldRecord("cat0", 0L, "value0"), new LinkedList<>());
         System.out.println(arrayList0);
-        ArrayList<@Nullable String> arrayList1 = RecordIOStreams.storeInList(new ValueFieldRecord("value1"), new ArrayList<>(6));
+        ArrayList<@Nullable String> arrayList1 = storeInList(new ValueFieldRecord("value1"), new ArrayList<>(6));
         System.out.println(arrayList1);
-        RecordIOStreams.storeInList(new ValueFieldRecord("cat2", 2L, "value2"), arrayList1);
+        storeInList(new ValueFieldRecord("cat2", 2L, "value2"), arrayList1);
         System.out.println(arrayList1);
-        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList0));
-        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(0, 3)));
-        RecordSystemOutUtil.printlnRecord(RecordIOStreams.restoreFromList(arrayList1.subList(3, 6)));
+        printlnRecord(restoreFromList(arrayList0));
+        printlnRecord(restoreFromList(arrayList1.subList(0, 3)));
+        printlnRecord(restoreFromList(arrayList1.subList(3, 6)));
 
         System.out.println("-restoreFromList (special list)");
         List<@Nullable String> list0 = new ArrayList<>();
@@ -363,7 +363,7 @@ public final class ExamplesIO {
         Function<TextRecord, Stream<KeyValueRecord>> splitIntoKeyValueRecords1 =
                 splitIntoKeyValueRecords(
                         (r, f) -> r.category(),
-                        (r, f) -> r.recordIdAsOptional().map(id -> id * 100L + f.index()).orElse(null),
+                        (r, f) -> r.recordIdAsOptional().map(id -> (id * 100L) + f.index()).orElse(null),
                         (r, f) -> "key_" + f.index());
         // splitIntoKeyValueCommentRecords
         Function<TextRecord, Stream<KeyValueCommentRecord>> splitIntoKeyValueCommentRecords0 =
