@@ -29,7 +29,7 @@ public final class DataTypeConverterException extends RuntimeException {
     }
 
     private static String buildMessage(@Nullable Type type, @Nullable String message, @Nullable Throwable cause) {
-        if (message == null && cause == null) {
+        if ((message == null) && (cause == null)) {
             return switch (type) {
                 case null -> "The data type cannot be converted.";
                 case Converter -> "The data type cannot be converted to another data type.";

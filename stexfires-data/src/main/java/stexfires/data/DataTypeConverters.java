@@ -1,17 +1,14 @@
 package stexfires.data;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.util.Date;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.*;
 
 import static stexfires.data.DataTypeConverterException.Type.Converter;
 

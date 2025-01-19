@@ -2,7 +2,7 @@ package stexfires.data;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * @since 0.1

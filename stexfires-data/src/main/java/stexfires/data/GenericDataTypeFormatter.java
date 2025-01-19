@@ -13,12 +13,8 @@ import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
@@ -93,12 +89,12 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
         return forCurrencyWithSupplier(() -> nullSource);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static GenericDataTypeFormatter<URI> forUriWithSupplier(boolean parseServerAuthority,
                                                                    @Nullable Supplier<@Nullable String> nullSourceSupplier) {
         return new GenericDataTypeFormatter<>(source -> {
             try {
                 if (parseServerAuthority) {
+                    // noinspection ResultOfMethodCallIgnored
                     source.parseServerAuthority();
                 }
                 return source.toString();
@@ -156,28 +152,28 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     }
 
     public static GenericDataTypeFormatter<Long> forLong(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Long.toString(source, radix), nullSourceSupplier);
     }
 
     public static GenericDataTypeFormatter<Integer> forInteger(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source, radix), nullSourceSupplier);
     }
 
     public static GenericDataTypeFormatter<Short> forShort(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
     }
 
     public static GenericDataTypeFormatter<Byte> forByte(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> Integer.toString(source.intValue(), radix), nullSourceSupplier);
@@ -192,7 +188,7 @@ public final class GenericDataTypeFormatter<T> implements DataTypeFormatter<T> {
     }
 
     public static GenericDataTypeFormatter<BigInteger> forBigInteger(int radix, @Nullable Supplier<@Nullable String> nullSourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeFormatter<>(source -> source.toString(radix), nullSourceSupplier);

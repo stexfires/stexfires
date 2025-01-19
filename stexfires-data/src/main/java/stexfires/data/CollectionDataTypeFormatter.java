@@ -2,16 +2,15 @@ package stexfires.data;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
  */
 public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable T>> implements DataTypeFormatter<C> {
 
+    private static final int CAPACITY_FORMAT = 128;
     private final @Nullable String prefix;
     private final @Nullable String suffix;
     private final @Nullable String delimiter;
@@ -66,7 +65,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable
     }
 
     private static void appendNullSafe(@Nullable String text, StringBuilder b) {
-        if (text != null && !text.isEmpty()) {
+        if ((text != null) && !text.isEmpty()) {
             b.append(text);
         }
     }
@@ -78,7 +77,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable
             String formattedElement = dataTypeFormatter.format(element);
 
             // Validate formatted element
-            if (formattedElementValidator != null && !formattedElementValidator.test(formattedElement)) {
+            if ((formattedElementValidator != null) && !formattedElementValidator.test(formattedElement)) {
                 throw new DataTypeConverterException(DataTypeConverterException.Type.Formatter, "A formatted element is not valid.");
             }
 
@@ -98,7 +97,7 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable
         if (source == null) {
             return handleNullSource(nullSourceSupplier);
         } else {
-            StringBuilder b = new StringBuilder();
+            StringBuilder b = new StringBuilder(CAPACITY_FORMAT);
 
             // Prefix
             appendNullSafe(prefix, b);

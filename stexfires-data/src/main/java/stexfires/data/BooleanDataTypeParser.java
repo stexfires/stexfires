@@ -2,10 +2,8 @@ package stexfires.data;
 
 import org.jspecify.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
@@ -30,6 +28,7 @@ public final class BooleanDataTypeParser implements DataTypeParser<Boolean> {
         this.emptySourceSupplier = emptySourceSupplier;
     }
 
+    @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
     public static BooleanDataTypeParser of(String trueValue,
                                            String falseValue,
                                            @Nullable Boolean nullOrEmptyValue) {

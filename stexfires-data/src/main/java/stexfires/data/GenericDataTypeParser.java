@@ -5,22 +5,15 @@ import org.jspecify.annotations.Nullable;
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
@@ -116,7 +109,6 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
         return forCurrencyWithSuppliers(() -> nullOrEmptySource, () -> nullOrEmptySource);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static GenericDataTypeParser<URI> forUriWithSuppliers(boolean parseServerAuthority,
                                                                  @Nullable Supplier<@Nullable URI> nullSourceSupplier,
                                                                  @Nullable Supplier<@Nullable URI> emptySourceSupplier) {
@@ -124,6 +116,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
             try {
                 URI uri = new URI(source);
                 if (parseServerAuthority) {
+                    // noinspection ResultOfMethodCallIgnored
                     uri.parseServerAuthority();
                 }
                 return uri;
@@ -191,7 +184,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Long> forLong(int radix,
                                                       @Nullable Supplier<@Nullable Long> nullSourceSupplier,
                                                       @Nullable Supplier<@Nullable Long> emptySourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Long.parseLong(source, radix), nullSourceSupplier, emptySourceSupplier);
@@ -200,7 +193,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Integer> forInteger(int radix,
                                                             @Nullable Supplier<@Nullable Integer> nullSourceSupplier,
                                                             @Nullable Supplier<@Nullable Integer> emptySourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Integer.parseInt(source, radix), nullSourceSupplier, emptySourceSupplier);
@@ -209,7 +202,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Short> forShort(int radix,
                                                         @Nullable Supplier<@Nullable Short> nullSourceSupplier,
                                                         @Nullable Supplier<@Nullable Short> emptySourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Short.parseShort(source, radix), nullSourceSupplier, emptySourceSupplier);
@@ -218,7 +211,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<Byte> forByte(int radix,
                                                       @Nullable Supplier<@Nullable Byte> nullSourceSupplier,
                                                       @Nullable Supplier<@Nullable Byte> emptySourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> Byte.parseByte(source, radix), nullSourceSupplier, emptySourceSupplier);
@@ -237,7 +230,7 @@ public final class GenericDataTypeParser<T> implements DataTypeParser<T> {
     public static GenericDataTypeParser<BigInteger> forBigInteger(int radix,
                                                                   @Nullable Supplier<@Nullable BigInteger> nullSourceSupplier,
                                                                   @Nullable Supplier<@Nullable BigInteger> emptySourceSupplier) {
-        if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
+        if ((radix < Character.MIN_RADIX) || (radix > Character.MAX_RADIX)) {
             throw new IllegalArgumentException("Invalid range for radix: " + radix);
         }
         return new GenericDataTypeParser<>(source -> new BigInteger(source, radix), nullSourceSupplier, emptySourceSupplier);

@@ -1,10 +1,8 @@
 package stexfires.data;
 
 import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

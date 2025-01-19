@@ -6,10 +6,8 @@ import stexfires.record.generator.GeneratorInterimResult;
 import stexfires.record.mapper.field.FieldTextMapper;
 import stexfires.record.mapper.field.StringOperationFieldTextMapper;
 
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1

@@ -3,14 +3,10 @@ package stexfires.data;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.TextSplitters;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
 
 /**
  * @since 0.1
@@ -117,7 +113,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<@Nullable T>
         boolean subString = false;
 
         // Prefix
-        if (prefix != null && !prefix.isEmpty()) {
+        if ((prefix != null) && !prefix.isEmpty()) {
             if (source.startsWith(prefix)) {
                 beginIndex = prefix.length();
                 subString = true;
@@ -126,7 +122,7 @@ public final class CollectionDataTypeParser<T, C extends Collection<@Nullable T>
             }
         }
         // Suffix
-        if (suffix != null && !suffix.isEmpty()) {
+        if ((suffix != null) && !suffix.isEmpty()) {
             if (source.endsWith(suffix)) {
                 endIndex = source.length() - suffix.length();
                 subString = true;
@@ -158,11 +154,11 @@ public final class CollectionDataTypeParser<T, C extends Collection<@Nullable T>
         SAME_ORDER;
 
         public final boolean checkInitialSize() {
-            return this == INITIALLY_EMPTY || this == IDENTICAL_SIZE || this == SAME_ORDER;
+            return (this == INITIALLY_EMPTY) || (this == IDENTICAL_SIZE) || (this == SAME_ORDER);
         }
 
         public final boolean checkIdenticalSize() {
-            return this == IDENTICAL_SIZE || this == SAME_ORDER;
+            return (this == IDENTICAL_SIZE) || (this == SAME_ORDER);
         }
 
         public final boolean checkOrder() {

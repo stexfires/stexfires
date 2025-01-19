@@ -5,10 +5,8 @@ import stexfires.util.Strings;
 import stexfires.util.supplier.Suppliers;
 
 import java.io.UncheckedIOException;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
@@ -76,7 +74,7 @@ public final class StringDataTypeParser implements DataTypeParser<String> {
             return handleEmptySource(emptySourceSupplier);
         } else {
             try {
-                if (checkPredicate != null && !checkPredicate.test(source)) {
+                if ((checkPredicate != null) && !checkPredicate.test(source)) {
                     throw new DataTypeConverterException(DataTypeConverterException.Type.Parser, "Source is not formatted correctly.");
                 }
                 if (operatorAfterCheck != null) {

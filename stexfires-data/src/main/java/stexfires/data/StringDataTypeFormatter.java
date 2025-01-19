@@ -3,9 +3,8 @@ package stexfires.data;
 import org.jspecify.annotations.Nullable;
 import stexfires.util.supplier.Suppliers;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @since 0.1
