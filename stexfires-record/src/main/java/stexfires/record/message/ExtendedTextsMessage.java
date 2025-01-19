@@ -16,6 +16,7 @@ public class ExtendedTextsMessage<T extends TextRecord> implements NotNullRecord
     private final @Nullable String prefixFirstText;
     private final @Nullable String suffixLastText;
 
+    @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
     public ExtendedTextsMessage(@Nullable String prefix,
                                 @Nullable String suffix) {
         this(prefix, suffix, prefix, suffix);
