@@ -18,18 +18,18 @@ public final class KeyValueRecordProducer implements RecordProducer<KeyValueReco
     private final List<KeyValueRecord> records;
 
     public <K, V> KeyValueRecordProducer(Map<K, @Nullable V> keyValueMap) {
-        this(null, TextRecords.recordIdSequence(), keyValueMap, Strings::toNullableString, Strings::toNullableString);
+        this(null, TextRecords.recordIdSequence(), keyValueMap, Object::toString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category,
                                          Map<K, @Nullable V> keyValueMap) {
-        this(category, TextRecords.recordIdSequence(), keyValueMap, Strings::toNullableString, Strings::toNullableString);
+        this(category, TextRecords.recordIdSequence(), keyValueMap, Object::toString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category,
                                          Supplier<@Nullable Long> recordIdSupplier,
                                          Map<K, @Nullable V> keyValueMap) {
-        this(category, recordIdSupplier, keyValueMap, Strings::toNullableString, Strings::toNullableString);
+        this(category, recordIdSupplier, keyValueMap, Object::toString, Strings::toNullableString);
     }
 
     public <K, V> KeyValueRecordProducer(@Nullable String category,
