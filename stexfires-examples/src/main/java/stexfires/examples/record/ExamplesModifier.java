@@ -3,7 +3,6 @@ package stexfires.examples.record;
 import org.jspecify.annotations.Nullable;
 import stexfires.record.*;
 import stexfires.record.comparator.RecordComparators;
-import stexfires.record.consumer.SystemOutConsumer;
 import stexfires.record.filter.CategoryFilter;
 import stexfires.record.filter.RecordIdFilter;
 import stexfires.record.impl.KeyValueFieldsRecord;
@@ -14,6 +13,7 @@ import stexfires.record.mapper.impl.ToTwoFieldsRecordMapper;
 import stexfires.record.message.*;
 import stexfires.record.modifier.*;
 import stexfires.util.SortNulls;
+import stexfires.util.StringComparators;
 import stexfires.util.function.NumberPredicates;
 
 import java.util.*;
@@ -60,23 +60,25 @@ public final class ExamplesModifier {
                 new ManyFieldsRecord("C0", 1L, "Z", "7", "a", null),
                 new ManyFieldsRecord("C0", 2L, "A", "2", "a", null),
                 new ManyFieldsRecord("C0", 3L, "C", "2", "b", null),
-                new ManyFieldsRecord("C1", 4L, "X", "0", "c", null)
+                new ManyFieldsRecord("C1", 4L, "X", "0", "c", null),
+                new ManyFieldsRecord("C2", 5L, null, null),
+                new ManyFieldsRecord("C2", 6L, null, "a")
         );
     }
 
     private static void printModifierOneValueRecord(String title, RecordStreamModifier<ValueRecord, ? extends TextRecord> recordModifier) {
         System.out.println("--" + title);
-        TextRecordStreams.modifyAndConsume(generateStreamOneValueRecord(), recordModifier, new SystemOutConsumer<>());
+        TextRecordStreams.modifyAndConsume(generateStreamOneValueRecord(), recordModifier, RecordSystemOutUtil.RECORD_CONSUMER);
     }
 
     private static void printModifierOneValueRecordGroup(String title, RecordStreamModifier<ValueRecord, ? extends TextRecord> recordModifier) {
         System.out.println("--" + title);
-        TextRecordStreams.modifyAndConsume(generateStreamOneValueRecordGroup(), recordModifier, new SystemOutConsumer<>());
+        TextRecordStreams.modifyAndConsume(generateStreamOneValueRecordGroup(), recordModifier, RecordSystemOutUtil.RECORD_CONSUMER);
     }
 
     private static void printModifierManyValuesRecord(String title, RecordStreamModifier<ManyFieldsRecord, ? extends TextRecord> recordModifier) {
         System.out.println("--" + title);
-        TextRecordStreams.modifyAndConsume(generateStreamManyValuesRecord(), recordModifier, new SystemOutConsumer<>());
+        TextRecordStreams.modifyAndConsume(generateStreamManyValuesRecord(), recordModifier, RecordSystemOutUtil.RECORD_CONSUMER);
     }
 
     private static void printPivotManyValuesRecord(String title, PivotModifier<ManyFieldsRecord> recordModifier, ManyFieldsRecord... records) {
@@ -159,20 +161,22 @@ public final class ExamplesModifier {
                                 TextMessage.value()
                         )));
 
-        printModifierManyValuesRecord("constructor category; aggregateToValues maxValuesNullsFirst",
+        printModifierManyValuesRecord("constructor category; aggregateToValues collectMaxTexts",
                 new GroupModifier<>(
                         groupByCategory(),
                         aggregateToTexts(
                                 categoryOfFirstElement(),
-                                maxTextNullsFirst("<missing value>")
+                                collectMaxTexts(Comparator.nullsFirst(StringComparators.collatorComparator(Locale.ENGLISH)),
+                                        o -> o.orElse(null))
                         )));
 
-        printModifierManyValuesRecord("constructor category; aggregateToValues minValuesNullsLast",
+        printModifierManyValuesRecord("constructor category; aggregateToValues collectMinTexts",
                 new GroupModifier<>(
                         groupByCategory(),
                         aggregateToTexts(
                                 categoryOfFirstElement(),
-                                minTextNullsLast(null)
+                                collectMinTexts(Comparator.nullsLast(StringComparators.collatorComparator(Locale.ENGLISH)),
+                                        o -> o.orElse("<NULL>"))
                         )));
 
         printModifierOneValueRecord("constructor valueField; aggregateToValue category",

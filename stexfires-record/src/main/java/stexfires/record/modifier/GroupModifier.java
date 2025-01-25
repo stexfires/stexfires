@@ -132,9 +132,14 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
         return list -> recordMessage.createMessage(list.getFirst());
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> collectTexts(Collector<String, ?, Optional<String>> textCollector,
-                                                                                      @Nullable String nullText) {
+    public static <T extends TextRecord> Function<List<T>, List<@Nullable String>> collectTexts(Collector<@Nullable String, ?, Optional<String>> textCollector,
+                                                                                                Function<Optional<String>, @Nullable String> finalTextMapper) {
         Objects.requireNonNull(textCollector);
+        Objects.requireNonNull(finalTextMapper);
+
+        // Own variable to avoid warnings during inspection
+        Function<TextField, @Nullable String> groupingTextMapper = TextField::text;
+
         return list -> list.stream()
                            .flatMap(TextRecord::streamOfFields)
                            .collect(Collectors.collectingAndThen(
@@ -142,22 +147,23 @@ public class GroupModifier<T extends TextRecord, R extends TextRecord> implement
                                            TextField::index,
                                            TreeMap::new,
                                            Collectors.mapping(
-                                                   TextField::text,
+                                                   groupingTextMapper,
                                                    textCollector)),
-                                   map -> map.values()
-                                             .stream()
-                                             .map(o -> o.orElse(nullText))
-                                             .toList()));
+                                   map ->
+                                           map.values()
+                                              .stream()
+                                              .map(finalTextMapper)
+                                              .toList()));
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> maxTextNullsFirst(@Nullable String nullText) {
-        return collectTexts(Collectors.maxBy(Comparator.nullsFirst(Comparator.naturalOrder())),
-                nullText);
+    public static <T extends TextRecord> Function<List<T>, List<@Nullable String>> collectMaxTexts(Comparator<@Nullable String> textComparator,
+                                                                                                   Function<Optional<String>, @Nullable String> finalTextMapper) {
+        return collectTexts(Collectors.maxBy(textComparator), finalTextMapper);
     }
 
-    public static <T extends TextRecord> Function<List<T>, List<String>> minTextNullsLast(@Nullable String nullText) {
-        return collectTexts(Collectors.minBy(Comparator.nullsLast(Comparator.naturalOrder())),
-                nullText);
+    public static <T extends TextRecord> Function<List<T>, List<@Nullable String>> collectMinTexts(Comparator<@Nullable String> textComparator,
+                                                                                                   Function<Optional<String>, @Nullable String> finalTextMapper) {
+        return collectTexts(Collectors.minBy(textComparator), finalTextMapper);
     }
 
     @Override
