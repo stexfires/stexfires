@@ -26,7 +26,6 @@ import java.util.stream.*;
  * @see java.util.stream.Stream
  * @since 0.1
  */
-@SuppressWarnings("UnusedReturnValue")
 public final class TextRecordStreams {
 
     private TextRecordStreams() {
@@ -126,7 +125,7 @@ public final class TextRecordStreams {
 
     public static <T extends TextRecord> Map<String, List<@Nullable String>> groupAndCollectMessages(Stream<T> recordStream,
                                                                                                      NotNullRecordMessage<? super T> keyMessage,
-                                                                                                     RecordMessage<? super T> valueMessage) {
+                                                                                                     NotNullRecordMessage<? super T> valueMessage) {
         Objects.requireNonNull(recordStream);
         Objects.requireNonNull(keyMessage);
         Objects.requireNonNull(valueMessage);

@@ -46,7 +46,6 @@ public final class TextFields {
         return newArrayOfCollection(texts.toList());
     }
 
-    @SuppressWarnings("Convert2streamapi")
     public static TextField[] newArrayOfStrings(@Nullable String... texts) {
         Objects.requireNonNull(texts);
         TextField[] fields = new TextField[texts.length];
@@ -56,7 +55,6 @@ public final class TextFields {
         return fields;
     }
 
-    @SuppressWarnings({"Convert2streamapi", "ExplicitArrayFilling"})
     public static TextField[] newArrayOfSupplier(int length, Supplier<@Nullable String> textSupplier) {
         if (length < 0) {
             throw new IllegalArgumentException("Illegal length! length=" + length);
@@ -80,7 +78,6 @@ public final class TextFields {
         return collectTexts(record.streamOfFields(), fieldTextMapper);
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static List<@Nullable String> collectTexts(TextField[] fields) {
         Objects.requireNonNull(fields);
         return collectTexts(Arrays.stream(fields), new IdentityFieldTextMapper());
@@ -114,7 +111,6 @@ public final class TextFields {
         return joinTexts(record.streamOfFields(), delimiter);
     }
 
-    @SuppressWarnings("MethodCanBeVariableArityMethod")
     public static String joinTexts(TextField[] fields) {
         Objects.requireNonNull(fields);
         return joinTexts(Arrays.stream(fields), DEFAULT_FIELD_TEXT_DELIMITER);
