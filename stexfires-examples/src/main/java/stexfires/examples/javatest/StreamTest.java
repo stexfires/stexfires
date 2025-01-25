@@ -205,7 +205,7 @@ public final class StreamTest {
 
         Spliterator<String> spEmpty1 = streamEmpty1.spliterator();
 
-        Map<String, Spliterator<String>> spliterators = new TreeMap<>();
+        Map<String, Spliterator<String>> spliterators = new TreeMap<>(Comparator.naturalOrder());
         spliterators.put("spList1  ", spList1);
         spliterators.put("spList2  ", spList2);
         spliterators.put("spList3  ", spList3);

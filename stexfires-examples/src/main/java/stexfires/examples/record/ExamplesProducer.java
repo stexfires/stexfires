@@ -82,7 +82,7 @@ public final class ExamplesProducer {
         printProducer(new KeyValueRecordProducer(null, SequenceSupplier.asLong(100L), keyValueMap));
 
         printProducer(new KeyValueRecordProducer(category, TextRecords.recordIdSequence(), keyValueMap,
-                Strings::toNullableString, i -> (i == null) ? "<NULL>" : ("#" + i.hashCode())));
+                Object::toString, (@Nullable Integer i) -> (i == null) ? "<NULL>" : ("#" + i.hashCode())));
     }
 
     private static void showValueRecordProducer() {
