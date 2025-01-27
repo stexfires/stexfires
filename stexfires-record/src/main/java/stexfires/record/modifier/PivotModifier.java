@@ -80,10 +80,10 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.textAt(keyIndex)),
-                r -> r.textAt(textIndex),
+                r -> Stream.ofNullable(r.textAt(keyIndex)),
+                (Function<? super T, @Nullable String>) r -> r.textAt(textIndex),
                 nullText,
-                r -> r.textAt(textClassificationIndex),
+                (Function<? super T, @Nullable String>) r -> r.textAt(textClassificationIndex),
                 textClassifications);
     }
 
@@ -125,7 +125,7 @@ public class PivotModifier<T extends TextRecord> extends GroupModifier<T, TextRe
         return new PivotModifier<>(
                 GroupModifier.<T>groupByTextAt(keyIndex),
                 withoutCategory(),
-                r -> Stream.of(r.textAt(keyIndex)),
+                r -> Stream.ofNullable(r.textAt(keyIndex)),
                 1 + (recordsPerKey * textIndexes.size()),
                 nullText,
                 textIndexes);

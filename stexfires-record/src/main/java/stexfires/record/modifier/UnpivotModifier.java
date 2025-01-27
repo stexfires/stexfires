@@ -44,7 +44,7 @@ public class UnpivotModifier<T extends TextRecord, R extends TextRecord> impleme
                                                     // identifier
                                                     Stream.of(valueIndexToIdentifier.apply(valueIndex)),
                                                     // one value
-                                                    Stream.of(record.textAt(valueIndex)))
+                                                    Stream.ofNullable(record.textAt(valueIndex)))
                                     )));
     }
 
