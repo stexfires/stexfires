@@ -69,7 +69,7 @@ public final class ExamplesNumberDataType {
         testFormat(Integer.MIN_VALUE, new NumberDataTypeFormatter<>(NumberFormat.getPercentInstance(Locale.GERMANY), () -> "NULL"));
 
         testFormat(Long.MAX_VALUE, new NumberDataTypeFormatter<>(integerFormat, () -> "NULL"));
-        testFormat(1234.567d, new NumberDataTypeFormatter<>(decimalFormat, () -> "NULL"));
+        testFormat(1_234.567d, new NumberDataTypeFormatter<>(decimalFormat, () -> "NULL"));
         testFormat(Double.NaN, new NumberDataTypeFormatter<>(decimalFormat, () -> "NULL"));
         testFormat(Double.MAX_VALUE, new NumberDataTypeFormatter<>(decimalFormat, () -> "NULL"));
         testFormat(Double.MIN_VALUE, new NumberDataTypeFormatter<>(decimalFormat, () -> "NULL"));
@@ -129,8 +129,8 @@ public final class ExamplesNumberDataType {
         testFormat(Short.MIN_VALUE, GenericDataTypeFormatter.forShort(16, null));
         testFormat(Byte.MAX_VALUE, GenericDataTypeFormatter.forByte(16, null));
         testFormat(Byte.MIN_VALUE, GenericDataTypeFormatter.forByte(16, null));
-        testFormat(1234.56789d, GenericDataTypeFormatter.forDouble(null));
-        testFormat(1234.56789f, GenericDataTypeFormatter.forFloat(null));
+        testFormat(1_234.567_89d, GenericDataTypeFormatter.forDouble(null));
+        testFormat(1_234.567_89f, GenericDataTypeFormatter.forFloat(null));
         testFormat(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO), GenericDataTypeFormatter.forBigInteger(16, null));
         testFormat(new BigDecimal("1234.56789"), GenericDataTypeFormatter.forBigDecimal(null));
         testFormat(new BigDecimal("1E+4"), GenericDataTypeFormatter.forBigDecimal(null));

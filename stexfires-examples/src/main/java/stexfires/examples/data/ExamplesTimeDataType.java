@@ -62,6 +62,7 @@ public final class ExamplesTimeDataType {
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static void main(String... args) {
         DateTimeFormatter instantFormatter = DateTimeFormatter.ISO_INSTANT;
         DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy G", Locale.US);
@@ -79,13 +80,13 @@ public final class ExamplesTimeDataType {
         testFormat(null, new TimeDataTypeFormatter<Instant>(instantFormatter, () -> "NULL"));
         testFormat(Instant.now(), new TimeDataTypeFormatter<>(instantFormatter, null));
         testFormat(Instant.now(), new TimeDataTypeFormatter<>(DateTimeFormatter.ISO_DATE, null));
-        testFormat(Year.of(2022), new TimeDataTypeFormatter<>(yearFormatter, null));
-        testFormat(YearMonth.of(2022, 11), new TimeDataTypeFormatter<>(yearMonthFormatter, null));
+        testFormat(Year.of(2_022), new TimeDataTypeFormatter<>(yearFormatter, null));
+        testFormat(YearMonth.of(2_022, 11), new TimeDataTypeFormatter<>(yearMonthFormatter, null));
         testFormat(Month.NOVEMBER, new TimeDataTypeFormatter<>(monthFormatter, null));
         testFormat(MonthDay.of(11, 25), new TimeDataTypeFormatter<>(monthDayFormatter, null));
         testFormat(DayOfWeek.FRIDAY, new TimeDataTypeFormatter<>(dayOfWeekFormatter, null));
-        testFormat(LocalDate.of(2022, 11, 25), new TimeDataTypeFormatter<>(localDateFormatter, null));
-        testFormat(JapaneseDate.from(LocalDate.of(2022, 11, 25)), new TimeDataTypeFormatter<>(japaneseDateFormatter, null));
+        testFormat(LocalDate.of(2_022, 11, 25), new TimeDataTypeFormatter<>(localDateFormatter, null));
+        testFormat(JapaneseDate.from(LocalDate.of(2_022, 11, 25)), new TimeDataTypeFormatter<>(japaneseDateFormatter, null));
         testFormat(LocalTime.of(22, 51, 35), new TimeDataTypeFormatter<>(localTimeFormatter, null));
         testFormat(ZonedDateTime.now(), new TimeDataTypeFormatter<>(zonedDateTimeFormatter, null));
 
@@ -144,10 +145,10 @@ public final class ExamplesTimeDataType {
         System.out.println("---ConvertingDataTypeParser Instant, Long");
         ConvertingDataTypeParser<Instant, Long> convertingDataTypeParserInstantLong = new ConvertingDataTypeParser<>(
                 StringUnaryOperators.concat(StringUnaryOperators.removeStringFromStart("'"), StringUnaryOperators.removeStringFromEnd("'")),
-                new NumberDataTypeParser<>(NumberFormat.getIntegerInstance(Locale.GERMANY), NumberDataTypeParser::toLong, null, () -> 1000L * 60L * 60L * 24L),
+                new NumberDataTypeParser<>(NumberFormat.getIntegerInstance(Locale.GERMANY), NumberDataTypeParser::toLong, null, () -> 1_000L * 60L * 60L * 24L),
                 Instant::ofEpochMilli,
-                () -> Instant.ofEpochMilli(1000L),
-                () -> Instant.ofEpochMilli(-1000L));
+                () -> Instant.ofEpochMilli(1_000L),
+                () -> Instant.ofEpochMilli(-1_000L));
         testParse(null, convertingDataTypeParserInstantLong, instantFormatter);
         testParse("", convertingDataTypeParserInstantLong, instantFormatter);
         testParse("''", convertingDataTypeParserInstantLong, instantFormatter);
@@ -171,7 +172,7 @@ public final class ExamplesTimeDataType {
                 new TimeDataTypeParser<>(instantFormatter, Instant::from, null, Instant::now),
                 INSTANT_TO_DATE,
                 () -> new Date(0),
-                () -> new Date(1000L * 60L * 60L));
+                () -> new Date(1_000L * 60L * 60L));
         testParseDate(null, convertingDataTypeParserDateInstant, instantFormatter);
         testParseDate("", convertingDataTypeParserDateInstant, instantFormatter);
         testParseDate("''", convertingDataTypeParserDateInstant, instantFormatter);

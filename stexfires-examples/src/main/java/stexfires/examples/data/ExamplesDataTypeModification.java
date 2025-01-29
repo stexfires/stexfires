@@ -83,7 +83,7 @@ public final class ExamplesDataTypeModification {
                     UnaryOperator.identity(),
                     booleanDataType0.textModifier(booleanDataType1)
             );
-            TextsMapper<TextRecord> textRecordMapper2 = TextsMapper.mapOneField(record -> record.fieldAt(0), integerDE2USMapper1);
+            TextsMapper<TextRecord> textRecordMapper2 = TextsMapper.mapOneField(record -> record.fieldAtOrElseThrow(0), integerDE2USMapper1);
 
             constantProducerValueRecord.produceStream()
                                        .map(valueRecordTextsMapper::map)

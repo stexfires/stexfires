@@ -163,6 +163,7 @@ public final class ExamplesCollectionDataType {
 
         System.out.println("---CollectionDataTypeParser String splitTextByCodePointsFunction");
         Comparator<String> stringComparator = StringComparators.collatorComparator(Locale.GERMAN);
+        // noinspection NullableProblems
         testParse("a\uD83D\uDE00o\u0308äAaA", new CollectionDataTypeParser<String, Set<String>>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.INITIALLY_EMPTY), null, Suppliers.constantNull()));
         testParse("aa", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.IDENTICAL_SIZE), null, Suppliers.constantNull()));
         testParse("abcd", new CollectionDataTypeParser<>(null, null, TextSplitters.splitByCodePointsFunction(), StringDataTypeParser.identity(), CollectionDataTypeParser.streamToSetConverter(new TreeSet<>(stringComparator), CollectionDataTypeParser.ConverterValidator.SAME_ORDER), null, Suppliers.constantNull()));

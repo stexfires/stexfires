@@ -35,6 +35,7 @@ public final class ExamplesEnumDataType {
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static void main(String... args) {
         System.out.println("---EnumDataTypeFormatter");
         testFormat(null, new EnumDataTypeFormatter<Alignment>(null));

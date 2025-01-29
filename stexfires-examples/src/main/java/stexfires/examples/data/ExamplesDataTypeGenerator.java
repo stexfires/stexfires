@@ -38,7 +38,7 @@ public final class ExamplesDataTypeGenerator {
                 Locale.GERMANY,
                 RandomNumberSuppliers.randomInteger(new Random(), 0, 100));
         DataType<Integer> integerDataTypeB = integerDataTypeA.withSupplier(
-                RandomNumberSuppliers.randomInteger(new Random(), 1000, 10000));
+                RandomNumberSuppliers.randomInteger(new Random(), 1_000, 10_000));
 
         // Boolean
         DataType<Boolean> booleanDataType = DataTypes.booleanDataType(
