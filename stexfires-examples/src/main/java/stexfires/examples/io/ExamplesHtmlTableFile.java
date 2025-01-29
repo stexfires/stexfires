@@ -23,7 +23,6 @@ public final class ExamplesHtmlTableFile {
     private ExamplesHtmlTableFile() {
     }
 
-    @SuppressWarnings("FoldExpressionIntoStream")
     private static void test1(Path path, LineSeparator lineSeparator) throws ConsumerException, IOException {
         System.out.println("-test1---");
 
@@ -76,7 +75,6 @@ public final class ExamplesHtmlTableFile {
         RecordFiles.writeStreamIntoFile(fileSpec, stream.map(AddTextMapper.category()::map), path);
     }
 
-    @SuppressWarnings("FoldExpressionIntoStream")
     private static void test2(Path path, LineSeparator lineSeparator) throws ConsumerException, IOException {
         System.out.println("-test2---");
 

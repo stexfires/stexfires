@@ -111,7 +111,7 @@ public final class ExamplesPropertiesFile {
         String s2 = "\\b\\z";
         appendInBothDirections(consumerValueFileSpec, path, "s2", s2);
 
-        StringBuilder s3 = new StringBuilder();
+        StringBuilder s3 = new StringBuilder(256);
         for (int c = 65; c < 256; c++) {
             s3.appendCodePoint(c);
         }
@@ -122,7 +122,7 @@ public final class ExamplesPropertiesFile {
     private static void writePreparedPropertiesFileLong(Path path, SingleValueFileSpec consumerValueFileSpec) throws ConsumerException, IOException {
         RecordFiles.writeRecordIntoFile(consumerValueFileSpec, new ValueFieldRecord("#################"), path);
 
-        StringBuilder bmpCodePoints = new StringBuilder();
+        StringBuilder bmpCodePoints = new StringBuilder(CodePoint.MAX_BMP_CODE_POINT);
         for (int c = 65; c <= CodePoint.MAX_BMP_CODE_POINT; c++) {
             CodePoint cp = new CodePoint(c);
             if (isUsableCodePoint(cp)) {
@@ -131,7 +131,7 @@ public final class ExamplesPropertiesFile {
         }
         appendInBothDirections(consumerValueFileSpec, path, "bmpCodePoints", bmpCodePoints.toString());
 
-        StringBuilder supCodePoints = new StringBuilder();
+        StringBuilder supCodePoints = new StringBuilder(CodePoint.MAX_SUPPLEMENTARY_CODE_POINT - CodePoint.MIN_SUPPLEMENTARY_CODE_POINT);
         for (int c = CodePoint.MIN_SUPPLEMENTARY_CODE_POINT; c <= CodePoint.MAX_SUPPLEMENTARY_CODE_POINT; c++) {
             CodePoint cp = new CodePoint(c);
             if (isUsableCodePoint(cp)) {
@@ -268,6 +268,7 @@ public final class ExamplesPropertiesFile {
         compare(properties, map);
     }
 
+    @SuppressWarnings("unused")
     private static void test4(Path path, LineSeparator lineSeparator) throws ProducerException, IOException {
         System.out.println("-test4-----------------------------------------------------------------------------------");
 
@@ -296,7 +297,6 @@ public final class ExamplesPropertiesFile {
         compare(properties, map);
     }
 
-    @SuppressWarnings("OverlyBroadThrowsClause")
     private static void test5(Path path, LineSeparator lineSeparator) throws ProducerException, IOException, ConsumerException {
         System.out.println("-test5-----------------------------------------------------------------------------------");
 
@@ -336,7 +336,6 @@ public final class ExamplesPropertiesFile {
         compare(properties2, map);
     }
 
-    @SuppressWarnings("OverlyBroadThrowsClause")
     private static void test6(Path path, LineSeparator lineSeparator) throws ProducerException, ConsumerException, IOException {
         System.out.println("-test6-----------------------------------------------------------------------------------");
 

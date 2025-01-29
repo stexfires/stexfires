@@ -32,7 +32,7 @@ import java.util.stream.*;
 import static stexfires.examples.record.RecordSystemOutUtil.*;
 import static stexfires.io.RecordIOStreams.*;
 
-@SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator", "ReturnOfNull"})
+@SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesIO {
 
     private ExamplesIO() {

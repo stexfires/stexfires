@@ -23,21 +23,20 @@ import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
 import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 
-@SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr"})
+@SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesJsonFile {
 
     private ExamplesJsonFile() {
     }
 
-    @SuppressWarnings("HardcodedLineSeparator")
     private static Stream<TextRecord> generateStream() {
         return Stream.of(
-                new ManyFieldsRecord("category1000", 1000L,
+                new ManyFieldsRecord("category1000", 1_000L,
                         "abc", "abc", "\"abc\"", "0", "true", null, "   1,2,3", "[1, 2, 3]", "   \"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
-                new ManyFieldsRecord("category1002", 1002L,
+                new ManyFieldsRecord("category1002", 1_002L,
                         "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null, null),
-                new ManyFieldsRecord("category1003", 1003L,
+                new ManyFieldsRecord("category1003", 1_003L,
                         " ", "", "\"\"", null, null, "", "true", "[]", null, null)
         );
     }

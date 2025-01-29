@@ -29,7 +29,7 @@ public final class ExamplesContainer {
         KeyValueFieldsRecord keyValueFieldsRecord = new KeyValueFieldsRecord("cat", 1L, "key", "value");
         KeyValueCommentFieldsRecord keyValueCommentFieldsRecord = new KeyValueCommentFieldsRecord(null, null, "key", null, "comment");
         ManyFieldsRecord manyFieldsRecord = new ManyFieldsRecord("category", 1L, "value0", "value1", null, "value3", "", "value4");
-        TwoFieldsRecord twoFieldsRecord = new TwoFieldsRecord(null, 1000L, "firstField", "secondField");
+        TwoFieldsRecord twoFieldsRecord = new TwoFieldsRecord(null, 1_000L, "firstField", "secondField");
         ValueFieldRecord valueFieldRecord = new ValueFieldRecord(null, null, "value0");
         DosPathFieldsRecord dosPathFieldsRecord = DosPathFieldsRecord.newDosPathFieldsRecord(Paths.get("C:\\"));
 

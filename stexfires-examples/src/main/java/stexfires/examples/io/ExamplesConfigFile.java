@@ -45,7 +45,7 @@ public final class ExamplesConfigFile {
 
                 TextRecords.empty(),
 
-                new KeyValueFieldsRecord("section", 1000L, "property", "value1000"),
+                new KeyValueFieldsRecord("section", 1_000L, "property", "value1000"),
 
                 new KeyValueFieldsRecord("Section700", 700L, "property100", "value700"),
                 new KeyValueFieldsRecord("Section700", 701L, "property200", "value701"),
@@ -54,21 +54,21 @@ public final class ExamplesConfigFile {
                 new KeyValueFieldsRecord("Section700", 704L, "property500", "value704"),
                 new KeyValueFieldsRecord("Section700", 705L, "property600", "value705"),
 
-                new KeyValueFieldsRecord("section", 1001L, "property", "value1001"),
+                new KeyValueFieldsRecord("section", 1_001L, "property", "value1001"),
 
                 new KeyValueFieldsRecord(" Section600 ", 600L, "property600", "value600"),
                 new KeyValueFieldsRecord("   Section600   ", 601L, "property601", "value601"),
                 new KeyValueFieldsRecord(" Section 600 ", 600L, "property600", "value600"),
                 new KeyValueFieldsRecord("   Section 600   ", 601L, "property601", "value601"),
 
-                new KeyValueFieldsRecord("section", 1002L, "property", "value1002"),
+                new KeyValueFieldsRecord("section", 1_002L, "property", "value1002"),
 
                 new KeyValueCommentFieldsRecord("Section500", 500L, "property500", "value500", "comment500"),
                 new KeyValueCommentFieldsRecord("section500", 501L, "property501", "value501", "comment501"),
                 new KeyValueCommentFieldsRecord("Section500", 502L, "property502", "value502", "comment502"),
                 new KeyValueCommentFieldsRecord("Section500", 503L, "property500", "value503", "comment503"),
 
-                new KeyValueFieldsRecord("section", 1003L, "property", "value1003"),
+                new KeyValueFieldsRecord("section", 1_003L, "property", "value1003"),
 
                 new TwoFieldsRecord("Section200", 200L, "", null),
                 new TwoFieldsRecord("Section200", 201L, "A", "201"),
@@ -78,7 +78,7 @@ public final class ExamplesConfigFile {
                 new TwoFieldsRecord("Section200", 205L, "A", null),
                 new TwoFieldsRecord("Section200.A", 206L, "A", "206"),
 
-                new KeyValueFieldsRecord("section", 1004L, "property", "value1004"),
+                new KeyValueFieldsRecord("section", 1_004L, "property", "value1004"),
 
                 new KeyValueFieldsRecord("section800", 806L, "property0", "\u20AC \u0178"),
                 new KeyValueFieldsRecord("SECTION800", 807L, "property1", "\u00A6 \u00BC \u00B4 \u00B8"),

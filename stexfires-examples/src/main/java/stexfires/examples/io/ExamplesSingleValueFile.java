@@ -190,7 +190,6 @@ public final class ExamplesSingleValueFile {
         }
     }
 
-    @SuppressWarnings("OverlyBroadThrowsClause")
     private static void test5(Path path, LineSeparator lineSeparator) throws IOException {
         System.out.println("-test5---");
 
