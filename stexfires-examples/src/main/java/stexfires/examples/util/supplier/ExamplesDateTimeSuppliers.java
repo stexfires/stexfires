@@ -114,7 +114,6 @@ public final class ExamplesDateTimeSuppliers {
 
         LocalDate localDateNow = LocalDate.ofInstant(INSTANT_NOW, ZONE_ID);
         LocalTime localTimeNow = LocalTime.ofInstant(INSTANT_NOW, ZONE_ID);
-        LocalDateTime localDateTimeNow = LocalDateTime.ofInstant(INSTANT_NOW, ZONE_ID);
 
         generateAndPrintStream("localDateTimeOfInstant instantOfEpochSecond randomEpochSecond - instantNow + 1 day",
                 DateTimeSuppliers.localDateTimeOfInstant(
@@ -141,7 +140,7 @@ public final class ExamplesDateTimeSuppliers {
 
         LocalDate localDateNow = LocalDate.ofInstant(INSTANT_NOW, ZONE_ID);
         LocalTime localTimeNow = LocalTime.ofInstant(INSTANT_NOW, ZONE_ID);
-        ZonedDateTime zonedDateTimeNow = ZonedDateTime.ofInstant(INSTANT_NOW, ZONE_ID);
+        ZonedDateTime.ofInstant(INSTANT_NOW, ZONE_ID);
 
         generateAndPrintStream("zonedDateTimeOfInstant instantOfEpochSecond randomEpochSecond - instantNow + 1 day",
                 DateTimeSuppliers.zonedDateTimeOfInstant(
@@ -179,11 +178,11 @@ public final class ExamplesDateTimeSuppliers {
 
         generateAndPrintStream("year randomPrimitiveInt - 2020-2022",
                 DateTimeSuppliers.year(
-                        RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 2020, 2022)));
+                        RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 2_020, 2_022)));
 
         generateAndPrintStream("year randomYearInclusive - 2020-2022",
                 DateTimeSuppliers.year(
-                        DateTimeSuppliers.randomYearInclusive(RANDOM, Year.of(2020), Year.of(2022))));
+                        DateTimeSuppliers.randomYearInclusive(RANDOM, Year.of(2_020), Year.of(2_022))));
     }
 
     private static void showMonth() {
@@ -203,13 +202,13 @@ public final class ExamplesDateTimeSuppliers {
 
         generateAndPrintStream("yearMonth randomPrimitiveInt - 2020-2024 AND randomPrimitiveInt - 9-13",
                 DateTimeSuppliers.yearMonth(
-                        RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 2020, 2024),
+                        RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 2_020, 2_024),
                         RandomNumberSuppliers.randomPrimitiveInt(RANDOM, 9, 13)));
 
         generateAndPrintStream("yearMonthOfYearAndMonth randomYearInclusive - 2020-2022 AND randomMonthInclusive - APRIL-JUNE",
                 DateTimeSuppliers.yearMonthOfYearAndMonth(
                         DateTimeSuppliers.year(
-                                DateTimeSuppliers.randomYearInclusive(RANDOM, Year.of(2020), Year.of(2022))),
+                                DateTimeSuppliers.randomYearInclusive(RANDOM, Year.of(2_020), Year.of(2_022))),
                         DateTimeSuppliers.month(
                                 DateTimeSuppliers.randomMonthInclusive(RANDOM, Month.APRIL, Month.JUNE))));
     }

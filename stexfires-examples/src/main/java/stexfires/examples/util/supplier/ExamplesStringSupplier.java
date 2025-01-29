@@ -38,7 +38,6 @@ public final class ExamplesStringSupplier {
                 "0123ABCD4567abcdXYZ"));
     }
 
-    @SuppressWarnings("CharUsedInArithmeticContext")
     private static void showRandomStringSuppliers() {
         System.out.println("-showRandomStringSuppliers---");
 
@@ -57,7 +56,7 @@ public final class ExamplesStringSupplier {
                         }
                 ));
         generateAndPrintStream("codePointConcatenation Boundary 128512-128515 smileys",
-                RandomStringSuppliers.codePointConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20), 128512, 128515,
+                RandomStringSuppliers.codePointConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20), 128_512, 128_515,
                         codePoint -> true
                 ));
         generateAndPrintStream("codePointConcatenation Boundary large codePoints isLetterOrDigit",
@@ -66,10 +65,10 @@ public final class ExamplesStringSupplier {
                 ));
         generateAndPrintStream("codePointConcatenation List 3",
                 RandomStringSuppliers.codePointConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20),
-                        List.of(65, "€".codePointAt(0), 128512)));
+                        List.of(65, "€".codePointAt(0), 128_512)));
         generateAndPrintStream("codePointConcatenation Array 3",
                 RandomStringSuppliers.codePointConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20),
-                        65, "€".codePointAt(0), 128512));
+                        65, "€".codePointAt(0), 128_512));
         generateAndPrintStream("codePointConcatenation String",
                 RandomStringSuppliers.codePointConcatenation(RANDOM, () -> RANDOM.nextInt(5, 20),
                         "AbcdEfghIjklmnOpqrstUvwxyz"));

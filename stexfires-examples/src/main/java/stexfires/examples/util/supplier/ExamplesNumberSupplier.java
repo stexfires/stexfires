@@ -81,17 +81,17 @@ public final class ExamplesNumberSupplier {
         generateAndPrintIntStream("primitiveIntSelection Array 1",
                 RandomNumberSuppliers.primitiveIntSelection(RANDOM, 42));
         generateAndPrintIntStream("primitiveIntSelection Array 3",
-                RandomNumberSuppliers.primitiveIntSelection(RANDOM, 42, 23, 1024));
+                RandomNumberSuppliers.primitiveIntSelection(RANDOM, 42, 23, 1_024));
 
         generateAndPrintLongStream("primitiveLongSelection Array 1",
                 RandomNumberSuppliers.primitiveLongSelection(RANDOM, 42L));
         generateAndPrintLongStream("primitiveLongSelection Array 3",
-                RandomNumberSuppliers.primitiveLongSelection(RANDOM, 42L, 23L, 1024L));
+                RandomNumberSuppliers.primitiveLongSelection(RANDOM, 42L, 23L, 1_024L));
 
         generateAndPrintDoubleStream("primitiveDoubleSelection Array 1",
                 RandomNumberSuppliers.primitiveDoubleSelection(RANDOM, 42.42d));
         generateAndPrintDoubleStream("primitiveDoubleSelection Array 3",
-                RandomNumberSuppliers.primitiveDoubleSelection(RANDOM, 42.42d, 23.23d, 1024.1024d));
+                RandomNumberSuppliers.primitiveDoubleSelection(RANDOM, 42.42d, 23.23d, 1_024.102_4d));
     }
 
     public static void main(String... args) {

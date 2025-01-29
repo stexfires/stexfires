@@ -116,7 +116,7 @@ public final class ExamplesSupplier {
         generateAndPrintStreamAsString("Natural numbers", 50, CalculatedSequenceSupplier.ofLongIndex(ONE, 1L, BigInteger::valueOf));
 
         // DateTime sequences
-        generateAndPrintStreamAsString("LocalDate", 50, CalculatedSequenceSupplier.ofValue(LocalDate.of(2020, 1, 1), value -> value.plusDays(1)));
+        generateAndPrintStreamAsString("LocalDate", 50, CalculatedSequenceSupplier.ofValue(LocalDate.of(2_020, 1, 1), value -> value.plusDays(1)));
         generateAndPrintStreamAsString("ZoneDateTime", 10, CalculatedSequenceSupplier.ofLongIndexAndValue(ZonedDateTime.now(), (index, value) -> value.plusHours(index)));
         generateAndPrintStreamAsString("Year", 100, CalculatedSequenceSupplier.ofIntIndex(Year.of(1), 1, Year::of));
         generateAndPrintStreamAsString("Year", 100, CalculatedSequenceSupplier.ofValue(Year.of(1), value -> value.plusYears(1)));
@@ -181,6 +181,7 @@ public final class ExamplesSupplier {
                 SequenceSupplier.asPrimitiveLong(-1L));
     }
 
+    @SuppressWarnings("unused")
     private static void showRepeatingPatternSupplier() {
         System.out.println("-showRepeatingPatternSupplier---");
 
@@ -417,12 +418,12 @@ public final class ExamplesSupplier {
         generateAndPrintStream("Boolean 1", Suppliers.randomListSelection(RANDOM, List.of(TRUE)));
         generateAndPrintStream("Alignment 2", Suppliers.randomListSelection(RANDOM, List.of(Alignment.START, Alignment.END)));
         generateAndPrintStream("Alignment 3", Suppliers.randomListSelection(RANDOM, Arrays.asList(Alignment.values())));
-        generateAndPrintStream("Integer 3", Suppliers.randomListSelection(RANDOM, List.of(42, 23, 1024)));
-        generateAndPrintStream("Long 3", Suppliers.randomListSelection(RANDOM, List.of(42L, 23L, 1024L)));
-        generateAndPrintStream("Double 3", Suppliers.randomListSelection(RANDOM, List.of(42.0d, 23.0d, 1024.0d)));
-        generateAndPrintStream("Float 3", Suppliers.randomListSelection(RANDOM, List.of(42.0f, 23.0f, 1024.0f)));
-        generateAndPrintStream("BigInteger 3", Suppliers.randomListSelection(RANDOM, List.of(BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1024L))));
-        generateAndPrintStream("BigDecimal 3", Suppliers.randomListSelection(RANDOM, List.of(BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1024.0d))));
+        generateAndPrintStream("Integer 3", Suppliers.randomListSelection(RANDOM, List.of(42, 23, 1_024)));
+        generateAndPrintStream("Long 3", Suppliers.randomListSelection(RANDOM, List.of(42L, 23L, 1_024L)));
+        generateAndPrintStream("Double 3", Suppliers.randomListSelection(RANDOM, List.of(42.0d, 23.0d, 1_024.0d)));
+        generateAndPrintStream("Float 3", Suppliers.randomListSelection(RANDOM, List.of(42.0f, 23.0f, 1_024.0f)));
+        generateAndPrintStream("BigInteger 3", Suppliers.randomListSelection(RANDOM, List.of(BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1_024L))));
+        generateAndPrintStream("BigDecimal 3", Suppliers.randomListSelection(RANDOM, List.of(BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1_024.0d))));
 
         generateAndPrintStream("splitTextByCharacterBreaks", Suppliers.randomListSelection(RANDOM, TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
     }
@@ -435,12 +436,12 @@ public final class ExamplesSupplier {
         generateAndPrintStream("Boolean 1", Suppliers.randomSelection(RANDOM, TRUE));
         generateAndPrintStream("Alignment 2", Suppliers.randomSelection(RANDOM, Alignment.START, Alignment.END));
         generateAndPrintStream("Alignment 3", Suppliers.randomSelection(RANDOM, Alignment.values()));
-        generateAndPrintStream("Integer 3", Suppliers.randomSelection(RANDOM, 42, 23, 1024));
-        generateAndPrintStream("Long 3", Suppliers.randomSelection(RANDOM, 42L, 23L, 1024L));
-        generateAndPrintStream("Double 3", Suppliers.randomSelection(RANDOM, 42.0d, 23.0d, 1024.0d));
-        generateAndPrintStream("Float 3", Suppliers.randomSelection(RANDOM, 42.0f, 23.0f, 1024.0f));
-        generateAndPrintStream("BigInteger 3", Suppliers.randomSelection(RANDOM, BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1024L)));
-        generateAndPrintStream("BigDecimal 3", Suppliers.randomSelection(RANDOM, BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1024.0d)));
+        generateAndPrintStream("Integer 3", Suppliers.randomSelection(RANDOM, 42, 23, 1_024));
+        generateAndPrintStream("Long 3", Suppliers.randomSelection(RANDOM, 42L, 23L, 1_024L));
+        generateAndPrintStream("Double 3", Suppliers.randomSelection(RANDOM, 42.0d, 23.0d, 1_024.0d));
+        generateAndPrintStream("Float 3", Suppliers.randomSelection(RANDOM, 42.0f, 23.0f, 1_024.0f));
+        generateAndPrintStream("BigInteger 3", Suppliers.randomSelection(RANDOM, BigInteger.valueOf(42L), BigInteger.valueOf(23L), BigInteger.valueOf(1_024L)));
+        generateAndPrintStream("BigDecimal 3", Suppliers.randomSelection(RANDOM, BigDecimal.valueOf(42.0d), BigDecimal.valueOf(23.0d), BigDecimal.valueOf(1_024.0d)));
     }
 
     private static void showIntSupplierListSelection() {
@@ -453,7 +454,7 @@ public final class ExamplesSupplier {
         generateAndPrintStream("Boolean 1", Suppliers.intSupplierListSelection(intSupplier, List.of(TRUE)));
         generateAndPrintStream("Alignment 2", Suppliers.intSupplierListSelection(intSupplier, List.of(Alignment.START, Alignment.END)));
         generateAndPrintStream("Alignment 3", Suppliers.intSupplierListSelection(intSupplier, Arrays.asList(Alignment.values())));
-        generateAndPrintStream("Integer 3", Suppliers.intSupplierListSelection(intSupplier, List.of(42, 23, 1024)));
+        generateAndPrintStream("Integer 3", Suppliers.intSupplierListSelection(intSupplier, List.of(42, 23, 1_024)));
 
         generateAndPrintStream("splitTextByCharacterBreaks", Suppliers.intSupplierListSelection(intSupplier, TextSplitters.breakByCharacter(ExamplesStrings.SPECIAL_CHARACTERS, Locale.US).toList()));
     }
@@ -468,7 +469,7 @@ public final class ExamplesSupplier {
         generateAndPrintStream("Boolean 1", Suppliers.intSupplierSelection(intSupplier, TRUE));
         generateAndPrintStream("Alignment 2", Suppliers.intSupplierSelection(intSupplier, Alignment.START, Alignment.END));
         generateAndPrintStream("Alignment 3", Suppliers.intSupplierSelection(intSupplier, Alignment.values()));
-        generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1024));
+        generateAndPrintStream("Integer 3", Suppliers.intSupplierSelection(intSupplier, 42, 23, 1_024));
     }
 
     private static void showRandomUUID() {
@@ -482,7 +483,7 @@ public final class ExamplesSupplier {
 
         generateAndPrintStream("ArrayList randomUUID", Suppliers.replenishedCollection(ArrayList::new, Suppliers.randomUUID(),
                 () -> 3, 3));
-        generateAndPrintStream("TreeSet randomInteger", Suppliers.replenishedCollection(TreeSet::new, RandomNumberSuppliers.randomInteger(RANDOM, 100, 1000),
+        generateAndPrintStream("TreeSet randomInteger", Suppliers.replenishedCollection(TreeSet::new, RandomNumberSuppliers.randomInteger(RANDOM, 100, 1_000),
                 () -> 10, Integer.MAX_VALUE));
         generateAndPrintStream("HashSet randomInteger", Suppliers.replenishedCollection(HashSet::new, RandomNumberSuppliers.randomInteger(RANDOM, 0, 2),
                 () -> 3, 4));
