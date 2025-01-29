@@ -10,8 +10,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.*;
 
-import static stexfires.io.internal.WritableConsumerState.*;
-
 /**
  * @since 0.1
  */
@@ -29,11 +27,43 @@ public abstract sealed class AbstractInternalWritableConsumer<T extends TextReco
         stexfires.io.properties.PropertiesConsumer,
         stexfires.io.singlevalue.SingleValueConsumer {
 
+    private enum WritableConsumerState {
+        OPEN,
+        WRITE_BEFORE,
+        WRITE_RECORDS,
+        WRITE_AFTER,
+        CLOSE;
+
+        private static void validateStates(WritableConsumerState currentState, WritableConsumerState newState) throws IllegalStateException {
+            Objects.requireNonNull(currentState);
+            Objects.requireNonNull(newState);
+            if ((currentState.ordinal() + 1) != newState.ordinal()) {
+                if ((newState != CLOSE)
+                        && !((currentState == WRITE_BEFORE) && (newState == WRITE_AFTER))
+                        && !((currentState == WRITE_RECORDS) && (newState == WRITE_RECORDS))) {
+                    throw new IllegalStateException("Wrong WritableConsumerState! " + currentState + " -> " + newState);
+                }
+            }
+        }
+
+        final void validateNotClosed() throws IllegalStateException {
+            if (this == CLOSE) {
+                throw new IllegalStateException("Wrong WritableConsumerState! " + this);
+            }
+        }
+
+        final WritableConsumerState validate(WritableConsumerState currentState) throws IllegalStateException {
+            validateStates(currentState, this);
+            return this;
+        }
+
+    }
+
     private WritableConsumerState state;
 
     protected AbstractInternalWritableConsumer(BufferedWriter bufferedWriter) {
         super(bufferedWriter);
-        state = OPEN;
+        state = WritableConsumerState.OPEN;
     }
 
     protected final void writeString(String str) throws IOException {
@@ -56,19 +86,19 @@ public abstract sealed class AbstractInternalWritableConsumer<T extends TextReco
 
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
-        state = WRITE_BEFORE.validate(state);
+        state = WritableConsumerState.WRITE_BEFORE.validate(state);
         super.writeBefore();
     }
 
     @Override
     public void writeRecord(T record) throws ConsumerException, UncheckedConsumerException, IOException {
         Objects.requireNonNull(record);
-        state = WRITE_RECORDS.validate(state);
+        state = WritableConsumerState.WRITE_RECORDS.validate(state);
     }
 
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
-        state = WRITE_AFTER.validate(state);
+        state = WritableConsumerState.WRITE_AFTER.validate(state);
         super.writeAfter();
     }
 
@@ -80,7 +110,7 @@ public abstract sealed class AbstractInternalWritableConsumer<T extends TextReco
 
     @Override
     public final void close() throws IOException {
-        state = CLOSE.validate(state);
+        state = WritableConsumerState.CLOSE.validate(state);
         super.close();
     }
 

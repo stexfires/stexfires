@@ -13,8 +13,6 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import static stexfires.io.internal.ReadableProducerState.*;
-
 /**
  * @since 0.1
  */
@@ -29,6 +27,30 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
         stexfires.io.properties.PropertiesProducer,
         stexfires.io.singlevalue.SingleValueProducer {
 
+    private enum ReadableProducerState {
+        OPEN,
+        READ_BEFORE,
+        READ_RECORDS,
+        READ_AFTER,
+        CLOSE;
+
+        private static void validateStates(ReadableProducerState currentState, ReadableProducerState newState) throws IllegalStateException {
+            Objects.requireNonNull(currentState);
+            Objects.requireNonNull(newState);
+            if ((currentState.ordinal() + 1) != newState.ordinal()) {
+                if (newState != CLOSE) {
+                    throw new IllegalStateException("Wrong ReadableProducerState! " + currentState + " -> " + newState);
+                }
+            }
+        }
+
+        final ReadableProducerState validate(ReadableProducerState currentState) throws IllegalStateException {
+            validateStates(currentState, this);
+            return this;
+        }
+
+    }
+
     private ReadableProducerState state;
 
     protected AbstractInternalReadableProducer(BufferedReader bufferedReader) {
@@ -39,35 +61,35 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     protected AbstractInternalReadableProducer(BufferedReader bufferedReader,
                                                @Nullable Consumer<RecordRawData> recordRawDataLogger) {
         super(bufferedReader, recordRawDataLogger);
-        state = OPEN;
+        state = ReadableProducerState.OPEN;
     }
 
     @Override
     public void readBefore() throws ProducerException, UncheckedProducerException, IOException {
-        state = READ_BEFORE.validate(state);
+        state = ReadableProducerState.READ_BEFORE.validate(state);
         super.readBefore();
     }
 
     @Override
     public Stream<T> readRecords() throws ProducerException, UncheckedProducerException, IOException {
-        state = READ_RECORDS.validate(state);
+        state = ReadableProducerState.READ_RECORDS.validate(state);
         return super.readRecords();
     }
 
     @Override
     public void readAfter() throws ProducerException, UncheckedProducerException, IOException {
-        state = READ_AFTER.validate(state);
+        state = ReadableProducerState.READ_AFTER.validate(state);
         super.readAfter();
     }
 
     @Override
     public void close() throws IOException {
-        state = CLOSE.validate(state);
+        state = ReadableProducerState.CLOSE.validate(state);
         super.close();
     }
 
     protected final long recordCount() {
-        if ((state != READ_AFTER) && (state != CLOSE)) {
+        if ((state != ReadableProducerState.READ_AFTER) && (state != ReadableProducerState.CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {
@@ -77,7 +99,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     protected final List<RecordRawData> firstIgnored() {
-        if ((state != READ_AFTER) && (state != CLOSE)) {
+        if ((state != ReadableProducerState.READ_AFTER) && (state != ReadableProducerState.CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {
@@ -87,7 +109,7 @@ public abstract sealed class AbstractInternalReadableProducer<T extends TextReco
     }
 
     protected final List<RecordRawData> lastIgnored() {
-        if ((state != READ_AFTER) && (state != CLOSE)) {
+        if ((state != ReadableProducerState.READ_AFTER) && (state != ReadableProducerState.CLOSE)) {
             throw new IllegalStateException("Illegal state! " + state);
         }
         if (getIterator() == null) {
