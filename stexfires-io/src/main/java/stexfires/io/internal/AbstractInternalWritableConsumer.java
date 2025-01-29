@@ -14,18 +14,7 @@ import java.util.*;
  * @since 0.1
  */
 @SuppressWarnings("resource")
-public abstract sealed class AbstractInternalWritableConsumer<T extends TextRecord> extends AbstractWritableConsumer<T>
-        permits
-        stexfires.io.config.ConfigConsumer,
-        stexfires.io.delimited.simple.SimpleDelimitedConsumer,
-        stexfires.io.fixedwidth.FixedWidthConsumer,
-        stexfires.io.html.table.HtmlTableConsumer,
-        stexfires.io.json.JsonConsumer,
-        stexfires.io.markdown.list.MarkdownListConsumer,
-        stexfires.io.markdown.table.MarkdownTableConsumer,
-        stexfires.io.message.RecordMessageConsumer,
-        stexfires.io.properties.PropertiesConsumer,
-        stexfires.io.singlevalue.SingleValueConsumer {
+public abstract class AbstractInternalWritableConsumer<T extends TextRecord> extends AbstractWritableConsumer<T> {
 
     private enum WritableConsumerState {
         OPEN,

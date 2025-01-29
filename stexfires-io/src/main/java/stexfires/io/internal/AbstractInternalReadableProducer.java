@@ -17,15 +17,7 @@ import java.util.stream.*;
  * @since 0.1
  */
 @SuppressWarnings("RedundantThrows")
-public abstract sealed class AbstractInternalReadableProducer<T extends TextRecord> extends AbstractReadableProducer<T>
-        permits
-        stexfires.io.config.ConfigProducer,
-        stexfires.io.delimited.simple.SimpleDelimitedProducer,
-        stexfires.io.fixedwidth.FixedWidthProducer,
-        stexfires.io.json.JsonProducer,
-        stexfires.io.markdown.list.MarkdownListProducer,
-        stexfires.io.properties.PropertiesProducer,
-        stexfires.io.singlevalue.SingleValueProducer {
+public abstract class AbstractInternalReadableProducer<T extends TextRecord> extends AbstractReadableProducer<T> {
 
     private enum ReadableProducerState {
         OPEN,
