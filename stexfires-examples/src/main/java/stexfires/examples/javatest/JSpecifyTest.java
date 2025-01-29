@@ -2,13 +2,12 @@ package stexfires.examples.javatest;
 
 import org.jspecify.annotations.Nullable;
 
-@SuppressWarnings({"UseOfSystemOutOrSystemErr", "MethodCanBeVariableArityMethod"})
+@SuppressWarnings({"UseOfSystemOutOrSystemErr", "MethodCanBeVariableArityMethod", "DataFlowIssue", "NullableProblems", "ConfusingArgumentToVarargsMethod", "ConstantValue"})
 public final class JSpecifyTest {
 
     private JSpecifyTest() {
     }
 
-    @SuppressWarnings("ConstantValue")
     public static void testStringVarargs1(@Nullable String... stringValues) {
         if (stringValues == null) {
             System.out.println("testStringVarargs1 is NULL");
@@ -29,7 +28,6 @@ public final class JSpecifyTest {
         }
     }
 
-    @SuppressWarnings("ConstantValue")
     public static void testStringArray1(@Nullable String[] stringValues) {
         if (stringValues == null) {
             System.out.println("testStringArray1 is NULL");
@@ -50,7 +48,6 @@ public final class JSpecifyTest {
         }
     }
 
-    @SuppressWarnings("ConstantValue")
     public static void testIntVarargs1(int... intValues) {
         if (intValues == null) {
             System.out.println("testIntVarargs1 is NULL");
@@ -71,7 +68,6 @@ public final class JSpecifyTest {
         }
     }
 
-    @SuppressWarnings("ConstantValue")
     public static void testIntArray1(int[] intValues) {
         if (intValues == null) {
             System.out.println("testIntArray1 is NULL");

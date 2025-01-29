@@ -60,7 +60,7 @@ public final class GZIPTest {
         System.out.println(Arrays.toString(compressGZIP(new byte[0])));
         System.out.println(Arrays.toString(compressGZIP(new byte[1])));
         System.out.println(Arrays.toString(compressGZIP(new byte[100])));
-        System.out.println(Arrays.toString(compressGZIP(new byte[10000])));
+        System.out.println(Arrays.toString(compressGZIP(new byte[10_000])));
         System.out.println(Arrays.toString(compressGZIP(new byte[]{-1, -1, -1})));
         System.out.println(Arrays.toString(compressGZIP(new byte[]{-128, -128, -128})));
         System.out.println(Arrays.toString(compressGZIP(new byte[]{127, 127, 127})));

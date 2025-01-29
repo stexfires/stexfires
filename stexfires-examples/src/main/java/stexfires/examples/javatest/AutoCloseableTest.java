@@ -79,7 +79,7 @@ public final class AutoCloseableTest {
         NONE, CONSTRUCTOR, METHOD, CLOSE, METHOD_AND_CLOSE
     }
 
-    @SuppressWarnings({"ClassCanBeRecord", "UseOfSystemOutOrSystemErr"})
+    @SuppressWarnings("ClassCanBeRecord")
     private static final class TestCloseable implements AutoCloseable {
 
         private final ThrowRuntimeExceptionType throwRuntimeExceptionType;

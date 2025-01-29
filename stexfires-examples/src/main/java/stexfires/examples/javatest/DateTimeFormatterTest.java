@@ -24,9 +24,9 @@ public final class DateTimeFormatterTest {
     private static void showDateTimeFormatterOfPattern() {
         System.out.println("-showDateTimeFormatterOfPattern---");
 
-        ZonedDateTime zonedDateTime1 = ZonedDateTime.of(2022, 12, 31, 20, 45, 35, 123456789, ZoneId.of("GMT+0"));
-        ZonedDateTime zonedDateTime2 = ZonedDateTime.of(2022, 12, 31, 20, 45, 35, 123456789, ZoneId.of("GMT+1"));
-        ZonedDateTime zonedDateTime3 = ZonedDateTime.of(2022, 12, 31, 20, 45, 35, 123456789, ZoneId.of("Europe/Berlin"));
+        ZonedDateTime zonedDateTime1 = ZonedDateTime.of(2_022, 12, 31, 20, 45, 35, 123_456_789, ZoneId.of("GMT+0"));
+        ZonedDateTime zonedDateTime2 = ZonedDateTime.of(2_022, 12, 31, 20, 45, 35, 123_456_789, ZoneId.of("GMT+1"));
+        ZonedDateTime zonedDateTime3 = ZonedDateTime.of(2_022, 12, 31, 20, 45, 35, 123_456_789, ZoneId.of("Europe/Berlin"));
         printlnPattern(zonedDateTime1);
         printlnPattern(zonedDateTime2);
         printlnPattern(zonedDateTime3);
@@ -46,7 +46,7 @@ public final class DateTimeFormatterTest {
     private static void showDateTimeFormatterOfLocalizedPattern() {
         System.out.println("-showDateTimeFormatterOfLocalizedPattern---");
 
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(2022, 12, 31, 20, 45, 35, 123456789, ZoneId.of("GMT+2"));
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(2_022, 12, 31, 20, 45, 35, 123_456_789, ZoneId.of("GMT+2"));
 
         printlnLocalizedPattern(zonedDateTime);
     }

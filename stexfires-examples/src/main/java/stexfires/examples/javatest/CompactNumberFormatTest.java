@@ -7,7 +7,7 @@ import java.util.*;
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public final class CompactNumberFormatTest {
 
-    private static final int[] INT_VALUES = new int[]{-1000000, 1000, 1499, 1500, 5000, 10000, 100000, 999999, 1000000};
+    private static final int[] INT_VALUES = new int[]{-1_000_000, 1_000, 1_499, 1_500, 5_000, 10_000, 100_000, 999_999, 1_000_000};
 
     private CompactNumberFormatTest() {
     }
