@@ -66,9 +66,17 @@ public final class GZIPTest {
         System.out.println(Arrays.toString(compressGZIP(new byte[]{127, 127, 127})));
 
         System.out.println(Arrays.toString(decompressGZIP(new byte[]{31, -117, 8, 0, 0, 0, 0, 0, 0, -1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0})));
+    }
 
-        // throws ZipException
-        System.out.println(Arrays.toString(decompressGZIP(new byte[]{31, -117, 8, 0, 0, 0, 0, 0, 0, -1, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0})));
+    private static void testGZIPException() {
+        System.out.println("---testGZIPException--");
+
+        try {
+            // throws ZipException
+            System.out.println(Arrays.toString(decompressGZIP(new byte[]{31, -117, 8, 0, 0, 0, 0, 0, 0, -1, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0})));
+        } catch (UncheckedIOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -78,6 +86,7 @@ public final class GZIPTest {
         testGZIP("ä ² ß € \uD83D\uDE00 o\u0308 A\u030a");
         testGZIP("Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! Hello world! ");
         testGZIPSpecial();
+        testGZIPException();
     }
 
 }
