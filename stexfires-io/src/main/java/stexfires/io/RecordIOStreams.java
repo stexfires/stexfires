@@ -434,6 +434,7 @@ public final class RecordIOStreams {
                                                                            @Nullable String suffix,
                                                                            @Nullable Supplier<String> nullSourceSupplier) {
         Objects.requireNonNull(delimiter);
+        // noinspection DataFlowIssue
         return new ConvertingDataTypeFormatter<>(
                 RecordIOStreams::storeInArrayList,
                 CollectionDataTypeFormatter.withDelimiter(delimiter, prefix, suffix,
