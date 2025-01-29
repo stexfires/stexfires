@@ -126,8 +126,8 @@ public final class ExamplesNumberFunction {
         values.add(BigInteger.valueOf(10_000L));
         values.add(BigInteger.valueOf(Short.MAX_VALUE));
         values.add(BigInteger.valueOf(Short.MAX_VALUE).add(BigInteger.ONE));
-        values.add(BigInteger.valueOf(65535L));
-        values.add(BigInteger.valueOf(65536L));
+        values.add(BigInteger.valueOf(65_535L));
+        values.add(BigInteger.valueOf(65_536L));
         values.add(BigInteger.valueOf(100_000L));
         values.add(BigInteger.valueOf(1_000_000L));
         values.add(BigInteger.valueOf(Integer.MAX_VALUE));
@@ -161,7 +161,7 @@ public final class ExamplesNumberFunction {
     }
 
     private static void printMethodInfo(String className, String methodeName, @Nullable String parameter) {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(64);
         b.append("---");
         b.append(className);
         b.append(" ");
