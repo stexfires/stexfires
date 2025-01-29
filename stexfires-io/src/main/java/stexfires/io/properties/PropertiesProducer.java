@@ -1,7 +1,7 @@
 package stexfires.io.properties;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalReadableProducer;
+import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.KeyValueRecord;
@@ -18,7 +18,7 @@ import static stexfires.io.properties.PropertiesFileSpec.*;
 /**
  * @since 0.1
  */
-public final class PropertiesProducer extends AbstractInternalReadableProducer<KeyValueRecord> {
+public final class PropertiesProducer extends AbstractReadableProducer<KeyValueRecord> {
 
     private static final int ILLEGAL_INDEX = -1;
     private final PropertiesFileSpec fileSpec;

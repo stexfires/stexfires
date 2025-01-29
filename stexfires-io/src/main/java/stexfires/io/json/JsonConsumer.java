@@ -1,7 +1,7 @@
 package stexfires.io.json;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -17,7 +17,7 @@ import static stexfires.io.json.JsonUtil.*;
 /**
  * @since 0.1
  */
-public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRecord> {
+public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private final JsonFileSpec fileSpec;
     private final List<JsonFieldSpec> fieldSpecs;

@@ -1,6 +1,6 @@
 package stexfires.io.singlevalue;
 
-import stexfires.io.internal.AbstractInternalReadableProducer;
+import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.ValueRecord;
@@ -17,7 +17,7 @@ import java.util.function.*;
 /**
  * @since 0.1
  */
-public final class SingleValueProducer extends AbstractInternalReadableProducer<ValueRecord> {
+public final class SingleValueProducer extends AbstractReadableProducer<ValueRecord> {
 
     private final SingleValueFileSpec fileSpec;
     private final UnaryOperator<String> rawDataOperator;

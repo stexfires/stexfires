@@ -1,7 +1,7 @@
 package stexfires.io.html.table;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -15,7 +15,7 @@ import static stexfires.io.html.table.HtmlTableFileSpec.*;
 /**
  * @since 0.1
  */
-public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
+public final class HtmlTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private static final int INITIAL_STRING_BUILDER_CAPACITY = 1_024;
 

@@ -1,6 +1,6 @@
 package stexfires.io.fixedwidth;
 
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * @since 0.1
  */
-public final class FixedWidthConsumer extends AbstractInternalWritableConsumer<TextRecord> {
+public final class FixedWidthConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private final FixedWidthFileSpec fileSpec;
     private final List<FixedWidthFieldSpec> fieldSpecs;

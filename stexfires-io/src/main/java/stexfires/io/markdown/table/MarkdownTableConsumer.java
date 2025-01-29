@@ -1,7 +1,7 @@
 package stexfires.io.markdown.table;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -19,7 +19,7 @@ import static stexfires.util.Alignment.*;
 /**
  * @since 0.1
  */
-public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
+public final class MarkdownTableConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private static final int INITIAL_STRING_BUILDER_CAPACITY = 1_024;
 

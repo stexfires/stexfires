@@ -1,7 +1,7 @@
 package stexfires.io.message;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -15,7 +15,7 @@ import java.util.function.*;
 /**
  * @since 0.1
  */
-public final class RecordMessageConsumer extends AbstractInternalWritableConsumer<TextRecord> {
+public final class RecordMessageConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private final RecordMessageFileSpec fileSpec;
     private final Predicate<@Nullable String> notNullAndNotEmpty;

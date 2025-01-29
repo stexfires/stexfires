@@ -1,7 +1,7 @@
 package stexfires.io.config;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.KeyValueCommentRecord;
 import stexfires.record.TextField;
 import stexfires.record.consumer.ConsumerException;
@@ -16,7 +16,7 @@ import static stexfires.io.config.ConfigFileSpec.*;
 /**
  * @since 0.1
  */
-public final class ConfigConsumer extends AbstractInternalWritableConsumer<KeyValueCommentRecord> {
+public final class ConfigConsumer extends AbstractWritableConsumer<KeyValueCommentRecord> {
 
     private final ConfigFileSpec fileSpec;
 

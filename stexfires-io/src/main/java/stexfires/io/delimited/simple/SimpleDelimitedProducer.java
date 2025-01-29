@@ -1,7 +1,7 @@
 package stexfires.io.delimited.simple;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalReadableProducer;
+import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.TextRecord;
@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * @since 0.1
  */
-public final class SimpleDelimitedProducer extends AbstractInternalReadableProducer<TextRecord> {
+public final class SimpleDelimitedProducer extends AbstractReadableProducer<TextRecord> {
 
     private static final @Nullable String NO_TEXT = null;
 

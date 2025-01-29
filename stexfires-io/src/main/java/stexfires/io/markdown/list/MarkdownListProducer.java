@@ -1,6 +1,6 @@
 package stexfires.io.markdown.list;
 
-import stexfires.io.internal.AbstractInternalReadableProducer;
+import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.ValueRecord;
@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * @since 0.1
  */
-public final class MarkdownListProducer extends AbstractInternalReadableProducer<ValueRecord> {
+public final class MarkdownListProducer extends AbstractReadableProducer<ValueRecord> {
 
     private final MarkdownListFileSpec fileSpec;
 

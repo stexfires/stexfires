@@ -1,6 +1,6 @@
 package stexfires.io.properties;
 
-import stexfires.io.internal.AbstractInternalWritableConsumer;
+import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.KeyValueRecord;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.consumer.UncheckedConsumerException;
@@ -15,7 +15,7 @@ import static stexfires.io.properties.PropertiesFileSpec.*;
 /**
  * @since 0.1
  */
-public final class PropertiesConsumer extends AbstractInternalWritableConsumer<KeyValueRecord> {
+public final class PropertiesConsumer extends AbstractWritableConsumer<KeyValueRecord> {
 
     private final PropertiesFileSpec fileSpec;
 

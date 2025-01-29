@@ -1,7 +1,7 @@
 package stexfires.io.config;
 
 import org.jspecify.annotations.Nullable;
-import stexfires.io.internal.AbstractInternalReadableProducer;
+import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
 import stexfires.record.KeyValueCommentRecord;
@@ -22,7 +22,7 @@ import static stexfires.io.config.ConfigFileSpec.*;
 /**
  * @since 0.1
  */
-public final class ConfigProducer extends AbstractInternalReadableProducer<KeyValueCommentRecord> {
+public final class ConfigProducer extends AbstractReadableProducer<KeyValueCommentRecord> {
 
     /**
      * Use LineFeed as a separator between a comment line and a record line.
