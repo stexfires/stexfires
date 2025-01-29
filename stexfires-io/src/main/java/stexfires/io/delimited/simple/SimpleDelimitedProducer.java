@@ -90,8 +90,8 @@ public final class SimpleDelimitedProducer extends AbstractInternalReadableProdu
 
         private final SimpleDelimitedFileSpec fileSpec;
 
-        private SimpleDelimitedIterator(BufferedReader reader, SimpleDelimitedFileSpec fileSpec) {
-            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+        private SimpleDelimitedIterator(BufferedReader bufferedReader, SimpleDelimitedFileSpec fileSpec) {
+            super(bufferedReader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

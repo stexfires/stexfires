@@ -89,7 +89,7 @@ public final class RecordIOStreams {
                 }
             }
         }
-        List<@Nullable String> texts = null;
+        SequencedCollection<@Nullable String> texts = null;
         if (list.size() > TEXTS_INDEX_START) {
             texts = list.subList(TEXTS_INDEX_START, list.size());
         }
@@ -106,7 +106,7 @@ public final class RecordIOStreams {
         if (map.containsKey(RECORD_ID_KEY) && (map.get(RECORD_ID_KEY) instanceof Long recordIdOfMap)) {
             recordId = recordIdOfMap;
         }
-        List<@Nullable String> texts = null;
+        SequencedCollection<@Nullable String> texts = null;
         if (map.containsKey(TEXTS_KEY) && (map.get(TEXTS_KEY) instanceof List<?> textsOfMap)) {
             texts = textsOfMap.stream().map(Strings::toNullableString).toList();
         }

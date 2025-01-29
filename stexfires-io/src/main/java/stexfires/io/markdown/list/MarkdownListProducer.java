@@ -74,8 +74,8 @@ public final class MarkdownListProducer extends AbstractInternalReadableProducer
 
         private final MarkdownListFileSpec fileSpec;
 
-        private MarkdownListIterator(BufferedReader reader, MarkdownListFileSpec fileSpec) {
-            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+        private MarkdownListIterator(BufferedReader bufferedReader, MarkdownListFileSpec fileSpec) {
+            super(bufferedReader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

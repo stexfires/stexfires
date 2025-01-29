@@ -185,13 +185,15 @@ public final class PropertiesProducer extends AbstractInternalReadableProducer<K
 
     private static final class PropertiesIterator extends AbstractRecordRawDataIterator {
 
+        private static final int INITIAL_STRING_BUILDER_CAPACITY = 128;
+
         private PropertiesIterator(BufferedReader bufferedReader) {
             super(bufferedReader);
         }
 
         @Override
         protected Optional<RecordRawData> readNext(BufferedReader reader, long recordIndex) throws IOException {
-            StringBuilder b = new StringBuilder();
+            StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
             String currentLine;
             String currentComment = null;
             boolean commentFound;

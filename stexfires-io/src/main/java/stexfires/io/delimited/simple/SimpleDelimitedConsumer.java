@@ -15,6 +15,8 @@ import java.util.*;
  */
 public final class SimpleDelimitedConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 1_024;
+
     private final SimpleDelimitedFileSpec fileSpec;
 
     public SimpleDelimitedConsumer(BufferedWriter bufferedWriter, SimpleDelimitedFileSpec fileSpec) {
@@ -30,7 +32,7 @@ public final class SimpleDelimitedConsumer extends AbstractInternalWritableConsu
         Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(fields);
 
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             SimpleDelimitedFieldSpec fieldSpec = fieldSpecs.get(fieldIndex);

@@ -24,10 +24,12 @@ public abstract class AbstractWritableConsumer<T extends TextRecord> implements 
         return bufferedWriter;
     }
 
+    @SuppressWarnings("NoopMethodInAbstractClass")
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
     }
 
+    @SuppressWarnings("NoopMethodInAbstractClass")
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
     }

@@ -21,6 +21,8 @@ import static stexfires.util.Alignment.*;
  */
 public final class MarkdownTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 1_024;
+
     private final MarkdownTableFileSpec fileSpec;
     private final List<MarkdownTableFieldSpec> fieldSpecs;
     private final Pattern escapePattern;
@@ -36,7 +38,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     }
 
     StringBuilder buildHeaderRow() {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
@@ -51,7 +53,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     }
 
     StringBuilder buildSubHeaderRow() {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (MarkdownTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(FIELD_DELIMITER);
@@ -77,7 +79,7 @@ public final class MarkdownTableConsumer extends AbstractInternalWritableConsume
     }
 
     StringBuilder buildRecordRow(TextRecord record) {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             b.append(FIELD_DELIMITER);

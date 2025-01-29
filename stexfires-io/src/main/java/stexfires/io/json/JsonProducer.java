@@ -94,13 +94,13 @@ public final class JsonProducer extends AbstractInternalReadableProducer<TextRec
 
         private final JsonFileSpec fileSpec;
 
-        private JsonIterator(BufferedReader reader, JsonFileSpec fileSpec) {
-            super(reader, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_FIRST);
+        private JsonIterator(BufferedReader bufferedReader, JsonFileSpec fileSpec) {
+            super(bufferedReader, DEFAULT_IGNORE_FIRST, DEFAULT_IGNORE_FIRST);
             this.fileSpec = fileSpec;
         }
 
-        private JsonIterator(BufferedReader reader, JsonStreamingFileSpec fileSpec) {
-            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+        private JsonIterator(BufferedReader bufferedReader, JsonStreamingFileSpec fileSpec) {
+            super(bufferedReader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

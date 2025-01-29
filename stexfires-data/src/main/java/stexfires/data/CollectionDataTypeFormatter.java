@@ -43,9 +43,11 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable
         if (delimiter.isEmpty()) {
             throw new IllegalArgumentException("delimiter is empty");
         }
+        Predicate<@Nullable String> formattedElementValidator =
+                stringValue -> (stringValue == null) || !stringValue.contains(delimiter);
         return new CollectionDataTypeFormatter<>(prefix, suffix,
                 delimiter, dataTypeFormatter,
-                stringValue -> (stringValue == null) || !stringValue.contains(delimiter),
+                formattedElementValidator,
                 nullSourceSupplier);
     }
 
@@ -58,9 +60,11 @@ public final class CollectionDataTypeFormatter<T, C extends Collection<@Nullable
         if (length < 1) {
             throw new IllegalArgumentException("length < 1");
         }
+        Predicate<@Nullable String> formattedElementValidator =
+                stringValue -> (stringValue != null) && (stringValue.length() == length);
         return new CollectionDataTypeFormatter<>(prefix, suffix,
                 null, dataTypeFormatter,
-                stringValue -> (stringValue != null) && (stringValue.length() == length),
+                formattedElementValidator,
                 nullSourceSupplier);
     }
 

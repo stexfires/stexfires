@@ -17,6 +17,8 @@ import static stexfires.io.html.table.HtmlTableFileSpec.*;
  */
 public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<TextRecord> {
 
+    private static final int INITIAL_STRING_BUILDER_CAPACITY = 1_024;
+
     private final HtmlTableFileSpec fileSpec;
     private final List<HtmlTableFieldSpec> fieldSpecs;
 
@@ -42,7 +44,7 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
     }
 
     StringBuilder buildHeaderRow() {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (HtmlTableFieldSpec fieldSpec : fieldSpecs) {
             b.append(TABLE_HEADER_BEGIN);
@@ -56,7 +58,7 @@ public final class HtmlTableConsumer extends AbstractInternalWritableConsumer<Te
     }
 
     StringBuilder buildRecordRow(TextRecord record) {
-        StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder(INITIAL_STRING_BUILDER_CAPACITY);
 
         for (int fieldIndex = 0; fieldIndex < fieldSpecs.size(); fieldIndex++) {
             b.append(TABLE_DATA_BEGIN);

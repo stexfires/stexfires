@@ -84,8 +84,8 @@ public final class SingleValueProducer extends AbstractInternalReadableProducer<
 
         private final SingleValueFileSpec fileSpec;
 
-        private SingleValueIterator(BufferedReader reader, SingleValueFileSpec fileSpec) {
-            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+        private SingleValueIterator(BufferedReader bufferedReader, SingleValueFileSpec fileSpec) {
+            super(bufferedReader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

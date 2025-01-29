@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static stexfires.io.json.JsonFieldSpec.ValueType.*;
+import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_UNESCAPED;
 import static stexfires.io.json.JsonUtil.*;
 
 /**
@@ -50,6 +50,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
             case NUMBER -> {
                 // Checks if the string is a valid JSON number.
                 try {
+                    @SuppressWarnings("unused")
                     BigDecimal bigDecimal = new BigDecimal(jsonValue);
                 } catch (NumberFormatException e) {
                     throw new ConsumerException("Invalid number value");
@@ -75,18 +76,12 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         Objects.requireNonNull(type);
         Objects.requireNonNull(fieldText);
 
-        String jsonValue;
-        if ((type == STRING_UNESCAPED) || (type == STRING_ESCAPED)) {
-            jsonValue = buildJsonString(fieldText);
-        } else if (type == ARRAY_ELEMENTS) {
-            jsonValue = buildJsonArray(fieldText);
-        } else if (type == OBJECT_MEMBERS) {
-            jsonValue = buildJsonObject(fieldText);
-        } else {
-            jsonValue = fieldText;
-        }
-
-        return jsonValue;
+        return switch (type) {
+            case STRING_UNESCAPED, STRING_ESCAPED -> buildJsonString(fieldText);
+            case ARRAY_ELEMENTS -> buildJsonArray(fieldText);
+            case OBJECT_MEMBERS -> buildJsonObject(fieldText);
+            default -> fieldText;
+        };
     }
 
     static Optional<String> checkAndConvertFieldTextIntoJsonValue(JsonFieldSpec fieldSpec,
@@ -174,6 +169,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         return buildJsonArray(jsonElements);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void writeBefore() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeBefore();
@@ -210,6 +206,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         }
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void writeRecord(TextRecord record) throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeRecord(record);
@@ -256,6 +253,7 @@ public final class JsonConsumer extends AbstractInternalWritableConsumer<TextRec
         }
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void writeAfter() throws ConsumerException, UncheckedConsumerException, IOException {
         super.writeAfter();

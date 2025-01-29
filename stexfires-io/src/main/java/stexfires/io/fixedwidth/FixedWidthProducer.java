@@ -125,8 +125,8 @@ public final class FixedWidthProducer extends AbstractInternalReadableProducer<T
 
         private final FixedWidthFileSpec fileSpec;
 
-        private FixedWidthIterator(BufferedReader reader, FixedWidthFileSpec fileSpec) {
-            super(reader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
+        private FixedWidthIterator(BufferedReader bufferedReader, FixedWidthFileSpec fileSpec) {
+            super(bufferedReader, fileSpec.producerIgnoreFirstRecords(), fileSpec.producerIgnoreLastRecords());
             this.fileSpec = fileSpec;
         }
 

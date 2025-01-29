@@ -67,6 +67,7 @@ public abstract class AbstractReadableProducer<T extends TextRecord> implements 
         return recordStream;
     }
 
+    @SuppressWarnings("NoopMethodInAbstractClass")
     @Override
     public void readAfter() throws ProducerException, UncheckedProducerException, IOException {
     }
