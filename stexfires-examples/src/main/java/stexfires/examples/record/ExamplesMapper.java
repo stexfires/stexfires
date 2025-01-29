@@ -115,6 +115,7 @@ public final class ExamplesMapper {
     private static void showFunctionMapper() {
         System.out.println("-showFunctionMapper---");
 
+        //noinspection NullableProblems
         printMapper("constructor", new FunctionMapper<>(
                 record -> record.categoryAsOptional().orElse("new category"),
                 record -> record.recordIdAsOptional().orElse(-1L),
@@ -138,15 +139,15 @@ public final class ExamplesMapper {
         printMapper("constructor", new IdentityMapper<>());
     }
 
-    @SuppressWarnings({"VariableNotUsedInsideIf", "ReturnOfNull"})
     private static void showLookupMapper() {
         System.out.println("-showLookupMapper---");
 
-        printMapper("constructor", new LookupMapper<>(TextRecord::recordId,
-                recordId -> (recordId == null) ? null : AddTextMapper.recordIdAsString(),
+        // noinspection DataFlowIssue
+        printMapper("constructor", new LookupMapper<>(TextRecord::recordIdAsOptional,
+                optionalRecordId -> optionalRecordId.isPresent() ? AddTextMapper.recordIdAsString() : null,
                 new IdentityMapper<>()));
 
-        Map<String, RecordMapper<? super TextRecord, TextRecord>> recordMapperMap = HashMap.newHashMap(3);
+        Map<String, RecordMapper<? super TextRecord, ? extends TextRecord>> recordMapperMap = HashMap.newHashMap(3);
         recordMapperMap.put("value1", AddTextMapper.constant("lookup value1"));
         recordMapperMap.put("value2", AddTextMapper.constant("lookup value2"));
         recordMapperMap.put("key", AddTextMapper.constant("lookup key"));
@@ -159,9 +160,10 @@ public final class ExamplesMapper {
 
         printMapper("constructor", new RecordIdMapper<>(record -> record.recordIdAsOptional().orElse(-1L) + 100L));
         printMapper("identity", RecordIdMapper.identity());
-        printMapper("supplier", RecordIdMapper.supplier(SequenceSupplier.asLong(1000L)));
+        printMapper("supplier", RecordIdMapper.supplier(SequenceSupplier.asLong(1_000L)));
+        printMapper("supplier null", RecordIdMapper.supplier(() -> null));
         printMapper("primitiveIntSupplier", RecordIdMapper.primitiveIntSupplier(() -> 1));
-        printMapper("primitiveLongSupplier", RecordIdMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(1000L)));
+        printMapper("primitiveLongSupplier", RecordIdMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(1_000L)));
         printMapper("constant", RecordIdMapper.constant(100L));
         printMapper("constantNull", RecordIdMapper.constantNull());
         printMapper("categoryFunction", RecordIdMapper.categoryFunction(cat -> (cat == null) ? 0L : 1L));
@@ -178,7 +180,7 @@ public final class ExamplesMapper {
                 new ToValueFieldRecordMapper<>(new TextMessage<>(1))));
         printMapperValueRecord("concat 3", RecordMapper.concat(
                 CategoryMapper.categoryOrElse("missing category"),
-                RecordIdMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(1000L)),
+                RecordIdMapper.primitiveLongSupplier(SequenceSupplier.asPrimitiveLong(1_000L)),
                 AddTextMapper.constant("new value")));
         printMapper("compose",
                 CategoryMapper.constantNull().compose(AddTextMapper.constant("new value")));
@@ -195,6 +197,7 @@ public final class ExamplesMapper {
     private static void showTextsMapper() {
         System.out.println("-showTextsMapper---");
 
+        // noinspection NullableProblems
         printMapper("constructor", new TextsMapper<>(record -> Strings.list("new value 0", "new value 1", "new value 2")));
         printMapper("identity", TextsMapper.identity());
         printMapper("recordFieldFunction", TextsMapper.recordFieldFunction((record, field) -> String.valueOf((10L * record.recordIdAsOptional().orElse(0L)) + field.index())));

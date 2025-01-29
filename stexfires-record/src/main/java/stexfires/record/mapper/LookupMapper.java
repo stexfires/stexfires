@@ -28,15 +28,20 @@ public class LookupMapper<T extends TextRecord, R extends TextRecord, K> impleme
     }
 
     public static <T extends TextRecord> LookupMapper<T, TextRecord, String> messageMap(NotNullRecordMessage<? super T> recordMessage,
-                                                                                        Map<String, @Nullable RecordMapper<? super T, TextRecord>> recordMapperMap) {
+                                                                                        Map<String, @Nullable RecordMapper<? super T, ? extends TextRecord>> recordMapperMap) {
         Objects.requireNonNull(recordMessage);
         Objects.requireNonNull(recordMapperMap);
-        return new LookupMapper<>(recordMessage.asFunction(), recordMapperMap::get, new IdentityMapper<>());
+        Function<String, @Nullable RecordMapper<? super T, ? extends TextRecord>> mapperFunction = recordMapperMap::get;
+        return new LookupMapper<>(
+                recordMessage.asFunction(),
+                mapperFunction,
+                new IdentityMapper<>());
     }
 
     @Override
     public final R map(T record) {
-        RecordMapper<? super T, ? extends R> recordMapper = mapperFunction.apply(keyFunction.apply(record));
+        RecordMapper<? super T, ? extends R> recordMapper =
+                mapperFunction.apply(Objects.requireNonNull(keyFunction.apply(record)));
         return (recordMapper == null) ? defaultMapper.map(record) : recordMapper.map(record);
     }
 

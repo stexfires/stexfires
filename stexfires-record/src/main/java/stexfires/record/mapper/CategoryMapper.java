@@ -24,6 +24,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> CategoryMapper<T> identity() {
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(TextRecord::category);
     }
 
@@ -32,6 +33,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
      */
     public static <T extends TextRecord> CategoryMapper<T> supplier(Supplier<@Nullable String> categorySupplier) {
         Objects.requireNonNull(categorySupplier);
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> categorySupplier.get());
     }
 
@@ -61,12 +63,13 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new CategoryMapper<>(record -> category);
     }
 
-    @SuppressWarnings("ReturnOfNull")
     public static <T extends TextRecord> CategoryMapper<T> constantNull() {
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> null);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> category() {
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(TextRecord::category);
     }
 
@@ -77,24 +80,29 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public static <T extends TextRecord> CategoryMapper<T> categoryFunction(Function<@Nullable String, @Nullable String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryOperator(UnaryOperator<@Nullable String> categoryOperator) {
         Objects.requireNonNull(categoryOperator);
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> categoryOperator.apply(record.category()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> CategoryMapper<T> recordIdAsString() {
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(TextRecord::recordIdAsString);
     }
 
     public static <T extends TextRecord> CategoryMapper<T> textAt(int index) {
+        // noinspection DataFlowIssue
         return new CategoryMapper<>(record -> record.textAt(index));
     }
 
@@ -107,6 +115,7 @@ public class CategoryMapper<T extends TextRecord> extends FunctionMapper<T> {
         Objects.requireNonNull(fieldTextMapper);
         return new CategoryMapper<>(record -> {
             TextField field = record.fieldAt(index);
+            // noinspection DataFlowIssue
             return (field != null) ? fieldTextMapper.mapToText(field) : other;
         });
     }

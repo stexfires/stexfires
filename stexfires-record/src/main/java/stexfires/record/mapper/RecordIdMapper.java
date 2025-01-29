@@ -20,6 +20,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> identity() {
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(TextRecord::recordId);
     }
 
@@ -28,6 +29,7 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
      */
     public static <T extends TextRecord> RecordIdMapper<T> supplier(Supplier<@Nullable Long> recordIdSupplier) {
         Objects.requireNonNull(recordIdSupplier);
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(record -> recordIdSupplier.get());
     }
 
@@ -52,27 +54,31 @@ public class RecordIdMapper<T extends TextRecord> extends FunctionMapper<T> {
         return new RecordIdMapper<>(record -> recordId);
     }
 
-    @SuppressWarnings("ReturnOfNull")
     public static <T extends TextRecord> RecordIdMapper<T> constantNull() {
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(record -> null);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> categoryFunction(Function<@Nullable String, @Nullable Long> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable Long> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> recordId() {
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(TextRecord::recordId);
     }
 
     public static <T extends TextRecord> RecordIdMapper<T> textAt(int index, Function<@Nullable String, @Nullable Long> textFunction) {
         Objects.requireNonNull(textFunction);
+        // noinspection DataFlowIssue
         return new RecordIdMapper<>(record -> textFunction.apply(record.textAt(index)));
     }
 

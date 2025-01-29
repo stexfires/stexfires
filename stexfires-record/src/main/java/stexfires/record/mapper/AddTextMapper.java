@@ -34,6 +34,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
      */
     public static <T extends TextRecord> AddTextMapper<T> supplier(Supplier<@Nullable String> textSupplier) {
         Objects.requireNonNull(textSupplier);
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> textSupplier.get());
     }
 
@@ -63,12 +64,13 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         return new AddTextMapper<>(record -> text);
     }
 
-    @SuppressWarnings("ReturnOfNull")
     public static <T extends TextRecord> AddTextMapper<T> constantNull() {
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> null);
     }
 
     public static <T extends TextRecord> AddTextMapper<T> category() {
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(TextRecord::category);
     }
 
@@ -79,24 +81,29 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
 
     public static <T extends TextRecord> AddTextMapper<T> categoryFunction(Function<@Nullable String, @Nullable String> categoryFunction) {
         Objects.requireNonNull(categoryFunction);
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> categoryFunction.apply(record.category()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> categoryOperator(UnaryOperator<@Nullable String> categoryOperator) {
         Objects.requireNonNull(categoryOperator);
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> categoryOperator.apply(record.category()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> categoryAsOptionalFunction(Function<Optional<String>, @Nullable String> categoryAsOptionalFunction) {
         Objects.requireNonNull(categoryAsOptionalFunction);
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> categoryAsOptionalFunction.apply(record.categoryAsOptional()));
     }
 
     public static <T extends TextRecord> AddTextMapper<T> recordIdAsString() {
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(TextRecord::recordIdAsString);
     }
 
     public static <T extends TextRecord> AddTextMapper<T> textAt(int index) {
+        // noinspection DataFlowIssue
         return new AddTextMapper<>(record -> record.textAt(index));
     }
 
@@ -109,6 +116,7 @@ public class AddTextMapper<T extends TextRecord> extends TextsMapper<T> {
         Objects.requireNonNull(fieldTextMapper);
         return new AddTextMapper<>(record -> {
             TextField field = record.fieldAt(index);
+            // noinspection DataFlowIssue
             return (field != null) ? fieldTextMapper.mapToText(field) : other;
         });
     }

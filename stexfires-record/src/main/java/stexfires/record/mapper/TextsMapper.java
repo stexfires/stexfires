@@ -17,6 +17,7 @@ import java.util.function.*;
  * @see stexfires.record.mapper.RecordIdMapper
  * @since 0.1
  */
+@SuppressWarnings("DataFlowIssue")
 public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
 
     public TextsMapper(Function<? super T, Collection<@Nullable String>> textsFunction) {
@@ -24,7 +25,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
     }
 
     public static <T extends TextRecord> TextsMapper<T> identity() {
-        return new TextsMapper<>(TextFields::collectTexts);
+        return new TextsMapper<>((Function<? super T, Collection<@Nullable String>>) TextFields::collectTexts);
     }
 
     public static <T extends TextRecord> TextsMapper<T> recordFieldFunction(BiFunction<TextRecord, TextField, @Nullable String> recordFieldFunction) {
@@ -81,8 +82,10 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
                         newTexts.add(fillingText);
                     }
                 }
+                // noinspection NullableProblems
                 return newTexts;
             }
+            // noinspection NullableProblems
             return TextFields.collectTexts(record);
         });
     }
@@ -157,6 +160,7 @@ public class TextsMapper<T extends TextRecord> extends FunctionMapper<T> {
             List<@Nullable String> newTexts = new ArrayList<>(record.size() + 1);
             newTexts.addAll(TextFields.collectTexts(record));
             newTexts.add(textFunction.apply(record));
+            // noinspection NullableProblems
             return newTexts;
         });
     }
