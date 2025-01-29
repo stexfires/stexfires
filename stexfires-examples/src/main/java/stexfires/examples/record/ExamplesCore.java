@@ -3,9 +3,6 @@ package stexfires.examples.record;
 import stexfires.record.TextField;
 import stexfires.record.TextRecord;
 import stexfires.record.TextRecords;
-import stexfires.record.impl.KeyValueFieldsRecord;
-import stexfires.record.impl.ManyFieldsRecord;
-import stexfires.record.impl.ValueFieldRecord;
 
 import java.util.*;
 import java.util.function.*;
@@ -25,17 +22,6 @@ public final class ExamplesCore {
                 new TextField(1, 1, "value C"),
                 new TextField(1, 1, ""),
                 new TextField(1, 2, "value D")
-        );
-    }
-
-    private static Stream<TextRecord> generateRecordStream() {
-        return Stream.of(
-                new ValueFieldRecord("value1"),
-                new ValueFieldRecord("value2"),
-                new KeyValueFieldsRecord("key", "value"),
-                new ManyFieldsRecord("S", "t", "a", "n", "d", "a", "r", "d"),
-                new ManyFieldsRecord(),
-                TextRecords.empty()
         );
     }
 
@@ -96,7 +82,7 @@ public final class ExamplesCore {
 
         printRecord(".", TextRecords.builder().build());
         printRecord(".category", TextRecords.builder().category("category").build());
-        printRecord(".recordId", TextRecords.builder().recordId(1000L).build());
+        printRecord(".recordId", TextRecords.builder().recordId(1_000L).build());
         printRecord(".category.recordId", TextRecords.builder().category("category").recordId(0L).build());
         printRecord(".add null", TextRecords.builder().add(null).build());
         printRecord(".add empty", TextRecords.builder().add("").build());

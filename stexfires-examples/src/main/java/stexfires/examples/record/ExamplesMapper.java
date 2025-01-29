@@ -115,7 +115,7 @@ public final class ExamplesMapper {
     private static void showFunctionMapper() {
         System.out.println("-showFunctionMapper---");
 
-        //noinspection NullableProblems
+        // noinspection NullableProblems
         printMapper("constructor", new FunctionMapper<>(
                 record -> record.categoryAsOptional().orElse("new category"),
                 record -> record.recordIdAsOptional().orElse(-1L),
@@ -154,7 +154,6 @@ public final class ExamplesMapper {
         printMapper("messageMap", LookupMapper.messageMap(NotNullRecordMessage.wrapRecordMessage(new TextMessage<>(0), "missing key"), recordMapperMap));
     }
 
-    @SuppressWarnings("VariableNotUsedInsideIf")
     private static void showRecordIdMapper() {
         System.out.println("-showRecordIdMapper---");
 

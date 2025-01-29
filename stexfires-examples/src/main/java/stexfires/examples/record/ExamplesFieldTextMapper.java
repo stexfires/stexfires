@@ -123,7 +123,7 @@ public final class ExamplesFieldTextMapper {
         System.out.println("-showSupplierFieldValueMapper---");
 
         printMapper("constructor localTimeNowAsString", new SupplierFieldTextMapper(Suppliers.localTimeNowAsString()));
-        printMapper("constructor sequenceAsString", new SupplierFieldTextMapper(SequenceSupplier.asString(1000L)));
+        printMapper("constructor sequenceAsString", new SupplierFieldTextMapper(SequenceSupplier.asString(1_000L)));
         printMapper("constructor threadNameAsString", new SupplierFieldTextMapper(Suppliers.threadNameAsString()));
     }
 

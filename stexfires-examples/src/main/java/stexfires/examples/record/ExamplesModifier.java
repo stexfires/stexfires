@@ -245,6 +245,7 @@ public final class ExamplesModifier {
                 new ManyFieldsRecord(null, 9L, "fr", "key2", "value2fr")
         );
 
+        // noinspection DataFlowIssue
         printPivotKeyValueRecord("Pivot 1.2 pivotWithClassifications",
                 PivotModifier.pivotWithClassifications(KeyValueRecord::key, KeyValueRecord::value, nullValue,
                         KeyValueRecord::category, valueClasses
@@ -260,6 +261,7 @@ public final class ExamplesModifier {
                 new KeyValueFieldsRecord("fr", 9L, "key2", "value2fr")
         );
 
+        // noinspection DataFlowIssue
         printPivotManyValuesRecord("Pivot 1.3 pivotWithClassifications",
                 PivotModifier.pivotWithClassifications(TextRecord::category, r -> r.textAt(1), nullValue,
                         r -> r.textAt(0), valueClasses),
@@ -290,6 +292,7 @@ public final class ExamplesModifier {
                 new ManyFieldsRecord(null, 6L, "key5", null, "I2", "I3")
         );
 
+        // noinspection DataFlowIssue
         printPivotKeyValueRecord("Pivot 3 constructor classification",
                 new PivotModifier<>(
                         KeyValueRecord::key, KeyValueRecord::key, r -> Stream.empty(),
@@ -504,6 +507,7 @@ public final class ExamplesModifier {
         List<@Nullable Integer> valueIndexes33 = new ArrayList<>();
         valueIndexes33.add(3);
         valueIndexes33.add(null);
+        // noinspection NullableProblems
         printUnpivot("Unpivot 3 oneRecordPerValues two keys, many values",
                 UnpivotModifier.oneRecordPerValues(keyValues3,
                         String::valueOf,

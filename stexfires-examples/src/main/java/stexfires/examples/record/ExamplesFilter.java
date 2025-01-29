@@ -48,6 +48,7 @@ public final class ExamplesFilter {
     private static void showCategoryFilter() {
         System.out.println("-showCategoryFilter---");
 
+        // noinspection ConstantValue
         printFilter("constructor Objects::isNull",
                 new CategoryFilter<>(Objects::isNull));
         printFilter("constructor StringPredicates.isEmpty()",
@@ -60,6 +61,7 @@ public final class ExamplesFilter {
                 CategoryFilter.isNotNull());
         printFilter("isNull",
                 CategoryFilter.isNull());
+        // noinspection NullableProblems
         printFilter("containedIn Collection",
                 CategoryFilter.containedIn(Strings.list("category", "Category")));
         printFilter("containedIn Varargs",
@@ -120,6 +122,7 @@ public final class ExamplesFilter {
                 MessageFilter.isNotNull(messageNull));
         printFilter("isNull",
                 MessageFilter.isNull(messageNull));
+        // noinspection NullableProblems
         printFilter("containedIn Collection",
                 MessageFilter.containedIn(message, Strings.list("c")));
         printFilter("containedIn Varargs",
@@ -174,6 +177,7 @@ public final class ExamplesFilter {
     private static void showRecordIdFilter() {
         System.out.println("-showRecordIdFilter---");
 
+        // noinspection ConstantValue
         printFilter("constructor 1",
                 new RecordIdFilter<>(value -> (value != null) && (value == 1L)));
         printFilter("constructor even",
@@ -237,16 +241,20 @@ public final class ExamplesFilter {
                 new TextFilter<>(0, "A"::equals));
         printFilter("constructor index null",
                 new TextFilter<>(1, true, value -> false));
+        // noinspection DataFlowIssue
         printFilter("constructor function",
                 new TextFilter<>(TextRecord::lastField, "A"::equals));
+        // noinspection DataFlowIssue
         printFilter("constructor function null",
                 new TextFilter<>(record -> record.fieldAt(1), false, "t"::equals));
         printFilter("constructor index StringPredicates.isEmpty()",
                 new TextFilter<>(0, StringPredicates.isEmpty()));
+        // noinspection DataFlowIssue
         printFilter("constructor function StringPredicates.isEmpty()",
                 new TextFilter<>(TextRecord::lastField, StringPredicates.isEmpty()));
         printFilter("constructor index StringPredicates.endsWith()",
                 new TextFilter<>(1, StringPredicates.endsWith("t")));
+        // noinspection DataFlowIssue
         printFilter("constructor function StringPredicates.equals()",
                 new TextFilter<>(TextRecord::lastField, StringPredicates.equals("d")));
         printFilter("equalTo index",
@@ -257,8 +265,10 @@ public final class ExamplesFilter {
                 TextFilter.isNotNull(2));
         printFilter("isNotNull function",
                 TextFilter.isNotNull(TextRecord::lastField));
+        // noinspection NullableProblems
         printFilter("containedIn index Collection",
                 TextFilter.containedIn(0, Strings.list("A", "B")));
+        // noinspection NullableProblems
         printFilter("containedIn function Collection",
                 TextFilter.containedIn(TextRecord::lastField, Strings.list("A", "d")));
         printFilter("containedIn index Array",

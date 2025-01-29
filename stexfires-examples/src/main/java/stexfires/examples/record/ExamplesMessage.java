@@ -241,10 +241,13 @@ public final class ExamplesMessage {
                 new TextMessage<>(1, "<NULL>"));
         printMessage("constructor index nullFieldMessage fieldValueMapper",
                 new TextMessage<>(1, "<NULL>", new AddPrefixFieldTextMapper("new value 1: ")));
+        // noinspection DataFlowIssue
         printMessage("constructor function",
                 new TextMessage<>(TextRecord::lastField));
+        // noinspection DataFlowIssue
         printMessage("constructor function nullFieldMessage",
                 new TextMessage<>(TextRecord::lastField, "<NULL>"));
+        // noinspection DataFlowIssue
         printMessage("constructor function nullFieldMessage fieldValueMapper",
                 new TextMessage<>(TextRecord::lastField, "<NULL>", new AddPrefixFieldTextMapper("new value 1: ")));
         printMessageKeyValueRecord("key",
