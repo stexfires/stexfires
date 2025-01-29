@@ -3,6 +3,7 @@ module stexfires.examples {
     requires org.jspecify;
     requires stexfires.data;
     requires stexfires.io;
+    requires stexfires.io.json;
     requires stexfires.record;
     requires stexfires.util;
     exports stexfires.examples.data;

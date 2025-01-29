@@ -15,6 +15,7 @@ include(
     "stexfires-data",
     "stexfires-examples",
     "stexfires-io",
+    "stexfires-io-json",
     "stexfires-record",
     "stexfires-util",
     "stexfires-app-character"

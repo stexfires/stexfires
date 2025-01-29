@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(":stexfires-data"))
     implementation(project(":stexfires-io"))
+    implementation(project(":stexfires-io-json"))
     implementation(project(":stexfires-record"))
     implementation(project(":stexfires-util"))
     implementation("org.jspecify:jspecify:1.0.0")
