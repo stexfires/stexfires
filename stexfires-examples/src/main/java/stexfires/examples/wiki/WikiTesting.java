@@ -97,7 +97,6 @@ public final class WikiTesting {
         RecordIOStreams.transferMapped(producer, consumer, mapper);
     }
 
-    @SuppressWarnings("OverlyBroadCatchBlock")
     public static void main(String... args) {
         if (args.length != 1) {
             throw new IllegalArgumentException("Missing valid output directory parameter!");
