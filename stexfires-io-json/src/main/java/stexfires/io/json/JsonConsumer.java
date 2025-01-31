@@ -1,5 +1,6 @@
 package stexfires.io.json;
 
+import com.google.gson.*;
 import org.jspecify.annotations.Nullable;
 import stexfires.io.consumer.AbstractWritableConsumer;
 import stexfires.record.TextRecord;
@@ -8,7 +9,6 @@ import stexfires.record.consumer.UncheckedConsumerException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static stexfires.io.json.JsonFieldSpec.ValueType.STRING_UNESCAPED;
@@ -21,6 +21,7 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
 
     private final JsonFileSpec fileSpec;
     private final List<JsonFieldSpec> fieldSpecs;
+    private final Gson gson;
     private boolean firstRecord;
 
     public JsonConsumer(BufferedWriter bufferedWriter,
@@ -31,48 +32,16 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
         Objects.requireNonNull(fieldSpecs);
         this.fileSpec = fileSpec;
         this.fieldSpecs = fieldSpecs;
+        gson = new GsonBuilder()
+                .disableJdkUnsafe()
+                .setStrictness(Strictness.STRICT)
+                .serializeNulls()
+                .create();
         firstRecord = true;
     }
 
-    static void checkJsonValue(JsonFieldSpec.ValueType type,
-                               String jsonValue)
-            throws ConsumerException {
-        Objects.requireNonNull(type);
-        Objects.requireNonNull(jsonValue);
-
-        switch (type) {
-            case BOOLEAN -> {
-                // Checks if the string contains a correct JSON boolean literal.
-                if (!LITERAL_TRUE.equals(jsonValue) && !LITERAL_FALSE.equals(jsonValue)) {
-                    throw new ConsumerException("Invalid boolean value");
-                }
-            }
-            case NUMBER -> {
-                // Checks if the string is a valid JSON number.
-                try {
-                    @SuppressWarnings("unused")
-                    BigDecimal bigDecimal = new BigDecimal(jsonValue);
-                } catch (NumberFormatException e) {
-                    throw new ConsumerException("Invalid number value");
-                }
-            }
-            case STRING_UNESCAPED, STRING_ESCAPED, STRING_ESCAPED_WITH_QUOTATION_MARKS -> {
-                // Checks if the string is a valid JSON string with correct escape sequences and if it is enclosed in quotation marks.
-                // TODO Implement check
-            }
-            case ARRAY_ELEMENTS, ARRAY -> {
-                // Checks if the string is a valid JSON array with correct elements.
-                // TODO Implement check
-            }
-            case OBJECT_MEMBERS, OBJECT -> {
-                // Checks if the string is a valid JSON object with correct members.
-                // TODO Implement check
-            }
-        }
-    }
-
-    static String convertFieldTextIntoJsonValue(JsonFieldSpec.ValueType type,
-                                                String fieldText) {
+    private String convertFieldTextIntoJsonValue(JsonFieldSpec.ValueType type,
+                                                 String fieldText) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(fieldText);
 
@@ -84,8 +53,76 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
         };
     }
 
-    static Optional<String> checkAndConvertFieldTextIntoJsonValue(JsonFieldSpec fieldSpec,
-                                                                  @Nullable String fieldText)
+    private JsonElement parseJsonElement(String exceptionMessage,
+                                         Class<? extends JsonElement> jsonElementClass,
+                                         String jsonElementString)
+            throws ConsumerException {
+        Objects.requireNonNull(exceptionMessage);
+        Objects.requireNonNull(jsonElementClass);
+        Objects.requireNonNull(jsonElementString);
+
+        try {
+            JsonElement jsonElement = gson.fromJson(jsonElementString, jsonElementClass);
+            // noinspection ConstantValue
+            if (jsonElement == null) {
+                throw new ConsumerException(exceptionMessage + "Parsed to null");
+            }
+            return jsonElement;
+        } catch (JsonSyntaxException e) {
+            throw new ConsumerException(exceptionMessage + "Parse exception");
+        }
+    }
+
+    private void checkJsonValue(JsonFieldSpec.ValueType type,
+                                String jsonValue)
+            throws ConsumerException {
+        Objects.requireNonNull(type);
+        Objects.requireNonNull(jsonValue);
+
+        String exceptionMessage = "Invalid JSON Element (" + type + "): ";
+
+        if (jsonValue.isEmpty()) {
+            throw new ConsumerException(exceptionMessage + "Empty");
+        } else if (jsonValue.isBlank()) {
+            throw new ConsumerException(exceptionMessage + "Blank");
+        }
+
+        switch (type) {
+            case BOOLEAN -> {
+                JsonElement jsonElement = parseJsonElement(exceptionMessage, JsonPrimitive.class, jsonValue);
+                if (!jsonElement.isJsonPrimitive() || !((JsonPrimitive) jsonElement).isBoolean()) {
+                    throw new ConsumerException(exceptionMessage + "Not a boolean");
+                }
+            }
+            case NUMBER -> {
+                JsonElement jsonElement = parseJsonElement(exceptionMessage, JsonPrimitive.class, jsonValue);
+                if (!jsonElement.isJsonPrimitive() || !((JsonPrimitive) jsonElement).isNumber()) {
+                    throw new ConsumerException(exceptionMessage + "Not a number");
+                }
+            }
+            case STRING_UNESCAPED, STRING_ESCAPED, STRING_ESCAPED_WITH_QUOTATION_MARKS -> {
+                JsonElement jsonElement = parseJsonElement(exceptionMessage, JsonPrimitive.class, jsonValue);
+                if (!jsonElement.isJsonPrimitive() || !((JsonPrimitive) jsonElement).isString()) {
+                    throw new ConsumerException(exceptionMessage + "Not a string");
+                }
+            }
+            case ARRAY_ELEMENTS, ARRAY -> {
+                JsonElement jsonElement = parseJsonElement(exceptionMessage, JsonArray.class, jsonValue);
+                if (!jsonElement.isJsonArray()) {
+                    throw new ConsumerException(exceptionMessage + "Not an array");
+                }
+            }
+            case OBJECT_MEMBERS, OBJECT -> {
+                JsonElement jsonElement = parseJsonElement(exceptionMessage, JsonObject.class, jsonValue);
+                if (!jsonElement.isJsonObject()) {
+                    throw new ConsumerException(exceptionMessage + "Not an object");
+                }
+            }
+        }
+    }
+
+    private Optional<String> checkAndConvertFieldTextIntoJsonValue(JsonFieldSpec fieldSpec,
+                                                                   @Nullable String fieldText)
             throws ConsumerException {
         Objects.requireNonNull(fieldSpec);
 
@@ -110,10 +147,8 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
         return Optional.ofNullable(jsonValue);
     }
 
-    static List<String> createJsonMemberList(List<JsonFieldSpec> fieldSpecs,
-                                             TextRecord record)
+    private List<String> createJsonMemberList(TextRecord record)
             throws ConsumerException {
-        Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(record);
 
         List<String> jsonMembers = new ArrayList<>(fieldSpecs.size());
@@ -127,10 +162,8 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
         return jsonMembers;
     }
 
-    static List<String> createJsonElementList(List<JsonFieldSpec> fieldSpecs,
-                                              TextRecord record)
+    private List<String> createJsonElementList(TextRecord record)
             throws ConsumerException {
-        Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(record);
 
         List<String> jsonElements = new ArrayList<>(fieldSpecs.size());
@@ -143,28 +176,24 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
         return jsonElements;
     }
 
-    static String createRecordJsonObject(List<JsonFieldSpec> fieldSpecs,
-                                         TextRecord record,
-                                         String whitespacesAfterValueSeparator)
+    private String createRecordJsonObject(TextRecord record,
+                                          String whitespacesAfterValueSeparator)
             throws ConsumerException {
-        Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(record);
         Objects.requireNonNull(whitespacesAfterValueSeparator);
 
-        List<String> jsonMemberList = createJsonMemberList(fieldSpecs, record);
+        List<String> jsonMemberList = createJsonMemberList(record);
         String jsonMembers = joinJsonMembers(jsonMemberList, whitespacesAfterValueSeparator);
         return buildJsonObject(jsonMembers);
     }
 
-    static String createRecordJsonArray(List<JsonFieldSpec> fieldSpecs,
-                                        TextRecord record,
-                                        String whitespacesAfterValueSeparator)
+    private String createRecordJsonArray(TextRecord record,
+                                         String whitespacesAfterValueSeparator)
             throws ConsumerException {
-        Objects.requireNonNull(fieldSpecs);
         Objects.requireNonNull(record);
         Objects.requireNonNull(whitespacesAfterValueSeparator);
 
-        List<String> jsonElementList = createJsonElementList(fieldSpecs, record);
+        List<String> jsonElementList = createJsonElementList(record);
         String jsonElements = joinJsonElements(jsonElementList, whitespacesAfterValueSeparator);
         return buildJsonArray(jsonElements);
     }
@@ -213,8 +242,8 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
 
         // convert TextRecord into JSON object or JSON array. Throws ConsumerException if a field value is invalid.
         String recordJson = switch (fileSpec.recordJsonType()) {
-            case OBJECT -> createRecordJsonObject(fieldSpecs, record, fileSpec.whitespacesAfterValueSeparator());
-            case ARRAY -> createRecordJsonArray(fieldSpecs, record, fileSpec.whitespacesAfterValueSeparator());
+            case OBJECT -> createRecordJsonObject(record, fileSpec.whitespacesAfterValueSeparator());
+            case ARRAY -> createRecordJsonArray(record, fileSpec.whitespacesAfterValueSeparator());
         };
 
         // write JSON depending on the fileSpec type.
