@@ -19,6 +19,16 @@ public record JsonFieldSpec(
         Objects.requireNonNull(validityCheck);
     }
 
+    public static JsonFieldSpec booleanType(String unescapedName,
+                                            NullHandling nullHandling,
+                                            ValidityCheck validityCheck) {
+        return new JsonFieldSpec(
+                escapeName(unescapedName),
+                ValueType.BOOLEAN,
+                nullHandling,
+                validityCheck);
+    }
+
     public static JsonFieldSpec numberType(String unescapedName,
                                            NullHandling nullHandling,
                                            ValidityCheck validityCheck) {
@@ -39,29 +49,61 @@ public record JsonFieldSpec(
     }
 
     public static JsonFieldSpec stringEscapedType(String unescapedName,
-                                                  NullHandling nullHandling) {
+                                                  NullHandling nullHandling,
+                                                  ValidityCheck validityCheck) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
                 ValueType.STRING_ESCAPED,
                 nullHandling,
-                ValidityCheck.CHECK_NOT_NECESSARY);
+                validityCheck);
     }
 
     public static JsonFieldSpec stringEscapedWithQuotationMarksType(String unescapedName,
-                                                                    NullHandling nullHandling) {
+                                                                    NullHandling nullHandling,
+                                                                    ValidityCheck validityCheck) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
                 ValueType.STRING_ESCAPED_WITH_QUOTATION_MARKS,
                 nullHandling,
-                ValidityCheck.CHECK_NOT_NECESSARY);
+                validityCheck);
     }
 
-    public static JsonFieldSpec booleanType(String unescapedName,
-                                            NullHandling nullHandling,
-                                            ValidityCheck validityCheck) {
+    public static JsonFieldSpec arrayElementsType(String unescapedName,
+                                                  NullHandling nullHandling,
+                                                  ValidityCheck validityCheck) {
         return new JsonFieldSpec(
                 escapeName(unescapedName),
-                ValueType.BOOLEAN,
+                ValueType.ARRAY_ELEMENTS,
+                nullHandling,
+                validityCheck);
+    }
+
+    public static JsonFieldSpec arrayType(String unescapedName,
+                                          NullHandling nullHandling,
+                                          ValidityCheck validityCheck) {
+        return new JsonFieldSpec(
+                escapeName(unescapedName),
+                ValueType.ARRAY,
+                nullHandling,
+                validityCheck);
+    }
+
+    public static JsonFieldSpec objectMembersType(String unescapedName,
+                                                  NullHandling nullHandling,
+                                                  ValidityCheck validityCheck) {
+        return new JsonFieldSpec(
+                escapeName(unescapedName),
+                ValueType.OBJECT_MEMBERS,
+                nullHandling,
+                validityCheck);
+    }
+
+    public static JsonFieldSpec objectType(String unescapedName,
+                                           NullHandling nullHandling,
+                                           ValidityCheck validityCheck) {
+        return new JsonFieldSpec(
+                escapeName(unescapedName),
+                ValueType.OBJECT,
                 nullHandling,
                 validityCheck);
     }

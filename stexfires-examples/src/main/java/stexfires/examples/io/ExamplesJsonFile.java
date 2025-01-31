@@ -21,7 +21,6 @@ import java.util.stream.*;
 
 import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
-import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesJsonFile {
@@ -29,16 +28,16 @@ public final class ExamplesJsonFile {
     private static final List<JsonFieldSpec> FIELD_SPECS = List.of(
             JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
             JsonFieldSpec.stringUnescapedType("stringUnescapedLiteral", ALLOWED_USE_LITERAL),
-            JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-            JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+            JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.numberType("numberLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
             JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.booleanType("booleanLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
-            new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-            new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-            new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-            new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
+            JsonFieldSpec.arrayElementsType("arrayElements", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.arrayType("array", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.objectMembersType("objectMembers", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.objectType("object", ALLOWED_OMIT_FIELD, CHECK_VALUE)
     );
 
     private ExamplesJsonFile() {

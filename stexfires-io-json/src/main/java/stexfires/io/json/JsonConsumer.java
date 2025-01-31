@@ -141,7 +141,9 @@ public final class JsonConsumer extends AbstractWritableConsumer<TextRecord> {
                 preparedFieldText = fieldText;
             }
             jsonValue = convertFieldTextIntoJsonValue(fieldSpec.valueType(), preparedFieldText);
-            checkJsonValue(fieldSpec.valueType(), jsonValue);
+            if (fieldSpec.checkValueNecessary()) {
+                checkJsonValue(fieldSpec.valueType(), jsonValue);
+            }
         }
 
         return Optional.ofNullable(jsonValue);
