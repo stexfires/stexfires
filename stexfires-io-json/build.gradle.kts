@@ -8,4 +8,5 @@ dependencies {
     api(project(":stexfires-record"))
     api(project(":stexfires-util"))
     implementation("org.jspecify:jspecify:1.0.0")
+    implementation("com.google.code.gson:gson:2.11.0")
 }
