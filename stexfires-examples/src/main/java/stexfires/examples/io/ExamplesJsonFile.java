@@ -26,18 +26,47 @@ import static stexfires.io.json.JsonFieldSpec.ValueType.*;
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesJsonFile {
 
+    private static final List<JsonFieldSpec> FIELD_SPECS = List.of(
+            JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
+            JsonFieldSpec.stringUnescapedType("stringUnescapedLiteral", ALLOWED_USE_LITERAL),
+            JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
+            JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
+            JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.numberType("numberLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.booleanType("booleanLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
+    );
+
     private ExamplesJsonFile() {
     }
 
     private static Stream<TextRecord> generateStream() {
         return Stream.of(
-                new ManyFieldsRecord("category1000", 1_000L,
-                        "abc", "abc", "\"abc\"", "0", "true", null, "   1,2,3", "[1, 2, 3]", "   \"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
                 new EmptyRecord(),
-                new ManyFieldsRecord("category1002", 1_002L,
-                        "A ä € \t \r\n A", "a \\n A", "\"a \\t A\"", "1234.5678", "false", null, null, null, null, null),
-                new ManyFieldsRecord("category1003", 1_003L,
-                        " ", "", "\"\"", null, null, "", "true", "[]", null, null)
+                new ManyFieldsRecord("empty", 1L,
+                        "", "", "", "\"\"",
+                        null, null,
+                        null, null,
+                        "", "[]", "", "{}"),
+                new ManyFieldsRecord("blank", 2L,
+                        "  ", "  ", "  ", "\"  \"",
+                        null, null,
+                        null, null,
+                        "  ", " [  ] ", "  ", " {  } "),
+                new ManyFieldsRecord("simple", 3L,
+                        "abc", "abc", "abc", "\"abc\"",
+                        "0", "1",
+                        "true", "false",
+                        "1, 2, 3", "[1, 2, 3]", "\"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
+                new ManyFieldsRecord("special", 4L,
+                        "A ä € A", "Tab\tLineFeed\n{[]}", "a\\nA", "\"a\\tA\"",
+                        " 12345678.9 ", " -1.23456789 ",
+                        " false ", " true ",
+                        " true, null, 1, 2.3, \"abc\" ", " [ [1,2], [3,4] ] ", null, null)
         );
     }
 
@@ -49,18 +78,7 @@ public final class ExamplesJsonFile {
                         RecordJsonType.OBJECT,
                         true,
                         JsonUtil.escapeJsonString("Array\tname"),
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
@@ -75,18 +93,7 @@ public final class ExamplesJsonFile {
                 JsonArrayFileSpec.consumerFileSpecAsSingleArray(
                         RecordJsonType.ARRAY,
                         false,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
@@ -106,18 +113,7 @@ public final class ExamplesJsonFile {
                         true,
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         false,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
@@ -137,18 +133,7 @@ public final class ExamplesJsonFile {
                         false,
                         record -> "record_" + sequenceSupplier.getAsLong(),
                         false,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
@@ -164,18 +149,7 @@ public final class ExamplesJsonFile {
                         JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
                         true,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.numberType("number", ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         var fileSpecRead =
@@ -183,18 +157,7 @@ public final class ExamplesJsonFile {
                         JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
                         ProducerReadLineHandling.SKIP_BLANK_LINE,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_USE_LITERAL),
-                                JsonFieldSpec.numberType("number", ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null ä €", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_USE_LITERAL, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_USE_LITERAL, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
@@ -214,18 +177,7 @@ public final class ExamplesJsonFile {
                         RecordJsonType.ARRAY,
                         true,
                         false,
-                        List.of(
-                                JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_OMIT_FIELD),
-                                JsonFieldSpec.numberType("number", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.booleanType("boolean", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                JsonFieldSpec.stringUnescapedType("null", ALLOWED_USE_LITERAL),
-                                new JsonFieldSpec("arrayElements", ARRAY_ELEMENTS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("array", ARRAY, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("objectMembers", OBJECT_MEMBERS, ALLOWED_OMIT_FIELD, CHECK_VALUE),
-                                new JsonFieldSpec("object", OBJECT, ALLOWED_OMIT_FIELD, CHECK_VALUE)
-                        )
+                        FIELD_SPECS
                 );
 
         // Write
