@@ -67,6 +67,29 @@ public record JsonStreamingFileSpec(
         );
     }
 
+    public static JsonStreamingFileSpec producerFileSpec(RecordJsonType recordJsonType,
+                                                         boolean recordSeparatorBefore,
+                                                         int producerSkipFirstLines,
+                                                         ProducerReadLineHandling producerReadLineHandling,
+                                                         int producerIgnoreFirstRecords,
+                                                         int producerIgnoreLastRecords,
+                                                         List<JsonFieldSpec> fieldSpecs) {
+        return new JsonStreamingFileSpec(
+                JSON_CHARSET_CODING,
+                recordJsonType,
+                recordSeparatorBefore,
+                producerSkipFirstLines,
+                producerReadLineHandling,
+                producerIgnoreFirstRecords,
+                producerIgnoreLastRecords,
+                JSON_CONSUMER_LINE_SEPARATOR,
+                DEFAULT_CONSUMER_TEXT_BEFORE,
+                DEFAULT_CONSUMER_TEXT_AFTER,
+                DEFAULT_CONSUMER_SPACE_AFTER_VALUE_SEPARATOR,
+                fieldSpecs
+        );
+    }
+
     public static JsonStreamingFileSpec consumerFileSpec(RecordJsonType recordJsonType,
                                                          boolean recordSeparatorBefore,
                                                          boolean consumerSpaceAfterValueSeparator,

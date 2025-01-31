@@ -155,7 +155,10 @@ public final class ExamplesJsonFile {
                 JsonStreamingFileSpec.producerFileSpec(
                         JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
+                        0,
                         ProducerReadLineHandling.SKIP_BLANK_LINE,
+                        0,
+                        0,
                         FIELD_SPECS
                 );
 

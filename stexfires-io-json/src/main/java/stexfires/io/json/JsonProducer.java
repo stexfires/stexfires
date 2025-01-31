@@ -1,6 +1,6 @@
 package stexfires.io.json;
 
-import org.jspecify.annotations.Nullable;
+import com.google.gson.*;
 import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -19,11 +19,17 @@ import java.util.*;
 public final class JsonProducer extends AbstractReadableProducer<TextRecord> {
 
     private final JsonFileSpec fileSpec;
+    private final Gson gson;
 
     public JsonProducer(BufferedReader bufferedReader, JsonFileSpec fileSpec) {
         super(bufferedReader);
         Objects.requireNonNull(fileSpec);
         this.fileSpec = fileSpec;
+        gson = new GsonBuilder()
+                .disableJdkUnsafe()
+                .setStrictness(Strictness.STRICT)
+                .serializeNulls()
+                .create();
     }
 
     @Override
@@ -36,6 +42,8 @@ public final class JsonProducer extends AbstractReadableProducer<TextRecord> {
                         bufferedReader().readLine();
                     }
                 }
+            } else {
+                // TODO
             }
         }
 
@@ -54,37 +62,34 @@ public final class JsonProducer extends AbstractReadableProducer<TextRecord> {
 
     @Override
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
+        Objects.requireNonNull(recordRawData);
+
+        String rawData = recordRawData.rawData();
         TextRecord record = null;
-        List<@Nullable String> texts = new ArrayList<>();
-/*
-        Map<String, @Nullable String> jsonMap = JsonUtil.parseJsonObject(recordRawData.rawData());
 
-
-        for (JsonFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
-            String name = fieldSpec.escapedName();
-            if (jsonMap.containsKey(name)) {
-                String value = jsonMap.get(name);
-                // TODO Check value and remove quotation marks
-                String text = null;
-                switch (fieldSpec.valueType()) {
-                    case OBJECT -> {
-                    }
-                    case ARRAY -> {
-                    }
-                    case NUMBER -> {
-                    }
-                    case STRING -> {
-                    }
-                    case BOOLEAN -> {
-                    }
-                }
-                texts.add(text);
-            }
+        JsonElement jsonElement;
+        try {
+            jsonElement = gson.fromJson(rawData, JsonElement.class);
+        } catch (JsonSyntaxException e) {
+            throw new UncheckedProducerException(new ProducerException("Parse Exception"));
         }
- */
 
-        if (!texts.isEmpty()) { // TODO new fileSpec for skipping
-            record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
+        if (fileSpec.recordJsonType() == JsonFileSpec.RecordJsonType.OBJECT) {
+            if (jsonElement.isJsonObject()) {
+                List<String> texts = new ArrayList<>();
+                texts.add(jsonElement.toString()); // TODO
+                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
+            } else {
+                throw new UncheckedProducerException(new ProducerException("Not a JSON object"));
+            }
+        } else if (fileSpec.recordJsonType() == JsonFileSpec.RecordJsonType.ARRAY) {
+            if (jsonElement.isJsonArray()) {
+                List<String> texts = new ArrayList<>();
+                texts.add(jsonElement.toString()); // TODO
+                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
+            } else {
+                throw new UncheckedProducerException(new ProducerException("Not a JSON array"));
+            }
         }
 
         return Optional.ofNullable(record);
@@ -112,6 +117,8 @@ public final class JsonProducer extends AbstractReadableProducer<TextRecord> {
                 if (!jsonStreamingFileSpec.recordSeparatorBefore()) {
                     rawData = jsonStreamingFileSpec.producerReadLineHandling().readAndHandleLine(reader);
                 }
+            } else {
+                // TODO
             }
 
             return RecordRawData.buildOptionalRecordRawData(null, recordIndex, rawData);
