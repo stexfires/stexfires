@@ -7,6 +7,7 @@ import stexfires.io.json.*;
 import stexfires.io.json.JsonFileSpec.RecordJsonType;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
+import stexfires.record.TextRecordStreams;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.producer.ProducerException;
@@ -84,9 +85,9 @@ public final class ExamplesJsonFile {
                 new ManyFieldsRecord("simple", 3L,
                         "true",
                         "abc", "abc", "abc", "\"abc\"",
-                        "0", "1",
+                        "0", "1.0",
                         "true", "false",
-                        "1, 2, 3", "[1, 2, 3]", "\"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }",
+                        "1.0, 2, 3", "[1.0, 2, 3]", "\"a\": 1.0, \"b\": 2", "{ \"a\": 1.0, \"b\": 2 }",
                         "special"),
                 new ManyFieldsRecord("special", 4L,
                         "true",
@@ -224,6 +225,9 @@ public final class ExamplesJsonFile {
         if (!outputDirectory.exists() || !outputDirectory.isDirectory()) {
             throw new IllegalArgumentException("Missing valid output directory parameter! " + outputDirectory);
         }
+
+        System.out.println("--- print records ---");
+        TextRecordStreams.consume(generateStream(), RecordSystemOutUtil.RECORD_CONSUMER);
 
         try {
             testJsonArrayFileSpec1(Path.of(args[0], "JsonArray1.json"));
