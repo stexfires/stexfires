@@ -1,13 +1,13 @@
 package stexfires.examples.io;
 
 import stexfires.examples.record.RecordSystemOutUtil;
+import stexfires.examples.util.ExamplesStrings;
 import stexfires.io.RecordFiles;
 import stexfires.io.json.*;
 import stexfires.io.json.JsonFileSpec.RecordJsonType;
 import stexfires.io.producer.ProducerReadLineHandling;
 import stexfires.record.TextRecord;
 import stexfires.record.consumer.ConsumerException;
-import stexfires.record.impl.EmptyRecord;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.producer.ProducerException;
 import stexfires.util.supplier.SequenceSupplier;
@@ -25,7 +25,9 @@ import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesJsonFile {
 
+    @SuppressWarnings("StringConcatenationMissingWhitespace")
     private static final List<JsonFieldSpec> FIELD_SPECS = List.of(
+            JsonFieldSpec.booleanType("booleanNotNull", NOT_ALLOWED, CHECK_VALUE),
             JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_OMIT_FIELD),
             JsonFieldSpec.stringUnescapedType("stringUnescapedLiteral", ALLOWED_USE_LITERAL),
             JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_OMIT_FIELD, CHECK_VALUE),
@@ -37,7 +39,25 @@ public final class ExamplesJsonFile {
             JsonFieldSpec.arrayElementsType("arrayElements", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.arrayType("array", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.objectMembersType("objectMembers", ALLOWED_OMIT_FIELD, CHECK_VALUE),
-            JsonFieldSpec.objectType("object", ALLOWED_OMIT_FIELD, CHECK_VALUE)
+            JsonFieldSpec.objectType("object", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.stringUnescapedType("specialKey ä€ //'\\\b\f"
+                            + JsonUtil.LITERAL_FALSE
+                            + JsonUtil.LITERAL_NULL
+                            + JsonUtil.LITERAL_TRUE
+                            + JsonUtil.WS_SPACE
+                            + JsonUtil.WS_HORIZONTAL_TAB
+                            + JsonUtil.WS_LINE_FEED
+                            + JsonUtil.WS_CARRIAGE_RETURN
+                            + JsonUtil.NAME_SEPARATOR
+                            + JsonUtil.VALUE_SEPARATOR
+                            + JsonUtil.BEGIN_OBJECT
+                            + JsonUtil.END_OBJECT
+                            + JsonUtil.BEGIN_ARRAY
+                            + JsonUtil.END_ARRAY
+                            + JsonUtil.QUOTATION_MARK
+                            + JsonUtil.RECORD_SEPARATOR
+                            + ExamplesStrings.SPECIAL_CHARACTERS,
+                    ALLOWED_USE_LITERAL)
     );
 
     private ExamplesJsonFile() {
@@ -45,27 +65,36 @@ public final class ExamplesJsonFile {
 
     private static Stream<TextRecord> generateStream() {
         return Stream.of(
-                new EmptyRecord(),
+                new ManyFieldsRecord("null", 0L,
+                        "false"),
                 new ManyFieldsRecord("empty", 1L,
+                        "true",
                         "", "", "", "\"\"",
                         null, null,
                         null, null,
-                        "", "[]", "", "{}"),
+                        "", "[]", "", "{}",
+                        "special"),
                 new ManyFieldsRecord("blank", 2L,
+                        "true",
                         "  ", "  ", "  ", "\"  \"",
                         null, null,
                         null, null,
-                        "  ", " [  ] ", "  ", " {  } "),
+                        "  ", " [  ] ", "  ", " {  } ",
+                        "special"),
                 new ManyFieldsRecord("simple", 3L,
+                        "true",
                         "abc", "abc", "abc", "\"abc\"",
                         "0", "1",
                         "true", "false",
-                        "1, 2, 3", "[1, 2, 3]", "\"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }"),
+                        "1, 2, 3", "[1, 2, 3]", "\"a\": 1, \"b\": 2", "{ \"a\": 1, \"b\": 2 }",
+                        "special"),
                 new ManyFieldsRecord("special", 4L,
+                        "true",
                         "A ä € A", "Tab\tLineFeed\n{[]}", "a\\nA", "\"a\\tA\"",
                         " 12345678.9 ", " -1.23456789 ",
                         " false ", " true ",
-                        " true, null, 1, 2.3, \"abc\" ", " [ [1,2], [3,4] ] ", null, null)
+                        " true, null, 1, 2.3, \"abc\" ", " [ [1,2], [3,4] ] ", null, null,
+                        "special")
         );
     }
 

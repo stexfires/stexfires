@@ -1,6 +1,7 @@
 package stexfires.io.json;
 
 import com.google.gson.*;
+import org.jspecify.annotations.Nullable;
 import stexfires.io.producer.AbstractReadableProducer;
 import stexfires.io.producer.AbstractRecordRawDataIterator;
 import stexfires.io.producer.RecordRawData;
@@ -64,32 +65,41 @@ public final class JsonProducer extends AbstractReadableProducer<TextRecord> {
     protected Optional<TextRecord> createRecord(RecordRawData recordRawData) throws UncheckedProducerException {
         Objects.requireNonNull(recordRawData);
 
-        String rawData = recordRawData.rawData();
-        TextRecord record = null;
-
         JsonElement jsonElement;
         try {
-            jsonElement = gson.fromJson(rawData, JsonElement.class);
+            jsonElement = gson.fromJson(recordRawData.rawData(), JsonElement.class);
         } catch (JsonSyntaxException e) {
             throw new UncheckedProducerException(new ProducerException("Parse Exception"));
         }
 
+        Collection<@Nullable String> texts = null;
         if (fileSpec.recordJsonType() == JsonFileSpec.RecordJsonType.OBJECT) {
-            if (jsonElement.isJsonObject()) {
-                List<String> texts = new ArrayList<>();
-                texts.add(jsonElement.toString()); // TODO
-                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
+            if (jsonElement.isJsonObject() && (jsonElement instanceof JsonObject jsonObject)) {
+                texts = new ArrayList<>();
+                for (JsonFieldSpec fieldSpec : fileSpec.fieldSpecs()) {
+                    JsonElement fieldElement = jsonObject.get(fieldSpec.unescapedName());
+                    if (fieldElement != null) {
+                        texts.add(fieldElement.toString());
+                    } else {
+                        texts.add(null);
+                    }
+                }
+
             } else {
                 throw new UncheckedProducerException(new ProducerException("Not a JSON object"));
             }
         } else if (fileSpec.recordJsonType() == JsonFileSpec.RecordJsonType.ARRAY) {
-            if (jsonElement.isJsonArray()) {
-                List<String> texts = new ArrayList<>();
+            if (jsonElement.isJsonArray() && (jsonElement instanceof JsonArray jsonArray)) {
+                texts = new ArrayList<>();
                 texts.add(jsonElement.toString()); // TODO
-                record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
             } else {
                 throw new UncheckedProducerException(new ProducerException("Not a JSON array"));
             }
+        }
+
+        TextRecord record = null;
+        if (texts != null) {
+            record = new ManyFieldsRecord(recordRawData.category(), recordRawData.recordId(), texts);
         }
 
         return Optional.ofNullable(record);
