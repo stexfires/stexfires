@@ -18,6 +18,7 @@ public record JsonStreamingFileSpec(
         boolean recordSeparatorBefore,
         int producerSkipFirstLines,
         ProducerReadLineHandling producerReadLineHandling,
+        ProducerNotJsonHandling producerNotJsonHandling,
         int producerIgnoreFirstRecords,
         int producerIgnoreLastRecords,
         LineSeparator consumerLineSeparator,
@@ -28,7 +29,8 @@ public record JsonStreamingFileSpec(
 ) implements JsonFileSpec {
 
     public static final int DEFAULT_PRODUCER_SKIP_FIRST_LINES = 0;
-    public static final ProducerReadLineHandling DEFAULT_PRODUCER_READ_LINE_HANDLING = ProducerReadLineHandling.SKIP_BLANK_LINE;
+    public static final ProducerReadLineHandling DEFAULT_PRODUCER_READ_LINE_HANDLING = ProducerReadLineHandling.TREAT_BLANK_LINE_LIKE_END;
+    public static final ProducerNotJsonHandling DEFAULT_PRODUCER_NOT_JSON_HANDLING = ProducerNotJsonHandling.TREAT_LIKE_END;
     public static final int DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS = 0;
     public static final int DEFAULT_PRODUCER_IGNORE_LAST_RECORDS = 0;
 
@@ -36,6 +38,7 @@ public record JsonStreamingFileSpec(
         Objects.requireNonNull(charsetCoding);
         Objects.requireNonNull(recordJsonType);
         Objects.requireNonNull(producerReadLineHandling);
+        Objects.requireNonNull(producerNotJsonHandling);
         if (producerIgnoreFirstRecords < 0) {
             throw new IllegalArgumentException("producerIgnoreFirstRecords < 0");
         }
@@ -50,6 +53,7 @@ public record JsonStreamingFileSpec(
     public static JsonStreamingFileSpec producerFileSpec(RecordJsonType recordJsonType,
                                                          boolean recordSeparatorBefore,
                                                          ProducerReadLineHandling producerReadLineHandling,
+                                                         ProducerNotJsonHandling producerNotJsonHandling,
                                                          List<JsonFieldSpec> fieldSpecs) {
         return new JsonStreamingFileSpec(
                 JSON_CHARSET_CODING,
@@ -57,6 +61,7 @@ public record JsonStreamingFileSpec(
                 recordSeparatorBefore,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 producerReadLineHandling,
+                producerNotJsonHandling,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -71,6 +76,7 @@ public record JsonStreamingFileSpec(
                                                          boolean recordSeparatorBefore,
                                                          int producerSkipFirstLines,
                                                          ProducerReadLineHandling producerReadLineHandling,
+                                                         ProducerNotJsonHandling producerNotJsonHandling,
                                                          int producerIgnoreFirstRecords,
                                                          int producerIgnoreLastRecords,
                                                          List<JsonFieldSpec> fieldSpecs) {
@@ -80,6 +86,7 @@ public record JsonStreamingFileSpec(
                 recordSeparatorBefore,
                 producerSkipFirstLines,
                 producerReadLineHandling,
+                producerNotJsonHandling,
                 producerIgnoreFirstRecords,
                 producerIgnoreLastRecords,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -100,6 +107,7 @@ public record JsonStreamingFileSpec(
                 recordSeparatorBefore,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_NOT_JSON_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 JSON_CONSUMER_LINE_SEPARATOR,
@@ -124,6 +132,7 @@ public record JsonStreamingFileSpec(
                 recordSeparatorBefore,
                 DEFAULT_PRODUCER_SKIP_FIRST_LINES,
                 DEFAULT_PRODUCER_READ_LINE_HANDLING,
+                DEFAULT_PRODUCER_NOT_JSON_HANDLING,
                 DEFAULT_PRODUCER_IGNORE_FIRST_RECORDS,
                 DEFAULT_PRODUCER_IGNORE_LAST_RECORDS,
                 consumerLineSeparator,
@@ -149,6 +158,10 @@ public record JsonStreamingFileSpec(
     @Override
     public boolean embeddedInJsonObject() {
         return false;
+    }
+
+    public enum ProducerNotJsonHandling {
+        THROW_EXCEPTION, TREAT_LIKE_END
     }
 
 }
