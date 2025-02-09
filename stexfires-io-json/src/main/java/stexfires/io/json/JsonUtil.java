@@ -1,6 +1,10 @@
 package stexfires.io.json;
 
+import stexfires.util.CodePoint;
+import stexfires.util.Strings;
+
 import java.util.*;
+import java.util.function.*;
 
 /**
  * This class consists of {@code static} utility methods
@@ -30,20 +34,36 @@ public final class JsonUtil {
     public static final String WS_HORIZONTAL_TAB = "\t"; // %x09 ; Horizontal tab
     public static final String WS_LINE_FEED = "\n"; // %x0A ; Line feed or New line
     public static final String WS_CARRIAGE_RETURN = "\r"; //  %x0D ; Carriage return
+    public static final CodePoint CODE_POINT_WS_SPACE = new CodePoint(0x20); // %x20 ; Space
+    public static final CodePoint CODE_POINT_WS_HORIZONTAL_TAB = new CodePoint(0x09); // %x09 ; Horizontal tab
+    public static final CodePoint CODE_POINT_WS_LINE_FEED = new CodePoint(0x0A); // %x0A ; Line feed or New line
+    public static final CodePoint CODE_POINT_WS_CARRIAGE_RETURN = new CodePoint(0x0D); //  %x0D ; Carriage return
+    public static final Predicate<CodePoint> PREDICATE_CODE_POINT_NOT_WS = codePoint -> !CODE_POINT_WS_SPACE.equals(codePoint)
+            && !CODE_POINT_WS_HORIZONTAL_TAB.equals(codePoint)
+            && !CODE_POINT_WS_LINE_FEED.equals(codePoint)
+            && !CODE_POINT_WS_CARRIAGE_RETURN.equals(codePoint);
 
     // Separator
     public static final String NAME_SEPARATOR = ":"; // name-separator  = ws %x3A ws  ; : colon
     public static final String VALUE_SEPARATOR = ","; // value-separator = ws %x2C ws  ; , comma
+    public static final CodePoint CODE_POINT_NAME_SEPARATOR = new CodePoint(0x3A); // name-separator  = ws %x3A ws  ; : colon
+    public static final CodePoint CODE_POINT_VALUE_SEPARATOR = new CodePoint(0x2C); // value-separator = ws %x2C ws  ; , comma
 
     // Begin and end symbols
     public static final String BEGIN_OBJECT = "{"; // begin-object    = ws %x7B ws  ; { left curly bracket
     public static final String END_OBJECT = "}"; // end-object      = ws %x7D ws  ; } right curly bracket
     public static final String BEGIN_ARRAY = "["; // begin-array     = ws %x5B ws  ; [ left square bracket
     public static final String END_ARRAY = "]"; // end-array       = ws %x5D ws  ; ] right square bracket
+    public static final CodePoint CODE_POINT_BEGIN_OBJECT = new CodePoint(0x7B); // begin-object    = ws %x7B ws  ; { left curly bracket
+    public static final CodePoint CODE_POINT_END_OBJECT = new CodePoint(0x7D); // end-object      = ws %x7D ws  ; } right curly bracket
+    public static final CodePoint CODE_POINT_BEGIN_ARRAY = new CodePoint(0x5B); // begin-array     = ws %x5B ws  ; [ left square bracket
+    public static final CodePoint CODE_POINT_END_ARRAY = new CodePoint(0x5D); // end-array       = ws %x5D ws  ; ] right square bracket
 
     // Special characters
     public static final String QUOTATION_MARK = "\""; // quotation-mark = %x22      ; "
     public static final String RECORD_SEPARATOR = "\u001E"; // record-separator = %x1E ; Record Separator (RS)
+    public static final CodePoint CODE_POINT_QUOTATION_MARK = new CodePoint(0x22); // quotation-mark = %x22      ; "
+    public static final CodePoint CODE_POINT_RECORD_SEPARATOR = new CodePoint(0x1E); // record-separator = %x1E ; Record Separator (RS)
 
     private JsonUtil() {
     }
@@ -121,6 +141,20 @@ public final class JsonUtil {
             i++;
         }
         return unescapedJsonString.toString();
+    }
+
+    public static Optional<CodePoint> findFirstNonWhiteSpace(String json) {
+        Objects.requireNonNull(json);
+        return Strings.codePointStreamOfNotNull(json)
+                      .filter(PREDICATE_CODE_POINT_NOT_WS)
+                      .findFirst();
+    }
+
+    public static Optional<CodePoint> findLastNonWhiteSpace(String json) {
+        Objects.requireNonNull(json);
+        return Strings.codePointStreamOfNotNull(json)
+                      .filter(PREDICATE_CODE_POINT_NOT_WS)
+                      .reduce((first, second) -> second);
     }
 
     public static String buildJsonString(String escapedJsonCharacters) {

@@ -1,6 +1,7 @@
 package stexfires.io.json;
 
 import org.junit.jupiter.api.Test;
+import stexfires.util.CodePoint;
 
 import java.util.*;
 
@@ -14,6 +15,65 @@ final class JsonUtilTest {
 
     @SuppressWarnings({"UnnecessaryUnicodeEscape", "SpellCheckingInspection"})
     private static final String SPECIAL_CODEPOINTS = "\uD83D\uDE00 üo\u0308A\u030a \uD83C\uDDFA\uD83C\uDDF8 \uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
+
+    /**
+     * Test method for constants.
+     */
+    @Test
+    void constants() {
+        assertEquals("false", JsonUtil.LITERAL_FALSE);
+        assertEquals("null", JsonUtil.LITERAL_NULL);
+        assertEquals("true", JsonUtil.LITERAL_TRUE);
+        assertEquals(" ", JsonUtil.WS_SPACE);
+        assertEquals("\t", JsonUtil.WS_HORIZONTAL_TAB);
+        assertEquals("\n", JsonUtil.WS_LINE_FEED);
+        assertEquals("\r", JsonUtil.WS_CARRIAGE_RETURN);
+        assertEquals(new CodePoint(0x20), JsonUtil.CODE_POINT_WS_SPACE);
+        assertEquals(new CodePoint(0x09), JsonUtil.CODE_POINT_WS_HORIZONTAL_TAB);
+        assertEquals(new CodePoint(0x0A), JsonUtil.CODE_POINT_WS_LINE_FEED);
+        assertEquals(new CodePoint(0x0D), JsonUtil.CODE_POINT_WS_CARRIAGE_RETURN);
+        assertEquals(":", JsonUtil.NAME_SEPARATOR);
+        assertEquals(",", JsonUtil.VALUE_SEPARATOR);
+        assertEquals(new CodePoint(0x3A), JsonUtil.CODE_POINT_NAME_SEPARATOR);
+        assertEquals(new CodePoint(0x2C), JsonUtil.CODE_POINT_VALUE_SEPARATOR);
+        assertEquals("{", JsonUtil.BEGIN_OBJECT);
+        assertEquals("}", JsonUtil.END_OBJECT);
+        assertEquals("[", JsonUtil.BEGIN_ARRAY);
+        assertEquals("]", JsonUtil.END_ARRAY);
+        assertEquals(new CodePoint(0x7B), JsonUtil.CODE_POINT_BEGIN_OBJECT);
+        assertEquals(new CodePoint(0x7D), JsonUtil.CODE_POINT_END_OBJECT);
+        assertEquals(new CodePoint(0x5B), JsonUtil.CODE_POINT_BEGIN_ARRAY);
+        assertEquals(new CodePoint(0x5D), JsonUtil.CODE_POINT_END_ARRAY);
+        assertEquals("\"", JsonUtil.QUOTATION_MARK);
+        assertEquals("\u001E", JsonUtil.RECORD_SEPARATOR);
+        assertEquals(new CodePoint(0x22), JsonUtil.CODE_POINT_QUOTATION_MARK);
+        assertEquals(new CodePoint(0x1E), JsonUtil.CODE_POINT_RECORD_SEPARATOR);
+    }
+
+    /**
+     * Test method for predicates.
+     */
+    @Test
+    void predicates() {
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(CodePoint.ofChar('A')));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_BEGIN_OBJECT));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_END_OBJECT));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_BEGIN_ARRAY));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_END_ARRAY));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_NAME_SEPARATOR));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_VALUE_SEPARATOR));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_RECORD_SEPARATOR));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_QUOTATION_MARK));
+        // noinspection DataFlowIssue
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(null));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(new CodePoint(CodePoint.MIN_VALUE)));
+        assertTrue(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(new CodePoint(CodePoint.MAX_VALUE)));
+
+        assertFalse(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_WS_SPACE));
+        assertFalse(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_WS_HORIZONTAL_TAB));
+        assertFalse(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_WS_LINE_FEED));
+        assertFalse(JsonUtil.PREDICATE_CODE_POINT_NOT_WS.test(JsonUtil.CODE_POINT_WS_CARRIAGE_RETURN));
+    }
 
     /**
      * Test method for {@link stexfires.io.json.JsonUtil#escapeJsonString(String)}.
@@ -73,6 +133,48 @@ final class JsonUtilTest {
         }
         // noinspection DataFlowIssue
         assertThrows(NullPointerException.class, () -> JsonUtil.unescapeJsonString(null));
+    }
+
+    /**
+     * Test method for {@link stexfires.io.json.JsonUtil#findFirstNonWhiteSpace(String)}.
+     */
+    @Test
+    void findFirstNonWhiteSpace() {
+        assertEquals(Optional.empty(), JsonUtil.findFirstNonWhiteSpace(""));
+        assertEquals(Optional.empty(), JsonUtil.findFirstNonWhiteSpace(" "));
+        assertEquals(Optional.empty(), JsonUtil.findFirstNonWhiteSpace("\t\t\n\r   "));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace("A"));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace(" A"));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace("\t\t\n\r  A\t\t\n\r  "));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace("ABC"));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace(" ABC"));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findFirstNonWhiteSpace("\t\t\n\r  ABC\t\t\n\r  "));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_BEGIN_ARRAY), JsonUtil.findFirstNonWhiteSpace("[ ]"));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_BEGIN_ARRAY), JsonUtil.findFirstNonWhiteSpace(" [ ]"));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_BEGIN_ARRAY), JsonUtil.findFirstNonWhiteSpace("\t\t\n\r  [ ]\t\t\n\r  "));
+        // noinspection DataFlowIssue
+        assertThrows(NullPointerException.class, () -> JsonUtil.findFirstNonWhiteSpace(null));
+    }
+
+    /**
+     * Test method for {@link stexfires.io.json.JsonUtil#findLastNonWhiteSpace(String)}.
+     */
+    @Test
+    void findLastNonWhiteSpace() {
+        assertEquals(Optional.empty(), JsonUtil.findLastNonWhiteSpace(""));
+        assertEquals(Optional.empty(), JsonUtil.findLastNonWhiteSpace(" "));
+        assertEquals(Optional.empty(), JsonUtil.findLastNonWhiteSpace("\t\t\n\r   "));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findLastNonWhiteSpace("A"));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findLastNonWhiteSpace("A "));
+        assertEquals(Optional.of(new CodePoint(65)), JsonUtil.findLastNonWhiteSpace("\t\t\n\r  A\t\t\n\r  "));
+        assertEquals(Optional.of(new CodePoint(67)), JsonUtil.findLastNonWhiteSpace("ABC"));
+        assertEquals(Optional.of(new CodePoint(67)), JsonUtil.findLastNonWhiteSpace("ABC "));
+        assertEquals(Optional.of(new CodePoint(67)), JsonUtil.findLastNonWhiteSpace("\t\t\n\r  ABC\t\t\n\r  "));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_END_ARRAY), JsonUtil.findLastNonWhiteSpace("[ ]"));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_END_ARRAY), JsonUtil.findLastNonWhiteSpace("[ ] "));
+        assertEquals(Optional.of(JsonUtil.CODE_POINT_END_ARRAY), JsonUtil.findLastNonWhiteSpace("\t\t\n\r  [ ]\t\t\n\r  "));
+        // noinspection DataFlowIssue
+        assertThrows(NullPointerException.class, () -> JsonUtil.findLastNonWhiteSpace(null));
     }
 
     /**
