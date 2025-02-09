@@ -11,6 +11,7 @@ import stexfires.record.TextRecordStreams;
 import stexfires.record.consumer.ConsumerException;
 import stexfires.record.impl.ManyFieldsRecord;
 import stexfires.record.producer.ProducerException;
+import stexfires.util.LineSeparator;
 import stexfires.util.supplier.SequenceSupplier;
 
 import java.io.File;
@@ -22,6 +23,7 @@ import java.util.stream.*;
 
 import static stexfires.io.json.JsonFieldSpec.NullHandling.*;
 import static stexfires.io.json.JsonFieldSpec.ValidityCheck.CHECK_VALUE;
+import static stexfires.io.json.JsonStreamingFileSpec.ProducerNotJsonHandling;
 
 @SuppressWarnings({"CallToPrintStackTrace", "UseOfSystemOutOrSystemErr", "MagicNumber", "HardcodedLineSeparator"})
 public final class ExamplesJsonFile {
@@ -41,6 +43,40 @@ public final class ExamplesJsonFile {
             JsonFieldSpec.arrayType("array", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.objectMembersType("objectMembers", ALLOWED_OMIT_FIELD, CHECK_VALUE),
             JsonFieldSpec.objectType("object", ALLOWED_OMIT_FIELD, CHECK_VALUE),
+            JsonFieldSpec.stringUnescapedType("specialKey ä€ //'\\\b\f"
+                            + JsonUtil.LITERAL_FALSE
+                            + JsonUtil.LITERAL_NULL
+                            + JsonUtil.LITERAL_TRUE
+                            + JsonUtil.WS_SPACE
+                            + JsonUtil.WS_HORIZONTAL_TAB
+                            + JsonUtil.WS_LINE_FEED
+                            + JsonUtil.WS_CARRIAGE_RETURN
+                            + JsonUtil.NAME_SEPARATOR
+                            + JsonUtil.VALUE_SEPARATOR
+                            + JsonUtil.BEGIN_OBJECT
+                            + JsonUtil.END_OBJECT
+                            + JsonUtil.BEGIN_ARRAY
+                            + JsonUtil.END_ARRAY
+                            + JsonUtil.QUOTATION_MARK
+                            + JsonUtil.RECORD_SEPARATOR
+                            + ExamplesStrings.SPECIAL_CHARACTERS,
+                    ALLOWED_USE_LITERAL)
+    );
+    @SuppressWarnings("StringConcatenationMissingWhitespace")
+    private static final List<JsonFieldSpec> FIELD_SPECS_ARRAY_READABLE = List.of(
+            JsonFieldSpec.booleanType("booleanNotNull", NOT_ALLOWED, CHECK_VALUE),
+            JsonFieldSpec.stringUnescapedType("stringUnescaped", ALLOWED_USE_LITERAL),
+            JsonFieldSpec.stringUnescapedType("stringUnescapedLiteral", ALLOWED_USE_LITERAL),
+            JsonFieldSpec.stringEscapedType("stringEscaped", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.stringEscapedWithQuotationMarksType("stringEscapedWithQuotationMarks", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.numberType("number", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.numberType("numberLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.booleanType("boolean", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.booleanType("booleanLiteral", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.arrayElementsType("arrayElements", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.arrayType("array", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.objectMembersType("objectMembers", ALLOWED_USE_LITERAL, CHECK_VALUE),
+            JsonFieldSpec.objectType("object", ALLOWED_USE_LITERAL, CHECK_VALUE),
             JsonFieldSpec.stringUnescapedType("specialKey ä€ //'\\\b\f"
                             + JsonUtil.LITERAL_FALSE
                             + JsonUtil.LITERAL_NULL
@@ -186,7 +222,8 @@ public final class ExamplesJsonFile {
                         JsonFileSpec.DEFAULT_RECORD_JSON_TYPE,
                         false,
                         0,
-                        ProducerReadLineHandling.SKIP_BLANK_LINE,
+                        ProducerReadLineHandling.THROW_EXCEPTION_ON_BLANK_LINE,
+                        ProducerNotJsonHandling.THROW_EXCEPTION,
                         0,
                         0,
                         FIELD_SPECS
@@ -201,20 +238,76 @@ public final class ExamplesJsonFile {
         RecordFiles.readAndConsumeFile(fileSpecRead, RecordSystemOutUtil.RECORD_CONSUMER, path);
     }
 
-    private static void testJsonStreamingFileSpec2(Path path) throws ConsumerException, IOException {
+    private static void testJsonStreamingFileSpec2(Path path) throws ProducerException, ConsumerException, IOException {
         System.out.println("-testJsonStreamingFileSpec2---");
 
         var fileSpecWrite =
                 JsonStreamingFileSpec.consumerFileSpec(
+                        JsonFileSpec.JSON_CHARSET_CODING,
                         RecordJsonType.ARRAY,
                         true,
+                        JsonFileSpec.JSON_CONSUMER_LINE_SEPARATOR,
+                        "TextBefore",
+                        null,
                         false,
-                        FIELD_SPECS
+                        FIELD_SPECS_ARRAY_READABLE
+                );
+
+        var fileSpecRead =
+                JsonStreamingFileSpec.producerFileSpec(
+                        RecordJsonType.ARRAY,
+                        true,
+                        1,
+                        ProducerReadLineHandling.THROW_EXCEPTION_ON_BLANK_LINE,
+                        ProducerNotJsonHandling.THROW_EXCEPTION,
+                        1,
+                        0,
+                        FIELD_SPECS_ARRAY_READABLE
                 );
 
         // Write
         System.out.println("write: " + path);
         RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
+
+        // Read / log
+        System.out.println("read/log: " + path);
+        RecordFiles.readAndConsumeFile(fileSpecRead, RecordSystemOutUtil.RECORD_CONSUMER, path);
+    }
+
+    private static void testJsonStreamingFileSpec3(Path path) throws ProducerException, ConsumerException, IOException {
+        System.out.println("-testJsonStreamingFileSpec3---");
+
+        var fileSpecWrite =
+                JsonStreamingFileSpec.consumerFileSpec(
+                        JsonFileSpec.JSON_CHARSET_CODING,
+                        RecordJsonType.ARRAY,
+                        false,
+                        LineSeparator.CR_LF,
+                        "TextBefore",
+                        "TextAfter",
+                        false,
+                        FIELD_SPECS_ARRAY_READABLE
+                );
+
+        var fileSpecRead =
+                JsonStreamingFileSpec.producerFileSpec(
+                        RecordJsonType.ARRAY,
+                        false,
+                        1,
+                        ProducerReadLineHandling.TREAT_BLANK_LINE_LIKE_END,
+                        ProducerNotJsonHandling.TREAT_LIKE_END,
+                        0,
+                        0,
+                        FIELD_SPECS_ARRAY_READABLE
+                );
+
+        // Write
+        System.out.println("write: " + path);
+        RecordFiles.writeStreamIntoFile(fileSpecWrite, generateStream(), path);
+
+        // Read / log
+        System.out.println("read/log: " + path);
+        RecordFiles.readAndConsumeFile(fileSpecRead, RecordSystemOutUtil.RECORD_CONSUMER, path);
     }
 
     public static void main(String... args) {
@@ -236,6 +329,7 @@ public final class ExamplesJsonFile {
             testJsonMembersFileSpec2(Path.of(args[0], "JsonMembers2.json"));
             testJsonStreamingFileSpec1(Path.of(args[0], "JsonStreaming1.ndjson"));
             testJsonStreamingFileSpec2(Path.of(args[0], "JsonStreaming2.json"));
+            testJsonStreamingFileSpec3(Path.of(args[0], "JsonStreaming3.ndjson"));
         } catch (ProducerException | ConsumerException | IOException e) {
             e.printStackTrace();
         }
