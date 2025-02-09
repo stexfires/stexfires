@@ -161,6 +161,26 @@ public record CodePoint(int value) implements Serializable, Comparable<CodePoint
     }
 
     /**
+     * Compare the value of this CodePoint with the specified {@code int} value.
+     *
+     * @param compareValue the value to compare with
+     * @return {@code true} if the specified value is equal
+     */
+    public boolean equalsInt(int compareValue) {
+        return value == compareValue;
+    }
+
+    /**
+     * Compare the value of this CodePoint with the specified {@code char} value.
+     *
+     * @param compareValue the value to compare with
+     * @return {@code true} if the specified value is equal
+     */
+    public boolean equalsChar(char compareValue) {
+        return value == compareValue;
+    }
+
+    /**
      * Compares this object with the specified object for order.  Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.

@@ -185,6 +185,32 @@ final class CodePointTest {
     }
 
     /**
+     * Test method for {@link CodePoint#equalsInt(int)}.
+     */
+    @Test
+    void equalsInt() {
+        // all code points
+        for (int codePoint = CodePoint.MIN_VALUE; codePoint <= CodePoint.MAX_VALUE; codePoint++) {
+            assertTrue(new CodePoint(codePoint).equalsInt(codePoint));
+            assertFalse(new CodePoint(codePoint).equalsInt(codePoint + 1));
+        }
+    }
+
+    /**
+     * Test method for {@link CodePoint#equalsChar(char)}.
+     */
+    @Test
+    void equalsChar() {
+        // all characters
+        for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
+            assertTrue(new CodePoint(ch).equalsChar(ch));
+            assertFalse(new CodePoint(ch).equalsChar((char) (ch + 1)));
+        }
+        assertTrue(new CodePoint(Character.MAX_VALUE).equalsChar(Character.MAX_VALUE));
+        assertFalse(new CodePoint(Character.MAX_VALUE).equalsChar((char) (Character.MAX_VALUE - 1)));
+    }
+
+    /**
      * Test method for {@link CodePoint#compareTo(CodePoint)}.
      */
     @Test
